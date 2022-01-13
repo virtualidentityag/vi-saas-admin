@@ -1,0 +1,81 @@
+@loginOverlayDelayDesktop: 1s;
+@loginOverlayDelayMobile: 2.5s;
+
+.stage {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  width: 40vw;
+  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--skin-color-primary, @primary-color);
+  color: #ffffff;
+
+  h1, h4 {
+    color: #ffffff;
+  }
+
+  &--animated {
+    display: flex;
+    width: 100vw;
+
+    @media screen and (prefers-reduced-motion: reduce) {
+      &.stage--ready {
+        animation: none;
+        animation-delay: @loginOverlayDelayMobile;
+      }
+    }
+
+    &.stage--ready {
+      animation: overlayAnimation 1.4s ease forwards;
+      animation-delay: @loginOverlayDelayMobile;
+    }
+
+    .stage__headline {
+      margin-bottom: 80px;
+    }
+
+    @keyframes overlayAnimation {
+      from {
+        left: 0;
+      }
+
+      to {
+        left: -100vw;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: @screen-xl) {
+  .stage {
+    display: flex;
+
+    &--animated {
+      @media screen and (prefers-reduced-motion: reduce) {
+        &.stage--ready {
+          animation: none;
+          animation-delay: @loginOverlayDelayDesktop;
+        }
+      }
+
+      &.stage--ready {
+        animation: overlayAnimation 1s ease forwards;
+        animation-delay: @loginOverlayDelayDesktop;
+      }
+    }
+  }
+
+  @keyframes overlayAnimation {
+    from {
+      width: 100vw;
+    }
+
+    to {
+      width: 40vw;
+    }
+  }
+}

@@ -1,0 +1,97 @@
+.protectedLayout {
+  overflow: hidden;
+  flex-direction: row;
+
+  aside {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    background-color: @primary-color;
+
+  }
+
+  .mainMenu {
+    ul {
+      display: flex;
+      flex-direction: row;
+      list-style: none;
+      margin: 0;
+      padding: 10px 0;
+      justify-content: space-around;
+    }
+
+    .menuIcon svg {
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+
+    .menuItem {
+      display: block;
+
+      &:last-child {
+        display: none;
+      }
+
+      a, button {
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        text-align: center;
+        color: @white;
+        padding: 0;
+        background: transparent;
+        border: none;
+        align-items: center;
+      }
+    }
+  }
+}
+
+
+@media screen and (min-width: @screen-md) {
+  .protectedLayout {
+    height: 100vh;
+
+    aside {
+      position: static;
+      flex: 0 0 140px;
+      width: 140px;
+      left: 0;
+    }
+
+    .mainMenu {
+      height: 100%;
+
+      ul {
+        flex-direction: column;
+        height: inherit;
+        padding: 50px 0;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .menuItem {
+        margin: 0 auto 40px;
+
+
+        &:last-child {
+          display: flex;
+          margin-top: auto;
+          justify-content: center;
+        }
+      }
+
+      .menuIcon svg {
+        width: 1.6rem;
+        height: 1.6rem;
+      }
+    }
+
+    .ant-layout-content {
+      overflow: auto;
+    }
+
+  }
+}

@@ -14,6 +14,7 @@ import { store, persistor } from "./store/store";
 import Login from "./pages/Login";
 import Error404 from "./pages/Error404";
 import ProtectedRoute from "./router/ProtectedRoute";
+import "./i18n";
 
 interface LangMap {
   [key: string]: Locale;

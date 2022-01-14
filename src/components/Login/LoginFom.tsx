@@ -53,7 +53,6 @@ function LoginForm() {
       })
       .catch((error) => {
         setPostLoading(false);
-
         if (!axios.isCancel(error)) {
           message.error(messageData.error.auth.login);
         }

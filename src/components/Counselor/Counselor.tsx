@@ -20,7 +20,6 @@ import clsx from "clsx";
 import { CounselorData } from "../../types/counselor";
 
 const { Meta } = Card;
-const { Option } = Select;
 
 export const defaultCounselor: CounselorData = {
   lastName: "",
@@ -93,10 +92,11 @@ function Counselor({
 
   const description = (
     <>
+      <Form.Item name="id" hidden />
       <Form.Item label={t("email")} name="email" rules={[{ required: true }]}>
         {editing ? <Input /> : email}
       </Form.Item>
-      <Form.Item label={t("phone")} name="phone">
+      {/* <Form.Item label={t("phone")} name="phone">
         {editing ? <Input /> : phone}
       </Form.Item>
       <Form.Item label={t("counselor.agency")} name="agency">
@@ -109,9 +109,12 @@ function Counselor({
         ) : (
           agency
         )}
-      </Form.Item>
-      <Form.Item name="id" hidden />
-      <Form.Item label={t("counselor.username")} name="username">
+      </Form.Item> */}
+      <Form.Item
+        label={t("counselor.username")}
+        name="username"
+        rules={[{ required: true }]}
+      >
         {editing ? <Input /> : username}
       </Form.Item>
     </>
@@ -177,12 +180,12 @@ function Counselor({
             avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
             title={
               <>
-                <Form.Item name="firstName">
+                <Form.Item name="firstName" rules={[{ required: true }]}>
                   <Input />
                 </Form.Item>
                 <span className="text">{firstName}</span>
 
-                <Form.Item name="lastName">
+                <Form.Item name="lastName" rules={[{ required: true }]}>
                   <Input />
                 </Form.Item>
                 <span className="text">{lastName}</span>

@@ -3,8 +3,10 @@ import { Menu } from "antd";
 import MenuItem from "antd/es/menu/MenuItem";
 import { NavLink } from "react-router-dom";
 import { Footer } from "antd/es/layout/layout";
+import { useTranslation } from "react-i18next";
 
 function SiteFooter() {
+  const { t } = useTranslation();
   return (
     <Footer className="layoutFooter">
       <Menu mode="horizontal" className="footerMenu">
@@ -13,7 +15,7 @@ function SiteFooter() {
             to="/"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
-            <span>Impressum</span>
+            <span>{t("imprint")}</span>
           </NavLink>
         </MenuItem>
         <MenuItem key="2"> | </MenuItem>
@@ -22,7 +24,7 @@ function SiteFooter() {
             to="/"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
-            <span>Datenschutz</span>
+            <span>{t("privacy")}</span>
           </NavLink>
         </MenuItem>
       </Menu>

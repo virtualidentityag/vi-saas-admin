@@ -26,7 +26,6 @@ function Settings() {
   const [isLoading, setIsLoading] = useState(false);
 
   const normFile = (e: any) => {
-    console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -52,7 +51,7 @@ function Settings() {
         secondaryColor: values.secondaryColor,
       },
       content: {
-        impressum: values.impressum,
+        impressum: values.impressum.toString("html"),
         claim: values.claim,
       },
     };
@@ -98,14 +97,22 @@ function Settings() {
 
   const formFields = (
     <>
-      <Form.Item label={t("name")} name="name" rules={[{ required: true }]}>
-        <Input disabled={isLoading} />
-      </Form.Item>
-      <Form.Item label={t("claim")} name="claim" rules={[{ required: true }]}>
+      <Form.Item
+        label={t("organisation.name")}
+        name="name"
+        rules={[{ required: true }]}
+      >
         <Input disabled={isLoading} />
       </Form.Item>
       <Form.Item
-        label={t("subdomain")}
+        label={t("organisation.claim")}
+        name="claim"
+        rules={[{ required: true }]}
+      >
+        <Input disabled={isLoading} />
+      </Form.Item>
+      <Form.Item
+        label={t("organisation.subdomain")}
         name="subdomain"
         rules={[{ required: true }]}
       >
@@ -113,7 +120,7 @@ function Settings() {
       </Form.Item>
 
       <Form.Item
-        label={t("logo")}
+        label={t("organisation.logo")}
         name="logo"
         valuePropName="fileList"
         getValueFromEvent={normFile}
@@ -124,7 +131,7 @@ function Settings() {
       </Form.Item>
 
       <Form.Item
-        label={t("favicon")}
+        label={t("organisation.favicon")}
         name="favicon"
         valuePropName="fileList"
         getValueFromEvent={normFile}
@@ -135,7 +142,7 @@ function Settings() {
       </Form.Item>
 
       <Form.Item
-        label={t("primaryColor")}
+        label={t("organisation.primaryColor")}
         name="primaryColor"
         rules={[{ required: true }]}
       >
@@ -150,7 +157,7 @@ function Settings() {
           }
         />
       </Form.Item>
-      <Form.Item label={t("secondaryColor")} name="secondaryColor">
+      <Form.Item label={t("organisation.secondaryColor")} name="secondaryColor">
         <Input
           disabled={isLoading}
           addonAfter={
@@ -164,7 +171,7 @@ function Settings() {
       </Form.Item>
 
       <Form.Item
-        label={t("impressum")}
+        label={t("imprint")}
         name="impressum"
         rules={[{ required: true }]}
       >
@@ -219,7 +226,7 @@ function Settings() {
           </Button>,
         ]}
       >
-        <Meta title={t("counselor.agency")} description={formFields} />
+        <Meta title={t("organisation")} description={formFields} />
       </Card>
     </Form>
   );

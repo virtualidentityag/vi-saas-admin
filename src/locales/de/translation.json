@@ -1,5 +1,5 @@
 {
-  "slogan": "Beratung &amp; Hilfe - Admin",
+  "slogan": "Beratung & Hilfe - Admin",
   "subSlogan": "Online. Anonym. Sicher.",
   "loading": "Laden",
   "search": "Suche",
@@ -7,6 +7,7 @@
   "password": "Passwört",
   "username": "Benutzername",
   "send": "Senden",
+  "organisation": "Organisation",
   "message.form.login.loginBtn": "Anmelden",
   "message.form.login.username": "Please input your username!",
   "message.form.login.password": "Please input your password!",
@@ -17,10 +18,25 @@
   "phone": "Telefon",
   "gender.female": "Frau",
   "gender.male": "Herr",
+  "firstName": "Vorname",
+  "lastName": "Nachname",
   "counselor.username": "Benutzername",
   "counselor.agency": "Agentur",
   "counselor": "Berater",
   "counselor.modal.headline.delete": "Berater wirklich löschen",
   "counselor.modal.headline.add": "Berater hinzufügen",
-  "counselor.modal.delete.text": "Wollen Sie diesen Berater wirklich löschen. Dieser Vorgang kann nicht rückgängig gemacht."
+  "counselor.modal.delete.text": "Wollen Sie diesen Berater wirklich löschen. Dieser Vorgang kann nicht rückgängig gemacht.",
+
+
+
+  "organisation.name" : "Name der Organisation",
+  "organisation.claim" : "Slogan",
+  "organisation.subdomain" : "Subdomain",
+  "organisation.logo" : "Logo",
+  "organisation.favicon" : "Favicon",
+  "organisation.primaryColor" : "Primär-Farbe",
+  "organisation.secondaryColor" : "Sekundär-Farbe",
+
+  "imprint" : "Impressum",
+  "privacy" : "Datenschutz"
 }

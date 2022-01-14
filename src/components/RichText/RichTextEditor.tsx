@@ -1,61 +1,56 @@
-import React from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import React, { useState } from "react";
+import RichTextEditor, { EditorValue, ToolbarConfig } from "react-rte";
 
-const modules = {
-  toolbar: [
-    [{ header: [1, 2, false] }],
-    ["bold", "italic", "underline", "strike", "blockquote"],
-    [
-      { list: "ordered" },
-      { list: "bullet" },
-      { indent: "-1" },
-      { indent: "+1" },
-    ],
-    ["link", "code"],
-    ["clean"],
+const toolbarConfig: ToolbarConfig = {
+  // Optionally specify the groups to display (displayed in the order listed).
+  display: [
+    "INLINE_STYLE_BUTTONS",
+    "BLOCK_TYPE_DROPDOWN",
+    "BLOCK_TYPE_BUTTONS",
+    "LINK_BUTTONS",
+  ],
+  INLINE_STYLE_BUTTONS: [
+    { label: "Bold", style: "BOLD", className: "custom-css-class" },
+    { label: "Italic", style: "ITALIC" },
+    { label: "Underline", style: "UNDERLINE" },
+  ],
+  BLOCK_TYPE_DROPDOWN: [
+    { label: "Normal", style: "unstyled" },
+    { label: "Heading Medium", style: "header-two" },
+    { label: "Heading Small", style: "header-three" },
+  ],
+  BLOCK_TYPE_BUTTONS: [
+    { label: "UL", style: "unordered-list-item" },
+    { label: "OL", style: "ordered-list-item" },
   ],
 };
-
-const formats = [
-  "header",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "blockquote",
-  "list",
-  "bullet",
-  "indent",
-  "link",
-  "code",
-];
 
 interface OnChangeHandler {
   (e: any): void;
 }
 
 type RichTextEditorProps = {
-  value: string;
-  placeholder?: string;
+  value: any;
   onChange: OnChangeHandler;
 };
 
-function RichTextEditor({
-  value = "",
-  onChange,
-  placeholder = "",
-}: RichTextEditorProps) {
+function RTE({ value, onChange }: RichTextEditorProps) {
+  const [editorState, setEditorState] = useState(() =>
+    RichTextEditor.createValueFromString(value, "html")
+  );
+
+  const handleChange = (edited: EditorValue) => {
+    setEditorState(edited);
+    onChange(edited);
+  };
+
   return (
-    <ReactQuill
-      theme="snow"
-      value={value}
-      modules={modules}
-      formats={formats}
-      onChange={onChange}
-      placeholder={placeholder}
+    <RichTextEditor
+      value={editorState}
+      onChange={handleChange}
+      toolbarConfig={toolbarConfig}
     />
   );
 }
 
-export default RichTextEditor;
+export default RTE;

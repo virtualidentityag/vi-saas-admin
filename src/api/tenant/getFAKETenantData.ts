@@ -26,7 +26,7 @@ const getTenantData = (
       secondaryColor: null,
     },
     content: {
-      impressum: null,
+      impressum: "<p>Dies ist ein leeres Impressum</p>",
       claim: "Wir tun was wir können",
     },
   };

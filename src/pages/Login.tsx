@@ -19,28 +19,22 @@ function Login() {
   );
   const { id: userId } = useSelector((state: any) => state.userData);
   const [redirectUrl, setRedirectUrl] = useState("");
-  const [animation, setAnimation] = useState(true);
 
   /**
    * redirect user if authed
    */
   useEffect(() => {
     if (accessToken && !isTokenExpired(expiresInMilliseconds) && userId) {
+      console.log("redirect");
       setRedirectUrl("/");
     }
   }, [accessToken, expiresInMilliseconds, userId]);
-
-  useEffect(() => {
-    window.setTimeout(() => {
-      setAnimation(false);
-    }, 2000);
-  });
 
   return redirectUrl ? (
     <Navigate to={redirectUrl} />
   ) : (
     <PublicPageLayoutWrapper className="login flex-col flex">
-      <Stage hasAnimation={animation} />
+      <Stage />
       <Row align="middle" style={{ flex: "1 0 auto" }}>
         <Col
           xs={{ span: 10, offset: 1 }}

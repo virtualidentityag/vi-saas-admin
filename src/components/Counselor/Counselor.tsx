@@ -10,7 +10,6 @@ import {
   Form,
   Input,
   Button,
-  Select,
   message,
   Modal,
   FormInstance,
@@ -83,9 +82,9 @@ function Counselor({
     }
   };
 
-  const onFinishFailed = (errorInfo: any) => {
+  const onFinishFailed = () => {
     message.error({
-      content: `Berater ${firstName} ${lastName} wurde NICHT aktualisiert!,<br /> ${errorInfo}`,
+      content: `Berater ${firstName} ${lastName} wurde NICHT aktualisiert!`,
       duration: 3,
     });
   };

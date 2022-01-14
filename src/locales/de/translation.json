@@ -11,6 +11,7 @@
   "message.form.login.loginBtn": "Anmelden",
   "message.form.login.username": "Please input your username!",
   "message.form.login.password": "Please input your password!",
+  "message.settings.complementaryColor": "Wir haben Ihnen einen Vorschlag zur einer Sekundär-Farbe eingetragen",
   "edit": "Bearbeiten",
   "delete": "Löschen",
   "save": "Speichern",

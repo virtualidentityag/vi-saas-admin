@@ -10,6 +10,7 @@ import RichTextEditor from "../RichText/RichTextEditor";
 
 import getCancelTokenSource from "../../api/getCancelTokenSource";
 import editFAKETenantData from "../../api/tenant/editFAKETenantData";
+import getComplentaryColor from "../../utils/getComplentaryColor";
 
 const { Meta } = Card;
 
@@ -32,8 +33,21 @@ function Settings() {
     return e && e.fileList;
   };
 
+  const setComplementaryColor = (color: string) => {
+    form.setFieldsValue({ secondaryColor: getComplentaryColor(color) });
+  };
+
   const onFormSubmit = (values: any) => {
     setIsLoading(true);
+
+    console.log("farbe", values.secondaryColor);
+    if (!values.secondaryColor) {
+      setComplementaryColor(values.primaryColor);
+      message.success({
+        content: t("message.settings.complementaryColor"),
+        duration: 3,
+      });
+    }
 
     //  ToDo: outsource restructured data into Helper
     const tenantData = {

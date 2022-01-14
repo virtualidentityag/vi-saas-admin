@@ -80,9 +80,9 @@ function Settings() {
     //
   };
 
-  const onFinishFailed = (errorInfo: any) => {
+  const onFinishFailed = () => {
     message.error({
-      content: `Settings wurden NICHT aktualisiert!,<br /> ${errorInfo}`,
+      content: `Settings wurden NICHT aktualisiert!`,
       duration: 3,
     });
   };

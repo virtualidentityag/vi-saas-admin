@@ -17,7 +17,7 @@ const getCounselorData = (cancelTokenSource: CancelTokenSource) => {
   return new Promise((resolve) => {
     window.setTimeout(() => {
       resolve(counselorResponse);
-    }, 2000);
+    }, 1000);
   });
 };
 

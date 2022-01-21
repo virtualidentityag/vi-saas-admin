@@ -7,13 +7,14 @@ import {
   LogoutOutlined,
   TeamOutlined,
   UserOutlined,
+  BankOutlined,
 } from "@ant-design/icons";
 import { routePathNames } from "../../appConfig";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import clearStore from "../../state/actions/clearStore";
 
-const { Content } = Layout;
+const { Content, Sider } = Layout;
 
 function ProtectedPageLayoutWrapper({ children }: any) {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
 
   return (
     <Layout className="protectedLayout">
-      <aside>
+      <Sider width={140}>
         <div className="logo" />
         <nav className="mainMenu">
           <ul>
@@ -60,6 +61,16 @@ function ProtectedPageLayoutWrapper({ children }: any) {
 
             <li key="4" className="menuItem">
               <NavLink
+                to={routePathNames.tenants}
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                <BankOutlined className="menuIcon" />
+                <span>Organisationen</span>
+              </NavLink>
+            </li>
+
+            <li key="5" className="menuItem">
+              <NavLink
                 to={routePathNames.userProfile}
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
@@ -68,7 +79,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
               </NavLink>
             </li>
 
-            <li key="5" className="menuItem">
+            <li key="6" className="menuItem">
               <button onClick={logout} type="button">
                 <LogoutOutlined className="menuIcon" />
                 <span>Logout</span>
@@ -76,16 +87,11 @@ function ProtectedPageLayoutWrapper({ children }: any) {
             </li>
           </ul>
         </nav>
-      </aside>
-      <Layout className="siteLayout">
+      </Sider>
+      <Layout>
         <SiteHeader />
         <Content style={{ margin: "0 16px" }}>
-          <div
-            className="site-layout-background"
-            style={{ padding: 24, minHeight: 360 }}
-          >
-            {children}
-          </div>
+          <div style={{ padding: 24, minHeight: 360 }}>{children}</div>
         </Content>
         <SiteFooter />
       </Layout>

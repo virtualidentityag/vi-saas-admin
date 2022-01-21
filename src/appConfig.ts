@@ -11,6 +11,7 @@ export const routePathNames = {
   termsAndConditions: "/agb",
   imprint: "/impressum",
   privacy: "/datenschutz",
+  tenants: "/organisationen",
 };
 
 /*

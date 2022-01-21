@@ -7,7 +7,8 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:prettier/recommended",
-    "plugin:cypress/recommended"
+    "plugin:cypress/recommended",
+    "plugin:jest/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   /*"files": ['*.ts', '*.tsx'],*/
@@ -19,7 +20,8 @@ module.exports = {
     "@typescript-eslint",
     "jsx-a11y",
     "prettier",
-    "cypress"
+    "cypress",
+    "jest"
   ],
   "rules": {
     // vvv remove later to make codebase better vvv
@@ -32,5 +34,10 @@ module.exports = {
         namedComponents: "function-declaration",
       },
     ],
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error"
   }
 };

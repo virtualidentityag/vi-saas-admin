@@ -5,7 +5,7 @@ export interface TenantData {
   createDate?: string;
   updateDate: string;
   licensing: {
-    allowedNumberOfUsers: number | null;
+    allowedNumberOfUsers: number | 0;
   };
   theming: {
     logo: string;

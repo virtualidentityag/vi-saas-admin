@@ -1,14 +1,6 @@
 .protectedLayout {
-  overflow: hidden;
-  flex-direction: row;
-
-  aside {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    left: 0;
+  .ant-layout-sider {
     background-color: @primary-color;
-
   }
 
   .mainMenu {
@@ -48,12 +40,24 @@
   }
 }
 
+// hate this not mobile First with all these !important
+@media screen and (max-width: @screen-sm-max) {
+  .protectedLayout {
+    .ant-layout-sider {
+      position: fixed;
+      bottom: 0;
+      width: 100% !important;
+      max-width: 100% !important;
+      left: 0;
+    }
+  }
+}
 
 @media screen and (min-width: @screen-md) {
   .protectedLayout {
     height: 100vh;
 
-    aside {
+    .ant-layout-sider {
       position: static;
       flex: 0 0 140px;
       width: 140px;

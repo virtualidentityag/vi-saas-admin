@@ -40,7 +40,6 @@ function Settings() {
   const onFormSubmit = (values: any) => {
     setIsLoading(true);
 
-    console.log("farbe", values.secondaryColor);
     if (!values.secondaryColor) {
       setComplementaryColor(values.primaryColor);
       message.success({

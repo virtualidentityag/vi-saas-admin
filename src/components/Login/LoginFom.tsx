@@ -39,7 +39,7 @@ function LoginForm() {
         });
         return response.tenantId;
       })
-      .then(() => getFAKETenantData(cancelTokenSource))
+      .then((response) => getFAKETenantData(response, cancelTokenSource))
       .then((response) => {
         // store the access token data
         dispatch({

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Table, message } from "antd";
 import moment from "moment";
 import getCancelTokenSource from "../../api/getCancelTokenSource";
-import getFAKETenantData from "../../api/tenant/getFAKETenantData";
 import { TenantData } from "../../types/tenant";
+import getFakeMultipleTenants from "../../api/tenant/getFakeMultipleTenants";
 
 function TenantsList() {
   const [tenants, setTenants] = useState([]);
@@ -12,7 +12,7 @@ function TenantsList() {
   useEffect(() => {
     setIsLoading(true);
     const cancelTokenSource = getCancelTokenSource();
-    getFAKETenantData(cancelTokenSource)
+    getFakeMultipleTenants(cancelTokenSource)
       .then((result: any) => {
         setIsLoading(false);
         setTenants(result);

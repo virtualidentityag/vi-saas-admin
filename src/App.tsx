@@ -2,7 +2,7 @@ import React from "react";
 import "./styles/App.less";
 import { Route, Routes } from "react-router";
 import ProtectedPageLayoutWrapper from "./components/Layout/ProtectedPageLayoutWrapper";
-import { routePathNames } from "./appConfig";
+import routePathNames from "./appConfig";
 import Dashboard from "./pages/Dashboard";
 import TenantSettings from "./pages/TenantSettings";
 import Counselors from "./pages/Counselors";

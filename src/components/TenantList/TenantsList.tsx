@@ -16,8 +16,6 @@ function TenantsList() {
       .then((result: any) => {
         setIsLoading(false);
         setTenants(result);
-
-        console.log(result);
       })
       .catch(() => {
         setIsLoading(false);

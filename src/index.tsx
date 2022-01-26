@@ -9,7 +9,7 @@ import { Locale } from "antd/lib/locale-provider";
 import de_DE from "antd/es/locale/de_DE";
 import en_GB from "antd/es/locale/en_GB";
 import App from "./App";
-import { routePathNames } from "./appConfig";
+import routePathNames from "./appConfig";
 import { store, persistor } from "./store/store";
 import Login from "./pages/Login";
 import Error404 from "./pages/Error404";

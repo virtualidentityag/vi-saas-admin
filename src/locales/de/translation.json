@@ -7,11 +7,22 @@
   "password": "Passwört",
   "username": "Benutzername",
   "send": "Senden",
+  "logout": "Logout",
   "organisation": "Organisation",
   "message.form.login.loginBtn": "Anmelden",
   "message.form.login.username": "Please input your username!",
   "message.form.login.password": "Please input your password!",
   "message.settings.complementaryColor": "Wir haben Ihnen einen Vorschlag zur einer Sekundär-Farbe eingetragen",
+  "message.success.auth.login": "Login erfolgreich. Weiterleitung...",
+  "message.success.auth.setPassword": "Passwort erfolgreich geändert!",
+  "message.success.auth.resetPassword": "Passwort erfolgreich zurückgesetzt! Wenn diese E-Mail vorhanden ist, erhalten Sie einen Link zum Zurücksetzen!",
+  "message.warning.cancelRequest": "Der Vorgang wurde abgebrochen.",
+  "message.error.unexpected": "Der Vorgang wurde abgebrochen.",
+  "message.error.auth.login": "Login fehlgeschlagen. Bitte überprüfen Sie E-Mail und Passwort.",
+  "message.error.auth.setPassword": "Passwortänderung fehlgeschlagen! Bitte überprüfen Sie, ob Sie den richtigen Link geöffnet haben. Sie können auch einen neuen Link anfordern.",
+  "message.error.auth.resetPassword": "Zurücksetzen fehlgeschlagen.",
+
+
   "edit": "Bearbeiten",
   "delete": "Löschen",
   "save": "Speichern",
@@ -23,13 +34,14 @@
   "lastName": "Nachname",
   "counselor.username": "Benutzername",
   "counselor.agency": "Agentur",
-  "counselor": "Berater",
+  "counselor.title": "Berater",
   "counselor.modal.headline.delete": "Berater wirklich löschen",
   "counselor.modal.headline.add": "Berater hinzufügen",
   "counselor.modal.delete.text": "Wollen Sie diesen Berater wirklich löschen. Dieser Vorgang kann nicht rückgängig gemacht.",
 
 
 
+  "organisation.title" : "Organisation",
   "organisation.name" : "Name der Organisation",
   "organisation.claim" : "Slogan",
   "organisation.subdomain" : "Subdomain",
@@ -39,5 +51,7 @@
   "organisation.secondaryColor" : "Sekundär-Farbe",
 
   "imprint" : "Impressum",
-  "privacy" : "Datenschutz"
+  "privacy" : "Datenschutz",
+  "settings.title": "Settings",
+  "profile.title": "Profil"
 }

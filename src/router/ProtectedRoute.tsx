@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { useLocation } from "react-router";
-import { routePathNames } from "../appConfig";
+import routePathNames from "../appConfig";
 import { AuthToken } from "../state/reducers/authReducer";
 
 /**

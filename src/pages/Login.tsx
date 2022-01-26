@@ -25,7 +25,6 @@ function Login() {
    */
   useEffect(() => {
     if (accessToken && !isTokenExpired(expiresInMilliseconds) && userId) {
-      console.log("redirect");
       setRedirectUrl("/");
     }
   }, [accessToken, expiresInMilliseconds, userId]);

@@ -2,14 +2,14 @@ import React from "react";
 import { Layout } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
-  DesktopOutlined,
   FileOutlined,
   LogoutOutlined,
   TeamOutlined,
   UserOutlined,
   BankOutlined,
 } from "@ant-design/icons";
-import { routePathNames } from "../../appConfig";
+import { useTranslation } from "react-i18next";
+import routePathNames from "../../appConfig";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import clearStore from "../../state/actions/clearStore";
@@ -17,6 +17,7 @@ import clearStore from "../../state/actions/clearStore";
 const { Content, Sider } = Layout;
 
 function ProtectedPageLayoutWrapper({ children }: any) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const logout = () => {
     clearStore();
@@ -29,7 +30,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
         <div className="logo" />
         <nav className="mainMenu">
           <ul>
-            <li key="1" className="menuItem">
+            {/* later..... <li key="1" className="menuItem">
               <NavLink
                 to="/"
                 className={({ isActive }) => (isActive ? "active" : "")}
@@ -37,7 +38,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                 <DesktopOutlined className="menuIcon" />
                 <span>Dashboard</span>
               </NavLink>
-            </li>
+            </li> */}
 
             <li key="2" className="menuItem">
               <NavLink
@@ -45,7 +46,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 <FileOutlined className="menuIcon" />
-                <span>Settings</span>
+                <span>{t("settings.title")}</span>
               </NavLink>
             </li>
 
@@ -55,7 +56,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 <TeamOutlined className="menuIcon" />
-                <span>Berater</span>
+                <span>{t("counselor.title")}</span>
               </NavLink>
             </li>
 
@@ -65,7 +66,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 <BankOutlined className="menuIcon" />
-                <span>Organisationen</span>
+                <span>{t("organisation.title")}</span>
               </NavLink>
             </li>
 
@@ -75,14 +76,14 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 <UserOutlined className="menuIcon" />
-                <span>Profil</span>
+                <span>{t("profile.title")}</span>
               </NavLink>
             </li>
 
             <li key="6" className="menuItem">
               <button onClick={logout} type="button">
                 <LogoutOutlined className="menuIcon" />
-                <span>Logout</span>
+                <span>{t("logout")}</span>
               </button>
             </li>
           </ul>

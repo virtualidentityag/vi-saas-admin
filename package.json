@@ -8,7 +8,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^27.0.3",
+    "@types/jest": "^27.4.0",
     "@types/node": "^16.11.12",
     "@types/react": "^17.0.37",
     "@types/react-color": "^3.0.6",
@@ -41,7 +41,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "cypress open",
+    "test": "craco test",
     "lint": "npm run lint:css && npm run lint:js && npm run lint:formatting",
     "lint:css": "stylelint --fix \"src/**/*.(s(c|a)ss|css|less)\"",
     "lint:js": "eslint",
@@ -67,6 +67,9 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.16.7",
+    "@babel/preset-env": "^7.16.7",
+    "@babel/preset-typescript": "^7.16.7",
     "@testing-library/cypress": "^8.0.2",
     "craco-less": "^1.20.0",
     "cypress": "9.2.0",
@@ -76,6 +79,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jest": "^25.3.4",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.27.1",
@@ -91,5 +95,13 @@
     "stylelint-no-unsupported-browser-features": "^5.0.2",
     "stylelint-order": "^5.0.0",
     "stylelint-webpack-plugin": "^3.1.0"
+  },
+  "jest": {
+    "transform": {
+      "\\.[jt]sx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!variables/.*)"
+    ]
   }
 }

@@ -7,7 +7,6 @@ import getCancelTokenSource from "../../api/getCancelTokenSource";
 import getFAKEAccessToken from "../../api/auth/getFAKEAccessToken";
 import getFAKEUserData from "../../api/user/getFAKEUserData";
 import requestCatchHandler from "../../api/requestCatchHandler";
-import { messageData } from "../../appConfig";
 import getFAKETenantData from "../../api/tenant/getFAKETenantData";
 
 function LoginForm() {
@@ -49,12 +48,12 @@ function LoginForm() {
         });
       })
       .then(() => {
-        message.success(messageData.success.auth.login);
+        message.success(t("message.success.auth.login"));
       })
       .catch((error) => {
         setPostLoading(false);
         if (!axios.isCancel(error)) {
-          message.error(messageData.error.auth.login);
+          message.error(t("message.error.auth.login"));
         }
 
         requestCatchHandler(error);

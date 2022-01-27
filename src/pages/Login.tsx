@@ -6,7 +6,7 @@ import { Col, Row } from "antd";
 import isTokenExpired from "../utils/tokenExpires";
 import Stage from "../components/Login/Stage";
 import PublicPageLayoutWrapper from "../components/Layout/PublicPageLayoutWrapper";
-import LoginForm from "../components/Login/LoginFom";
+import LoginForm from "../components/Login/LoginForm";
 
 /**
  * login component
@@ -25,7 +25,6 @@ function Login() {
    */
   useEffect(() => {
     if (accessToken && !isTokenExpired(expiresInMilliseconds) && userId) {
-      console.log("redirect");
       setRedirectUrl("/");
     }
   }, [accessToken, expiresInMilliseconds, userId]);

@@ -2,6 +2,6 @@ FROM docker.pkg.github.com/caritasdeutschland/caritas-onlineberatung-nginx/nginx
 COPY favicon.ico /usr/share/nginx/html/
 COPY index.html /usr/share/nginx/html/
 COPY robots.txt /usr/share/nginx/html/
-COPY ../src /usr/share/nginx/html/src
+COPY src /usr/share/nginx/html/src
 COPY static /usr/share/nginx/html/static
-COPY ../nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf

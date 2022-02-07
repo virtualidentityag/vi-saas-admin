@@ -1,0 +1,36 @@
+.loginForm {
+  .ant-form-item-label > label {
+    &.ant-form-item-required:not(.ant-form-item-required-mark-optional):before,
+    &:after {
+      display: none;
+    }
+
+    span {
+      margin-right: @spacing-s;
+      font-size: @fontSize-ml;
+
+      &:before {
+        display: none;
+      }
+    }
+  }
+
+  .forgotPW {
+    padding: 0;
+
+    span {
+      color: @primary-color;
+      text-decoration: underline;
+    }
+  }
+}
+
+@media screen and (min-width: @screen-md) {
+  .loginForm {
+    .ant-form-item-label > label {
+      .labelText {
+        display: none;
+      }
+    }
+  }
+}

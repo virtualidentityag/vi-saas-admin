@@ -1,4 +1,11 @@
 {
+  "testFiles": "cypress/integration/*.spec.js",
+  "component": {
+    "componentFolder": "src",
+    "testFiles": "**/*spec.{js,jsx,ts,tsx}",
+    "viewportHeight": 500,
+    "viewportWidth": 700
+  },
   "baseUrl": "http://localhost:3000",
   "experimentalStudio": true,
   "env": {

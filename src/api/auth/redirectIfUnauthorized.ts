@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import clearStore from "../../state/actions/clearStore";
-import { routePathNames } from "../../appConfig";
+import routePathNames from "../../appConfig";
 import handleError from "../../utils/handleError";
 
 interface MinimalResponseSet {

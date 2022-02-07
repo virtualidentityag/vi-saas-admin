@@ -1,24 +1,16 @@
 .protectedLayout {
-  overflow: hidden;
-  flex-direction: row;
-
-  aside {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    left: 0;
+  .ant-layout-sider {
     background-color: @primary-color;
-
   }
 
   .mainMenu {
     ul {
       display: flex;
       flex-direction: row;
-      list-style: none;
-      margin: 0;
-      padding: 10px 0;
       justify-content: space-around;
+      padding: 10px 0;
+      margin: 0;
+      list-style: none;
     }
 
     .menuIcon svg {
@@ -33,53 +25,87 @@
         display: none;
       }
 
-      a, button {
+      a,
+      button {
         display: flex;
         flex-direction: column;
+        align-items: center;
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: @white;
+        font-size: @fontSize-s;
         justify-items: center;
         text-align: center;
-        color: @white;
-        padding: 0;
-        background: transparent;
-        border: none;
-        align-items: center;
+      }
+
+      a {
+        opacity: 0.6;
+
+        &.active {
+          opacity: 1;
+        }
       }
     }
   }
+
+  .contentInner {
+    max-width: @screen-xxl;
+    padding: @spacing-m;
+  }
+
+  h4.formHeadline {
+    color: @primary-color;
+    font-size: @fontSize-sm;
+    font-weight: 700;
+    line-height: @lineHeight-sm;
+    text-transform: uppercase;
+  }
 }
 
+/* hate this not mobile First with all these !important */
+@media screen and (max-width: @screen-sm-max) {
+  .protectedLayout {
+    .ant-layout-sider {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+  }
+}
 
 @media screen and (min-width: @screen-md) {
   .protectedLayout {
     height: 100vh;
 
-    aside {
+    .ant-layout-sider {
       position: static;
-      flex: 0 0 140px;
-      width: 140px;
       left: 0;
+      width: 140px;
+      flex: 0 0 140px;
     }
 
     .mainMenu {
       height: 100%;
 
       ul {
-        flex-direction: column;
         height: inherit;
-        padding: 50px 0 0 0;
-        justify-content: flex-start;
-        align-items: flex-start;
+        flex-direction: column;
         flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 50px 0 0;
       }
 
       .menuItem {
         margin: 0 auto 40px;
 
-
         &:last-child {
           display: flex;
-          margin-top: auto;
           justify-content: center;
+          margin-top: auto;
         }
       }
 
@@ -89,9 +115,9 @@
       }
     }
 
-    .ant-layout-content {
+    .content {
       overflow: auto;
+      padding: @spacing-ml;
     }
-
   }
 }

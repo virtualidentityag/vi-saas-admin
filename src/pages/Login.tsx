@@ -7,6 +7,7 @@ import isTokenExpired from "../utils/tokenExpires";
 import Stage from "../components/Login/Stage";
 import PublicPageLayoutWrapper from "../components/Layout/PublicPageLayoutWrapper";
 import LoginForm from "../components/Login/LoginFom";
+import routePathNames from "../appConfig";
 
 /**
  * login component
@@ -25,8 +26,7 @@ function Login() {
    */
   useEffect(() => {
     if (accessToken && !isTokenExpired(expiresInMilliseconds) && userId) {
-      console.log("redirect");
-      setRedirectUrl("/");
+      setRedirectUrl(routePathNames.themeSettings);
     }
   }, [accessToken, expiresInMilliseconds, userId]);
 
@@ -44,7 +44,6 @@ function Login() {
           <LoginForm />
         </Col>
       </Row>
-      ,
     </PublicPageLayoutWrapper>
   );
 }

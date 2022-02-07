@@ -18,7 +18,7 @@ function ListHeader({
       <Title level={2}>
         {count > 0 && (
           <span>
-            {count} {t("counselor")}
+            {count} {t("counselor.title")}
           </span>
         )}
       </Title>

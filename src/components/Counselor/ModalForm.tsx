@@ -1,6 +1,7 @@
 import { Form, Modal } from "antd";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import Title from "antd/es/typography/Title";
 import Counselor from "./Counselor";
 import { CounselorData } from "../../types/counselor";
 
@@ -22,7 +23,7 @@ function ModalForm({
 
   return (
     <Modal
-      title={t("counselor.modal.headline.add")}
+      title={<Title level={2}>{t("counselor.modal.headline.add")}</Title>}
       visible={isModalCreateVisible}
       onOk={() => {
         form.validateFields().then((values) => {

@@ -17,20 +17,21 @@
       border-radius: 50%;
       opacity: 0.6;
     }
-  }@media screen and (prefers-reduced-motion: reduce) {
-.double-bounce1,
-  .double-bounce2 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    animation: none;
-    background-color: @white;
-    border-radius: 50%;
-    opacity: 0.6;
-}
-}
+  }
+  @media screen and (prefers-reduced-motion: reduce) {
+    .double-bounce1,
+    .double-bounce2 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      animation: none;
+      background-color: @white;
+      border-radius: 50%;
+      opacity: 0.6;
+    }
+  }
 
   .double-bounce1,
   .double-bounce2 {
@@ -60,7 +61,6 @@
     0%,
     100% {
       transform: scale(0);
-
     }
 
     50% {

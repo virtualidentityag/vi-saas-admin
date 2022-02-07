@@ -5,16 +5,13 @@ function padZero(str: string) {
 
 function getComplentaryColor(color: string) {
   let hex = "";
+
   if (color.indexOf("#") === 0) {
     hex = color.slice(1);
   }
   // convert 3-digit hex to 6-digits.
   if (hex.length === 3) {
     hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-  }
-  if (hex.length !== 6) {
-    throw new Error("Invalid HEX color.");
-    return;
   }
   // invert color components
   const r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16);

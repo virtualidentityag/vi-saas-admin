@@ -14,7 +14,15 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import "./commands";
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+const preprocessor = require("@cypress/webpack-preprocessor");
+
+module.exports = (on, config) => {
+  const webpack = require("../../webpack.config");
+  on("file:preprocessor", preprocessor({ webpack }));
+  return config;
+};

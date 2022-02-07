@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Card, List, message, Skeleton } from "antd";
+import { Table, Button, message, Form } from "antd";
 
+import { PlusOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 import getCancelTokenSource from "../../api/getCancelTokenSource";
+
 import getFAKECouselorData from "../../api/counselor/getFAKECounselorData";
-import Counselor, { defaultCounselor } from "./Counselor";
-import ModalForm from "./ModalForm";
-import ListHeader from "./ListHeader";
-import addFAKECouselorData from "../../api/counselor/addFAKECounselorData";
-import deleteFAKECouselorData from "../../api/counselor/deleteFAKECounselorData";
-import editFAKECouselorData from "../../api/counselor/editFAKECounselorData";
 import { CounselorData } from "../../types/counselor";
+import addFAKECouselorData from "../../api/counselor/addFAKECounselorData";
+import editFAKECouselorData from "../../api/counselor/editFAKECounselorData";
+import deleteFAKECouselorData from "../../api/counselor/deleteFAKECounselorData";
+import { defaultCounselor } from "./Counselor";
+import ModalForm from "./ModalForm";
+import EditableTableCell from "../EditableTable/EditableTableCell";
+import EditButtons from "../EditableTable/EditButtons";
 
 function CounselorList() {
+  const [form] = Form.useForm();
+  const { t } = useTranslation();
   const [counselors, setCounselors] = useState([]);
-
   const [isLoading, setIsLoading] = useState(true);
+  const [editingKey, setEditingKey] = useState("");
+  const isEditing = (record: CounselorData) => record.key === editingKey;
+
   const [isModalCreateVisible, setIsModalCreateVisible] = useState(false);
 
   const handleAddCounselor = (formData: CounselorData) => {
@@ -33,8 +41,7 @@ function CounselorList() {
       .catch(() => {
         setIsLoading(false);
         message.error({
-          content:
-            "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal",
+          content: t("message.error.default"),
           duration: 3,
         });
       });
@@ -57,8 +64,7 @@ function CounselorList() {
       .catch(() => {
         setIsLoading(false);
         message.error({
-          content:
-            "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal",
+          content: t("message.error.default"),
           duration: 3,
         });
       });
@@ -81,8 +87,7 @@ function CounselorList() {
       .catch(() => {
         setIsLoading(false);
         message.error({
-          content:
-            "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal",
+          content: t("message.error.default"),
           duration: 3,
         });
       });
@@ -108,8 +113,7 @@ function CounselorList() {
       .catch(() => {
         setIsLoading(false);
         message.error({
-          content:
-            "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal",
+          content: t("message.error.default"),
           duration: 3,
         });
       });
@@ -117,72 +121,139 @@ function CounselorList() {
     return () => {
       cancelTokenSource.cancel();
     };
-  }, []);
+  }, [t]);
+
+  const edit = (record: CounselorData) => {
+    setEditingKey(record.key);
+  };
+
+  const cancel = () => {
+    setEditingKey("");
+  };
+
+  const columns: any[] = [
+    {
+      title: t("firstName"),
+      dataIndex: "firstName",
+      key: "firstName",
+      sorter: (a: CounselorData, b: CounselorData) =>
+        a.firstName.localeCompare(b.firstName),
+      width: 100,
+      ellipsis: true,
+      fixed: "left",
+      editable: true,
+    },
+    {
+      title: t("lastName"),
+      dataIndex: "lastName",
+      key: "lastName",
+      sorter: (a: CounselorData, b: CounselorData) =>
+        a.lastName.localeCompare(b.lastName),
+      width: 100,
+      ellipsis: true,
+      fixed: "left",
+      editable: true,
+    },
+
+    {
+      width: 250,
+      title: t("email"),
+      dataIndex: "email",
+      key: "email",
+      ellipsis: true,
+      editable: true,
+      sorter: (a: CounselorData, b: CounselorData) =>
+        a.email.localeCompare(b.email),
+    },
+    {
+      width: 250,
+      title: t("username"),
+      dataIndex: "username",
+      key: "username",
+      ellipsis: true,
+      editable: true,
+      sorter: (a: CounselorData, b: CounselorData) =>
+        a.username.localeCompare(b.username),
+    },
+    {
+      width: 250,
+      title: t("agency"),
+      dataIndex: "agency",
+      key: "agency",
+      ellipsis: true,
+      editable: true,
+      sorter: (a: CounselorData, b: CounselorData) =>
+        a.agency.localeCompare(b.agency),
+    },
+    {
+      width: 88,
+      title: "",
+
+      key: "edit",
+      render: (_: any, record: CounselorData) => {
+        const editable = isEditing(record);
+        return (
+          <EditButtons
+            editable={editable}
+            handleEditCounselor={handleEditCounselor}
+            handleDeleteCounselor={handleDeleteCounselor}
+            record={record}
+            cancel={cancel}
+            editingKey={editingKey}
+            edit={edit}
+          />
+        );
+      },
+    },
+  ];
+
+  const mergedColumns = columns.map((col) => {
+    if (!col.editable) {
+      return col;
+    }
+    return {
+      ...col,
+      onCell: (record: CounselorData) => ({
+        record,
+        inputType: "text",
+        dataIndex: col.dataIndex,
+        title: col.title,
+        editing: isEditing(record),
+      }),
+    };
+  });
 
   return (
     <>
-      {isLoading ? (
-        <List
-          key="0"
-          className="counselorList"
-          grid={{
-            gutter: 16,
-            xs: 1,
-            sm: 2,
-            md: 2,
-            lg: 2,
-            xl: 3,
-            xxl: 3,
+      <h2>{t("counselor.title")}</h2>
+      <p>{t("counselor.title.text")}</p>
+      <Button
+        type="primary"
+        icon={<PlusOutlined />}
+        onClick={handleCreateModal}
+      >
+        {t("new")}
+      </Button>
+      <Form form={form} component={false}>
+        <Table
+          components={{
+            body: {
+              cell: EditableTableCell,
+            },
           }}
-          pagination={{
-            pageSize: 6,
-          }}
-          dataSource={[{}, {}, {}, {}]}
-          header={
-            <ListHeader
-              addHandler={handleCreateModal}
-              count={counselors.length}
-            />
-          }
-          renderItem={() => (
-            <Card className="counselor">
-              <Skeleton loading={isLoading} avatar active />
-            </Card>
-          )}
-        />
-      ) : (
-        <List
-          key="1"
-          className="counselorList"
-          grid={{
-            gutter: 16,
-            xs: 1,
-            sm: 2,
-            md: 2,
-            lg: 2,
-            xl: 3,
-            xxl: 3,
-          }}
-          pagination={{
-            pageSize: 6,
-          }}
+          loading={isLoading}
+          className="tenantsTable"
           dataSource={counselors}
-          header={
-            <ListHeader
-              addHandler={handleCreateModal}
-              count={counselors.length}
-            />
-          }
-          renderItem={(counselor: CounselorData) => (
-            <Counselor
-              counselor={counselor}
-              key={counselor.id}
-              handleDeleteCounselor={handleDeleteCounselor}
-              handleEditCounselor={handleEditCounselor}
-            />
-          )}
+          columns={mergedColumns}
+          scroll={{
+            x: "max-content",
+            y: "100%",
+          }}
+          sticky
+          tableLayout="fixed"
+          // bordered
         />
-      )}
+      </Form>
       <ModalForm
         isModalCreateVisible={isModalCreateVisible}
         handleCreateModalCancel={handleCreateModalCancel}

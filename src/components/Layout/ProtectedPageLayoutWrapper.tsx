@@ -2,20 +2,23 @@ import React from "react";
 import { Layout } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
-  DesktopOutlined,
-  FileOutlined,
-  LogoutOutlined,
+  // DesktopOutlined,
+  SettingOutlined,
   TeamOutlined,
-  UserOutlined,
+  // UserOutlined,
+  // BankOutlined,
 } from "@ant-design/icons";
-import { routePathNames } from "../../appConfig";
+import { useTranslation } from "react-i18next";
+import routePathNames from "../../appConfig";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import clearStore from "../../state/actions/clearStore";
+import CustomLogoutIcon from "../CustomIcons/Logout";
 
-const { Content } = Layout;
+const { Content, Sider } = Layout;
 
 function ProtectedPageLayoutWrapper({ children }: any) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const logout = () => {
     clearStore();
@@ -24,11 +27,11 @@ function ProtectedPageLayoutWrapper({ children }: any) {
 
   return (
     <Layout className="protectedLayout">
-      <aside>
+      <Sider width={96}>
         <div className="logo" />
         <nav className="mainMenu">
           <ul>
-            <li key="1" className="menuItem">
+            {/* later..... <li key="1" className="menuItem">
               <NavLink
                 to="/"
                 className={({ isActive }) => (isActive ? "active" : "")}
@@ -36,15 +39,15 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                 <DesktopOutlined className="menuIcon" />
                 <span>Dashboard</span>
               </NavLink>
-            </li>
+            </li> */}
 
             <li key="2" className="menuItem">
               <NavLink
                 to={routePathNames.themeSettings}
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
-                <FileOutlined className="menuIcon" />
-                <span>Settings</span>
+                <SettingOutlined className="menuIcon" />
+                <span>{t("settings.title")}</span>
               </NavLink>
             </li>
 
@@ -54,38 +57,45 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 <TeamOutlined className="menuIcon" />
-                <span>Berater</span>
+                <span>{t("counselor.title")}</span>
               </NavLink>
             </li>
 
+            {/* later.....
             <li key="4" className="menuItem">
+              <NavLink
+                to={routePathNames.tenants}
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                <BankOutlined className="menuIcon" />
+                <span>{t("organisation.title")}</span>
+              </NavLink>
+            </li>
+
+            <li key="5" className="menuItem">
               <NavLink
                 to={routePathNames.userProfile}
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 <UserOutlined className="menuIcon" />
-                <span>Profil</span>
+                <span>{t("profile.title")}</span>
               </NavLink>
             </li>
+           */}
 
-            <li key="5" className="menuItem">
+            <li key="6" className="menuItem">
               <button onClick={logout} type="button">
-                <LogoutOutlined className="menuIcon" />
-                <span>Logout</span>
+                <CustomLogoutIcon className="menuIcon" />
+                <span>{t("logout")}</span>
               </button>
             </li>
           </ul>
         </nav>
-      </aside>
-      <Layout className="siteLayout">
+      </Sider>
+      <Layout>
         <SiteHeader />
-        <Content style={{ margin: "0 16px" }}>
-          <div
-            className="site-layout-background"
-            style={{ padding: 24, minHeight: 360 }}
-          >
-            {children}
-          </div>
+        <Content className="content">
+          <div className="contentInner">{children}</div>
         </Content>
         <SiteFooter />
       </Layout>

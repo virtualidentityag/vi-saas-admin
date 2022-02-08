@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, message, Form } from "antd";
+import { Form, message } from "antd";
 
-import { PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import getCancelTokenSource from "../../api/getCancelTokenSource";
 
@@ -12,18 +11,19 @@ import editFAKECouselorData from "../../api/counselor/editFAKECounselorData";
 import deleteFAKECouselorData from "../../api/counselor/deleteFAKECounselorData";
 import { defaultCounselor } from "./Counselor";
 import ModalForm from "./ModalForm";
-import EditableTableCell from "../EditableTable/EditableTableCell";
 import EditButtons from "../EditableTable/EditButtons";
+import EditableTable from "../EditableTable/EditableTable";
 
 function CounselorList() {
-  const [form] = Form.useForm();
   const { t } = useTranslation();
   const [counselors, setCounselors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editingKey, setEditingKey] = useState("");
   const isEditing = (record: CounselorData) => record.key === editingKey;
+  const [form] = Form.useForm();
 
   const [isModalCreateVisible, setIsModalCreateVisible] = useState(false);
+  const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
 
   const handleAddCounselor = (formData: CounselorData) => {
     setIsLoading(true);
@@ -33,7 +33,7 @@ function CounselorList() {
         setIsLoading(false);
         setCounselors(result);
         message.success({
-          content: `Berater ${formData.firstName} ${formData.lastName} wurde aktualisiert!`,
+          content: t("counselor.modal.message.add"),
           duration: 3,
         });
         setIsModalCreateVisible(false);
@@ -56,7 +56,7 @@ function CounselorList() {
         setIsLoading(false);
         setCounselors(result);
         message.success({
-          content: `Berater ${formData.firstName} ${formData.lastName} wurde aktualisiert!`,
+          content: t("counselor.modal.message.update"),
           duration: 3,
         });
         setIsModalCreateVisible(false);
@@ -79,7 +79,7 @@ function CounselorList() {
         setIsLoading(false);
         setCounselors(result);
         message.success({
-          content: `Berater ${formData.firstName} ${formData.lastName} wurde gelöscht!`,
+          content: t("counselor.modal.message.delete"),
           duration: 3,
         });
         setIsModalCreateVisible(false);
@@ -100,6 +100,15 @@ function CounselorList() {
 
   const handleCreateModalCancel = () => {
     setIsModalCreateVisible(false);
+  };
+
+  const handleOnDelete = (values: any) => {
+    setIsModalDeleteVisible(false);
+    handleDeleteCounselor(values);
+  };
+
+  const handleDeleteModal = () => {
+    setIsModalDeleteVisible(!isModalDeleteVisible);
   };
 
   useEffect(() => {
@@ -195,8 +204,8 @@ function CounselorList() {
         return (
           <EditButtons
             editable={editable}
-            handleEditCounselor={handleEditCounselor}
-            handleDeleteCounselor={handleDeleteCounselor}
+            handleEdit={handleEditCounselor}
+            handleDelete={handleDeleteModal}
             record={record}
             cancel={cancel}
             editingKey={editingKey}
@@ -227,33 +236,18 @@ function CounselorList() {
     <>
       <h2>{t("counselor.title")}</h2>
       <p>{t("counselor.title.text")}</p>
-      <Button
-        type="primary"
-        icon={<PlusOutlined />}
-        onClick={handleCreateModal}
-      >
-        {t("new")}
-      </Button>
-      <Form form={form} component={false}>
-        <Table
-          components={{
-            body: {
-              cell: EditableTableCell,
-            },
-          }}
-          loading={isLoading}
-          className="tenantsTable"
-          dataSource={counselors}
-          columns={mergedColumns}
-          scroll={{
-            x: "max-content",
-            y: "100%",
-          }}
-          sticky
-          tableLayout="fixed"
-          // bordered
-        />
-      </Form>
+      <EditableTable
+        handleBtnAdd={handleCreateModal}
+        source={counselors}
+        isLoading={isLoading}
+        columns={mergedColumns}
+        handleDeleteModalTitle={t("counselor.modal.headline.delete")}
+        handleDeleteModalCancel={handleDeleteModal}
+        handleDeleteModalText={t("counselor.modal.delete.text")}
+        handleOnDelete={handleOnDelete}
+        isDeleteModalVisible={isModalDeleteVisible}
+        form={form}
+      />
       <ModalForm
         isModalCreateVisible={isModalCreateVisible}
         handleCreateModalCancel={handleCreateModalCancel}

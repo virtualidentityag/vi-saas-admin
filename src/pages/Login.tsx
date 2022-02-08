@@ -6,7 +6,7 @@ import { Col, Row } from "antd";
 import isTokenExpired from "../utils/tokenExpires";
 import Stage from "../components/Login/Stage";
 import PublicPageLayoutWrapper from "../components/Layout/PublicPageLayoutWrapper";
-import LoginForm from "../components/Login/LoginFom";
+import LoginForm from "../components/Login/LoginForm";
 import routePathNames from "../appConfig";
 
 /**

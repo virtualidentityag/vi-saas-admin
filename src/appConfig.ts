@@ -2,16 +2,17 @@
  * routes
  */
 const routePathNames = {
-  login: "/login",
-  themeSettings: "/theme-settings",
-  counselors: "/berater/",
-  counselorProfileEdit: "/berater/bearbeiten/",
-  counselorProfileAdd: "/benutzer/anlegen/",
-  userProfile: "/profil/",
-  termsAndConditions: "/agb",
-  imprint: "/impressum",
-  privacy: "/datenschutz",
-  tenants: "/organisationen",
+  root: "/admin/",
+  login: "/admin/login",
+  themeSettings: "/admin/theme-settings",
+  counselors: "/admin/berater/",
+  counselorProfileEdit: "/admin/berater/bearbeiten/",
+  counselorProfileAdd: "/admin/benutzer/anlegen/",
+  userProfile: "/admin/profil/",
+  termsAndConditions: "/admin/agb",
+  imprint: "/admin/impressum",
+  privacy: "/admin/datenschutz",
+  tenants: "/admin/organisationen",
 };
 
 export default routePathNames;

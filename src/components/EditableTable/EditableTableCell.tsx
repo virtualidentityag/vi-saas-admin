@@ -1,5 +1,6 @@
 import React from "react";
 import { Input, InputNumber, Form } from "antd";
+import { EditableTableCellProps } from "../../types/editabletable";
 
 function EditableTableCell({
   editing,

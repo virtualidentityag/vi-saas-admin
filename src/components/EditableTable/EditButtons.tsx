@@ -2,12 +2,12 @@ import React from "react";
 import { CloseOutlined, SaveOutlined } from "@ant-design/icons";
 import CustomPencilIcon from "../CustomIcons/Pencil";
 import CustomRecycleIcon from "../CustomIcons/RecycleBin";
-import { EditButtonsProps } from "../../types/editButtons";
+import { EditButtonsProps } from "../../types/editabletable";
 
 function EditButtons({
   editable,
-  handleEditCounselor,
-  handleDeleteCounselor,
+  handleEdit,
+  handleDelete,
   record,
   cancel,
   editingKey,
@@ -18,7 +18,7 @@ function EditButtons({
       <button
         className="editIcon"
         type="button"
-        onClick={() => handleEditCounselor(record)}
+        onClick={() => handleEdit(record)}
       >
         <SaveOutlined />
       </button>
@@ -40,7 +40,9 @@ function EditButtons({
         className="editIcon"
         type="button"
         disabled={editingKey !== ""}
-        onClick={() => handleDeleteCounselor(record)}
+        onClick={() => {
+          handleDelete(record);
+        }}
       >
         <CustomRecycleIcon className="editIcon" />
       </button>

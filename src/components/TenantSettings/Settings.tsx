@@ -20,9 +20,8 @@ const { Text, Paragraph } = Typography;
 function Settings() {
   const [form] = Form.useForm();
   const { t } = useTranslation();
-  const { id, theming, name, subdomain, content, licensing } = useSelector(
-    (state: any) => state.tenantData
-  );
+  const { tenantData } = useSelector((state: any) => state);
+  const { id, theming, name, subdomain, content, licensing } = tenantData;
   const dispatch = useDispatch();
   const { logo, favicon, primaryColor, secondaryColor } = theming;
   const { impressum, claim } = content;
@@ -52,7 +51,7 @@ function Settings() {
     }
 
     //  ToDo: outsource restructured data into Helper
-    const tenantData = {
+    const changedTenantData = {
       id: values.id,
       name: values.name,
       subdomain: values.subdomain,
@@ -73,7 +72,7 @@ function Settings() {
     };
 
     const cancelTokenSource = getCancelTokenSource();
-    editFAKETenantData(tenantData, cancelTokenSource)
+    editFAKETenantData(changedTenantData, cancelTokenSource)
       .then((response: any) => {
         setIsLoading(false);
         dispatch({
@@ -110,157 +109,7 @@ function Settings() {
     form.setFieldsValue({ impressum: text });
   };
 
-  const formFieldsPersonalisation = (
-    <>
-      <Item
-        label={
-          <Title level={5}>
-            {t("organisation.name") + t("and") + t("organisation.claim")}
-          </Title>
-        }
-        className="mb-xl"
-      >
-        <Paragraph className="mb-l desc">{t("settings.name.howto")}</Paragraph>
-        <Row gutter={15}>
-          <Col xs={6} md={8} lg={8}>
-            <Item
-              label={t("organisation.name")}
-              name="name"
-              rules={[{ required: true }]}
-            >
-              <Input disabled={isLoading} placeholder={t("slogan")} />
-            </Item>
-            <Item
-              label={t("organisation.claim")}
-              name="claim"
-              rules={[{ required: true }]}
-            >
-              <Input disabled={isLoading} placeholder={t("subSlogan")} />
-            </Item>
-          </Col>
-          <Col xs={12} md={4} lg={4}>
-            <Item label="&nbsp;">
-              <Text strong className="desc">
-                {t("notice")}
-              </Text>
-              <br />
-              <Text className="desc">{t("settings.name.help")}</Text>
-            </Item>
-          </Col>
-        </Row>
-      </Item>
-      <Item
-        label={<Title level={5}>{t("imprint")}</Title>}
-        name="impressum"
-        rules={[{ required: true }]}
-        className="mb-xl"
-      >
-        <Paragraph className="mb-sm desc">
-          {t("settings.imprint.howto")}
-        </Paragraph>
-
-        <RichTextEditor
-          onChange={setImprint}
-          value={impressum}
-          placeholder={t("settings.imprint.howto")}
-        />
-      </Item>
-      <Item
-        label={<Title level={5}>{t("privacy")}</Title>}
-        name="impressum"
-        rules={[{ required: true }]}
-      >
-        <Paragraph className="mb-sm desc">
-          {t("settings.privacy.howto")}
-        </Paragraph>
-
-        <RichTextEditor
-          onChange={setImprint}
-          value={impressum}
-          placeholder={t("settings.privacy.placeholder")}
-        />
-      </Item>
-    </>
-  );
-  const formFieldsView = (
-    <>
-      <Item
-        label={
-          <Title level={5}>
-            {t("organisation.logo") + t("and") + t("organisation.favicon")}
-          </Title>
-        }
-      >
-        <Paragraph className="mb-l desc">
-          {t("settings.images.howto")}
-        </Paragraph>
-        <Row gutter={15}>
-          <Col xs={6} md={5} lg={4}>
-            <Item
-              label={t("organisation.logo")}
-              name="logo"
-              valuePropName="fileList"
-              getValueFromEvent={normFile}
-              className="block"
-            >
-              <FileUploader name="logo" />
-            </Item>
-          </Col>
-          <Col xs={6} md={5} lg={4}>
-            <Item
-              label={t("organisation.favicon")}
-              name="favicon"
-              valuePropName="fileList1"
-              getValueFromEvent={normFile}
-              className="block"
-            >
-              <FileUploader name="favicon" />
-            </Item>
-          </Col>
-          <Col xs={12} lg={4}>
-            <Item label="&nbsp;">
-              <Text strong className="desc">
-                {t("notice")}
-              </Text>
-              <br />
-              <Text className="desc">{t("settings.images.help")}</Text>
-            </Item>
-          </Col>
-        </Row>
-      </Item>
-      <Item label={<Title level={5}>{t("settings.colors")}</Title>}>
-        <Paragraph className="mb-m desc">
-          {t("settings.colors.howto")}
-        </Paragraph>
-        <Row gutter={15}>
-          <Col xs={12} md={11} lg={8} xl={6} xxl={5}>
-            <Item name="primaryColor" rules={[{ required: true }]}>
-              <ColorSelector
-                isLoading={isLoading}
-                label={t("organisation.primaryColor")}
-                tenantColor={primaryColor}
-                setColorValue={setColor}
-                field="primaryColor"
-              />
-            </Item>
-          </Col>
-          <Col xs={12} md={11} lg={8} xl={6} xxl={5}>
-            <Item name="secondaryColor">
-              <ColorSelector
-                isLoading={isLoading}
-                label={t("organisation.secondaryColor")}
-                tenantColor={secondaryColor}
-                setColorValue={setColor}
-                field="secondaryColor"
-              />
-            </Item>
-          </Col>
-        </Row>
-      </Item>
-    </>
-  );
-
-  return (
+  return tenantData.id ? (
     <>
       <Title level={3}>{t("settings.title")}</Title>
       <Paragraph className="mb-l">{t("settings.title.text")}</Paragraph>
@@ -294,18 +143,164 @@ function Settings() {
             <Title className="formHeadline mb-m" level={4}>
               {t("settings.subhead.personalisation")}
             </Title>
-            {formFieldsPersonalisation}
+
+            <Item
+              label={
+                <Title level={5}>
+                  {t("organisation.name") + t("and") + t("organisation.claim")}
+                </Title>
+              }
+              className="mb-xl"
+            >
+              <Paragraph className="mb-l desc">
+                {t("settings.name.howto")}
+              </Paragraph>
+              <Row gutter={15}>
+                <Col xs={6} md={8} lg={8}>
+                  <Item
+                    label={t("organisation.name")}
+                    name="name"
+                    rules={[{ required: true }]}
+                  >
+                    <Input disabled={isLoading} placeholder={t("slogan")} />
+                  </Item>
+                  <Item
+                    label={t("organisation.claim")}
+                    name="claim"
+                    rules={[{ required: true }]}
+                  >
+                    <Input disabled={isLoading} placeholder={t("subSlogan")} />
+                  </Item>
+                </Col>
+                <Col xs={12} md={4} lg={4}>
+                  <Item label="&nbsp;">
+                    <Text strong className="desc">
+                      {t("notice")}
+                    </Text>
+                    <br />
+                    <Text className="desc">{t("settings.name.help")}</Text>
+                  </Item>
+                </Col>
+              </Row>
+            </Item>
+            <Item
+              label={<Title level={5}>{t("imprint")}</Title>}
+              name="impressum"
+              rules={[{ required: true }]}
+              className="mb-xl"
+            >
+              <Paragraph className="mb-sm desc">
+                {t("settings.imprint.howto")}
+              </Paragraph>
+
+              <RichTextEditor
+                onChange={setImprint}
+                value={impressum}
+                placeholder={t("settings.imprint.howto")}
+              />
+            </Item>
+            <Item
+              label={<Title level={5}>{t("privacy")}</Title>}
+              name="impressum"
+              rules={[{ required: true }]}
+            >
+              <Paragraph className="mb-sm desc">
+                {t("settings.privacy.howto")}
+              </Paragraph>
+
+              <RichTextEditor
+                onChange={setImprint}
+                value={impressum}
+                placeholder={t("settings.privacy.placeholder")}
+              />
+            </Item>
           </Col>
           <Col xs={12} md={6}>
             <Title className="formHeadline mb-m" level={4}>
               {t("settings.subhead.view")}
             </Title>
-            {formFieldsView}
+            <Item
+              label={
+                <Title level={5}>
+                  {t("organisation.logo") +
+                    t("and") +
+                    t("organisation.favicon")}
+                </Title>
+              }
+            >
+              <Paragraph className="mb-l desc">
+                {t("settings.images.howto")}
+              </Paragraph>
+              <Row gutter={15}>
+                <Col xs={6} md={5} lg={4}>
+                  <Item
+                    label={t("organisation.logo")}
+                    name="logo"
+                    valuePropName="fileList"
+                    getValueFromEvent={normFile}
+                    className="block"
+                  >
+                    <FileUploader name="logo" />
+                  </Item>
+                </Col>
+                <Col xs={6} md={5} lg={4}>
+                  <Item
+                    label={t("organisation.favicon")}
+                    name="favicon"
+                    valuePropName="fileList1"
+                    getValueFromEvent={normFile}
+                    className="block"
+                  >
+                    <FileUploader name="favicon" />
+                  </Item>
+                </Col>
+                <Col xs={12} lg={4}>
+                  <Item label="&nbsp;">
+                    <Text strong className="desc">
+                      {t("notice")}
+                    </Text>
+                    <br />
+                    <Text className="desc">{t("settings.images.help")}</Text>
+                  </Item>
+                </Col>
+              </Row>
+            </Item>
+            <Item label={<Title level={5}>{t("settings.colors")}</Title>}>
+              <Paragraph className="mb-m desc">
+                {t("settings.colors.howto")}
+              </Paragraph>
+              <Row gutter={15}>
+                <Col xs={12} md={11} lg={8} xl={6} xxl={5}>
+                  <Item name="primaryColor" rules={[{ required: true }]}>
+                    <ColorSelector
+                      isLoading={isLoading}
+                      label={t("organisation.primaryColor")}
+                      tenantColor={primaryColor}
+                      setColorValue={setColor}
+                      field="primaryColor"
+                    />
+                  </Item>
+                </Col>
+                <Col xs={12} md={11} lg={8} xl={6} xxl={5}>
+                  <Item name="secondaryColor">
+                    <ColorSelector
+                      isLoading={isLoading}
+                      label={t("organisation.secondaryColor")}
+                      tenantColor={secondaryColor}
+                      setColorValue={setColor}
+                      field="secondaryColor"
+                    />
+                  </Item>
+                </Col>
+              </Row>
+            </Item>
           </Col>
         </Row>
         <Item name="id" hidden />
       </Form>
     </>
+  ) : (
+    <div />
   );
 }
 

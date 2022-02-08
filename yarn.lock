@@ -11024,6 +11024,11 @@ postcss-sorting@^5.0.1:
     lodash "^4.17.14"
     postcss "^7.0.17"
 
+postcss-sorting@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/postcss-sorting/-/postcss-sorting-7.0.1.tgz#923b5268451cf2d93ebf8835e17a6537757049a5"
+  integrity sha512-iLBFYz6VRYyLJEJsBJ8M3TCqNcckVzz4wFounSc5Oez35ogE/X+aoC5fFu103Ot7NyvjU3/xqIXn93Gp3kJk4g==
+
 postcss-svgo@^5.0.3:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/postcss-svgo/-/postcss-svgo-5.0.3.tgz#d945185756e5dfaae07f9edb0d3cae7ff79f9b30"
@@ -13202,6 +13207,25 @@ stylelint-order@^3.1.1:
     lodash "^4.17.15"
     postcss "^7.0.17"
     postcss-sorting "^5.0.1"
+
+stylelint-order@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/stylelint-order/-/stylelint-order-5.0.0.tgz#abd20f6b85ac640774cbe40e70d3fe9c6fdf4400"
+  integrity sha512-OWQ7pmicXufDw5BlRqzdz3fkGKJPgLyDwD1rFY3AIEfIH/LQY38Vu/85v8/up0I+VPiuGRwbc2Hg3zLAsJaiyw==
+  dependencies:
+    postcss "^8.3.11"
+    postcss-sorting "^7.0.1"
+
+stylelint-webpack-plugin@^3.1.0:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/stylelint-webpack-plugin/-/stylelint-webpack-plugin-3.1.1.tgz#00df2e39f118aebaba50ffd6abc357e94ad87f07"
+  integrity sha512-0C7MOb82Hc97DYvdR7Y29P4ZXFXOBNelyr9nPAEh2iel0FQ77KhyTWBsELX4b8fQQhNjvKVSsAgjQI5FeVojgA==
+  dependencies:
+    globby "^11.0.4"
+    jest-worker "^27.3.1"
+    micromatch "^4.0.4"
+    normalize-path "^3.0.0"
+    schema-utils "^4.0.0"
 
 stylelint@^14.1.0:
   version "14.2.0"

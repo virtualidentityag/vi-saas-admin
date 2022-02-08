@@ -35,14 +35,15 @@ td:last-child {
   font-weight: 700;
 }
 
+.editBtnWrapper {
+  display: flex;
+  gap: @spacing-sm;
+  flex-direction: row;
+}
 .editIcon {
   border: none;
-  margin-right: @spacing-sm;
   background: transparent;
 
-  &:last-child {
-    margin-right: 0;
-  }
 
   svg {
     width: 24px;

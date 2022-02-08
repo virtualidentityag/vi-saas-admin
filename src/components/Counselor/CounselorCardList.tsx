@@ -39,7 +39,6 @@ function CounselorCardList() {
           duration: 3,
         });
       });
-    //
   };
 
   const handleEditCounselor = (formData: CounselorData) => {
@@ -62,7 +61,6 @@ function CounselorCardList() {
           duration: 3,
         });
       });
-    //
   };
 
   const handleDeleteCounselor = (formData: CounselorData) => {
@@ -85,7 +83,6 @@ function CounselorCardList() {
           duration: 3,
         });
       });
-    //
   };
 
   const handleCreateModal = () => {

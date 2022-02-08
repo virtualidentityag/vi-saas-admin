@@ -197,7 +197,6 @@ function CounselorList() {
     {
       width: 88,
       title: "",
-
       key: "edit",
       render: (_: any, record: CounselorData) => {
         const editable = isEditing(record);

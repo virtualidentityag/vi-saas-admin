@@ -2,6 +2,7 @@ import { Upload, message } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
 
 function getBase64(
   img: Record<string, any>,
@@ -22,13 +23,14 @@ interface InfoProps {
 }
 
 function beforeUpload(file: FileProps) {
+  const { t } = i18n;
   const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
   if (!isJpgOrPng) {
-    message.error("You can only upload JPG/PNG file!");
+    message.error(t("message.error.upload.filetype"));
   }
   const isLt2M = file.size / 1024 / 1024 < 2;
   if (!isLt2M) {
-    message.error("Image must smaller than 2MB!");
+    message.error(t("message.error.upload.filesize"));
   }
   return isJpgOrPng && isLt2M;
 }

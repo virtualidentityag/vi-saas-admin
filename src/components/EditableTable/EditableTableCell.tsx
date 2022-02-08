@@ -1,5 +1,6 @@
 import React from "react";
 import { Input, InputNumber, Form } from "antd";
+import { useTranslation } from "react-i18next";
 import { EditableTableCellProps } from "../../types/editabletable";
 
 function EditableTableCell({
@@ -12,6 +13,7 @@ function EditableTableCell({
   children,
   ...restProps
 }: EditableTableCellProps) {
+  const { t } = useTranslation();
   const inputNode =
     inputType === "number" ? (
       <InputNumber size="small" />
@@ -29,7 +31,7 @@ function EditableTableCell({
           rules={[
             {
               required: true,
-              message: `Please Input ${title}!`,
+              message: t("message.form.edit.mandatory"),
             },
           ]}
         >

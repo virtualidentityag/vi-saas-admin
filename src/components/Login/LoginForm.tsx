@@ -76,7 +76,7 @@ function LoginForm() {
         initialValues={{ remember: true }}
         onFinish={onFinish}
         autoComplete="off"
-        title="Admin Login"
+        title={t("admin.login")}
         size="large"
       >
         <Form.Item
@@ -85,7 +85,7 @@ function LoginForm() {
             md: { offset: 2, span: 8 },
           }}
         >
-          <Title level={2}>Admin Login</Title>
+          <Title level={2}>{t("admin.login")}</Title>
         </Form.Item>
         <Form.Item
           label={
@@ -137,7 +137,7 @@ function LoginForm() {
           }}
         >
           <Button block type="primary" htmlType="submit" loading={postLoading}>
-            {t("Anmelden")}
+            {t("message.form.login.loginBtn")}
           </Button>
         </Form.Item>
       </Form>

@@ -179,7 +179,7 @@ function Counselor({
         visible={isModalVisible}
         onOk={handleOnDelete}
         onCancel={handleModalCancel}
-        cancelText="ABBRECHEN"
+        cancelText={t("btn.cancel")}
         closable={false}
         centered
       >

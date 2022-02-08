@@ -27,7 +27,7 @@ function EditButtons({
       </button>
     </span>
   ) : (
-    <>
+    <div className="editBtnWrapper">
       <button
         className="editIcon"
         type="button"
@@ -46,7 +46,7 @@ function EditButtons({
       >
         <CustomRecycleIcon className="editIcon" />
       </button>
-    </>
+    </div>
   );
 }
 

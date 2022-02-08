@@ -1,20 +1,29 @@
 import React, { useState } from "react";
-import { BgColorsOutlined } from "@ant-design/icons";
+
 import { SketchPicker } from "react-color";
+import { Typography, Input } from "antd";
+import useComponentVisible from "../../hooks/useComponentVisible";
+
+const { Title } = Typography;
 
 interface ColorSelectorProps {
+  isLoading: boolean;
+  label: string;
   tenantColor: string;
   field: string;
   setColorValue: (field: string, color: string) => void;
 }
 
 function ColorSelector({
+  isLoading,
+  label,
   tenantColor,
   setColorValue,
   field,
 }: ColorSelectorProps) {
-  const [selectedColor, setSelectedColor] = useState(tenantColor || "#CCCCCC");
-  const [isOpen, setIsOpen] = useState(false);
+  const [selectedColor, setSelectedColor] = useState(tenantColor);
+  const { ref, isComponentVisible, setIsComponentVisible } =
+    useComponentVisible();
 
   const handleOnChange = (color: string) => {
     setSelectedColor(color);
@@ -22,36 +31,28 @@ function ColorSelector({
   };
 
   return (
-    <>
-      <BgColorsOutlined
-        color={selectedColor}
-        onClick={() => setIsOpen(!isOpen)}
+    <div className="colorSelector" ref={ref}>
+      <Input hidden />
+      <button
+        type="button"
+        disabled={isLoading}
+        className="colorIndicator"
+        style={{ backgroundColor: selectedColor }}
+        onClick={() => setIsComponentVisible(!isComponentVisible)}
       />
-      {isOpen && (
-        <div
-          style={{
-            position: "absolute",
-            zIndex: "2",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: "0px",
-              right: "0px",
-              bottom: "0px",
-              left: "0px",
-              transform: "translate(-77px,13px)",
-            }}
-          >
-            <SketchPicker
-              color={selectedColor}
-              onChange={(color: any) => handleOnChange(color.hex)}
-            />
-          </div>
+      <div>
+        <span>{label}</span>
+        <Title level={4}>HEX {selectedColor}</Title>
+      </div>
+      {isComponentVisible && (
+        <div className="pickerWrapper">
+          <SketchPicker
+            color={selectedColor || "#EEEEEE"}
+            onChange={(color: any) => handleOnChange(color.hex)}
+          />
         </div>
       )}
-    </>
+    </div>
   );
 }
 

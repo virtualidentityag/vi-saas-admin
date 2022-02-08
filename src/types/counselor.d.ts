@@ -6,6 +6,7 @@ export interface CounselorData {
   gender: string;
   id: number | null;
   phone: string;
-  agency?: string;
+  agency: string;
   username: string;
+  key: string;
 }

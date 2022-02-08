@@ -32,9 +32,10 @@ interface OnChangeHandler {
 type RichTextEditorProps = {
   value: any;
   onChange: OnChangeHandler;
+  placeholder: string;
 };
 
-function RTE({ value, onChange }: RichTextEditorProps) {
+function RTE({ value, onChange, placeholder }: RichTextEditorProps) {
   const [editorState, setEditorState] = useState(() =>
     RichTextEditor.createValueFromString(value, "html")
   );
@@ -49,6 +50,8 @@ function RTE({ value, onChange }: RichTextEditorProps) {
       value={editorState}
       onChange={handleChange}
       toolbarConfig={toolbarConfig}
+      className="rte"
+      placeholder={placeholder}
     />
   );
 }

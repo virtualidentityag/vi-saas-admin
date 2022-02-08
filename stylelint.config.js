@@ -1,13 +1,13 @@
 module.exports = {
   "extends": [
     "stylelint-config-standard",
-    "stylelint-a11y/recommended",
     "stylelint-config-prettier",
     "stylelint-config-idiomatic-order",
   ],
   "plugins": [
     "stylelint-order",
-    "stylelint-no-unsupported-browser-features"
+    "stylelint-no-unsupported-browser-features",
+
   ],
   "rules": {
     "plugin/no-unsupported-browser-features": [
@@ -16,6 +16,9 @@ module.exports = {
         "severity": "warning"
       }
     ],
+    "selector-class-pattern": false,
+    "keyframes-name-pattern": false,
+    "at-rule-no-unknown": false,
     "color-hex-length": "long",
     "selector-pseudo-element-colon-notation": "single",
     "property-no-vendor-prefix": true,

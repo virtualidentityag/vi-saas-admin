@@ -1,10 +1,10 @@
-import { Button, Card, Divider, Form, Input, message, Upload } from "antd";
-import clsx from "clsx";
-import { SaveOutlined, UploadOutlined } from "@ant-design/icons";
+import { Button, Col, Form, Input, message, Row, Typography } from "antd";
+
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
+import Title from "antd/es/typography/Title";
 import ColorSelector from "../ColorSelector/ColorSelector";
 import RichTextEditor from "../RichText/RichTextEditor";
 
@@ -12,14 +12,16 @@ import getCancelTokenSource from "../../api/getCancelTokenSource";
 import editFAKETenantData from "../../api/tenant/editFAKETenantData";
 import getComplentaryColor from "../../utils/getComplentaryColor";
 
-const { Meta } = Card;
+import FileUploader from "../FileUploader/FileUploader";
+
+const { Item } = Form;
+const { Text, Paragraph } = Typography;
 
 function Settings() {
   const [form] = Form.useForm();
   const { t } = useTranslation();
-  const { id, theming, name, subdomain, content, licensing } = useSelector(
-    (state: any) => state.tenantData
-  );
+  const { tenantData } = useSelector((state: any) => state);
+  const { id, theming, name, subdomain, content, licensing } = tenantData;
   const dispatch = useDispatch();
   const { logo, favicon, primaryColor, secondaryColor } = theming;
   const { impressum, claim } = content;
@@ -49,7 +51,7 @@ function Settings() {
     }
 
     //  ToDo: outsource restructured data into Helper
-    const tenantData = {
+    const changedTenantData = {
       id: values.id,
       name: values.name,
       subdomain: values.subdomain,
@@ -70,7 +72,7 @@ function Settings() {
     };
 
     const cancelTokenSource = getCancelTokenSource();
-    editFAKETenantData(tenantData, cancelTokenSource)
+    editFAKETenantData(changedTenantData, cancelTokenSource)
       .then((response: any) => {
         setIsLoading(false);
         dispatch({
@@ -85,8 +87,7 @@ function Settings() {
       .catch(() => {
         setIsLoading(false);
         message.error({
-          content:
-            "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal",
+          content: t("message.error.default"),
           duration: 3,
         });
       });
@@ -108,140 +109,198 @@ function Settings() {
     form.setFieldsValue({ impressum: text });
   };
 
-  const formFields = (
+  return tenantData.id ? (
     <>
-      <Form.Item
-        label={t("organisation.name")}
-        name="name"
-        rules={[{ required: true }]}
+      <Title level={3}>{t("settings.title")}</Title>
+      <Paragraph className="mb-l">{t("settings.title.text")}</Paragraph>
+      <Form
+        form={form}
+        name="tenantSettings"
+        onFinish={onFormSubmit}
+        onFinishFailed={onFinishFailed}
+        size="small"
+        labelAlign="left"
+        labelWrap
+        layout="vertical"
+        initialValues={{
+          id,
+          logo,
+          favicon,
+          subdomain,
+          primaryColor,
+          secondaryColor,
+          impressum,
+          name,
+          claim,
+          allowedNumberOfUsers,
+        }}
       >
-        <Input disabled={isLoading} />
-      </Form.Item>
-      <Form.Item
-        label={t("organisation.claim")}
-        name="claim"
-        rules={[{ required: true }]}
-      >
-        <Input disabled={isLoading} />
-      </Form.Item>
-      <Form.Item
-        label={t("organisation.subdomain")}
-        name="subdomain"
-        rules={[{ required: true }]}
-      >
-        <Input disabled={isLoading} />
-      </Form.Item>
+        <Button type="primary" size="large" className="mb-xl w-200">
+          {t("save")}
+        </Button>
+        <Row gutter={40}>
+          <Col xs={12} md={6}>
+            <Title className="formHeadline mb-m" level={4}>
+              {t("settings.subhead.personalisation")}
+            </Title>
 
-      <Form.Item
-        label={t("organisation.logo")}
-        name="logo"
-        valuePropName="fileList"
-        getValueFromEvent={normFile}
-      >
-        <Upload name="logo" action="/upload.do" listType="picture">
-          <Button icon={<UploadOutlined />}>{t("fileUpload")}</Button>
-        </Upload>
-      </Form.Item>
+            <Item
+              label={
+                <Title level={5}>
+                  {t("organisation.name") + t("and") + t("organisation.claim")}
+                </Title>
+              }
+              className="mb-xl"
+            >
+              <Paragraph className="mb-l desc">
+                {t("settings.name.howto")}
+              </Paragraph>
+              <Row gutter={15}>
+                <Col xs={6} md={8} lg={8}>
+                  <Item
+                    label={t("organisation.name")}
+                    name="name"
+                    rules={[{ required: true }]}
+                  >
+                    <Input disabled={isLoading} placeholder={t("slogan")} />
+                  </Item>
+                  <Item
+                    label={t("organisation.claim")}
+                    name="claim"
+                    rules={[{ required: true }]}
+                  >
+                    <Input disabled={isLoading} placeholder={t("subSlogan")} />
+                  </Item>
+                </Col>
+                <Col xs={12} md={4} lg={4}>
+                  <Item label="&nbsp;">
+                    <Text strong className="desc">
+                      {t("notice")}
+                    </Text>
+                    <br />
+                    <Text className="desc">{t("settings.name.help")}</Text>
+                  </Item>
+                </Col>
+              </Row>
+            </Item>
+            <Item
+              label={<Title level={5}>{t("imprint")}</Title>}
+              name="impressum"
+              rules={[{ required: true }]}
+              className="mb-xl"
+            >
+              <Paragraph className="mb-sm desc">
+                {t("settings.imprint.howto")}
+              </Paragraph>
 
-      <Form.Item
-        label={t("organisation.favicon")}
-        name="favicon"
-        valuePropName="fileList"
-        getValueFromEvent={normFile}
-      >
-        <Upload name="favicon" action="/upload.do" listType="picture">
-          <Button icon={<UploadOutlined />}>{t("fileUpload")}</Button>
-        </Upload>
-      </Form.Item>
+              <RichTextEditor
+                onChange={setImprint}
+                value={impressum}
+                placeholder={t("settings.imprint.howto")}
+              />
+            </Item>
+            <Item
+              label={<Title level={5}>{t("privacy")}</Title>}
+              name="impressum"
+              rules={[{ required: true }]}
+            >
+              <Paragraph className="mb-sm desc">
+                {t("settings.privacy.howto")}
+              </Paragraph>
 
-      <Form.Item
-        label={t("organisation.primaryColor")}
-        name="primaryColor"
-        rules={[{ required: true }]}
-      >
-        <Input
-          disabled={isLoading}
-          addonAfter={
-            <ColorSelector
-              tenantColor={primaryColor}
-              setColorValue={setColor}
-              field="primaryColor"
-            />
-          }
-        />
-      </Form.Item>
-      <Form.Item label={t("organisation.secondaryColor")} name="secondaryColor">
-        <Input
-          disabled={isLoading}
-          addonAfter={
-            <ColorSelector
-              tenantColor={secondaryColor}
-              setColorValue={setColor}
-              field="secondaryColor"
-            />
-          }
-        />
-      </Form.Item>
-
-      <Form.Item
-        label={t("imprint")}
-        name="impressum"
-        rules={[{ required: true }]}
-      >
-        <RichTextEditor onChange={setImprint} value={impressum} />
-      </Form.Item>
-      <Divider />
-
-      {/* maybe later when we've are able to change it here
-      <Form.Item label={t("allowedNumberOfUsers")} name="allowedNumberOfUsers">
-        <Input disabled />
-      </Form.Item> */}
-
-      <Form.Item name="id" hidden />
+              <RichTextEditor
+                onChange={setImprint}
+                value={impressum}
+                placeholder={t("settings.privacy.placeholder")}
+              />
+            </Item>
+          </Col>
+          <Col xs={12} md={6}>
+            <Title className="formHeadline mb-m" level={4}>
+              {t("settings.subhead.view")}
+            </Title>
+            <Item
+              label={
+                <Title level={5}>
+                  {t("organisation.logo") +
+                    t("and") +
+                    t("organisation.favicon")}
+                </Title>
+              }
+            >
+              <Paragraph className="mb-l desc">
+                {t("settings.images.howto")}
+              </Paragraph>
+              <Row gutter={15}>
+                <Col xs={6} md={5} lg={4}>
+                  <Item
+                    label={t("organisation.logo")}
+                    name="logo"
+                    valuePropName="fileList"
+                    getValueFromEvent={normFile}
+                    className="block"
+                  >
+                    <FileUploader name="logo" />
+                  </Item>
+                </Col>
+                <Col xs={6} md={5} lg={4}>
+                  <Item
+                    label={t("organisation.favicon")}
+                    name="favicon"
+                    valuePropName="fileList1"
+                    getValueFromEvent={normFile}
+                    className="block"
+                  >
+                    <FileUploader name="favicon" />
+                  </Item>
+                </Col>
+                <Col xs={12} lg={4}>
+                  <Item label="&nbsp;">
+                    <Text strong className="desc">
+                      {t("notice")}
+                    </Text>
+                    <br />
+                    <Text className="desc">{t("settings.images.help")}</Text>
+                  </Item>
+                </Col>
+              </Row>
+            </Item>
+            <Item label={<Title level={5}>{t("settings.colors")}</Title>}>
+              <Paragraph className="mb-m desc">
+                {t("settings.colors.howto")}
+              </Paragraph>
+              <Row gutter={15}>
+                <Col xs={12} md={11} lg={8} xl={6} xxl={5}>
+                  <Item name="primaryColor" rules={[{ required: true }]}>
+                    <ColorSelector
+                      isLoading={isLoading}
+                      label={t("organisation.primaryColor")}
+                      tenantColor={primaryColor}
+                      setColorValue={setColor}
+                      field="primaryColor"
+                    />
+                  </Item>
+                </Col>
+                <Col xs={12} md={11} lg={8} xl={6} xxl={5}>
+                  <Item name="secondaryColor">
+                    <ColorSelector
+                      isLoading={isLoading}
+                      label={t("organisation.secondaryColor")}
+                      tenantColor={secondaryColor}
+                      setColorValue={setColor}
+                      field="secondaryColor"
+                    />
+                  </Item>
+                </Col>
+              </Row>
+            </Item>
+          </Col>
+        </Row>
+        <Item name="id" hidden />
+      </Form>
     </>
-  );
-
-  return (
-    <Form
-      form={form}
-      name="tenantSettings"
-      onFinish={onFormSubmit}
-      onFinishFailed={onFinishFailed}
-      size="small"
-      labelCol={{ span: 3 }}
-      wrapperCol={{ span: 6 }}
-      labelAlign="left"
-      labelWrap
-      initialValues={{
-        id,
-        logo,
-        favicon,
-        subdomain,
-        primaryColor,
-        secondaryColor,
-        impressum,
-        name,
-        claim,
-        allowedNumberOfUsers,
-      }}
-    >
-      <Card
-        className={clsx("")}
-        actions={[
-          <div />,
-          <Button
-            htmlType="submit"
-            type="primary"
-            disabled={isLoading}
-            icon={<SaveOutlined />}
-          >
-            {t("save")}
-          </Button>,
-        ]}
-      >
-        <Meta title={t("organisation")} description={formFields} />
-      </Card>
-    </Form>
+  ) : (
+    <div />
   );
 }
 

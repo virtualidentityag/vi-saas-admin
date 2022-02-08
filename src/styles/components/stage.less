@@ -9,12 +9,14 @@
   width: 40vw;
   height: 100vh;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: @spacing-2xl;
   background-color: var(--skin-color-primary, @primary-color);
   color: #ffffff;
 
-  h1, h4 {
+  h1,
+  h3 {
     color: #ffffff;
   }
 
@@ -35,7 +37,7 @@
     }
 
     .stage__headline {
-      margin-bottom: 80px;
+      margin-top: auto;
     }
 
     @keyframes overlayAnimation {

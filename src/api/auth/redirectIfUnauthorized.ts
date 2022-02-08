@@ -24,7 +24,7 @@ const redirectIfUnauthorized = (
   if (status === 401 || statusText.toLowerCase() === "unauthorized") {
     clearStore();
 
-    window.location.href = `${routePathNames.login}?referrer=${window.location.pathname}${window.location.search}`;
+    window.location.href = `${routePathNames.root}?referrer=${window.location.pathname}${window.location.search}`;
   } else {
     handleError(statusText);
   }

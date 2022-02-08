@@ -34,7 +34,7 @@
     "react/function-component-definition": [
       2,
       {
-        "namedComponents": "function-declaration",
+        "namedComponents": "function-declaration"
       }
     ]
   },
@@ -42,12 +42,20 @@
     "react": {
       "version": "latest"
     },
-   " import/resolver": {
-      "node": { 
-                "extensions": [".js", ".jsx", ".ts", ".tsx"], 
-                "moduleDirectory": ["node_modules", "src/"]
-      },
-    },
-  },
-};
+    " import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ],
+        "moduleDirectory": [
+          "node_modules",
+          "src/"
+        ]
+      }
+    }
+  }
+}
 

@@ -3,11 +3,14 @@ import { Form, Input, Button, message } from "antd";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import Title from "antd/es/typography/Title";
 import getCancelTokenSource from "../../api/getCancelTokenSource";
 import getFAKEAccessToken from "../../api/auth/getFAKEAccessToken";
 import getFAKEUserData from "../../api/user/getFAKEUserData";
 import requestCatchHandler from "../../api/requestCatchHandler";
 import getFAKETenantData from "../../api/tenant/getFAKETenantData";
+import CustomLockIcon from "../CustomIcons/Lock";
+import CustomPersonIcon from "../CustomIcons/Person";
 
 function LoginForm() {
   const { t } = useTranslation();
@@ -61,21 +64,36 @@ function LoginForm() {
   };
 
   /* const changeLanguage = (lang: Languages) => {
-      changeLang(lang);
-    }; */
+                                                                                    changeLang(lang);
+                                                                                  }; */
 
   return (
-    <div>
+    <div className="loginForm">
       <Form
         name="basic"
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 8 }}
+        labelCol={{ xs: { span: 2 } }}
+        wrapperCol={{ xs: { span: 8 } }}
         initialValues={{ remember: true }}
         onFinish={onFinish}
         autoComplete="off"
+        title={t("admin.login")}
+        size="large"
       >
         <Form.Item
-          label={t("Username")}
+          wrapperCol={{
+            xs: { offset: 0, span: 12 },
+            md: { offset: 2, span: 8 },
+          }}
+        >
+          <Title level={2}>{t("admin.login")}</Title>
+        </Form.Item>
+        <Form.Item
+          label={
+            <>
+              <CustomPersonIcon />
+              <span className="labelText">{t("username")}</span>
+            </>
+          }
           name="username"
           rules={[
             {
@@ -85,22 +103,41 @@ function LoginForm() {
             },
           ]}
         >
-          <Input />
+          <Input placeholder={t("username")} />
         </Form.Item>
 
         <Form.Item
-          label={t("Password")}
+          label={
+            <>
+              <CustomLockIcon />
+              <span className="labelText">{t("password")}</span>
+            </>
+          }
           name="password"
           rules={[
             { required: true, message: t("message.form.login.password") },
           ]}
         >
-          <Input.Password />
+          <Input.Password placeholder={t("password")} />
         </Form.Item>
-
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit" loading={postLoading}>
-            {t("Anmelden")}
+        <Form.Item
+          wrapperCol={{
+            xs: { offset: 0, span: 12 },
+            md: { offset: 2, span: 8 },
+          }}
+        >
+          <Button type="link" className="forgotPW">
+            {t("password.forgot")}
+          </Button>
+        </Form.Item>
+        <Form.Item
+          wrapperCol={{
+            xs: { offset: 0, span: 12 },
+            md: { offset: 2, span: 8 },
+          }}
+        >
+          <Button block type="primary" htmlType="submit" loading={postLoading}>
+            {t("message.form.login.loginBtn")}
           </Button>
         </Form.Item>
       </Form>

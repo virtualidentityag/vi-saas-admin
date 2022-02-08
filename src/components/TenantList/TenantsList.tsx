@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Table, message } from "antd";
+import { Table, Button, message } from "antd";
 import moment from "moment";
+import { PlusOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 import getCancelTokenSource from "../../api/getCancelTokenSource";
 import { TenantData } from "../../types/tenant";
 import getFakeMultipleTenants from "../../api/tenant/getFakeMultipleTenants";
 
 function TenantsList() {
+  const { t } = useTranslation();
   const [tenants, setTenants] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -20,8 +23,7 @@ function TenantsList() {
       .catch(() => {
         setIsLoading(false);
         message.error({
-          content:
-            "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal",
+          content: t("message.error.default"),
           duration: 3,
         });
       });
@@ -29,11 +31,11 @@ function TenantsList() {
     return () => {
       cancelTokenSource.cancel();
     };
-  }, []);
+  }, [t]);
 
   const columns: any[] = [
     {
-      title: "Organisation",
+      title: t("organisation.title"),
       dataIndex: "name",
       key: "name",
       sorter: (a: TenantData, b: TenantData) => a.name.localeCompare(b.name),
@@ -43,7 +45,7 @@ function TenantsList() {
     },
     {
       width: 250,
-      title: "Subdomain",
+      title: t("organisation.subdomain"),
       dataIndex: "subdomain",
       ellipsis: true,
       key: "subdomain",
@@ -51,7 +53,7 @@ function TenantsList() {
         a.subdomain.localeCompare(b.subdomain),
     },
     {
-      title: "Hinzugefügt am",
+      title: t("createDate"),
       dataIndex: "createDate",
       key: "createDate",
       ellipsis: true,
@@ -63,7 +65,7 @@ function TenantsList() {
       },
     },
     {
-      title: "Anzahl von Benutzern",
+      title: t("organisation.allowedNumberOfUsers"),
       width: 150,
       ellipsis: true,
       render: (record: { licensing: { allowedNumberOfUsers: number } }) =>
@@ -74,18 +76,26 @@ function TenantsList() {
   ];
 
   return (
-    <Table
-      loading={isLoading}
-      className="tenantsTable"
-      dataSource={tenants}
-      columns={columns}
-      scroll={{
-        x: "max-content",
-        y: "100%",
-      }}
-      sticky
-      tableLayout="fixed"
-    />
+    <>
+      <h2>{t("organisations.title")}</h2>
+      <p>{t("organisations.title.text")}</p>
+      <Button type="primary" icon={<PlusOutlined />}>
+        {t("new")}
+      </Button>
+      <Table
+        loading={isLoading}
+        className="tenantsTable"
+        dataSource={tenants}
+        columns={columns}
+        scroll={{
+          x: "max-content",
+          y: "100%",
+        }}
+        sticky
+        tableLayout="fixed"
+        // bordered
+      />
+    </>
   );
 }
 

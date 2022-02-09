@@ -18,15 +18,6 @@ jobs:
               with:
                   node-version: 12.13.0
             - run: npm i
-            - name: Run linters
-              uses: wearerequired/lint-action@v1
-              with:
-                  github_token: ${{ secrets.github_token }}
-                  eslint: true
-                  eslint_dir: ./
-                  eslint_extensions: js,ts,tsx
-                  prettier: true
-                  prettier_dir: ./
             - name: test and build
               run: |
                   echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts

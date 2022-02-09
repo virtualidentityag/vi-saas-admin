@@ -22,14 +22,15 @@ const getTenantData = (
     theming: {
       logo: null,
       favicon: null,
-      primaryColor: null,
-      secondaryColor: null,
+      primaryColor: "#ff2563",
+      secondaryColor: "#c3e001",
     },
     content: {
       impressum: "<p>Dies ist ein leeres Impressum</p>",
       claim: "Wir tun was wir können",
     },
   };
+  // eslint-disable-next-line no-console
   console.log("FAKE get TenantData", tenantResponse, cancelTokenSource);
   return new Promise((resolve) => {
     window.setTimeout(() => {

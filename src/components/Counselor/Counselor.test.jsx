@@ -34,7 +34,7 @@ test("renders Card with all the information", () => {
 
   const email = screen.getByText("email");
   const phone = screen.getByText("phone");
-  const agency = screen.getByText("counselor.agency");
+  const agency = screen.getByText("agency");
   const username = screen.getByText("counselor.username");
   expect(email).toBeInTheDocument();
   expect(phone).toBeInTheDocument();
@@ -105,25 +105,25 @@ test("interactions with buttons work", () => {
   );
 
   const editButton = screen.getByRole("button", { name: "form edit" });
-  const deleteButton = screen.getByRole("button", {
+  /* const deleteButton = screen.getByRole("button", {
     name: "user-delete delete",
-  });
+  }); */
 
   userEvent.click(editButton);
 
   const inputFields = screen.getAllByRole("textbox");
   expect(inputFields).toHaveLength(5);
   /*
-        const saveButton = screen.getByRole("button", { name: "save save" });
-        userEvent.click(saveButton);
-      
-        expect(onFormSubmit).toHaveBeenCalled();
-        await act(() => promise);
-      
-        expect(handleEdit).toHaveBeenCalledWith("1234");
-        expect(handleDelete).toHaveBeenCalled();
-      
-        screen.getByRole("blah");
+          const saveButton = screen.getByRole("button", { name: "save save" });
+          userEvent.click(saveButton);
         
-       */
+          expect(onFormSubmit).toHaveBeenCalled();
+          await act(() => promise);
+        
+          expect(handleEdit).toHaveBeenCalledWith("1234");
+          expect(handleDelete).toHaveBeenCalled();
+        
+          screen.getByRole("blah");
+          
+         */
 });

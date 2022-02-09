@@ -1,6 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
+import Title from "antd/es/typography/Title";
 import Spinner from "../Spinner/Spinner";
 
 export interface StageProps {
@@ -24,8 +25,8 @@ function Stage({ className, hasAnimation, isReady = true }: StageProps) {
       })}
     >
       <div className="stage__headline">
-        <h1>{t("slogan")}</h1>
-        <h4>{t("subSlogan")}</h4>
+        <Title level={1}>{t("slogan")}</Title>
+        <Title level={3}>{t("subSlogan")}</Title>
         <div className="logo" />
       </div>
       <Spinner className={clsx("stage__spinner", !hasAnimation && "hidden")} />

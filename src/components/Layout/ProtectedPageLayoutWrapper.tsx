@@ -2,17 +2,18 @@ import React from "react";
 import { Layout } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
-  FileOutlined,
-  LogoutOutlined,
+  // DesktopOutlined,
+  SettingOutlined,
   TeamOutlined,
-  UserOutlined,
-  BankOutlined,
+  // UserOutlined,
+  // BankOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import routePathNames from "../../appConfig";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import clearStore from "../../state/actions/clearStore";
+import CustomLogoutIcon from "../CustomIcons/Logout";
 
 const { Content, Sider } = Layout;
 
@@ -26,7 +27,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
 
   return (
     <Layout className="protectedLayout">
-      <Sider width={140}>
+      <Sider width={96}>
         <div className="logo" />
         <nav className="mainMenu">
           <ul>
@@ -45,7 +46,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                 to={routePathNames.themeSettings}
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
-                <FileOutlined className="menuIcon" />
+                <SettingOutlined className="menuIcon" />
                 <span>{t("settings.title")}</span>
               </NavLink>
             </li>
@@ -60,6 +61,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
               </NavLink>
             </li>
 
+            {/* later.....
             <li key="4" className="menuItem">
               <NavLink
                 to={routePathNames.tenants}
@@ -79,10 +81,11 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                 <span>{t("profile.title")}</span>
               </NavLink>
             </li>
+           */}
 
             <li key="6" className="menuItem">
               <button onClick={logout} type="button">
-                <LogoutOutlined className="menuIcon" />
+                <CustomLogoutIcon className="menuIcon" />
                 <span>{t("logout")}</span>
               </button>
             </li>
@@ -91,8 +94,8 @@ function ProtectedPageLayoutWrapper({ children }: any) {
       </Sider>
       <Layout>
         <SiteHeader />
-        <Content style={{ margin: "0 16px" }}>
-          <div style={{ padding: 24, minHeight: 360 }}>{children}</div>
+        <Content className="content">
+          <div className="contentInner">{children}</div>
         </Content>
         <SiteFooter />
       </Layout>

@@ -16,7 +16,7 @@ function PublicPageLayoutWrapper({
 }: PublicPageLayoutWrapperTypes) {
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Content className={clsx("content", className)}>{children}</Content>
+      <Content className={clsx("publicContent", className)}>{children}</Content>
       <SiteFooter />
     </Layout>
   );

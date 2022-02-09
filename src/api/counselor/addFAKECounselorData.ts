@@ -12,6 +12,7 @@ export const fakeCounselors = (counselorResponse: CounselorData[]) => {
     active: true,
     username: "john",
     agency: "Agentur 1",
+    key: "1",
   };
 
   const female: CounselorData = {
@@ -24,6 +25,7 @@ export const fakeCounselors = (counselorResponse: CounselorData[]) => {
     active: true,
     username: "jeanne",
     agency: "Agentur 2",
+    key: "2",
   };
 
   for (let i = 0; i < 10; i += 1) {
@@ -35,6 +37,7 @@ export const fakeCounselors = (counselorResponse: CounselorData[]) => {
             firstName: `${female.firstName} ${i}`,
             username: `${female.username}_${i}`,
             active: (i + 1) % 2 === 0,
+            key: `${i + 1}`,
           }
         : {
             ...male,
@@ -42,6 +45,7 @@ export const fakeCounselors = (counselorResponse: CounselorData[]) => {
             firstName: `${male.firstName} ${i}`,
             username: `${male.username}_${i}`,
             active: (i + 5) % 2 === 0,
+            key: `${i + 1}`,
           }
     );
     // more statements

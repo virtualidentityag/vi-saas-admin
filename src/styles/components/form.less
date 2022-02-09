@@ -1,0 +1,40 @@
+.protectedLayout,
+.ant-modal-root {
+  .ant-form-item-label {
+    padding: 0;
+
+    > label {
+      height: @form-item-label-height;
+      flex-direction: row-reverse;
+      align-items: flex-start;
+      justify-content: flex-end;
+
+      &.ant-form-item-required:not(.ant-form-item-required-mark-optional) {
+        &:before {
+          margin: 0 0 0 @spacing-xs;
+        }
+      }
+    }
+  }
+
+  input.ant-input {
+    padding: @spacing-xs 0;
+    border: none;
+    border-bottom: 1px solid @input-border-color;
+    border-radius: 0;
+  }
+
+  .desc {
+    color: @label-color;
+    font-size: @fontSize-sm;
+  }
+}
+
+.publicContent,
+.protectedLayout,
+.ant-modal-root {
+  button:not(.ant-btn-link) {
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+}

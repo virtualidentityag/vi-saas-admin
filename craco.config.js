@@ -1,5 +1,5 @@
 const {ESLINT_MODES} = require('@craco/craco');
-const CracoLessPlugin = require('craco-less');
+const CracoLessPlugin = require('craco-less-fix');
 const isDev = true; // process.env.NODE_ENV === 'development';
 
 

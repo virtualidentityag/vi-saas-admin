@@ -4,21 +4,10 @@ import {
   SaveOutlined,
   UserDeleteOutlined,
 } from "@ant-design/icons";
-import {
-  Card,
-  Avatar,
-  Form,
-  Input,
-  Button,
-  message,
-  Modal,
-  FormInstance,
-} from "antd";
+import { Form, Input, Button, message, Modal, FormInstance } from "antd";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { CounselorData } from "../../types/counselor";
-
-const { Meta } = Card;
 
 export const defaultCounselor: CounselorData = {
   lastName: "",
@@ -30,6 +19,7 @@ export const defaultCounselor: CounselorData = {
   phone: "",
   agency: "",
   username: "",
+  key: "",
 };
 
 interface Props {
@@ -89,36 +79,6 @@ function Counselor({
     });
   };
 
-  const description = (
-    <>
-      <Form.Item name="id" hidden />
-      <Form.Item label={t("email")} name="email" rules={[{ required: true }]}>
-        {editing ? <Input /> : email}
-      </Form.Item>
-      {/* <Form.Item label={t("phone")} name="phone">
-        {editing ? <Input /> : phone}
-      </Form.Item>
-      <Form.Item label={t("counselor.agency")} name="agency">
-        {editing ? (
-          <Select>
-            <Option value="Agentur 1">Agentur 1</Option>
-            <Option value="Agentur 2">Agentur 2</Option>
-            <Option value="Agentur 3">Agentur 3</Option>
-          </Select>
-        ) : (
-          agency
-        )}
-      </Form.Item> */}
-      <Form.Item
-        label={t("counselor.username")}
-        name="username"
-        rules={[{ required: true }]}
-      >
-        {editing ? <Input /> : username}
-      </Form.Item>
-    </>
-  );
-
   return (
     <>
       <Form
@@ -126,10 +86,9 @@ function Counselor({
         onFinish={onFormSubmit}
         onFinishFailed={onFinishFailed}
         size="small"
-        labelCol={{ flex: "110px" }}
         labelAlign="left"
         labelWrap
-        wrapperCol={{ flex: 1 }}
+        layout="vertical"
         initialValues={{
           firstName,
           lastName,
@@ -140,65 +99,89 @@ function Counselor({
           id,
         }}
       >
-        <Card
-          className={clsx(
-            "counselor",
-            !active && "inactive",
-            editing && "editMode"
-          )}
-          actions={[
-            !isInAddMode && editing ? (
-              <Button htmlType="submit" type="text" icon={<SaveOutlined />}>
-                {t("save")}
-              </Button>
-            ) : (
-              !isInAddMode && (
-                <Button
-                  onClick={toggleEditing}
-                  type="text"
-                  key="edit"
-                  icon={<FormOutlined />}
-                >
-                  {t("edit")}
-                </Button>
-              )
-            ),
+        <div className={clsx("counselor", !active && "inactive")}>
+          <Form.Item
+            label={t("firstName")}
+            name="firstName"
+            rules={[{ required: true }]}
+          >
+            <Input placeholder={t("placeholder.firstName")} />
+          </Form.Item>
+
+          <Form.Item
+            label={t("lastName")}
+            name="lastName"
+            rules={[{ required: true }]}
+          >
+            <Input placeholder={t("placeholder.lastName")} />
+          </Form.Item>
+
+          <Form.Item name="id" hidden />
+          <Form.Item
+            label={t("email")}
+            name="email"
+            rules={[{ required: true }]}
+          >
+            <Input placeholder={t("placeholder.email")} />
+          </Form.Item>
+          {/* <Form.Item label={t("phone")} name="phone">
+        {editing ? <Input /> : phone}
+      </Form.Item>
+      <Form.Item label={t("agency")} name="agency">
+        {editing ? (
+          <Select>
+            <Option value="Agentur 1">Agentur 1</Option>
+            <Option value="Agentur 2">Agentur 2</Option>
+            <Option value="Agentur 3">Agentur 3</Option>
+          </Select>
+        ) : (
+          agency
+        )}
+      </Form.Item> */}
+          <Form.Item
+            label={t("counselor.username")}
+            name="username"
+            rules={[{ required: true }]}
+          >
+            <Input placeholder={t("placeholder.username")} />
+          </Form.Item>
+
+          {!isInAddMode && editing ? (
+            <Button htmlType="submit" type="text" icon={<SaveOutlined />}>
+              {t("save")}
+            </Button>
+          ) : (
             !isInAddMode && (
               <Button
-                onClick={() => setIsModalVisible(true)}
+                onClick={toggleEditing}
                 type="text"
-                key="delete"
-                icon={<UserDeleteOutlined />}
+                key="edit"
+                icon={<FormOutlined />}
               >
-                {t("delete")}
+                {t("edit")}
               </Button>
-            ),
-          ]}
-        >
-          <Meta
-            avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-            title={
-              <>
-                <Form.Item name="firstName" rules={[{ required: true }]}>
-                  <Input />
-                </Form.Item>
-                <span className="text">{firstName}</span>
-
-                <Form.Item name="lastName" rules={[{ required: true }]}>
-                  <Input />
-                </Form.Item>
-                <span className="text">{lastName}</span>
-              </>
-            }
-            description={description}
-          />
-        </Card>
+            )
+          )}
+          {!isInAddMode && (
+            <Button
+              onClick={() => setIsModalVisible(true)}
+              type="text"
+              key="delete"
+              icon={<UserDeleteOutlined />}
+            >
+              {t("delete")}
+            </Button>
+          )}
+        </div>
       </Form>
       <Modal
         title={t("counselor.modal.headline.delete")}
         visible={isModalVisible}
         onOk={handleOnDelete}
         onCancel={handleModalCancel}
+        cancelText={t("btn.cancel")}
+        closable={false}
+        centered
       >
         <p>{t("counselor.modal.delete.text")}</p>
       </Modal>

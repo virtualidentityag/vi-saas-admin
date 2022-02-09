@@ -31,11 +31,10 @@
     "valid-jsdoc": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "no-console": "off",
     "react/function-component-definition": [
       2,
       {
-        "namedComponents": "function-declaration",
+        "namedComponents": "function-declaration"
       }
     ]
   },
@@ -43,12 +42,20 @@
     "react": {
       "version": "latest"
     },
-   " import/resolver": {
-      "node": { 
-                "extensions": [".js", ".jsx", ".ts", ".tsx"], 
-                "moduleDirectory": ["node_modules", "src/"]
-      },
-    },
-  },
+    " import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ],
+        "moduleDirectory": [
+          "node_modules",
+          "src/"
+        ]
+      }
+    }
+  }
 }
 

@@ -2,8 +2,9 @@
  * routes
  */
 const routePathNames = {
-  login: "admin/login",
-  themeSettings: "admin/theme-settings",
+  root: "/admin/",
+  login: "/admin/login",
+  themeSettings: "/admin/theme-settings",
   counselors: "/admin/berater/",
   counselorProfileEdit: "/admin/berater/bearbeiten/",
   counselorProfileAdd: "/admin/benutzer/anlegen/",

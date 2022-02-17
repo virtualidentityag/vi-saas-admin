@@ -22,7 +22,12 @@ function EditableTable({
 
   return (
     <>
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleBtnAdd}>
+      <Button
+        className="mb-m"
+        type="primary"
+        icon={<PlusOutlined />}
+        onClick={handleBtnAdd}
+      >
         {t("new")}
       </Button>
       <Form form={form} component={false}>
@@ -33,7 +38,7 @@ function EditableTable({
             },
           }}
           loading={isLoading}
-          className="tenantsTable"
+          className="editableTable"
           dataSource={source}
           columns={columns}
           scroll={{

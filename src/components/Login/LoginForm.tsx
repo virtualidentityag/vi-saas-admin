@@ -11,6 +11,7 @@ import requestCatchHandler from "../../api/requestCatchHandler";
 import getFAKETenantData from "../../api/tenant/getFAKETenantData";
 import CustomLockIcon from "../CustomIcons/Lock";
 import CustomPersonIcon from "../CustomIcons/Person";
+import routePathNames from "../../appConfig";
 
 function LoginForm() {
   const { t } = useTranslation();
@@ -126,9 +127,23 @@ function LoginForm() {
             md: { offset: 2, span: 8 },
           }}
         >
-          <Button type="link" className="forgotPW">
+          {/*
+           * ATTENTION: this link will not work on local maschines.
+           * to make them work on LIVE/DEV they link to a route "outside / above" the scope of of this admin console,
+           * but on the same host.
+           * we have 2 seperated repos / applications
+           * example:
+           * https://tenant1.onlineberatung.net/impressum is the Imprint page
+           * https://tenant1.onlineberatung.net/admin/settings ist the admin console settings page
+           *
+           */}
+          <a
+            href={routePathNames.loginResetPasswordLink}
+            type="link"
+            className="forgotPW"
+          >
             {t("password.forgot")}
-          </Button>
+          </a>
         </Form.Item>
         <Form.Item
           wrapperCol={{

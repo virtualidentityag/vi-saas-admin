@@ -27,6 +27,8 @@ const getTenantData = (
     },
     content: {
       impressum: "<p>Dies ist ein leeres Impressum</p>",
+      privacy: "Datenschutz",
+      termsAndConditions: "Nutzungsbedingungen",
       claim: "Wir tun was wir können",
     },
   };

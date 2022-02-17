@@ -1,7 +1,9 @@
 .protectedLayout {
+  padding-bottom: @mobileNavHeight;
   .ant-layout-sider {
     background-color: @primary-color;
     z-index: 80;
+    height: @mobileNavHeight;
   }
 
   .mainMenu {
@@ -22,10 +24,6 @@
     .menuItem {
       display: block;
 
-      &:last-child {
-        display: none;
-      }
-
       a,
       button {
         display: flex;
@@ -38,9 +36,7 @@
         font-size: @fontSize-s;
         justify-items: center;
         text-align: center;
-      }
-
-      a {
+        cursor: pointer;
         opacity: 0.6;
 
         &.active {
@@ -52,13 +48,12 @@
 
   .contentInner {
     max-width: @screen-xxl;
-    padding: @spacing-m;
+    margin: @spacing-m;
   }
 
   h4.formHeadline {
     color: @primary-color;
     font-size: @fontSize-sm;
-    font-weight: 700;
     line-height: @lineHeight-sm;
     text-transform: uppercase;
   }
@@ -79,10 +74,11 @@
 
 @media screen and (min-width: @screen-md) {
   .protectedLayout {
-    height: 100vh;
-
+    padding-bottom: 0;
     .ant-layout-sider {
-      position: static;
+      position: sticky;
+      height: 100vh;
+      top: 0;
       left: 0;
       width: 140px;
       flex: 0 0 140px;
@@ -118,7 +114,7 @@
 
     .content {
       overflow: auto;
-      padding: @spacing-ml;
+      margin: @spacing-ml;
     }
   }
 }

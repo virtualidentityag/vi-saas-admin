@@ -3,9 +3,9 @@ name: FE build Admin console
 on:
   push:
     branches:
-      - '**'
+      - "**"
     tags-ignore:
-      - 'dockerImage.v.*'
+      - "dockerImage.v.*"
 
 jobs:
   build:

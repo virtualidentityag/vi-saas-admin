@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Form, message } from "antd";
 
 import { useTranslation } from "react-i18next";
+import Title from "antd/es/typography/Title";
 import getCancelTokenSource from "../../api/getCancelTokenSource";
 
 import getFAKECouselorData from "../../api/counselor/getFAKECounselorData";
@@ -33,7 +34,7 @@ function CounselorList() {
         setIsLoading(false);
         setCounselors(result);
         message.success({
-          content: t("counselor.modal.message.add"),
+          content: t("message.counselor.add"),
           duration: 3,
         });
         setIsModalCreateVisible(false);
@@ -56,7 +57,7 @@ function CounselorList() {
         setIsLoading(false);
         setCounselors(result);
         message.success({
-          content: t("counselor.modal.message.update"),
+          content: t("message.counselor.update"),
           duration: 3,
         });
         setIsModalCreateVisible(false);
@@ -79,7 +80,7 @@ function CounselorList() {
         setIsLoading(false);
         setCounselors(result);
         message.success({
-          content: t("counselor.modal.message.delete"),
+          content: t("message.counselor.delete"),
           duration: 3,
         });
         setIsModalCreateVisible(false);
@@ -233,7 +234,7 @@ function CounselorList() {
 
   return (
     <>
-      <h2>{t("counselor.title")}</h2>
+      <Title level={3}>{t("counselor.title")}</Title>
       <p>{t("counselor.title.text")}</p>
       <EditableTable
         handleBtnAdd={handleCreateModal}

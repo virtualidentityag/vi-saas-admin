@@ -8,10 +8,22 @@
       flex-direction: row-reverse;
       align-items: flex-start;
       justify-content: flex-end;
+      display: flex;
 
       &.ant-form-item-required:not(.ant-form-item-required-mark-optional) {
         &:before {
           margin: 0 0 0 @spacing-xs;
+        }
+      }
+
+      .anticon {
+        margin-left: auto;
+        width: 24px;
+        height: 24px;
+
+        svg {
+          width: inherit;
+          height: inherit;
         }
       }
     }
@@ -36,5 +48,22 @@
   button:not(.ant-btn-link) {
     font-weight: 700;
     text-transform: uppercase;
+  }
+}
+
+
+.ant-btn-primary{
+  &:hover,
+  &:focus {
+    background-color: @primary-color-light;
+  }
+  &:active {
+    background-color: @primary-color-dark;
+    color: @white-50-opacity;
+  }
+  &:disabled {
+    background-color: @primary-color;
+    opacity: .3;
+    color: @white;
   }
 }

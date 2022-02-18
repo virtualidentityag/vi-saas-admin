@@ -4,6 +4,10 @@
 @import "components/index.less";
 @import "util/index.less";
 
+.root {
+  overflow: hidden;
+}
+
 h1 {
   font-size: @fontSize-xl;
   line-height: @lineHeight-xl;
@@ -24,10 +28,28 @@ h4 {
   line-height: @lineHeight-m;
 }
 
-.underline {
-  text-decoration: underline;
+h1, h2, h3, h4 {
+  &.ant-typography {
+    font-weight: 700;
+  }
 }
 
-.block {
-  display: block;
+
+.ant-popover {
+  &.ant-popover-placement-bottomRight {
+    .ant-popover-arrow {
+      right: 7px;
+    }
+  }
+
+  max-width: 350px;
+  .ant-popover-title {
+    font-weight: 700;
+    font-size: @fontSize-m;
+    border: none;
+    padding: @spacing-m @spacing-ml 0 @spacing-ml;
+  }
+  .ant-popover-inner-content {
+    padding: @spacing-s  @spacing-ml @spacing-m @spacing-ml;
+  }
 }

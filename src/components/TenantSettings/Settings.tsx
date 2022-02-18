@@ -1,4 +1,13 @@
-import { Button, Col, Form, Input, message, Row, Typography } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  message,
+  Popover,
+  Row,
+  Typography,
+} from "antd";
 
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,9 +22,10 @@ import editFAKETenantData from "../../api/tenant/editFAKETenantData";
 import getComplentaryColor from "../../utils/getComplentaryColor";
 
 import FileUploader from "../FileUploader/FileUploader";
+import CustomInfoIcon from "../CustomIcons/Info";
 
 const { Item } = Form;
-const { Text, Paragraph } = Typography;
+const { Paragraph } = Typography;
 
 function Settings() {
   const [form] = Form.useForm();
@@ -24,7 +34,7 @@ function Settings() {
   const { id, theming, name, subdomain, content, licensing } = tenantData;
   const dispatch = useDispatch();
   const { logo, favicon, primaryColor, secondaryColor } = theming;
-  const { impressum, claim } = content;
+  const { impressum, claim, privacy, termsAndConditions } = content;
   const { allowedNumberOfUsers } = licensing;
   const [isLoading, setIsLoading] = useState(false);
 
@@ -67,6 +77,8 @@ function Settings() {
       },
       content: {
         impressum: values.impressum.toString("html"),
+        privacy: values.privacy.toString("html"),
+        termsAndConditions: values.termsAndConditions.toString("html"),
         claim: values.claim,
       },
     };
@@ -130,6 +142,8 @@ function Settings() {
           primaryColor,
           secondaryColor,
           impressum,
+          termsAndConditions,
+          privacy,
           name,
           claim,
           allowedNumberOfUsers,
@@ -139,49 +153,49 @@ function Settings() {
           {t("save")}
         </Button>
         <Row gutter={40}>
-          <Col xs={12} md={6}>
+          <Col xs={12} lg={6}>
             <Title className="formHeadline mb-m" level={4}>
               {t("settings.subhead.personalisation")}
             </Title>
 
             <Item
               label={
-                <Title level={5}>
-                  {t("organisation.name") + t("and") + t("organisation.claim")}
-                </Title>
+                <>
+                  <Popover
+                    placement="bottomRight"
+                    content={t("settings.name.help")}
+                    title={t("notice")}
+                    trigger="hover"
+                  >
+                    <CustomInfoIcon />
+                  </Popover>
+                  <Title level={5}>
+                    {t("organisation.name") +
+                      t("and") +
+                      t("organisation.claim")}
+                  </Title>
+                </>
               }
               className="mb-xl"
             >
               <Paragraph className="mb-l desc">
                 {t("settings.name.howto")}
               </Paragraph>
-              <Row gutter={15}>
-                <Col xs={6} md={8} lg={8}>
-                  <Item
-                    label={t("organisation.name")}
-                    name="name"
-                    rules={[{ required: true }]}
-                  >
-                    <Input disabled={isLoading} placeholder={t("slogan")} />
-                  </Item>
-                  <Item
-                    label={t("organisation.claim")}
-                    name="claim"
-                    rules={[{ required: true }]}
-                  >
-                    <Input disabled={isLoading} placeholder={t("subSlogan")} />
-                  </Item>
-                </Col>
-                <Col xs={12} md={4} lg={4}>
-                  <Item label="&nbsp;">
-                    <Text strong className="desc">
-                      {t("notice")}
-                    </Text>
-                    <br />
-                    <Text className="desc">{t("settings.name.help")}</Text>
-                  </Item>
-                </Col>
-              </Row>
+
+              <Item
+                label={t("organisation.name")}
+                name="name"
+                rules={[{ required: true }]}
+              >
+                <Input disabled={isLoading} placeholder={t("slogan")} />
+              </Item>
+              <Item
+                label={t("organisation.claim")}
+                name="claim"
+                rules={[{ required: true }]}
+              >
+                <Input disabled={isLoading} placeholder={t("subSlogan")} />
+              </Item>
             </Item>
             <Item
               label={<Title level={5}>{t("imprint")}</Title>}
@@ -201,8 +215,9 @@ function Settings() {
             </Item>
             <Item
               label={<Title level={5}>{t("privacy")}</Title>}
-              name="impressum"
+              name="privacy"
               rules={[{ required: true }]}
+              className="mb-xl"
             >
               <Paragraph className="mb-sm desc">
                 {t("settings.privacy.howto")}
@@ -210,27 +225,58 @@ function Settings() {
 
               <RichTextEditor
                 onChange={setImprint}
-                value={impressum}
+                value={privacy}
                 placeholder={t("settings.privacy.placeholder")}
               />
             </Item>
+            <Item
+              label={<Title level={5}>{t("termsAndConditions")}</Title>}
+              name="termsAndConditions"
+              rules={[{ required: true }]}
+              className="mb-2xl"
+            >
+              <Paragraph className="mb-sm desc">
+                {t("settings.termsAndConditions.howto")}
+              </Paragraph>
+
+              <RichTextEditor
+                onChange={setImprint}
+                value={termsAndConditions}
+                placeholder={t("settings.termsAndConditions.placeholder")}
+              />
+            </Item>
           </Col>
-          <Col xs={12} md={6}>
+          <Col xs={12} lg={6}>
             <Title className="formHeadline mb-m" level={4}>
               {t("settings.subhead.view")}
             </Title>
             <Item
               label={
-                <Title level={5}>
-                  {t("organisation.logo") +
-                    t("and") +
-                    t("organisation.favicon")}
-                </Title>
+                <>
+                  <Popover
+                    placement="bottomRight"
+                    content={t("settings.images.help")}
+                    title={t("notice")}
+                    trigger="hover"
+                  >
+                    <CustomInfoIcon />
+                  </Popover>
+                  <Title level={5}>
+                    {t("organisation.logo") +
+                      t("and") +
+                      t("organisation.favicon")}
+                  </Title>
+                </>
               }
+              className="mb-xl"
             >
-              <Paragraph className="mb-l desc">
-                {t("settings.images.howto")}
-              </Paragraph>
+              <Row>
+                <Col>
+                  <Paragraph className="mb-l desc">
+                    {t("settings.images.howto")}
+                  </Paragraph>
+                </Col>
+              </Row>
               <Row gutter={15}>
                 <Col xs={6} md={5} lg={4}>
                   <Item
@@ -252,15 +298,6 @@ function Settings() {
                     className="block"
                   >
                     <FileUploader name="favicon" />
-                  </Item>
-                </Col>
-                <Col xs={12} lg={4}>
-                  <Item label="&nbsp;">
-                    <Text strong className="desc">
-                      {t("notice")}
-                    </Text>
-                    <br />
-                    <Text className="desc">{t("settings.images.help")}</Text>
                   </Item>
                 </Col>
               </Row>

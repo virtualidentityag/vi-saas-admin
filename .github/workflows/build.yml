@@ -27,7 +27,7 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
           eslint: true
-          eslint_dir: ./src
+          eslint_dir: ./
           eslint_extensions: js,ts,tsx
           prettier: true
       - name: test and build

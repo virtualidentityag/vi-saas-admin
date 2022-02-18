@@ -19,6 +19,8 @@ const initialState: TenantData = {
   },
   content: {
     impressum: "",
+    privacy: "",
+    termsAndConditions: "",
     claim: "",
   },
 };

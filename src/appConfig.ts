@@ -10,9 +10,11 @@ const routePathNames = {
   counselorProfileAdd: "/admin/benutzer/anlegen/",
   userProfile: "/admin/profil/",
   termsAndConditions: "/admin/agb",
-  imprint: "/admin/impressum",
-  privacy: "/admin/datenschutz",
+  imprint: "/impressum",
+  privacy: "/datenschutz",
   tenants: "/admin/organisationen",
+  loginResetPasswordLink:
+    "/auth/realms/caritas-online-beratung/login-actions/reset-credentials?client_id=account",
 };
 
 export default routePathNames;

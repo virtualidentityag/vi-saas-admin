@@ -4,8 +4,9 @@ import RichTextEditor, { EditorValue, ToolbarConfig } from "react-rte";
 const toolbarConfig: ToolbarConfig = {
   // Optionally specify the groups to display (displayed in the order listed).
   display: [
-    "INLINE_STYLE_BUTTONS",
     "BLOCK_TYPE_DROPDOWN",
+
+    "INLINE_STYLE_BUTTONS",
     "BLOCK_TYPE_BUTTONS",
     "LINK_BUTTONS",
   ],

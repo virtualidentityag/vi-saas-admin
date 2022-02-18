@@ -3,6 +3,7 @@ import { Table, Button, message } from "antd";
 import moment from "moment";
 import { PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
+import Title from "antd/es/typography/Title";
 import getCancelTokenSource from "../../api/getCancelTokenSource";
 import { TenantData } from "../../types/tenant";
 import getFakeMultipleTenants from "../../api/tenant/getFakeMultipleTenants";
@@ -77,7 +78,7 @@ function TenantsList() {
 
   return (
     <>
-      <h2>{t("organisations.title")}</h2>
+      <Title level={3}>{t("organisations.title")}</Title>
       <p>{t("organisations.title.text")}</p>
       <Button type="primary" icon={<PlusOutlined />}>
         {t("new")}

@@ -14,7 +14,7 @@ function EditButtons({
   edit,
 }: EditButtonsProps) {
   return editable ? (
-    <span>
+    <div className="editBtnWrapper">
       <button
         className="editIcon"
         type="button"
@@ -25,7 +25,7 @@ function EditButtons({
       <button className="editIcon" type="button" onClick={cancel}>
         <CloseOutlined />
       </button>
-    </span>
+    </div>
   ) : (
     <div className="editBtnWrapper">
       <button

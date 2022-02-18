@@ -24,10 +24,12 @@ function Stage({ className, hasAnimation, isReady = true }: StageProps) {
         "stage--ready": isReady,
       })}
     >
+      <div className="logo">
+        <img src="/Logo-Connecta.png" alt="Logo Connecta" />
+      </div>
       <div className="stage__headline">
         <Title level={1}>{t("slogan")}</Title>
         <Title level={3}>{t("subSlogan")}</Title>
-        <div className="logo" />
       </div>
       <Spinner className={clsx("stage__spinner", !hasAnimation && "hidden")} />
     </div>

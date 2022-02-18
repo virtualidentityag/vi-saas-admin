@@ -14,15 +14,16 @@ jobs:
             - name: set env
               run: echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
             - uses: actions/checkout@v1
-            - uses: actions/setup-node@v1
+            - uses: actions/setup-node@v2
               with:
                   node-version: 14.18.3
             - run: npm i
-            - name: test and build
-              run: |
-                  echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
-                  echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
-                  npm run build
+              env:
+                  GITHUB_TOKEN: ${{ secrets.github_token }}
+            - name: build
+              run: npm run build
+              env:
+                  GITHUB_TOKEN: ${{ secrets.github_token }}
             - uses: actions/upload-artifact@v2
               with:
                   name: buildfiles
@@ -37,11 +38,16 @@ jobs:
               uses: actions/download-artifact@v2
               with:
                   name: buildfiles
+            - name: Prepare Docker variables
+              run: |
+                  echo "DOCKER_REGISTRY=$(echo "docker.pkg.github.com/${{ github.repository }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
+                  echo "DOCKER_IMAGE=$(echo "${{ github.repository }}" | awk -F / '{print tolower($2)}')" >> $GITHUB_ENV
+              shell: bash
             - name: Push to GitHub Packages
               uses: docker/build-push-action@v1.1.1
               with:
                   username: ${{ secrets.GH_PACKAGE_RELEASE_USER }}
                   password: ${{ secrets.GH_PACKAGE_RELEASE_TOKEN }}
-                  registry: docker.pkg.github.com
-                  repository: virtualidentityag/vi-saas-admin/frontend-image
+                  registry: ${{ env.DOCKER_REGISTRY }}
+                  repository: ${{ env.DOCKER_IMAGE }}
                   tag_with_ref: true

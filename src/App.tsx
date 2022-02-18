@@ -13,7 +13,7 @@ function App() {
   return (
     <ProtectedPageLayoutWrapper>
       <Routes>
-        {/*<Route path="/" element={<Dashboard />} />*/}
+        {/* later <Route path="/" element={<Dashboard />} /> */}
         <Route
           path={routePathNames.themeSettings}
           element={<TenantSettings />}

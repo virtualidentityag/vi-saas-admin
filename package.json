@@ -50,7 +50,8 @@
     "lint:css": "stylelint --fix \"src/**/*.(s(c|a)ss|css|less)\"",
     "lint:js": "eslint",
     "lint:formatting": "prettier . --write --ignore-unknown --check",
-    "test:integration": "cypress open"
+    "test:integration": "cypress open",
+    "test:integration:cli": "cypress run"
   },
   "eslintConfig": {
     "extends": [

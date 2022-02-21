@@ -16,7 +16,7 @@ function EditButtons({
   return editable ? (
     <div className="editBtnWrapper">
       <button
-        className="editIcon"
+        className="editIcon saveIcon"
         type="button"
         onClick={() => handleEdit(record)}
       >
@@ -37,7 +37,7 @@ function EditButtons({
         <CustomPencilIcon />
       </button>
       <button
-        className="editIcon"
+        className="editIcon deletIcon"
         type="button"
         disabled={editingKey !== ""}
         onClick={() => {

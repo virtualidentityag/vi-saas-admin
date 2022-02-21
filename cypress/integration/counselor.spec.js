@@ -64,11 +64,11 @@ describe("Check Counselor page and delete Card/Counselor", function () {
   it("Check Delete Button removes 1 Card", function () {
     // will be fixed with real counselor Data
     // let countedForms;
-    cy.get("form")
-      .its("length")
-      .then((length) => {
+    cy.get("form").its("length");
+    /* .then((length) => {
         // countedForms = length;
       });
+       */
 
     cy.get("form")
       .eq(0)

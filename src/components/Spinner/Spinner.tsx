@@ -1,12 +1,12 @@
 import * as React from "react";
 import clsx from "clsx";
 
-interface SpinnerProps {
+export interface SpinnerProps {
   isDark?: boolean;
   className?: string;
 }
 
-function Spinner({ isDark, className }: SpinnerProps) {
+function Spinner({ isDark = false, className = "" }: SpinnerProps) {
   return (
     <div className={clsx("spinner", isDark && "dark", className)}>
       <div className="double-bounce1" />

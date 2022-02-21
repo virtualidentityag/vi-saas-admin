@@ -29,6 +29,7 @@
     "require-jsdoc": 0,
     "react/react-in-jsx-scope": "off",
     "valid-jsdoc": "off",
+    "react/jsx-fragments": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "react/function-component-definition": [

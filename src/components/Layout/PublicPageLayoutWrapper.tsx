@@ -5,14 +5,14 @@ import SiteFooter from "./SiteFooter";
 
 const { Content } = Layout;
 
-interface PublicPageLayoutWrapperTypes {
+export interface PublicPageLayoutWrapperTypes {
   className?: string;
   children: React.ReactNode;
 }
 
 function PublicPageLayoutWrapper({
   children,
-  className,
+  className = "",
 }: PublicPageLayoutWrapperTypes) {
   return (
     <Layout style={{ minHeight: "100vh" }}>

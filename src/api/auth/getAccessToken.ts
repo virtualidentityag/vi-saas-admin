@@ -7,13 +7,8 @@ const getAccessToken = async (username: string, password: string) =>
     .post(
       loginEndpoint,
       {
-        data: {
-          type: "access-tokens",
-          attributes: {
-            username,
-            password,
-          },
-        },
+        username,
+        password,
       },
       {
         headers: {

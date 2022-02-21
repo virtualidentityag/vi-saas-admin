@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import Title from "antd/es/typography/Title";
 import getCancelTokenSource from "../../api/getCancelTokenSource";
-import getFAKEAccessToken from "../../api/auth/getFAKEAccessToken";
+import getAccessToken from "../../api/auth/getAccessToken";
 import getFAKEUserData from "../../api/user/getFAKEUserData";
 import requestCatchHandler from "../../api/requestCatchHandler";
 import getFAKETenantData from "../../api/tenant/getFAKETenantData";
@@ -26,7 +26,7 @@ function LoginForm() {
   const onFinish = async (values: any) => {
     setPostLoading(true);
 
-    return getFAKEAccessToken(values.username, values.password)
+    return getAccessToken(values.username, values.password)
       .then((response) => {
         // store the access token data
         dispatch({
@@ -99,7 +99,6 @@ function LoginForm() {
           rules={[
             {
               required: true,
-              type: "email",
               message: t("message.form.login.username"),
             },
           ]}

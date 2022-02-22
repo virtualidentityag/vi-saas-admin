@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import Spinner from "../Spinner/Spinner";
+import Logo from "../../resources/img/Logo-Connecta.png";
 
 export interface StageProps {
   className?: string;
@@ -25,7 +26,7 @@ function Stage({ className, hasAnimation, isReady = true }: StageProps) {
       })}
     >
       <div className="logo">
-        <img src="/Logo-Connecta.png" alt="Logo Connecta" />
+        <img src={Logo} alt="Logo Connecta" />
       </div>
       <div className="stage__headline">
         <Title level={1}>{t("slogan")}</Title>

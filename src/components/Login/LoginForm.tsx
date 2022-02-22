@@ -150,10 +150,23 @@ function LoginForm() {
             xs: { offset: 0, span: 12 },
             md: { offset: 2, span: 8 },
           }}
+          shouldUpdate
         >
-          <Button block type="primary" htmlType="submit" loading={postLoading}>
-            {t("message.form.login.loginBtn")}
-          </Button>
+          {({ getFieldsValue }) => {
+            const { username, password } = getFieldsValue();
+            const formIsComplete = !!username && !!password;
+            return (
+              <Button
+                block
+                type="primary"
+                htmlType="submit"
+                loading={postLoading}
+                disabled={!formIsComplete}
+              >
+                {t("message.form.login.loginBtn")}
+              </Button>
+            );
+          }}
         </Form.Item>
       </Form>
       {/*

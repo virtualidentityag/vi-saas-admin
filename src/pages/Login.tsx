@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
-import { Col, Row } from "antd";
+import { Col, message, Row } from "antd";
+import { useTranslation } from "react-i18next";
 import isTokenExpired from "../utils/tokenExpires";
 import Stage from "../components/Login/Stage";
 import PublicPageLayoutWrapper from "../components/Layout/PublicPageLayoutWrapper";
@@ -18,17 +19,18 @@ function Login() {
   const { accessToken, expiresInMilliseconds } = useSelector(
     (state: any) => state.auth
   );
-  const { id: userId } = useSelector((state: any) => state.userData);
+  const { id: tenantId } = useSelector((state: any) => state.tenantData);
   const [redirectUrl, setRedirectUrl] = useState("");
-
+  const { t } = useTranslation();
   /**
    * redirect user if authed
    */
   useEffect(() => {
-    if (accessToken && !isTokenExpired(expiresInMilliseconds) && userId) {
+    if (accessToken && !isTokenExpired(expiresInMilliseconds) && tenantId) {
+      message.success(t("message.success.auth.login"));
       setRedirectUrl(routePathNames.themeSettings);
     }
-  }, [accessToken, expiresInMilliseconds, userId]);
+  }, [accessToken, expiresInMilliseconds, tenantId]);
 
   return redirectUrl ? (
     <Navigate to={redirectUrl} />

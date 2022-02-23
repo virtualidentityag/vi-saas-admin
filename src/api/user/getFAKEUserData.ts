@@ -8,6 +8,8 @@ import { CancelTokenSource } from "axios";
  */
 const getFAKEUserData = (cancelTokenSource: CancelTokenSource) => {
   // retrieve customer
+  console.log("getFAKEUserData");
+
   const customerResponse = {
     firstName: "John",
     id: 1,

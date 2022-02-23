@@ -1,36 +1,20 @@
-import { CancelTokenSource } from "axios";
-import axiosWithAuth from "../axiosWithAuth";
-import { counselorEndpoint } from "../endpoints";
-import requestCatchHandler from "../requestCatchHandler";
+import { counselorEndpoint } from "../../appConfig";
+
+import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 
 /**
  * retrieve all needed counselor data
- * @param cancelTokenSource {CancelTokenSource}
- * @return {Promise<AxiosResponse<any>>}
+ * @return {Promise}
  */
-const getCounselorData = (cancelTokenSource: CancelTokenSource) => {
+const getCounselorData = () => {
   // retrieve Counselor
-  return axiosWithAuth()
-    .get(counselorEndpoint, {
-      cancelToken: cancelTokenSource.token,
-    })
-    .then((response: any) => {
-      if (
-        !response?.data?.data ||
-        !response?.data?.included ||
-        response.status > 201
-      ) {
-        return [];
-      }
-      const data = response;
 
-      if (data) {
-        return data;
-      }
-
-      return [{}];
-    })
-    .catch(requestCatchHandler);
+  return fetchData({
+    url: counselorEndpoint,
+    method: FETCH_METHODS.GET,
+    skipAuth: false,
+    responseHandling: [FETCH_ERRORS.CATCH_ALL],
+  });
 };
 
 export default getCounselorData;

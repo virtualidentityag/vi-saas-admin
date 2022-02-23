@@ -1,20 +1,22 @@
-import { CancelTokenSource } from "axios";
-import axiosWithAuth from "../axiosWithAuth";
-import { customerEndpoint } from "../endpoints";
+import { customerEndpoint } from "../../appConfig";
 
 import storeDispatch from "../../state/actions/storeDispatch";
+import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 
 /**
  * retrieve all needed user data and store them
  * this function mimics a default response to fail gracefully
  * and do not hinder the user
- * @param cancelTokenSource {CancelTokenSource}
  */
-const getUserData = (cancelTokenSource: CancelTokenSource) => {
+const getUserData = () => {
   // retrieve customer
-  const customerResponse = axiosWithAuth().get(customerEndpoint, {
-    cancelToken: cancelTokenSource.token,
+  const customerResponse = fetchData({
+    url: customerEndpoint,
+    method: FETCH_METHODS.GET,
+    skipAuth: false,
+    responseHandling: [FETCH_ERRORS.CATCH_ALL],
   });
+
   customerResponse.then((response: any) => {
     const { firstName, id, lastName, email, gender, salutation, phone } =
       response.data;

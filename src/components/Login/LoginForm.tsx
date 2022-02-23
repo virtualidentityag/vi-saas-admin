@@ -4,11 +4,10 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import Title from "antd/es/typography/Title";
-import getCancelTokenSource from "../../api/getCancelTokenSource";
 import getAccessToken from "../../api/auth/getAccessToken";
-import getFAKEUserData from "../../api/user/getFAKEUserData";
+
 import requestCatchHandler from "../../api/requestCatchHandler";
-import getFAKETenantData from "../../api/tenant/getFAKETenantData";
+import getTenantData from "../../api/tenant/getTenantData";
 import CustomLockIcon from "../CustomIcons/Lock";
 import CustomPersonIcon from "../CustomIcons/Person";
 import routePathNames from "../../appConfig";
@@ -19,49 +18,38 @@ function LoginForm() {
   const dispatch = useDispatch();
   const [postLoading, setPostLoading] = useState(false);
 
-  // cancelToken for consistency, but you do not want to cancel those calls
-  const cancelTokenSource = getCancelTokenSource();
-
   // Function gets fired on Form Submit
   const onFinish = async (values: any) => {
     setPostLoading(true);
 
-    return getAccessToken(values.username, values.password)
-      .then((response) => {
-        // store the access token data
-        dispatch({
-          type: "auth/set-token",
-          payload: response,
-        });
-      })
-      .then(() => getFAKEUserData(cancelTokenSource))
-      .then((response) => {
-        // store the access token data
-        dispatch({
-          type: "user/set-data",
-          payload: response,
-        });
-        return response.tenantId;
-      })
-      .then((response) => getFAKETenantData(response, cancelTokenSource))
-      .then((response) => {
+    return (
+      getAccessToken(values.username, values.password)
+        .then((response) => {
+          // store the access token data
+          dispatch({
+            type: "auth/set-token",
+            payload: response,
+          });
+          console.log("auth", response);
+          return response;
+        })
+        .then((response) => getTenantData(response))
+        /* .then((response) => {
         // store the access token data
         dispatch({
           type: "tenant/set-data",
           payload: response,
         });
-      })
-      .then(() => {
-        message.success(t("message.success.auth.login"));
-      })
-      .catch((error) => {
-        setPostLoading(false);
-        if (!axios.isCancel(error)) {
-          message.error(t("message.error.auth.login"));
-        }
+      }) */
+        .catch((error) => {
+          setPostLoading(false);
+          if (!axios.isCancel(error)) {
+            message.error(t("message.error.auth.login"));
+          }
 
-        requestCatchHandler(error);
-      });
+          requestCatchHandler(error);
+        })
+    );
   };
 
   /* const changeLanguage = (lang: Languages) => {
@@ -127,7 +115,7 @@ function LoginForm() {
           }}
         >
           {/*
-           * ATTENTION: this link will not work on local maschines.
+           * ATTENTION: this link will not work on local const maschines.
            * to make them work on LIVE/DEV they link to a route "outside / above" the scope of of this admin console,
            * but on the same host.
            * we have 2 seperated repos / applications

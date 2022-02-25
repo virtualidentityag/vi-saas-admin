@@ -9,7 +9,7 @@
     "viewportHeight": 500,
     "viewportWidth": 700
   },
-  "baseUrl": "http://localhost:9000/admin",
+  "baseUrl": "http://localhost:3000/admin",
   "experimentalStudio": true,
   "env": {
     "userOne": "admin@adminpanel.de",

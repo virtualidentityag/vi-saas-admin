@@ -95,7 +95,6 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
       signal: controller.signal,
     });
 
-    console.log("fetch", req);
     fetch(req)
       .then((response) => {
         if (response.status === 200 || response.status === 201) {

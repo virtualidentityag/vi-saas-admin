@@ -11,8 +11,6 @@ import storeDispatch from "../../state/actions/storeDispatch";
  */
 const getTenantData = (tenant: LoginData) => {
   const parsedJWT = parseJWT(tenant.access_token || "");
-  console.log("JWT", parsedJWT);
-
   const tenantResponse = fetchData({
     url: `${tenantEndpoint}${parsedJWT.tenantId}`,
     method: FETCH_METHODS.GET,
@@ -21,21 +19,8 @@ const getTenantData = (tenant: LoginData) => {
   });
   tenantResponse.then((response: any) => {
     console.log("tenant response", response);
-    const { firstName, id, lastName, email, gender, salutation, phone } =
-      response.data;
-
-    if (response?.status !== 200) {
-      return Promise.reject();
-    }
-
     storeDispatch("tenant/set-data", {
-      firstName,
-      id,
-      lastName,
-      email,
-      gender,
-      salutation,
-      phone,
+      ...response,
     });
 
     return tenantResponse;

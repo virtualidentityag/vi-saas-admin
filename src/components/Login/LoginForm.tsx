@@ -22,34 +22,23 @@ function LoginForm() {
   const onFinish = async (values: any) => {
     setPostLoading(true);
 
-    return (
-      getAccessToken(values.username, values.password)
-        .then((response) => {
-          // store the access token data
-          dispatch({
-            type: "auth/set-token",
-            payload: response,
-          });
-          console.log("auth", response);
-          return response;
-        })
-        .then((response) => getTenantData(response))
-        /* .then((response) => {
+    return getAccessToken(values.username, values.password)
+      .then((response) => {
         // store the access token data
         dispatch({
-          type: "tenant/set-data",
+          type: "auth/set-token",
           payload: response,
         });
-      }) */
-        .catch((error) => {
-          setPostLoading(false);
-          if (!axios.isCancel(error)) {
-            message.error(t("message.error.auth.login"));
-          }
-
-          requestCatchHandler(error);
-        })
-    );
+        return response;
+      })
+      .then((response) => getTenantData(response))
+      .catch((error) => {
+        setPostLoading(false);
+        if (!axios.isCancel(error)) {
+          message.error(t("message.error.auth.login"));
+        }
+        requestCatchHandler(error);
+      });
   };
 
   /* const changeLanguage = (lang: Languages) => {

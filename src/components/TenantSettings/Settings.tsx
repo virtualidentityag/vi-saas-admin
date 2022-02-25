@@ -17,12 +17,12 @@ import Title from "antd/es/typography/Title";
 import ColorSelector from "../ColorSelector/ColorSelector";
 import RichTextEditor from "../RichText/RichTextEditor";
 
-import getCancelTokenSource from "../../api/getCancelTokenSource";
-import editFAKETenantData from "../../api/tenant/editFAKETenantData";
 import getComplentaryColor from "../../utils/getComplentaryColor";
 
-import FileUploader from "../FileUploader/FileUploader";
 import CustomInfoIcon from "../CustomIcons/Info";
+import editTenantData from "../../api/tenant/editTenantData";
+import FileUploader from "../FileUploader/FileUploader-NEW";
+import getBase64 from "../../utils/getBase64";
 
 const { Item } = Form;
 const { Paragraph } = Typography;
@@ -37,16 +37,19 @@ function Settings() {
   const { impressum, claim, privacy, termsAndConditions } = content;
   const { allowedNumberOfUsers } = licensing;
   const [isLoading, setIsLoading] = useState(false);
+  const [logoUrl, setLogoUrl] = useState<string>("");
+  const [faviconUrl, setFaviconUrl] = useState<string>("");
+
+  const setComplementaryColor = (color: string) => {
+    form.setFieldsValue({ secondaryColor: getComplentaryColor(color) });
+  };
 
   const normFile = (e: any) => {
+    console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }
     return e && e.fileList;
-  };
-
-  const setComplementaryColor = (color: string) => {
-    form.setFieldsValue({ secondaryColor: getComplentaryColor(color) });
   };
 
   const onFormSubmit = (values: any) => {
@@ -59,19 +62,20 @@ function Settings() {
         duration: 3,
       });
     }
+    console.log("submit", values, logoUrl, faviconUrl);
 
     //  ToDo: outsource restructured data into Helper
     const changedTenantData = {
       id: values.id,
       name: values.name,
-      subdomain: values.subdomain,
+      subdomain: "happylife",
       updateDate: moment().format(), // ISO format
       licensing: {
-        allowedNumberOfUsers: values.allowedNumberOfUsers,
+        allowedNumberOfUsers: 5,
       },
       theming: {
-        logo: values.logo,
-        favicon: values.favicon,
+        logo: logoUrl,
+        favicon: faviconUrl,
         primaryColor: values.primaryColor,
         secondaryColor: values.secondaryColor,
       },
@@ -83,8 +87,7 @@ function Settings() {
       },
     };
 
-    const cancelTokenSource = getCancelTokenSource();
-    editFAKETenantData(changedTenantData, cancelTokenSource)
+    editTenantData(changedTenantData)
       .then((response: any) => {
         setIsLoading(false);
         dispatch({
@@ -149,7 +152,12 @@ function Settings() {
           allowedNumberOfUsers,
         }}
       >
-        <Button type="primary" size="large" className="mb-xl w-200">
+        <Button
+          htmlType="submit"
+          type="primary"
+          size="large"
+          className="mb-xl w-200"
+        >
           {t("save")}
         </Button>
         <Row gutter={40}>
@@ -279,26 +287,22 @@ function Settings() {
               </Row>
               <Row gutter={15}>
                 <Col xs={6} md={5} lg={4}>
-                  <Item
-                    label={t("organisation.logo")}
+                  <FileUploader
                     name="logo"
-                    valuePropName="fileList"
+                    label={t("organisation.logo")}
                     getValueFromEvent={normFile}
-                    className="block"
-                  >
-                    <FileUploader name="logo" />
-                  </Item>
+                    imageUrl={logoUrl}
+                    setImageUrl={setLogoUrl}
+                  />
                 </Col>
                 <Col xs={6} md={5} lg={4}>
-                  <Item
-                    label={t("organisation.favicon")}
+                  <FileUploader
                     name="favicon"
-                    valuePropName="fileList1"
+                    label={t("organisation.logo")}
                     getValueFromEvent={normFile}
-                    className="block"
-                  >
-                    <FileUploader name="favicon" />
-                  </Item>
+                    imageUrl={faviconUrl}
+                    setImageUrl={setFaviconUrl}
+                  />
                 </Col>
               </Row>
             </Item>

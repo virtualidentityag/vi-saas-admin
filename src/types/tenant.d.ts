@@ -1,10 +1,10 @@
 export interface TenantData {
   id: number | null;
   name: string;
-  subdomain: string;
+  subdomain?: string;
   createDate?: string;
-  updateDate: string;
-  licensing: {
+  updateDate?: string;
+  licensing?: {
     allowedNumberOfUsers: number | 0;
   };
   theming: {

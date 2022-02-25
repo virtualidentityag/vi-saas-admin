@@ -2,6 +2,7 @@ import { Upload, message } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { UploadFile } from "antd/es/upload/interface";
 import i18n from "../../i18n";
 
 function getBase64(
@@ -23,6 +24,7 @@ interface InfoProps {
 }
 
 function beforeUpload(file: FileProps) {
+  console.log("beforeupload", file);
   const { t } = i18n;
   const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
   if (!isJpgOrPng) {
@@ -32,7 +34,7 @@ function beforeUpload(file: FileProps) {
   if (!isLt2M) {
     message.error(t("message.error.upload.filesize"));
   }
-  return isJpgOrPng && isLt2M;
+  return false;
 }
 
 function FileUploader({ name }: { name: string }) {
@@ -41,36 +43,31 @@ function FileUploader({ name }: { name: string }) {
   const [imageUrl, setImageUrl] = useState<string | null>("");
 
   const handleChange = (info: InfoProps) => {
-    if (info.file.status === "uploading") {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === "done") {
-      // Get this url from response in real world.
-      getBase64(
-        info.file.originFileObj,
-        (imgUrl: string | ArrayBuffer | null) => {
-          setLoading(false);
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          setImageUrl(imgUrl);
-        }
-      );
-    }
+    console.log("upload", info);
+
+    // Get this url from response in real world.
+    getBase64(
+      info.file.originFileObj,
+      (imgUrl: string | ArrayBuffer | null) => {
+        setLoading(false);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        setImageUrl(imgUrl);
+      }
+    );
+
+    setLoading(true);
   };
 
   return (
     <Upload
-      name={name}
+      name="upload"
       listType="picture-card"
       className="fileUploader"
       showUploadList={false}
-      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-      beforeUpload={beforeUpload}
-      onChange={handleChange}
     >
       {imageUrl ? (
-        <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+        <img src={imageUrl} alt={name} style={{ width: "100%" }} />
       ) : (
         <div>
           {loading ? <LoadingOutlined /> : <PlusOutlined />}

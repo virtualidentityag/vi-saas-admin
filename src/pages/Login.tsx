@@ -30,7 +30,7 @@ function Login() {
       message.success(t("message.success.auth.login"));
       setRedirectUrl(routePathNames.themeSettings);
     }
-  }, [accessToken, expiresInMilliseconds, tenantId]);
+  }, [accessToken, expiresInMilliseconds, tenantId, t]);
 
   return redirectUrl ? (
     <Navigate to={redirectUrl} />

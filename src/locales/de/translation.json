@@ -30,6 +30,8 @@
   "message.counselor.update": "Berater wurde aktualisiert.",
   "message.counselor.delete": "Berater wurde gelöscht.",
   "message.counselor.add": "Berater wurde hinzugefügt.",
+  "message.success.setting.update": "Setting wurden aktualisiert!",
+  "message.error.setting.update": "Settings wurden NICHT aktualisiert!",
   "and": " und ",
   "btn.upload": "Hinzufügen",
   "btn.cancel": "Abbrechen",

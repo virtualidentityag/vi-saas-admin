@@ -6,8 +6,8 @@ import storeDispatch from "../../state/actions/storeDispatch";
 
 /**
  * retrieve all needed tenant data
- * @param tenantId {string}
- * @return {Promise<AxiosResponse<any>>}
+ * @param tenant {LoginData}
+ * @return data
  */
 const getTenantData = (tenant: LoginData) => {
   const parsedJWT = parseJWT(tenant.access_token || "");
@@ -18,7 +18,6 @@ const getTenantData = (tenant: LoginData) => {
     responseHandling: [FETCH_ERRORS.CATCH_ALL],
   });
   tenantResponse.then((response: any) => {
-    console.log("tenant response", response);
     storeDispatch("tenant/set-data", {
       ...response,
     });

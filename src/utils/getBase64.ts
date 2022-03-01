@@ -4,7 +4,6 @@ const getBase64 = (
 ) => {
   const reader = new FileReader();
   reader.addEventListener("load", () => callback(reader.result));
-  console.log("getBAse64");
   reader.readAsDataURL(img as Blob);
 };
 

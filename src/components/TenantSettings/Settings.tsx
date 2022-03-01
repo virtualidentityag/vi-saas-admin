@@ -10,7 +10,7 @@ import {
 } from "antd";
 
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
@@ -21,8 +21,8 @@ import getComplentaryColor from "../../utils/getComplentaryColor";
 
 import CustomInfoIcon from "../CustomIcons/Info";
 import editTenantData from "../../api/tenant/editTenantData";
-import FileUploader from "../FileUploader/FileUploader-NEW";
-import getBase64 from "../../utils/getBase64";
+import FileUploader from "../FileUploader/FileUploader";
+import decode from "../../utils/decodeImageFiles";
 
 const { Item } = Form;
 const { Paragraph } = Typography;
@@ -32,20 +32,18 @@ function Settings() {
   const { t } = useTranslation();
   const { tenantData } = useSelector((state: any) => state);
   const { id, theming, name, subdomain, content, licensing } = tenantData;
-  const dispatch = useDispatch();
   const { logo, favicon, primaryColor, secondaryColor } = theming;
   const { impressum, claim, privacy, termsAndConditions } = content;
   const { allowedNumberOfUsers } = licensing;
   const [isLoading, setIsLoading] = useState(false);
-  const [logoUrl, setLogoUrl] = useState<string>("");
-  const [faviconUrl, setFaviconUrl] = useState<string>("");
+  const [logoUrl, setLogoUrl] = useState<string>(decode(logo) || "");
+  const [faviconUrl, setFaviconUrl] = useState<string>(decode(favicon) || "");
 
   const setComplementaryColor = (color: string) => {
     form.setFieldsValue({ secondaryColor: getComplentaryColor(color) });
   };
 
   const normFile = (e: any) => {
-    console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -62,8 +60,6 @@ function Settings() {
         duration: 3,
       });
     }
-    console.log("submit", values, logoUrl, faviconUrl);
-
     //  ToDo: outsource restructured data into Helper
     const changedTenantData = {
       id: values.id,
@@ -88,14 +84,10 @@ function Settings() {
     };
 
     editTenantData(changedTenantData)
-      .then((response: any) => {
+      .then(() => {
         setIsLoading(false);
-        dispatch({
-          type: "tenant/set-data",
-          payload: response,
-        });
         message.success({
-          content: `Setting wurden aktualisiert!`,
+          content: t("message.success.setting.update"),
           duration: 3,
         });
       })
@@ -111,7 +103,7 @@ function Settings() {
 
   const onFinishFailed = () => {
     message.error({
-      content: `Settings wurden NICHT aktualisiert!`,
+      content: t("message.error.setting.update"),
       duration: 3,
     });
   };
@@ -160,6 +152,7 @@ function Settings() {
         >
           {t("save")}
         </Button>
+
         <Row gutter={40}>
           <Col xs={12} lg={6}>
             <Title className="formHeadline mb-m" level={4}>
@@ -298,7 +291,7 @@ function Settings() {
                 <Col xs={6} md={5} lg={4}>
                   <FileUploader
                     name="favicon"
-                    label={t("organisation.logo")}
+                    label={t("organisation.favicon")}
                     getValueFromEvent={normFile}
                     imageUrl={faviconUrl}
                     setImageUrl={setFaviconUrl}

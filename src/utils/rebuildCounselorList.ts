@@ -10,7 +10,8 @@ function rebuildCounselorsList(list: any) {
     if (counselor.id) {
       getAgencyData(counselor.id)
         .then((result: any) => {
-          counselor.agency = result;
+          // eslint-disable-next-line no-underscore-dangle
+          counselor.agency = result._embedded;
         })
         .catch();
     }

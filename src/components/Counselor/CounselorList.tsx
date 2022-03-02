@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import getCancelTokenSource from "../../api/getCancelTokenSource";
 
-import getFAKECouselorData from "../../api/counselor/getFAKECounselorData";
+import getCouselorData from "../../api/counselor/getCounselorData";
 import { CounselorData } from "../../types/counselor";
 import addFAKECouselorData from "../../api/counselor/addFAKECounselorData";
 import editFAKECouselorData from "../../api/counselor/editFAKECounselorData";
@@ -14,10 +14,13 @@ import { defaultCounselor } from "./Counselor";
 import ModalForm from "./ModalForm";
 import EditButtons from "../EditableTable/EditButtons";
 import EditableTable from "../EditableTable/EditableTable";
+import rebuildCounselorList from "../../utils/rebuildCounselorList";
+import getTenantData from "../../api/tenant/getTenantData";
 
 function CounselorList() {
   const { t } = useTranslation();
   const [counselors, setCounselors] = useState([]);
+  const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [editingKey, setEditingKey] = useState("");
   const isEditing = (record: CounselorData) => record.key === editingKey;
@@ -114,10 +117,14 @@ function CounselorList() {
 
   useEffect(() => {
     setIsLoading(true);
-    const cancelTokenSource = getCancelTokenSource();
-    getFAKECouselorData(cancelTokenSource)
+    getCouselorData(page.toString())
+      .then((result) => {
+        // eslint-disable-next-line no-underscore-dangle
+        return rebuildCounselorList(result._embedded);
+      })
       .then((result: any) => {
         setIsLoading(false);
+        console.log(result);
         setCounselors(result);
       })
       .catch(() => {
@@ -127,10 +134,6 @@ function CounselorList() {
           duration: 3,
         });
       });
-
-    return () => {
-      cancelTokenSource.cancel();
-    };
   }, [t]);
 
   const edit = (record: CounselorData) => {
@@ -143,22 +146,22 @@ function CounselorList() {
 
   const columns: any[] = [
     {
-      title: t("firstName"),
-      dataIndex: "firstName",
-      key: "firstName",
+      title: t("firstname"),
+      dataIndex: "firstname",
+      key: "firstname",
       sorter: (a: CounselorData, b: CounselorData) =>
-        a.firstName.localeCompare(b.firstName),
+        a.firstname.localeCompare(b.firstname),
       width: 100,
       ellipsis: true,
       fixed: "left",
       editable: true,
     },
     {
-      title: t("lastName"),
-      dataIndex: "lastName",
-      key: "lastName",
+      title: t("lastname"),
+      dataIndex: "lastname",
+      key: "lastname",
       sorter: (a: CounselorData, b: CounselorData) =>
-        a.lastName.localeCompare(b.lastName),
+        a.lastname.localeCompare(b.lastname),
       width: 100,
       ellipsis: true,
       fixed: "left",
@@ -246,6 +249,8 @@ function CounselorList() {
         handleDeleteModalText={t("counselor.modal.delete.text")}
         handleOnDelete={handleOnDelete}
         isDeleteModalVisible={isModalDeleteVisible}
+        handlePagination={setPage}
+        page={page}
         form={form}
       />
       <ModalForm

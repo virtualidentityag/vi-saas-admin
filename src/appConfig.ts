@@ -20,8 +20,8 @@ export const XHRheader = { AcceptLanguage: "de" };
 export const loginEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/token`;
 export const logoutEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/logout`;
 export const tenantEndpoint = `${mainURL}/service/tenant/`;
+export const counselorEndpoint = `${mainURL}/service/useradmin/consultants`;
 export const customerEndpoint = `${mainURL}/customers`;
-export const counselorEndpoint = `${mainURL}/counselors`;
 
 /*
  * routes

@@ -4,18 +4,28 @@ import {
   SaveOutlined,
   UserDeleteOutlined,
 } from "@ant-design/icons";
-import { Form, Input, Button, message, Modal, FormInstance } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  message,
+  Modal,
+  FormInstance,
+  Select,
+} from "antd";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { CounselorData } from "../../types/counselor";
 
+const { Option } = Select;
+
 export const defaultCounselor: CounselorData = {
-  lastName: "",
-  firstName: "",
+  lastname: "",
+  firstname: "",
   email: "",
   active: true,
   gender: "",
-  id: null,
+  id: "",
   phone: "",
   agency: "",
   username: "",
@@ -44,7 +54,7 @@ function Counselor({
   const [editing, setEditing] = useState(isInAddMode);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const { lastName, firstName, email, phone, active, agency, username, id } =
+  const { lastname, firstname, email, phone, active, agency, username, id } =
     counselor;
 
   const toggleEditing = () => {
@@ -74,7 +84,7 @@ function Counselor({
 
   const onFinishFailed = () => {
     message.error({
-      content: `Berater ${firstName} ${lastName} wurde NICHT aktualisiert!`,
+      content: `Berater ${firstname} ${lastname} wurde NICHT aktualisiert!`,
       duration: 3,
     });
   };
@@ -90,8 +100,8 @@ function Counselor({
         labelWrap
         layout="vertical"
         initialValues={{
-          firstName,
-          lastName,
+          firstname,
+          lastname,
           agency,
           phone,
           email,
@@ -101,19 +111,19 @@ function Counselor({
       >
         <div className={clsx("counselor", !active && "inactive")}>
           <Form.Item
-            label={t("firstName")}
-            name="firstName"
+            label={t("firstname")}
+            name="firstname"
             rules={[{ required: true }]}
           >
-            <Input placeholder={t("placeholder.firstName")} />
+            <Input placeholder={t("placeholder.firstname")} />
           </Form.Item>
 
           <Form.Item
-            label={t("lastName")}
-            name="lastName"
+            label={t("lastname")}
+            name="lastname"
             rules={[{ required: true }]}
           >
-            <Input placeholder={t("placeholder.lastName")} />
+            <Input placeholder={t("placeholder.lastname")} />
           </Form.Item>
 
           <Form.Item name="id" hidden />
@@ -124,20 +134,13 @@ function Counselor({
           >
             <Input placeholder={t("placeholder.email")} />
           </Form.Item>
-          {/* <Form.Item label={t("phone")} name="phone">
-        {editing ? <Input /> : phone}
-      </Form.Item>
-      <Form.Item label={t("agency")} name="agency">
-        {editing ? (
-          <Select>
-            <Option value="Agentur 1">Agentur 1</Option>
-            <Option value="Agentur 2">Agentur 2</Option>
-            <Option value="Agentur 3">Agentur 3</Option>
-          </Select>
-        ) : (
-          agency
-        )}
-      </Form.Item> */}
+          <Form.Item label={t("agency")} name="agency">
+            <Select disabled={agency.length === 1}>
+              <Option value="Agentur 1">Agentur 1</Option>
+              <Option value="Agentur 2">Agentur 2</Option>
+              <Option value="Agentur 3">Agentur 3</Option>
+            </Select>
+          </Form.Item>
           <Form.Item
             label={t("counselor.username")}
             name="username"

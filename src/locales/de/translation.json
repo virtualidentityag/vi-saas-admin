@@ -43,8 +43,8 @@
   "phone": "Telefon",
   "gender.female": "Frau",
   "gender.male": "Herr",
-  "firstName": "Vorname",
-  "lastName": "Nachname",
+  "firstname": "Vorname",
+  "lastname": "Nachname",
   "new": "Neu",
   "userCount": "Anzahl von Benutzern",
   "createDate": "Hinzugefügt am",
@@ -86,8 +86,8 @@
   "settings.colors": "Farben",
   "settings.colors.howto": "Wählen Sie die Hauptfarben ihrer Anwendung. Falls sie keine zweite Farbe haben, wird automatisch eine passende zweite Farbe vorgeschlagen",
   "profile.title": "Profil",
-  "placeholder.firstName": "Maxime",
-  "placeholder.lastName": "Musterfrau",
+  "placeholder.firstname": "Maxime",
+  "placeholder.lastname": "Musterfrau",
   "placeholder.email": "maxime.musterfrau@onlineberatung.de",
   "placeholder.username": "maxime.musterfrau"
 }

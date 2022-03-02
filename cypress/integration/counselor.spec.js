@@ -30,7 +30,7 @@ describe("Check Berater page and edit name", function () {
     cy.get(".ant-form").eq(1);
     cy.get(".ant-card-body").eq(0);
     cy.get(".ant-form-item").eq(0);
-    cy.get("#firstName").click().clear().type("Christoph");
+    cy.get("#firstname").click().clear().type("Christoph");
     cy.get(".ant-btn").eq(1).click();
     cy.get(".ant-form").eq(0);
     cy.get(".ant-card-body").eq(0);

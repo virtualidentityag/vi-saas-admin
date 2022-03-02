@@ -17,6 +17,8 @@ function EditableTable({
   handleDeleteModalTitle,
   handleDeleteModalText,
   form,
+  handlePagination,
+  page,
 }: EditableTableProps) {
   const { t } = useTranslation();
 

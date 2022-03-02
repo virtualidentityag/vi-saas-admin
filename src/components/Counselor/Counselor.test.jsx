@@ -13,8 +13,8 @@ test("renders Card with all the information", () => {
     <Counselor
       counselor={{
         id: 1,
-        firstName: "John",
-        lastName: "Doe",
+        firstname: "John",
+        lastname: "Doe",
         email: "js@mail.com",
         gender: "male",
         phone: "017755932591",
@@ -27,10 +27,10 @@ test("renders Card with all the information", () => {
     />
   );
 
-  const firstName = screen.getByText("John");
-  const lastName = screen.getByText("Doe");
-  expect(firstName).toBeInTheDocument();
-  expect(lastName).toBeInTheDocument();
+  const firstname = screen.getByText("John");
+  const lastname = screen.getByText("Doe");
+  expect(firstname).toBeInTheDocument();
+  expect(lastname).toBeInTheDocument();
 
   const email = screen.getByText("email");
   const phone = screen.getByText("phone");
@@ -56,8 +56,8 @@ test("renders the buttons", () => {
     <Counselor
       counselor={{
         id: 1,
-        firstName: "John",
-        lastName: "Doe",
+        firstname: "John",
+        lastname: "Doe",
         email: "js@mail.com",
         gender: "male",
         phone: "017755932591",
@@ -90,8 +90,8 @@ test("interactions with buttons work", () => {
     <Counselor
       counselor={{
         id: 1,
-        firstName: "John",
-        lastName: "Doe",
+        firstname: "John",
+        lastname: "Doe",
         email: "js@mail.com",
         gender: "male",
         phone: "017755932591",

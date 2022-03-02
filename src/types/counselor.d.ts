@@ -1,10 +1,10 @@
 export interface CounselorData {
-  lastName: string;
-  firstName: string;
+  lastname: string;
+  firstname: string;
   email: string;
   active: boolean;
   gender: string;
-  id: number | null;
+  id: string;
   phone: string;
   agency: string;
   username: string;

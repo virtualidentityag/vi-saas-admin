@@ -11,10 +11,10 @@ const getFAKEUserData = (cancelTokenSource: CancelTokenSource) => {
   console.log("getFAKEUserData");
 
   const customerResponse = {
-    firstName: "John",
+    firstname: "John",
     id: 1,
     tenantId: 10,
-    lastName: "Doe",
+    lastname: "Doe",
     email: "js@mail.com",
     gender: "male",
     salutation: "Herr",

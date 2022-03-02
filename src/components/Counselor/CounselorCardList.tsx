@@ -27,7 +27,7 @@ function CounselorCardList() {
         setIsLoading(false);
         setCounselors(result);
         message.success({
-          content: `Berater ${formData.firstName} ${formData.lastName} wurde aktualisiert!`,
+          content: `Berater ${formData.firstname} ${formData.lastname} wurde aktualisiert!`,
           duration: 3,
         });
         setIsModalCreateVisible(false);
@@ -49,7 +49,7 @@ function CounselorCardList() {
         setIsLoading(false);
         setCounselors(result);
         message.success({
-          content: `Berater ${formData.firstName} ${formData.lastName} wurde aktualisiert!`,
+          content: `Berater ${formData.firstname} ${formData.lastname} wurde aktualisiert!`,
           duration: 3,
         });
         setIsModalCreateVisible(false);
@@ -71,7 +71,7 @@ function CounselorCardList() {
         setIsLoading(false);
         setCounselors(result);
         message.success({
-          content: `Berater ${formData.firstName} ${formData.lastName} wurde gelöscht!`,
+          content: `Berater ${formData.firstname} ${formData.lastname} wurde gelöscht!`,
           duration: 3,
         });
         setIsModalCreateVisible(false);

@@ -30,6 +30,8 @@ export const defaultCounselor: CounselorData = {
   agency: "",
   username: "",
   key: "",
+  formalLanguage: true,
+  absent: true,
 };
 
 interface Props {
@@ -54,8 +56,17 @@ function Counselor({
   const [editing, setEditing] = useState(isInAddMode);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const { lastname, firstname, email, phone, active, agency, username, id } =
-    counselor;
+  const {
+    lastname,
+    firstname,
+    email,
+    phone,
+    active,
+    agency,
+    username,
+    id,
+    formalLanguage,
+  } = counselor;
 
   const toggleEditing = () => {
     setEditing(!editing);
@@ -107,6 +118,7 @@ function Counselor({
           email,
           username,
           id,
+          formalLanguage,
         }}
       >
         <div className={clsx("counselor", !active && "inactive")}>
@@ -135,7 +147,7 @@ function Counselor({
             <Input placeholder={t("placeholder.email")} />
           </Form.Item>
           <Form.Item label={t("agency")} name="agency">
-            <Select disabled={agency.length === 1}>
+            <Select disabled={agency.length === 1} placeholder={t("plsSelect")}>
               <Option value="Agentur 1">Agentur 1</Option>
               <Option value="Agentur 2">Agentur 2</Option>
               <Option value="Agentur 3">Agentur 3</Option>
@@ -147,6 +159,34 @@ function Counselor({
             rules={[{ required: true }]}
           >
             <Input placeholder={t("placeholder.username")} />
+          </Form.Item>
+          <Form.Item
+            label={t("counselor.formalLanguage")}
+            name="formalLanguage"
+            rules={[{ required: true }]}
+          >
+            <Select placeholder={t("plsSelect")}>
+              <Option key={0} value>
+                {t("yes")}
+              </Option>
+              <Option key={0} value={false}>
+                {t("no")}
+              </Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label={t("counselor.absent")}
+            name="absent"
+            rules={[{ required: true }]}
+          >
+            <Select placeholder={t("plsSelect")}>
+              <Option key={0} value>
+                {t("yes")}
+              </Option>
+              <Option key={0} value={false}>
+                {t("no")}
+              </Option>
+            </Select>
           </Form.Item>
 
           {!isInAddMode && editing ? (

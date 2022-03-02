@@ -7,7 +7,7 @@ import getCancelTokenSource from "../../api/getCancelTokenSource";
 
 import getCouselorData from "../../api/counselor/getCounselorData";
 import { CounselorData } from "../../types/counselor";
-import addFAKECouselorData from "../../api/counselor/addFAKECounselorData";
+import addCouselorData from "../../api/counselor/addCounselorData";
 import editFAKECouselorData from "../../api/counselor/editFAKECounselorData";
 import deleteFAKECouselorData from "../../api/counselor/deleteFAKECounselorData";
 import { defaultCounselor } from "./Counselor";
@@ -15,7 +15,6 @@ import ModalForm from "./ModalForm";
 import EditButtons from "../EditableTable/EditButtons";
 import EditableTable from "../EditableTable/EditableTable";
 import rebuildCounselorList from "../../utils/rebuildCounselorList";
-import getTenantData from "../../api/tenant/getTenantData";
 
 function CounselorList() {
   const { t } = useTranslation();
@@ -31,9 +30,9 @@ function CounselorList() {
 
   const handleAddCounselor = (formData: CounselorData) => {
     setIsLoading(true);
-    const cancelTokenSource = getCancelTokenSource();
-    addFAKECouselorData(formData, cancelTokenSource)
+    addCouselorData(formData)
       .then((result: any) => {
+        console.log(result);
         setIsLoading(false);
         setCounselors(result);
         message.success({

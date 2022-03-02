@@ -9,4 +9,6 @@ export interface CounselorData {
   agency: string;
   username: string;
   key: string;
+  formalLanguage: boolean;
+  absent: boolean;
 }

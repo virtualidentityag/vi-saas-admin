@@ -13,6 +13,8 @@ export const fakeCounselors = (counselorResponse: CounselorData[]) => {
     username: "john",
     agency: "Agentur 1",
     key: "1",
+    formalLanguage: false,
+    absent: false,
   };
 
   const female: CounselorData = {
@@ -26,6 +28,8 @@ export const fakeCounselors = (counselorResponse: CounselorData[]) => {
     username: "jeanne",
     agency: "Agentur 2",
     key: "2",
+    formalLanguage: true,
+    absent: true,
   };
 
   for (let i = 0; i < 10; i += 1) {

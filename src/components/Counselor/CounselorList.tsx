@@ -250,7 +250,6 @@ function CounselorList() {
         isDeleteModalVisible={isModalDeleteVisible}
         handlePagination={setPage}
         page={page}
-        form={form}
       />
       <ModalForm
         isModalCreateVisible={isModalCreateVisible}

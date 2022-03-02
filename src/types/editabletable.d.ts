@@ -11,7 +11,6 @@ export default interface EditableTableProps {
   handleDeleteModalCancel: (formData: any) => void;
   handleDeleteModalTitle: string;
   handleDeleteModalText: string;
-  form: FormInstance;
   handlePagination: SetStateAction<number>;
   page: number;
 }

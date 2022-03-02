@@ -1,9 +1,9 @@
 import React from "react";
-import { Button, Form, Modal, Table } from "antd";
+import { Button, Modal, Table } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
-import EditableTableCell from "./EditableTableCell";
+
 import EditableTableProps from "../../types/editabletable";
 
 function EditableTable({
@@ -16,7 +16,7 @@ function EditableTable({
   handleDeleteModalCancel,
   handleDeleteModalTitle,
   handleDeleteModalText,
-  form,
+
   handlePagination,
   page,
 }: EditableTableProps) {
@@ -32,27 +32,19 @@ function EditableTable({
       >
         {t("new")}
       </Button>
-      <Form form={form} component={false}>
-        <Table
-          components={{
-            body: {
-              cell: EditableTableCell,
-            },
-          }}
-          loading={isLoading}
-          className="editableTable"
-          dataSource={source}
-          columns={columns}
-          scroll={{
-            x: "max-content",
-            y: "100%",
-          }}
-          sticky
-          tableLayout="fixed"
-          // bordered
-        />
-      </Form>
-
+      <Table
+        loading={isLoading}
+        className="editableTable"
+        dataSource={source}
+        columns={columns}
+        scroll={{
+          x: "max-content",
+          y: "100%",
+        }}
+        sticky
+        tableLayout="fixed"
+        // bordered
+      />
       <Modal
         title={<Title level={2}>{handleDeleteModalTitle}</Title>}
         visible={isDeleteModalVisible}

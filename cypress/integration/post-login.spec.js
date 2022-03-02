@@ -9,6 +9,10 @@ describe("Basic Test", function () {
     cy.visit("/");
     cy.contains("Admin Login");
   });
+
+  it("Checks the URL", function () {
+    cy.url().should("include", "localhost:3000/admin");
+  });
 });
 
 describe("URL-Test Settings ", function () {
@@ -17,10 +21,6 @@ describe("URL-Test Settings ", function () {
     cy.get("#basic_username").type(USERONEEMAIL);
     cy.get("#basic_password").type(USERONEPASSWORD);
     cy.get(".ant-btn-primary").click();
-  });
-
-  it("Checks the URL", function () {
-    cy.url().should("include", "localhost:3000/admin");
   });
 
   it("Checks the URL in Settings", function () {

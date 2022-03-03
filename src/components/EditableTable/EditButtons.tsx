@@ -37,7 +37,7 @@ function EditButtons({
         <CustomPencilIcon />
       </button>
       <button
-        className="editIcon deletIcon"
+        className="editIcon deleteIcon"
         type="button"
         disabled={editingKey !== ""}
         onClick={() => {

@@ -56,7 +56,7 @@ describe("Check Counselor page and delete Card/Counselor", function () {
     cy.get("form")
       .eq(0)
       .within(() => {
-        cy.get(".deletIcon").eq(1).should("exist").click();
+        cy.get(".deleteIcon").eq(1).should("exist").click();
       });
     cy.root().get(".ant-modal").should("be.visible");
   });
@@ -73,7 +73,7 @@ describe("Check Counselor page and delete Card/Counselor", function () {
     cy.get("form")
       .eq(0)
       .within(() => {
-        cy.get(".deletIcon").eq(1).should("exist").click();
+        cy.get(".deleteIcon").eq(1).should("exist").click();
       });
     cy.root()
       .get(".ant-modal")

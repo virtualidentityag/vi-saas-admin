@@ -172,7 +172,9 @@ function CounselorList() {
         agency &&
         agency
           .map((agencyItem) => {
-            return `${agencyItem[0].name} (${agencyItem[0].city})`;
+            return agencyItem
+              ? `${agencyItem[0].name} (${agencyItem[0].city})`
+              : "";
           })
           .join(),
     },

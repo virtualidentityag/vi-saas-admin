@@ -3,39 +3,18 @@ import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 import { counselorEndpoint } from "../../appConfig";
 
 /**
- * add new counselor
+ * delete counselor
  * @param counselorData
  * @return data
  */
 const editCounselorData = (counselorData: CounselorData) => {
-  const {
-    firstname,
-    lastname,
-    formalLanguage,
-    email,
-    absent,
-    username,
-    absenceMessage,
-    id,
-  } = counselorData;
-
-  // just use needed data from hole form data
-  const strippedCounselor = {
-    firstname,
-    lastname,
-    formalLanguage,
-    email,
-    absent,
-    username,
-    absenceMessage,
-  };
+  const { id } = counselorData;
 
   return fetchData({
     url: `${counselorEndpoint}/${id}`,
-    method: FETCH_METHODS.PUT,
+    method: FETCH_METHODS.DELETE,
     skipAuth: false,
     responseHandling: [FETCH_ERRORS.CATCH_ALL],
-    bodyData: JSON.stringify(strippedCounselor),
   });
 };
 

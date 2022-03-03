@@ -3,7 +3,7 @@ import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 import { counselorEndpoint } from "../../appConfig";
 
 /**
- * add new counselor
+ * edit counselor
  * @param counselorData
  * @return data
  */

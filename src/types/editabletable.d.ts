@@ -1,4 +1,3 @@
-import { FormInstance } from "antd";
 import { CounselorData } from "./counselor";
 
 export default interface EditableTableProps {
@@ -15,22 +14,8 @@ export default interface EditableTableProps {
   page: number;
 }
 
-export interface EditableTableCellProps {
-  editing: boolean;
-  dataIndex: string;
-  title: any;
-  inputType: "number" | "text";
-  record: Item;
-  index: number;
-  children: React.ReactNode;
-}
-
 export interface EditButtonsProps extends React.HTMLAttributes<HTMLElement> {
-  editable: boolean;
   handleEdit: (formData: CounselorData) => void;
   handleDelete: (formData: CounselorData) => void;
   record: CounselorData;
-  cancel: () => void;
-  editingKey: string;
-  edit: (formData: CounselorData) => void;
 }

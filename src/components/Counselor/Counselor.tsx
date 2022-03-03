@@ -27,11 +27,12 @@ export const defaultCounselor: CounselorData = {
   gender: "",
   id: "",
   phone: "",
-  agency: "",
+  agency: [],
   username: "",
   key: "",
   formalLanguage: true,
   absent: true,
+  absenceMessage: "",
 };
 
 interface Props {
@@ -66,6 +67,8 @@ function Counselor({
     username,
     id,
     formalLanguage,
+    absent,
+    absenceMessage,
   } = counselor;
 
   const toggleEditing = () => {
@@ -119,6 +122,8 @@ function Counselor({
           username,
           id,
           formalLanguage,
+          absent,
+          absenceMessage,
         }}
       >
         <div className={clsx("counselor", !active && "inactive")}>

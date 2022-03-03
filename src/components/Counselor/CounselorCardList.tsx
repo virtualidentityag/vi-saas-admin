@@ -179,10 +179,12 @@ function CounselorCardList() {
         />
       )}
       <ModalForm
+        isInAddMode
+        title={t("counselor.modal.headline.add")}
         isModalCreateVisible={isModalCreateVisible}
         handleCreateModalCancel={handleCreateModalCancel}
         handleOnAddCounselor={handleAddCounselor}
-        newCounselor={defaultCounselor}
+        counselor={defaultCounselor}
       />
     </>
   );

@@ -43,7 +43,6 @@ function EditableTable({
         }}
         sticky
         tableLayout="fixed"
-        // bordered
       />
       <Modal
         title={<Title level={2}>{handleDeleteModalTitle}</Title>}

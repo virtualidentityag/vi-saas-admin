@@ -6,9 +6,10 @@ export interface CounselorData {
   gender: string;
   id: string;
   phone: string;
-  agency: string;
+  agency: Record<string, any>[];
   username: string;
   key: string;
   formalLanguage: boolean;
   absent: boolean;
+  absenceMessage?: string;
 }

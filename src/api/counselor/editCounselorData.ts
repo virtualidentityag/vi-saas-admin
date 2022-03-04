@@ -1,6 +1,7 @@
 import { CounselorData } from "../../types/counselor";
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 import { counselorEndpoint } from "../../appConfig";
+import { encodeUsername } from "../../utils/encryptionHelpers";
 
 /**
  * edit counselor
@@ -26,8 +27,8 @@ const editCounselorData = (counselorData: CounselorData) => {
     formalLanguage,
     email,
     absent,
-    username,
-    absenceMessage,
+    username: encodeUsername(username),
+    absenceMessage: absent ? absenceMessage : null,
   };
 
   return fetchData({

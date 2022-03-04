@@ -12,4 +12,5 @@ export interface CounselorData {
   formalLanguage: boolean;
   absent: boolean;
   absenceMessage?: string;
+  deleteDate?: string;
 }

@@ -1,6 +1,7 @@
 import { CounselorData } from "../../types/counselor";
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 import { counselorEndpoint } from "../../appConfig";
+import { encodeUsername } from "../../utils/encryptionHelpers";
 
 /**
  * add new counselor
@@ -18,7 +19,7 @@ const addCounselorData = (counselorData: CounselorData) => {
     formalLanguage,
     email,
     absent,
-    username,
+    username: encodeUsername(username),
   };
 
   return fetchData({

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import { message } from "antd";
-import getCancelTokenSource from "../../api/getCancelTokenSource";
 
 import getCouselorData from "../../api/counselor/getCounselorData";
 import { CounselorData } from "../../types/counselor";
@@ -14,8 +13,8 @@ import { defaultCounselor } from "./Counselor";
 import ModalForm from "./ModalForm";
 
 import EditableTable from "../EditableTable/EditableTable";
-import rebuildCounselorList from "../../utils/rebuildCounselorList";
 import EditButtons from "../EditableTable/EditButtons";
+import { decodeUsername } from "../../utils/encryptionHelpers";
 
 function CounselorList() {
   const { t } = useTranslation();
@@ -29,13 +28,20 @@ function CounselorList() {
   const [isModalFormVisible, setIsModalFormVisible] = useState(false);
   const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
 
+  const resetStatesAfterLoad = () => {
+    setIsLoading(false);
+    setIsModalFormVisible(false);
+    setEditingCounselor(undefined);
+    setIsModalDeleteVisible(false);
+  };
+
   const handleAddCounselor = (formData: CounselorData) => {
     setIsLoading(true);
     addCouselorData(formData)
+      .then(() => getCouselorData(page.toString()))
       .then((result: any) => {
-        console.log(result);
-        setIsLoading(false);
         setCounselors(result);
+        resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.add"),
           duration: 3,
@@ -55,8 +61,10 @@ function CounselorList() {
   const handleEditCounselor = (formData: CounselorData) => {
     setIsLoading(true);
     editCouselorData(formData)
+      .then(() => getCouselorData(page.toString()))
       .then((result: any) => {
         setCounselors(result);
+        resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.update"),
           duration: 3,
@@ -77,14 +85,14 @@ function CounselorList() {
   const handleDeleteCounselor = (formData: CounselorData) => {
     setIsLoading(true);
     deleteCouselorData(formData)
+      .then(() => getCouselorData(page.toString()))
       .then((result: any) => {
+        resetStatesAfterLoad();
         setCounselors(result);
         message.success({
           content: t("message.counselor.delete"),
           duration: 3,
         });
-        setIsLoading(false);
-        setIsModalFormVisible(false);
       })
       .catch(() => {
         setIsLoading(false);
@@ -101,13 +109,14 @@ function CounselorList() {
   };
 
   const handleFormModalCancel = () => {
-    setEditingCounselor(undefined);
-    setIsModalFormVisible(false);
+    resetStatesAfterLoad();
   };
 
-  const handleOnDelete = (values: any) => {
+  const handleOnDelete = () => {
     setIsModalDeleteVisible(false);
-    handleDeleteCounselor(values);
+    if (editingCounselor) {
+      handleDeleteCounselor(editingCounselor);
+    }
   };
 
   const handleDeleteModal = (record: CounselorData) => {
@@ -159,6 +168,7 @@ function CounselorList() {
       dataIndex: "username",
       key: "username",
       ellipsis: true,
+      render: (username: string) => decodeUsername(username),
       sorter: (a: CounselorData, b: CounselorData) =>
         a.username.localeCompare(b.username),
     },
@@ -172,7 +182,7 @@ function CounselorList() {
         agency &&
         agency
           .map((agencyItem) => {
-            return agencyItem
+            return agencyItem[0]
               ? `${agencyItem[0].name} (${agencyItem[0].city})`
               : "";
           })
@@ -197,14 +207,9 @@ function CounselorList() {
   useEffect(() => {
     setIsLoading(true);
     getCouselorData(page.toString())
-      .then((result) => {
-        // eslint-disable-next-line no-underscore-dangle
-        return rebuildCounselorList(result._embedded);
-      })
       .then((result: any) => {
-        console.log("liste consultants", result);
         setCounselors(result);
-        setIsLoading(false);
+        resetStatesAfterLoad();
       })
       .catch(() => {
         setIsLoading(false);

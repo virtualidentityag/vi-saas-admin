@@ -23,7 +23,7 @@ const authReducer = (state = initialState, action: any) => {
     switch (type) {
       case "auth/set-token": {
         const expiresInMilliseconds = new Date(
-          Date.now() + payload.expires_in * 1000
+          Date.now() + payload.expires_in * 10000 // aprox 50 minutes
         ).getTime();
 
         return {

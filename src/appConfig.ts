@@ -21,7 +21,7 @@ export const loginEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/op
 export const logoutEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/logout`;
 export const tenantEndpoint = `${mainURL}/service/tenant/`;
 export const counselorEndpoint = `${mainURL}/service/useradmin/consultants`;
-export const agencyEndpoint = `${mainURL}/agencyadmin/agencies?page=0&perPage=1000`;
+export const agencyEndpoint = `${mainURL}/agencyadmin/agencies?page=0&perPage=10`;
 export const customerEndpoint = `${mainURL}/customers`;
 
 /*

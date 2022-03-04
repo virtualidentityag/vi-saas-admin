@@ -13,7 +13,9 @@ import { AuthToken } from "../state/reducers/authReducer";
  */
 export const isTokenExpired = (
   timeWhenExpires: AuthToken["expiresInMilliseconds"]
-) => (timeWhenExpires ? timeWhenExpires - new Date().getTime() <= 0 : true);
+) => {
+  return timeWhenExpires ? timeWhenExpires - new Date().getTime() <= 0 : true;
+};
 
 interface ProtectedRouteTypes {
   children: React.ReactNode;

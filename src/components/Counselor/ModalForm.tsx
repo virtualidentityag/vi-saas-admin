@@ -25,15 +25,18 @@ function ModalForm({
 
   return (
     <Modal
+      destroyOnClose
       title={<Title level={2}>{title}</Title>}
       visible={isModalCreateVisible}
       onOk={() => {
         form.validateFields().then((values) => {
           handleOnAddCounselor(values);
-          form.resetFields();
         });
       }}
-      onCancel={handleCreateModalCancel}
+      onCancel={() => {
+        handleCreateModalCancel();
+        form.resetFields();
+      }}
     >
       <Counselor
         counselor={counselor}

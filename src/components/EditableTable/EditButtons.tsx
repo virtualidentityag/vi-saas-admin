@@ -7,14 +7,14 @@ function EditButtons({ handleEdit, handleDelete, record }: EditButtonsProps) {
   return (
     <div className="editBtnWrapper">
       <button
-        className="editIcon"
+        className="editIcon saveIcon"
         type="button"
         onClick={() => handleEdit(record)}
       >
         <CustomPencilIcon />
       </button>
       <button
-        className="editIcon"
+        className="editIcon deleteIcon"
         type="button"
         onClick={() => {
           handleDelete(record);

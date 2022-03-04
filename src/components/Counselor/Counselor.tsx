@@ -35,7 +35,7 @@ export const defaultCounselor: CounselorData = {
   absenceMessage: "",
 };
 
-interface Props {
+export interface Props {
   counselor: CounselorData;
   isInAddMode?: boolean;
   modalForm?: FormInstance;
@@ -45,7 +45,7 @@ interface Props {
 
 function Counselor({
   counselor,
-  isInAddMode,
+  isInAddMode = false,
   modalForm,
   handleDeleteCounselor,
   handleEditCounselor,

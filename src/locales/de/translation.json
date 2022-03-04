@@ -89,7 +89,7 @@
   "settings.subhead.personalisation": "Personalisierung",
   "settings.subhead.view": "Erscheinungsbild",
   "settings.images.howto": "Fügen Sie hier ihr Logo und ihr Favicon ein um die Website auf wiedererkennbare Weise zu kennzeichnen.",
-  "settings.images.help": "Wir verarbeiten die Formate JPEG + PNG  mit einer Datengröße bis zu 100 MB? \nBrauchen wir eine Erklärung für FavIcons? ",
+  "settings.images.help": "Wir verarbeiten die Formate JPEG + PNG  mit einer Dateigröße von 200x80px",
   "settings.colors": "Farben",
   "settings.colors.howto": "Wählen Sie die Hauptfarben ihrer Anwendung. Falls sie keine zweite Farbe haben, wird automatisch eine passende zweite Farbe vorgeschlagen",
   "profile.title": "Profil",

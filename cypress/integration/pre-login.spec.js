@@ -1,8 +1,8 @@
 describe("pre login", () => {
   beforeEach(() => {
-    cy.visit("localhost:3000/login");
+    cy.visit("localhost:3000/admin/login");
     // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(3000);
+    cy.wait(1000);
   });
 
   it("displays a form with input fields for username and password", () => {
@@ -15,29 +15,21 @@ describe("pre login", () => {
     cy.get(".ant-btn-primary").should("be.disabled");
   });
 
-  it("shows warning when username and password filled when submit-button is clicked", () => {
-    cy.get(".ant-btn-primary").click();
-    cy.contains("message.form.login.username");
-    cy.contains("message.form.login.password");
-    cy.get("#basic_username").type("ritter");
-  });
-
-  it("validates a correct email address as username", () => {
-    cy.get(".ant-btn-primary").click();
-    cy.get("#basic_username").type("ritter");
-    cy.contains("message.form.login.username");
-    cy.get("#basic_username").clear();
-    cy.get("#basic_username").type("ritter@meinkoenig.de");
-    cy.get(".ant-btn-primary").click();
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(500);
-    cy.get("message.form.login.username").should("not.exist");
+  it("shows error when inputs a not filled well", () => {
+    cy.get("#basic_username").type("r");
+    cy.get("#basic_password").type("1").clear();
+    cy.get(".ant-form-item-explain-error")
+      .eq(0)
+      .contains("Bitte Benutzernamen eingeben");
+    cy.get(".ant-form-item-explain-error")
+      .eq(1)
+      .contains("Bitte Passwort eingeben");
   });
 
   it("lets you log in when username and password are filled in correctly", () => {
     cy.get("#basic_username").type("ritter@meinkoenig.de");
     cy.get("#basic_password").type("12345koe*");
     cy.get(".ant-btn-primary").click();
-    cy.contains("Dashboard");
+    cy.get("h3").eq(0).contains("Einstellungen");
   });
 });

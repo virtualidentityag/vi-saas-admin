@@ -92,7 +92,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
           </ul>
         </nav>
       </Sider>
-      <Layout>
+      <Layout className="mainContent">
         <SiteHeader />
         <Content className="content">
           <div className="contentInner">{children}</div>

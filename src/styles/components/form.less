@@ -4,11 +4,11 @@
     padding: 0;
 
     > label {
+      display: flex;
       height: @form-item-label-height;
       flex-direction: row-reverse;
       align-items: flex-start;
       justify-content: flex-end;
-      display: flex;
 
       &.ant-form-item-required:not(.ant-form-item-required-mark-optional) {
         &:before {
@@ -17,9 +17,9 @@
       }
 
       .anticon {
-        margin-left: auto;
         width: 24px;
         height: 24px;
+        margin-left: auto;
 
         svg {
           width: inherit;
@@ -51,19 +51,20 @@
   }
 }
 
-
-.ant-btn-primary{
+.ant-btn-primary {
   &:hover,
   &:focus {
     background-color: @primary-color-light;
   }
+
   &:active {
     background-color: @primary-color-dark;
     color: @white-50-opacity;
   }
+
   &:disabled {
     background-color: @primary-color;
-    opacity: .3;
     color: @white;
+    opacity: 0.3;
   }
 }

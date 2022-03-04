@@ -1,9 +1,10 @@
 .protectedLayout {
   padding-bottom: @mobileNavHeight;
+
   .ant-layout-sider {
-    background-color: @primary-color;
     z-index: 80;
     height: @mobileNavHeight;
+    background-color: @primary-color;
   }
 
   .mainMenu {
@@ -33,11 +34,11 @@
         border: none;
         background: transparent;
         color: @white;
+        cursor: pointer;
         font-size: @fontSize-s;
         justify-items: center;
-        text-align: center;
-        cursor: pointer;
         opacity: 0.6;
+        text-align: center;
 
         &.active {
           opacity: 1;
@@ -75,12 +76,13 @@
 @media screen and (min-width: @screen-md) {
   .protectedLayout {
     padding-bottom: 0;
+
     .ant-layout-sider {
       position: sticky;
-      height: 100vh;
       top: 0;
       left: 0;
       width: 140px;
+      height: 100vh;
       flex: 0 0 140px;
     }
 

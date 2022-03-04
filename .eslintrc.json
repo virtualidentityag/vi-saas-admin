@@ -8,7 +8,7 @@
     "plugin:jsx-a11y/recommended",
     "plugin:prettier/recommended",
     "plugin:cypress/recommended",
-    "plugin:import/errors", 
+    "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript"
   ],
@@ -25,10 +25,12 @@
     "cypress"
   ],
   "rules": {
-    // vvv remove later to make codebase better vvv
-    "require-jsdoc" : 0,
+    "react/require-default-props": "off",
+    "import/no-named-as-default": 0,
+    "require-jsdoc": 0,
     "react/react-in-jsx-scope": "off",
     "valid-jsdoc": "off",
+    "react/jsx-fragments": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "react/function-component-definition": [
@@ -44,18 +46,9 @@
     },
     " import/resolver": {
       "node": {
-        "extensions": [
-          ".js",
-          ".jsx",
-          ".ts",
-          ".tsx"
-        ],
-        "moduleDirectory": [
-          "node_modules",
-          "src/"
-        ]
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "moduleDirectory": ["node_modules", "src/"]
       }
     }
   }
 }
-

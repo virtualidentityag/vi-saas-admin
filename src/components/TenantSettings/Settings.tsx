@@ -157,7 +157,6 @@ function Settings() {
             <Title className="formHeadline mb-m" level={4}>
               {t("settings.subhead.personalisation")}
             </Title>
-
             <Item
               label={
                 <>
@@ -170,9 +169,7 @@ function Settings() {
                     <CustomInfoIcon />
                   </Popover>
                   <Title level={5}>
-                    {t("organisation.name") +
-                      t("and") +
-                      t("organisation.claim")}
+                    {t("settings.name") + t("and") + t("organisation.claim")}
                   </Title>
                 </>
               }
@@ -181,7 +178,6 @@ function Settings() {
               <Paragraph className="mb-l desc">
                 {t("settings.name.howto")}
               </Paragraph>
-
               <Item
                 label={t("organisation.name")}
                 name="name"
@@ -197,14 +193,14 @@ function Settings() {
                 <Input disabled={isLoading} placeholder={t("subSlogan")} />
               </Item>
             </Item>
+            <Title className="formHeadline mb-m" level={4}>
+              {t("settings.subhead.legal")}
+            </Title>
             <Item
               label={<Title level={5}>{t("imprint")}</Title>}
               rules={[{ required: true }]}
               className="mb-xl"
             >
-              <Paragraph className="mb-sm desc">
-                {t("settings.imprint.howto")}
-              </Paragraph>
               <Item name="impressum">
                 <RichTextEditor
                   onChange={setImprint}

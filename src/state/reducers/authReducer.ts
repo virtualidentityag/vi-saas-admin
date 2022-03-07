@@ -18,16 +18,20 @@ const initialState: AuthToken = {
 const authReducer = (state = initialState, action: any) => {
   if (action) {
     const { type, payload } = action;
-
+    // can't do anything against KeyCloak
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     switch (type) {
       case "auth/set-token": {
         const expiresInMilliseconds = new Date(
-          Date.now() + payload.expiresIn * 1000
+          Date.now() + payload.expires_in * 1000
         ).getTime();
 
         return {
           ...state,
-          ...payload,
+          accessToken: payload.access_token,
+          refreshToken: payload.refresh_token,
+          tokenType: payload.token_type,
+          expiresIn: payload.expires_in,
           expiresInMilliseconds,
         };
       }

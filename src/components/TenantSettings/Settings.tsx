@@ -10,19 +10,19 @@ import {
 } from "antd";
 
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import ColorSelector from "../ColorSelector/ColorSelector";
 import RichTextEditor from "../RichText/RichTextEditor";
 
-import getCancelTokenSource from "../../api/getCancelTokenSource";
-import editFAKETenantData from "../../api/tenant/editFAKETenantData";
 import getComplentaryColor from "../../utils/getComplentaryColor";
 
-import FileUploader from "../FileUploader/FileUploader";
 import CustomInfoIcon from "../CustomIcons/Info";
+import editTenantData from "../../api/tenant/editTenantData";
+import FileUploader from "../FileUploader/FileUploader";
+import decode from "../../utils/decodeImageFiles";
 
 const { Item } = Form;
 const { Paragraph } = Typography;
@@ -32,21 +32,22 @@ function Settings() {
   const { t } = useTranslation();
   const { tenantData } = useSelector((state: any) => state);
   const { id, theming, name, subdomain, content, licensing } = tenantData;
-  const dispatch = useDispatch();
   const { logo, favicon, primaryColor, secondaryColor } = theming;
   const { impressum, claim, privacy, termsAndConditions } = content;
   const { allowedNumberOfUsers } = licensing;
   const [isLoading, setIsLoading] = useState(false);
+  const [logoUrl, setLogoUrl] = useState<string>(decode(logo) || "");
+  const [faviconUrl, setFaviconUrl] = useState<string>(decode(favicon) || "");
+
+  const setComplementaryColor = (color: string) => {
+    form.setFieldsValue({ secondaryColor: getComplentaryColor(color) });
+  };
 
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
       return e;
     }
     return e && e.fileList;
-  };
-
-  const setComplementaryColor = (color: string) => {
-    form.setFieldsValue({ secondaryColor: getComplentaryColor(color) });
   };
 
   const onFormSubmit = (values: any) => {
@@ -59,19 +60,18 @@ function Settings() {
         duration: 3,
       });
     }
-
     //  ToDo: outsource restructured data into Helper
     const changedTenantData = {
       id: values.id,
       name: values.name,
-      subdomain: values.subdomain,
+      subdomain: "happylife",
       updateDate: moment().format(), // ISO format
       licensing: {
-        allowedNumberOfUsers: values.allowedNumberOfUsers,
+        allowedNumberOfUsers: 5,
       },
       theming: {
-        logo: values.logo,
-        favicon: values.favicon,
+        logo: logoUrl,
+        favicon: faviconUrl,
         primaryColor: values.primaryColor,
         secondaryColor: values.secondaryColor,
       },
@@ -83,16 +83,11 @@ function Settings() {
       },
     };
 
-    const cancelTokenSource = getCancelTokenSource();
-    editFAKETenantData(changedTenantData, cancelTokenSource)
-      .then((response: any) => {
+    editTenantData(changedTenantData)
+      .then(() => {
         setIsLoading(false);
-        dispatch({
-          type: "tenant/set-data",
-          payload: response,
-        });
         message.success({
-          content: `Setting wurden aktualisiert!`,
+          content: t("message.success.setting.update"),
           duration: 3,
         });
       })
@@ -108,7 +103,7 @@ function Settings() {
 
   const onFinishFailed = () => {
     message.error({
-      content: `Settings wurden NICHT aktualisiert!`,
+      content: t("message.error.setting.update"),
       duration: 3,
     });
   };
@@ -149,9 +144,15 @@ function Settings() {
           allowedNumberOfUsers,
         }}
       >
-        <Button type="primary" size="large" className="mb-xl w-200">
+        <Button
+          htmlType="submit"
+          type="primary"
+          size="large"
+          className="mb-xl w-200"
+        >
           {t("save")}
         </Button>
+
         <Row gutter={40}>
           <Col xs={12} lg={6}>
             <Title className="formHeadline mb-m" level={4}>
@@ -280,26 +281,22 @@ function Settings() {
               </Row>
               <Row gutter={15}>
                 <Col xs={6} md={5} lg={4}>
-                  <Item
-                    label={t("organisation.logo")}
+                  <FileUploader
                     name="logo"
-                    valuePropName="fileList"
+                    label={t("organisation.logo")}
                     getValueFromEvent={normFile}
-                    className="block"
-                  >
-                    <FileUploader name="logo" />
-                  </Item>
+                    imageUrl={logoUrl}
+                    setImageUrl={setLogoUrl}
+                  />
                 </Col>
                 <Col xs={6} md={5} lg={4}>
-                  <Item
-                    label={t("organisation.favicon")}
+                  <FileUploader
                     name="favicon"
-                    valuePropName="fileList1"
+                    label={t("organisation.favicon")}
                     getValueFromEvent={normFile}
-                    className="block"
-                  >
-                    <FileUploader name="favicon" />
-                  </Item>
+                    imageUrl={faviconUrl}
+                    setImageUrl={setFaviconUrl}
+                  />
                 </Col>
               </Row>
             </Item>

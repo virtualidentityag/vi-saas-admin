@@ -1,3 +1,28 @@
+import getLocationVariables from "./utils/getLocationVariables";
+
+process.env.REACT_APP_API_URL =
+  process.env.REACT_APP_API_URL_FOR_LOCAL_DEVELOPMENT;
+const REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY =
+  process.env.REACT_APP_CSRF_WHITELIST_HEADER_FOR_LOCAL_DEVELOPMENT;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+export const CSRF_WHITELIST_HEADER: string =
+  REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
+export const apiUrlEnv: string = process.env.REACT_APP_API_URL || "";
+export const apiUrl = process.env.REACT_APP_API_URL
+  ? `https://${apiUrlEnv}`
+  : "";
+
+const { subdomain } = getLocationVariables();
+
+export const mainURL = `https://${subdomain}.develop.onlineberatung.net`;
+export const XHRheader = { AcceptLanguage: "de" };
+export const loginEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/token`;
+export const logoutEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/logout`;
+export const tenantEndpoint = `${mainURL}/service/tenant/`;
+export const customerEndpoint = `${mainURL}/customers`;
+export const counselorEndpoint = `${mainURL}/counselors`;
+
 /*
  * routes
  */

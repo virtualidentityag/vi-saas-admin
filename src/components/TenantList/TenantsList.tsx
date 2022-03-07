@@ -50,8 +50,8 @@ function TenantsList() {
       dataIndex: "subdomain",
       ellipsis: true,
       key: "subdomain",
-      sorter: (a: TenantData, b: TenantData) =>
-        a.subdomain.localeCompare(b.subdomain),
+      /* sorter: (a: TenantData, b: TenantData) =>
+        a.subdomain.localeCompare(b.subdomain), */
     },
     {
       title: t("createDate"),
@@ -71,8 +71,8 @@ function TenantsList() {
       ellipsis: true,
       render: (record: { licensing: { allowedNumberOfUsers: number } }) =>
         record.licensing.allowedNumberOfUsers,
-      sorter: (a: TenantData, b: TenantData) =>
-        a.licensing.allowedNumberOfUsers - b.licensing.allowedNumberOfUsers,
+      /* sorter: (a: TenantData, b: TenantData) =>
+        a.licensing.allowedNumberOfUsers - b.licensing.allowedNumberOfUsers, */
     },
   ];
 

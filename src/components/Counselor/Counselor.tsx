@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, message, FormInstance, Select } from "antd";
+import { Form, Input, message, FormInstance, Select, Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { CounselorData } from "../../types/counselor";
 import { decodeUsername } from "../../utils/encryptionHelpers";
 import getAgencyByTenantData from "../../api/agency/getAgencyByTenantData";
+import removeEmbedded from "../../utils/removeEmbedded";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -44,9 +45,7 @@ function Counselor({
 
   const [checkAbsent, setCheckAbsent] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [agencies, setAgencies] = useState<Record<string, any>[] | undefined>(
-    undefined
-  );
+  const [agencies, setAgencies] = useState<Record<string, any>[]>([]);
   const [editing, setEditing] = useState(isInAddMode);
 
   const onAbsentChange = (value: boolean) => {
@@ -85,139 +84,138 @@ function Counselor({
     });
   };
 
-  const buildAgencyOptions = () => {
-    if (agencies) {
-      agencies.map((agencyItem: Record<string, any>) => {
-        return (
-          <Option key={agencyItem.id}>
-            {agencyItem.name} ({agencyItem.city})
-          </Option>
-        );
-      });
-    }
-  };
-
   useEffect(() => {
     setIsLoading(true);
     getAgencyByTenantData()
       .then((result: any) => {
-        setAgencies(result);
+        // eslint-disable-next-line no-underscore-dangle
+        const resultNormalized = removeEmbedded(result._embedded);
+        modalForm.setFieldsValue({ agency: resultNormalized[0].id });
+        setAgencies(resultNormalized);
+        setIsLoading(false);
       })
       .catch(() => {
         setIsLoading(false);
+        setAgencies([]);
         message.error({
           content: t("message.error.default"),
           duration: 3,
         });
       });
-  }, [t]);
+  }, [t, id]);
 
   return (
-    <Form
-      form={modalForm}
-      onFinish={onFormSubmit}
-      onFinishFailed={onFinishFailed}
-      size="small"
-      labelAlign="left"
-      labelWrap
-      layout="vertical"
-      initialValues={{
-        firstname,
-        lastname,
-        agency,
-        phone,
-        email,
-        username: decodeUsername(username),
-        id,
-        formalLanguage,
-        absent,
-        absenceMessage,
-      }}
-    >
-      <div className={clsx("counselor", !active && "inactive")}>
-        <Item
-          label={t("firstname")}
-          name="firstname"
-          rules={[{ required: true }]}
-        >
-          <Input placeholder={t("placeholder.firstname")} />
-        </Item>
-
-        <Item
-          label={t("lastname")}
-          name="lastname"
-          rules={[{ required: true }]}
-        >
-          <Input placeholder={t("placeholder.lastname")} />
-        </Item>
-
-        <Item name="id" hidden>
-          <Input hidden />
-        </Item>
-        <Item label={t("email")} name="email" rules={[{ required: true }]}>
-          <Input placeholder={t("placeholder.email")} />
-        </Item>
-        <Item label={t("agency")} name="agency">
-          <Select
-            disabled={agencies?.length === 1 || isLoading}
-            placeholder={t("plsSelect")}
+    <Spin spinning={agencies.length === 0}>
+      <Form
+        form={modalForm}
+        onFinish={onFormSubmit}
+        onFinishFailed={onFinishFailed}
+        size="small"
+        labelAlign="left"
+        labelWrap
+        layout="vertical"
+        initialValues={{
+          firstname,
+          lastname,
+          agency,
+          phone,
+          email,
+          username: decodeUsername(username),
+          id,
+          formalLanguage,
+          absent,
+          absenceMessage,
+        }}
+      >
+        <div className={clsx("counselor", !active && "inactive")}>
+          <Item
+            label={t("firstname")}
+            name="firstname"
+            rules={[{ required: true }]}
           >
-            {buildAgencyOptions}
-          </Select>
-        </Item>
-        <Item
-          label={t("counselor.username")}
-          name="username"
-          rules={[{ required: true }]}
-        >
-          <Input placeholder={t("placeholder.username")} />
-        </Item>
-        <Item
-          label={t("counselor.formalLanguage")}
-          name="formalLanguage"
-          rules={[{ required: true }]}
-        >
-          <Select placeholder={t("plsSelect")}>
-            <Option key={0} value>
-              {t("yes")}
-            </Option>
-            <Option key={1} value={false}>
-              {t("no")}
-            </Option>
-          </Select>
-        </Item>
-        {!isInAddMode ? (
-          <>
-            <Item
-              label={t("counselor.absent")}
-              name="absent"
-              rules={[{ required: true }]}
-            >
-              <Select placeholder={t("plsSelect")} onChange={onAbsentChange}>
-                <Option key={0} value>
-                  {t("yes")}
-                </Option>
-                <Option key={1} value={false}>
-                  {t("no")}
-                </Option>
-              </Select>
-            </Item>
+            <Input placeholder={t("placeholder.firstname")} />
+          </Item>
 
-            <Item
-              label={t("counselor.absenceMessage")}
-              name="absenceMessage"
-              rules={[{ required: checkAbsent }]}
-            >
-              <TextArea rows={3} />
-            </Item>
-          </>
-        ) : (
-          <Item name="absent" hidden>
+          <Item
+            label={t("lastname")}
+            name="lastname"
+            rules={[{ required: true }]}
+          >
+            <Input placeholder={t("placeholder.lastname")} />
+          </Item>
+
+          <Item name="id" hidden>
             <Input hidden />
           </Item>
-        )}
-      </div>
-    </Form>
+          <Item label={t("email")} name="email" rules={[{ required: true }]}>
+            <Input placeholder={t("placeholder.email")} />
+          </Item>
+          <Item label={t("agency")} name="agency">
+            <Select
+              disabled={agencies?.length <= 1 || isLoading}
+              placeholder={t("plsSelect")}
+            >
+              {agencies?.map((agencyItem: Record<string, any>) => (
+                <Option key={agencyItem.id} value={agencyItem.id}>
+                  {agencyItem.name} ({agencyItem.city})
+                </Option>
+              ))}
+            </Select>
+          </Item>
+          <Item
+            label={t("counselor.username")}
+            name="username"
+            rules={[{ required: true }]}
+          >
+            <Input placeholder={t("placeholder.username")} />
+          </Item>
+          <Item
+            label={t("counselor.formalLanguage")}
+            name="formalLanguage"
+            rules={[{ required: true }]}
+          >
+            <Select placeholder={t("plsSelect")}>
+              <Option key={0} value>
+                {t("yes")}
+              </Option>
+              <Option key={1} value={false}>
+                {t("no")}
+              </Option>
+            </Select>
+          </Item>
+          {!isInAddMode ? (
+            <>
+              <Item
+                label={t("counselor.absent")}
+                name="absent"
+                rules={[{ required: true }]}
+              >
+                <Select placeholder={t("plsSelect")} onChange={onAbsentChange}>
+                  <Option key={0} value>
+                    {t("yes")}
+                  </Option>
+                  <Option key={1} value={false}>
+                    {t("no")}
+                  </Option>
+                </Select>
+              </Item>
+
+              <Item
+                label={t("counselor.absenceMessage")}
+                name="absenceMessage"
+                rules={[{ required: checkAbsent }]}
+              >
+                <TextArea rows={3} />
+              </Item>
+            </>
+          ) : (
+            <Item name="absent" hidden>
+              <Input hidden />
+            </Item>
+          )}
+        </div>
+      </Form>
+    </Spin>
   );
 }
 

@@ -15,6 +15,8 @@ import ModalForm from "./ModalForm";
 import EditableTable from "../EditableTable/EditableTable";
 import EditButtons from "../EditableTable/EditButtons";
 import { decodeUsername } from "../../utils/encryptionHelpers";
+import addAgencyToCounselor from "../../api/agency/addAgencyToCounselor";
+import removeEmbedded from "../../utils/removeEmbedded";
 
 function CounselorList() {
   const { t } = useTranslation();
@@ -38,6 +40,16 @@ function CounselorList() {
   const handleAddCounselor = (formData: CounselorData) => {
     setIsLoading(true);
     addCouselorData(formData)
+      .then((response) => {
+        console.log(
+          "gebore addAgencyToCounselor",
+          // eslint-disable-next-line no-underscore-dangle
+          response,
+          formData
+        );
+        // eslint-disable-next-line no-underscore-dangle
+        addAgencyToCounselor(response._embedded.id, formData.agency[0].id);
+      })
       .then(() => getCouselorData(page.toString()))
       .then((result: any) => {
         setCounselors(result);

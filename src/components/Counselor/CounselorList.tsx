@@ -236,6 +236,7 @@ function CounselorList() {
     <>
       <Title level={3}>{t("counselor.title")}</Title>
       <p>{t("counselor.title.text")}</p>
+
       <EditableTable
         handleBtnAdd={handleCreateModal}
         source={counselors}

@@ -30,7 +30,7 @@ function EditableTable({
       >
         {t("new")}
       </Button>
-      <Form form={form} component={false}>
+      <Form form={form}>
         <Table
           components={{
             body: {

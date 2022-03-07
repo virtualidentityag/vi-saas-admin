@@ -200,39 +200,38 @@ function Settings() {
             </Item>
             <Item
               label={<Title level={5}>{t("imprint")}</Title>}
-              name="impressum"
               rules={[{ required: true }]}
               className="mb-xl"
             >
               <Paragraph className="mb-sm desc">
                 {t("settings.imprint.howto")}
               </Paragraph>
-
-              <RichTextEditor
-                onChange={setImprint}
-                value={impressum}
-                placeholder={t("settings.imprint.howto")}
-              />
+              <Item name="impressum">
+                <RichTextEditor
+                  onChange={setImprint}
+                  value={impressum}
+                  placeholder={t("settings.imprint.howto")}
+                />
+              </Item>
             </Item>
             <Item
               label={<Title level={5}>{t("privacy")}</Title>}
-              name="privacy"
               rules={[{ required: true }]}
               className="mb-xl"
             >
               <Paragraph className="mb-sm desc">
                 {t("settings.privacy.howto")}
               </Paragraph>
-
-              <RichTextEditor
-                onChange={setImprint}
-                value={privacy}
-                placeholder={t("settings.privacy.placeholder")}
-              />
+              <Item name="privacy">
+                <RichTextEditor
+                  onChange={setImprint}
+                  value={privacy}
+                  placeholder={t("settings.privacy.placeholder")}
+                />
+              </Item>
             </Item>
             <Item
               label={<Title level={5}>{t("termsAndConditions")}</Title>}
-              name="termsAndConditions"
               rules={[{ required: true }]}
               className="mb-2xl"
             >
@@ -240,11 +239,13 @@ function Settings() {
                 {t("settings.termsAndConditions.howto")}
               </Paragraph>
 
-              <RichTextEditor
-                onChange={setImprint}
-                value={termsAndConditions}
-                placeholder={t("settings.termsAndConditions.placeholder")}
-              />
+              <Item name="termsAndConditions">
+                <RichTextEditor
+                  onChange={setImprint}
+                  value={termsAndConditions}
+                  placeholder={t("settings.termsAndConditions.placeholder")}
+                />
+              </Item>
             </Item>
           </Col>
           <Col xs={12} lg={6}>
@@ -330,7 +331,9 @@ function Settings() {
             </Item>
           </Col>
         </Row>
-        <Item name="id" hidden />
+        <Item name="id" hidden>
+          <Input type="hidden" />
+        </Item>
       </Form>
     </>
   ) : (

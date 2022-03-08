@@ -60,6 +60,7 @@ function Settings() {
         duration: 3,
       });
     }
+
     //  ToDo: outsource restructured data into Helper
     const changedTenantData = {
       id: values.id,
@@ -73,7 +74,8 @@ function Settings() {
         logo: logoUrl,
         favicon: faviconUrl,
         primaryColor: values.primaryColor,
-        secondaryColor: values.secondaryColor,
+        secondaryColor:
+          values.secondaryColor || form.getFieldValue("secondaryColor"),
       },
       content: {
         impressum: values.impressum.toString("html"),
@@ -115,10 +117,11 @@ function Settings() {
   const setRteValue = (type: string, text: any) => {
     form.setFieldsValue({ [type]: text });
   };
-
   return tenantData.id ? (
     <>
-      <Title level={3}>{t("settings.title")}</Title>
+      <Title level={3}>
+        {t("settings.title")} #{secondaryColor}
+      </Title>
       <Paragraph className="mb-l">{t("settings.title.text")}</Paragraph>
       <Form
         form={form}
@@ -308,7 +311,11 @@ function Settings() {
               </Paragraph>
               <Row gutter={15}>
                 <Col xs={12} md={11} lg={8} xl={6} xxl={5}>
-                  <Item name="primaryColor" rules={[{ required: true }]}>
+                  <Item
+                    shouldUpdate
+                    name="primaryColor"
+                    rules={[{ required: true }]}
+                  >
                     <ColorSelector
                       isLoading={isLoading}
                       label={t("organisation.primaryColor")}
@@ -319,7 +326,7 @@ function Settings() {
                   </Item>
                 </Col>
                 <Col xs={12} md={11} lg={8} xl={6} xxl={5}>
-                  <Item name="secondaryColor">
+                  <Item shouldUpdate name="secondaryColor">
                     <ColorSelector
                       isLoading={isLoading}
                       label={t("organisation.secondaryColor")}

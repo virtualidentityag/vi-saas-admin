@@ -8,7 +8,7 @@ import { encodeUsername } from "../../utils/encryptionHelpers";
  * @param counselorData
  * @return data
  */
-const addCounselorData = (counselorData: CounselorData) => {
+const addCounselorData = (counselorData: Record<string, any>) => {
   const { firstname, lastname, formalLanguage, email, absent, username } =
     counselorData;
 

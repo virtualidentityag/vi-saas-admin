@@ -6,7 +6,10 @@ import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
  * retrieve all needed counselor data
  * @return {Promise}
  */
-const addAgencyToCounselor = (counselorId: string, agencyId: string) => {
+const addAgencyToCounselor = (
+  counselorId: string,
+  agencyId: string | string[]
+) => {
   // retrieve Counselor
 
   console.log("addAgencyToCounselor", counselorId, agencyId);

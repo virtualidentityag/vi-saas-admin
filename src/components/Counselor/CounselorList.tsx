@@ -37,18 +37,18 @@ function CounselorList() {
     setIsModalDeleteVisible(false);
   };
 
-  const handleAddCounselor = (formData: CounselorData) => {
+  const handleAddCounselor = (formData: Record<string, any>) => {
     setIsLoading(true);
     addCouselorData(formData)
       .then((response) => {
         console.log(
           "gebore addAgencyToCounselor",
           // eslint-disable-next-line no-underscore-dangle
-          response,
+          response.data,
           formData
         );
         // eslint-disable-next-line no-underscore-dangle
-        addAgencyToCounselor(response._embedded.id, formData.agency[0].id);
+        addAgencyToCounselor(response.data._embedded.id, formData.agency);
       })
       .then(() => getCouselorData(page.toString()))
       .then((result: any) => {

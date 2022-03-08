@@ -10,7 +10,7 @@ import {
 } from "antd";
 
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
@@ -29,6 +29,7 @@ const { Paragraph } = Typography;
 
 function Settings() {
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const { tenantData } = useSelector((state: any) => state);
   const { id, theming, name, subdomain, content, licensing } = tenantData;
@@ -112,8 +113,8 @@ function Settings() {
     form.setFieldsValue({ [field]: color });
   };
 
-  const setImprint = (text: any) => {
-    form.setFieldsValue({ impressum: text });
+  const setRteValue = (type: string, text: any) => {
+    form.setFieldsValue({ [type]: text });
   };
 
   return tenantData.id ? (
@@ -208,7 +209,7 @@ function Settings() {
               </Paragraph>
               <Item name="impressum">
                 <RichTextEditor
-                  onChange={setImprint}
+                  onChange={(text: any) => setRteValue("impressum", text)}
                   value={impressum}
                   placeholder={t("settings.imprint.howto")}
                 />
@@ -224,7 +225,7 @@ function Settings() {
               </Paragraph>
               <Item name="privacy">
                 <RichTextEditor
-                  onChange={setImprint}
+                  onChange={(text: any) => setRteValue("privacy", text)}
                   value={privacy}
                   placeholder={t("settings.privacy.placeholder")}
                 />
@@ -241,7 +242,9 @@ function Settings() {
 
               <Item name="termsAndConditions">
                 <RichTextEditor
-                  onChange={setImprint}
+                  onChange={(text: any) =>
+                    setRteValue("termsAndConditions", text)
+                  }
                   value={termsAndConditions}
                   placeholder={t("settings.termsAndConditions.placeholder")}
                 />

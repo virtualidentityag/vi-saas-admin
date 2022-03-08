@@ -31,6 +31,7 @@ const tenantDataReducer = (state = initialState, action: any) => {
     const { type, payload } = action;
     switch (type) {
       case "tenant/set-data": {
+        console.log("response", payload);
         return {
           ...state,
           ...payload,

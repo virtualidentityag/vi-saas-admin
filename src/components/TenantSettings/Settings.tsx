@@ -141,7 +141,7 @@ function Settings() {
           termsAndConditions,
           privacy,
           name,
-          claim,
+          claim: decode(claim),
           allowedNumberOfUsers,
         }}
       >

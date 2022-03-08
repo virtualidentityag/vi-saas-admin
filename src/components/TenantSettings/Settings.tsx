@@ -142,7 +142,7 @@ function Settings() {
           impressum,
           termsAndConditions,
           privacy,
-          name,
+          name: decodeHTML(name),
           claim: decodeHTML(claim),
           allowedNumberOfUsers,
         }}

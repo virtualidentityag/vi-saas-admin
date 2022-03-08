@@ -10,7 +10,7 @@ import {
 } from "antd";
 
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
@@ -29,7 +29,6 @@ const { Paragraph } = Typography;
 
 function Settings() {
   const [form] = Form.useForm();
-  const dispatch = useDispatch();
   const { t } = useTranslation();
   const { tenantData } = useSelector((state: any) => state);
   const { id, theming, name, subdomain, content, licensing } = tenantData;
@@ -80,7 +79,7 @@ function Settings() {
         impressum: values.impressum.toString("html"),
         privacy: values.privacy.toString("html"),
         termsAndConditions: values.termsAndConditions.toString("html"),
-        claim: values.claim,
+        claim: values.claim.toString("html"),
       },
     };
 

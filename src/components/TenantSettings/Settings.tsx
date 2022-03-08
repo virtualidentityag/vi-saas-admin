@@ -119,9 +119,7 @@ function Settings() {
   };
   return tenantData.id ? (
     <>
-      <Title level={3}>
-        {t("settings.title")} #{secondaryColor}
-      </Title>
+      <Title level={3}>{t("settings.title")}</Title>
       <Paragraph className="mb-l">{t("settings.title.text")}</Paragraph>
       <Form
         form={form}

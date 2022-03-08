@@ -1,7 +1,7 @@
-import {TenantData} from "../../types/tenant";
-import {FETCH_ERRORS, FETCH_METHODS, fetchData} from "../fetchData";
-import {tenantEndpoint} from "../../appConfig";
-import {store} from "../../store/store";
+import { TenantData } from "../../types/tenant";
+import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
+import { tenantEndpoint } from "../../appConfig";
+import { store } from "../../store/store";
 import storeDispatch from "../../state/actions/storeDispatch";
 
 /**
@@ -11,7 +11,7 @@ import storeDispatch from "../../state/actions/storeDispatch";
  */
 const editTenantData = (tenantData: TenantData) => {
   const state = store.getState();
-  const {id} = state.tenantData;
+  const { id } = state.tenantData;
 
   const tenantResponse = fetchData({
     url: `${tenantEndpoint}${id}`,
@@ -20,11 +20,13 @@ const editTenantData = (tenantData: TenantData) => {
     responseHandling: [FETCH_ERRORS.CATCH_ALL],
     bodyData: JSON.stringify(tenantData),
   });
-  tenantResponse.then((response: any) => response.json()).then((response: any) => {
-    storeDispatch("tenant/set-data", {
-      ...response,
+  tenantResponse
+    .then((response: any) => response.json())
+    .then((response: any) => {
+      storeDispatch("tenant/set-data", {
+        ...response,
+      });
     });
-  });
   return tenantResponse;
 };
 

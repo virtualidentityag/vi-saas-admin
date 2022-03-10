@@ -22,7 +22,7 @@ import getComplentaryColor from "../../utils/getComplentaryColor";
 import CustomInfoIcon from "../CustomIcons/Info";
 import editTenantData from "../../api/tenant/editTenantData";
 import FileUploader from "../FileUploader/FileUploader";
-import decode from "../../utils/decodeImageFiles";
+import decodeHTML from "../../utils/decodeHTML";
 
 const { Item } = Form;
 const { Paragraph } = Typography;
@@ -36,8 +36,10 @@ function Settings() {
   const { impressum, claim, privacy, termsAndConditions } = content;
   const { allowedNumberOfUsers } = licensing;
   const [isLoading, setIsLoading] = useState(false);
-  const [logoUrl, setLogoUrl] = useState<string>(decode(logo) || "");
-  const [faviconUrl, setFaviconUrl] = useState<string>(decode(favicon) || "");
+  const [logoUrl, setLogoUrl] = useState<string>(decodeHTML(logo) || "");
+  const [faviconUrl, setFaviconUrl] = useState<string>(
+    decodeHTML(favicon) || ""
+  );
 
   const setComplementaryColor = (color: string) => {
     form.setFieldsValue({ secondaryColor: getComplentaryColor(color) });
@@ -60,6 +62,7 @@ function Settings() {
         duration: 3,
       });
     }
+
     //  ToDo: outsource restructured data into Helper
     const changedTenantData = {
       id: values.id,
@@ -73,13 +76,14 @@ function Settings() {
         logo: logoUrl,
         favicon: faviconUrl,
         primaryColor: values.primaryColor,
-        secondaryColor: values.secondaryColor,
+        secondaryColor:
+          values.secondaryColor || form.getFieldValue("secondaryColor"),
       },
       content: {
         impressum: values.impressum.toString("html"),
         privacy: values.privacy.toString("html"),
         termsAndConditions: values.termsAndConditions.toString("html"),
-        claim: values.claim,
+        claim: values.claim.toString("html"),
       },
     };
 
@@ -112,10 +116,9 @@ function Settings() {
     form.setFieldsValue({ [field]: color });
   };
 
-  const setImprint = (text: any) => {
-    form.setFieldsValue({ impressum: text });
+  const setRteValue = (type: string, text: any) => {
+    form.setFieldsValue({ [type]: text });
   };
-
   return tenantData.id ? (
     <>
       <Title level={3}>{t("settings.title")}</Title>
@@ -139,8 +142,8 @@ function Settings() {
           impressum,
           termsAndConditions,
           privacy,
-          name,
-          claim,
+          name: decodeHTML(name),
+          claim: decodeHTML(claim),
           allowedNumberOfUsers,
         }}
       >
@@ -208,7 +211,7 @@ function Settings() {
               </Paragraph>
               <Item name="impressum">
                 <RichTextEditor
-                  onChange={setImprint}
+                  onChange={(text: any) => setRteValue("impressum", text)}
                   value={impressum}
                   placeholder={t("settings.imprint.howto")}
                 />
@@ -224,7 +227,7 @@ function Settings() {
               </Paragraph>
               <Item name="privacy">
                 <RichTextEditor
-                  onChange={setImprint}
+                  onChange={(text: any) => setRteValue("privacy", text)}
                   value={privacy}
                   placeholder={t("settings.privacy.placeholder")}
                 />
@@ -241,7 +244,9 @@ function Settings() {
 
               <Item name="termsAndConditions">
                 <RichTextEditor
-                  onChange={setImprint}
+                  onChange={(text: any) =>
+                    setRteValue("termsAndConditions", text)
+                  }
                   value={termsAndConditions}
                   placeholder={t("settings.termsAndConditions.placeholder")}
                 />
@@ -306,7 +311,11 @@ function Settings() {
               </Paragraph>
               <Row gutter={15}>
                 <Col xs={12} md={11} lg={8} xl={6} xxl={5}>
-                  <Item name="primaryColor" rules={[{ required: true }]}>
+                  <Item
+                    shouldUpdate
+                    name="primaryColor"
+                    rules={[{ required: true }]}
+                  >
                     <ColorSelector
                       isLoading={isLoading}
                       label={t("organisation.primaryColor")}
@@ -317,7 +326,7 @@ function Settings() {
                   </Item>
                 </Col>
                 <Col xs={12} md={11} lg={8} xl={6} xxl={5}>
-                  <Item name="secondaryColor">
+                  <Item shouldUpdate name="secondaryColor">
                     <ColorSelector
                       isLoading={isLoading}
                       label={t("organisation.secondaryColor")}

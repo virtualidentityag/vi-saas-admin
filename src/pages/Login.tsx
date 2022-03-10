@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
-import { Col, message, Row } from "antd";
+import { Col, Row } from "antd";
 import { useTranslation } from "react-i18next";
-import isTokenExpired from "../utils/tokenExpires";
 import Stage from "../components/Login/Stage";
 import PublicPageLayoutWrapper from "../components/Layout/PublicPageLayoutWrapper";
 import LoginForm from "../components/Login/LoginForm";
 import routePathNames from "../appConfig";
+import { getValueFromCookie } from "../api/auth/accessSessionCookie";
+import { getTokenExpiryFromLocalStorage } from "../api/auth/accessSessionLocalStorage";
 
 /**
  * login component
@@ -16,9 +17,14 @@ import routePathNames from "../appConfig";
  * @constructor
  */
 function Login() {
-  const { accessToken, expiresInMilliseconds } = useSelector(
-    (state: any) => state.auth
-  );
+  const accessToken = getValueFromCookie("keycloak");
+  const currentTime = new Date().getTime();
+  const tokenExpiry = getTokenExpiryFromLocalStorage();
+  const accessTokenValidInMs =
+    tokenExpiry.accessTokenValidUntilTime - currentTime;
+
+  const refreshTokenValidInMs =
+    tokenExpiry.refreshTokenValidUntilTime - currentTime;
   const { id: tenantId } = useSelector((state: any) => state.tenantData);
   const [redirectUrl, setRedirectUrl] = useState("");
   const { t } = useTranslation();
@@ -26,11 +32,15 @@ function Login() {
    * redirect user if authed
    */
   useEffect(() => {
-    if (accessToken && !isTokenExpired(expiresInMilliseconds) && tenantId) {
-      message.success(t("message.success.auth.login"));
+    if (
+      accessToken &&
+      refreshTokenValidInMs > 0 &&
+      accessTokenValidInMs > 0 &&
+      tenantId
+    ) {
       setRedirectUrl(routePathNames.themeSettings);
     }
-  }, [accessToken, expiresInMilliseconds, tenantId, t]);
+  }, [accessToken, accessTokenValidInMs, refreshTokenValidInMs, tenantId, t]);
 
   return redirectUrl ? (
     <Navigate to={redirectUrl} />

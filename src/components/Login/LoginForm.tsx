@@ -1,21 +1,17 @@
 import React, { useState } from "react";
 import { Form, Input, Button, message } from "antd";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
-import axios from "axios";
 import Title from "antd/es/typography/Title";
 import getAccessToken from "../../api/auth/getAccessToken";
 
-import requestCatchHandler from "../../api/requestCatchHandler";
 import getTenantData from "../../api/tenant/getTenantData";
 import CustomLockIcon from "../CustomIcons/Lock";
 import CustomPersonIcon from "../CustomIcons/Person";
 import routePathNames from "../../appConfig";
+import { setTokens } from "../../api/auth/auth";
 
 function LoginForm() {
   const { t } = useTranslation();
-
-  const dispatch = useDispatch();
   const [postLoading, setPostLoading] = useState(false);
 
   // Function gets fired on Form Submit
@@ -25,25 +21,25 @@ function LoginForm() {
     return getAccessToken(values.username, values.password)
       .then((response) => {
         // store the access token data
-        dispatch({
-          type: "auth/set-token",
-          payload: response,
-        });
+        setTokens(
+          response.access_token,
+          response.expires_in,
+          response.refresh_token,
+          response.refresh_expires_in
+        );
+
         return response;
       })
       .then((response) => getTenantData(response))
-      .catch((error) => {
+      .catch(() => {
         setPostLoading(false);
-        if (!axios.isCancel(error)) {
-          message.error(t("message.error.auth.login"));
-        }
-        requestCatchHandler(error);
+        message.error(t("message.error.auth.login"));
       });
   };
 
   /* const changeLanguage = (lang: Languages) => {
-                                                                                    changeLang(lang);
-                                                                                  }; */
+    changeLang(lang);
+  }; */
 
   return (
     <div className="loginForm">

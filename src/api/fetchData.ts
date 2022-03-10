@@ -1,6 +1,5 @@
 import { getValueFromCookie } from "./auth/accessSessionCookie";
 import generateCsrfToken from "../utils/generateCsrfToken";
-import { store } from "../store/store";
 
 import logout from "./auth/logout";
 import routePathNames, { CSRF_WHITELIST_HEADER } from "../appConfig";
@@ -50,8 +49,7 @@ interface FetchDataProps {
 
 export const fetchData = (props: FetchDataProps): Promise<any> =>
   new Promise((resolve, reject) => {
-    const state = store.getState();
-    const { accessToken } = state.auth;
+    const accessToken = getValueFromCookie("keycloak");
     const authorization = !props.skipAuth
       ? {
           Authorization: `Bearer ${accessToken}`,

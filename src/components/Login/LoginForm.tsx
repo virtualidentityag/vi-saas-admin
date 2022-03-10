@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Form, Input, Button, message } from "antd";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import axios from "axios";
 import Title from "antd/es/typography/Title";
+import { Navigate } from "react-router-dom";
 import getAccessToken from "../../api/auth/getAccessToken";
 
 import requestCatchHandler from "../../api/requestCatchHandler";
@@ -14,10 +14,9 @@ import routePathNames from "../../appConfig";
 
 function LoginForm() {
   const { t } = useTranslation();
-
   const dispatch = useDispatch();
   const [postLoading, setPostLoading] = useState(false);
-
+  const [redirectUrl, setRedirectUrl] = useState("");
   // Function gets fired on Form Submit
   const onFinish = async (values: any) => {
     setPostLoading(true);
@@ -31,10 +30,17 @@ function LoginForm() {
         });
         return response;
       })
-      .then((response) => getTenantData(response))
+      .then(() => getTenantData())
+      .then(() => {
+        /**
+         * redirect user if authed
+         */
+        message.success(t("message.success.auth.login"));
+        setRedirectUrl(routePathNames.themeSettings);
+      })
       .catch((error) => {
         setPostLoading(false);
-        if (!axios.isCancel(error)) {
+        if (error) {
           message.error(t("message.error.auth.login"));
         }
         requestCatchHandler(error);
@@ -45,7 +51,9 @@ function LoginForm() {
                                                                                     changeLang(lang);
                                                                                   }; */
 
-  return (
+  return redirectUrl ? (
+    <Navigate to={redirectUrl} />
+  ) : (
     <div className="loginForm">
       <Form
         name="basic"

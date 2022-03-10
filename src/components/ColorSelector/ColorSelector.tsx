@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { SketchPicker } from "react-color";
 import { Typography, Input } from "antd";
@@ -30,6 +30,10 @@ function ColorSelector({
     setColorValue(field, color);
   };
 
+  useEffect(() => {
+    setSelectedColor(tenantColor);
+  }, [tenantColor]);
+
   return (
     <div className="colorSelector" ref={ref}>
       <Input hidden />
@@ -47,7 +51,7 @@ function ColorSelector({
       {isComponentVisible && (
         <div className="pickerWrapper">
           <SketchPicker
-            color={selectedColor || "#EEEEEE"}
+            color={selectedColor || ""}
             onChange={(color: any) => handleOnChange(color.hex)}
           />
         </div>

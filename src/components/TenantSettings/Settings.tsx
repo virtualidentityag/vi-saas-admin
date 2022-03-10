@@ -22,7 +22,7 @@ import getComplentaryColor from "../../utils/getComplentaryColor";
 import CustomInfoIcon from "../CustomIcons/Info";
 import editTenantData from "../../api/tenant/editTenantData";
 import FileUploader from "../FileUploader/FileUploader";
-import decode from "../../utils/decodeImageFiles";
+import decodeHTML from "../../utils/decodeHTML";
 
 const { Item } = Form;
 const { Paragraph } = Typography;
@@ -36,8 +36,10 @@ function Settings() {
   const { impressum, claim, privacy, termsAndConditions } = content;
   const { allowedNumberOfUsers } = licensing;
   const [isLoading, setIsLoading] = useState(false);
-  const [logoUrl, setLogoUrl] = useState<string>(decode(logo) || "");
-  const [faviconUrl, setFaviconUrl] = useState<string>(decode(favicon) || "");
+  const [logoUrl, setLogoUrl] = useState<string>(decodeHTML(logo) || "");
+  const [faviconUrl, setFaviconUrl] = useState<string>(
+    decodeHTML(favicon) || ""
+  );
 
   const setComplementaryColor = (color: string) => {
     form.setFieldsValue({ secondaryColor: getComplentaryColor(color) });
@@ -140,8 +142,8 @@ function Settings() {
           impressum,
           termsAndConditions,
           privacy,
-          name,
-          claim,
+          name: decodeHTML(name),
+          claim: decodeHTML(claim),
           allowedNumberOfUsers,
         }}
       >

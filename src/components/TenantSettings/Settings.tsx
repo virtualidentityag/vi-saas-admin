@@ -79,7 +79,7 @@ function Settings() {
         impressum: values.impressum.toString("html"),
         privacy: values.privacy.toString("html"),
         termsAndConditions: values.termsAndConditions.toString("html"),
-        claim: values.claim,
+        claim: values.claim.toString("html"),
       },
     };
 
@@ -112,8 +112,8 @@ function Settings() {
     form.setFieldsValue({ [field]: color });
   };
 
-  const setImprint = (text: any) => {
-    form.setFieldsValue({ impressum: text });
+  const setRteValue = (type: string, text: any) => {
+    form.setFieldsValue({ [type]: text });
   };
 
   return tenantData.id ? (
@@ -208,7 +208,7 @@ function Settings() {
               </Paragraph>
               <Item name="impressum">
                 <RichTextEditor
-                  onChange={setImprint}
+                  onChange={(text: any) => setRteValue("impressum", text)}
                   value={impressum}
                   placeholder={t("settings.imprint.howto")}
                 />
@@ -224,7 +224,7 @@ function Settings() {
               </Paragraph>
               <Item name="privacy">
                 <RichTextEditor
-                  onChange={setImprint}
+                  onChange={(text: any) => setRteValue("privacy", text)}
                   value={privacy}
                   placeholder={t("settings.privacy.placeholder")}
                 />
@@ -241,7 +241,9 @@ function Settings() {
 
               <Item name="termsAndConditions">
                 <RichTextEditor
-                  onChange={setImprint}
+                  onChange={(text: any) =>
+                    setRteValue("termsAndConditions", text)
+                  }
                   value={termsAndConditions}
                   placeholder={t("settings.termsAndConditions.placeholder")}
                 />

@@ -3,7 +3,6 @@ import { tenantEndpoint } from "../../appConfig";
 import { LoginData } from "../../types/loginData";
 import parseJWT from "../../utils/parseJWT";
 import storeDispatch from "../../state/actions/storeDispatch";
-
 /**
  * retrieve all needed tenant data
  * @param tenant {LoginData}

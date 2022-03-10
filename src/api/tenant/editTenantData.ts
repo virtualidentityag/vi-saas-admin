@@ -3,6 +3,7 @@ import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 import { tenantEndpoint } from "../../appConfig";
 import { store } from "../../store/store";
 import storeDispatch from "../../state/actions/storeDispatch";
+
 /**
  * retrieve all needed tenant data
  * @param tenantData
@@ -19,11 +20,13 @@ const editTenantData = (tenantData: TenantData) => {
     responseHandling: [FETCH_ERRORS.CATCH_ALL],
     bodyData: JSON.stringify(tenantData),
   });
-  tenantResponse.then((response: any) => {
-    storeDispatch("tenant/set-data", {
-      ...response,
+  tenantResponse
+    .then((response: any) => response.json())
+    .then((response: any) => {
+      storeDispatch("tenant/set-data", {
+        ...response,
+      });
     });
-  });
   return tenantResponse;
 };
 

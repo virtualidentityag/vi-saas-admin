@@ -44,11 +44,11 @@ function CounselorList() {
         console.log(
           "gebore addAgencyToCounselor",
           // eslint-disable-next-line no-underscore-dangle
-          response.data,
+          response,
           formData
         );
         // eslint-disable-next-line no-underscore-dangle
-        addAgencyToCounselor(response.data._embedded.id, formData.agency);
+        // addAgencyToCounselor(response?.data._embedded.id, formData.agency);
       })
       .then(() => getCouselorData(page.toString()))
       .then((result: any) => {

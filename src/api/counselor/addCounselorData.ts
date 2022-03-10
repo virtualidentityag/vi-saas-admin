@@ -1,4 +1,3 @@
-import { CounselorData } from "../../types/counselor";
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 import { counselorEndpoint } from "../../appConfig";
 import { encodeUsername } from "../../utils/encryptionHelpers";
@@ -28,6 +27,11 @@ const addCounselorData = (counselorData: Record<string, any>) => {
     skipAuth: false,
     responseHandling: [FETCH_ERRORS.CATCH_ALL],
     bodyData: JSON.stringify(strippedCounselor),
+  }).then((response) => {
+    if (response.status === 200) {
+      return response.json();
+    }
+    return response.json();
   });
 };
 

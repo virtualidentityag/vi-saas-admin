@@ -30,7 +30,7 @@ function LoginForm() {
 
         return response;
       })
-      .then((response) => getTenantData(response))
+      .then(() => getTenantData())
       .catch(() => {
         setPostLoading(false);
         message.error(t("message.error.auth.login"));

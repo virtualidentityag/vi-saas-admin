@@ -205,7 +205,7 @@ function Settings() {
                 <RichTextEditor
                   onChange={setImprint}
                   value={impressum}
-                  placeholder={t("settings.imprint.howto")}
+                  placeholder={t("settings.imprint.placeholder")}
                 />
               </Item>
             </Item>
@@ -214,9 +214,6 @@ function Settings() {
               rules={[{ required: true }]}
               className="mb-xl"
             >
-              <Paragraph className="mb-sm desc">
-                {t("settings.privacy.howto")}
-              </Paragraph>
               <Item name="privacy">
                 <RichTextEditor
                   onChange={setImprint}
@@ -230,10 +227,6 @@ function Settings() {
               rules={[{ required: true }]}
               className="mb-2xl"
             >
-              <Paragraph className="mb-sm desc">
-                {t("settings.termsAndConditions.howto")}
-              </Paragraph>
-
               <Item name="termsAndConditions">
                 <RichTextEditor
                   onChange={setImprint}

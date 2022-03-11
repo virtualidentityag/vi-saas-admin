@@ -5,18 +5,6 @@ import routePathNames from "../appConfig";
 import { getTokenExpiryFromLocalStorage } from "../api/auth/accessSessionLocalStorage";
 import logout from "../api/auth/logout";
 
-/**
- * test if the token is expired at the time of calling
- * export to test in different places
- * pass the store token
- * @param timeWhenExpires {AuthToken["expiresInMilliseconds"]}
- */
-export const isTokenExpired = (
-  timeWhenExpires: AuthToken["expiresInMilliseconds"]
-) => {
-  return timeWhenExpires ? timeWhenExpires - new Date().getTime() <= 0 : true;
-};
-
 interface ProtectedRouteTypes {
   children: React.ReactNode;
 }

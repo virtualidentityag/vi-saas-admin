@@ -5,10 +5,10 @@ const toolbarConfig: ToolbarConfig = {
   // Optionally specify the groups to display (displayed in the order listed).
   display: [
     "BLOCK_TYPE_DROPDOWN",
-
     "INLINE_STYLE_BUTTONS",
     "BLOCK_TYPE_BUTTONS",
     "LINK_BUTTONS",
+    "IMAGE_BUTTON",
   ],
   INLINE_STYLE_BUTTONS: [
     { label: "Bold", style: "BOLD", className: "custom-css-class" },

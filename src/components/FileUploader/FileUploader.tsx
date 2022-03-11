@@ -35,8 +35,6 @@ function FileUploader({
     }
     const isLarger500kb = file.size / 1024 > 512;
 
-    console.log(file.size, file.size / 1024, isLarger500kb);
-
     if (isLarger500kb) {
       message.error(t("message.error.upload.filesize"));
       return false;

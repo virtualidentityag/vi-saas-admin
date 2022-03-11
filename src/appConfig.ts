@@ -40,7 +40,7 @@ const routePathNames = {
   privacy: "/datenschutz",
   tenants: "/admin/organisationen",
   loginResetPasswordLink:
-    "/auth/realms/caritas-online-beratung/login-actions/reset-credentials?client_id=account",
+    "/auth/realms/online-beratung/login-actions/reset-credentials?client_id=account",
 };
 
 export default routePathNames;

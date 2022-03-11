@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Card, List, message, Skeleton } from "antd";
 
 import { useTranslation } from "react-i18next";
-import getCancelTokenSource from "../../api/getCancelTokenSource";
 import getFAKECouselorData from "../../api/counselor/getFAKECounselorData";
 import Counselor, { defaultCounselor } from "./Counselor";
 import ModalForm from "./ModalForm";
@@ -21,8 +20,7 @@ function CounselorCardList() {
 
   const handleAddCounselor = (formData: CounselorData) => {
     setIsLoading(true);
-    const cancelTokenSource = getCancelTokenSource();
-    addFAKECouselorData(formData, cancelTokenSource)
+    addFAKECouselorData(formData)
       .then((result: any) => {
         setIsLoading(false);
         setCounselors(result);
@@ -43,8 +41,8 @@ function CounselorCardList() {
 
   const handleEditCounselor = (formData: CounselorData) => {
     setIsLoading(true);
-    const cancelTokenSource = getCancelTokenSource();
-    editFAKECouselorData(formData, counselors, cancelTokenSource)
+
+    editFAKECouselorData(formData, counselors)
       .then((result: any) => {
         setIsLoading(false);
         setCounselors(result);
@@ -65,8 +63,8 @@ function CounselorCardList() {
 
   const handleDeleteCounselor = (formData: CounselorData) => {
     setIsLoading(true);
-    const cancelTokenSource = getCancelTokenSource();
-    deleteFAKECouselorData(formData, counselors, cancelTokenSource)
+
+    deleteFAKECouselorData(formData, counselors)
       .then((result: any) => {
         setIsLoading(false);
         setCounselors(result);
@@ -95,8 +93,8 @@ function CounselorCardList() {
 
   useEffect(() => {
     setIsLoading(true);
-    const cancelTokenSource = getCancelTokenSource();
-    getFAKECouselorData(cancelTokenSource)
+
+    getFAKECouselorData()
       .then((result: any) => {
         setIsLoading(false);
         setCounselors(result);
@@ -108,10 +106,6 @@ function CounselorCardList() {
           duration: 3,
         });
       });
-
-    return () => {
-      cancelTokenSource.cancel();
-    };
   }, [t]);
 
   return (

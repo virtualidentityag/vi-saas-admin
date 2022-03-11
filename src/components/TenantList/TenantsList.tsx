@@ -4,7 +4,6 @@ import moment from "moment";
 import { PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
-import getCancelTokenSource from "../../api/getCancelTokenSource";
 import { TenantData } from "../../types/tenant";
 import getFakeMultipleTenants from "../../api/tenant/getFakeMultipleTenants";
 
@@ -15,8 +14,7 @@ function TenantsList() {
 
   useEffect(() => {
     setIsLoading(true);
-    const cancelTokenSource = getCancelTokenSource();
-    getFakeMultipleTenants(cancelTokenSource)
+    getFakeMultipleTenants()
       .then((result: any) => {
         setIsLoading(false);
         setTenants(result);
@@ -28,10 +26,6 @@ function TenantsList() {
           duration: 3,
         });
       });
-
-    return () => {
-      cancelTokenSource.cancel();
-    };
   }, [t]);
 
   const columns: any[] = [

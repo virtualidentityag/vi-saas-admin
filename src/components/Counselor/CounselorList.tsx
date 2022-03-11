@@ -3,7 +3,6 @@ import { Form, message } from "antd";
 
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
-import getCancelTokenSource from "../../api/getCancelTokenSource";
 
 import getFAKECouselorData from "../../api/counselor/getFAKECounselorData";
 import { CounselorData } from "../../types/counselor";
@@ -28,8 +27,7 @@ function CounselorList() {
 
   const handleAddCounselor = (formData: CounselorData) => {
     setIsLoading(true);
-    const cancelTokenSource = getCancelTokenSource();
-    addFAKECouselorData(formData, cancelTokenSource)
+    addFAKECouselorData(formData)
       .then((result: any) => {
         setIsLoading(false);
         setCounselors(result);
@@ -51,8 +49,7 @@ function CounselorList() {
 
   const handleEditCounselor = (formData: CounselorData) => {
     setIsLoading(true);
-    const cancelTokenSource = getCancelTokenSource();
-    editFAKECouselorData(formData, counselors, cancelTokenSource)
+    editFAKECouselorData(formData, counselors)
       .then((result: any) => {
         setIsLoading(false);
         setCounselors(result);
@@ -74,8 +71,7 @@ function CounselorList() {
 
   const handleDeleteCounselor = (formData: CounselorData) => {
     setIsLoading(true);
-    const cancelTokenSource = getCancelTokenSource();
-    deleteFAKECouselorData(formData, counselors, cancelTokenSource)
+    deleteFAKECouselorData(formData, counselors)
       .then((result: any) => {
         setIsLoading(false);
         setCounselors(result);
@@ -114,8 +110,7 @@ function CounselorList() {
 
   useEffect(() => {
     setIsLoading(true);
-    const cancelTokenSource = getCancelTokenSource();
-    getFAKECouselorData(cancelTokenSource)
+    getFAKECouselorData()
       .then((result: any) => {
         setIsLoading(false);
         setCounselors(result);
@@ -127,10 +122,6 @@ function CounselorList() {
           duration: 3,
         });
       });
-
-    return () => {
-      cancelTokenSource.cancel();
-    };
   }, [t]);
 
   const edit = (record: CounselorData) => {

@@ -4,7 +4,6 @@ const clearStore = () => {
   // remove storages
   localStorage.clear();
   sessionStorage.clear();
-
   // reset redux
   store.dispatch({
     type: "store/clear",

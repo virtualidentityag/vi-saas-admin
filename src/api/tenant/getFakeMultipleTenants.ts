@@ -1,11 +1,8 @@
-import { CancelTokenSource } from "axios";
-
 /**
  * retrieve all needed tenant data
- * @param cancelTokenSource {CancelTokenSource}
  * @return data
  */
-const getFakeMultipleTenants = (cancelTokenSource: CancelTokenSource) => {
+const getFakeMultipleTenants = () => {
   const tenantResponse: any[] = [];
   const tenant = {
     id: 1,
@@ -56,7 +53,7 @@ const getFakeMultipleTenants = (cancelTokenSource: CancelTokenSource) => {
   }
 
   // eslint-disable-next-line no-console
-  console.log("FAKE get TenantData", tenantResponse, cancelTokenSource);
+  console.log("FAKE get TenantData", tenantResponse);
   return new Promise((resolve) => {
     window.setTimeout(() => {
       resolve(tenantResponse);

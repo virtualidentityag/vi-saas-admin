@@ -1,22 +1,19 @@
 import React, { useState } from "react";
 import { Form, Input, Button, message } from "antd";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
 import Title from "antd/es/typography/Title";
-import { Navigate } from "react-router-dom";
 import getAccessToken from "../../api/auth/getAccessToken";
 
-import requestCatchHandler from "../../api/requestCatchHandler";
 import getTenantData from "../../api/tenant/getTenantData";
 import CustomLockIcon from "../CustomIcons/Lock";
 import CustomPersonIcon from "../CustomIcons/Person";
 import routePathNames from "../../appConfig";
+import { setTokens } from "../../api/auth/auth";
 
 function LoginForm() {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const [postLoading, setPostLoading] = useState(false);
-  const [redirectUrl, setRedirectUrl] = useState("");
+
   // Function gets fired on Form Submit
   const onFinish = async (values: any) => {
     setPostLoading(true);
@@ -24,36 +21,27 @@ function LoginForm() {
     return getAccessToken(values.username, values.password)
       .then((response) => {
         // store the access token data
-        dispatch({
-          type: "auth/set-token",
-          payload: response,
-        });
+        setTokens(
+          response.access_token,
+          response.expires_in,
+          response.refresh_token,
+          response.refresh_expires_in
+        );
+
         return response;
       })
       .then(() => getTenantData())
-      .then(() => {
-        /**
-         * redirect user if authed
-         */
-        message.success(t("message.success.auth.login"));
-        setRedirectUrl(routePathNames.themeSettings);
-      })
-      .catch((error) => {
+      .catch(() => {
         setPostLoading(false);
-        if (error) {
-          message.error(t("message.error.auth.login"));
-        }
-        requestCatchHandler(error);
+        message.error(t("message.error.auth.login"));
       });
   };
 
   /* const changeLanguage = (lang: Languages) => {
-                                                                                    changeLang(lang);
-                                                                                  }; */
+    changeLang(lang);
+  }; */
 
-  return redirectUrl ? (
-    <Navigate to={redirectUrl} />
-  ) : (
+  return (
     <div className="loginForm">
       <Form
         name="basic"

@@ -1,17 +1,15 @@
-import { CancelTokenSource } from "axios";
 import { CounselorData } from "../../types/counselor";
 
 /**
  * retrieve all needed counselor data
  * @param counselorData
  * @param counselors
- * @param cancelTokenSource {CancelTokenSource}
+
  * @return data
  */
 const editCounselorData = (
   counselorData: CounselorData,
-  counselors: CounselorData[],
-  cancelTokenSource: CancelTokenSource
+  counselors: CounselorData[]
 ) => {
   const counselorResponse = counselors;
   const removeIndex = counselors
@@ -22,7 +20,7 @@ const editCounselorData = (
   }
 
   // eslint-disable-next-line no-console
-  console.log("FAKE edit CounselorDta", counselorResponse, cancelTokenSource);
+  console.log("FAKE edit CounselorDta", counselorResponse);
 
   return new Promise((resolve) => {
     window.setTimeout(() => {

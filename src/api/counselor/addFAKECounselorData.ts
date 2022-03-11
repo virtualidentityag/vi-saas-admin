@@ -1,4 +1,3 @@
-import { CancelTokenSource } from "axios";
 import { CounselorData } from "../../types/counselor";
 
 export const fakeCounselors = (counselorResponse: CounselorData[]) => {
@@ -59,19 +58,15 @@ export const fakeCounselors = (counselorResponse: CounselorData[]) => {
 /**
  * retrieve all needed counselor data
  * @param counselorData
- * @param cancelTokenSource {CancelTokenSource}
  * @return data
  */
-const addCounselorData = (
-  counselorData: CounselorData,
-  cancelTokenSource: CancelTokenSource
-) => {
+const addCounselorData = (counselorData: CounselorData) => {
   const counselorResponse: any[] = [];
   counselorResponse.push({ ...counselorData, id: counselorResponse.length });
   fakeCounselors(counselorResponse);
 
   // eslint-disable-next-line no-console
-  console.log("FAKE add CounselorDta", counselorResponse, cancelTokenSource);
+  console.log("FAKE add CounselorDta", counselorResponse);
 
   return new Promise((resolve) => {
     window.setTimeout(() => {

@@ -1,9 +1,9 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { useLocation } from "react-router";
 import routePathNames from "../appConfig";
-import { AuthToken } from "../state/reducers/authReducer";
+import { getTokenExpiryFromLocalStorage } from "../api/auth/accessSessionLocalStorage";
+import logout from "../api/auth/logout";
 
 /**
  * test if the token is expired at the time of calling
@@ -28,14 +28,19 @@ interface ProtectedRouteTypes {
  */
 function ProtectedRoute({ children }: ProtectedRouteTypes) {
   const location = useLocation();
-  const { auth } = useSelector((state: any) => state);
+  const currentTime = new Date().getTime();
+  const tokenExpiry = getTokenExpiryFromLocalStorage();
+  const accessTokenValidInMs =
+    tokenExpiry.accessTokenValidUntilTime - currentTime;
 
-  if (!auth?.accessToken || isTokenExpired(auth?.expiresInMilliseconds)) {
+  const refreshTokenValidInMs =
+    tokenExpiry.refreshTokenValidUntilTime - currentTime;
+  if (refreshTokenValidInMs <= 0 && accessTokenValidInMs <= 0) {
     // Redirect them to the /login page, but save the current location they were
     // trying to go to when they were redirected. This allows us to send them
     // along to that page after they login, which is a nicer user experience
     // than dropping them off on the home page.
-
+    logout(true);
     return <Navigate to={routePathNames.login} state={{ from: location }} />;
   }
   // we must return a proper element here :(

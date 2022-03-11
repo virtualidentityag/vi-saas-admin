@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Layout } from "antd";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   // DesktopOutlined,
   SettingOutlined,
@@ -12,18 +12,22 @@ import { useTranslation } from "react-i18next";
 import routePathNames from "../../appConfig";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
-import clearStore from "../../state/actions/clearStore";
 import CustomLogoutIcon from "../CustomIcons/Logout";
+import { handleTokenRefresh } from "../../api/auth/auth";
+import logout from "../../api/auth/logout";
 
 const { Content, Sider } = Layout;
 
 function ProtectedPageLayoutWrapper({ children }: any) {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const logout = () => {
-    clearStore();
-    navigate("/login");
+  const handleLogout = () => {
+    logout(true);
   };
+
+  useEffect(() => {
+    // handle a refresh as registered user and not initialize a new user
+    handleTokenRefresh();
+  }, []);
 
   return (
     <Layout className="protectedLayout">
@@ -84,7 +88,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
            */}
 
             <li key="6" className="menuItem">
-              <button onClick={logout} type="button">
+              <button onClick={handleLogout} type="button">
                 <CustomLogoutIcon className="menuIcon" />
                 <span>{t("logout")}</span>
               </button>

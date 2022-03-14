@@ -76,8 +76,10 @@ function Settings() {
         logo: logoUrl,
         favicon: faviconUrl,
         primaryColor: values.primaryColor,
-        secondaryColor:
-          values.secondaryColor || form.getFieldValue("secondaryColor"),
+        secondaryColor: "",
+        /* currently we don't have a proper UX concept for this
+         values.secondaryColor || form.getFieldValue("secondaryColor"),
+         */
       },
       content: {
         impressum: values.impressum.toString("html"),
@@ -314,7 +316,8 @@ function Settings() {
                     />
                   </Item>
                 </Col>
-                <Col xs={12} md={11} lg={8} xl={6} xxl={5}>
+                {/* currently we don't have a proper UX concept for this
+                  <Col xs={12} md={11} lg={8} xl={6} xxl={5}>
                   <Item shouldUpdate name="secondaryColor">
                     <ColorSelector
                       isLoading={isLoading}
@@ -324,7 +327,7 @@ function Settings() {
                       field="secondaryColor"
                     />
                   </Item>
-                </Col>
+                </Col> */}
               </Row>
             </Item>
           </Col>

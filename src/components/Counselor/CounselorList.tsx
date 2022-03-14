@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import { message } from "antd";
 
+import { reloadResources } from "i18next";
 import getCouselorData from "../../api/counselor/getCounselorData";
 import { CounselorData } from "../../types/counselor";
 import addCouselorData from "../../api/counselor/addCounselorData";
@@ -105,10 +106,16 @@ function CounselorList() {
           duration: 3,
         });
       })
-      .catch(() => {
+      .catch((response) => {
+        console.log(response.status, response);
+        let errorMessage = "";
+        if (response.status === 200) {
+          errorMessage = "message.error.default";
+        }
+
         setIsLoading(false);
         message.error({
-          content: t("message.error.default"),
+          content: t(errorMessage),
           duration: 3,
         });
       });

@@ -105,6 +105,8 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
           resolve(data);
         } else if (props.responseHandling) {
           if (props.responseHandling.includes(FETCH_ERRORS.CATCH_ALL)) {
+            console.log("responseHAndling", response);
+
             reject(new Error(FETCH_ERRORS.CATCH_ALL));
           } else if (
             response.status === 204 &&

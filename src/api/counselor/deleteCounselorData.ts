@@ -10,12 +10,14 @@ import { counselorEndpoint } from "../../appConfig";
 const editCounselorData = (counselorData: CounselorData) => {
   const { id } = counselorData;
 
-  return fetchData({
+  const counselor = fetchData({
     url: `${counselorEndpoint}/${id}`,
     method: FETCH_METHODS.DELETE,
     skipAuth: false,
     responseHandling: [FETCH_ERRORS.CATCH_ALL],
   });
+
+  return counselor;
 };
 
 export default editCounselorData;

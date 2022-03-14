@@ -33,9 +33,11 @@ function FileUploader({
     if (!isJpgOrPng) {
       message.error(t("message.error.upload.filetype"));
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
+    const isLarger500kb = file.size / 1024 > 512;
+
+    if (isLarger500kb) {
       message.error(t("message.error.upload.filesize"));
+      return false;
     }
 
     getBase64(file, (imgUrl1: string | ArrayBuffer | null) => {

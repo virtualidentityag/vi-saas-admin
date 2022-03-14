@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import { message } from "antd";
 
-import { reloadResources } from "i18next";
+import { useStateWithCallbackLazy } from "use-state-with-callback";
 import getCouselorData from "../../api/counselor/getCounselorData";
 import { CounselorData } from "../../types/counselor";
 import addCouselorData from "../../api/counselor/addCounselorData";
@@ -20,7 +20,7 @@ import addAgencyToCounselor from "../../api/agency/addAgencyToCounselor";
 
 function CounselorList() {
   const { t } = useTranslation();
-  const [counselors, setCounselors] = useState([]);
+  const [counselors, setCounselors] = useStateWithCallbackLazy([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [editingCounselor, setEditingCounselor] = useState<
@@ -41,19 +41,12 @@ function CounselorList() {
     setIsLoading(true);
     addCouselorData(formData)
       .then((response) => {
-        console.log(
-          "addAgencyToCounselor",
-          // eslint-disable-next-line no-underscore-dangle
-          response,
-          formData
-        );
         // eslint-disable-next-line no-underscore-dangle
         addAgencyToCounselor(response?._embedded.id, formData.agency);
       })
       .then(() => getCouselorData(page.toString()))
       .then((result: any) => {
-        setCounselors(result);
-        resetStatesAfterLoad();
+        setCounselors(result, resetStatesAfterLoad());
         message.success({
           content: t("message.counselor.add"),
           duration: 3,
@@ -75,8 +68,7 @@ function CounselorList() {
     editCouselorData(formData)
       .then(() => getCouselorData(page.toString()))
       .then((result: any) => {
-        setCounselors(result);
-        resetStatesAfterLoad();
+        setCounselors(result, resetStatesAfterLoad());
         message.success({
           content: t("message.counselor.update"),
           duration: 3,
@@ -99,15 +91,13 @@ function CounselorList() {
     deleteCouselorData(formData)
       .then(() => getCouselorData(page.toString()))
       .then((result: any) => {
-        resetStatesAfterLoad();
-        setCounselors(result);
+        setCounselors(result, resetStatesAfterLoad());
         message.success({
           content: t("message.counselor.delete"),
           duration: 3,
         });
       })
       .catch((response) => {
-        console.log(response.status, response);
         let errorMessage = "";
         if (response.status === 200) {
           errorMessage = "message.error.default";
@@ -200,9 +190,7 @@ function CounselorList() {
         agency &&
         agency
           .map((agencyItem) => {
-            return agencyItem[0]
-              ? `${agencyItem[0].name} (${agencyItem[0].city})`
-              : "";
+            return agencyItem ? `${agencyItem.name} (${agencyItem.city})` : "";
           })
           .join(),
     },
@@ -226,8 +214,8 @@ function CounselorList() {
     setIsLoading(true);
     getCouselorData(page.toString())
       .then((result: any) => {
-        setCounselors(result);
-        resetStatesAfterLoad();
+        console.log("then", result);
+        return setCounselors(result, resetStatesAfterLoad());
       })
       .catch(() => {
         setIsLoading(false);
@@ -256,6 +244,7 @@ function CounselorList() {
         handlePagination={setPage}
         page={page}
       />
+
       <ModalForm
         title={
           editingCounselor

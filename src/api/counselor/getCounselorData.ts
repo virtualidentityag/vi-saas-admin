@@ -1,7 +1,9 @@
 import { counselorEndpoint } from "../../appConfig";
 
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
-import rebuildCounselorList from "../../utils/rebuildCounselorList";
+import rebuildCounselorsList, {
+  filterCounselorsList,
+} from "../../utils/rebuildCounselorList";
 
 /**
  * retrieve all needed counselor data
@@ -14,10 +16,14 @@ const getCounselorData = (page: string) => {
     method: FETCH_METHODS.GET,
     skipAuth: false,
     responseHandling: [FETCH_ERRORS.CATCH_ALL],
-  }).then((result) => {
-    // eslint-disable-next-line no-underscore-dangle
-    return rebuildCounselorList(result._embedded);
-  });
+  })
+    .then((result) => {
+      // eslint-disable-next-line no-underscore-dangle
+      return filterCounselorsList(result._embedded);
+    })
+    .then((filteredCounselorsList) => {
+      return rebuildCounselorsList(filteredCounselorsList);
+    });
 };
 
 export default getCounselorData;

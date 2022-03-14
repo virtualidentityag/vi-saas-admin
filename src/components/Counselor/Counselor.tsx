@@ -56,6 +56,10 @@ function Counselor({
     modalForm.validateFields(["absenceMessage"]);
   }, [checkAbsent, modalForm]);
 
+  useEffect(() => {
+    modalForm.resetFields();
+  }, [counselor]);
+
   const {
     lastname,
     firstname,

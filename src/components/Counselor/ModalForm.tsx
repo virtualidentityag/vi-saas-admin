@@ -1,5 +1,5 @@
 import { Form, Modal } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import Title from "antd/es/typography/Title";
 import Counselor from "./Counselor";
 import { CounselorData } from "../../types/counselor";

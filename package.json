@@ -41,6 +41,7 @@
     "redux-persist": "^6.0.0",
     "typescript": "^4.5.5",
     "typescript-cypress": "^1.0.5",
+    "use-state-with-callback": "^2.0.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -81,7 +82,9 @@
     "@testing-library/cypress": "^8.0.2",
     "@typescript-eslint/eslint-plugin": "^5.11.0",
     "@typescript-eslint/parser": "^5.11.0",
+    "concurrently": "^6.0.2",
     "craco-less": "^2.0.0",
+    "cross-env": "^7.0.2",
     "cypress": "^9.4.1",
     "cypress-plugin-snapshots": "^1.4.4",
     "cypress-react-unit-test": "^4.17.2",
@@ -108,9 +111,7 @@
     "stylelint-no-unsupported-browser-features": "^5.0.2",
     "stylelint-order": "^5.0.0",
     "stylelint-webpack-plugin": "^3.1.1",
-    "concurrently": "^6.0.2",
-    "wait-on": "^5.2.0",
-    "cross-env": "^7.0.2"
+    "wait-on": "^5.2.0"
   },
   "jest": {
     "transform": {

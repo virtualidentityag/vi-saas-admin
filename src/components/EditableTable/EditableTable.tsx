@@ -66,6 +66,7 @@ function EditableTable({
         sticky
         tableLayout="fixed"
       />
+
       <Modal
         title={<Title level={2}>{handleDeleteModalTitle}</Title>}
         visible={isDeleteModalVisible}

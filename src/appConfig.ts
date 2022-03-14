@@ -6,11 +6,11 @@ const REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY =
 // @ts-ignore
 export const CSRF_WHITELIST_HEADER: string =
   REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
-const { subdomain } = getLocationVariables();
+const { subdomain, origin } = getLocationVariables();
 
-export const mainURL = subdomain
+export const mainURL = origin.includes("localhost")
   ? `https://${subdomain}.${process.env.REACT_APP_API_URL}`
-  : `https://${process.env.REACT_APP_API_URL}`;
+  : origin;
 
 export const XHRheader = { AcceptLanguage: "de" };
 export const loginEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/token`;

@@ -58,7 +58,7 @@ function Counselor({
 
   useEffect(() => {
     modalForm.resetFields();
-  }, [counselor]);
+  }, [counselor, modalForm]);
 
   const {
     lastname,
@@ -106,7 +106,7 @@ function Counselor({
           duration: 3,
         });
       });
-  }, [t, id]);
+  }, [t, id, modalForm]);
 
   return (
     <Spin spinning={agencies.length === 0}>
@@ -171,7 +171,10 @@ function Counselor({
             name="username"
             rules={[{ required: true }]}
           >
-            <Input placeholder={t("placeholder.username")} />
+            <Input
+              placeholder={t("placeholder.username")}
+              disabled={!isInAddMode}
+            />
           </Item>
           <Item
             label={t("counselor.formalLanguage")}

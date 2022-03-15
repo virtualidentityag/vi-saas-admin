@@ -1,3 +1,5 @@
+import { message } from "antd";
+import i18next from "i18next";
 import { getValueFromCookie } from "./auth/accessSessionCookie";
 import generateCsrfToken from "../utils/generateCsrfToken";
 
@@ -105,6 +107,14 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
           resolve(data);
         } else if (props.responseHandling) {
           if (props.responseHandling.includes(FETCH_ERRORS.CATCH_ALL)) {
+            message.error({
+              content: i18next.t([
+                `message.error.${response.headers.get("x-reason")}`,
+                "message.error.default",
+              ]),
+              duration: 3,
+            });
+
             reject(new Error(FETCH_ERRORS.CATCH_ALL));
           } else if (
             response.status === 204 &&

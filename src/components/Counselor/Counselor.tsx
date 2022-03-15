@@ -101,10 +101,6 @@ function Counselor({
       .catch(() => {
         setIsLoading(false);
         setAgencies([]);
-        message.error({
-          content: t("message.error.default"),
-          duration: 3,
-        });
       });
   }, [t, id, modalForm]);
 

@@ -53,13 +53,7 @@ function CounselorList() {
         });
         setIsModalFormVisible(false);
       })
-      .catch(() => {
-        setIsLoading(false);
-        message.error({
-          content: t("message.error.default"),
-          duration: 3,
-        });
-      });
+      .catch(() => {});
     //
   };
 
@@ -78,11 +72,7 @@ function CounselorList() {
         setIsModalFormVisible(false);
       })
       .catch(() => {
-        setIsLoading(false);
-        message.error({
-          content: t("message.error.default"),
-          duration: 3,
-        });
+        resetStatesAfterLoad();
       });
     //
   };
@@ -99,17 +89,8 @@ function CounselorList() {
           duration: 3,
         });
       })
-      .catch((response) => {
-        let errorMessage = "";
-        if (response.status === 200) {
-          errorMessage = "message.error.default";
-        }
-
-        setIsLoading(false);
-        message.error({
-          content: t(errorMessage),
-          duration: 3,
-        });
+      .catch(() => {
+        resetStatesAfterLoad();
       });
     //
   };
@@ -221,10 +202,6 @@ function CounselorList() {
       })
       .catch(() => {
         setIsLoading(false);
-        message.error({
-          content: t("message.error.default"),
-          duration: 3,
-        });
       });
   }, [t, page]);
 

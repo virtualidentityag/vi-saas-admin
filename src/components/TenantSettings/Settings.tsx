@@ -99,10 +99,6 @@ function Settings() {
       })
       .catch(() => {
         setIsLoading(false);
-        message.error({
-          content: t("message.error.default"),
-          duration: 3,
-        });
       });
     //
   };

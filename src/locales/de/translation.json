@@ -33,6 +33,8 @@
   "message.success.setting.update": "Einstellungen wurden aktualisiert!",
   "message.error.setting.update": "Einstellungen wurden NICHT aktualisiert!",
   "message.error.agency.load": "Es ist ein Fehler beim Laden der Agenturen aufgetreten!",
+  "message.error.CONSULTANT_HAS_ACTIVE_SESSIONS": "Dieser Berater hat noch offene Sessions. Sie können ihn derzeit nicht löschen.",
+  "message.error.USERNAME_NOT_AVAILABLE": "Der Benutzername ist bereits vergeben.",
   "and": " und ",
   "btn.upload": "Hinzufügen",
   "btn.cancel": "Abbrechen",

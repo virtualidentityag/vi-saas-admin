@@ -3,17 +3,13 @@ import { counselorEndpoint } from "../../appConfig";
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 
 /**
- * retrieve all needed counselor data
+ * retrieve all needed agency data
  * @return {Promise}
  */
 const addAgencyToCounselor = (
   counselorId: string,
   agencyId: string | string[]
 ) => {
-  // retrieve Counselor
-
-  console.log("addAgencyToCounselor", counselorId, agencyId);
-
   return fetchData({
     url: `${counselorEndpoint}/${counselorId}/agencies`,
     method: FETCH_METHODS.POST,

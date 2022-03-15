@@ -4,12 +4,10 @@ import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 import removeEmbedded from "../../utils/removeEmbedded";
 
 /**
- * retrieve all needed counselor data
+ * retrieve all needed agency data
  * @return {Promise}
  */
 const getAgencyByCounselorData = (counselorId: string) => {
-  // retrieve Counselor
-
   return fetchData({
     url: `${counselorEndpoint}/${counselorId}/agencies`,
     method: FETCH_METHODS.GET,

@@ -16,6 +16,7 @@ const rebuildCounselorsList = (list: any) => {
     getAgencyByCounselorData(counselor.id).then((agencies) => {
       newCounselor.agency = agencies;
     });
+    console.log("get agency", new Date().toISOString(), newCounselor);
     return newCounselor;
   });
 };

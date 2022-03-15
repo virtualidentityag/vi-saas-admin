@@ -105,14 +105,6 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
           resolve(data);
         } else if (props.responseHandling) {
           if (props.responseHandling.includes(FETCH_ERRORS.CATCH_ALL)) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            // eslint-disable-next-line no-restricted-syntax
-            for (const pair of response.headers.values()) {
-              console.log(props.url, `value`, pair);
-            }
-            console.log(props.url, "x", response.headers.get("reason"));
-
             reject(new Error(FETCH_ERRORS.CATCH_ALL));
           } else if (
             response.status === 204 &&

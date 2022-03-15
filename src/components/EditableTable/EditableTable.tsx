@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button, Modal, Popover, Table } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
@@ -6,7 +6,6 @@ import Title from "antd/es/typography/Title";
 
 import { useSelector } from "react-redux";
 import EditableTableProps from "../../types/editabletable";
-import { CounselorData } from "../../types/counselor";
 
 function EditableTable({
   handleBtnAdd,
@@ -21,7 +20,6 @@ function EditableTable({
 }: EditableTableProps) {
   const { t } = useTranslation();
   const { tenantData } = useSelector((state: any) => state);
-  const [counselors, setCounselors] = useState<CounselorData[]>([]);
   const { licensing } = tenantData;
   const { allowedNumberOfUsers } = licensing;
 
@@ -37,26 +35,6 @@ function EditableTable({
     </Button>
   );
 
-  useEffect(() => {
-    setCounselors(source);
-    console.log(
-      "editing table UE",
-      new Date().toISOString(),
-      source[3]?.firstname,
-      source[3],
-      counselors[3]?.firstname,
-      counselors[3]
-    );
-  }, [source]);
-
-  console.log(
-    "editing table",
-    new Date().toISOString(),
-    source[1]?.firstname,
-    source[1]?.agency,
-    counselors[1]?.firstname,
-    counselors[1]?.agency
-  );
   return (
     <>
       <div>
@@ -76,10 +54,11 @@ function EditableTable({
           {source.length}/{allowedNumberOfUsers} {t("counselor.title")}
         </span>
       </div>
+
       <Table
         loading={isLoading}
         className="editableTable"
-        dataSource={counselors}
+        dataSource={source}
         columns={columns}
         scroll={{
           x: "max-content",

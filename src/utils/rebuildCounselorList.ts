@@ -10,15 +10,16 @@ export const filterCounselorsList = (list: any) => {
 };
 
 const rebuildCounselorsList = (list: any) => {
-  return list.map((counselor: CounselorData) => {
-    const newCounselor = { ...counselor };
-    newCounselor.key = counselor.id;
-    getAgencyByCounselorData(counselor.id).then((agencies) => {
-      newCounselor.agency = agencies;
-    });
-    console.log("get agency", new Date().toISOString(), newCounselor);
-    return newCounselor;
-  });
+  return Promise.all(
+    list.map(async (counselor: CounselorData) => {
+      const newCounselor = { ...counselor };
+      newCounselor.key = counselor.id;
+      await getAgencyByCounselorData(counselor.id).then((agencies) => {
+        newCounselor.agency = agencies;
+      });
+      return newCounselor;
+    })
+  );
 };
 
 export default rebuildCounselorsList;

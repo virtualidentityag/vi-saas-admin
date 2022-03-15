@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import { message } from "antd";
 
-import { useStateWithCallbackLazy } from "use-state-with-callback";
 import getCouselorData from "../../api/counselor/getCounselorData";
 import { CounselorData } from "../../types/counselor";
 import addCouselorData from "../../api/counselor/addCounselorData";
@@ -20,7 +19,7 @@ import addAgencyToCounselor from "../../api/agency/addAgencyToCounselor";
 
 function CounselorList() {
   const { t } = useTranslation();
-  const [counselors, setCounselors] = useStateWithCallbackLazy([]);
+  const [counselors, setCounselors] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [editingCounselor, setEditingCounselor] = useState<
@@ -46,7 +45,8 @@ function CounselorList() {
       })
       .then(() => getCouselorData(page.toString()))
       .then((result: any) => {
-        setCounselors(result, resetStatesAfterLoad());
+        setCounselors(result);
+        resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.add"),
           duration: 3,
@@ -68,7 +68,8 @@ function CounselorList() {
     editCouselorData(formData)
       .then(() => getCouselorData(page.toString()))
       .then((result: any) => {
-        setCounselors(result, resetStatesAfterLoad());
+        setCounselors(result);
+        resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.update"),
           duration: 3,
@@ -91,7 +92,8 @@ function CounselorList() {
     deleteCouselorData(formData)
       .then(() => getCouselorData(page.toString()))
       .then((result: any) => {
-        setCounselors(result, resetStatesAfterLoad());
+        setCounselors(result);
+        resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.delete"),
           duration: 3,
@@ -214,8 +216,8 @@ function CounselorList() {
     setIsLoading(true);
     getCouselorData(page.toString())
       .then((result: any) => {
-        console.log("then", result);
-        return setCounselors(result, resetStatesAfterLoad());
+        setCounselors(result);
+        resetStatesAfterLoad();
       })
       .catch(() => {
         setIsLoading(false);

@@ -54,7 +54,6 @@ function CounselorList() {
         setIsModalFormVisible(false);
       })
       .catch(() => {});
-    //
   };
 
   const handleEditCounselor = (formData: CounselorData) => {
@@ -74,7 +73,6 @@ function CounselorList() {
       .catch(() => {
         resetStatesAfterLoad();
       });
-    //
   };
 
   const handleDeleteCounselor = (formData: CounselorData) => {
@@ -92,7 +90,6 @@ function CounselorList() {
       .catch(() => {
         resetStatesAfterLoad();
       });
-    //
   };
 
   const handleCreateModal = () => {

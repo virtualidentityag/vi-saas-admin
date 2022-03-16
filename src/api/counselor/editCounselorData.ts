@@ -20,7 +20,7 @@ const editCounselorData = (counselorData: CounselorData) => {
     id,
   } = counselorData;
 
-  // just use needed data from hole form data
+  // just use needed data from whole form data
   const strippedCounselor = {
     firstname,
     lastname,

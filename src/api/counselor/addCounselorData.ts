@@ -11,7 +11,7 @@ const addCounselorData = (counselorData: Record<string, any>) => {
   const { firstname, lastname, formalLanguage, email, absent, username } =
     counselorData;
 
-  // just use needed data from hole form data
+  // just use needed data from whole form data
   const strippedCounselor = {
     firstname,
     lastname,

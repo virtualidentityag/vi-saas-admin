@@ -31,7 +31,6 @@ export interface Props {
   counselor: CounselorData;
   isInAddMode?: boolean;
   modalForm: FormInstance;
-  handleDeleteCounselor?: (arg0: CounselorData) => void;
   handleEditCounselor?: (arg0: CounselorData) => void;
 }
 

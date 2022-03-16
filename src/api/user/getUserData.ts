@@ -18,7 +18,7 @@ const getUserData = () => {
   });
 
   customerResponse.then((response: any) => {
-    const { firstName, id, lastName, email, gender, salutation, phone } =
+    const { firstname, id, lastname, email, gender, salutation, phone } =
       response.data;
 
     if (response?.status !== 200) {
@@ -26,9 +26,9 @@ const getUserData = () => {
     }
 
     storeDispatch("user/set-data", {
-      firstName,
+      firstname,
       id,
-      lastName,
+      lastname,
       email,
       gender,
       salutation,

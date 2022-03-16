@@ -31,9 +31,7 @@ describe("Check counselor page and edit name", function () {
     cy.wait(100);
     cy.get(".ant-form").eq(0);
     cy.get(".ant-form-item").eq(0);
-    cy.get("#firstName").click({ scrollBehavior: false });
-    cy.scrollTo("top");
-    cy.get("#firstName").clear({ scrollBehavior: false }).type("Christoph");
+    cy.get("#firstname").clear({ scrollBehavior: false }).type("Christoph");
     cy.get(".saveIcon").eq(0).click();
     cy.get(".ant-form").eq(0);
     // will be fixed with real counselor Data

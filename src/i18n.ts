@@ -24,6 +24,8 @@ i18n
     // have a common namespace used around the full app
     ns: ["translations"],
     defaultNS: "translations",
+    // allow an empty value to count as invalid (by default is true)
+    returnEmptyString: false,
   });
 
 export default i18n;

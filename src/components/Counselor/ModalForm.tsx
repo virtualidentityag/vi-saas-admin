@@ -1,6 +1,5 @@
 import { Form, Modal } from "antd";
 import React from "react";
-import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import Counselor from "./Counselor";
 import { CounselorData } from "../../types/counselor";
@@ -9,31 +8,41 @@ interface ModalFormProps {
   isModalCreateVisible: boolean;
   handleOnAddCounselor: (arg0: CounselorData) => void;
   handleCreateModalCancel: () => void;
-  newCounselor: CounselorData;
+  counselor: CounselorData;
+  title: string;
+  isInAddMode: boolean;
 }
 
 function ModalForm({
   isModalCreateVisible,
   handleOnAddCounselor,
   handleCreateModalCancel,
-  newCounselor,
+  counselor,
+  title,
+  isInAddMode,
 }: ModalFormProps) {
-  const { t } = useTranslation();
   const [form] = Form.useForm();
 
   return (
     <Modal
-      title={<Title level={2}>{t("counselor.modal.headline.add")}</Title>}
+      destroyOnClose
+      title={<Title level={2}>{title}</Title>}
       visible={isModalCreateVisible}
       onOk={() => {
         form.validateFields().then((values) => {
           handleOnAddCounselor(values);
-          form.resetFields();
         });
       }}
-      onCancel={handleCreateModalCancel}
+      onCancel={() => {
+        handleCreateModalCancel();
+        form.resetFields();
+      }}
     >
-      <Counselor counselor={newCounselor} isInAddMode modalForm={form} />
+      <Counselor
+        counselor={counselor}
+        isInAddMode={isInAddMode}
+        modalForm={form}
+      />
     </Modal>
   );
 }

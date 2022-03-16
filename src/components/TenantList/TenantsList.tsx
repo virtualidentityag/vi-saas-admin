@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, message } from "antd";
+import { Table, Button } from "antd";
 import moment from "moment";
 import { PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
@@ -21,10 +21,6 @@ function TenantsList() {
       })
       .catch(() => {
         setIsLoading(false);
-        message.error({
-          content: t("message.error.default"),
-          duration: 3,
-        });
       });
   }, [t]);
 

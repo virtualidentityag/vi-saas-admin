@@ -1,155 +1,140 @@
 import React, { useEffect, useState } from "react";
-import { Form, message } from "antd";
 
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
+import { message } from "antd";
 
-import getFAKECouselorData from "../../api/counselor/getFAKECounselorData";
+import getCouselorData from "../../api/counselor/getCounselorData";
 import { CounselorData } from "../../types/counselor";
-import addFAKECouselorData from "../../api/counselor/addFAKECounselorData";
-import editFAKECouselorData from "../../api/counselor/editFAKECounselorData";
-import deleteFAKECouselorData from "../../api/counselor/deleteFAKECounselorData";
+import addCouselorData from "../../api/counselor/addCounselorData";
+import editCouselorData from "../../api/counselor/editCounselorData";
+import deleteCouselorData from "../../api/counselor/deleteCounselorData";
 import { defaultCounselor } from "./Counselor";
 import ModalForm from "./ModalForm";
-import EditButtons from "../EditableTable/EditButtons";
+
 import EditableTable from "../EditableTable/EditableTable";
+import EditButtons from "../EditableTable/EditButtons";
+import { decodeUsername } from "../../utils/encryptionHelpers";
+import addAgencyToCounselor from "../../api/agency/addAgencyToCounselor";
 
 function CounselorList() {
   const { t } = useTranslation();
   const [counselors, setCounselors] = useState([]);
+  const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const [editingKey, setEditingKey] = useState("");
-  const isEditing = (record: CounselorData) => record.key === editingKey;
-  const [form] = Form.useForm();
+  const [editingCounselor, setEditingCounselor] = useState<
+    CounselorData | undefined
+  >(undefined);
 
-  const [isModalCreateVisible, setIsModalCreateVisible] = useState(false);
+  const [isModalFormVisible, setIsModalFormVisible] = useState(false);
   const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
 
-  const handleAddCounselor = (formData: CounselorData) => {
+  const resetStatesAfterLoad = () => {
+    setIsLoading(false);
+    setIsModalFormVisible(false);
+    setEditingCounselor(undefined);
+    setIsModalDeleteVisible(false);
+  };
+
+  const handleAddCounselor = (formData: Record<string, any>) => {
     setIsLoading(true);
-    addFAKECouselorData(formData)
+    addCouselorData(formData)
+      .then((response) => {
+        // eslint-disable-next-line no-underscore-dangle
+        addAgencyToCounselor(response?._embedded.id, formData.agency);
+      })
+      .then(() => getCouselorData(page.toString()))
       .then((result: any) => {
-        setIsLoading(false);
         setCounselors(result);
+        resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.add"),
           duration: 3,
         });
-        setIsModalCreateVisible(false);
+        setIsModalFormVisible(false);
       })
-      .catch(() => {
-        setIsLoading(false);
-        message.error({
-          content: t("message.error.default"),
-          duration: 3,
-        });
-      });
-    //
+      .catch(() => {});
   };
 
   const handleEditCounselor = (formData: CounselorData) => {
     setIsLoading(true);
-    editFAKECouselorData(formData, counselors)
+    editCouselorData(formData)
+      .then(() => getCouselorData(page.toString()))
       .then((result: any) => {
-        setIsLoading(false);
         setCounselors(result);
+        resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.update"),
           duration: 3,
         });
-        setIsModalCreateVisible(false);
+        setIsLoading(false);
+        setIsModalFormVisible(false);
       })
       .catch(() => {
-        setIsLoading(false);
-        message.error({
-          content: t("message.error.default"),
-          duration: 3,
-        });
+        resetStatesAfterLoad();
       });
-    //
   };
 
   const handleDeleteCounselor = (formData: CounselorData) => {
     setIsLoading(true);
-    deleteFAKECouselorData(formData, counselors)
+    deleteCouselorData(formData)
+      .then(() => getCouselorData(page.toString()))
       .then((result: any) => {
-        setIsLoading(false);
         setCounselors(result);
+        resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.delete"),
           duration: 3,
         });
-        setIsModalCreateVisible(false);
       })
       .catch(() => {
-        setIsLoading(false);
-        message.error({
-          content: t("message.error.default"),
-          duration: 3,
-        });
+        resetStatesAfterLoad();
       });
-    //
   };
 
   const handleCreateModal = () => {
-    setIsModalCreateVisible(true);
+    setIsModalFormVisible(true);
   };
 
-  const handleCreateModalCancel = () => {
-    setIsModalCreateVisible(false);
+  const handleFormModalCancel = () => {
+    resetStatesAfterLoad();
   };
 
-  const handleOnDelete = (values: any) => {
+  const handleOnDelete = () => {
     setIsModalDeleteVisible(false);
-    handleDeleteCounselor(values);
+    if (editingCounselor) {
+      handleDeleteCounselor(editingCounselor);
+    }
   };
 
-  const handleDeleteModal = () => {
+  const handleDeleteModal = (record: CounselorData) => {
+    setEditingCounselor(record);
     setIsModalDeleteVisible(!isModalDeleteVisible);
   };
 
-  useEffect(() => {
-    setIsLoading(true);
-    getFAKECouselorData()
-      .then((result: any) => {
-        setIsLoading(false);
-        setCounselors(result);
-      })
-      .catch(() => {
-        setIsLoading(false);
-        message.error({
-          content: t("message.error.default"),
-          duration: 3,
-        });
-      });
-  }, [t]);
-
-  const edit = (record: CounselorData) => {
-    setEditingKey(record.key);
-  };
-
-  const cancel = () => {
-    setEditingKey("");
+  const handleEdit = (record: CounselorData) => {
+    setEditingCounselor(record);
+    setIsModalFormVisible(true);
   };
 
   const columns: any[] = [
     {
-      title: t("firstName"),
-      dataIndex: "firstName",
-      key: "firstName",
+      title: t("firstname"),
+      dataIndex: "firstname",
+      key: "firstname",
       sorter: (a: CounselorData, b: CounselorData) =>
-        a.firstName.localeCompare(b.firstName),
+        a.firstname.localeCompare(b.firstname),
       width: 100,
       ellipsis: true,
       fixed: "left",
       editable: true,
     },
     {
-      title: t("lastName"),
-      dataIndex: "lastName",
-      key: "lastName",
+      title: t("lastname"),
+      dataIndex: "lastname",
+      key: "lastname",
       sorter: (a: CounselorData, b: CounselorData) =>
-        a.lastName.localeCompare(b.lastName),
+        a.lastname.localeCompare(b.lastname),
       width: 100,
       ellipsis: true,
       fixed: "left",
@@ -157,22 +142,21 @@ function CounselorList() {
     },
 
     {
-      width: 250,
+      width: 150,
       title: t("email"),
       dataIndex: "email",
       key: "email",
       ellipsis: true,
-      editable: true,
       sorter: (a: CounselorData, b: CounselorData) =>
         a.email.localeCompare(b.email),
     },
     {
-      width: 250,
+      width: 150,
       title: t("username"),
       dataIndex: "username",
       key: "username",
       ellipsis: true,
-      editable: true,
+      render: (username: string) => decodeUsername(username),
       sorter: (a: CounselorData, b: CounselorData) =>
         a.username.localeCompare(b.username),
     },
@@ -182,46 +166,41 @@ function CounselorList() {
       dataIndex: "agency",
       key: "agency",
       ellipsis: true,
-      editable: true,
-      sorter: (a: CounselorData, b: CounselorData) =>
-        a.agency.localeCompare(b.agency),
+      render: (agency: any[]) =>
+        agency &&
+        agency
+          .map((agencyItem) => {
+            return agencyItem ? `${agencyItem.name} (${agencyItem.city})` : "";
+          })
+          .join(),
     },
     {
       width: 88,
       title: "",
       key: "edit",
       render: (_: any, record: CounselorData) => {
-        const editable = isEditing(record);
         return (
           <EditButtons
-            editable={editable}
-            handleEdit={handleEditCounselor}
+            handleEdit={handleEdit}
             handleDelete={handleDeleteModal}
             record={record}
-            cancel={cancel}
-            editingKey={editingKey}
-            edit={edit}
           />
         );
       },
     },
   ];
 
-  const mergedColumns = columns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
-    return {
-      ...col,
-      onCell: (record: CounselorData) => ({
-        record,
-        inputType: "text",
-        dataIndex: col.dataIndex,
-        title: col.title,
-        editing: isEditing(record),
-      }),
-    };
-  });
+  useEffect(() => {
+    setIsLoading(true);
+    getCouselorData(page.toString())
+      .then((result: any) => {
+        setCounselors(result);
+        resetStatesAfterLoad();
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
+  }, [t, page]);
 
   return (
     <>
@@ -232,19 +211,29 @@ function CounselorList() {
         handleBtnAdd={handleCreateModal}
         source={counselors}
         isLoading={isLoading}
-        columns={mergedColumns}
+        columns={columns}
         handleDeleteModalTitle={t("counselor.modal.headline.delete")}
         handleDeleteModalCancel={handleDeleteModal}
         handleDeleteModalText={t("counselor.modal.delete.text")}
         handleOnDelete={handleOnDelete}
         isDeleteModalVisible={isModalDeleteVisible}
-        form={form}
+        handlePagination={setPage}
+        page={page}
       />
+
       <ModalForm
-        isModalCreateVisible={isModalCreateVisible}
-        handleCreateModalCancel={handleCreateModalCancel}
-        handleOnAddCounselor={handleAddCounselor}
-        newCounselor={defaultCounselor}
+        title={
+          editingCounselor
+            ? t("counselor.modal.headline.edit")
+            : t("counselor.modal.headline.add")
+        }
+        isInAddMode={!editingCounselor}
+        isModalCreateVisible={isModalFormVisible}
+        handleCreateModalCancel={handleFormModalCancel}
+        handleOnAddCounselor={
+          editingCounselor ? handleEditCounselor : handleAddCounselor
+        }
+        counselor={editingCounselor || defaultCounselor}
       />
     </>
   );

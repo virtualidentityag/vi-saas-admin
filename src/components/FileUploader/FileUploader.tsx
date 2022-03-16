@@ -52,12 +52,7 @@ function FileUploader({
   };
 
   return (
-    <Item
-      label={label}
-      getValueFromEvent={getValueFromEvent}
-      name="logo"
-      className="block"
-    >
+    <Item label={label} getValueFromEvent={getValueFromEvent} className="block">
       <Upload
         name="upload"
         listType="picture-card"

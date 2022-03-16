@@ -3,9 +3,9 @@
 import { UserData } from "../../types/user";
 
 const initialState: UserData = {
-  firstName: "",
+  firstname: "",
   id: null,
-  lastName: "",
+  lastname: "",
   email: "",
   gender: "",
   phone: "",

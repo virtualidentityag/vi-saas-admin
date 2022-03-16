@@ -1,12 +1,16 @@
 export interface CounselorData {
-  lastName: string;
-  firstName: string;
+  lastname: string;
+  firstname: string;
   email: string;
   active: boolean;
   gender: string;
-  id: number | null;
+  id: string;
   phone: string;
-  agency: string;
+  agency: Record<string, any>[];
   username: string;
   key: string;
+  formalLanguage: boolean;
+  absent: boolean;
+  absenceMessage?: string;
+  deleteDate?: string;
 }

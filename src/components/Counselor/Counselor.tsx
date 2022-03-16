@@ -1,32 +1,36 @@
-import React, { useState } from "react";
-import {
-  FormOutlined,
-  SaveOutlined,
-  UserDeleteOutlined,
-} from "@ant-design/icons";
-import { Form, Input, Button, message, Modal, FormInstance } from "antd";
+import React, { useEffect, useState } from "react";
+import { Form, Input, message, FormInstance, Select, Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { CounselorData } from "../../types/counselor";
+import { decodeUsername } from "../../utils/encryptionHelpers";
+import getAgencyByTenantData from "../../api/agency/getAgencyByTenantData";
+import removeEmbedded from "../../utils/removeEmbedded";
+
+const { Option } = Select;
+const { TextArea } = Input;
+const { Item } = Form;
 
 export const defaultCounselor: CounselorData = {
-  lastName: "",
-  firstName: "",
+  lastname: "",
+  firstname: "",
   email: "",
   active: true,
   gender: "",
-  id: null,
+  id: "",
   phone: "",
-  agency: "",
+  agency: [],
   username: "",
   key: "",
+  formalLanguage: true,
+  absent: false,
+  absenceMessage: "",
 };
 
 export interface Props {
   counselor: CounselorData;
   isInAddMode?: boolean;
-  modalForm?: FormInstance;
-  handleDeleteCounselor?: (arg0: CounselorData) => void;
+  modalForm: FormInstance;
   handleEditCounselor?: (arg0: CounselorData) => void;
 }
 
@@ -34,36 +38,40 @@ function Counselor({
   counselor,
   isInAddMode = false,
   modalForm,
-  handleDeleteCounselor,
   handleEditCounselor,
 }: Props) {
   const { t } = useTranslation();
-  const [form] = Form.useForm();
-  const currentForm = modalForm || form;
 
+  const [checkAbsent, setCheckAbsent] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [agencies, setAgencies] = useState<Record<string, any>[]>([]);
   const [editing, setEditing] = useState(isInAddMode);
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const { lastName, firstName, email, phone, active, agency, username, id } =
-    counselor;
-
-  const toggleEditing = () => {
-    setEditing(!editing);
+  const onAbsentChange = (value: boolean) => {
+    setCheckAbsent(value);
   };
 
-  const handleOnDelete = () => {
-    currentForm.validateFields().then((values) => {
-      setIsModalVisible(false);
-      setEditing(false);
-      if (handleDeleteCounselor) {
-        handleDeleteCounselor(values);
-      }
-    });
-  };
+  useEffect(() => {
+    modalForm.validateFields(["absenceMessage"]);
+  }, [checkAbsent, modalForm]);
 
-  const handleModalCancel = () => {
-    setIsModalVisible(false);
-  };
+  useEffect(() => {
+    modalForm.resetFields();
+  }, [counselor, modalForm]);
+
+  const {
+    lastname,
+    firstname,
+    email,
+    phone,
+    active,
+    agency,
+    username,
+    id,
+    formalLanguage,
+    absent,
+    absenceMessage,
+  } = counselor;
 
   const onFormSubmit = (values: any) => {
     setEditing(!editing);
@@ -74,15 +82,31 @@ function Counselor({
 
   const onFinishFailed = () => {
     message.error({
-      content: `Berater ${firstName} ${lastName} wurde NICHT aktualisiert!`,
+      content: t("message.error.default"),
       duration: 3,
     });
   };
 
+  useEffect(() => {
+    setIsLoading(true);
+    getAgencyByTenantData()
+      .then((result: any) => {
+        // eslint-disable-next-line no-underscore-dangle
+        const resultNormalized = removeEmbedded(result._embedded);
+        modalForm.setFieldsValue({ agency: resultNormalized[0].id });
+        setAgencies(resultNormalized);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        setAgencies([]);
+      });
+  }, [t, id, modalForm]);
+
   return (
-    <>
+    <Spin spinning={agencies.length === 0}>
       <Form
-        form={currentForm}
+        form={modalForm}
         onFinish={onFormSubmit}
         onFinishFailed={onFinishFailed}
         size="small"
@@ -90,102 +114,110 @@ function Counselor({
         labelWrap
         layout="vertical"
         initialValues={{
-          firstName,
-          lastName,
+          firstname,
+          lastname,
           agency,
           phone,
           email,
-          username,
+          username: decodeUsername(username),
           id,
+          formalLanguage,
+          absent,
+          absenceMessage,
         }}
       >
         <div className={clsx("counselor", !active && "inactive")}>
-          <Form.Item
-            label={t("firstName")}
-            name="firstName"
+          <Item
+            label={t("firstname")}
+            name="firstname"
             rules={[{ required: true }]}
           >
-            <Input placeholder={t("placeholder.firstName")} />
-          </Form.Item>
+            <Input placeholder={t("placeholder.firstname")} />
+          </Item>
 
-          <Form.Item
-            label={t("lastName")}
-            name="lastName"
+          <Item
+            label={t("lastname")}
+            name="lastname"
             rules={[{ required: true }]}
           >
-            <Input placeholder={t("placeholder.lastName")} />
-          </Form.Item>
+            <Input placeholder={t("placeholder.lastname")} />
+          </Item>
 
-          <Form.Item name="id" hidden />
-          <Form.Item
-            label={t("email")}
-            name="email"
-            rules={[{ required: true }]}
-          >
+          <Item name="id" hidden>
+            <Input hidden />
+          </Item>
+          <Item label={t("email")} name="email" rules={[{ required: true }]}>
             <Input placeholder={t("placeholder.email")} />
-          </Form.Item>
-          {/* <Form.Item label={t("phone")} name="phone">
-        {editing ? <Input /> : phone}
-      </Form.Item>
-      <Form.Item label={t("agency")} name="agency">
-        {editing ? (
-          <Select>
-            <Option value="Agentur 1">Agentur 1</Option>
-            <Option value="Agentur 2">Agentur 2</Option>
-            <Option value="Agentur 3">Agentur 3</Option>
-          </Select>
-        ) : (
-          agency
-        )}
-      </Form.Item> */}
-          <Form.Item
+          </Item>
+          <Item label={t("agency")} name="agency">
+            <Select
+              disabled={agencies?.length <= 1 || isLoading}
+              placeholder={t("plsSelect")}
+            >
+              {agencies?.map((agencyItem: Record<string, any>) => (
+                <Option key={agencyItem.id} value={agencyItem.id}>
+                  {agencyItem.name} ({agencyItem.city})
+                </Option>
+              ))}
+            </Select>
+          </Item>
+          <Item
             label={t("counselor.username")}
             name="username"
             rules={[{ required: true }]}
           >
-            <Input placeholder={t("placeholder.username")} />
-          </Form.Item>
-
-          {!isInAddMode && editing ? (
-            <Button htmlType="submit" type="text" icon={<SaveOutlined />}>
-              {t("save")}
-            </Button>
-          ) : (
-            !isInAddMode && (
-              <Button
-                onClick={toggleEditing}
-                type="text"
-                key="edit"
-                icon={<FormOutlined />}
+            <Input
+              placeholder={t("placeholder.username")}
+              disabled={!isInAddMode}
+            />
+          </Item>
+          <Item
+            label={t("counselor.formalLanguage")}
+            name="formalLanguage"
+            rules={[{ required: true }]}
+          >
+            <Select placeholder={t("plsSelect")}>
+              <Option key={0} value>
+                {t("yes")}
+              </Option>
+              <Option key={1} value={false}>
+                {t("no")}
+              </Option>
+            </Select>
+          </Item>
+          {!isInAddMode ? (
+            <>
+              <Item
+                label={t("counselor.absent")}
+                name="absent"
+                rules={[{ required: true }]}
               >
-                {t("edit")}
-              </Button>
-            )
-          )}
-          {!isInAddMode && (
-            <Button
-              onClick={() => setIsModalVisible(true)}
-              type="text"
-              key="delete"
-              icon={<UserDeleteOutlined />}
-            >
-              {t("delete")}
-            </Button>
+                <Select placeholder={t("plsSelect")} onChange={onAbsentChange}>
+                  <Option key={0} value>
+                    {t("yes")}
+                  </Option>
+                  <Option key={1} value={false}>
+                    {t("no")}
+                  </Option>
+                </Select>
+              </Item>
+
+              <Item
+                label={t("counselor.absenceMessage")}
+                name="absenceMessage"
+                rules={[{ required: checkAbsent }]}
+              >
+                <TextArea rows={3} />
+              </Item>
+            </>
+          ) : (
+            <Item name="absent" hidden>
+              <Input hidden />
+            </Item>
           )}
         </div>
       </Form>
-      <Modal
-        title={t("counselor.modal.headline.delete")}
-        visible={isModalVisible}
-        onOk={handleOnDelete}
-        onCancel={handleModalCancel}
-        cancelText={t("btn.cancel")}
-        closable={false}
-        centered
-      >
-        <p>{t("counselor.modal.delete.text")}</p>
-      </Modal>
-    </>
+    </Spin>
   );
 }
 

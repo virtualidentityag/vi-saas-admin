@@ -17,7 +17,8 @@ import Title from "antd/es/typography/Title";
 import ColorSelector from "../ColorSelector/ColorSelector";
 import RichTextEditor from "../RichText/RichTextEditor";
 
-import getComplentaryColor from "../../utils/getComplentaryColor";
+// currently we don't have a proper UX concept for this
+// import getComplentaryColor from "../../utils/getComplentaryColor";
 
 import CustomInfoIcon from "../CustomIcons/Info";
 import editTenantData from "../../api/tenant/editTenantData";
@@ -41,9 +42,10 @@ function Settings() {
     decodeHTML(favicon) || ""
   );
 
-  const setComplementaryColor = (color: string) => {
-    form.setFieldsValue({ secondaryColor: getComplentaryColor(color) });
-  };
+  /* currently we don't have a proper UX concept for this const
+  setComplementaryColor = (color: string) => {
+     form.setFieldsValue({ secondaryColor: getComplentaryColor(color) });
+   }; */
 
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
@@ -55,13 +57,14 @@ function Settings() {
   const onFormSubmit = (values: any) => {
     setIsLoading(true);
 
+    /* currently we don't have a proper UX concept for this
     if (!values.secondaryColor) {
-      setComplementaryColor(values.primaryColor);
+         setComplementaryColor(values.primaryColor);
       message.success({
         content: t("message.settings.complementaryColor"),
         duration: 3,
       });
-    }
+    } */
 
     //  ToDo: outsource restructured data into Helper
     const changedTenantData = {

@@ -9,16 +9,20 @@ import {
   // BankOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import routePathNames from "../../appConfig";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import CustomLogoutIcon from "../CustomIcons/Logout";
 import { handleTokenRefresh } from "../../api/auth/auth";
 import logout from "../../api/auth/logout";
+import getLocationVariables from "../../utils/getLocationVariables";
 
 const { Content, Sider } = Layout;
 
 function ProtectedPageLayoutWrapper({ children }: any) {
+  const { subdomain } = getLocationVariables();
+  const { tenantData } = useSelector((state: any) => state);
   const { t } = useTranslation();
   const handleLogout = () => {
     logout(true);
@@ -28,6 +32,12 @@ function ProtectedPageLayoutWrapper({ children }: any) {
     // handle a refresh as registered user and not initialize a new user
     handleTokenRefresh();
   }, []);
+
+  useEffect(() => {
+    if (subdomain !== tenantData.subdomain) {
+      logout(true);
+    }
+  }, [subdomain, tenantData.subdomain]);
 
   return (
     <Layout className="protectedLayout">

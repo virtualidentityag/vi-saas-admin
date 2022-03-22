@@ -10,7 +10,7 @@ const redirectAfterLogout = (altRedirectUrl?: string) => {
   const redirectUrl = altRedirectUrl || routePathNames.login;
   setTimeout(() => {
     window.location.href = redirectUrl;
-  }, 1000);
+  }, 100);
 };
 
 const invalidateCookies = (withRedirect = true, redirectUrl?: string) => {
@@ -29,12 +29,13 @@ const logout = (withRedirect = true, redirectUrl?: string) => {
 
   apiKeycloakLogout()
     .then(() => {
+      clearStore();
       invalidateCookies(withRedirect, redirectUrl);
     })
     .catch(() => {
+      clearStore();
       invalidateCookies(withRedirect, redirectUrl);
     });
-  clearStore();
   return null;
 };
 

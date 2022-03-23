@@ -35,6 +35,7 @@
   "message.error.agency.load": "Es ist ein Fehler beim Laden der Beratungsstellen aufgetreten!",
   "message.error.CONSULTANT_HAS_ACTIVE_SESSIONS": "Dieser Berater hat noch offene Beratungen. Sie können ihn derzeit nicht löschen.",
   "message.error.USERNAME_NOT_AVAILABLE": "Der Benutzername ist bereits vergeben.",
+  "message.error.email.incorrect": "E-Mail ist nicht gültig.",
   "and": " und ",
   "btn.upload": "Hinzufügen",
   "btn.cancel": "Abbrechen",

@@ -113,7 +113,6 @@ function Counselor({
         onFinishFailed={onFinishFailed}
         onFieldsChange={() => {
           setButtonDisabled(
-            // only when addin
             Object.values(
               modalForm.getFieldsValue([
                 "firstname",

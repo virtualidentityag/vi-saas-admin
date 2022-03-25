@@ -1,5 +1,5 @@
 import { Form, Modal } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import Title from "antd/es/typography/Title";
 import Counselor from "./Counselor";
 import { CounselorData } from "../../types/counselor";
@@ -22,6 +22,7 @@ function ModalForm({
   isInAddMode,
 }: ModalFormProps) {
   const [form] = Form.useForm();
+  const [buttonDisabled, setButtonDisabled] = useState(true);
 
   return (
     <Modal
@@ -34,14 +35,18 @@ function ModalForm({
         });
       }}
       onCancel={() => {
-        handleCreateModalCancel();
         form.resetFields();
+        handleCreateModalCancel();
+      }}
+      okButtonProps={{
+        disabled: buttonDisabled,
       }}
     >
       <Counselor
         counselor={counselor}
         isInAddMode={isInAddMode}
         modalForm={form}
+        setButtonDisabled={setButtonDisabled}
       />
     </Modal>
   );

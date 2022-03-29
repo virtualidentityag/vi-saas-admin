@@ -6,7 +6,7 @@ import {
   SettingOutlined,
   TeamOutlined,
   // UserOutlined,
-  // BankOutlined,
+  BankOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -75,7 +75,6 @@ function ProtectedPageLayoutWrapper({ children }: any) {
               </NavLink>
             </li>
 
-            {/* later.....
             <li key="4" className="menuItem">
               <NavLink
                 to={routePathNames.tenants}
@@ -86,6 +85,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
               </NavLink>
             </li>
 
+            {/* later.....
             <li key="5" className="menuItem">
               <NavLink
                 to={routePathNames.userProfile}

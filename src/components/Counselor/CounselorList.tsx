@@ -9,7 +9,7 @@ import { CounselorData } from "../../types/counselor";
 import addCouselorData from "../../api/counselor/addCounselorData";
 import editCouselorData from "../../api/counselor/editCounselorData";
 import deleteCouselorData from "../../api/counselor/deleteCounselorData";
-import { defaultCounselor } from "./Counselor";
+import Counselor, { defaultCounselor } from "./Counselor";
 import ModalForm from "./ModalForm";
 
 import EditableTable from "../EditableTable/EditableTable";

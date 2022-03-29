@@ -6,6 +6,9 @@ import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import { TenantData } from "../../types/tenant";
 import getFakeMultipleTenants from "../../api/tenant/getFakeMultipleTenants";
+import EditableTable from "../EditableTable/EditableTable";
+import ModalForm from "../Counselor/ModalForm";
+import { defaultCounselor } from "../Counselor/Counselor";
 
 function TenantsList() {
   const { t } = useTranslation();
@@ -70,21 +73,18 @@ function TenantsList() {
     <>
       <Title level={3}>{t("organisations.title")}</Title>
       <p>{t("organisations.title.text")}</p>
-      <Button type="primary" icon={<PlusOutlined />}>
-        {t("new")}
-      </Button>
-      <Table
-        loading={isLoading}
-        className="tenantsTable"
-        dataSource={tenants}
+      <EditableTable
+        handleBtnAdd={() => {} /* handleCreateModal */}
+        source={tenants}
+        isLoading={isLoading}
         columns={columns}
-        scroll={{
-          x: "max-content",
-          y: "100%",
-        }}
-        sticky
-        tableLayout="fixed"
-        // bordered
+        handleDeleteModalTitle={t("counselor.modal.headline.delete")}
+        handleDeleteModalCancel={() => {} /* handleDeleteModal */}
+        handleDeleteModalText={t("counselor.modal.delete.text")}
+        handleOnDelete={() => {} /* handleOnDelete */}
+        isDeleteModalVisible
+        handlePagination={() => {} /* setPage */}
+        page={1 /* page */}
       />
     </>
   );

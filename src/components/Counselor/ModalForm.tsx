@@ -11,6 +11,7 @@ interface ModalFormProps {
   counselor: CounselorData;
   title: string;
   isInAddMode: boolean;
+  formData?: React.ReactNode;
 }
 
 function ModalForm({
@@ -20,6 +21,7 @@ function ModalForm({
   counselor,
   title,
   isInAddMode,
+  formData,
 }: ModalFormProps) {
   const [form] = Form.useForm();
   const [buttonDisabled, setButtonDisabled] = useState(true);

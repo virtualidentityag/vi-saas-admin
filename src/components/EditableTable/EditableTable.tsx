@@ -1,11 +1,10 @@
 import React from "react";
-import { Button, Modal, Popover, Table } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import { useTranslation } from "react-i18next";
+import { Modal, Table } from "antd";
+
 import Title from "antd/es/typography/Title";
 
-import { useSelector } from "react-redux";
 import EditableTableProps from "../../types/editabletable";
+import AddButton from "./AddButton";
 
 function EditableTable({
   handleBtnAdd,
@@ -17,43 +16,15 @@ function EditableTable({
   handleDeleteModalCancel,
   handleDeleteModalTitle,
   handleDeleteModalText,
+  allowedNumberOfUsers = 9999,
 }: EditableTableProps) {
-  const { t } = useTranslation();
-  const { tenantData } = useSelector((state: any) => state);
-  const { licensing } = tenantData;
-  const { allowedNumberOfUsers } = licensing;
-
-  const AddButton = (
-    <Button
-      className="mb-m mr-sm"
-      type="primary"
-      icon={<PlusOutlined />}
-      onClick={handleBtnAdd}
-      disabled={source.length >= allowedNumberOfUsers}
-    >
-      {t("new")}
-    </Button>
-  );
-
   return (
     <>
-      <div>
-        {source.length >= allowedNumberOfUsers ? (
-          <Popover
-            placement="bottomRight"
-            content={t("counselor.new.help", { number: allowedNumberOfUsers })}
-            title={t("notice")}
-            trigger="hover"
-          >
-            {AddButton}
-          </Popover>
-        ) : (
-          AddButton
-        )}
-        <span>
-          {source.length}/{allowedNumberOfUsers} {t("counselor.title")}
-        </span>
-      </div>
+      <AddButton
+        allowedNumberOfUsers={allowedNumberOfUsers}
+        sourceLength={source.length}
+        handleBtnAdd={handleBtnAdd}
+      />
 
       <Table
         loading={isLoading}

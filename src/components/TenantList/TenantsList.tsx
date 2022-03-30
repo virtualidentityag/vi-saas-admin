@@ -1,19 +1,122 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button } from "antd";
 import moment from "moment";
-import { PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import { TenantData } from "../../types/tenant";
 import getFakeMultipleTenants from "../../api/tenant/getFakeMultipleTenants";
 import EditableTable from "../EditableTable/EditableTable";
 import ModalForm from "../Counselor/ModalForm";
-import { defaultCounselor } from "../Counselor/Counselor";
+import Counselor, { defaultCounselor } from "../Counselor/Counselor";
+import { CounselorData } from "../../types/counselor";
+import EditButtons from "../EditableTable/EditButtons";
+import { EditableData } from "../../types/editabletable";
+import { RenderFormProps } from "../../types/modalForm";
 
 function TenantsList() {
   const { t } = useTranslation();
   const [tenants, setTenants] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [editingTenant, setEditingTenant] = useState<TenantData | undefined>(
+    undefined
+  );
+  const [page, setPage] = useState(1);
+
+  const [isModalFormVisible, setIsModalFormVisible] = useState(false);
+  const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
+
+  const resetStatesAfterLoad = () => {
+    setIsLoading(false);
+    setIsModalFormVisible(false);
+    setEditingTenant(undefined);
+    setIsModalDeleteVisible(false);
+  };
+
+  const handleAddTenant = (formData: Record<string, any>) => {
+    setIsLoading(true);
+    /* addCouselorData(formData)
+        .then((response) => {
+          // eslint-disable-next-line no-underscore-dangle
+          addAgencyToCounselor(response?._embedded.id, formData.agency);
+        })
+        .then(() => getCouselorData(page.toString()))
+        .then((result: any) => {
+          setCounselors(result);
+          resetStatesAfterLoad();
+          message.success({
+            content: t("message.counselor.add"),
+            duration: 3,
+          });
+          setIsModalFormVisible(false);
+        })
+        .catch(() => {});
+
+     */
+  };
+
+  const handleEditTenant = (formData: TenantData) => {
+    setIsLoading(true);
+    /* editCouselorData(formData)
+        .then(() => getCouselorData(page.toString()))
+        .then((result: any) => {
+          setCounselors(result);
+          resetStatesAfterLoad();
+          message.success({
+            content: t("message.counselor.update"),
+            duration: 3,
+          });
+          setIsLoading(false);
+          setIsModalFormVisible(false);
+        })
+        .catch(() => {
+          resetStatesAfterLoad();
+        });
+        
+     */
+  };
+
+  const handleDeleteTenant = (formData: TenantData) => {
+    setIsLoading(true);
+    /* deleteCouselorData(formData)
+      .then(() => getCouselorData(page.toString()))
+      .then((result: any) => {
+        setTenants(result);
+        resetStatesAfterLoad();
+        message.success({
+          content: t("message.counselor.delete"),
+          duration: 3,
+        });
+      })
+      .catch(() => {
+        resetStatesAfterLoad();
+      });
+     
+     */
+  };
+
+  const handleCreateModal = () => {
+    setIsModalFormVisible(true);
+  };
+
+  const handleFormModalCancel = () => {
+    resetStatesAfterLoad();
+  };
+
+  const handleOnDelete = () => {
+    setIsModalDeleteVisible(false);
+    if (editingTenant) {
+      handleDeleteTenant(editingTenant);
+    }
+  };
+
+  const handleDeleteModal = (record: EditableData) => {
+    setEditingTenant(record as TenantData);
+    setIsModalDeleteVisible(!isModalDeleteVisible);
+  };
+
+  const handleEdit = (record: EditableData) => {
+    setEditingTenant(record as TenantData);
+    setIsModalFormVisible(true);
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -67,6 +170,20 @@ function TenantsList() {
       /* sorter: (a: TenantData, b: TenantData) =>
         a.licensing.allowedNumberOfUsers - b.licensing.allowedNumberOfUsers, */
     },
+    {
+      width: 88,
+      title: "",
+      key: "edit",
+      render: (_: any, record: CounselorData) => {
+        return (
+          <EditButtons
+            handleEdit={handleEdit}
+            handleDelete={handleDeleteModal}
+            record={record}
+          />
+        );
+      },
+    },
   ];
 
   return (
@@ -74,17 +191,43 @@ function TenantsList() {
       <Title level={3}>{t("organisations.title")}</Title>
       <p>{t("organisations.title.text")}</p>
       <EditableTable
-        handleBtnAdd={() => {} /* handleCreateModal */}
+        handleBtnAdd={handleCreateModal}
         source={tenants}
         isLoading={isLoading}
         columns={columns}
-        handleDeleteModalTitle={t("counselor.modal.headline.delete")}
-        handleDeleteModalCancel={() => {} /* handleDeleteModal */}
-        handleDeleteModalText={t("counselor.modal.delete.text")}
-        handleOnDelete={() => {} /* handleOnDelete */}
-        isDeleteModalVisible
-        handlePagination={() => {} /* setPage */}
-        page={1 /* page */}
+        handleDeleteModalTitle={t("organisation.modal.delete.headline")}
+        handleDeleteModalCancel={handleDeleteModal}
+        handleDeleteModalText={t("organisation.modal.text.delete")}
+        handleOnDelete={handleOnDelete}
+        isDeleteModalVisible={isModalDeleteVisible}
+        handlePagination={setPage}
+        page={page}
+        allowedNumberOfUsers={false}
+      />
+      <ModalForm
+        title={
+          editingTenant
+            ? t("tenant.modal.headline.edit")
+            : t("tenant.modal.headline.add")
+        }
+        isInAddMode={!editingTenant}
+        isModalCreateVisible={isModalFormVisible}
+        handleCreateModalCancel={handleFormModalCancel}
+        handleOnAddElement={editingTenant ? handleEditTenant : handleAddTenant}
+        formData={editingTenant || defaultCounselor}
+        renderFormFields={({
+          form,
+          setButtonDisabled,
+          formData,
+          isInAddMode,
+        }: RenderFormProps) => (
+          <Counselor
+            formData={formData as CounselorData}
+            modalForm={form}
+            isInAddMode={isInAddMode}
+            setButtonDisabled={setButtonDisabled}
+          />
+        )}
       />
     </>
   );

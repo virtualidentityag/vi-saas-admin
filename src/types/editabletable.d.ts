@@ -1,4 +1,7 @@
 import { CounselorData } from "./counselor";
+import { TenantData } from "./tenant";
+
+export type EditableData = CounselorData | TenantData;
 
 export default interface EditableTableProps {
   handleBtnAdd: (formData: any) => void;
@@ -12,10 +15,11 @@ export default interface EditableTableProps {
   handleDeleteModalText: string;
   handlePagination: SetStateAction<number>;
   page: number;
+  allowedNumberOfUsers: number | false;
 }
 
 export interface EditButtonsProps extends React.HTMLAttributes<HTMLElement> {
-  handleEdit: (formData: CounselorData) => void;
-  handleDelete: (formData: CounselorData) => void;
+  handleEdit: (formData: EditableData) => void;
+  handleDelete: (formData: EditableData) => void;
   record: CounselorData;
 }

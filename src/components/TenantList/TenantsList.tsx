@@ -19,7 +19,7 @@ function TenantsList() {
   const [editingTenant, setEditingTenant] = useState<TenantData | undefined>(
     undefined
   );
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
 
   const [isModalFormVisible, setIsModalFormVisible] = useState(false);
   const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
@@ -221,6 +221,7 @@ function TenantsList() {
           formData,
           isInAddMode,
         }: RenderFormProps) => (
+          // ToDo: replace with Tenant formData from Tenant.tsx
           <Counselor
             formData={formData as CounselorData}
             modalForm={form}

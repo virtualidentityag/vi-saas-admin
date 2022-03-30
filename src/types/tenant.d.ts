@@ -1,4 +1,4 @@
-export interface TenantData {
+export interface BasicTenantData {
   id: number | null;
   name: string;
   subdomain?: string;
@@ -7,6 +7,9 @@ export interface TenantData {
   licensing?: {
     allowedNumberOfUsers: number | 0;
   };
+}
+
+export interface TenantData extends BasicTenantData {
   theming: {
     logo: string;
     favicon: string;

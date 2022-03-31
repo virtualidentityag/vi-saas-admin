@@ -2,83 +2,49 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Form, Input, message, FormInstance, Select, Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { CounselorData } from "../../types/counselor";
-import { decodeUsername } from "../../utils/encryptionHelpers";
-import getAgencyByTenantData from "../../api/agency/getAgencyByTenantData";
-import removeEmbedded from "../../utils/removeEmbedded";
+import { BasicTenantData } from "../../types/tenant";
 
 const { Option } = Select;
 const { TextArea } = Input;
 const { Item } = Form;
 
-export const defaultCounselor: CounselorData = {
-  lastname: "",
-  firstname: "",
-  email: "",
-  active: true,
-  gender: "",
-  id: "",
-  phone: "",
-  agency: [],
-  username: "",
-  key: "",
-  formalLanguage: true,
-  absent: false,
-  absenceMessage: "",
+export const defaultTenant: BasicTenantData = {
+  id: null,
+  name: "",
+  subdomain: "",
+  createDate: "",
+  licensing: { allowedNumberOfUsers: 0 },
 };
 
 export interface Props {
-  counselor: CounselorData;
+  formData: BasicTenantData;
   isInAddMode?: boolean;
   modalForm: FormInstance;
-  handleEditCounselor?: (arg0: CounselorData) => void;
+  handleEditTenant?: (arg0: BasicTenantData) => void;
   setButtonDisabled: Dispatch<SetStateAction<boolean>>;
 }
 
-function Counselor({
-  counselor,
+function Tenant({
+  formData,
   isInAddMode = false,
   modalForm,
-  handleEditCounselor,
+  handleEditTenant,
   setButtonDisabled,
 }: Props) {
   const { t } = useTranslation();
 
-  const [checkAbsent, setCheckAbsent] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [agencies, setAgencies] = useState<Record<string, any>[]>([]);
   const [editing, setEditing] = useState(isInAddMode);
-
-  const onAbsentChange = (value: boolean) => {
-    setCheckAbsent(value);
-  };
-
-  useEffect(() => {
-    modalForm.validateFields(["absenceMessage"]);
-  }, [checkAbsent, modalForm]);
 
   useEffect(() => {
     modalForm.resetFields();
-  }, [counselor, modalForm]);
+  }, [formData, modalForm]);
 
-  const {
-    lastname,
-    firstname,
-    email,
-    phone,
-    active,
-    agency,
-    username,
-    id,
-    formalLanguage,
-    absent,
-    absenceMessage,
-  } = counselor;
+  const { id, name, subdomain, createDate, licensing } = formData;
 
   const onFormSubmit = (values: any) => {
     setEditing(!editing);
-    if (handleEditCounselor) {
-      handleEditCounselor(values);
+    if (handleEditTenant) {
+      handleEditTenant(values);
     }
   };
 
@@ -89,24 +55,8 @@ function Counselor({
     });
   };
 
-  useEffect(() => {
-    setIsLoading(true);
-    getAgencyByTenantData()
-      .then((result: any) => {
-        // eslint-disable-next-line no-underscore-dangle
-        const resultNormalized = removeEmbedded(result._embedded);
-        modalForm.setFieldsValue({ agency: resultNormalized[0].id });
-        setAgencies(resultNormalized);
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setIsLoading(false);
-        setAgencies([]);
-      });
-  }, [t, id, modalForm]);
-
   return (
-    <Spin spinning={agencies.length === 0}>
+    <Spin spinning={false}>
       <Form
         form={modalForm}
         onFinish={onFormSubmit}
@@ -114,12 +64,7 @@ function Counselor({
         onFieldsChange={() => {
           setButtonDisabled(
             Object.values(
-              modalForm.getFieldsValue([
-                "firstname",
-                "lastname",
-                "email",
-                "username",
-              ])
+              modalForm.getFieldsValue(["name", "subdomain", "licensing"])
             ).some((field: any) => field.length === 0) ||
               modalForm
                 .getFieldsError()
@@ -131,121 +76,49 @@ function Counselor({
         labelWrap
         layout="vertical"
         initialValues={{
-          firstname,
-          lastname,
-          agency,
-          phone,
-          email,
-          username: decodeUsername(username),
+          name,
+          subdomain,
           id,
-          formalLanguage,
-          absent,
-          absenceMessage,
+          createDate,
+          licensing,
         }}
       >
-        <div className={clsx("counselor", !active && "inactive")}>
-          <Item
-            label={t("firstname")}
-            name="firstname"
-            rules={[{ required: true }]}
-          >
-            <Input placeholder={t("placeholder.firstname")} />
+        <div className={clsx("tenant")}>
+          <Item label={t("name")} name="name" rules={[{ required: true }]}>
+            <Input placeholder={t("placeholder.name")} />
           </Item>
 
           <Item
-            label={t("lastname")}
-            name="lastname"
+            label={t("subdomain")}
+            name="subdomain"
             rules={[{ required: true }]}
           >
-            <Input placeholder={t("placeholder.lastname")} />
+            <Input placeholder={t("placeholder.subdomain")} />
           </Item>
 
           <Item name="id" hidden>
             <Input hidden />
           </Item>
-          <Item
-            label={t("email")}
-            name="email"
-            rules={[
-              {
-                required: true,
-                type: "email",
-                message: t("message.error.email.incorrect"),
-              },
-            ]}
-          >
-            <Input placeholder={t("placeholder.email")} />
-          </Item>
-          <Item label={t("agency")} name="agency">
-            <Select
-              disabled={agencies?.length <= 1 || isLoading}
-              placeholder={t("plsSelect")}
-            >
-              {agencies?.map((agencyItem: Record<string, any>) => (
-                <Option key={agencyItem.id} value={agencyItem.id}>
-                  {agencyItem.name} ({agencyItem.city})
-                </Option>
-              ))}
-            </Select>
-          </Item>
-          <Item
-            label={t("counselor.username")}
-            name="username"
-            rules={[{ required: true }]}
-          >
-            <Input
-              placeholder={t("placeholder.username")}
-              disabled={!isInAddMode}
-            />
-          </Item>
-          <Item
-            label={t("counselor.formalLanguage")}
-            name="formalLanguage"
-            rules={[{ required: true }]}
-          >
-            <Select placeholder={t("plsSelect")}>
-              <Option key={0} value>
-                {t("yes")}
-              </Option>
-              <Option key={1} value={false}>
-                {t("no")}
-              </Option>
-            </Select>
-          </Item>
-          {!isInAddMode ? (
-            <>
-              <Item
-                label={t("counselor.absent")}
-                name="absent"
-                rules={[{ required: true }]}
-              >
-                <Select placeholder={t("plsSelect")} onChange={onAbsentChange}>
-                  <Option key={0} value>
-                    {t("yes")}
-                  </Option>
-                  <Option key={1} value={false}>
-                    {t("no")}
-                  </Option>
-                </Select>
-              </Item>
 
-              <Item
-                label={t("counselor.absenceMessage")}
-                name="absenceMessage"
-                rules={[{ required: checkAbsent }]}
-              >
-                <TextArea rows={3} />
-              </Item>
-            </>
-          ) : (
-            <Item name="absent" hidden>
-              <Input hidden />
-            </Item>
-          )}
+          <Item
+            label={t("createDate")}
+            name="createDate"
+            rules={[{ required: false }]}
+          >
+            <Input placeholder={t("placeholder.createDate")} />
+          </Item>
+
+          <Item
+            label={t("usersAllowed")}
+            name="usersAllowed"
+            rules={[{ required: false }]}
+          >
+            <Input placeholder={t("placeholder.usersAllowed")} />
+          </Item>
         </div>
       </Form>
     </Spin>
   );
 }
 
-export default Counselor;
+export default Tenant;

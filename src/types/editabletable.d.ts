@@ -22,5 +22,5 @@ export default interface EditableTableProps {
 export interface EditButtonsProps extends React.HTMLAttributes<HTMLElement> {
   handleEdit: (formData: EditableData) => void;
   handleDelete: (formData: EditableData) => void;
-  record: CounselorData;
+  record: CounselorData | BasicTenantData;
 }

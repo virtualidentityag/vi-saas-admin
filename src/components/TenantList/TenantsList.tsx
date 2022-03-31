@@ -159,8 +159,7 @@ function TenantsList() {
       sorter: (a: TenantData, b: TenantData) =>
         moment(a.createDate).unix() - moment(b.createDate).unix(),
       render: (date: Date) => {
-        // convert to german time
-        return <span>{date}</span>;
+        return <span>{new Date(date).toLocaleDateString("de-DE")}</span>;
       },
     },
     {

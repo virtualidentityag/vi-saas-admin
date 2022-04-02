@@ -3,14 +3,14 @@ import moment from "moment";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import { TenantData } from "../../types/tenant";
-import getFakeMultipleTenants from "../../api/tenant/getFakeMultipleTenants";
+import getMultipleTenants from "../../api/tenant/getMultipleTenants";
 import EditableTable from "../EditableTable/EditableTable";
 import ModalForm from "../Counselor/ModalForm";
-import Counselor, { defaultCounselor } from "../Counselor/Counselor";
-import { CounselorData } from "../../types/counselor";
+import { defaultCounselor } from "../Counselor/Counselor";
 import EditButtons from "../EditableTable/EditButtons";
 import { EditableData } from "../../types/editabletable";
 import { RenderFormProps } from "../../types/modalForm";
+import Tenant from "./Tenant";
 
 function TenantsList() {
   const { t } = useTranslation();
@@ -120,7 +120,8 @@ function TenantsList() {
 
   useEffect(() => {
     setIsLoading(true);
-    getFakeMultipleTenants()
+    // getFakeMultipleTenants()
+    getMultipleTenants(page.toString())
       .then((result: any) => {
         setIsLoading(false);
         setTenants(result);
@@ -128,7 +129,7 @@ function TenantsList() {
       .catch(() => {
         setIsLoading(false);
       });
-  }, [t]);
+  }, [t, page]);
 
   const columns: any[] = [
     {
@@ -158,7 +159,7 @@ function TenantsList() {
       sorter: (a: TenantData, b: TenantData) =>
         moment(a.createDate).unix() - moment(b.createDate).unix(),
       render: (date: Date) => {
-        return <span> {date.toLocaleDateString("de-DE")}</span>;
+        return <span>{new Date(date).toLocaleDateString("de-DE")}</span>;
       },
     },
     {
@@ -174,7 +175,7 @@ function TenantsList() {
       width: 88,
       title: "",
       key: "edit",
-      render: (_: any, record: CounselorData) => {
+      render: (_: any, record: TenantData) => {
         return (
           <EditButtons
             handleEdit={handleEdit}
@@ -222,8 +223,8 @@ function TenantsList() {
           isInAddMode,
         }: RenderFormProps) => (
           // ToDo: replace with Tenant formData from Tenant.tsx
-          <Counselor
-            formData={formData as CounselorData}
+          <Tenant
+            formData={formData as TenantData}
             modalForm={form}
             isInAddMode={isInAddMode}
             setButtonDisabled={setButtonDisabled}

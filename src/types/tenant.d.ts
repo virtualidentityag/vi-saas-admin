@@ -1,5 +1,6 @@
 export interface BasicTenantData {
   id: number | null;
+  key?: number | null;
   name: string;
   subdomain?: string;
   createDate?: string;

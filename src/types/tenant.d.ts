@@ -4,6 +4,7 @@ export interface BasicTenantData {
   subdomain?: string;
   createDate?: string;
   updateDate?: string;
+  isSuperAdmin: boolean;
   licensing?: {
     allowedNumberOfUsers: number | 0;
   };

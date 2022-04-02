@@ -1,11 +1,9 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Form, Input, message, FormInstance, Select, Spin } from "antd";
+import { Form, Input, message, FormInstance, Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { BasicTenantData } from "../../types/tenant";
 
-const { Option } = Select;
-const { TextArea } = Input;
 const { Item } = Form;
 
 export const defaultTenant: BasicTenantData = {
@@ -14,6 +12,7 @@ export const defaultTenant: BasicTenantData = {
   subdomain: "",
   createDate: "",
   licensing: { allowedNumberOfUsers: 0 },
+  isSuperAdmin: false,
 };
 
 export interface Props {

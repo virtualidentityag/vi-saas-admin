@@ -66,6 +66,14 @@ function EditableTable({
         }}
         sticky
         tableLayout="fixed"
+        rowClassName={(record, index) => {
+          console.log(index, record.status);
+
+          /* if (record.status !== "null") {
+            return record.status;
+          } */
+          return "ERROR";
+        }}
       />
 
       <Modal

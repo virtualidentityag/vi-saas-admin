@@ -25,6 +25,7 @@ export const defaultCounselor: CounselorData = {
   formalLanguage: true,
   absent: false,
   absenceMessage: "",
+  status: "null",
 };
 
 export interface Props {

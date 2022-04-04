@@ -1,3 +1,5 @@
+import { Status } from "./status";
+
 export interface CounselorData {
   lastname: string;
   firstname: string;
@@ -13,4 +15,5 @@ export interface CounselorData {
   absent: boolean;
   absenceMessage?: string;
   deleteDate?: string;
+  status: Status;
 }

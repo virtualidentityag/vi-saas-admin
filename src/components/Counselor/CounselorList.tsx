@@ -16,6 +16,7 @@ import EditableTable from "../EditableTable/EditableTable";
 import EditButtons from "../EditableTable/EditButtons";
 import { decodeUsername } from "../../utils/encryptionHelpers";
 import addAgencyToCounselor from "../../api/agency/addAgencyToCounselor";
+import StatusIcons from "../EditableTable/StatusIcons";
 
 function CounselorList() {
   const { t } = useTranslation();
@@ -175,16 +176,19 @@ function CounselorList() {
           .join(),
     },
     {
-      width: 88,
+      width: 100,
       title: "",
       key: "edit",
       render: (_: any, record: CounselorData) => {
         return (
-          <EditButtons
-            handleEdit={handleEdit}
-            handleDelete={handleDeleteModal}
-            record={record}
-          />
+          <div className="tableActionWrapper">
+            <EditButtons
+              handleEdit={handleEdit}
+              handleDelete={handleDeleteModal}
+              record={record}
+            />
+            <StatusIcons status={"ERROR" /* record.status */} />
+          </div>
         );
       },
     },

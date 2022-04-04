@@ -10,17 +10,16 @@ import { BasicTenantData } from "../../types/tenant";
 const getMultipleTenants = (page: string) => {
   // retrieve Tenants
   return fetchData({
-    url: `${tenantEndpoint}/?page=${page}&perPage=20`,
+    url: `${tenantEndpoint}?page=${page}&perPage=20`,
     method: FETCH_METHODS.GET,
     skipAuth: false,
     responseHandling: [FETCH_ERRORS.CATCH_ALL],
   }).then((result) => {
-    const newTenantsList = result.map((tenant: BasicTenantData) => {
+    return result.map((tenant: BasicTenantData) => {
       const newTenant = { ...tenant };
       newTenant.key = tenant.id;
       return newTenant;
     });
-    return newTenantsList;
   });
 };
 

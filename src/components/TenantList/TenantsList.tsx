@@ -33,6 +33,7 @@ function TenantsList() {
 
   const handleAddTenant = (formData: Record<string, any>) => {
     setIsLoading(true);
+    // eslint-disable-next-line no-console
     console.log(formData);
     /* addCouselorData(formData)
         .then((response) => {
@@ -56,6 +57,7 @@ function TenantsList() {
 
   const handleEditTenant = (formData: TenantData) => {
     setIsLoading(true);
+    // eslint-disable-next-line no-console
     console.log(formData);
     /* editCouselorData(formData)
         .then(() => getCouselorData(page.toString()))
@@ -78,6 +80,7 @@ function TenantsList() {
 
   const handleDeleteTenant = (formData: TenantData) => {
     setIsLoading(true);
+    // eslint-disable-next-line no-console
     console.log(formData);
     /* deleteCouselorData(formData)
       .then(() => getCouselorData(page.toString()))

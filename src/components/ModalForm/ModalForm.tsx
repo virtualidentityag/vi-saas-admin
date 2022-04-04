@@ -1,5 +1,5 @@
-import { Form, FormInstance, Modal } from "antd";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import { Form, Modal } from "antd";
+import React, { useState } from "react";
 import Title from "antd/es/typography/Title";
 
 import { ModalFormProps } from "../../types/modalForm";

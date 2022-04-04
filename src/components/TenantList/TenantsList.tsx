@@ -5,7 +5,7 @@ import Title from "antd/es/typography/Title";
 import { TenantData } from "../../types/tenant";
 import getMultipleTenants from "../../api/tenant/getMultipleTenants";
 import EditableTable from "../EditableTable/EditableTable";
-import ModalForm from "../Counselor/ModalForm";
+import ModalForm from "../ModalForm/ModalForm";
 import { defaultCounselor } from "../Counselor/Counselor";
 import EditButtons from "../EditableTable/EditButtons";
 import { EditableData } from "../../types/editabletable";
@@ -33,6 +33,7 @@ function TenantsList() {
 
   const handleAddTenant = (formData: Record<string, any>) => {
     setIsLoading(true);
+    console.log(formData);
     /* addCouselorData(formData)
         .then((response) => {
           // eslint-disable-next-line no-underscore-dangle
@@ -55,6 +56,7 @@ function TenantsList() {
 
   const handleEditTenant = (formData: TenantData) => {
     setIsLoading(true);
+    console.log(formData);
     /* editCouselorData(formData)
         .then(() => getCouselorData(page.toString()))
         .then((result: any) => {
@@ -76,6 +78,7 @@ function TenantsList() {
 
   const handleDeleteTenant = (formData: TenantData) => {
     setIsLoading(true);
+    console.log(formData);
     /* deleteCouselorData(formData)
       .then(() => getCouselorData(page.toString()))
       .then((result: any) => {

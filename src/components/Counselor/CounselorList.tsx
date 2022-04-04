@@ -11,7 +11,7 @@ import addCouselorData from "../../api/counselor/addCounselorData";
 import editCouselorData from "../../api/counselor/editCounselorData";
 import deleteCouselorData from "../../api/counselor/deleteCounselorData";
 import Counselor, { defaultCounselor } from "./Counselor";
-import ModalForm from "./ModalForm";
+import ModalForm from "../ModalForm/ModalForm";
 
 import EditableTable from "../EditableTable/EditableTable";
 import EditButtons from "../EditableTable/EditButtons";

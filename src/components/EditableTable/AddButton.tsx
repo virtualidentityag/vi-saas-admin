@@ -9,19 +9,22 @@ function AddButton({
   handleBtnAdd,
 }: AddButtonProps) {
   const { t } = useTranslation();
-  const StyledButton = useCallback(({ disabled }) => {
-    return (
-      <Button
-        className="mb-m mr-sm"
-        type="primary"
-        icon={<PlusOutlined />}
-        onClick={handleBtnAdd}
-        disabled={disabled}
-      >
-        {t("new")}
-      </Button>
-    );
-  }, []);
+  const StyledButton = useCallback(
+    ({ disabled }) => {
+      return (
+        <Button
+          className="mb-m mr-sm"
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={handleBtnAdd}
+          disabled={disabled}
+        >
+          {t("new")}
+        </Button>
+      );
+    },
+    [handleBtnAdd, t]
+  );
 
   return (
     <div>

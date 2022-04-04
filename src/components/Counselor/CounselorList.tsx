@@ -17,6 +17,7 @@ import EditButtons from "../EditableTable/EditButtons";
 import { decodeUsername } from "../../utils/encryptionHelpers";
 import addAgencyToCounselor from "../../api/agency/addAgencyToCounselor";
 import StatusIcons from "../EditableTable/StatusIcons";
+import { Status } from "../../types/status";
 
 function CounselorList() {
   const { t } = useTranslation();
@@ -176,7 +177,17 @@ function CounselorList() {
           .join(),
     },
     {
-      width: 100,
+      width: 80,
+      title: t("status"),
+      dataIndex: "status",
+      key: "status",
+      ellipsis: true,
+      render: (status: Status) => {
+        return <StatusIcons status={status} />;
+      },
+    },
+    {
+      width: 88,
       title: "",
       key: "edit",
       render: (_: any, record: CounselorData) => {
@@ -187,7 +198,6 @@ function CounselorList() {
               handleDelete={handleDeleteModal}
               record={record}
             />
-            <StatusIcons status={"ERROR" /* record.status */} />
           </div>
         );
       },

@@ -9,66 +9,31 @@
   tr {
     background-color: @skin-main-background;
 
-    &.ant-table-row {
-      &.IN_PROGRESS {
-        td {
-          background-color: ~`colorPalette('@{info}', 1)`;
-          border-top: 1px solid ~`colorPalette('@{info}', 3)`;
-          border-bottom: 1px solid ~`colorPalette('@{info}', 3)`;
-          &:first-child {
-            border-left: 1px solid~`colorPalette('@{info}', 3)`;
-          }&:last-child {
-            border-right: 1px solid ~`colorPalette('@{info}', 3)`;
-          }
+    .statusIconWrapper {
+      display: flex;
+      justify-content: center;
+    }
+
+
+      .statusIconWrapper {
+        &.IN_PROGRESS {
+          color: @info-color;
         }
 
-        .anticon-info-circle {
-          color: @info-color-deprecated-border;
-        }
-
-      }
-
-      &.ERROR {
-        td {
-          background-color: @error-color-deprecated-bg;
-          border-top: 1px solid @error-color-deprecated-border;
-          border-bottom: 1px solid @error-color-deprecated-border;
-          &:first-child {
-            border-left: 1px solid @error-color-deprecated-border;
-          }&:last-child {
-             border-right: 1px solid @error-color-deprecated-border;
-           }
-        }
-        .anticon-close-circle {
+        &.ERROR {
           color: @form-error
         }
-      }
-      &.CREATED {
-        td {
-          background-color: @success-color-deprecated-bg;
-          border-top: 1px solid @success-color-deprecated-border;
-          border-bottom: 1px solid @success-color-deprecated-border;
-          &:first-child {
-            border-left: 1px solid @success-color-deprecated-border;
-          }&:last-child {
-             border-right: 1px solid @success-color-deprecated-border;
-           }
-        }
-        .anticon-check-circle {
-          color: @success-color-deprecated-border;
+
+        &.CREATED {
+          color: @success-color;
         }
       }
-    }
 
   }
 
   td {
-    // background-color: @lightest-grey !important;
+    background-color: @lightest-grey !important;
 
-    /* editable table height same as none-editable */
-    .ant-form-item {
-      height: 31px;
-    }
   }
 
   td:first-child {
@@ -91,6 +56,7 @@
     gap: @spacing-sm;
     justify-content: flex-end;
   }
+
   .editBtnWrapper,
   .statusIconWrapper {
     display: inline-flex;
@@ -113,6 +79,7 @@
       width: 24px;
       height: 24px;
     }
+
     // font-size: 21px;
   }
 

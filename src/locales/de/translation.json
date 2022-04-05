@@ -101,5 +101,10 @@
   "placeholder.firstname": "Maxime",
   "placeholder.lastname": "Musterfrau",
   "placeholder.email": "maxime.musterfrau@onlineberatung.de",
-  "placeholder.username": "maxime.musterfrau"
+  "placeholder.username": "maxime.musterfrau",
+  "rte.h1": "Headline 1. Ordnung",
+  "rte.h2": "Headline 2. Ordnung",
+  "rte.h3": "Headline 3. Ordnung",
+  "rte.h4": "Headline 4. Ordnung",
+  "rte.text": "Text"
 }

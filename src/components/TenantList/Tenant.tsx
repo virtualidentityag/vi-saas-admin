@@ -106,12 +106,16 @@ function Tenant({
         }}
       >
         <div className={clsx("tenant")}>
-          <Item label={t("name")} name="name" rules={[{ required: true }]}>
+          <Item
+            label={t("organisation.name")}
+            name="name"
+            rules={[{ required: true }]}
+          >
             <Input placeholder={t("placeholder.name")} />
           </Item>
 
           <Item
-            label={t("subdomain")}
+            label={t("organisation.subdomain")}
             name="subdomain"
             rules={[{ required: true }]}
           >
@@ -125,7 +129,7 @@ function Tenant({
           </Item>
 
           <Item
-            label={t("consultingType")}
+            label={t("organisation.consultingType")}
             name="consultingType"
             rules={[{ required: false }]}
           >
@@ -133,15 +137,15 @@ function Tenant({
           </Item>
 
           <Item
-            label={t("allowedNumberOfUsers")}
+            label={t("organisation.allowedNumberOfUsers")}
             name="allowedNumberOfUsers"
-            rules={[{ required: false }]}
+            rules={[{ required: true }]}
           >
             <Input placeholder={t("placeholder.allowedNumberOfUsers")} />
           </Item>
 
           <Item
-            label={t("tenant.videoFeature")}
+            label={t("organisation.videoFeature")}
             name="videoFeature"
             rules={[{ required: false }]}
           >
@@ -156,7 +160,7 @@ function Tenant({
           </Item>
 
           <Item
-            label={t("tenant.twoFactorAuth")}
+            label={t("organisation.twoFactorAuth")}
             name="twoFactorAuth"
             rules={[{ required: false }]}
           >
@@ -171,7 +175,7 @@ function Tenant({
           </Item>
 
           <Item
-            label={t("tenant.formalLanguage")}
+            label={t("organisation.formalLanguage")}
             name="formalLanguage"
             rules={[{ required: false }]}
           >

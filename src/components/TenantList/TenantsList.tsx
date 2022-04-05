@@ -43,7 +43,7 @@ function TenantsList() {
         setTenants(result);
         resetStatesAfterLoad();
         message.success({
-          content: t("message.tenant.add"),
+          content: t("message.organisation.add"),
           duration: 3,
         });
         setIsModalFormVisible(false);
@@ -60,7 +60,7 @@ function TenantsList() {
         setTenants(result);
         resetStatesAfterLoad();
         message.success({
-          content: t("message.counselor.update"),
+          content: t("message.organisation.update"),
           duration: 3,
         });
         setIsLoading(false);
@@ -80,7 +80,7 @@ function TenantsList() {
         setTenants(result);
         resetStatesAfterLoad();
         message.success({
-          content: t("message.counselor.delete"),
+          content: t("message.organisation.delete"),
           duration: 3,
         });
       })
@@ -192,7 +192,7 @@ function TenantsList() {
         source={tenants}
         isLoading={isLoading}
         columns={columns}
-        handleDeleteModalTitle={t("organisation.modal.delete.headline")}
+        handleDeleteModalTitle={t("organisation.modal.headline.delete")}
         handleDeleteModalCancel={handleDeleteModal}
         handleDeleteModalText={t("organisation.modal.text.delete")}
         handleOnDelete={handleOnDelete}
@@ -204,8 +204,8 @@ function TenantsList() {
       <ModalForm
         title={
           editingTenant
-            ? t("tenant.modal.headline.edit")
-            : t("tenant.modal.headline.add")
+            ? t("organisation.modal.headline.edit")
+            : t("organisation.modal.headline.add")
         }
         isInAddMode={!editingTenant}
         isModalCreateVisible={isModalFormVisible}

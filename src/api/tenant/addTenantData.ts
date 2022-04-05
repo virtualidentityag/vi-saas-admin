@@ -7,7 +7,16 @@ import { tenantEndpoint } from "../../appConfig";
  * @return data
  */
 const addTenantData = (tenantData: Record<string, any>) => {
-  const { name, subdomain, createDate, allowedNumberOfUsers } = tenantData;
+  const {
+    name,
+    subdomain,
+    createDate,
+    allowedNumberOfUsers,
+    formalLanguage,
+    consultingType,
+    twoFactorAuth,
+    videoFeature,
+  } = tenantData;
 
   // just use needed data from whole form data
   const strippedTenant = {
@@ -15,7 +24,10 @@ const addTenantData = (tenantData: Record<string, any>) => {
     subdomain,
     createDate,
     licensing: { allowedNumberOfUsers },
-    formalLanguage: false,
+    formalLanguage,
+    consultingType,
+    twoFactorAuth,
+    videoFeature,
   };
 
   return fetchData({

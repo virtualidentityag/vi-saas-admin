@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { message } from "antd";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
@@ -11,6 +12,9 @@ import EditButtons from "../EditableTable/EditButtons";
 import { EditableData } from "../../types/editabletable";
 import { RenderFormProps } from "../../types/modalForm";
 import Tenant from "./Tenant";
+import addTenantData from "../../api/tenant/addTenantData";
+import deleteTenantData from "../../api/tenant/deleteTenantData";
+import editTenantData from "../../api/tenant/editTenantData";
 
 function TenantsList() {
   const { t } = useTranslation();
@@ -33,54 +37,45 @@ function TenantsList() {
 
   const handleAddTenant = (formData: Record<string, any>) => {
     setIsLoading(true);
-    console.log(formData);
-    /* addCouselorData(formData)
-        .then((response) => {
-          // eslint-disable-next-line no-underscore-dangle
-          addAgencyToCounselor(response?._embedded.id, formData.agency);
-        })
-        .then(() => getCouselorData(page.toString()))
-        .then((result: any) => {
-          setCounselors(result);
-          resetStatesAfterLoad();
-          message.success({
-            content: t("message.counselor.add"),
-            duration: 3,
-          });
-          setIsModalFormVisible(false);
-        })
-        .catch(() => {});
-
-     */
+    addTenantData(formData)
+      .then(() => getMultipleTenants(page.toString()))
+      .then((result: any) => {
+        setTenants(result);
+        resetStatesAfterLoad();
+        message.success({
+          content: t("message.tenant.add"),
+          duration: 3,
+        });
+        setIsModalFormVisible(false);
+      })
+      .catch(() => {});
   };
 
   const handleEditTenant = (formData: TenantData) => {
     setIsLoading(true);
-    console.log(formData);
-    /* editCouselorData(formData)
-        .then(() => getCouselorData(page.toString()))
-        .then((result: any) => {
-          setCounselors(result);
-          resetStatesAfterLoad();
-          message.success({
-            content: t("message.counselor.update"),
-            duration: 3,
-          });
-          setIsLoading(false);
-          setIsModalFormVisible(false);
-        })
-        .catch(() => {
-          resetStatesAfterLoad();
+    // PUT request method must be allowed in the API
+    editTenantData(formData)
+      .then(() => getMultipleTenants(page.toString()))
+      .then((result: any) => {
+        setTenants(result);
+        resetStatesAfterLoad();
+        message.success({
+          content: t("message.counselor.update"),
+          duration: 3,
         });
-        
-     */
+        setIsLoading(false);
+        setIsModalFormVisible(false);
+      })
+      .catch(() => {
+        resetStatesAfterLoad();
+      });
   };
 
   const handleDeleteTenant = (formData: TenantData) => {
     setIsLoading(true);
-    console.log(formData);
-    /* deleteCouselorData(formData)
-      .then(() => getCouselorData(page.toString()))
+    // DELETE request method must be allowed in the API
+    deleteTenantData(formData)
+      .then(() => getMultipleTenants(page.toString()))
       .then((result: any) => {
         setTenants(result);
         resetStatesAfterLoad();
@@ -92,8 +87,6 @@ function TenantsList() {
       .catch(() => {
         resetStatesAfterLoad();
       });
-     
-     */
   };
 
   const handleCreateModal = () => {

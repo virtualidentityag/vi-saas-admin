@@ -1,4 +1,4 @@
-import { TenantData } from "../../types/tenant";
+import { BasicTenantData } from "../../types/tenant";
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 import { tenantEndpoint } from "../../appConfig";
 import { store } from "../../store/store";
@@ -9,7 +9,7 @@ import storeDispatch from "../../state/actions/storeDispatch";
  * @param tenantData
  * @return data
  */
-const editTenantData = (tenantData: TenantData) => {
+const editTenantData = (tenantData: BasicTenantData) => {
   const state = store.getState();
   const { id } = state.tenantData;
 

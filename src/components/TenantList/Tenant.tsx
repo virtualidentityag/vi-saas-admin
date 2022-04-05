@@ -1,9 +1,10 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Form, Input, message, FormInstance, Spin } from "antd";
+import { Form, Input, message, FormInstance, Select, Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { BasicTenantData } from "../../types/tenant";
 
+const { Option } = Select;
 const { Item } = Form;
 
 export const defaultTenant: BasicTenantData = {
@@ -11,8 +12,12 @@ export const defaultTenant: BasicTenantData = {
   name: "",
   subdomain: "",
   createDate: "",
-  licensing: { allowedNumberOfUsers: 0 },
   isSuperAdmin: false,
+  licensing: { allowedNumberOfUsers: 0, videoFeature: false },
+  consultingType: "beratung",
+  twoFactorAuth: false,
+  formalLanguage: false,
+  startServiceDate: "",
 };
 
 export interface Props {
@@ -38,7 +43,17 @@ function Tenant({
     modalForm.resetFields();
   }, [formData, modalForm]);
 
-  const { id, name, subdomain, createDate, licensing } = formData;
+  const {
+    id,
+    name,
+    subdomain,
+    createDate,
+    licensing,
+    consultingType,
+    twoFactorAuth,
+    formalLanguage,
+    startServiceDate,
+  } = formData;
 
   const onFormSubmit = (values: any) => {
     setEditing(!editing);
@@ -63,7 +78,11 @@ function Tenant({
         onFieldsChange={() => {
           setButtonDisabled(
             Object.values(
-              modalForm.getFieldsValue(["name", "subdomain", "licensing"])
+              modalForm.getFieldsValue([
+                "name",
+                "subdomain",
+                "allowedNumberOfUsers",
+              ])
             ).some((field: any) => field.length === 0) ||
               modalForm
                 .getFieldsError()
@@ -80,6 +99,10 @@ function Tenant({
           id,
           createDate,
           licensing,
+          consultingType,
+          twoFactorAuth,
+          formalLanguage,
+          startServiceDate,
         }}
       >
         <div className={clsx("tenant")}>
@@ -95,24 +118,71 @@ function Tenant({
             <Input placeholder={t("placeholder.subdomain")} />
           </Item>
 
+          {/* add startServiceDate date selector field */}
+
           <Item name="id" hidden>
             <Input hidden />
           </Item>
 
           <Item
-            label={t("createDate")}
-            name="createDate"
+            label={t("consultingType")}
+            name="consultingType"
             rules={[{ required: false }]}
           >
-            <Input placeholder={t("placeholder.createDate")} />
+            <Input placeholder={t("placeholder.consultingType")} />
           </Item>
 
           <Item
-            label={t("usersAllowed")}
-            name="usersAllowed"
+            label={t("allowedNumberOfUsers")}
+            name="allowedNumberOfUsers"
             rules={[{ required: false }]}
           >
-            <Input placeholder={t("placeholder.usersAllowed")} />
+            <Input placeholder={t("placeholder.allowedNumberOfUsers")} />
+          </Item>
+
+          <Item
+            label={t("tenant.videoFeature")}
+            name="videoFeature"
+            rules={[{ required: false }]}
+          >
+            <Select placeholder={t("plsSelect")}>
+              <Option key={0} value>
+                {t("yes")}
+              </Option>
+              <Option key={1} value={false}>
+                {t("no")}
+              </Option>
+            </Select>
+          </Item>
+
+          <Item
+            label={t("tenant.twoFactorAuth")}
+            name="twoFactorAuth"
+            rules={[{ required: false }]}
+          >
+            <Select placeholder={t("plsSelect")}>
+              <Option key={0} value>
+                {t("yes")}
+              </Option>
+              <Option key={1} value={false}>
+                {t("no")}
+              </Option>
+            </Select>
+          </Item>
+
+          <Item
+            label={t("tenant.formalLanguage")}
+            name="formalLanguage"
+            rules={[{ required: false }]}
+          >
+            <Select placeholder={t("plsSelect")}>
+              <Option key={0} value>
+                {t("yes")}
+              </Option>
+              <Option key={1} value={false}>
+                {t("no")}
+              </Option>
+            </Select>
           </Item>
         </div>
       </Form>

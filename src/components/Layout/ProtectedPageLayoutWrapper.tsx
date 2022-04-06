@@ -6,7 +6,7 @@ import {
   SettingOutlined,
   TeamOutlined,
   // UserOutlined,
-  // BankOutlined,
+  BankOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -54,38 +54,41 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                 <span>Dashboard</span>
               </NavLink>
             </li> */}
+            {!tenantData.isSuperAdmin ? (
+              <>
+                <li key="2" className="menuItem">
+                  <NavLink
+                    to={routePathNames.themeSettings}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    <SettingOutlined className="menuIcon" />
+                    <span>{t("settings.title")}</span>
+                  </NavLink>
+                </li>
 
-            <li key="2" className="menuItem">
-              <NavLink
-                to={routePathNames.themeSettings}
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                <SettingOutlined className="menuIcon" />
-                <span>{t("settings.title")}</span>
-              </NavLink>
-            </li>
-
-            <li key="3" className="menuItem">
-              <NavLink
-                to={routePathNames.counselors}
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                <TeamOutlined className="menuIcon" />
-                <span>{t("counselor.title")}</span>
-              </NavLink>
-            </li>
+                <li key="3" className="menuItem">
+                  <NavLink
+                    to={routePathNames.counselors}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    <TeamOutlined className="menuIcon" />
+                    <span>{t("counselor.title")}</span>
+                  </NavLink>
+                </li>
+              </>
+            ) : (
+              <li key="4" className="menuItem">
+                <NavLink
+                  to={routePathNames.tenants}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <BankOutlined className="menuIcon" />
+                  <span>{t("organisations.title")}</span>
+                </NavLink>
+              </li>
+            )}
 
             {/* later.....
-            <li key="4" className="menuItem">
-              <NavLink
-                to={routePathNames.tenants}
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                <BankOutlined className="menuIcon" />
-                <span>{t("organisation.title")}</span>
-              </NavLink>
-            </li>
-
             <li key="5" className="menuItem">
               <NavLink
                 to={routePathNames.userProfile}
@@ -111,7 +114,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
         <Content className="content">
           <div className="contentInner">{children}</div>
         </Content>
-        <SiteFooter />
+        {!tenantData.isSuperAdmin && <SiteFooter />}
       </Layout>
     </Layout>
   );

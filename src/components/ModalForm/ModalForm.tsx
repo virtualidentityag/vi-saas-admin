@@ -1,25 +1,17 @@
 import { Form, Modal } from "antd";
 import React, { useState } from "react";
 import Title from "antd/es/typography/Title";
-import Counselor from "./Counselor";
-import { CounselorData } from "../../types/counselor";
 
-interface ModalFormProps {
-  isModalCreateVisible: boolean;
-  handleOnAddCounselor: (arg0: CounselorData) => void;
-  handleCreateModalCancel: () => void;
-  counselor: CounselorData;
-  title: string;
-  isInAddMode: boolean;
-}
+import { ModalFormProps } from "../../types/modalForm";
 
 function ModalForm({
   isModalCreateVisible,
-  handleOnAddCounselor,
+  handleOnAddElement,
   handleCreateModalCancel,
-  counselor,
   title,
   isInAddMode,
+  renderFormFields,
+  formData,
 }: ModalFormProps) {
   const [form] = Form.useForm();
   const [buttonDisabled, setButtonDisabled] = useState(true);
@@ -31,7 +23,7 @@ function ModalForm({
       visible={isModalCreateVisible}
       onOk={() => {
         form.validateFields().then((values) => {
-          handleOnAddCounselor(values);
+          handleOnAddElement(values);
         });
       }}
       onCancel={() => {
@@ -42,12 +34,7 @@ function ModalForm({
         disabled: buttonDisabled,
       }}
     >
-      <Counselor
-        counselor={counselor}
-        isInAddMode={isInAddMode}
-        modalForm={form}
-        setButtonDisabled={setButtonDisabled}
-      />
+      {renderFormFields({ form, setButtonDisabled, isInAddMode, formData })}
     </Modal>
   );
 }

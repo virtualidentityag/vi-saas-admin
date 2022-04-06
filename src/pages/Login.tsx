@@ -25,14 +25,24 @@ function Login() {
 
   const refreshTokenValidInMs =
     tokenExpiry.refreshTokenValidUntilTime - currentTime;
-  const { id: tenantId } = useSelector((state: any) => state.tenantData);
+  const { id: tenantId, isSuperAdmin } = useSelector(
+    (state: any) => state.tenantData
+  );
   const [redirectUrl, setRedirectUrl] = useState("");
   const { t } = useTranslation();
   /**
    * redirect user if authed
+   * using different route if isSuperAdmin
    */
   useEffect(() => {
     if (
+      isSuperAdmin &&
+      accessToken &&
+      refreshTokenValidInMs > 0 &&
+      accessTokenValidInMs > 0
+    ) {
+      setRedirectUrl(routePathNames.tenants);
+    } else if (
       accessToken &&
       refreshTokenValidInMs > 0 &&
       accessTokenValidInMs > 0 &&
@@ -40,7 +50,14 @@ function Login() {
     ) {
       setRedirectUrl(routePathNames.themeSettings);
     }
-  }, [accessToken, accessTokenValidInMs, refreshTokenValidInMs, tenantId, t]);
+  }, [
+    accessToken,
+    accessTokenValidInMs,
+    refreshTokenValidInMs,
+    tenantId,
+    t,
+    isSuperAdmin,
+  ]);
 
   return redirectUrl ? (
     <Navigate to={redirectUrl} />

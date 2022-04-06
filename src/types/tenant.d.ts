@@ -1,12 +1,17 @@
-export interface TenantData {
+export interface BasicTenantData {
   id: number | null;
+  key?: number | null;
   name: string;
   subdomain?: string;
   createDate?: string;
   updateDate?: string;
+  isSuperAdmin: boolean;
   licensing?: {
     allowedNumberOfUsers: number | 0;
   };
+}
+
+export interface TenantData extends BasicTenantData {
   theming: {
     logo: string;
     favicon: string;

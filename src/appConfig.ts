@@ -9,7 +9,7 @@ export const CSRF_WHITELIST_HEADER: string =
 const { subdomain, origin } = getLocationVariables();
 
 export const mainURL = origin.includes("localhost")
-  ? `https://${subdomain}.${process.env.REACT_APP_API_URL}`
+  ? `https://${subdomain && `${subdomain}.`}${process.env.REACT_APP_API_URL}`
   : origin;
 
 export const XHRheader = { AcceptLanguage: "de" };

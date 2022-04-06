@@ -8,15 +8,32 @@
 
   tr {
     background-color: @skin-main-background;
+
+    .statusIconWrapper {
+      display: flex;
+      justify-content: center;
+    }
+
+
+      .statusIconWrapper {
+        &.IN_PROGRESS {
+          color: @info-color;
+        }
+
+        &.ERROR {
+          color: @form-error
+        }
+
+        &.CREATED {
+          color: @success-color;
+        }
+      }
+
   }
 
   td {
     background-color: @lightest-grey !important;
 
-    /* editable table height same as none-editable */
-    .ant-form-item {
-      height: 31px;
-    }
   }
 
   td:first-child {
@@ -33,8 +50,16 @@
     font-weight: 700;
   }
 
-  .editBtnWrapper {
+  .tableActionWrapper {
     display: flex;
+    flex-direction: row;
+    gap: @spacing-sm;
+    justify-content: flex-end;
+  }
+
+  .editBtnWrapper,
+  .statusIconWrapper {
+    display: inline-flex;
     flex-direction: row;
     gap: @spacing-sm;
   }
@@ -48,6 +73,16 @@
       height: 24px;
     }
   }
+
+  .statusIconWrapper {
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    // font-size: 21px;
+  }
+
 
   .ant-table-sticky-scroll {
     display: none;

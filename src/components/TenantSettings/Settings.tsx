@@ -75,7 +75,7 @@ function Settings() {
       updateDate: moment().format(), // ISO format
       isSuperAdmin,
       licensing: {
-        allowedNumberOfUsers: 5,
+        allowedNumberOfUsers: allowedNumberOfUsers || 3,
       },
       theming: {
         logo: logoUrl,

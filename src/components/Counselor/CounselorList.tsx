@@ -62,7 +62,7 @@ function CounselorList() {
         });
         setIsModalFormVisible(false);
       })
-      .catch(() => { });
+      .catch(() => {});
   };
 
   const handleEditCounselor = (formData: CounselorData) => {

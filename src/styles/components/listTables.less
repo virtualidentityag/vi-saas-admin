@@ -14,26 +14,23 @@
       justify-content: center;
     }
 
-
-      .statusIconWrapper {
-        &.IN_PROGRESS {
-          color: @info-color;
-        }
-
-        &.ERROR {
-          color: @form-error
-        }
-
-        &.CREATED {
-          color: @success-color;
-        }
+    .statusIconWrapper {
+      &.IN_PROGRESS {
+        color: @info-color;
       }
 
+      &.ERROR {
+        color: @form-error;
+      }
+
+      &.CREATED {
+        color: @success-color;
+      }
+    }
   }
 
   td {
     background-color: @lightest-grey !important;
-
   }
 
   td:first-child {
@@ -82,7 +79,6 @@
 
     // font-size: 21px;
   }
-
 
   .ant-table-sticky-scroll {
     display: none;

@@ -2,6 +2,7 @@
  * retrieve all needed tenant data
  * @return data
  */
+
 const getFakeMultipleTenants = () => {
   const tenantResponse: any[] = [];
   const tenant = {
@@ -12,16 +13,6 @@ const getFakeMultipleTenants = () => {
     updateDate: "2021-12-29T15:15:09",
     licensing: {
       allowedNumberOfUsers: 3,
-    },
-    theming: {
-      logo: null,
-      favicon: null,
-      primaryColor: null,
-      secondaryColor: null,
-    },
-    content: {
-      impressum: "<p>Dies ist ein leeres Impressum</p>",
-      claim: "Wir tun was wir können",
     },
   };
 

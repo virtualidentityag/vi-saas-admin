@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import RichTextEditor, { EditorValue, ToolbarConfig } from "react-rte";
+import i18next from "i18next";
 
 const toolbarConfig: ToolbarConfig = {
   // Optionally specify the groups to display (displayed in the order listed).
@@ -16,9 +17,11 @@ const toolbarConfig: ToolbarConfig = {
     { label: "Underline", style: "UNDERLINE" },
   ],
   BLOCK_TYPE_DROPDOWN: [
-    { label: "Normal", style: "unstyled" },
-    { label: "Heading Medium", style: "header-two" },
-    { label: "Heading Small", style: "header-three" },
+    { label: i18next.t("rte.text"), style: "unstyled" },
+    { label: i18next.t("rte.h1"), style: "header-one" },
+    { label: i18next.t("rte.h2"), style: "header-two" },
+    { label: i18next.t("rte.h3"), style: "header-three" },
+    { label: i18next.t("rte.h4"), style: "header-four" },
   ],
   BLOCK_TYPE_BUTTONS: [
     { label: "UL", style: "unordered-list-item" },

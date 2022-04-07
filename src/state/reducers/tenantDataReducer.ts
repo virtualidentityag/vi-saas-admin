@@ -11,6 +11,7 @@ const initialState: TenantData = {
   licensing: {
     allowedNumberOfUsers: 3,
   },
+  isSuperAdmin: false,
   theming: {
     logo: "",
     favicon: "",

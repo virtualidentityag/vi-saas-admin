@@ -9,6 +9,7 @@ import CustomLockIcon from "../CustomIcons/Lock";
 import CustomPersonIcon from "../CustomIcons/Person";
 import routePathNames from "../../appConfig";
 import { setTokens } from "../../api/auth/auth";
+import setIsSuperAdmin from "../../utils/setIsSuperAdmin";
 
 function LoginForm() {
   const { t } = useTranslation();
@@ -30,10 +31,20 @@ function LoginForm() {
 
         return response;
       })
-      .then(() => getTenantData())
+      .then((response) => {
+        return setIsSuperAdmin(response.access_token);
+      })
+      .then((isSuperAdmin) => {
+        if (!isSuperAdmin) {
+          getTenantData();
+        }
+        return isSuperAdmin;
+      })
       .catch(() => {
-        setPostLoading(false);
         message.error(t("message.error.auth.login"));
+      })
+      .finally(() => {
+        setPostLoading(false);
       });
   };
 

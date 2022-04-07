@@ -29,7 +29,7 @@ export const defaultCounselor: CounselorData = {
 };
 
 export interface Props {
-  counselor: CounselorData;
+  formData: CounselorData;
   isInAddMode?: boolean;
   modalForm: FormInstance;
   handleEditCounselor?: (arg0: CounselorData) => void;
@@ -37,7 +37,7 @@ export interface Props {
 }
 
 function Counselor({
-  counselor,
+  formData,
   isInAddMode = false,
   modalForm,
   handleEditCounselor,
@@ -60,7 +60,7 @@ function Counselor({
 
   useEffect(() => {
     modalForm.resetFields();
-  }, [counselor, modalForm]);
+  }, [formData, modalForm]);
 
   const {
     lastname,
@@ -74,7 +74,7 @@ function Counselor({
     formalLanguage,
     absent,
     absenceMessage,
-  } = counselor;
+  } = formData;
 
   const onFormSubmit = (values: any) => {
     setEditing(!editing);

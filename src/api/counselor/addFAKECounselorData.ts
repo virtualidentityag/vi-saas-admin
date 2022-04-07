@@ -14,6 +14,7 @@ export const fakeCounselors = (counselorResponse: CounselorData[]) => {
     key: "1",
     formalLanguage: false,
     absent: false,
+    status: "null",
   };
 
   const female: CounselorData = {
@@ -29,6 +30,7 @@ export const fakeCounselors = (counselorResponse: CounselorData[]) => {
     key: "2",
     formalLanguage: true,
     absent: true,
+    status: "null",
   };
 
   for (let i = 0; i < 10; i += 1) {

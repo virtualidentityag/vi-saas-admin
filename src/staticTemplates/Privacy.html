@@ -1,260 +1,302 @@
+<style type="text/css">
+  ol {
+    counter-reset: item;
+  }
+
+  ol li {
+    display: block;
+  }
+
+  ol li::before {
+    content: counters(item, ".") ". ";
+    counter-increment: item;
+    font-weight: bold;
+  }
+
+  ol ol {
+    counter-reset: item;
+  }
+</style>
 <section class="template">
-  <h3 style="color: red">MUSTERVORLAGE</h3>
-  <h2>Datenschutzerklärung</h2>
-  <!-- pagetitle - headline -->
-
-  <h4>1. Datenschutz auf einen Blick</h4>
-  <!-- subheadline -->
-  <h3>Allgemeine Hinweise</h3>
-  <!-- any further headline -->
-  <p>
-    <!-- more info -->
-    Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit
-    Ihren personenbezogenen Daten passiert, wenn Sie unsere Website besuchen.
-    Personenbezogene Daten sind alle Daten, mit denen Sie persönlich
-    identifiziert werden können. Ausführliche Informationen zum Thema
-    Datenschutz entnehmen Sie unserer unter diesem Text aufgeführten
-    Datenschutzerklärung.<br /><br />
-  </p>
-
-  <!-- any numbered list
-    <ol>
-        <li>Text</li>
-        <li>Text</li>
-        <li>Text</li>
-    </ol>
-    -->
-  <!-- any un-numbered list
-    <ul>
-        <li>Text</li>
-        <li>Text</li>
-        <li>Text</li>
-    </ul>
-    -->
-  <p><!-- more info --></p>
-
-  <h3>Datenerfassung auf unserer Website</h3>
-  <!-- any further headline -->
-  <p>
-    <!-- more info -->
-    Wer ist verantwortlich für die Datenerfassung auf dieser Website?<br />
-    Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber.
-    Dessen Kontaktdaten können Sie dem Impressum dieser Website entnehmen.
-  </p>
-  <p>
-    <!-- more info -->
-    Wie erfassen wir Ihre Daten?<br />
-    Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen.
-    Hierbei kann es sich z.B. um Daten handeln, die Sie in ein Kontaktformular
-    eingeben.
-  </p>
-  <p>
-    <!-- more info -->
-    Andere Daten werden automatisch beim Besuch der Website durch unsere
-    IT-Systeme erfasst. Das sind vor allem technische Daten (z.B.
-    Internetbrowser, Betriebssystem oder Uhrzeit des Seitenaufrufs). Die
-    Erfassung dieser Daten erfolgt automatisch, sobald Sie unsere Website
-    betreten.
-  </p>
-  <p>
-    <!-- more info -->
-    Wofür nutzen wir Ihre Daten?<br />
-    Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der
-    Website zu gewährleisten. Andere Daten können zur Analyse Ihres
-    Nutzerverhaltens verwendet werden.
-  </p>
-  <p>
-    <!-- more info -->
-    Welche Rechte haben Sie bezüglich Ihrer Daten?<br />
-    Sie haben jederzeit das Recht unentgeltlich Auskunft über Herkunft,
-    Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten.
-    Sie haben außerdem ein Recht, die Berichtigung, Sperrung oder Löschung
-    dieser Daten zu verlangen. Hierzu sowie zu weiteren Fragen zum Thema
-    Datenschutz können Sie sich jederzeit unter der im Impressum angegebenen
-    Adresse an uns wenden. Des Weiteren steht Ihnen ein Beschwerderecht bei der
-    zuständigen Aufsichtsbehörde zu.
-  </p>
-
-  <h3>Analyse-Tools und Tools von Drittanbietern</h3>
-  <!-- any further headline -->
-  <p>
-    <!-- more info -->
-    Beim Besuch unserer Website kann Ihr Surf-Verhalten statistisch ausgewertet
-    werden. Das geschieht vor allem mit Cookies und mit sogenannten
-    Analyseprogrammen. Die Analyse Ihres Surf-Verhaltens erfolgt in der Regel
-    anonym; das Surf-Verhalten kann nicht zu Ihnen zurückverfolgt werden. Sie
-    können dieser Analyse widersprechen oder sie durch die Nichtbenutzung
-    bestimmter Tools verhindern. Detaillierte Informationen dazu finden Sie in
-    der folgenden Datenschutzerklärung.
-  </p>
-
-  <p>
-    <!-- more info -->
-    Sie können dieser Analyse widersprechen. Über die Widerspruchsmöglichkeiten
-    werden wir Sie in dieser Datenschutzerklärung informieren.
-  </p>
-
-  <h4>2. Allgemeine Hinweise und Pflichtinformationen</h4>
-  <!-- subheadline -->
-  <h3>Datenschutz</h3>
-  <!-- any further headline -->
-  <p>
-    <!-- more info -->
-    Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr
-    ernst. Wir behandeln Ihre personenbezogenen Daten vertraulich und
-    entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser
-    Datenschutzerklärung.
-  </p>
-  <p>
-    <!-- more info -->
-    Wenn Sie diese Website benutzen, werden verschiedene personenbezogene Daten
-    erhoben. Personenbezogene Daten sind Daten, mit denen Sie persönlich
-    identifiziert werden können. Die vorliegende Datenschutzerklärung erläutert,
-    welche Daten wir erheben und wofür wir sie nutzen. Sie erläutert auch, wie
-    und zu welchem Zweck das geschieht.
-  </p>
-  <p>
-    <!-- more info -->
-    Wir weisen darauf hin, dass die Datenübertragung im Internet (z.B. bei der
-    Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser
-    Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.
-  </p>
-
-  <h3>Hinweis zur verantwortlichen Stelle</h3>
-  <p>
-    Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website
-    ist:<br />
-  </p>
-
-  <p>
-    MusterTenant GmbH<br /><!-- tenant name -->
-    Sitz der Gesellschaft:<br /><!-- tenant adresse -->
-    Musterstraße 14<br />
-    11233 Musterbek
-  </p>
-  <p>
-    <!-- tenant contact data -->
-    <a href="mailto:info@Musterwebsite.de">info@Musterwebsite.de</a
-    ><!-- tenant email -->
-    <a href="tel:+49123456789">Telefon: +49 (0)123456789</a
-    ><!-- tenant phone -->
-  </p>
-  <p>
-    Verantwortliche Stelle ist die natürliche oder juristische Person, die
-    allein oder gemeinsam mit anderen über die Zwecke und Mittel der
-    Verarbeitung von personenbezogenen Daten (z.B. Namen, E-Mail-Adressen o. Ä.)
-    entscheidet.
-  </p>
-
-  <h3>Widerruf Ihrer Einwilligung zur Datenverarbeitung</h3>
-  <p>
-    Viele Datenverarbeitungsvorgänge sind nur mit Ihrer ausdrücklichen
-    Einwilligung möglich. Sie können eine bereits erteilte Einwilligung
-    jederzeit widerrufen. Dazu reicht eine formlose Mitteilung per E-Mail an
-    uns. Die Rechtmäßigkeit der bis zum Widerruf erfolgten Datenverarbeitung
-    bleibt vom Widerruf unberührt.
-  </p>
-
-  <h3>Beschwerderecht bei der zuständigen Aufsichtsbehörde</h3>
-  <p>
-    Im Falle datenschutzrechtlicher Verstöße steht dem Betroffenen ein
-    Beschwerderecht bei der zuständigen Aufsichtsbehörde zu. Zuständige
-    Aufsichtsbehörde in datenschutzrechtlichen Fragen ist der
-    Landesdatenschutzbeauftragte des Bundeslandes, in dem unser Unternehmen
-    seinen Sitz hat. Eine Liste der Datenschutzbeauftragten sowie deren
-    Kontaktdaten können folgendem Link entnommen werden:
-    <a
-      href="https://www.bfdi.bund.de/DE/Infothek/Anschriften_Links/anschriften_links-node.html"
-      rel="noopener noreferrer"
-      target="_blank"
+  <h3>
+    <strong
+      >Datenschutzerklärung und zugleich Information der Betroffenen gemäß
+      Artikel 13 und Artikel 14 EU-Datenschutzgrundverordnung bezogen auf die
+      Nutzung unseres Beratungstool auf
+      [...Subdomäne...].onlineberatung.net</strong
     >
-      https://www.bfdi.bund.de/DE/Infothek/Anschriften_Links/anschriften_links-node.html </a
-    >.
-  </p>
-
-  <h3>Auskunft, Sperrung, Löschung</h3>
+  </h3>
+  <h3><br /></h3>
+  <h3><strong>Allgemeine Angaben</strong></h3>
+  <p>Angaben zur verantwortlichen Stelle</p>
+  <p>Unternehmen: <strong>[...Kundenname...]</strong></p>
+  <p>Gesetzlicher Vertreter: <strong>[...Gesetzlicher Vertreter...]</strong></p>
+  <p>Adresse: Corneliusstr. <strong>[...Addresse...]</strong></p>
   <p>
-    Sie haben im Rahmen der geltenden gesetzlichen Bestimmungen jederzeit das
-    Recht auf unentgeltliche Auskunft über Ihre gespeicherten personenbezogenen
-    Daten, deren Herkunft und Empfänger und den Zweck der Datenverarbeitung und
-    ggf. ein Recht auf Berichtigung, Sperrung oder Löschung dieser Daten. Hierzu
-    sowie zu weiteren Fragen zum Thema personenbezogene Daten können Sie sich
-    jederzeit unter der im Impressum angegebenen Adresse an uns wenden.
+    Kontaktdaten Datenschutzbeauftragter:
+    <strong>[...Kontaktdaten Datenschutzbeauftragter...]</strong>
   </p>
-
-  <h4>3. Datenschutzbeauftragter</h4>
-  <h3>Datenschutzbeauftragter ist:</h3>
-
+  <h3><strong>Allgemeine Datenverarbeitungs-Informationen</strong></h3>
+  <p><strong>Betroffene Daten:</strong></p>
   <p>
-    MusterTenant GmbH<br /><!-- tenant name -->
-    Sitz der Gesellschaft:<br /><!-- tenant adresse -->
-    Musterstraße 14<br />
-    11233 Musterbek
+    Personenbezogene Daten werden nur erhoben, wenn Sie uns diese von sich aus
+    mitteilen. Darüber hinaus werden keine personenbezogenen Daten erhoben. Eine
+    über die Reichweite der gesetzlichen Erlaubnistatbestände hinausgehende
+    Verarbeitung Ihrer personenbezogenen Daten erfolgt nur auf Grundlage Ihrer
+    ausdrücklichen Einwilligung.
   </p>
-
-  <h4>4. Datenerfassung auf unserer Website</h4>
-  <h3>Cookies</h3>
-
+  <p><strong>Verarbeitungszweck:</strong></p>
+  <p>Beratung von Personen, die mit [...Kundenname...] in Kontakt treten.</p>
+  <p><strong>Kategorien von Empfängern:</strong></p>
   <p>
-    Die Internetseiten verwenden teilweise so genannte Cookies. Cookies richten
-    auf Ihrem Rechner keinen Schaden an und enthalten keine Viren. Cookies
-    dienen dazu, unser Angebot nutzerfreundlicher, effektiver und sicherer zu
-    machen. Cookies sind kleine Textdateien, die auf Ihrem Rechner abgelegt
-    werden und die Ihr Browser speichert.
+    Öffentliche Stellen bei Vorliegen vorrangiger Rechtsvorschriften.<br />
+    Externe Dienstleister oder sonstige Auftragnehmer.<br />
+    Weitere externe Stellen soweit der Betroffene seine Einwilligung erteilt hat
+    oder eine Übermittlung aus überwiegendem Interesse zulässig ist.
   </p>
-
+  <p><strong>Dauer Datenspeicherung:</strong></p>
   <p>
-    Die meisten der von uns verwendeten Cookies sind so genannte
-    “Session-Cookies”. Sie werden nach Ende Ihres Besuchs automatisch gelöscht.
-    Andere Cookies bleiben auf Ihrem Endgerät gespeichert bis Sie diese löschen.
-    Diese Cookies ermöglichen es uns, Ihren Browser beim nächsten Besuch
-    wiederzuerkennen.
+    Die Dauer der Datenspeicherung richtet sich nach den gesetzlichen
+    Aufbewahrungspflichten und beträgt in der Regel **
   </p>
-
+  <h3>
+    <strong
+      >Spezifische Angaben zur Beratungs-Webseite
+      [...Subdomäne...].onlineberatung.net</strong
+    >
+  </h3>
+  <p><strong>Nutzungsdaten</strong></p>
   <p>
-    Sie können Ihren Browser so einstellen, dass Sie über das Setzen von Cookies
-    informiert werden und Cookies nur im Einzelfall erlauben, die Annahme von
-    Cookies für bestimmte Fälle oder generell ausschließen sowie das
-    automatische Löschen der Cookies beim Schließen des Browser aktivieren. Bei
-    der Deaktivierung von Cookies kann die Funktionalität dieser Website
-    eingeschränkt sein.
-  </p>
-
-  <p>
-    Cookies, die zur Durchführung des elektronischen Kommunikationsvorgangs oder
-    zur Bereitstellung bestimmter, von Ihnen erwünschter Funktionen (z.B.
-    Warenkorbfunktion) erforderlich sind, werden auf Grundlage von Art. 6 Abs. 1
-    lit. f DSGVO gespeichert. Der Websitebetreiber hat ein berechtigtes
-    Interesse an der Speicherung von Cookies zur technisch fehlerfreien und
-    optimierten Bereitstellung seiner Dienste. Soweit andere Cookies (z.B.
-    Cookies zur Analyse Ihres Surfverhaltens) gespeichert werden, werden diese
-    in dieser Datenschutzerklärung gesondert behandelt.
-  </p>
-
-  <h3>Server-Log-Dateien</h3>
-  <p>
-    Der Provider der Seiten erhebt und speichert automatisch Informationen in so
-    genannten Server-Log-Dateien, die Ihr Browser automatisch an uns
-    übermittelt. Dies sind:
+    Wenn Sie unsere Webseiten aufrufen, übermitteln Sie (aus technischer
+    Notwendigkeit) über Ihren Internetbrowser Daten an unseren Webserver.
+    Folgende Daten werden während einer laufenden Verbindung zur Kommunikation
+    zwischen Ihrem Internetbrowser und unserem Webserver aufgezeichnet:
   </p>
   <ul>
-    <li>Browsertyp und Browserversion</li>
-    <li>verwendetes Betriebssystem/li></li>
-    <li>Referrer URL/li></li>
-    <li>Hostname des zugreifenden Rechners/li></li>
-    <li>Uhrzeit der Serveranfrage/li></li>
-    <li>IP-Adresse/li></li>
+    <li>Datum und Uhrzeit der Anforderung</li>
+    <li>Name der angeforderten Datei</li>
+    <li>Seite, von der aus die Datei angefordert wurde</li>
+    <li>Zugriffsstatus (Datei übertragen, Datei nicht gefunden, etc.)</li>
+    <li>verwendeter Webbrowser und verwendetes Betriebssystem</li>
+    <li>vollständige IP-Adresse des anfordernden Rechners</li>
+    <li>übertragene Datenmenge.</li>
   </ul>
-
   <p>
-    Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht
-    vorgenommen.
+    Aus Gründen der technischen Sicherheit, insbesondere zur Abwehr von
+    Angriffsversuchen auf unseren Webserver, werden diese Daten von uns
+    kurzzeitig gespeichert. Ein Rückschluss auf einzelne Personen ist uns anhand
+    dieser Daten nicht möglich. Wir haben nur während einer aktiven Session
+    Zugriff auf die IP, danach ist ein Zugriff auf die IP nicht mehr
+    möglich.Wenn Sie sich auf unserer Webseite registrieren, übermitteln Sie
+    (aus technischer Notwendigkeit) über Ihren Internetbrowser Daten an unseren
+    Webserver. Folgende Daten werden während einer laufenden Verbindung zur
+    Kommunikation zwischen Ihrem Internetbrowser und unserem Webserver
+    aufgezeichnet:
   </p>
-
   <p>
-    Die Erfassung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f
-    DSGVO. Der Webseitenbetreiber hat ein berechtigtes Interesse an der
-    technisch fehlerfreien Darstellung und der Optimierung seiner Webseite –
-    hierzu müssen die Server-Log-Files erfasst werden.
+    <strong
+      >Zu den oben in den Nutzungsdaten genannten Angaben, werden folgende Daten
+      gespeichert:</strong
+    >
+  </p>
+  <p>
+    Für die Kategorie der betroffenen Personen &#34;beratende Nutzer&#34;, die
+    Dienstleistungen für Ratsuchenden:
+  </p>
+  <p><strong>Gespeicherte Daten und Zweck:</strong></p>
+  <ol>
+    <li>Nutzername,</li>
+    <li>
+      Vorname, Nachname - nur für den Berater selbst und für den Administrator
+      verfügbar
+    </li>
+    <li>E-Mail - wird für die Anmeldung in der App verwendet</li>
+    <li>
+      Beratungsstelle - wird verwendet, um festzustellen, welcher Berater
+      welcher Beratungsstelle zugewiesen ist
+    </li>
+    <li>
+      persönliche Statistiken (Anzahl der bearbeiteten Fälle, Anzahl der
+      versendeten Chat-Nachrichten, Anzahl der aktiven Fälle, Dauer der
+      Videoanrufe in Minuten - in einem bestimmten Zeitraum), die ausschließlich
+      vom Berater selbst zur Überprüfung seiner eigenen Leistung verwendet
+      werden
+    </li>
+    <li>
+      Chat-Kommunikation mit anderen Beratern und/oder mit Ratsuchenden, die zur
+      Beratung der Ratsuchenden genutzt wird,
+    </li>
+    <li>
+      mit anderen Beratern und/oder Ratsuchenden ausgetauschte Dokumente, die im
+      Rahmen der Erbringung von Beratungsleistungen für die Ratsuchenden zu
+      verschiedenen Themen verwendet werden.
+    </li>
+  </ol>
+  <p>
+    <strong
+      >Für die Kategorie der betroffenen Personen &#34;Ratsuchende
+      (Endnutzer)&#34;:</strong
+    >
+  </p>
+  <p>Gespeicherte Daten und Zweck:</p>
+  <ol>
+    <li>
+      Benutzername, der für die Registrierung verwendet wird. Es wird empfohlen,
+      bei der Registrierung den Benutzernamen so zu wählen, dass er nicht mit
+      dem realen Namen des Ratsuchenden oder anderen identifizierbaren
+      Informationen in Verbindung gebracht werden kann
+    </li>
+    <li>
+      Postleitzahl, um festzustellen, an welche Stelle der Ratsuchende
+      zugewiesen werden soll
+    </li>
+    <li>
+      E-Mail-Adresse (keine Pflichtangabe), damit der Ratsuchende sein Passwort
+      zurücksetzen kann und eine Benachrichtigung erhält, wenn er in dem/den
+      Chat(s), in denen er aktiv ist, eine neue Nachricht erhalten hat
+    </li>
+    <li>
+      Informationen über das Thema, zu dem der Ratsuchende Hilfe benötigt - wird
+      verwendet, um zu bestimmen, an welche Stelle der Ratsuchende
+      weitergeleitet werden soll
+    </li>
+    <li>
+      möglicherweise weitere optionale Angaben zu den soziodemografischen Daten
+      des Nut-zers
+    </li>
+    <li>
+      eventuell Notizen über den Fall des Ratsuchenden, wie vom Berater
+      festgelegt
+    </li>
+    <li>
+      Chat-Kommunikation mit Beratern und/oder mit Ratsuchenden - erforderlich,
+      um ihre Probleme darzulegen und Unterstützung zu erhalten
+    </li>
+    <li>
+      Dokumente, die mit Beratern oder anderen Ratsuchenden geteilt wurden -
+      erforderlich, um ihre Probleme darzulegen und Unterstützung zu erhalten.
+    </li>
+  </ol>
+  <p>
+    <strong
+      >Die Daten werden so lange gespeichert, bis einer der nachfolgenden Gründe
+      eintritt.</strong
+    >
+  </p>
+  <ol>
+    <li>
+      Für registrierte Endnutzer (betroffene Personen) Daten
+      <ol>
+        <li>
+          Profil und alle Daten
+          <ol>
+            <li>
+              Der Nutzer kann sein Profil jederzeit im Bereich Mein Profil
+              löschen, was auch bedeutet, dass der Nutzer keinen Zugriff mehr
+              darauf hat. Die zur Löschung markierten Profile werden dann
+              innerhalb von maximal 48 Stunden physisch gelöscht, einschließlich
+              aller zugehörigen Daten und Chat-Nachrichten.
+            </li>
+            <li>
+              Wenn die Gruppen-Chat-Funktion für die Organisation aktiviert ist
+              und der Endbenutzer an einem Gruppen-Chat teilgenommen hat,
+              bleiben die Nachrichten, die der Endbenutzer in einem Gruppen-Chat
+              geschrieben hat, sichtbar, bis der Moderator den Chat schließt
+              (Chat beenden).
+            </li>
+          </ol>
+        </li>
+        <li>
+          Chat-Nachrichten
+          <ol>
+            <li>
+              Chat-Nachrichten, die vom Berater geschlossen werden, werden nicht
+              mehr verfügbar und zur Löschung markiert und innerhalb von maximal
+              48 Stunden physisch gelöscht
+              <ol>
+                <li>
+                  Wenn der Nutzer keine andere Sitzung hat, wird das Profil
+                  ebenfalls automatisch nach maximal 48 Stunden gelöscht.
+                </li>
+              </ol>
+            </li>
+            <li>
+              Automatische Bereinigung von Chats, die in den letzten 3 Monaten
+              nicht berührt wurden.
+              <ol>
+                <li>
+                  Wenn der Benutzer keine andere Sitzung hat, wird das Profil
+                  ebenfalls automatisch nach maximal 48 Stunden gelöscht.
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li>
+      Daten der nicht registrierten Ratsuchenden (im Chat ausgetauschte
+      Nachrichten)
+      <ol>
+        <li>
+          1-1 anonyme Chats:
+          <ol>
+            <li>
+              Wenn entweder der Berater oder der Ratsuchende den Chat beendet,
+              wird der Chat zur Löschung markiert und nach maximal 48 Stunden
+              gelöscht.
+            </li>
+            <li>
+              Jeder anonyme Chat wird nach 6 Stunden zur Löschung markiert, was
+              auch bedeutet, dass der Nutzer keinen Zugriff mehr darauf hat, und
+              wird nach maximal 48 Stunden gelöscht.
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li>
+      Beratende Benutzer
+      <ol>
+        <li>
+          Der Administrator kann alle Berater-Benutzer, die zu seiner
+          Organisation gehören, aus der grafischen Oberfläche löschen.
+        </li>
+      </ol>
+    </li>
+    <li>
+      Mandant und alle zugehörigen Informationen
+      <ol>
+        <li>
+          Der gesamte Mandant und alle zugehörigen Daten werden innerhalb von 2
+          Wochen nach Beendigung des Vertrages gelöscht.
+        </li>
+      </ol>
+    </li>
+  </ol>
+  <p>
+    <strong
+      >Einsatz eigener für die Webseiten-Anzeige erforderlicher
+      „Cookies“</strong
+    >
+  </p>
+  <p>
+    Wenn sich der Nutzer in die Software einloggt, speichert das System
+    verschiedene Cookies auf seinem Gerät. Cookies sind kleine Textdateien, die
+    dazu dienen, einen Browser während einer Browsersitzung wiederzuerkennen.
+    Die von der Plattform verwendeten Cookies dienen aus-schließlich der
+    Aufrechterhaltung der Sitzung des Nutzers, der Sicherung des Systems und der
+    Verschlüsselung von Eingaben. Die Cookies werden nur so lange gespeichert,
+    wie die Sitzung aktiv ist.
+  </p>
+  <h3><strong>Weitere Informationen und Kontakte</strong></h3>
+  <p>
+    Darüber hinaus können Sie jederzeit ihre Ansprüche auf Auskunft,
+    Berichtigung oder Löschung oder auf Einschränkung der Verarbeitung oder der
+    Wahrnehmung Ihres Widerspruchsrechts gegen die Verarbeitung sowie das Recht
+    auf Datenübertragbarkeit geltend machen. Hier finden Sie die Möglichkeit,
+    uns per E-Mail oder Brief zu
+    <a href="[...ImpressumLink...]">kontaktieren</a>. Sie haben ferner das
+    Recht, sich bei Beschwerden an die Datenschutz-Aufsichtsbehörde zu wenden.
   </p>
 </section>

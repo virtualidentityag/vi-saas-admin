@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./styles/App.less";
 import { Route, Routes } from "react-router";
-import { Spin } from "antd";
 import ProtectedPageLayoutWrapper from "./components/Layout/ProtectedPageLayoutWrapper";
 import routePathNames from "./appConfig";
 // import Dashboard from "./pages/Dashboard";

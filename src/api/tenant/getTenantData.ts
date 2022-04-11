@@ -1,4 +1,4 @@
-import { fetchData, FETCH_METHODS, FETCH_ERRORS } from "../fetchData";
+import { fetchData, FETCH_METHODS } from "../fetchData";
 import { tenantEndpoint } from "../../appConfig";
 import storeDispatch from "../../state/actions/storeDispatch";
 import { store } from "../../store/store";

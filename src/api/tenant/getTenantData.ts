@@ -2,6 +2,8 @@ import { fetchData, FETCH_METHODS, FETCH_ERRORS } from "../fetchData";
 import { tenantEndpoint } from "../../appConfig";
 import storeDispatch from "../../state/actions/storeDispatch";
 import { store } from "../../store/store";
+import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
+
 /**
  * retrieve all needed tenant data
  * @return data
@@ -13,13 +15,14 @@ const getTenantData = () =>
       url: `${tenantEndpoint}${state.tenantData.id}`,
       method: FETCH_METHODS.GET,
       skipAuth: false,
-      responseHandling: [FETCH_ERRORS.CATCH_ALL],
+      responseHandling: [],
     });
     tenantResponse
       .then((response: any) => {
         storeDispatch("tenant/set-data", {
           ...response,
         });
+        pubsub.publishEvent(PubSubEvents.USER_AUTHORISED, true);
         resolve(tenantResponse);
       })
       .catch(() => {

@@ -17,7 +17,8 @@ import Title from "antd/es/typography/Title";
 import ColorSelector from "../ColorSelector/ColorSelector";
 import RichTextEditor from "../RichText/RichTextEditor";
 
-import getComplentaryColor from "../../utils/getComplentaryColor";
+// currently we don't have a proper UX concept for this
+// import getComplentaryColor from "../../utils/getComplentaryColor";
 
 import CustomInfoIcon from "../CustomIcons/Info";
 import editTenantData from "../../api/tenant/editTenantData";
@@ -31,7 +32,8 @@ function Settings() {
   const [form] = Form.useForm();
   const { t } = useTranslation();
   const { tenantData } = useSelector((state: any) => state);
-  const { id, theming, name, subdomain, content, licensing } = tenantData;
+  const { id, theming, name, subdomain, content, licensing, isSuperAdmin } =
+    tenantData;
   const { logo, favicon, primaryColor, secondaryColor } = theming;
   const { impressum, claim, privacy, termsAndConditions } = content;
   const { allowedNumberOfUsers } = licensing;
@@ -41,9 +43,10 @@ function Settings() {
     decodeHTML(favicon) || ""
   );
 
-  const setComplementaryColor = (color: string) => {
-    form.setFieldsValue({ secondaryColor: getComplentaryColor(color) });
-  };
+  /* currently we don't have a proper UX concept for this const
+  setComplementaryColor = (color: string) => {
+     form.setFieldsValue({ secondaryColor: getComplentaryColor(color) });
+   }; */
 
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
@@ -55,13 +58,14 @@ function Settings() {
   const onFormSubmit = (values: any) => {
     setIsLoading(true);
 
+    /* currently we don't have a proper UX concept for this
     if (!values.secondaryColor) {
-      setComplementaryColor(values.primaryColor);
+         setComplementaryColor(values.primaryColor);
       message.success({
         content: t("message.settings.complementaryColor"),
         duration: 3,
       });
-    }
+    } */
 
     //  ToDo: outsource restructured data into Helper
     const changedTenantData = {
@@ -69,8 +73,9 @@ function Settings() {
       name: values.name,
       subdomain: "happylife",
       updateDate: moment().format(), // ISO format
+      isSuperAdmin,
       licensing: {
-        allowedNumberOfUsers: 5,
+        allowedNumberOfUsers: allowedNumberOfUsers || 3,
       },
       theming: {
         logo: logoUrl,

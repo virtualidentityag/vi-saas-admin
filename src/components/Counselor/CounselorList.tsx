@@ -4,18 +4,23 @@ import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import { message } from "antd";
 
+import { useSelector } from "react-redux";
 import getCouselorData from "../../api/counselor/getCounselorData";
 import { CounselorData } from "../../types/counselor";
 import addCouselorData from "../../api/counselor/addCounselorData";
 import editCouselorData from "../../api/counselor/editCounselorData";
 import deleteCouselorData from "../../api/counselor/deleteCounselorData";
-import { defaultCounselor } from "./Counselor";
-import ModalForm from "./ModalForm";
+import Counselor, { defaultCounselor } from "./Counselor";
+import ModalForm from "../ModalForm/ModalForm";
 
 import EditableTable from "../EditableTable/EditableTable";
 import EditButtons from "../EditableTable/EditButtons";
 import { decodeUsername } from "../../utils/encryptionHelpers";
 import addAgencyToCounselor from "../../api/agency/addAgencyToCounselor";
+import StatusIcons from "../EditableTable/StatusIcons";
+import { Status } from "../../types/status";
+import { EditableData } from "../../types/editabletable";
+import { RenderFormProps } from "../../types/modalForm";
 
 function CounselorList() {
   const { t } = useTranslation();
@@ -25,6 +30,10 @@ function CounselorList() {
   const [editingCounselor, setEditingCounselor] = useState<
     CounselorData | undefined
   >(undefined);
+
+  const { tenantData } = useSelector((state: any) => state);
+  const { licensing } = tenantData;
+  const { allowedNumberOfUsers } = licensing;
 
   const [isModalFormVisible, setIsModalFormVisible] = useState(false);
   const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
@@ -107,13 +116,13 @@ function CounselorList() {
     }
   };
 
-  const handleDeleteModal = (record: CounselorData) => {
-    setEditingCounselor(record);
+  const handleDeleteModal = (record: EditableData) => {
+    setEditingCounselor(record as CounselorData);
     setIsModalDeleteVisible(!isModalDeleteVisible);
   };
 
-  const handleEdit = (record: CounselorData) => {
-    setEditingCounselor(record);
+  const handleEdit = (record: EditableData) => {
+    setEditingCounselor(record as CounselorData);
     setIsModalFormVisible(true);
   };
 
@@ -175,16 +184,28 @@ function CounselorList() {
           .join(),
     },
     {
+      width: 80,
+      title: t("status"),
+      dataIndex: "status",
+      key: "status",
+      ellipsis: true,
+      render: (status: Status) => {
+        return <StatusIcons status={status} />;
+      },
+    },
+    {
       width: 88,
       title: "",
       key: "edit",
       render: (_: any, record: CounselorData) => {
         return (
-          <EditButtons
-            handleEdit={handleEdit}
-            handleDelete={handleDeleteModal}
-            record={record}
-          />
+          <div className="tableActionWrapper">
+            <EditButtons
+              handleEdit={handleEdit}
+              handleDelete={handleDeleteModal}
+              record={record}
+            />
+          </div>
         );
       },
     },
@@ -214,11 +235,12 @@ function CounselorList() {
         columns={columns}
         handleDeleteModalTitle={t("counselor.modal.headline.delete")}
         handleDeleteModalCancel={handleDeleteModal}
-        handleDeleteModalText={t("counselor.modal.delete.text")}
+        handleDeleteModalText={t("counselor.modal.text.delete")}
         handleOnDelete={handleOnDelete}
         isDeleteModalVisible={isModalDeleteVisible}
         handlePagination={setPage}
         page={page}
+        allowedNumberOfUsers={allowedNumberOfUsers}
       />
 
       <ModalForm
@@ -230,10 +252,23 @@ function CounselorList() {
         isInAddMode={!editingCounselor}
         isModalCreateVisible={isModalFormVisible}
         handleCreateModalCancel={handleFormModalCancel}
-        handleOnAddCounselor={
+        handleOnAddElement={
           editingCounselor ? handleEditCounselor : handleAddCounselor
         }
-        counselor={editingCounselor || defaultCounselor}
+        formData={editingCounselor || defaultCounselor}
+        renderFormFields={({
+          form,
+          setButtonDisabled,
+          formData,
+          isInAddMode,
+        }: RenderFormProps) => (
+          <Counselor
+            formData={formData as CounselorData}
+            modalForm={form}
+            isInAddMode={isInAddMode}
+            setButtonDisabled={setButtonDisabled}
+          />
+        )}
       />
     </>
   );

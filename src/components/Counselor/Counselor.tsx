@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Form, Input, message, FormInstance, Select, Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
@@ -25,20 +25,23 @@ export const defaultCounselor: CounselorData = {
   formalLanguage: true,
   absent: false,
   absenceMessage: "",
+  status: "null",
 };
 
 export interface Props {
-  counselor: CounselorData;
+  formData: CounselorData;
   isInAddMode?: boolean;
   modalForm: FormInstance;
   handleEditCounselor?: (arg0: CounselorData) => void;
+  setButtonDisabled: Dispatch<SetStateAction<boolean>>;
 }
 
 function Counselor({
-  counselor,
+  formData,
   isInAddMode = false,
   modalForm,
   handleEditCounselor,
+  setButtonDisabled,
 }: Props) {
   const { t } = useTranslation();
 
@@ -57,7 +60,7 @@ function Counselor({
 
   useEffect(() => {
     modalForm.resetFields();
-  }, [counselor, modalForm]);
+  }, [formData, modalForm]);
 
   const {
     lastname,
@@ -71,7 +74,7 @@ function Counselor({
     formalLanguage,
     absent,
     absenceMessage,
-  } = counselor;
+  } = formData;
 
   const onFormSubmit = (values: any) => {
     setEditing(!editing);
@@ -109,6 +112,21 @@ function Counselor({
         form={modalForm}
         onFinish={onFormSubmit}
         onFinishFailed={onFinishFailed}
+        onFieldsChange={() => {
+          setButtonDisabled(
+            Object.values(
+              modalForm.getFieldsValue([
+                "firstname",
+                "lastname",
+                "email",
+                "username",
+              ])
+            ).some((field: any) => field.length === 0) ||
+              modalForm
+                .getFieldsError()
+                .some((field: any) => field.errors.length > 0)
+          );
+        }}
         size="small"
         labelAlign="left"
         labelWrap
@@ -146,7 +164,17 @@ function Counselor({
           <Item name="id" hidden>
             <Input hidden />
           </Item>
-          <Item label={t("email")} name="email" rules={[{ required: true }]}>
+          <Item
+            label={t("email")}
+            name="email"
+            rules={[
+              {
+                required: true,
+                type: "email",
+                message: t("message.error.email.incorrect"),
+              },
+            ]}
+          >
             <Input placeholder={t("placeholder.email")} />
           </Item>
           <Item label={t("agency")} name="agency">

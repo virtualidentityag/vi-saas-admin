@@ -15,7 +15,7 @@ const getCounselorData = (page: string) => {
     url: `${counselorEndpoint}/?page=${page}&perPage=100`,
     method: FETCH_METHODS.GET,
     skipAuth: false,
-    responseHandling: [FETCH_ERRORS.CATCH_ALL],
+    responseHandling: [],
   })
     .then((result) => {
       // eslint-disable-next-line no-underscore-dangle

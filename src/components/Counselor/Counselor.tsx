@@ -20,6 +20,7 @@ export const defaultCounselor: CounselorData = {
   id: "",
   phone: "",
   agency: [],
+  agencyId: "",
   username: "",
   key: "",
   formalLanguage: true,
@@ -69,6 +70,7 @@ function Counselor({
     phone,
     active,
     agency,
+    agencyId,
     username,
     id,
     formalLanguage,
@@ -134,6 +136,7 @@ function Counselor({
         initialValues={{
           firstname,
           lastname,
+          agencyId,
           agency,
           phone,
           email,
@@ -177,7 +180,7 @@ function Counselor({
           >
             <Input placeholder={t("placeholder.email")} />
           </Item>
-          <Item label={t("agency")} name="agency">
+          <Item label={t("agency")} name="agencyId">
             <Select
               disabled={agencies?.length <= 1 || isLoading}
               placeholder={t("plsSelect")}

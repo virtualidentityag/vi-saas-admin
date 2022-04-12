@@ -50,7 +50,7 @@ function CounselorList() {
     addCouselorData(formData)
       .then((response) => {
         // eslint-disable-next-line no-underscore-dangle
-        addAgencyToCounselor(response?._embedded.id, formData.agency);
+        addAgencyToCounselor(response?._embedded.id, formData.agencyId);
       })
       .then(() => getCouselorData(page.toString()))
       .then((result: any) => {
@@ -121,8 +121,10 @@ function CounselorList() {
     setIsModalDeleteVisible(!isModalDeleteVisible);
   };
 
-  const handleEdit = (record: EditableData) => {
-    setEditingCounselor(record as CounselorData);
+  const handleEdit = (record: any) => {
+    const counselorData = record as CounselorData;
+    counselorData.agencyId = counselorData.agency[0].id;
+    setEditingCounselor(counselorData);
     setIsModalFormVisible(true);
   };
 

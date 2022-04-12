@@ -24,7 +24,7 @@ function App() {
     ) {
       navigate("/admin/theme-settings");
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return renderAppComponent ? (
     <ProtectedPageLayoutWrapper>

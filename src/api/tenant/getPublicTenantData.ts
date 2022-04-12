@@ -22,7 +22,7 @@ const getPublicTenantData = () => {
     });
     return tenantResponse;
   }
-  return {};
+  return new Promise<any>(() => {});
 };
 
 export default getPublicTenantData;

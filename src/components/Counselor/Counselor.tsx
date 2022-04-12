@@ -20,7 +20,7 @@ export const defaultCounselor: CounselorData = {
   id: "",
   phone: "",
   agency: [],
-  agencyId: "",
+  agencyId: null,
   username: "",
   key: "",
   formalLanguage: true,
@@ -122,6 +122,7 @@ function Counselor({
                 "lastname",
                 "email",
                 "username",
+                "agencyId",
               ])
             ).some((field: any) => field.length === 0) ||
               modalForm
@@ -180,7 +181,11 @@ function Counselor({
           >
             <Input placeholder={t("placeholder.email")} />
           </Item>
-          <Item label={t("agency")} name="agencyId">
+          <Item
+            label={t("agency")}
+            name="agencyId"
+            rules={[{ required: true }]}
+          >
             <Select
               disabled={agencies?.length <= 1 || isLoading}
               placeholder={t("plsSelect")}

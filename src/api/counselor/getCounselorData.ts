@@ -1,6 +1,6 @@
 import { counselorEndpoint } from "../../appConfig";
 
-import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
+import { FETCH_METHODS, fetchData } from "../fetchData";
 import rebuildCounselorsList, {
   filterCounselorsList,
 } from "../../utils/rebuildCounselorList";

@@ -30,7 +30,6 @@ function RTE({ value, onChange, placeholder }: RichTextEditorProps) {
       "INLINE_STYLE_BUTTONS",
       "BLOCK_TYPE_BUTTONS",
       "LINK_BUTTONS",
-      "IMAGE_BUTTON",
     ],
     INLINE_STYLE_BUTTONS: [
       { label: "Bold", style: "BOLD", className: "custom-css-class" },

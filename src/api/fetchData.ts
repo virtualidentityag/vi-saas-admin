@@ -145,7 +145,7 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
                 ? response
                 : new Error(FETCH_ERRORS.CONFLICT)
             );
-          } else if (response.status === 401) {
+          } else if (response.status === 401 || response.status === 403) {
             logout(true, routePathNames.login);
           }
         } else {

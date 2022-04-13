@@ -187,7 +187,7 @@ function Counselor({
             rules={[{ required: true }]}
           >
             <Select
-              disabled={agencies?.length <= 1 || isLoading}
+              disabled={isLoading}
               placeholder={t("plsSelect")}
             >
               {agencies?.map((agencyItem: Record<string, any>) => (

@@ -106,7 +106,9 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
               : response;
           resolve(data);
         } else if (props.responseHandling) {
-          if (props.responseHandling.includes(FETCH_ERRORS.CATCH_ALL)) {
+          if (response.status === 401 || response.status === 403) {
+            logout(true, routePathNames.login);
+          } else if (props.responseHandling.includes(FETCH_ERRORS.CATCH_ALL)) {
             message.error({
               content: i18next.t([
                 `message.error.${response.headers.get("x-reason")}`,
@@ -114,7 +116,6 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
               ]),
               duration: 3,
             });
-
             reject(new Error(FETCH_ERRORS.CATCH_ALL));
           } else if (
             response.status === 204 &&
@@ -145,8 +146,6 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
                 ? response
                 : new Error(FETCH_ERRORS.CONFLICT)
             );
-          } else if (response.status === 401 || response.status === 403) {
-            logout(true, routePathNames.login);
           }
         } else {
           // logout(true, routePathNames.login);

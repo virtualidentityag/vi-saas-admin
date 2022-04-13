@@ -186,10 +186,7 @@ function Counselor({
             name="agencyId"
             rules={[{ required: true }]}
           >
-            <Select
-              disabled={isLoading}
-              placeholder={t("plsSelect")}
-            >
+            <Select disabled={isLoading} placeholder={t("plsSelect")}>
               {agencies?.map((agencyItem: Record<string, any>) => (
                 <Option key={agencyItem.id} value={agencyItem.id}>
                   {agencyItem.name} ({agencyItem.city})

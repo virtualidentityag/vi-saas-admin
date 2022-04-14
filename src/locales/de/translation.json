@@ -109,7 +109,7 @@
   "settings.subhead.personalisation": "Texte",
   "settings.subhead.view": "Erscheinungsbild",
   "settings.subhead.legal": "Rechtliches",
-  "settings.images.howto": "Fügen Sie hier ihr Logo und ihr Favicon ein um die Website auf wiedererkennbare Weise zu kennzeichnen. Bitte beachten Sie das wir nur JPEG und PNG formate bis zu 100 MB annehmen können.",
+  "settings.images.howto": "Fügen Sie hier ihr Logo und ihr Favicon ein um die Website auf wiedererkennbare Weise zu kennzeichnen. Bitte beachten Sie das wir nur JPEG und PNG formate bis zu 500 KB annehmen können.",
   "settings.images.help": "Ein Logo ist ein grafisches Element, das auf der Anwendung Ihr Unternehmen präsentiert. Ein Favicon befindet sich im Browser Tab. Dieses Symbol hilft den Nutzern Ihre Anwendung schnell zwischen verschiedenen Seiten wiederzufinden.",
   "settings.colors": "Farben",
   "settings.colors.howto": "Wählen Sie die Hauptfarben Ihrer Anwendung. Falls sie keine zweite Farbe haben, wird automatisch eine passende zweite Farbe vorgeschlagen.",

@@ -32,6 +32,7 @@ function FileUploader({
           file.type === "image/vnd.microsoft.icon"));
     if (!isJpgOrPng) {
       message.error(t("message.error.upload.filetype"));
+      return false;
     }
     const isLarger500kb = file.size / 1024 > 512;
 

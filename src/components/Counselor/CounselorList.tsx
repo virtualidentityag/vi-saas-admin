@@ -65,9 +65,12 @@ function CounselorList() {
       .catch(() => {});
   };
 
-  const handleEditCounselor = (formData: CounselorData) => {
+  const handleEditCounselor = (
+    formData: CounselorData,
+    counselorData: CounselorData
+  ) => {
     setIsLoading(true);
-    editCouselorData(formData)
+    editCouselorData(counselorData, formData)
       .then(() => getCouselorData(page.toString()))
       .then((result: any) => {
         setCounselors(result);
@@ -255,7 +258,9 @@ function CounselorList() {
         isModalCreateVisible={isModalFormVisible}
         handleCreateModalCancel={handleFormModalCancel}
         handleOnAddElement={
-          editingCounselor ? handleEditCounselor : handleAddCounselor
+          editingCounselor
+            ? (param) => handleEditCounselor(param, editingCounselor)
+            : handleAddCounselor
         }
         formData={editingCounselor || defaultCounselor}
         renderFormFields={({

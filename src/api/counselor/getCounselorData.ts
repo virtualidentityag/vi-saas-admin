@@ -1,6 +1,6 @@
 import { counselorEndpoint } from "../../appConfig";
 
-import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
+import { FETCH_METHODS, fetchData } from "../fetchData";
 import rebuildCounselorsList, {
   filterCounselorsList,
 } from "../../utils/rebuildCounselorList";
@@ -12,10 +12,10 @@ import rebuildCounselorsList, {
 const getCounselorData = (page: string) => {
   // retrieve Counselor
   return fetchData({
-    url: `${counselorEndpoint}/?page=${page}&perPage=20`,
+    url: `${counselorEndpoint}/?page=${page}&perPage=100`,
     method: FETCH_METHODS.GET,
     skipAuth: false,
-    responseHandling: [FETCH_ERRORS.CATCH_ALL],
+    responseHandling: [],
   })
     .then((result) => {
       // eslint-disable-next-line no-underscore-dangle

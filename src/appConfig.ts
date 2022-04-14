@@ -25,7 +25,7 @@ export const customerEndpoint = `${mainURL}/customers`;
  * routes
  */
 const routePathNames = {
-  root: "/admin/",
+  root: "/admin",
   login: "/admin/login",
   themeSettings: "/admin/theme-settings",
   counselors: "/admin/berater/",

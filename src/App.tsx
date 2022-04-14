@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./styles/App.less";
-import { Route, Routes } from "react-router";
+import { Route, Routes, useLocation, useNavigate } from "react-router";
 import ProtectedPageLayoutWrapper from "./components/Layout/ProtectedPageLayoutWrapper";
 import routePathNames from "./appConfig";
 // import Dashboard from "./pages/Dashboard";
@@ -14,6 +14,17 @@ import Initialisation from "./components/Layout/Initialisation";
 function App() {
   const [renderAppComponent, setRenderAppComponent] = useState(false);
   pubsub.subscribe(PubSubEvents.USER_AUTHORISED, setRenderAppComponent);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  useEffect(() => {
+    if (
+      location.pathname === routePathNames.root ||
+      location.pathname === `${routePathNames.root}/`
+    ) {
+      navigate("/admin/theme-settings");
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return renderAppComponent ? (
     <ProtectedPageLayoutWrapper>

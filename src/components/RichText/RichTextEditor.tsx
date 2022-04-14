@@ -42,6 +42,7 @@ function RTE({ value, onChange, placeholder }: RichTextEditorProps) {
       { label: t("rte.h1"), style: "header-one" },
       { label: t("rte.h2"), style: "header-two" },
       { label: t("rte.h3"), style: "header-three" },
+      { label: t("rte.h4"), style: "header-four" },
       { label: t("rte.h5"), style: "header-five" },
     ],
     BLOCK_TYPE_BUTTONS: [

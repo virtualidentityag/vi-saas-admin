@@ -3,6 +3,7 @@ import React from "react";
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
+  DeleteOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
 import { Tooltip } from "antd";
@@ -14,6 +15,11 @@ function StatusIcons({ status }: { status: Status }) {
   const { t } = useTranslation();
   return (
     <div className={clsx("statusIconWrapper", status)}>
+      {status === "IN_DELETION" && (
+        <Tooltip color="green" title={t("status.IN_DELETION.tooltip")}>
+          <DeleteOutlined style={{ color: "red" }} />
+        </Tooltip>
+      )}
       {status === "IN_PROGRESS" && (
         <Tooltip color="blue" title={t("status.IN_PROGRESS.tooltip")}>
           <InfoCircleOutlined />

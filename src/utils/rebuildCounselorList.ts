@@ -4,9 +4,7 @@ import getAgencyByCounselorData from "../api/agency/getAgencyByCounselorData";
 import removeEmbedded from "./removeEmbedded";
 
 export const filterCounselorsList = (list: any) => {
-  return removeEmbedded(list).filter((obj: CounselorData) => {
-    return obj.deleteDate === "null";
-  });
+  return removeEmbedded(list);
 };
 
 const rebuildCounselorsList = (list: any) => {
@@ -14,9 +12,7 @@ const rebuildCounselorsList = (list: any) => {
     list.map(async (counselor: CounselorData) => {
       const newCounselor = { ...counselor };
       newCounselor.key = counselor.id;
-      await getAgencyByCounselorData(counselor.id).then((agencies) => {
-        newCounselor.agency = agencies;
-      });
+      await getAgencyByCounselorData(counselor.id).then((agencies) => {});
       return newCounselor;
     })
   );

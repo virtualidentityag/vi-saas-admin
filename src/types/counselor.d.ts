@@ -8,7 +8,7 @@ export interface CounselorData {
   gender: string;
   id: string;
   phone: string;
-  agency: Record<string, any>[];
+  agencies: Record<string, any>[];
   agencyId: string | null;
   username: string;
   key: string;

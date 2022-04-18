@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
-import { message } from "antd";
+import { message, Modal, Table } from "antd";
 
 import { useSelector } from "react-redux";
 import getCouselorData from "../../api/counselor/getCounselorData";
@@ -13,19 +13,25 @@ import deleteCouselorData from "../../api/counselor/deleteCounselorData";
 import Counselor, { defaultCounselor } from "./Counselor";
 import ModalForm from "../ModalForm/ModalForm";
 
-import EditableTable from "../EditableTable/EditableTable";
 import EditButtons from "../EditableTable/EditButtons";
 import { decodeUsername } from "../../utils/encryptionHelpers";
 import addAgencyToCounselor from "../../api/agency/addAgencyToCounselor";
 import StatusIcons from "../EditableTable/StatusIcons";
 import { Status } from "../../types/status";
-import { EditableData } from "../../types/editabletable";
 import { RenderFormProps } from "../../types/modalForm";
+import AddButton from "../EditableTable/AddButton";
 
 function CounselorList() {
   const { t } = useTranslation();
   const [counselors, setCounselors] = useState([]);
-  const [page, setPage] = useState(1);
+
+  const [tableState, setTableState] = useState({
+    current: 1,
+    sortBy: "FIRSTNAME",
+    order: "ASC",
+    numberOfItems: 0,
+  });
+
   const [isLoading, setIsLoading] = useState(true);
   const [editingCounselor, setEditingCounselor] = useState<
     CounselorData | undefined
@@ -52,9 +58,10 @@ function CounselorList() {
         // eslint-disable-next-line no-underscore-dangle
         addAgencyToCounselor(response?._embedded.id, formData.agencyId);
       })
-      .then(() => getCouselorData(page.toString()))
+      .then(() => getCouselorData(tableState))
       .then((result: any) => {
-        setCounselors(result);
+        setCounselors(result.data);
+        setTableState({ ...tableState, numberOfItems: result.total });
         resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.add"),
@@ -68,9 +75,10 @@ function CounselorList() {
   const handleEditCounselor = (formData: CounselorData) => {
     setIsLoading(true);
     editCouselorData(formData)
-      .then(() => getCouselorData(page.toString()))
+      .then(() => getCouselorData(tableState))
       .then((result: any) => {
-        setCounselors(result);
+        setCounselors(result.data);
+        setTableState({ ...tableState, numberOfItems: result.total });
         resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.update"),
@@ -87,9 +95,10 @@ function CounselorList() {
   const handleDeleteCounselor = (formData: CounselorData) => {
     setIsLoading(true);
     deleteCouselorData(formData)
-      .then(() => getCouselorData(page.toString()))
+      .then(() => getCouselorData(tableState))
       .then((result: any) => {
-        setCounselors(result);
+        setCounselors(result.data);
+        setTableState({ ...tableState, numberOfItems: result.total });
         resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.delete"),
@@ -116,14 +125,14 @@ function CounselorList() {
     }
   };
 
-  const handleDeleteModal = (record: EditableData) => {
+  const handleDeleteModal = (record: CounselorData | undefined) => {
     setEditingCounselor(record as CounselorData);
     setIsModalDeleteVisible(!isModalDeleteVisible);
   };
 
   const handleEdit = (record: any) => {
     const counselorData = record as CounselorData;
-    counselorData.agencyId = counselorData.agency[0].id;
+    counselorData.agencyId = counselorData.agencies[0].id;
     setEditingCounselor(counselorData);
     setIsModalFormVisible(true);
   };
@@ -174,12 +183,12 @@ function CounselorList() {
     {
       width: 250,
       title: t("agency"),
-      dataIndex: "agency",
-      key: "agency",
+      dataIndex: "agencies",
+      key: `agencies`,
       ellipsis: true,
-      render: (agency: any[]) =>
-        agency &&
-        agency
+      render: (agencies: any[]) =>
+        agencies &&
+        agencies
           .map((agencyItem) => {
             return agencyItem ? `${agencyItem.name} (${agencyItem.city})` : "";
           })
@@ -204,7 +213,7 @@ function CounselorList() {
           <div className="tableActionWrapper">
             <EditButtons
               handleEdit={handleEdit}
-              handleDelete={handleDeleteModal}
+              handleDelete={() => handleDeleteModal(editingCounselor)}
               record={record}
             />
           </div>
@@ -215,35 +224,76 @@ function CounselorList() {
 
   useEffect(() => {
     setIsLoading(true);
-    getCouselorData(page.toString())
+    getCouselorData(tableState)
       .then((result: any) => {
-        setCounselors(result);
+        setCounselors(result.data);
+        setTableState({ ...tableState, numberOfItems: result.total });
         resetStatesAfterLoad();
       })
       .catch(() => {
         setIsLoading(false);
       });
-  }, [t, page]);
+  }, [t, tableState.current, tableState.order, tableState.sortBy]);
+
+  const handleTableAction = (pagination: any, filters: any, sorter: any) => {
+    if (pagination.current) {
+      setTableState({ ...tableState, current: pagination.current });
+    }
+    if (sorter.field) {
+      const sortBy = sorter.field.toUpperCase();
+      const order = sorter.order === "descend" ? "DESC" : "ASC";
+      setTableState({
+        current: pagination.current,
+        sortBy: sorter.field,
+        order,
+        numberOfItems: 0,
+      });
+    }
+  };
+
+  const pagination = {
+    total: tableState.numberOfItems,
+    current: tableState.current,
+    pageSize: 10,
+  };
 
   return (
     <>
       <Title level={3}>{t("counselor.title")}</Title>
       <p>{t("counselor.title.text")}</p>
 
-      <EditableTable
-        handleBtnAdd={handleCreateModal}
-        source={counselors}
-        isLoading={isLoading}
-        columns={columns}
-        handleDeleteModalTitle={t("counselor.modal.headline.delete")}
-        handleDeleteModalCancel={handleDeleteModal}
-        handleDeleteModalText={t("counselor.modal.text.delete")}
-        handleOnDelete={handleOnDelete}
-        isDeleteModalVisible={isModalDeleteVisible}
-        handlePagination={setPage}
-        page={page}
+      <AddButton
         allowedNumberOfUsers={allowedNumberOfUsers}
+        sourceLength={tableState.numberOfItems}
+        handleBtnAdd={handleCreateModal}
       />
+
+      <Table
+        loading={isLoading}
+        className="editableTable"
+        dataSource={counselors}
+        columns={columns}
+        scroll={{
+          x: "max-content",
+          y: "100%",
+        }}
+        sticky
+        tableLayout="fixed"
+        onChange={handleTableAction}
+        pagination={pagination}
+      />
+
+      <Modal
+        title={<Title level={2}>{t("counselor.modal.headline.delete")}</Title>}
+        visible={isModalDeleteVisible}
+        onOk={handleOnDelete}
+        onCancel={() => handleDeleteModal(editingCounselor)}
+        cancelText="ABBRECHEN"
+        closable={false}
+        centered
+      >
+        <p>{t("counselor.modal.text.delete")}</p>
+      </Modal>
 
       <ModalForm
         title={

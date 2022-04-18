@@ -8,8 +8,13 @@ import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
  */
 const addAgencyToCounselor = (
   counselorId: string,
-  agencyId: string | string[]
+  agencyId: string | string[] | null
 ) => {
+
+  if(agencyId === null){
+    return;
+  }
+
   return fetchData({
     url: `${counselorEndpoint}/${counselorId}/agencies`,
     method: FETCH_METHODS.POST,

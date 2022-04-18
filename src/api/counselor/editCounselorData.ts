@@ -44,7 +44,7 @@ const editCounselorData = (
   ) {
     deleteAgencyFromCounselor(counselorData.id, counselorData.agencyId).then(
       () => {
-        addAgencyToCounselor(counselorData.id, formData.agencyId!);
+        addAgencyToCounselor(counselorData.id, formData.agencyId);
       }
     );
   }

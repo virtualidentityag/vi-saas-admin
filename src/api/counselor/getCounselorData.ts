@@ -1,7 +1,6 @@
 import { counselorEndpoint } from "../../appConfig";
 
 import { FETCH_METHODS, fetchData } from "../fetchData";
-import { filterCounselorsList } from "../../utils/rebuildCounselorList";
 import removeEmbedded from "../../utils/removeEmbedded";
 
 /**

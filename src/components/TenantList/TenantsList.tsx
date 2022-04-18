@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import { TenantData } from "../../types/tenant";
 import getMultipleTenants from "../../api/tenant/getMultipleTenants";
+import EditableTable from "../EditableTable/EditableTable";
 import ModalForm from "../ModalForm/ModalForm";
 import { defaultCounselor } from "../Counselor/Counselor";
 import EditButtons from "../EditableTable/EditButtons";
@@ -186,7 +187,20 @@ function TenantsList() {
     <>
       <Title level={3}>{t("organisations.title")}</Title>
       <p>{t("organisations.title.text")}</p>
-
+      <EditableTable
+        handleBtnAdd={handleCreateModal}
+        source={tenants}
+        isLoading={isLoading}
+        columns={columns}
+        handleDeleteModalTitle={t("organisation.modal.headline.delete")}
+        handleDeleteModalCancel={handleDeleteModal}
+        handleDeleteModalText={t("organisation.modal.text.delete")}
+        handleOnDelete={handleOnDelete}
+        isDeleteModalVisible={isModalDeleteVisible}
+        handlePagination={setPage}
+        page={page}
+        allowedNumberOfUsers={false}
+      />
       <ModalForm
         title={
           editingTenant

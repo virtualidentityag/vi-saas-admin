@@ -215,9 +215,7 @@ function CounselorList() {
           <div className="tableActionWrapper">
             <EditButtons
               handleEdit={handleEdit}
-              handleDelete={(data) =>
-                handleDeleteModal(data as CounselorData)
-              }
+              handleDelete={(data) => handleDeleteModal(data as CounselorData)}
               record={record}
               isDisabled={record.status === "IN_DELETION"}
             />

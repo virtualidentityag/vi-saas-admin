@@ -10,9 +10,8 @@ const addAgencyToCounselor = (
   counselorId: string,
   agencyId: string | string[] | null
 ) => {
-
-  if(agencyId === null){
-    return;
+  if (agencyId === null) {
+    throw new Error("agencyId muss be non null");
   }
 
   return fetchData({

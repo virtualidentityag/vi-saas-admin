@@ -25,11 +25,11 @@ function CounselorList() {
   const { t } = useTranslation();
   const [counselors, setCounselors] = useState([]);
 
+  const [numberOfCounselors, setNumberOfCounselors] = useState(0);
   const [tableState, setTableState] = useState({
     current: 1,
     sortBy: "FIRSTNAME",
     order: "ASC",
-    numberOfItems: 0,
   });
 
   const [isLoading, setIsLoading] = useState(true);
@@ -61,7 +61,8 @@ function CounselorList() {
       .then(() => getCouselorData(tableState))
       .then((result: any) => {
         setCounselors(result.data);
-        setTableState({ ...tableState, numberOfItems: result.total });
+        setTableState(tableState);
+        setNumberOfCounselors(result.total);
         resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.add"),
@@ -100,7 +101,8 @@ function CounselorList() {
       .then(() => getCouselorData(tableState))
       .then((result: any) => {
         setCounselors(result.data);
-        setTableState({ ...tableState, numberOfItems: result.total });
+        setTableState(tableState);
+        setNumberOfCounselors(result.total);
         resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.delete"),
@@ -230,13 +232,13 @@ function CounselorList() {
     getCouselorData(tableState)
       .then((result: any) => {
         setCounselors(result.data);
-        setTableState({ ...tableState, numberOfItems: result.total });
+        setNumberOfCounselors(result.total);
         resetStatesAfterLoad();
       })
       .catch(() => {
         setIsLoading(false);
       });
-  }, [t, tableState.current]);
+  }, [t, tableState]);
 
   const handleTableAction = (pagination: any, filters: any, sorter: any) => {
     if (sorter.field) {
@@ -254,7 +256,7 @@ function CounselorList() {
   };
 
   const pagination = {
-    total: tableState.numberOfItems,
+    total: numberOfCounselors,
     current: tableState.current,
     pageSize: 10,
   };
@@ -266,7 +268,7 @@ function CounselorList() {
 
       <AddButton
         allowedNumberOfUsers={allowedNumberOfUsers}
-        sourceLength={tableState.numberOfItems}
+        sourceLength={numberOfCounselors}
         handleBtnAdd={handleCreateModal}
       />
 

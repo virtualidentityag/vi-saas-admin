@@ -236,7 +236,7 @@ function CounselorList() {
       .catch(() => {
         setIsLoading(false);
       });
-  }, [t, tableState.current, tableState.order, tableState.sortBy]);
+  }, [t, tableState.current]);
 
   const handleTableAction = (pagination: any, filters: any, sorter: any) => {
     if (sorter.field) {

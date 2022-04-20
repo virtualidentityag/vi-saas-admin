@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
-import { message } from "antd";
+import { message, Modal, Table } from "antd";
 
 import { useSelector } from "react-redux";
-import getCouselorData from "../../api/counselor/getCounselorData";
+import getCouselorData, {
+  DEFAULT_ORDER,
+  DEFAULT_SORT,
+} from "../../api/counselor/getCounselorData";
 import { CounselorData } from "../../types/counselor";
 import addCouselorData from "../../api/counselor/addCounselorData";
 import editCouselorData from "../../api/counselor/editCounselorData";
@@ -13,19 +16,25 @@ import deleteCouselorData from "../../api/counselor/deleteCounselorData";
 import Counselor, { defaultCounselor } from "./Counselor";
 import ModalForm from "../ModalForm/ModalForm";
 
-import EditableTable from "../EditableTable/EditableTable";
 import EditButtons from "../EditableTable/EditButtons";
 import { decodeUsername } from "../../utils/encryptionHelpers";
 import addAgencyToCounselor from "../../api/agency/addAgencyToCounselor";
 import StatusIcons from "../EditableTable/StatusIcons";
 import { Status } from "../../types/status";
-import { EditableData } from "../../types/editabletable";
 import { RenderFormProps } from "../../types/modalForm";
+import AddButton from "../EditableTable/AddButton";
 
 function CounselorList() {
   const { t } = useTranslation();
   const [counselors, setCounselors] = useState([]);
-  const [page, setPage] = useState(1);
+
+  const [numberOfCounselors, setNumberOfCounselors] = useState(0);
+  const [tableState, setTableState] = useState({
+    current: 1,
+    sortBy: DEFAULT_SORT,
+    order: DEFAULT_ORDER,
+  });
+
   const [isLoading, setIsLoading] = useState(true);
   const [editingCounselor, setEditingCounselor] = useState<
     CounselorData | undefined
@@ -52,9 +61,11 @@ function CounselorList() {
         // eslint-disable-next-line no-underscore-dangle
         addAgencyToCounselor(response?._embedded.id, formData.agencyId);
       })
-      .then(() => getCouselorData(page.toString()))
+      .then(() => getCouselorData(tableState))
       .then((result: any) => {
-        setCounselors(result);
+        setCounselors(result.data);
+        setTableState(tableState);
+        setNumberOfCounselors(result.total);
         resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.add"),
@@ -65,12 +76,15 @@ function CounselorList() {
       .catch(() => {});
   };
 
-  const handleEditCounselor = (formData: CounselorData) => {
+  const handleEditCounselor = (
+    formData: CounselorData,
+    counselorData: CounselorData
+  ) => {
     setIsLoading(true);
-    editCouselorData(formData)
-      .then(() => getCouselorData(page.toString()))
+    editCouselorData(counselorData, formData)
+      .then(() => getCouselorData(tableState))
       .then((result: any) => {
-        setCounselors(result);
+        setCounselors(result.data);
         resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.update"),
@@ -87,9 +101,11 @@ function CounselorList() {
   const handleDeleteCounselor = (formData: CounselorData) => {
     setIsLoading(true);
     deleteCouselorData(formData)
-      .then(() => getCouselorData(page.toString()))
+      .then(() => getCouselorData(tableState))
       .then((result: any) => {
-        setCounselors(result);
+        setCounselors(result.data);
+        setTableState(tableState);
+        setNumberOfCounselors(result.total);
         resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.delete"),
@@ -116,14 +132,14 @@ function CounselorList() {
     }
   };
 
-  const handleDeleteModal = (record: EditableData) => {
+  const handleDeleteModal = (record: CounselorData | undefined) => {
     setEditingCounselor(record as CounselorData);
     setIsModalDeleteVisible(!isModalDeleteVisible);
   };
 
   const handleEdit = (record: any) => {
     const counselorData = record as CounselorData;
-    counselorData.agencyId = counselorData.agency[0].id;
+    counselorData.agencyId = counselorData.agencies[0].id;
     setEditingCounselor(counselorData);
     setIsModalFormVisible(true);
   };
@@ -174,12 +190,12 @@ function CounselorList() {
     {
       width: 250,
       title: t("agency"),
-      dataIndex: "agency",
-      key: "agency",
+      dataIndex: "agencies",
+      key: `agencies`,
       ellipsis: true,
-      render: (agency: any[]) =>
-        agency &&
-        agency
+      render: (agencies: any[]) =>
+        agencies &&
+        agencies
           .map((agencyItem) => {
             return agencyItem ? `${agencyItem.name} (${agencyItem.city})` : "";
           })
@@ -204,8 +220,9 @@ function CounselorList() {
           <div className="tableActionWrapper">
             <EditButtons
               handleEdit={handleEdit}
-              handleDelete={handleDeleteModal}
+              handleDelete={(data) => handleDeleteModal(data as CounselorData)}
               record={record}
+              isDisabled={record.status === "IN_DELETION"}
             />
           </div>
         );
@@ -215,35 +232,75 @@ function CounselorList() {
 
   useEffect(() => {
     setIsLoading(true);
-    getCouselorData(page.toString())
+    getCouselorData(tableState)
       .then((result: any) => {
-        setCounselors(result);
+        setCounselors(result.data);
+        setNumberOfCounselors(result.total);
         resetStatesAfterLoad();
       })
       .catch(() => {
         setIsLoading(false);
       });
-  }, [t, page]);
+  }, [t, tableState]);
+
+  const handleTableAction = (pagination: any, filters: any, sorter: any) => {
+    if (sorter.field) {
+      const sortBy = sorter.field.toUpperCase();
+      const order = sorter.order === "descend" ? "DESC" : "ASC";
+      setTableState({
+        ...tableState,
+        current: pagination.current,
+        sortBy,
+        order,
+      });
+    } else {
+      setTableState({ ...tableState, current: pagination.current });
+    }
+  };
+
+  const pagination = {
+    total: numberOfCounselors,
+    current: tableState.current,
+    pageSize: 10,
+  };
 
   return (
     <>
       <Title level={3}>{t("counselor.title")}</Title>
       <p>{t("counselor.title.text")}</p>
 
-      <EditableTable
-        handleBtnAdd={handleCreateModal}
-        source={counselors}
-        isLoading={isLoading}
-        columns={columns}
-        handleDeleteModalTitle={t("counselor.modal.headline.delete")}
-        handleDeleteModalCancel={handleDeleteModal}
-        handleDeleteModalText={t("counselor.modal.text.delete")}
-        handleOnDelete={handleOnDelete}
-        isDeleteModalVisible={isModalDeleteVisible}
-        handlePagination={setPage}
-        page={page}
+      <AddButton
         allowedNumberOfUsers={allowedNumberOfUsers}
+        sourceLength={numberOfCounselors}
+        handleBtnAdd={handleCreateModal}
       />
+
+      <Table
+        loading={isLoading}
+        className="editableTable"
+        dataSource={counselors}
+        columns={columns}
+        scroll={{
+          x: "max-content",
+          y: "100%",
+        }}
+        sticky
+        tableLayout="fixed"
+        onChange={handleTableAction}
+        pagination={pagination}
+      />
+
+      <Modal
+        title={<Title level={2}>{t("counselor.modal.headline.delete")}</Title>}
+        visible={isModalDeleteVisible}
+        onOk={handleOnDelete}
+        onCancel={() => handleDeleteModal(editingCounselor)}
+        cancelText={t("btn.cancel.uppercase")}
+        closable={false}
+        centered
+      >
+        <p>{t("counselor.modal.text.delete")}</p>
+      </Modal>
 
       <ModalForm
         title={
@@ -255,7 +312,9 @@ function CounselorList() {
         isModalCreateVisible={isModalFormVisible}
         handleCreateModalCancel={handleFormModalCancel}
         handleOnAddElement={
-          editingCounselor ? handleEditCounselor : handleAddCounselor
+          editingCounselor
+            ? (param) => handleEditCounselor(param, editingCounselor)
+            : handleAddCounselor
         }
         formData={editingCounselor || defaultCounselor}
         renderFormFields={({

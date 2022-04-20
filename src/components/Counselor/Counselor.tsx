@@ -19,7 +19,7 @@ export const defaultCounselor: CounselorData = {
   gender: "",
   id: "",
   phone: "",
-  agency: [],
+  agencies: [],
   agencyId: null,
   username: "",
   key: "",
@@ -48,7 +48,7 @@ function Counselor({
 
   const [checkAbsent, setCheckAbsent] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [agencies, setAgencies] = useState<Record<string, any>[]>([]);
+  const [allAgencies, setAllAgencies] = useState<Record<string, any>[]>([]);
   const [editing, setEditing] = useState(isInAddMode);
 
   const onAbsentChange = (value: boolean) => {
@@ -69,7 +69,7 @@ function Counselor({
     email,
     phone,
     active,
-    agency,
+    agencies,
     agencyId,
     username,
     id,
@@ -97,19 +97,19 @@ function Counselor({
     getAgencyByTenantData()
       .then((result: any) => {
         // eslint-disable-next-line no-underscore-dangle
-        const resultNormalized = removeEmbedded(result._embedded);
+        const resultNormalized = removeEmbedded(result).data;
         modalForm.setFieldsValue({ agency: resultNormalized[0].id });
-        setAgencies(resultNormalized);
+        setAllAgencies(resultNormalized);
         setIsLoading(false);
       })
       .catch(() => {
         setIsLoading(false);
-        setAgencies([]);
+        setAllAgencies([]);
       });
   }, [t, id, modalForm]);
 
   return (
-    <Spin spinning={agencies.length === 0}>
+    <Spin spinning={allAgencies.length === 0}>
       <Form
         form={modalForm}
         onFinish={onFormSubmit}
@@ -138,7 +138,7 @@ function Counselor({
           firstname,
           lastname,
           agencyId,
-          agency,
+          agencies,
           phone,
           email,
           username: decodeUsername(username),
@@ -187,7 +187,7 @@ function Counselor({
             rules={[{ required: true }]}
           >
             <Select disabled={isLoading} placeholder={t("plsSelect")}>
-              {agencies?.map((agencyItem: Record<string, any>) => (
+              {allAgencies?.map((agencyItem: Record<string, any>) => (
                 <Option key={agencyItem.id} value={agencyItem.id}>
                   {agencyItem.name} ({agencyItem.city})
                 </Option>

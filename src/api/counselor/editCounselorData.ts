@@ -2,13 +2,19 @@ import { CounselorData } from "../../types/counselor";
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 import { counselorEndpoint } from "../../appConfig";
 import { encodeUsername } from "../../utils/encryptionHelpers";
+import deleteAgencyFromCounselor from "../agency/deleteAgencyFromCounselor";
+import addAgencyToCounselor from "../agency/addAgencyToCounselor";
 
 /**
  * edit counselor
- * @param counselorData
+ * @param counselorData - newly fetched consultant data from backend
+ * @param formData - input data from form
  * @return data
  */
-const editCounselorData = (counselorData: CounselorData) => {
+const editCounselorData = (
+  counselorData: CounselorData,
+  formData: CounselorData
+) => {
   const {
     firstname,
     lastname,
@@ -18,7 +24,7 @@ const editCounselorData = (counselorData: CounselorData) => {
     username,
     absenceMessage,
     id,
-  } = counselorData;
+  } = formData;
 
   // just use needed data from whole form data
   const strippedCounselor = {
@@ -30,6 +36,18 @@ const editCounselorData = (counselorData: CounselorData) => {
     username: encodeUsername(username),
     absenceMessage: absent ? absenceMessage : null,
   };
+
+  if (
+    counselorData.agencyId !== null &&
+    formData.agencyId !== null &&
+    counselorData.agencyId !== formData.agencyId
+  ) {
+    deleteAgencyFromCounselor(counselorData.id, counselorData.agencyId).then(
+      () => {
+        addAgencyToCounselor(counselorData.id, formData.agencyId);
+      }
+    );
+  }
 
   return fetchData({
     url: `${counselorEndpoint}/${id}`,

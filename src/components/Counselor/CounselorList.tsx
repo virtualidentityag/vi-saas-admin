@@ -5,7 +5,10 @@ import Title from "antd/es/typography/Title";
 import { message, Modal, Table } from "antd";
 
 import { useSelector } from "react-redux";
-import getCouselorData from "../../api/counselor/getCounselorData";
+import getCouselorData, {
+  DEFAULT_ORDER,
+  DEFAULT_SORT,
+} from "../../api/counselor/getCounselorData";
 import { CounselorData } from "../../types/counselor";
 import addCouselorData from "../../api/counselor/addCounselorData";
 import editCouselorData from "../../api/counselor/editCounselorData";
@@ -28,8 +31,8 @@ function CounselorList() {
   const [numberOfCounselors, setNumberOfCounselors] = useState(0);
   const [tableState, setTableState] = useState({
     current: 1,
-    sortBy: "FIRSTNAME",
-    order: "ASC",
+    sortBy: DEFAULT_SORT,
+    order: DEFAULT_ORDER,
   });
 
   const [isLoading, setIsLoading] = useState(true);
@@ -292,7 +295,7 @@ function CounselorList() {
         visible={isModalDeleteVisible}
         onOk={handleOnDelete}
         onCancel={() => handleDeleteModal(editingCounselor)}
-        cancelText="ABBRECHEN"
+        cancelText={t("btn.cancel.uppercase")}
         closable={false}
         centered
       >

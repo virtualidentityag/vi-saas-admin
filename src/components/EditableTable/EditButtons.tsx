@@ -12,6 +12,7 @@ function EditButtons({
   const disabled = isDisabled ? "disabled" : "";
   const handleEditAction = isDisabled ? () => {} : handleEdit;
   const handleDeleteAction = isDisabled ? () => {} : handleDelete;
+  const errorColor = "#FF0000";
 
   return (
     <div className="editBtnWrapper">
@@ -20,7 +21,7 @@ function EditButtons({
         type="button"
         onClick={() => handleEditAction(record)}
       >
-        <CustomPencilIcon color="red" />
+        <CustomPencilIcon color={errorColor} />
       </button>
       <button
         className={`editIcon deleteIcon ${disabled}`}
@@ -29,7 +30,7 @@ function EditButtons({
           handleDeleteAction(record);
         }}
       >
-        <CustomRecycleIcon style={{ color: "red" }} />
+        <CustomRecycleIcon style={{ color: errorColor }} />
       </button>
     </div>
   );

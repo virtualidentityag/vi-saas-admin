@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import { message } from "antd";
 
 import { useSelector } from "react-redux";
-import getCouselorData from "../../api/counselor/getCounselorData";
+import getCounselorData from "../../api/counselor/getCounselorData";
+import getCounselorSearchData from "../../api/counselor/getCounselorSearchData";
 import { CounselorData } from "../../types/counselor";
 import addCouselorData from "../../api/counselor/addCounselorData";
 import editCouselorData from "../../api/counselor/editCounselorData";
@@ -27,6 +28,7 @@ function CounselorList() {
   const [counselors, setCounselors] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const [editingCounselor, setEditingCounselor] = useState<
     CounselorData | undefined
   >(undefined);
@@ -45,6 +47,11 @@ function CounselorList() {
     setIsModalDeleteVisible(false);
   };
 
+  const getData = useCallback(() => {
+    if (searchQuery !== "") return getCounselorSearchData;
+    return getCounselorData;
+  }, [searchQuery]);
+
   const handleAddCounselor = (formData: Record<string, any>) => {
     setIsLoading(true);
     addCouselorData(formData)
@@ -52,7 +59,7 @@ function CounselorList() {
         // eslint-disable-next-line no-underscore-dangle
         addAgencyToCounselor(response?._embedded.id, formData.agencyId);
       })
-      .then(() => getCouselorData(page.toString()))
+      .then(() => getData()(page.toString(), searchQuery))
       .then((result: any) => {
         setCounselors(result);
         resetStatesAfterLoad();
@@ -68,7 +75,7 @@ function CounselorList() {
   const handleEditCounselor = (formData: CounselorData) => {
     setIsLoading(true);
     editCouselorData(formData)
-      .then(() => getCouselorData(page.toString()))
+      .then(() => getData()(page.toString(), searchQuery))
       .then((result: any) => {
         setCounselors(result);
         resetStatesAfterLoad();
@@ -87,7 +94,7 @@ function CounselorList() {
   const handleDeleteCounselor = (formData: CounselorData) => {
     setIsLoading(true);
     deleteCouselorData(formData)
-      .then(() => getCouselorData(page.toString()))
+      .then(() => getData()(page.toString(), searchQuery))
       .then((result: any) => {
         setCounselors(result);
         resetStatesAfterLoad();
@@ -126,6 +133,14 @@ function CounselorList() {
     counselorData.agencyId = counselorData.agency[0].id;
     setEditingCounselor(counselorData);
     setIsModalFormVisible(true);
+  };
+
+  const handleOnSearch = (value: string) => {
+    setSearchQuery(value);
+  };
+
+  const handleOnSearchClear = () => {
+    setSearchQuery("");
   };
 
   const columns: any[] = [
@@ -215,7 +230,7 @@ function CounselorList() {
 
   useEffect(() => {
     setIsLoading(true);
-    getCouselorData(page.toString())
+    getData()(page.toString(), searchQuery)
       .then((result: any) => {
         setCounselors(result);
         resetStatesAfterLoad();
@@ -223,7 +238,7 @@ function CounselorList() {
       .catch(() => {
         setIsLoading(false);
       });
-  }, [t, page]);
+  }, [t, page, getData, searchQuery]);
 
   return (
     <>
@@ -231,6 +246,9 @@ function CounselorList() {
       <p>{t("counselor.title.text")}</p>
 
       <EditableTable
+        hasSearch
+        handleOnSearch={handleOnSearch}
+        handleOnSearchClear={handleOnSearchClear}
         handleBtnAdd={handleCreateModal}
         source={counselors}
         isLoading={isLoading}

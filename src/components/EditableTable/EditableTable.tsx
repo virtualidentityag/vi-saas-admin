@@ -1,13 +1,17 @@
 import React from "react";
-import { Modal, Table } from "antd";
+import { Modal, Table, Input } from "antd";
 
 import Title from "antd/es/typography/Title";
 
 import EditableTableProps from "../../types/editabletable";
 import AddButton from "./AddButton";
+import SearchInput from "../SearchInput/SearchInput";
 
 function EditableTable({
   handleBtnAdd,
+  hasSearch,
+  handleOnSearch,
+  handleOnSearchClear,
   isLoading,
   source,
   columns,
@@ -20,11 +24,22 @@ function EditableTable({
 }: EditableTableProps) {
   return (
     <>
-      <AddButton
-        allowedNumberOfUsers={allowedNumberOfUsers}
-        sourceLength={source.length}
-        handleBtnAdd={handleBtnAdd}
-      />
+      <div className="lg-flex justify-between">
+        <AddButton
+          allowedNumberOfUsers={allowedNumberOfUsers}
+          sourceLength={source.length}
+          handleBtnAdd={handleBtnAdd}
+        />
+
+        {hasSearch && (
+          <div className="counselerSearch">
+            <SearchInput
+              handleOnSearch={handleOnSearch}
+              handleOnSearchClear={handleOnSearchClear}
+            />
+          </div>
+        )}
+      </div>
 
       <Table
         loading={isLoading}

@@ -190,14 +190,22 @@ function Settings() {
                 name="name"
                 rules={[{ required: true }]}
               >
-                <Input disabled={isLoading} placeholder={t("slogan")} />
+                <Input
+                  disabled={isLoading}
+                  placeholder={t("slogan")}
+                  maxLength={40}
+                />
               </Item>
               <Item
                 label={t("organisation.claim")}
                 name="claim"
                 rules={[{ required: true }]}
               >
-                <Input disabled={isLoading} placeholder={t("subSlogan")} />
+                <Input
+                  disabled={isLoading}
+                  placeholder={t("subSlogan")}
+                  maxLength={40}
+                />
               </Item>
             </Item>
             <Title className="formHeadline mb-m" level={4}>

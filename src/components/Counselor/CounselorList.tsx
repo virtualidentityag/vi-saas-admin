@@ -192,13 +192,17 @@ function CounselorList() {
       dataIndex: "agency",
       key: "agency",
       ellipsis: true,
-      render: (agency: any[]) =>
-        agency &&
-        agency
-          .map((agencyItem) => {
-            return agencyItem ? `${agencyItem.name} (${agencyItem.city})` : "";
-          })
-          .join(),
+      render: (agency: any[]) => (
+        <>
+          {agency.map((agencyItem) => {
+            return agencyItem ? (
+              <div>{`${agencyItem.name} (${agencyItem.postcode} ${agencyItem.city})`}</div>
+            ) : (
+              ""
+            );
+          })}
+        </>
+      ),
     },
     {
       width: 80,

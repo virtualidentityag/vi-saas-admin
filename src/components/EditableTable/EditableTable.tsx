@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Table, Input } from "antd";
+import { Modal, Table } from "antd";
 
 import Title from "antd/es/typography/Title";
 

@@ -38,15 +38,20 @@ const editCounselorData = (
   };
 
   if (
-    counselorData.agencyId !== null &&
-    formData.agencyId !== null &&
-    counselorData.agencyId !== formData.agencyId
+    counselorData.agencyIds.length > 0 &&
+    formData.agencyIds.length > 0 &&
+    counselorData.agencyIds !== formData.agencyIds
   ) {
-    deleteAgencyFromCounselor(counselorData.id, counselorData.agencyId).then(
-      () => {
-        addAgencyToCounselor(counselorData.id, formData.agencyId);
-      }
+    const agenciesToDelete = counselorData.agencyIds.filter(
+      (agencyId) => !formData.agencyIds.includes(agencyId)
     );
+    const agenciesToAdd = formData.agencyIds.filter(
+      (agencyId) => !counselorData.agencyIds.includes(agencyId)
+    );
+
+    deleteAgencyFromCounselor(counselorData.id, agenciesToDelete).then(() => {
+      addAgencyToCounselor(counselorData.id, agenciesToAdd);
+    });
   }
 
   return fetchData({

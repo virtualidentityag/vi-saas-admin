@@ -13,7 +13,7 @@ import getCounselorData, {
 import { CounselorData } from "../../types/counselor";
 import addCouselorData from "../../api/counselor/addCounselorData";
 import editCouselorData from "../../api/counselor/editCounselorData";
-import deleteCouselorData from "../../api/counselor/deleteCounselorData";
+import deleteCounselorData from "../../api/counselor/deleteCounselorData";
 import Counselor, { defaultCounselor } from "./Counselor";
 import ModalForm from "../ModalForm/ModalForm";
 
@@ -67,7 +67,7 @@ function CounselorList() {
     addCouselorData(formData)
       .then((response) => {
         // eslint-disable-next-line no-underscore-dangle
-        addAgencyToCounselor(response?._embedded.id, formData.agencyId);
+        addAgencyToCounselor(response?._embedded.id, formData.agencyIds);
       })
       .then(() => getData()(tableState, searchQuery))
       .then((result: any) => {
@@ -81,7 +81,10 @@ function CounselorList() {
         });
         setIsModalFormVisible(false);
       })
-      .catch(() => {});
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      });
   };
 
   const handleEditCounselor = (
@@ -108,7 +111,7 @@ function CounselorList() {
 
   const handleDeleteCounselor = (formData: CounselorData) => {
     setIsLoading(true);
-    deleteCouselorData(formData)
+    deleteCounselorData(formData)
       .then(() => getData()(tableState, searchQuery))
       .then((result: any) => {
         setCounselors(result.data);
@@ -147,7 +150,7 @@ function CounselorList() {
 
   const handleEdit = (record: any) => {
     const counselorData = record as CounselorData;
-    counselorData.agencyId = counselorData.agencies[0].id;
+    counselorData.agencyIds = counselorData.agencies.map((agency) => agency.id);
     setEditingCounselor(counselorData);
     setIsModalFormVisible(true);
   };

@@ -32,7 +32,7 @@ function EditableTable({
         />
 
         {hasSearch && (
-          <div className="counselerSearch">
+          <div className="tableSearch">
             <SearchInput
               handleOnSearch={handleOnSearch}
               handleOnSearchClear={handleOnSearchClear}

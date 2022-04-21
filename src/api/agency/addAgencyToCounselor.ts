@@ -8,8 +8,12 @@ import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
  */
 const addAgencyToCounselor = (
   counselorId: string,
-  agencyId: string | string[]
+  agencyId: string | string[] | null
 ) => {
+  if (agencyId === null) {
+    throw new Error("agencyId must be non null");
+  }
+
   return fetchData({
     url: `${counselorEndpoint}/${counselorId}/agencies`,
     method: FETCH_METHODS.POST,

@@ -1,31 +1,25 @@
 import { counselorSearchEndpoint } from "../../appConfig";
 
 import { FETCH_METHODS, fetchData } from "../fetchData";
-import rebuildCounselorsList, {
-  filterCounselorsList,
-} from "../../utils/rebuildCounselorList";
+import removeEmbedded from "../../utils/removeEmbedded";
 
 /**
  * retrieve all needed counselor data
  * @return {Promise}
  */
-const getCounselorSearchData = (page: string, query: string) => {
+const getCounselorSearchData = (state: TableState, query: string) => {
   // retrieve Counselor
   return fetchData({
-    url: `${counselorSearchEndpoint}/?query=${encodeURIComponent(
-      query
-    )}&page=${page}&perPage=100`,
+    url: `${counselorSearchEndpoint}/?query=${encodeURIComponent(query)}&page=${
+      state.current
+    }&perPage=100`,
     method: FETCH_METHODS.GET,
     skipAuth: false,
     responseHandling: [],
-  })
-    .then((result) => {
-      // eslint-disable-next-line no-underscore-dangle
-      return filterCounselorsList(result._embedded);
-    })
-    .then((filteredCounselorsList) => {
-      return rebuildCounselorsList(filteredCounselorsList);
-    });
+  }).then((result) => {
+    // eslint-disable-next-line no-underscore-dangle
+    return removeEmbedded(result);
+  });
 };
 
 export default getCounselorSearchData;

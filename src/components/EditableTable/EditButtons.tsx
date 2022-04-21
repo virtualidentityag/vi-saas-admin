@@ -3,24 +3,34 @@ import CustomPencilIcon from "../CustomIcons/Pencil";
 import CustomRecycleIcon from "../CustomIcons/RecycleBin";
 import { EditButtonsProps } from "../../types/editabletable";
 
-function EditButtons({ handleEdit, handleDelete, record }: EditButtonsProps) {
+function EditButtons({
+  handleEdit,
+  handleDelete,
+  record,
+  isDisabled,
+}: EditButtonsProps) {
+  const disabled = isDisabled ? "disabled" : "";
+  const handleEditAction = isDisabled ? () => {} : handleEdit;
+  const handleDeleteAction = isDisabled ? () => {} : handleDelete;
+  const errorColor = "#FF0000";
+
   return (
     <div className="editBtnWrapper">
       <button
-        className="editIcon saveIcon"
+        className={`editIcon saveIcon ${disabled}`}
         type="button"
-        onClick={() => handleEdit(record)}
+        onClick={() => handleEditAction(record)}
       >
-        <CustomPencilIcon />
+        <CustomPencilIcon color={errorColor} />
       </button>
       <button
-        className="editIcon deleteIcon"
+        className={`editIcon deleteIcon ${disabled}`}
         type="button"
         onClick={() => {
-          handleDelete(record);
+          handleDeleteAction(record);
         }}
       >
-        <CustomRecycleIcon className="editIcon" />
+        <CustomRecycleIcon style={{ color: errorColor }} />
       </button>
     </div>
   );

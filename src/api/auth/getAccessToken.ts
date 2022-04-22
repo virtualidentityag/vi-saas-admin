@@ -43,7 +43,9 @@ const getKeycloakAccessToken = (loginProps: {
             getKeycloakAccessToken({
               ...loginProps,
               tryUnencryptedForEmail: true,
-            }).then((res) => resolve(res));
+            })
+              .then((res) => resolve(res))
+              .catch(() => reject(new Error(FETCH_ERRORS.UNAUTHORIZED)));
           } else {
             reject(new Error(FETCH_ERRORS.UNAUTHORIZED));
           }

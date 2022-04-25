@@ -10,10 +10,13 @@ import CustomPersonIcon from "../CustomIcons/Person";
 import routePathNames from "../../appConfig";
 import { setTokens } from "../../api/auth/auth";
 import setIsSuperAdmin from "../../utils/setIsSuperAdmin";
+import CustomVerifiedIcon from "../CustomIcons/Verified";
+import { FETCH_ERRORS } from "../../api/fetchData";
 
 function LoginForm() {
   const { t } = useTranslation();
   const [postLoading, setPostLoading] = useState(false);
+  const [otpDisabled, setOtpDisabled] = useState(true);
 
   // Function gets fired on Form Submit
   const onFinish = async (values: any) => {
@@ -22,6 +25,7 @@ function LoginForm() {
     return getAccessToken({
       username: values.username,
       password: values.password,
+      otp: values.otp,
     })
       .then((response) => {
         // store the access token data
@@ -43,8 +47,12 @@ function LoginForm() {
         }
         return isSuperAdmin;
       })
-      .catch(() => {
-        message.error(t("message.error.auth.login"));
+      .catch((data) => {
+        if (data === FETCH_ERRORS.BAD_REQUEST) {
+          setOtpDisabled(false);
+        } else {
+          message.error(t("message.error.auth.login"));
+        }
       })
       .finally(() => {
         setPostLoading(false);
@@ -102,6 +110,23 @@ function LoginForm() {
           ]}
         >
           <Input.Password placeholder={t("password")} />
+        </Form.Item>
+
+        <Form.Item
+          label={
+            <>
+              <CustomVerifiedIcon />
+              <span className="labelText">{t("otp")}</span>
+            </>
+          }
+          name="otp"
+          rules={[
+            { required: !otpDisabled, message: t("message.form.login.otp") },
+          ]}
+          hidden={otpDisabled}
+          extra={t("message.form.login.otp.extra")}
+        >
+          <Input placeholder={t("otp")} />
         </Form.Item>
         <Form.Item
           wrapperCol={{

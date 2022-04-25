@@ -37,7 +37,7 @@ const getKeycloakAccessToken = (loginProps: {
           const dataResponse = response.json();
           resolve(dataResponse);
         } else if (response.status === 400) {
-          reject(new Error(FETCH_ERRORS.BAD_REQUEST));
+          reject(FETCH_ERRORS.BAD_REQUEST);
         } else if (response.status === 401) {
           if (!tryUnencryptedForEmail) {
             getKeycloakAccessToken({
@@ -47,7 +47,7 @@ const getKeycloakAccessToken = (loginProps: {
               .then((res) => resolve(res))
               .catch(() => reject(new Error(FETCH_ERRORS.UNAUTHORIZED)));
           } else {
-            reject(new Error(FETCH_ERRORS.UNAUTHORIZED));
+            reject(FETCH_ERRORS.UNAUTHORIZED);
           }
         }
       })

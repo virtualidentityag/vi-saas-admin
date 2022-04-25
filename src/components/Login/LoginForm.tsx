@@ -19,7 +19,10 @@ function LoginForm() {
   const onFinish = async (values: any) => {
     setPostLoading(true);
 
-    return getAccessToken(values.username, values.password)
+    return getAccessToken({
+      username: values.username,
+      password: values.password,
+    })
       .then((response) => {
         // store the access token data
         setTokens(
@@ -47,10 +50,6 @@ function LoginForm() {
         setPostLoading(false);
       });
   };
-
-  /* const changeLanguage = (lang: Languages) => {
-    changeLang(lang);
-  }; */
 
   return (
     <div className="loginForm">
@@ -87,7 +86,7 @@ function LoginForm() {
             },
           ]}
         >
-          <Input placeholder={t("username")} />
+          <Input placeholder={t("username.or.email")} />
         </Form.Item>
 
         <Form.Item
@@ -152,14 +151,6 @@ function LoginForm() {
           }}
         </Form.Item>
       </Form>
-      {/*
-      <Button type="link" onClick={() => changeLanguage("en")}>
-        EN
-      </Button>
-      <Button type="link" onClick={() => changeLanguage("de")}>
-        DE
-      </Button>
-      */}
     </div>
   );
 }

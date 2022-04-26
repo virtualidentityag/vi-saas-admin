@@ -1,6 +1,6 @@
 {
   "name": "adminpanel",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "homepage": "http://tenant1.onlineberatung.local/admin",
   "dependencies": {
@@ -111,7 +111,8 @@
     "stylelint-no-unsupported-browser-features": "^5.0.2",
     "stylelint-order": "^5.0.0",
     "stylelint-webpack-plugin": "^3.1.1",
-    "wait-on": "^5.2.0"
+    "wait-on": "^5.2.0",
+    "standard-version": "9.3.0"
   },
   "jest": {
     "transform": {

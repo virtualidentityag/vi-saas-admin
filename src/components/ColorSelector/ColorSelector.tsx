@@ -51,6 +51,7 @@ function ColorSelector({
       {isComponentVisible && (
         <div className="pickerWrapper">
           <SketchPicker
+            disableAlpha
             color={selectedColor || ""}
             onChange={(color: any) => handleOnChange(color.hex)}
           />

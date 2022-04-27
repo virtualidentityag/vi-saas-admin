@@ -58,9 +58,8 @@ function CounselorList() {
   };
 
   const getData = useCallback(() => {
-    if (searchQuery !== "") return getCounselorSearchData;
-    return getCounselorData;
-  }, [searchQuery]);
+    return getCounselorSearchData;
+  }, []);
 
   const handleAddCounselor = (formData: Record<string, any>) => {
     setIsLoading(true);

@@ -5,11 +5,10 @@ import Title from "antd/es/typography/Title";
 import { message, Modal, Table } from "antd";
 
 import { useSelector } from "react-redux";
-import getCounselorSearchData from "../../api/counselor/getCounselorSearchData";
-import getCounselorData, {
+import getCounselorSearchData, {
   DEFAULT_ORDER,
   DEFAULT_SORT,
-} from "../../api/counselor/getCounselorData";
+} from "../../api/counselor/getCounselorSearchData";
 import { CounselorData } from "../../types/counselor";
 import addCouselorData from "../../api/counselor/addCounselorData";
 import editCouselorData from "../../api/counselor/editCounselorData";

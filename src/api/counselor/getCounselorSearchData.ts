@@ -2,7 +2,9 @@ import { counselorSearchEndpoint } from "../../appConfig";
 
 import { FETCH_METHODS, fetchData } from "../fetchData";
 import removeEmbedded from "../../utils/removeEmbedded";
-import { DEFAULT_ORDER, DEFAULT_SORT } from "./getCounselorData";
+
+export const DEFAULT_SORT = "FIRSTNAME";
+export const DEFAULT_ORDER = "ASC";
 
 /**
  * retrieve all needed counselor data

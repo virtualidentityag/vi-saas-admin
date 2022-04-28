@@ -198,8 +198,6 @@ function CounselorList() {
       key: "username",
       ellipsis: true,
       render: (username: string) => decodeUsername(username),
-      sorter: (a: CounselorData, b: CounselorData) =>
-        a.username.localeCompare(b.username),
     },
     {
       width: 250,

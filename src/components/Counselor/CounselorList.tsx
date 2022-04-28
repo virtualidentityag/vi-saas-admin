@@ -25,9 +25,19 @@ import { RenderFormProps } from "../../types/modalForm";
 import AddButton from "../EditableTable/AddButton";
 import SearchInput from "../SearchInput/SearchInput";
 
+enum OpenStatus {
+  OPEN,
+  CLOSED,
+  NOT_AVAILABLE,
+}
+interface ModifiedCounselorData extends CounselorData {
+  openStatus: OpenStatus;
+  key: string;
+}
+
 function CounselorList() {
   const { t } = useTranslation();
-  const [counselors, setCounselors] = useState([]);
+  const [counselors, setCounselors] = useState<ModifiedCounselorData[]>([]);
 
   const [numberOfCounselors, setNumberOfCounselors] = useState(0);
   const [tableState, setTableState] = useState({
@@ -60,6 +70,20 @@ function CounselorList() {
     return getCounselorSearchData;
   }, []);
 
+  const updateCounselors = useCallback((counselorData: CounselorData[]) => {
+    const modifiedCounselors = counselorData.map(
+      (counselor: CounselorData) => ({
+        ...counselor,
+        key: counselor.id,
+        openStatus:
+          counselor.agencies.length > 1
+            ? OpenStatus.CLOSED
+            : OpenStatus.NOT_AVAILABLE,
+      })
+    );
+    setCounselors(modifiedCounselors);
+  }, []);
+
   const handleAddCounselor = (formData: Record<string, any>) => {
     setIsLoading(true);
     addCouselorData(formData)
@@ -69,7 +93,7 @@ function CounselorList() {
       })
       .then(() => getData()(tableState, searchQuery))
       .then((result: any) => {
-        setCounselors(result.data);
+        updateCounselors(result.data);
         setTableState(tableState);
         setNumberOfCounselors(result.total);
         resetStatesAfterLoad();
@@ -93,7 +117,7 @@ function CounselorList() {
     editCouselorData(counselorData, formData)
       .then(() => getData()(tableState, searchQuery))
       .then((result: any) => {
-        setCounselors(result.data);
+        updateCounselors(result.data);
         resetStatesAfterLoad();
         message.success({
           content: t("message.counselor.update"),
@@ -112,7 +136,7 @@ function CounselorList() {
     deleteCounselorData(formData)
       .then(() => getData()(tableState, searchQuery))
       .then((result: any) => {
-        setCounselors(result.data);
+        updateCounselors(result.data);
         setTableState(tableState);
         setNumberOfCounselors(result.total);
         resetStatesAfterLoad();
@@ -161,7 +185,46 @@ function CounselorList() {
     setSearchQuery("");
   };
 
+  const updateSingleCounselor = (record: ModifiedCounselorData) => {
+    setCounselors(
+      counselors.map((counselor) => {
+        const modifiedCounselor = { ...counselor };
+
+        if (counselor.id === record.id) {
+          if (modifiedCounselor.openStatus === OpenStatus.CLOSED) {
+            modifiedCounselor.openStatus = OpenStatus.OPEN;
+          } else if (modifiedCounselor.openStatus === OpenStatus.OPEN) {
+            modifiedCounselor.openStatus = OpenStatus.CLOSED;
+          }
+        }
+
+        return modifiedCounselor;
+      })
+    );
+  };
+
   const columns: any[] = [
+    {
+      title: "",
+      dataIndex: "openStatus",
+      key: "openStatus",
+      width: 50,
+      fixed: "left",
+      render: (_: any, record: ModifiedCounselorData) => {
+        if (record.openStatus === OpenStatus.NOT_AVAILABLE) return null;
+        return (
+          <button
+            type="button"
+            onClick={() =>
+              updateSingleCounselor(record as ModifiedCounselorData)
+            }
+          >
+            {record.openStatus === OpenStatus.CLOSED && "close"}
+            {record.openStatus === OpenStatus.OPEN && "open"}
+          </button>
+        );
+      },
+    },
     {
       title: t("firstname"),
       dataIndex: "firstname",
@@ -208,17 +271,27 @@ function CounselorList() {
       dataIndex: "agencies",
       key: `agencies`,
       ellipsis: true,
-      render: (agencies: any[]) =>
-        agencies &&
-        agencies.map((agencyItem) => {
-          return agencyItem ? (
-            <div
-              key={agencyItem.id}
-            >{`${agencyItem.name} (${agencyItem.postcode} ${agencyItem.city})`}</div>
-          ) : (
-            ""
-          );
-        }),
+      render: (agencies: any[], record: ModifiedCounselorData) => {
+        if (agencies) {
+          let visibleAgencies = [...agencies];
+          if (record.openStatus === OpenStatus.CLOSED) {
+            visibleAgencies = [agencies[0]];
+          }
+
+          return visibleAgencies.map((agencyItem) => {
+            return agencyItem ? (
+              <div key={agencyItem.id} className="counselorList__agencies">
+                <span>{agencyItem.postcode}</span>
+                <span>{agencyItem.name}</span> <span>[{agencyItem.city}]</span>
+              </div>
+            ) : (
+              ""
+            );
+          });
+        }
+
+        return null;
+      },
     },
     {
       width: 80,
@@ -274,14 +347,14 @@ function CounselorList() {
     setIsLoading(true);
     getData()(tableState, searchQuery)
       .then((result: any) => {
-        setCounselors(result.data);
+        updateCounselors(result.data);
         setNumberOfCounselors(result.total);
         resetStatesAfterLoad();
       })
       .catch(() => {
         setIsLoading(false);
       });
-  }, [t, tableState, getData, searchQuery]);
+  }, [t, tableState, getData, searchQuery, updateCounselors]);
 
   return (
     <>

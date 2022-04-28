@@ -13,11 +13,18 @@ function SearchInput({
   handleOnSearchClear,
 }: SearchInputProps) {
   const { t } = useTranslation();
+  let timer: ReturnType<typeof setTimeout>;
 
   const { Search } = Input;
 
-  // TODO DEFINE CORRECT TYPE
   const onSearchChange = (e: any) => {
+    if (handleOnSearch) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (e.target.value.length >= 3) handleOnSearch(e.target.value);
+      }, 1000);
+    }
+
     if (e.target.value === "") {
       if (handleOnSearchClear) handleOnSearchClear();
     }

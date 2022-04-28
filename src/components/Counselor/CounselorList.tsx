@@ -18,7 +18,6 @@ import ModalForm from "../ModalForm/ModalForm";
 
 import EditButtons from "../EditableTable/EditButtons";
 import { decodeUsername } from "../../utils/encryptionHelpers";
-import addAgencyToCounselor from "../../api/agency/addAgencyToCounselor";
 import StatusIcons from "../EditableTable/StatusIcons";
 import { Status } from "../../types/status";
 import { RenderFormProps } from "../../types/modalForm";
@@ -26,6 +25,7 @@ import AddButton from "../EditableTable/AddButton";
 import SearchInput from "../SearchInput/SearchInput";
 import CustomChevronDownIcon from "../CustomIcons/ChevronDown";
 import CustomChevronUpIcon from "../CustomIcons/ChevronUp";
+import putAgenciesForCounselor from "../../api/agency/putAgenciesForCounselor";
 
 enum OpenStatus {
   OPEN,
@@ -91,7 +91,7 @@ function CounselorList() {
     addCouselorData(formData)
       .then((response) => {
         // eslint-disable-next-line no-underscore-dangle
-        addAgencyToCounselor(response?._embedded.id, formData.agencyIds);
+        putAgenciesForCounselor(response?._embedded.id, formData.agencyIds);
       })
       .then(() => getData()(tableState, searchQuery))
       .then((result: any) => {

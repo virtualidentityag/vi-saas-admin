@@ -3,11 +3,21 @@
     max-width: 400px;
 
     .ant-input-affix-wrapper {
-        border: none;
+        padding: 7px 11px;
+        border: 2px solid @primary-color;
+        border-right: 0;
+        background: white;
+    }
+
+    .protectedLayout & input.ant-input {
+        padding: 0;
+        border-bottom: 0;
     }
 
     .ant-input-search > .ant-input-group > .ant-input-group-addon:last-child .ant-input-search-button {
-        border-radius: 4px;
+        background-color: @primary-color;
+        border-radius: 0 4px 4px 0;
+        color: white;
     }
 
     .ant-input-suffix {
@@ -15,9 +25,10 @@
     }
 
     .ant-input-affix-wrapper:focus, .ant-input-affix-wrapper-focused {
-        border-top: 0;
-        border-right: 0;
-        border-left: 0;
         box-shadow: none;
+    }
+    
+    .anticon.ant-input-clear-icon {
+        font-size: 16px;
     }
 }

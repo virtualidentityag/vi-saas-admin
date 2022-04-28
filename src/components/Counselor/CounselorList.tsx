@@ -24,6 +24,8 @@ import { Status } from "../../types/status";
 import { RenderFormProps } from "../../types/modalForm";
 import AddButton from "../EditableTable/AddButton";
 import SearchInput from "../SearchInput/SearchInput";
+import CustomChevronDownIcon from "../CustomIcons/ChevronDown";
+import CustomChevronUpIcon from "../CustomIcons/ChevronUp";
 
 enum OpenStatus {
   OPEN,
@@ -214,13 +216,16 @@ function CounselorList() {
         if (record.openStatus === OpenStatus.NOT_AVAILABLE) return null;
         return (
           <button
+            className="counselorList__toggle"
             type="button"
             onClick={() =>
               updateSingleCounselor(record as ModifiedCounselorData)
             }
           >
-            {record.openStatus === OpenStatus.CLOSED && "close"}
-            {record.openStatus === OpenStatus.OPEN && "open"}
+            {record.openStatus === OpenStatus.CLOSED && (
+              <CustomChevronDownIcon />
+            )}
+            {record.openStatus === OpenStatus.OPEN && <CustomChevronUpIcon />}
           </button>
         );
       },
@@ -378,7 +383,7 @@ function CounselorList() {
 
       <Table
         loading={isLoading}
-        className="editableTable"
+        className="counselorList editableTable"
         dataSource={counselors}
         columns={columns}
         scroll={{

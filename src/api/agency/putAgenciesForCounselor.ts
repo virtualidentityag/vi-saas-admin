@@ -1,4 +1,4 @@
-import { usersConsultantsEndpoint } from "../../appConfig";
+import { counselorEndpoint } from "../../appConfig";
 
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 
@@ -15,7 +15,7 @@ const putAgenciesForCounselor = (counselorId: string, agencyIds: string[]) => {
   }));
 
   return fetchData({
-    url: `${usersConsultantsEndpoint}/${counselorId}/agencies`,
+    url: `${counselorEndpoint}/${counselorId}/agencies`,
     method: FETCH_METHODS.PUT,
     skipAuth: false,
     responseHandling: [FETCH_ERRORS.CATCH_ALL],

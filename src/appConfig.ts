@@ -28,7 +28,6 @@ export const tenantPublicEndpoint = `${mainURL}/service/tenant/public/${subdomai
 export const counselorEndpoint = `${mainURL}/service/useradmin/consultants`;
 export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&perPage=10`;
 export const customerEndpoint = `${mainURL}/customers`;
-export const usersConsultantsEndpoint = `${mainURL}/service/users/consultants`;
 export const usersConsultantsSearchEndpoint = `${mainURL}/service/users/consultants/search`;
 
 /*

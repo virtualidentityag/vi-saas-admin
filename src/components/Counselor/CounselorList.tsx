@@ -181,10 +181,12 @@ function CounselorList() {
 
   const handleOnSearch = (value: string) => {
     setSearchQuery(value);
+    setTableState({ ...tableState, current: 1 });
   };
 
   const handleOnSearchClear = () => {
     setSearchQuery("");
+    setTableState({ ...tableState, current: 1 });
   };
 
   const updateSingleCounselor = (record: ModifiedCounselorData) => {
@@ -236,7 +238,7 @@ function CounselorList() {
       key: "firstname",
       sorter: (a: CounselorData, b: CounselorData) =>
         a.firstname.localeCompare(b.firstname),
-      width: 100,
+      width: 120,
       ellipsis: true,
       fixed: "left",
       editable: true,
@@ -247,7 +249,7 @@ function CounselorList() {
       key: "lastname",
       sorter: (a: CounselorData, b: CounselorData) =>
         a.lastname.localeCompare(b.lastname),
-      width: 100,
+      width: 120,
       ellipsis: true,
       fixed: "left",
       editable: true,
@@ -375,6 +377,7 @@ function CounselorList() {
 
         <div className="counselerSearch">
           <SearchInput
+            placeholder={t("consultant-search-placeholder")}
             handleOnSearch={handleOnSearch}
             handleOnSearchClear={handleOnSearchClear}
           />

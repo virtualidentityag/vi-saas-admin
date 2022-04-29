@@ -191,8 +191,7 @@ function Counselor({
               disabled={isLoading}
               allowClear
               filterOption={(input, option) =>
-                option?.children
-                  ?.join()
+                option?.props.children?.props.title
                   .toLocaleLowerCase()
                   .indexOf(input.toLocaleLowerCase()) !== -1
               }

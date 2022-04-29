@@ -191,14 +191,21 @@ function Counselor({
               disabled={isLoading}
               allowClear
               filterOption={(input, option) =>
-                option?.children?.join().toLocaleLowerCase().indexOf(input) !==
-                -1
+                option?.children
+                  ?.join()
+                  .toLocaleLowerCase()
+                  .indexOf(input.toLocaleLowerCase()) !== -1
               }
               placeholder={t("plsSelect")}
             >
               {allAgencies?.map((agencyItem: Record<string, any>) => (
                 <Option key={agencyItem.id} value={agencyItem.id}>
-                  {agencyItem.name} ({agencyItem.city})
+                  <span
+                    title={`${agencyItem.postcode} - ${agencyItem.name} (${agencyItem.city})`}
+                  >
+                    {agencyItem.postcode} - {agencyItem.name} ({agencyItem.city}
+                    )
+                  </span>
                 </Option>
               ))}
             </Select>

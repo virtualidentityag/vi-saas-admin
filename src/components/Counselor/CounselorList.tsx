@@ -249,7 +249,7 @@ function CounselorList() {
       key: "lastname",
       sorter: (a: CounselorData, b: CounselorData) =>
         a.lastname.localeCompare(b.lastname),
-      width: 120,
+      width: 130,
       ellipsis: true,
       fixed: "left",
       editable: true,

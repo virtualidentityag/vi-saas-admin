@@ -1,4 +1,4 @@
-import { counselorSearchEndpoint } from "../../appConfig";
+import { usersConsultantsSearchEndpoint } from "../../appConfig";
 
 import { FETCH_METHODS, fetchData } from "../fetchData";
 import removeEmbedded from "../../utils/removeEmbedded";
@@ -19,7 +19,7 @@ const getCounselorSearchData = (state: TableState, query: string) => {
   if (query.length <= 0) searchQuery = "*";
 
   return fetchData({
-    url: `${counselorSearchEndpoint}?query=${encodeURIComponent(
+    url: `${usersConsultantsSearchEndpoint}?query=${encodeURIComponent(
       searchQuery
     )}&page=${state.current}&perPage=10&order=${order}&field=${sortBy}`,
     method: FETCH_METHODS.GET,

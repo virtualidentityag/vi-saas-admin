@@ -6,14 +6,17 @@ import { useTranslation } from "react-i18next";
 interface SearchInputProps {
   handleOnSearch?: (query: string) => void;
   handleOnSearchClear?: () => void;
+  placeholder?: string;
 }
 
 function SearchInput({
   handleOnSearch,
   handleOnSearchClear,
+  placeholder,
 }: SearchInputProps) {
   const { t } = useTranslation();
   let timer: ReturnType<typeof setTimeout>;
+  const defaultPlaceholder = t("search-placeholder");
 
   const { Search } = Input;
 
@@ -32,7 +35,7 @@ function SearchInput({
   return (
     <Search
       allowClear
-      placeholder={t("search-placeholder")}
+      placeholder={placeholder || defaultPlaceholder}
       onChange={onSearchChange}
       onSearch={handleOnSearch}
     />

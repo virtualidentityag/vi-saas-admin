@@ -20,7 +20,7 @@ export const defaultCounselor: CounselorData = {
   id: "",
   phone: "",
   agencies: [],
-  agencyId: null,
+  agencyIds: [],
   username: "",
   key: "",
   formalLanguage: true,
@@ -70,7 +70,7 @@ function Counselor({
     phone,
     active,
     agencies,
-    agencyId,
+    agencyIds,
     username,
     id,
     formalLanguage,
@@ -122,7 +122,7 @@ function Counselor({
                 "lastname",
                 "email",
                 "username",
-                "agencyId",
+                "agencyIds",
               ])
             ).some((field: any) => field.length === 0) ||
               modalForm
@@ -137,7 +137,7 @@ function Counselor({
         initialValues={{
           firstname,
           lastname,
-          agencyId,
+          agencyIds,
           agencies,
           phone,
           email,
@@ -183,13 +183,28 @@ function Counselor({
           </Item>
           <Item
             label={t("agency")}
-            name="agencyId"
-            rules={[{ required: true }]}
+            name="agencyIds"
+            rules={[{ required: true, type: "array" }]}
           >
-            <Select disabled={isLoading} placeholder={t("plsSelect")}>
+            <Select
+              mode="multiple"
+              disabled={isLoading}
+              allowClear
+              filterOption={(input, option) =>
+                option?.props.children?.props.title
+                  .toLocaleLowerCase()
+                  .indexOf(input.toLocaleLowerCase()) !== -1
+              }
+              placeholder={t("plsSelect")}
+            >
               {allAgencies?.map((agencyItem: Record<string, any>) => (
                 <Option key={agencyItem.id} value={agencyItem.id}>
-                  {agencyItem.name} ({agencyItem.city})
+                  <span
+                    title={`${agencyItem.postcode} - ${agencyItem.name} (${agencyItem.city})`}
+                  >
+                    {agencyItem.postcode} - {agencyItem.name} ({agencyItem.city}
+                    )
+                  </span>
                 </Option>
               ))}
             </Select>

@@ -26,9 +26,9 @@ export const logoutEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/o
 export const tenantEndpoint = `${mainURL}/service/tenant/`;
 export const tenantPublicEndpoint = `${mainURL}/service/tenant/public/${subdomain}`;
 export const counselorEndpoint = `${mainURL}/service/useradmin/consultants`;
-export const counselorSearchEndpoint = `${mainURL}/service/users/consultants/search`;
 export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&perPage=10`;
 export const customerEndpoint = `${mainURL}/customers`;
+export const usersConsultantsSearchEndpoint = `${mainURL}/service/users/consultants/search`;
 
 /*
  * routes

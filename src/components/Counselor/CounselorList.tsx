@@ -76,6 +76,11 @@ function CounselorList() {
     const modifiedCounselors = counselorData.map(
       (counselor: CounselorData) => ({
         ...counselor,
+        agencies: counselor.agencies.sort((agencyA, agencyB) => {
+          if (agencyA.postcode < agencyB.postcode) return -1;
+          if (agencyA.postcode > agencyB.postcode) return 1;
+          return 0;
+        }),
         key: counselor.id,
         openStatus:
           counselor.agencies.length > 1

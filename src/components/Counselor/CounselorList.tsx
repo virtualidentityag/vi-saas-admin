@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import ReactDOM from "react-dom";
 
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
@@ -68,10 +69,6 @@ function CounselorList() {
     setIsModalDeleteVisible(false);
   };
 
-  const getData = useCallback(() => {
-    return getCounselorSearchData;
-  }, []);
-
   const updateCounselors = useCallback((counselorData: CounselorData[]) => {
     const modifiedCounselors = counselorData.map(
       (counselor: CounselorData) => ({
@@ -98,7 +95,7 @@ function CounselorList() {
         // eslint-disable-next-line no-underscore-dangle
         putAgenciesForCounselor(response?._embedded.id, formData.agencyIds);
       })
-      .then(() => getData()(tableState, searchQuery))
+      .then(() => getCounselorSearchData(tableState, searchQuery))
       .then((result: any) => {
         updateCounselors(result.data);
         setTableState(tableState);
@@ -122,7 +119,7 @@ function CounselorList() {
   ) => {
     setIsLoading(true);
     editCouselorData(counselorData, formData)
-      .then(() => getData()(tableState, searchQuery))
+      .then(() => getCounselorSearchData(tableState, searchQuery))
       .then((result: any) => {
         updateCounselors(result.data);
         resetStatesAfterLoad();
@@ -141,7 +138,7 @@ function CounselorList() {
   const handleDeleteCounselor = (formData: CounselorData) => {
     setIsLoading(true);
     deleteCounselorData(formData)
-      .then(() => getData()(tableState, searchQuery))
+      .then(() => getCounselorSearchData(tableState, searchQuery))
       .then((result: any) => {
         updateCounselors(result.data);
         setTableState(tableState);
@@ -185,13 +182,17 @@ function CounselorList() {
   };
 
   const handleOnSearch = (value: string) => {
-    setSearchQuery(value);
-    setTableState({ ...tableState, current: 1 });
+    // React doesn't batch these state hooks since this function is called in a setTimeout function,
+    // so we need to manually batch these updates
+    ReactDOM.unstable_batchedUpdates(() => {
+      setTableState({ ...tableState, current: 1 });
+      setSearchQuery(value);
+    });
   };
 
   const handleOnSearchClear = () => {
-    setSearchQuery("");
     setTableState({ ...tableState, current: 1 });
+    setSearchQuery("");
   };
 
   const updateSingleCounselor = (record: ModifiedCounselorData) => {
@@ -357,7 +358,7 @@ function CounselorList() {
 
   useEffect(() => {
     setIsLoading(true);
-    getData()(tableState, searchQuery)
+    getCounselorSearchData(tableState, searchQuery)
       .then((result: any) => {
         updateCounselors(result.data);
         setNumberOfCounselors(result.total);
@@ -366,7 +367,7 @@ function CounselorList() {
       .catch(() => {
         setIsLoading(false);
       });
-  }, [t, tableState, getData, searchQuery, updateCounselors]);
+  }, [t, tableState, searchQuery, updateCounselors]);
 
   return (
     <>

@@ -108,6 +108,25 @@ function Counselor({
       });
   }, [t, id, modalForm]);
 
+  const sortAgenciesByPostcode = (
+    agencyItemA: Record<string, any>,
+    agencyItemB: Record<string, any>
+  ) => {
+    if (agencyItemA.postcode > agencyItemB.postcode) return 1;
+    if (agencyItemA.postcode < agencyItemB.postcode) return -1;
+    return 0;
+  };
+
+  const renderAgencyOptions = (agencyItem: Record<string, any>) => (
+    <Option key={agencyItem.id} value={agencyItem.id}>
+      <span
+        title={`${agencyItem.postcode} - ${agencyItem.name} (${agencyItem.city})`}
+      >
+        {agencyItem.postcode} - {agencyItem.name} ({agencyItem.city})
+      </span>
+    </Option>
+  );
+
   return (
     <Spin spinning={allAgencies.length === 0}>
       <Form
@@ -197,16 +216,9 @@ function Counselor({
               }
               placeholder={t("plsSelect")}
             >
-              {allAgencies?.map((agencyItem: Record<string, any>) => (
-                <Option key={agencyItem.id} value={agencyItem.id}>
-                  <span
-                    title={`${agencyItem.postcode} - ${agencyItem.name} (${agencyItem.city})`}
-                  >
-                    {agencyItem.postcode} - {agencyItem.name} ({agencyItem.city}
-                    )
-                  </span>
-                </Option>
-              ))}
+              {allAgencies
+                ?.sort(sortAgenciesByPostcode)
+                .map(renderAgencyOptions)}
             </Select>
           </Item>
           <Item

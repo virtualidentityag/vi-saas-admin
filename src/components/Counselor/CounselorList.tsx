@@ -8,6 +8,7 @@ import { message, Modal, Table } from "antd";
 import { useSelector } from "react-redux";
 import getCounselorSearchData, {
   DEFAULT_ORDER,
+  DEFAULT_PAGESIZE,
   DEFAULT_SORT,
 } from "../../api/counselor/getCounselorSearchData";
 import { CounselorData } from "../../types/counselor";
@@ -47,6 +48,7 @@ function CounselorList() {
     current: 1,
     sortBy: DEFAULT_SORT,
     order: DEFAULT_ORDER,
+    pageSize: DEFAULT_PAGESIZE,
   });
 
   const [isLoading, setIsLoading] = useState(true);
@@ -342,18 +344,24 @@ function CounselorList() {
       setTableState({
         ...tableState,
         current: pagination.current,
+        pageSize: pagination.pageSize,
         sortBy,
         order,
       });
     } else {
-      setTableState({ ...tableState, current: pagination.current });
+      setTableState({
+        ...tableState,
+        current: pagination.current,
+        pageSize: pagination.pageSize,
+      });
     }
   };
 
   const pagination = {
     total: numberOfCounselors,
     current: tableState.current,
-    pageSize: 10,
+    pageSize: tableState.pageSize,
+    showSizeChanger: true,
   };
 
   useEffect(() => {

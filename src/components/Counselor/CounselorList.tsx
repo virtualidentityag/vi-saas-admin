@@ -349,14 +349,19 @@ function CounselorList() {
         order,
       });
     } else {
-      setTableState({ ...tableState, current: pagination.current });
+      setTableState({
+        ...tableState,
+        current: pagination.current,
+        pageSize: pagination.pageSize,
+      });
     }
   };
 
   const pagination = {
     total: numberOfCounselors,
     current: tableState.current,
-    pageSize: 10,
+    pageSize: tableState.pageSize,
+    showSizeChanger: true,
   };
 
   useEffect(() => {

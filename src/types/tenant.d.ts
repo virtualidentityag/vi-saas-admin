@@ -21,12 +21,12 @@ export interface TenantData extends BasicTenantData {
     logo: string;
     favicon: string;
     primaryColor: string;
-    secondaryColor: string;
+    secondaryColor: string | null;
   };
   content: {
-    impressum: string;
-    privacy: string;
-    termsAndConditions: string;
+    impressum: string | null;
+    privacy: string | null;
+    termsAndConditions: string | null;
     claim: string;
   };
 }

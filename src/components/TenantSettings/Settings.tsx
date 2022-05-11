@@ -86,9 +86,9 @@ function Settings() {
          */
       },
       content: {
-        impressum: values.impressum.toString("html"),
-        privacy: values.privacy.toString("html"),
-        termsAndConditions: values.termsAndConditions.toString("html"),
+        impressum: values.impressum?.toString("html"),
+        privacy: values.privacy?.toString("html"),
+        termsAndConditions: values.termsAndConditions?.toString("html"),
         claim: values.claim.toString("html"),
       },
     };

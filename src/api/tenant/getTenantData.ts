@@ -19,8 +19,13 @@ const getTenantData = () =>
     });
     tenantResponse
       .then((response: any) => {
+        const checkNull = (value: string | null) => (!value ? "" : value);
         storeDispatch("tenant/set-data", {
           ...response,
+          impressum: checkNull(response.impressum),
+          privacy: checkNull(response.privacy),
+          termsAndConditions: checkNull(response.termsAndConditions),
+          secondaryColor: checkNull(response.secondaryColor),
         });
         pubsub.publishEvent(PubSubEvents.USER_AUTHORISED, true);
         resolve(tenantResponse);

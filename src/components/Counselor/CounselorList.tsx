@@ -139,7 +139,9 @@ function CounselorList() {
 
   const handleEdit = (record: any) => {
     const counselorData = record as CounselorData;
-    counselorData.agencyId = counselorData.agencies[0].id;
+    counselorData.agencyId = counselorData.agencies[0]
+      ? counselorData.agencies[0].id
+      : null;
     setEditingCounselor(counselorData);
     setIsModalFormVisible(true);
   };

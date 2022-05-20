@@ -10,16 +10,23 @@ import CustomPersonIcon from "../CustomIcons/Person";
 import routePathNames from "../../appConfig";
 import { setTokens } from "../../api/auth/auth";
 import setIsSuperAdmin from "../../utils/setIsSuperAdmin";
+import CustomVerifiedIcon from "../CustomIcons/Verified";
+import { FETCH_ERRORS } from "../../api/fetchData";
 
 function LoginForm() {
   const { t } = useTranslation();
   const [postLoading, setPostLoading] = useState(false);
+  const [otpDisabled, setOtpDisabled] = useState(true);
 
   // Function gets fired on Form Submit
   const onFinish = async (values: any) => {
     setPostLoading(true);
 
-    return getAccessToken(values.username, values.password)
+    return getAccessToken({
+      username: values.username,
+      password: values.password,
+      otp: values.otp,
+    })
       .then((response) => {
         // store the access token data
         setTokens(
@@ -40,17 +47,17 @@ function LoginForm() {
         }
         return isSuperAdmin;
       })
-      .catch(() => {
-        message.error(t("message.error.auth.login"));
+      .catch((data) => {
+        if (data === FETCH_ERRORS.BAD_REQUEST) {
+          setOtpDisabled(false);
+        } else {
+          message.error(t("message.error.auth.login"));
+        }
       })
       .finally(() => {
         setPostLoading(false);
       });
   };
-
-  /* const changeLanguage = (lang: Languages) => {
-    changeLang(lang);
-  }; */
 
   return (
     <div className="loginForm">
@@ -87,7 +94,7 @@ function LoginForm() {
             },
           ]}
         >
-          <Input placeholder={t("username")} />
+          <Input placeholder={t("username.or.email")} />
         </Form.Item>
 
         <Form.Item
@@ -103,6 +110,23 @@ function LoginForm() {
           ]}
         >
           <Input.Password placeholder={t("password")} />
+        </Form.Item>
+
+        <Form.Item
+          label={
+            <>
+              <CustomVerifiedIcon />
+              <span className="labelText">{t("otp")}</span>
+            </>
+          }
+          name="otp"
+          rules={[
+            { required: !otpDisabled, message: t("message.form.login.otp") },
+          ]}
+          hidden={otpDisabled}
+          extra={t("message.form.login.otp.extra")}
+        >
+          <Input placeholder={t("otp")} />
         </Form.Item>
         <Form.Item
           wrapperCol={{
@@ -152,14 +176,6 @@ function LoginForm() {
           }}
         </Form.Item>
       </Form>
-      {/*
-      <Button type="link" onClick={() => changeLanguage("en")}>
-        EN
-      </Button>
-      <Button type="link" onClick={() => changeLanguage("de")}>
-        DE
-      </Button>
-      */}
     </div>
   );
 }

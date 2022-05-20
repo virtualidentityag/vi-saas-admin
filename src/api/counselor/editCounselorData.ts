@@ -23,6 +23,7 @@ const editCounselorData = (
     username,
     absenceMessage,
     id,
+    twoFactorAuth,
   } = formData;
 
   // just use needed data from whole form data
@@ -34,6 +35,7 @@ const editCounselorData = (
     absent,
     username: encodeUsername(username),
     absenceMessage: absent ? absenceMessage : null,
+    twoFactorAuth,
   };
 
   if (

@@ -27,6 +27,7 @@ export const defaultCounselor: CounselorData = {
   absent: false,
   absenceMessage: "",
   status: "null",
+  twoFactorAuth: false,
 };
 
 export interface Props {
@@ -76,6 +77,7 @@ function Counselor({
     formalLanguage,
     absent,
     absenceMessage,
+    twoFactorAuth,
   } = formData;
 
   const onFormSubmit = (values: any) => {
@@ -165,6 +167,7 @@ function Counselor({
           formalLanguage,
           absent,
           absenceMessage,
+          twoFactorAuth,
         }}
       >
         <div className={clsx("counselor", !active && "inactive")}>
@@ -231,6 +234,22 @@ function Counselor({
               disabled={!isInAddMode}
             />
           </Item>
+
+          <Item
+            label={t("organisation.twoFactorAuth")}
+            name="twoFactorAuth"
+            rules={[{ required: false }]}
+          >
+            <Select placeholder={t("plsSelect")}>
+              <Option key={0} value>
+                {t("yes")}
+              </Option>
+              <Option key={1} value={false}>
+                {t("no")}
+              </Option>
+            </Select>
+          </Item>
+
           <Item
             label={t("counselor.formalLanguage")}
             name="formalLanguage"

@@ -8,8 +8,7 @@ import {
   Row,
   Typography,
 } from "antd";
-
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
@@ -24,6 +23,7 @@ import CustomInfoIcon from "../CustomIcons/Info";
 import editTenantData from "../../api/tenant/editTenantData";
 import FileUploader from "../FileUploader/FileUploader";
 import decodeHTML from "../../utils/decodeHTML";
+import { TenantData } from "../../types/tenant";
 
 const { Item } = Form;
 const { Paragraph } = Typography;
@@ -67,11 +67,10 @@ function Settings() {
       });
     } */
 
-    //  ToDo: outsource restructured data into Helper
-    const changedTenantData = {
+    const changedTenantData: TenantData = {
       id: values.id,
       name: values.name,
-      subdomain: "happylife",
+      subdomain,
       updateDate: moment().format(), // ISO format
       isSuperAdmin,
       licensing: {
@@ -87,9 +86,9 @@ function Settings() {
          */
       },
       content: {
-        impressum: values.impressum.toString("html"),
-        privacy: values.privacy.toString("html"),
-        termsAndConditions: values.termsAndConditions.toString("html"),
+        impressum: values.impressum?.toString("html"),
+        privacy: values.privacy?.toString("html"),
+        termsAndConditions: values.termsAndConditions?.toString("html"),
         claim: values.claim.toString("html"),
       },
     };
@@ -105,7 +104,6 @@ function Settings() {
       .catch(() => {
         setIsLoading(false);
       });
-    //
   };
 
   const onFinishFailed = () => {

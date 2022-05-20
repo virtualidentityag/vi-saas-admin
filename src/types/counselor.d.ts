@@ -17,4 +17,5 @@ export interface CounselorData {
   absenceMessage?: string;
   deleteDate?: string;
   status: Status;
+  twoFactorAuth?: boolean;
 }

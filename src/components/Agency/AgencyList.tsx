@@ -18,6 +18,8 @@ import { AgencyData } from "../../types/agency";
 import addAgencyData from "../../api/agency/addAgencyData";
 import editAgencyData from "../../api/agency/editAgencyData";
 import deleteAgencyData from "../../api/agency/deleteAgencyData";
+import { Status } from "../../types/status";
+import StatusIcons from "../EditableTable/StatusIcons";
 
 function AgencyList() {
   const { t } = useTranslation();
@@ -180,6 +182,16 @@ function AgencyList() {
       editable: true,
       render: (data: any) => {
         return data === "true" ? "JA" : "NEIN";
+      },
+    },
+    {
+      width: 80,
+      title: t("status"),
+      dataIndex: "status",
+      key: "status",
+      ellipsis: true,
+      render: (status: Status) => {
+        return <StatusIcons status={status} />;
       },
     },
     {

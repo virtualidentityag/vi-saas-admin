@@ -19,6 +19,13 @@ const getAgencyData = (params: TableState) => {
   sortBy = sortBy.toUpperCase();
   order = order.toUpperCase();
 
+  const resolveAgencyStatus = (el: any) => {
+    if (el.deleteDate !== "null") {
+      return "IN_DELETION";
+    }
+    return "CREATED";
+  };
+
   return fetchData({
     url: `${agencyEndpointBase}/?page=${params.current}&perPage=10&order=${order}&field=${sortBy}`,
     method: FETCH_METHODS.GET,
@@ -32,13 +39,13 @@ const getAgencyData = (params: TableState) => {
     .then((result) => {
       return {
         total: result.total,
-        data: result.data
-          .map((el: any) => {
-            return { ...el, teamAgency: el.teamAgency ? "true" : "false" };
-          })
-          .filter((el: any) => {
-            return el.deleteDate === "null";
-          }),
+        data: result.data.map((el: any) => {
+          return {
+            ...el,
+            teamAgency: el.teamAgency ? "true" : "false",
+            status: resolveAgencyStatus(el),
+          };
+        }),
       };
     });
 };

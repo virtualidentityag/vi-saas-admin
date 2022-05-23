@@ -8,6 +8,7 @@ import { message, Modal, Table } from "antd";
 import { useSelector } from "react-redux";
 import getCounselorSearchData, {
   DEFAULT_ORDER,
+  DEFAULT_PAGESIZE,
   DEFAULT_SORT,
 } from "../../api/counselor/getCounselorSearchData";
 import { CounselorData } from "../../types/counselor";
@@ -353,7 +354,7 @@ function CounselorList() {
   const pagination = {
     total: numberOfCounselors,
     current: tableState.current,
-    pageSize: 10,
+    pageSize: DEFAULT_PAGESIZE,
   };
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import removeEmbedded from "../../utils/removeEmbedded";
 
 export const DEFAULT_SORT = "FIRSTNAME";
 export const DEFAULT_ORDER = "ASC";
+export const DEFAULT_PAGESIZE = 2;
 
 /**
  * retrieve all needed counselor data
@@ -21,7 +22,9 @@ const getCounselorSearchData = (state: TableState, query: string) => {
   return fetchData({
     url: `${usersConsultantsSearchEndpoint}?query=${encodeURIComponent(
       searchQuery
-    )}&page=${state.current}&perPage=10&order=${order}&field=${sortBy}`,
+    )}&page=${
+      state.current
+    }&perPage=${DEFAULT_PAGESIZE}&order=${order}&field=${sortBy}`,
     method: FETCH_METHODS.GET,
     skipAuth: false,
     responseHandling: [],

@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Form, FormInstance, Input, message, Select, Spin, Switch } from "antd";
+import { Form, FormInstance, Input, message, Select, Switch } from "antd";
 import { useTranslation } from "react-i18next";
 import { Option } from "antd/es/mentions";
 import { AgencyData } from "../../types/agency";
@@ -38,22 +38,14 @@ function Agency({
 }: Props) {
   const { t } = useTranslation();
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [, setIsLoading] = useState(true);
   const [editing, setEditing] = useState(isInAddMode);
 
   useEffect(() => {
     modalForm.resetFields();
   }, [formData, modalForm]);
 
-  const {
-    name,
-    city,
-    consultingType,
-    description,
-    offline,
-    postcode,
-    teamAgency,
-  } = formData;
+  const { name, city, description, offline, postcode, teamAgency } = formData;
 
   const onFormSubmit = (values: any) => {
     setEditing(!editing);

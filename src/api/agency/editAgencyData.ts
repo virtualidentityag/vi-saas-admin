@@ -1,5 +1,5 @@
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
-import { agencyEndpointBase, counselorEndpoint } from "../../appConfig";
+import { agencyEndpointBase } from "../../appConfig";
 import { AgencyData } from "../../types/agency";
 
 /**

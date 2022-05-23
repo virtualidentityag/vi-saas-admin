@@ -8,7 +8,7 @@ import addAgencyPostcodeRange from "./addAgencyPostCodeRange";
  * @return data
  */
 const addAgencyData = (agencyData: Record<string, any>) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     fetchData({
       url: `${consultingTypeEndpoint}/basic`,
       method: FETCH_METHODS.GET,

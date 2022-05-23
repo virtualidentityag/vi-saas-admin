@@ -5,7 +5,7 @@ import removeEmbedded from "../../utils/removeEmbedded";
 
 export const DEFAULT_SORT = "FIRSTNAME";
 export const DEFAULT_ORDER = "ASC";
-export const DEFAULT_PAGESIZE = 2;
+export const DEFAULT_PAGESIZE = 10;
 
 /**
  * retrieve all needed counselor data

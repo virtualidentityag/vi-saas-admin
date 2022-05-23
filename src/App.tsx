@@ -10,6 +10,7 @@ import UserProfile from "./pages/UserProfile";
 import Tenants from "./pages/Tenants";
 import pubsub, { PubSubEvents } from "./state/pubsub/PubSub";
 import Initialisation from "./components/Layout/Initialisation";
+import Agencies from "./pages/Agencies";
 
 function App() {
   const [renderAppComponent, setRenderAppComponent] = useState(false);
@@ -35,6 +36,7 @@ function App() {
           element={<TenantSettings />}
         />
         <Route path={routePathNames.counselors} element={<Counselors />} />
+        <Route path={routePathNames.agency} element={<Agencies />} />
         <Route path={routePathNames.userProfile} element={<UserProfile />} />
         <Route path={routePathNames.tenants} element={<Tenants />} />
       </Routes>

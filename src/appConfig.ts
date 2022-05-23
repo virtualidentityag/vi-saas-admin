@@ -18,7 +18,10 @@ export const logoutEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/o
 export const tenantEndpoint = `${mainURL}/service/tenant/`;
 export const tenantPublicEndpoint = `${mainURL}/service/tenant/public/${subdomain}`;
 export const counselorEndpoint = `${mainURL}/service/useradmin/consultants`;
+export const agencyEndpointBase = `${mainURL}/service/agencyadmin/agencies`;
+export const agencyPostcodeRangeEndpointBase = `${mainURL}/service/agencyadmin/postcoderanges`;
 export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&perPage=10`;
+export const consultingTypeEndpoint = `${mainURL}/service/consultingtypes`;
 export const customerEndpoint = `${mainURL}/customers`;
 
 /*
@@ -28,9 +31,12 @@ const routePathNames = {
   root: "/admin",
   login: "/admin/login",
   themeSettings: "/admin/theme-settings",
-  counselors: "/admin/berater/",
-  counselorProfileEdit: "/admin/berater/bearbeiten/",
-  counselorProfileAdd: "/admin/benutzer/anlegen/",
+  counselors: "/admin/counselor/",
+  counselorProfileEdit: "/admin/counselor/edit/",
+  counselorProfileAdd: "/admin/counselor/add/",
+  agency: "/admin/agency/",
+  agencyEdit: "/admin/agency/edit",
+  agencyAdd: "/admin/agency/add",
   userProfile: "/admin/profil/",
   termsAndConditions: "/admin/agb",
   imprint: "/impressum",

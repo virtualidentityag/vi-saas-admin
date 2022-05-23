@@ -88,6 +88,7 @@
   "agency.teamAgency": "Teamberatungsstelle",
   "agency.offline": "Offline",
   "agency.description": "Beschreibung",
+  "agency.postCodeRanges": "Postleitzahl Umfang",
   "agency.modal.headline.delete": "Beratungsstelle wirklich löschen",
   "agency.modal.text.delete": "Wollen Sie diese Beratungsstelle wirklich löschen. Dieser Vorgang kann nicht rückgängig gemacht werden.",
   "counselor.new.help": "Sie können nur so viele Berater hinzufügen, wie in Ihrem Vertrag vereinbart sind! In Ihrem Vertrag sind derzeit {{number}} Berater möglich.",

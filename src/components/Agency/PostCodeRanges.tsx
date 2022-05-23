@@ -69,7 +69,7 @@ export default function PostCodeRanges(props: {
         </Item>
         <div>
           <PlusOutlined
-            onClick={(idx) => {
+            onClick={() => {
               const postcodeFromAddValue = formData.getFieldsValue()
                 .postcodeFromAdd as string;
               const postcodeUntilAdd = formData.getFieldsValue()

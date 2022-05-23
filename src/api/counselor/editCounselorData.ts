@@ -2,8 +2,7 @@ import { CounselorData } from "../../types/counselor";
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 import { counselorEndpoint } from "../../appConfig";
 import { encodeUsername } from "../../utils/encryptionHelpers";
-import deleteAgencyFromCounselor from "../agency/deleteAgencyFromCounselor";
-import addAgencyToCounselor from "../agency/addAgencyToCounselor";
+import putAgenciesForCounselor from "../agency/putAgenciesForCounselor";
 
 /**
  * edit counselor
@@ -24,6 +23,7 @@ const editCounselorData = (
     username,
     absenceMessage,
     id,
+    twoFactorAuth,
   } = formData;
 
   // just use needed data from whole form data
@@ -35,18 +35,15 @@ const editCounselorData = (
     absent,
     username: encodeUsername(username),
     absenceMessage: absent ? absenceMessage : null,
+    twoFactorAuth,
   };
 
   if (
-    counselorData.agencyId !== null &&
-    formData.agencyId !== null &&
-    counselorData.agencyId !== formData.agencyId
+    counselorData.agencyIds.length > 0 &&
+    formData.agencyIds.length > 0 &&
+    counselorData.agencyIds !== formData.agencyIds
   ) {
-    deleteAgencyFromCounselor(counselorData.id, counselorData.agencyId).then(
-      () => {
-        addAgencyToCounselor(counselorData.id, formData.agencyId);
-      }
-    );
+    putAgenciesForCounselor(counselorData.id, formData.agencyIds);
   }
 
   return fetchData({

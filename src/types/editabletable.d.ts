@@ -18,6 +18,9 @@ export default interface EditableTableProps {
   handlePagination: Dispatch<SetStateAction<number>>;
   page: number;
   allowedNumberOfUsers: number | false;
+  hasSearch?: boolean;
+  handleOnSearch?: (query: string) => void;
+  handleOnSearchClear?: () => void;
 }
 
 export interface EditButtonsProps extends React.HTMLAttributes<HTMLElement> {

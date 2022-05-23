@@ -20,13 +20,14 @@ export const defaultCounselor: CounselorData = {
   id: "",
   phone: "",
   agencies: [],
-  agencyId: null,
+  agencyIds: [],
   username: "",
   key: "",
   formalLanguage: true,
   absent: false,
   absenceMessage: "",
   status: "null",
+  twoFactorAuth: false,
 };
 
 export interface Props {
@@ -70,12 +71,13 @@ function Counselor({
     phone,
     active,
     agencies,
-    agencyId,
+    agencyIds,
     username,
     id,
     formalLanguage,
     absent,
     absenceMessage,
+    twoFactorAuth,
   } = formData;
 
   const onFormSubmit = (values: any) => {
@@ -108,6 +110,25 @@ function Counselor({
       });
   }, [t, id, modalForm]);
 
+  const sortAgenciesByPostcode = (
+    agencyItemA: Record<string, any>,
+    agencyItemB: Record<string, any>
+  ) => {
+    if (agencyItemA.postcode > agencyItemB.postcode) return 1;
+    if (agencyItemA.postcode < agencyItemB.postcode) return -1;
+    return 0;
+  };
+
+  const renderAgencyOptions = (agencyItem: Record<string, any>) => (
+    <Option key={agencyItem.id} value={agencyItem.id}>
+      <span
+        title={`${agencyItem.postcode} - ${agencyItem.name} (${agencyItem.city})`}
+      >
+        {agencyItem.postcode} - {agencyItem.name} ({agencyItem.city})
+      </span>
+    </Option>
+  );
+
   return (
     <Spin spinning={allAgencies.length === 0}>
       <Form
@@ -122,7 +143,7 @@ function Counselor({
                 "lastname",
                 "email",
                 "username",
-                "agencyId",
+                "agencyIds",
               ])
             ).some((field: any) => field.length === 0) ||
               modalForm
@@ -137,7 +158,7 @@ function Counselor({
         initialValues={{
           firstname,
           lastname,
-          agencyId,
+          agencyIds,
           agencies,
           phone,
           email,
@@ -146,6 +167,7 @@ function Counselor({
           formalLanguage,
           absent,
           absenceMessage,
+          twoFactorAuth,
         }}
       >
         <div className={clsx("counselor", !active && "inactive")}>
@@ -183,15 +205,23 @@ function Counselor({
           </Item>
           <Item
             label={t("agency")}
-            name="agencyId"
-            rules={[{ required: true }]}
+            name="agencyIds"
+            rules={[{ required: true, type: "array" }]}
           >
-            <Select disabled={isLoading} placeholder={t("plsSelect")}>
-              {allAgencies?.map((agencyItem: Record<string, any>) => (
-                <Option key={agencyItem.id} value={agencyItem.id}>
-                  {agencyItem.name} ({agencyItem.city})
-                </Option>
-              ))}
+            <Select
+              mode="multiple"
+              disabled={isLoading}
+              allowClear
+              filterOption={(input, option) =>
+                option?.props.children?.props.title
+                  .toLocaleLowerCase()
+                  .indexOf(input.toLocaleLowerCase()) !== -1
+              }
+              placeholder={t("plsSelect")}
+            >
+              {allAgencies
+                ?.sort(sortAgenciesByPostcode)
+                .map(renderAgencyOptions)}
             </Select>
           </Item>
           <Item
@@ -204,6 +234,22 @@ function Counselor({
               disabled={!isInAddMode}
             />
           </Item>
+
+          <Item
+            label={t("organisation.twoFactorAuth")}
+            name="twoFactorAuth"
+            rules={[{ required: false }]}
+          >
+            <Select placeholder={t("plsSelect")}>
+              <Option key={0} value>
+                {t("yes")}
+              </Option>
+              <Option key={1} value={false}>
+                {t("no")}
+              </Option>
+            </Select>
+          </Item>
+
           <Item
             label={t("counselor.formalLanguage")}
             name="formalLanguage"

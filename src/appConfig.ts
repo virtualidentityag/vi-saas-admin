@@ -8,9 +8,17 @@ export const CSRF_WHITELIST_HEADER: string =
   REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
 const { subdomain, origin } = getLocationVariables();
 
-export const mainURL = origin.includes("localhost")
-  ? `https://${subdomain && `${subdomain}.`}${process.env.REACT_APP_API_URL}`
-  : origin;
+let url = origin;
+
+if (process.env.REACT_APP_USE_API_URL === "true") {
+  url = `https://${process.env.REACT_APP_API_URL}`;
+} else if (origin.includes("localhost")) {
+  url = `https://${subdomain && `${subdomain}.`}${
+    process.env.REACT_APP_API_URL
+  }`;
+}
+
+export const mainURL = url;
 
 export const XHRheader = { AcceptLanguage: "de" };
 export const loginEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/token`;
@@ -23,6 +31,7 @@ export const agencyPostcodeRangeEndpointBase = `${mainURL}/service/agencyadmin/p
 export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&perPage=10`;
 export const consultingTypeEndpoint = `${mainURL}/service/consultingtypes`;
 export const customerEndpoint = `${mainURL}/customers`;
+export const usersConsultantsSearchEndpoint = `${mainURL}/service/users/consultants/search`;
 
 /*
  * routes

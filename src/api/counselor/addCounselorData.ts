@@ -8,8 +8,15 @@ import { encodeUsername } from "../../utils/encryptionHelpers";
  * @return data
  */
 const addCounselorData = (counselorData: Record<string, any>) => {
-  const { firstname, lastname, formalLanguage, email, absent, username } =
-    counselorData;
+  const {
+    firstname,
+    lastname,
+    formalLanguage,
+    email,
+    absent,
+    username,
+    twoFactorAuth,
+  } = counselorData;
 
   // just use needed data from whole form data
   const strippedCounselor = {
@@ -19,6 +26,7 @@ const addCounselorData = (counselorData: Record<string, any>) => {
     email,
     absent,
     username: encodeUsername(username),
+    twoFactorAuth,
   };
 
   return fetchData({

@@ -1,6 +1,7 @@
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
-import { agencyEndpointBase } from "../../appConfig";
+import { agencyEndpointBase, consultingTypeEndpoint } from "../../appConfig";
 import { AgencyData } from "../../types/agency";
+import updateAgencyPostCodeRange from "./updateAgencyPostCodeRange";
 
 /**
  * edit agency
@@ -17,7 +18,7 @@ const editAgencyData = (agencyData: AgencyData, formData: AgencyData) => {
       agencyTyoeChangeRequestBody = { agencyType: "DEFAULT_AGENCY" };
     }
 
-    return fetchData({
+    fetchData({
       url: `${agencyEndpointBase}/${agencyData.id}/changetype`,
       method: FETCH_METHODS.POST,
       skipAuth: false,
@@ -26,26 +27,32 @@ const editAgencyData = (agencyData: AgencyData, formData: AgencyData) => {
     });
   }
 
-  const agencyDataRequestBody = {
-    id: agencyData.id,
-    dioceseId: 0,
-    name: formData.name,
-    description: formData.description,
-    postcode: formData.postcode,
-    city: formData.city,
-    teamAgency: formData.teamAgency ? formData.teamAgency : false,
-    consultingType: 1,
-    url: formData.url,
-    external: false,
-    offline: formData.offline,
-  };
-
   return fetchData({
-    url: `${agencyEndpointBase}/${agencyData.id}`,
-    method: FETCH_METHODS.PUT,
+    url: `${consultingTypeEndpoint}/basic`,
+    method: FETCH_METHODS.GET,
     skipAuth: false,
     responseHandling: [FETCH_ERRORS.CATCH_ALL],
-    bodyData: JSON.stringify(agencyDataRequestBody),
+  }).then((consultingTypeResponse) => {
+    const agencyDataRequestBody = {
+      dioceseId: 0,
+      name: formData.name,
+      description: formData.description,
+      postcode: formData.postcode,
+      city: formData.city,
+      consultingType: consultingTypeResponse[0].id,
+      offline: formData.offline,
+      external: false,
+    };
+
+    return fetchData({
+      url: `${agencyEndpointBase}/${agencyData.id}`,
+      method: FETCH_METHODS.PUT,
+      skipAuth: false,
+      responseHandling: [FETCH_ERRORS.CATCH_ALL],
+      bodyData: JSON.stringify(agencyDataRequestBody),
+    }).then((resp) => {
+      updateAgencyPostCodeRange(agencyData.id!, formData, "PUT");
+    });
   });
 };
 

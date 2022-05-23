@@ -2,14 +2,18 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Form, FormInstance, Input, message, Select, Switch } from "antd";
 import { useTranslation } from "react-i18next";
 import { Option } from "antd/es/mentions";
+
 import { AgencyData } from "../../types/agency";
-import getAgencyByTenantData from "../../api/agency/getAgencyByTenantData";
-import removeEmbedded from "../../utils/removeEmbedded";
+import getAgencyPostCodeRange, {
+  PostCodeRange,
+} from "../../api/agency/getAgencyPostCodeRange";
+import PostCodeRanges from "./PostCodeRanges";
 
 const { TextArea } = Input;
 const { Item } = Form;
 
 export const defaultAgency: AgencyData = {
+  id: null,
   name: "",
   city: "",
   consultingType: "",
@@ -17,8 +21,6 @@ export const defaultAgency: AgencyData = {
   offline: false,
   postcode: "",
   teamAgency: true,
-  id: null,
-  url: null,
 };
 
 export interface Props {
@@ -38,11 +40,35 @@ function Agency({
 }: Props) {
   const { t } = useTranslation();
 
-  const [, setIsLoading] = useState(true);
   const [editing, setEditing] = useState(isInAddMode);
+  const [postCodeRangesActive, setPostCodeRangesActive] = useState(false);
+  const [defaultPostCodeRanges, setDefaultPostCodeRanges] = useState(
+    [] as PostCodeRange[]
+  );
+
+  if (!isInAddMode) {
+    setButtonDisabled(false);
+  }
 
   useEffect(() => {
     modalForm.resetFields();
+    const agencyId = formData.id;
+    if (agencyId) {
+      getAgencyPostCodeRange(agencyId).then((data) => {
+        setDefaultPostCodeRanges(data);
+        if (
+          data.length === 1 &&
+          data[0].from === "00000" &&
+          data[0].until === "99999"
+        ) {
+          setPostCodeRangesActive(false);
+          modalForm.setFieldsValue({ postCodeRangesActive: false });
+        } else {
+          setPostCodeRangesActive(true);
+          modalForm.setFieldsValue({ postCodeRangesActive: true });
+        }
+      });
+    }
   }, [formData, modalForm]);
 
   const { name, city, description, offline, postcode, teamAgency } = formData;
@@ -60,20 +86,6 @@ function Agency({
       duration: 3,
     });
   };
-
-  useEffect(() => {
-    setIsLoading(true);
-    getAgencyByTenantData()
-      .then((result: any) => {
-        // eslint-disable-next-line no-underscore-dangle
-        const resultNormalized = removeEmbedded(result).data;
-        modalForm.setFieldsValue({ agency: resultNormalized[0].id });
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setIsLoading(false);
-      });
-  }, [t, modalForm]);
 
   return (
     <Form
@@ -94,7 +106,15 @@ function Agency({
       labelAlign="left"
       labelWrap
       layout="vertical"
-      initialValues={{ name, description, city, postcode, offline, teamAgency }}
+      initialValues={{
+        name,
+        description,
+        city,
+        postcode,
+        offline,
+        teamAgency,
+        postCodeRangesActive,
+      }}
     >
       <Item label={t("agency.name")} name="name" rules={[{ required: true }]}>
         <Input placeholder={t("placeholder.agency.name")} maxLength={100} />
@@ -107,7 +127,7 @@ function Agency({
         <TextArea placeholder={t("placeholder.agency.description")} />
       </Item>
       <Item label={t("agency.teamAgency")} name="teamAgency">
-        <Select placeholder={t("plsSelect")}>
+        <Select placeholder={t("plsSelect")} defaultValue>
           <Option key="0" value="true">
             {t("yes")}
           </Option>
@@ -122,22 +142,18 @@ function Agency({
       <Item label={t("agency.postcode")} name="postcode">
         <Input placeholder={t("placeholder.agency.postcode")} maxLength={5} />
       </Item>
-      {/* <div style={{ display: "flex", justifyContent: "space-between" }}> */}
-      {/*  <Item */}
-      {/*    style={{ width: "40%" }} */}
-      {/*    label={t("agency.postcode.from")} */}
-      {/*    name="postcodeFrom" */}
-      {/*  > */}
-      {/*    <Input /> */}
-      {/*  </Item> */}
-      {/*  <Item */}
-      {/*    style={{ width: "40%" }} */}
-      {/*    label={t("agency.postcode.to")} */}
-      {/*    name="postcodeTo" */}
-      {/*  > */}
-      {/*    <Input /> */}
-      {/*  </Item> */}
-      {/* </div> */}
+      <Item label={t("agency.postCodeRanges")} name="postCodeRangesActive">
+        <Switch
+          checked={postCodeRangesActive}
+          onChange={() => setPostCodeRangesActive(!postCodeRangesActive)}
+        />
+      </Item>
+      {postCodeRangesActive && (
+        <PostCodeRanges
+          defaultPostCodeRanges={defaultPostCodeRanges}
+          formData={modalForm}
+        />
+      )}
       <Item label={t("agency.offline")} name="offline">
         <Switch defaultChecked={offline} />
       </Item>

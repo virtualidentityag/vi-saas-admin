@@ -5,8 +5,8 @@ import {
   // DesktopOutlined,
   SettingOutlined,
   TeamOutlined,
-  // UserOutlined,
   BankOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -75,6 +75,16 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                     <span>{t("counselor.title")}</span>
                   </NavLink>
                 </li>
+
+                <li key="5" className="menuItem">
+                  <NavLink
+                    to={routePathNames.userProfile}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    <UserOutlined className="menuIcon" />
+                    <span>{t("profile.title")}</span>
+                  </NavLink>
+                </li>
               </>
             ) : (
               <li key="4" className="menuItem">
@@ -87,18 +97,6 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                 </NavLink>
               </li>
             )}
-
-            {/* later.....
-            <li key="5" className="menuItem">
-              <NavLink
-                to={routePathNames.userProfile}
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                <UserOutlined className="menuIcon" />
-                <span>{t("profile.title")}</span>
-              </NavLink>
-            </li>
-           */}
 
             <li key="6" className="menuItem">
               <button onClick={handleLogout} type="button">

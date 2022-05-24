@@ -50,7 +50,6 @@ function Tenant({
     createDate,
     licensing,
     consultingType,
-    twoFactorAuth,
     formalLanguage,
     startServiceDate,
   } = formData;
@@ -100,7 +99,6 @@ function Tenant({
           createDate,
           licensing,
           consultingType,
-          twoFactorAuth,
           formalLanguage,
           startServiceDate,
         }}
@@ -147,21 +145,6 @@ function Tenant({
           <Item
             label={t("organisation.videoFeature")}
             name="videoFeature"
-            rules={[{ required: false }]}
-          >
-            <Select placeholder={t("plsSelect")}>
-              <Option key={0} value>
-                {t("yes")}
-              </Option>
-              <Option key={1} value={false}>
-                {t("no")}
-              </Option>
-            </Select>
-          </Item>
-
-          <Item
-            label={t("organisation.twoFactorAuth")}
-            name="twoFactorAuth"
             rules={[{ required: false }]}
           >
             <Select placeholder={t("plsSelect")}>

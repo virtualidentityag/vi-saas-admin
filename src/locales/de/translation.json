@@ -121,6 +121,7 @@
   "settings.colors": "Farben",
   "settings.colors.howto": "Wählen Sie die Hauptfarben Ihrer Anwendung. Falls sie keine zweite Farbe haben, wird automatisch eine passende zweite Farbe vorgeschlagen.",
   "profile.title": "Profil",
+  "profile.title.text": "Hier sind Ihre Profilinformationen",
   "placeholder.firstname": "Maxime",
   "placeholder.lastname": "Musterfrau",
   "placeholder.email": "maxime.musterfrau@onlineberatung.de",
@@ -133,5 +134,7 @@
   "rte.h2": "Headline 2. Ordnung",
   "rte.h3": "Headline 3. Ordnung",
   "rte.h4": "Headline 4. Ordnung",
-  "rte.text": "Text"
+  "rte.text": "Text",
+  "twoFactorAuth.switch.active.label": "2-Faktor-Authentifizierung aktiviert",
+  "twoFactorAuth.switch.deactive.label": "2-Faktor-Authentifizierung deaktiviert"
 }

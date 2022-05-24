@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { CounselorData } from "./counselor";
 import { BasicTenantData } from "./tenant";
-import {AgencyData} from "./agency";
+import { AgencyData } from "./agency";
 
 export type EditableData = CounselorData | BasicTenantData | AgencyData;
 

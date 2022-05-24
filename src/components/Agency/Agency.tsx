@@ -18,9 +18,9 @@ export const defaultAgency: AgencyData = {
   city: "",
   consultingType: "",
   description: "",
-  offline: false,
+  offline: true,
   postcode: "",
-  teamAgency: true,
+  teamAgency: "true",
 };
 
 export interface Props {
@@ -139,7 +139,11 @@ function Agency({
       <Item label={t("agency.city")} name="city" rules={[{ required: true }]}>
         <Input placeholder={t("placeholder.agency.city")} maxLength={100} />
       </Item>
-      <Item label={t("agency.postcode")} name="postcode">
+      <Item
+        label={t("agency.postcode")}
+        name="postcode"
+        rules={[{ required: true }]}
+      >
         <Input placeholder={t("placeholder.agency.postcode")} maxLength={5} />
       </Item>
       <Item label={t("agency.postCodeRanges")} name="postCodeRangesActive">

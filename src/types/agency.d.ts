@@ -1,10 +1,10 @@
 export interface AgencyData {
-  id: string|null;
+  id: string | null;
   name: string;
   city: string;
   description: string;
   offline: boolean;
   postcode: string;
-  teamAgency: true;
+  teamAgency: string;
   consultingType: string;
 }

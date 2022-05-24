@@ -1,5 +1,5 @@
-import {FETCH_ERRORS, fetchData} from "../fetchData";
-import {agencyPostcodeRangeEndpointBase} from "../../appConfig";
+import { FETCH_ERRORS, fetchData } from "../fetchData";
+import { agencyPostcodeRangeEndpointBase } from "../../appConfig";
 
 const getPostCodeRangeRequestBodyFromForm = (formData: Record<string, any>) => {
   let postcodeRanges = "";
@@ -14,12 +14,17 @@ const getPostCodeRangeRequestBodyFromForm = (formData: Record<string, any>) => {
         postcodeRanges = `${postcodeRanges + postcodeFrom}-${postcodeUntil};`;
         i += 1;
       } else {
-        const {postcodeFromAdd} = formData;
-        const {postcodeUntilAdd} = formData;
+        const { postcodeFromAdd } = formData;
+        const { postcodeUntilAdd } = formData;
 
-        if (postcodeFromAdd !== undefined) {
+        if (
+          postcodeFromAdd !== undefined &&
+          postcodeUntilAdd !== null &&
+          postcodeFromAdd !== "" &&
+          postcodeUntilAdd !== ""
+        ) {
           postcodeRanges = `${
-              postcodeRanges + postcodeFromAdd
+            postcodeRanges + postcodeFromAdd
           }-${postcodeUntilAdd};`;
         }
         break;
@@ -40,9 +45,9 @@ const getPostCodeRangeRequestBodyFromForm = (formData: Record<string, any>) => {
  * @return data
  */
 const updateAgencyPostCodeRange = (
-    id: string,
-    formData: Record<string, any>,
-    method: string
+  id: string,
+  formData: Record<string, any>,
+  method: string
 ) => {
   const postcodeRange = getPostCodeRangeRequestBodyFromForm(formData);
   if (method === "POST") {
@@ -69,8 +74,7 @@ const updateAgencyPostCodeRange = (
     });
   });
 
-  return new Promise(() => {
-  });
+  return new Promise(() => {});
 };
 
 export default updateAgencyPostCodeRange;

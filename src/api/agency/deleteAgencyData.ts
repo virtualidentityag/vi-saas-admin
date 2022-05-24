@@ -10,14 +10,12 @@ import { AgencyData } from "../../types/agency";
 const deleteAgencyData = (agencyData: AgencyData) => {
   const { id } = agencyData;
 
-  const counselor = fetchData({
+  return fetchData({
     url: `${agencyEndpointBase}/${id}`,
     method: FETCH_METHODS.DELETE,
     skipAuth: false,
     responseHandling: [FETCH_ERRORS.CATCH_ALL],
   });
-
-  return counselor;
 };
 
 export default deleteAgencyData;

@@ -1,6 +1,6 @@
-import {FETCH_ERRORS, FETCH_METHODS, fetchData} from "../fetchData";
-import {agencyEndpointBase, consultingTypeEndpoint} from "../../appConfig";
-import {AgencyData} from "../../types/agency";
+import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
+import { agencyEndpointBase, consultingTypeEndpoint } from "../../appConfig";
+import { AgencyData } from "../../types/agency";
 import updateAgencyPostCodeRange from "./updateAgencyPostCodeRange";
 
 /**
@@ -13,9 +13,9 @@ const editAgencyData = (agencyData: AgencyData, formData: AgencyData) => {
   if (agencyData.teamAgency !== formData.teamAgency) {
     let agencyTyoeChangeRequestBody = null;
     if (formData.teamAgency === "true") {
-      agencyTyoeChangeRequestBody = {agencyType: "TEAM_AGENCY"};
+      agencyTyoeChangeRequestBody = { agencyType: "TEAM_AGENCY" };
     } else {
-      agencyTyoeChangeRequestBody = {agencyType: "DEFAULT_AGENCY"};
+      agencyTyoeChangeRequestBody = { agencyType: "DEFAULT_AGENCY" };
     }
 
     fetchData({
@@ -55,7 +55,6 @@ const editAgencyData = (agencyData: AgencyData, formData: AgencyData) => {
       if (agencyId !== null) {
         updateAgencyPostCodeRange(agencyId, formData, "PUT");
       }
-
     });
   });
 };

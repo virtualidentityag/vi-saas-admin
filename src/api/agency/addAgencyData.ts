@@ -19,18 +19,18 @@ function getConsultingType4Tenant() {
 
 function buildAgencyDataRequestBody(
   consultingTypeResponseId: string,
-  agencyData: Record<string, any>
+  formData: Record<string, any>
 ) {
   return {
     dioceseId: 0,
-    name: agencyData.name,
-    description: agencyData.description,
-    postcode: agencyData.postcode,
-    city: agencyData.city,
-    teamAgency: agencyData.teamAgency ? agencyData.teamAgency : false,
+    name: formData.name,
+    description: formData.description,
+    postcode: formData.postcode,
+    city: formData.city,
+    teamAgency: formData.teamAgency ? formData.teamAgency : false,
     consultingType: consultingTypeResponseId,
     external: false,
-    offline: agencyData.offline,
+    offline: formData.offline,
   };
 }
 
@@ -55,6 +55,7 @@ const addAgencyData = (agencyData: Record<string, any>) => {
           // eslint-disable-next-line no-underscore-dangle
           const { id } = response._embedded;
           updateAgencyPostCodeRange(id, agencyData, "POST");
+          // TODO: fix me
           resolve(null);
         });
     });

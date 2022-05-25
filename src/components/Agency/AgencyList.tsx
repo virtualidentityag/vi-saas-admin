@@ -16,7 +16,7 @@ import getAgencyData, {
 } from "../../api/agency/getAgencyData";
 import { AgencyData } from "../../types/agency";
 import addAgencyData from "../../api/agency/addAgencyData";
-import editAgencyData from "../../api/agency/editAgencyData";
+import updateAgencyData from "../../api/agency/updateAgencyData";
 import deleteAgencyData from "../../api/agency/deleteAgencyData";
 import { Status } from "../../types/status";
 import StatusIcons from "../EditableTable/StatusIcons";
@@ -67,7 +67,7 @@ function AgencyList() {
 
   const handleEditAgency = (formData: AgencyData, agencyData: AgencyData) => {
     setIsLoading(true);
-    editAgencyData(agencyData, formData)
+    updateAgencyData(agencyData, formData)
       .then(() => getAgencyData(tableState))
       .then((result: any) => {
         setAgencies(result.data);

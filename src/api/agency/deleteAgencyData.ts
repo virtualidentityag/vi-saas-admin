@@ -5,7 +5,7 @@ import { AgencyData } from "../../types/agency";
 /**
  * delete agency
  * @param agencyData
- * @return data
+ * @return Promise
  */
 const deleteAgencyData = (agencyData: AgencyData) => {
   const { id } = agencyData;

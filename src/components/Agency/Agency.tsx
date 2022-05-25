@@ -42,7 +42,7 @@ function Agency({
 
   const [editing, setEditing] = useState(isInAddMode);
   const [postCodeRangesActive, setPostCodeRangesActive] = useState(false);
-  const [defaultPostCodeRanges, setDefaultPostCodeRanges] = useState(
+  const [agencyPostCodeRanges, setAgencyPostCodeRanges] = useState(
     [] as PostCodeRange[]
   );
 
@@ -55,7 +55,7 @@ function Agency({
     const agencyId = formData.id;
     if (agencyId) {
       getAgencyPostCodeRange(agencyId).then((data) => {
-        setDefaultPostCodeRanges(data);
+        setAgencyPostCodeRanges(data);
         if (
           data.length === 1 &&
           data[0].from === "00000" &&
@@ -154,8 +154,8 @@ function Agency({
       </Item>
       {postCodeRangesActive && (
         <PostCodeRanges
-          defaultPostCodeRanges={defaultPostCodeRanges}
-          formData={modalForm}
+          agencyPostCodeRanges={agencyPostCodeRanges}
+          formInputData={modalForm}
         />
       )}
       <Item label={t("agency.offline")} name="offline">

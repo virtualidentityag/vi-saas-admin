@@ -10,6 +10,11 @@ import updateAgencyPostCodeRange from "./updateAgencyPostCodeRange";
  * @return data
  */
 const editAgencyData = (agencyData: AgencyData, formData: AgencyData) => {
+  const agencyId = agencyData.id;
+  if (agencyId == null) {
+    throw Error("agency id must be present");
+  }
+
   if (agencyData.teamAgency !== formData.teamAgency) {
     let agencyTyoeChangeRequestBody = null;
     if (formData.teamAgency === "true") {
@@ -44,17 +49,14 @@ const editAgencyData = (agencyData: AgencyData, formData: AgencyData) => {
       external: false,
     };
 
-    return fetchData({
-      url: `${agencyEndpointBase}/${agencyData.id}`,
-      method: FETCH_METHODS.PUT,
-      skipAuth: false,
-      responseHandling: [FETCH_ERRORS.CATCH_ALL],
-      bodyData: JSON.stringify(agencyDataRequestBody),
-    }).then(() => {
-      const agencyId = agencyData.id;
-      if (agencyId !== null) {
-        updateAgencyPostCodeRange(agencyId, formData, "PUT");
-      }
+    return updateAgencyPostCodeRange(agencyId, formData, "PUT").then(() => {
+      return fetchData({
+        url: `${agencyEndpointBase}/${agencyData.id}`,
+        method: FETCH_METHODS.PUT,
+        skipAuth: false,
+        responseHandling: [FETCH_ERRORS.CATCH_ALL],
+        bodyData: JSON.stringify(agencyDataRequestBody),
+      });
     });
   });
 };

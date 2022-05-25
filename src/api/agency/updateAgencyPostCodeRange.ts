@@ -59,7 +59,7 @@ const updateAgencyPostCodeRange = (
       bodyData: JSON.stringify(postcodeRange),
     });
   }
-  fetchData({
+  return fetchData({
     url: `${agencyPostcodeRangeEndpointBase}/${id}`,
     method: "DELETE",
     skipAuth: false,
@@ -73,8 +73,6 @@ const updateAgencyPostCodeRange = (
       bodyData: JSON.stringify(postcodeRange),
     });
   });
-
-  return new Promise(() => {});
 };
 
 export default updateAgencyPostCodeRange;

@@ -135,6 +135,8 @@
   "rte.h3": "Headline 3. Ordnung",
   "rte.h4": "Headline 4. Ordnung",
   "rte.text": "Text",
+  "twoFactorAuth.title": "2-Faktor-Authentifizierung",
+  "twoFactorAuth.subtitle": "Nutzen Sie eine weitere App für die Anmeldung mit Ihrem Online-Beratung & Hilfe Konto. Dadurch ist Ihr Konto sicherer vor einem möglichen unbefugtem Zugriff.",
   "twoFactorAuth.switch.active.label": "2-Faktor-Authentifizierung aktiviert",
   "twoFactorAuth.switch.deactive.label": "2-Faktor-Authentifizierung deaktiviert"
 }

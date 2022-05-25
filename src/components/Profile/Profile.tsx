@@ -3,6 +3,7 @@ import * as React from "react";
 import Title from "antd/es/typography/Title";
 import { Typography } from "antd";
 import { useTranslation } from "react-i18next";
+import TwoFactorAuth from "../TwoFactorAuth/TwoFactorAuth";
 
 const { Paragraph } = Typography;
 
@@ -15,6 +16,7 @@ function Profile() {
         <Title level={3}>{t("profile.title")}</Title>
         <Paragraph className="mb-l">{t("profile.title.text")}</Paragraph>
       </div>
+      <TwoFactorAuth />
     </div>
   );
 }

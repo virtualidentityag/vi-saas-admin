@@ -3,7 +3,7 @@ import { CounselorData } from "./counselor";
 import { BasicTenantData } from "./tenant";
 import { AgencyData } from "./agency";
 
-export type EditableData = CounselorData | BasicTenantData | AgencyData;
+export type EditableData = CounselorData | BasicTenantData | AgencyData | undefined;
 
 export default interface EditableTableProps {
   handleBtnAdd: (formData: any) => void;

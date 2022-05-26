@@ -5,7 +5,7 @@ import Title from "antd/es/typography/Title";
 import { Button, message, Modal, Table } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
-import AgencyForm, { emptyAgencyModal } from "./AgencyForm";
+import AgencyForm from "./AgencyForm";
 import ModalForm from "../ModalForm/ModalForm";
 
 import EditButtons from "../EditableTable/EditButtons";
@@ -301,15 +301,14 @@ function AgencyList() {
             ? (param) => handleEditAgency(param, editingAgency)
             : handleAddAgency
         }
-        formData={editingAgency || emptyAgencyModal}
+        formData={editingAgency}
         renderFormFields={({
           form,
           setButtonDisabled,
-          formData,
           isInAddMode,
         }: RenderFormProps) => (
           <AgencyForm
-            agencyModel={editingAgency || emptyAgencyModal}
+            agencyModelParam={editingAgency}
             formInstance={form}
             isInAddMode={isInAddMode}
             setButtonDisabled={setButtonDisabled}

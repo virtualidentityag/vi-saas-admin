@@ -12,7 +12,7 @@ import PostCodeRanges from "./PostCodeRanges";
 const { TextArea } = Input;
 const { Item } = Form;
 
-export const emptyAgencyModal: AgencyData = {
+const emptyAgencyModal: AgencyData = {
   id: null,
   name: "",
   city: "",
@@ -24,7 +24,7 @@ export const emptyAgencyModal: AgencyData = {
 };
 
 export interface Props {
-  agencyModel: AgencyData;
+  agencyModelParam: AgencyData | undefined;
   isInAddMode?: boolean;
   formInstance: FormInstance;
   setButtonDisabled: Dispatch<SetStateAction<boolean>>;
@@ -37,17 +37,19 @@ function hasOnlyDefaultRange(data: PostCodeRange[]) {
 }
 
 function AgencyForm({
-  agencyModel,
+  agencyModelParam,
   isInAddMode = false,
   formInstance,
   setButtonDisabled,
 }: Props) {
   const { t } = useTranslation();
-
   const [postCodeRangesActive, setPostCodeRangesActive] = useState(false);
   const [agencyPostCodeRanges, setAgencyPostCodeRanges] = useState(
     [] as PostCodeRange[]
   );
+
+  const agencyModel =
+    agencyModelParam !== undefined ? agencyModelParam : emptyAgencyModal;
 
   if (!isInAddMode) {
     setButtonDisabled(false);
@@ -72,7 +74,7 @@ function AgencyForm({
         setPostCodeRangesSwitchState(data);
       });
     }
-  }, [agencyModel, formInstance]);
+  }, [agencyModelParam, formInstance]);
 
   const { name, city, description, offline, postcode, teamAgency } =
     agencyModel;

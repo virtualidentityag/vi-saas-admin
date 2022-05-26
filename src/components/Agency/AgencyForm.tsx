@@ -12,7 +12,7 @@ import PostCodeRanges from "./PostCodeRanges";
 const { TextArea } = Input;
 const { Item } = Form;
 
-export const defaultAgency: AgencyData = {
+export const emptyAgencyModal: AgencyData = {
   id: null,
   name: "",
   city: "",
@@ -24,23 +24,26 @@ export const defaultAgency: AgencyData = {
 };
 
 export interface Props {
-  formData: AgencyData;
+  agencyModel: AgencyData;
   isInAddMode?: boolean;
-  modalForm: FormInstance;
-  handleEditAgency?: (arg0: AgencyData) => void;
+  formInstance: FormInstance;
   setButtonDisabled: Dispatch<SetStateAction<boolean>>;
 }
 
-function Agency({
-  formData,
+function hasOnlyDefaultRange(data: PostCodeRange[]) {
+  return (
+    data.length === 1 && data[0].from === "00000" && data[0].until === "99999"
+  );
+}
+
+function AgencyForm({
+  agencyModel,
   isInAddMode = false,
-  modalForm,
-  handleEditAgency,
+  formInstance,
   setButtonDisabled,
 }: Props) {
   const { t } = useTranslation();
 
-  const [editing, setEditing] = useState(isInAddMode);
   const [postCodeRangesActive, setPostCodeRangesActive] = useState(false);
   const [agencyPostCodeRanges, setAgencyPostCodeRanges] = useState(
     [] as PostCodeRange[]
@@ -50,35 +53,29 @@ function Agency({
     setButtonDisabled(false);
   }
 
+  const setPostCodeRangesSwitchState = (data: PostCodeRange[]) => {
+    if (hasOnlyDefaultRange(data)) {
+      setPostCodeRangesActive(false);
+      formInstance.setFieldsValue({ postCodeRangesActive: false });
+    } else {
+      setPostCodeRangesActive(true);
+      formInstance.setFieldsValue({ postCodeRangesActive: true });
+    }
+  };
+
   useEffect(() => {
-    modalForm.resetFields();
-    const agencyId = formData.id;
+    formInstance.resetFields();
+    const agencyId = agencyModel.id;
     if (agencyId) {
       getAgencyPostCodeRange(agencyId).then((data) => {
         setAgencyPostCodeRanges(data);
-        if (
-          data.length === 1 &&
-          data[0].from === "00000" &&
-          data[0].until === "99999"
-        ) {
-          setPostCodeRangesActive(false);
-          modalForm.setFieldsValue({ postCodeRangesActive: false });
-        } else {
-          setPostCodeRangesActive(true);
-          modalForm.setFieldsValue({ postCodeRangesActive: true });
-        }
+        setPostCodeRangesSwitchState(data);
       });
     }
-  }, [formData, modalForm]);
+  }, [agencyModel, formInstance]);
 
-  const { name, city, description, offline, postcode, teamAgency } = formData;
-
-  const onFormSubmit = (values: any) => {
-    setEditing(!editing);
-    if (handleEditAgency) {
-      handleEditAgency(values);
-    }
-  };
+  const { name, city, description, offline, postcode, teamAgency } =
+    agencyModel;
 
   const onFinishFailed = () => {
     message.error({
@@ -89,15 +86,14 @@ function Agency({
 
   return (
     <Form
-      form={modalForm}
-      onFinish={onFormSubmit}
+      form={formInstance}
       onFinishFailed={onFinishFailed}
       onFieldsChange={() => {
         setButtonDisabled(
           Object.values(
-            modalForm.getFieldsValue(["name", "city", "postcode"])
+            formInstance.getFieldsValue(["name", "city", "postcode"])
           ).some((field: any) => field.length === 0) ||
-            modalForm
+            formInstance
               .getFieldsError()
               .some((field: any) => field.errors.length > 0)
         );
@@ -155,7 +151,7 @@ function Agency({
       {postCodeRangesActive && (
         <PostCodeRanges
           agencyPostCodeRanges={agencyPostCodeRanges}
-          formInputData={modalForm}
+          formInputData={formInstance}
         />
       )}
       <Item label={t("agency.offline")} name="offline">
@@ -165,4 +161,4 @@ function Agency({
   );
 }
 
-export default Agency;
+export default AgencyForm;

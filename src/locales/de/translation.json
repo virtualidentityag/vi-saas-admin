@@ -84,7 +84,7 @@
   "agency.postcode": "Postleitzahl",
   "agency.city": "Stadt",
   "agency.postcode.from": "Postleitzahl vom",
-  "agency.postcode.to": "Postleitzahl bis",
+  "agency.postcode.until": "Postleitzahl bis",
   "agency.teamAgency": "Teamberatungsstelle",
   "agency.offline": "Offline",
   "agency.description": "Beschreibung",

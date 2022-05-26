@@ -38,8 +38,12 @@ function AgencyFormModal() {
 
   useEffect(() => {
     pubsub.subscribe(PubSubEvents.AGENCY_UPDATE, (data) => {
-      setAgencyModel(data);
+      setAgencyModel({ ...data });
       setIsModalVisible(true);
+      formInstance.setFieldsValue(data);
+      if (data) {
+        setSubmitButtonDisabled(data.id === null);
+      }
     });
   }, []);
 
@@ -54,7 +58,6 @@ function AgencyFormModal() {
   };
 
   useEffect(() => {
-    formInstance.resetFields();
     const agencyId = agencyModel && agencyModel.id;
     if (agencyId) {
       getAgencyPostCodeRange(agencyId).then((data) => {
@@ -69,7 +72,7 @@ function AgencyFormModal() {
     if (agencyModel && agencyModel.id) {
       updateAgencyData(agencyModel, formData as AgencyData).then(() => {
         message.success({
-          content: t("message.agency.add"),
+          content: t("message.agency.update"),
           duration: 3,
         });
         pubsub.publishEvent(PubSubEvents.AGENCYLIST_UPDATE, undefined);
@@ -107,13 +110,18 @@ function AgencyFormModal() {
     return <div />;
   }
 
-  const { name, city, description, offline, postcode, teamAgency } =
-    agencyModel;
+  const { offline } = agencyModel;
 
   return (
     <Modal
       destroyOnClose
-      title={<Title level={2}>title</Title>}
+      title={
+        <Title level={2}>
+          {agencyModel.id
+            ? t("agency.modal.headline.edit")
+            : t("agency.modal.headline.add")}
+        </Title>
+      }
       visible={isModalVisible}
       onOk={() => {
         formInstance.validateFields().then((values) => {
@@ -123,7 +131,9 @@ function AgencyFormModal() {
       onCancel={() => {
         setIsModalVisible(false);
         setAgencyModel(undefined);
-        pubsub.publishEvent(PubSubEvents.AGENCYLIST_UPDATE, undefined);
+        setAgencyPostCodeRanges([]);
+        setPostCodeRangesSwitchActive(false);
+        formInstance.resetFields();
       }}
       okButtonProps={{
         disabled: submitButtonDisabled,

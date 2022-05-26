@@ -24,6 +24,7 @@ const emptyAgencyModel: AgencyData = {
   offline: true,
   postcode: "",
   teamAgency: "true",
+  status: undefined,
 };
 
 function useTableColumns(): any {
@@ -102,6 +103,7 @@ function useTableColumns(): any {
         return (
           <div className="tableActionWrapper">
             <EditButtons
+              isDisabled={record.status === "IN_DELETION"}
               handleEdit={() =>
                 pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, record)
               }
@@ -134,6 +136,7 @@ function AgencyList() {
     getAgencyData(tableState).then((result) => {
       setAgencies(result.data);
       setNumberOfAgencies(result.total);
+      setTableState(tableState);
       setIsLoading(false);
     });
   };
@@ -154,8 +157,8 @@ function AgencyList() {
       setTableState({
         ...tableState,
         current: pagination.current,
-        sortBy: undefined,
-        order: undefined,
+        sortBy,
+        order,
       });
     } else {
       setTableState({ ...tableState, current: pagination.current });

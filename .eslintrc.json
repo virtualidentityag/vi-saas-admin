@@ -32,6 +32,7 @@
     "valid-jsdoc": "off",
     "react/jsx-fragments": "off",
     "react-hooks/exhaustive-deps": "off",
+    "react/no-array-index-key": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "react/function-component-definition": [

@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input } from "antd";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { PostCodeRange } from "../../api/agency/getAgencyPostCodeRange";
@@ -15,6 +15,10 @@ export default function PostCodeRanges(props: {
   const { agencyPostCodeRanges, formInputData } = props;
   const [postCodeRanges, setPostCodeRanges] = useState(agencyPostCodeRanges);
 
+  useEffect(() => {
+    setPostCodeRanges(agencyPostCodeRanges);
+  }, [agencyPostCodeRanges]);
+
   const removeAction = (index: number) => {
     setPostCodeRanges(postCodeRanges.filter((el, idx) => idx !== index));
   };
@@ -23,30 +27,36 @@ export default function PostCodeRanges(props: {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Item
+          key={`from_${index}`}
           style={{ width: "40%" }}
           label={t("agency.postcode.from")}
           name={`postcodeFrom_${index}`}
           initialValue={el.from}
           rules={[{ required: true }]}
         >
-          <Input />
+          <Input key={`until_from_${index}`} />
         </Item>
         <Item
+          key={`until_${index}`}
           style={{ width: "40%" }}
-          label={t("agency.postcode.to")}
+          label={t("agency.postcode.until")}
           name={`postcodeTo_${index}`}
           initialValue={el.until}
           rules={[{ required: true }]}
         >
-          <Input />
+          <Input key={`input_until_${index}`} />
         </Item>
         <div
+          key={`minus_container_${index}`}
           style={{
             alignItems: "center",
             display: "flex",
           }}
         >
-          <MinusOutlined onClick={() => removeAction(index)} />
+          <MinusOutlined
+            key={`minus_${index}`}
+            onClick={() => removeAction(index)}
+          />
         </div>
       </div>
     );

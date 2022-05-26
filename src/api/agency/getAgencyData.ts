@@ -13,8 +13,8 @@ export const DEFAULT_ORDER = "ASC";
 const getAgencyData = (params: TableState) => {
   // retrieve Agencies
 
-  let { sortBy } = params || DEFAULT_SORT;
-  let { order } = params || DEFAULT_ORDER;
+  let sortBy = params.sortBy || DEFAULT_SORT;
+  let order = params.order || DEFAULT_ORDER;
 
   sortBy = sortBy.toUpperCase();
   order = order.toUpperCase();

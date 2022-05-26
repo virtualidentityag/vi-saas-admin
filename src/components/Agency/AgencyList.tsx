@@ -2,133 +2,33 @@ import React, { useEffect, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
-import { Button, message, Modal, Table } from "antd";
+import { Button, Table } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
-import AgencyForm from "./AgencyForm";
-import ModalForm from "../ModalForm/ModalForm";
+import AgencyFormModal from "./AgencyFormModal";
 
 import EditButtons from "../EditableTable/EditButtons";
-import { RenderFormProps } from "../../types/modalForm";
-import getAgencyData, {
-  DEFAULT_ORDER,
-  DEFAULT_SORT,
-} from "../../api/agency/getAgencyData";
+import getAgencyData from "../../api/agency/getAgencyData";
 import { AgencyData } from "../../types/agency";
-import addAgencyData from "../../api/agency/addAgencyData";
-import updateAgencyData from "../../api/agency/updateAgencyData";
-import deleteAgencyData from "../../api/agency/deleteAgencyData";
 import { Status } from "../../types/status";
 import StatusIcons from "../EditableTable/StatusIcons";
+import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
+import AgencyDeletionModal from "./AgencyDeletionModal";
 
-function AgencyList() {
+const emptyAgencyModel: AgencyData = {
+  id: null,
+  name: "",
+  city: "",
+  consultingType: "",
+  description: "",
+  offline: true,
+  postcode: "",
+  teamAgency: "true",
+};
+
+function useTableColumns(): any {
   const { t } = useTranslation();
-  const [agencies, setAgencies] = useState([]);
-  const [numberOfAgencies, setNumberOfAgencies] = useState(0);
-
-  const [tableState, setTableState] = useState({
-    current: 1,
-    sortBy: DEFAULT_SORT,
-    order: DEFAULT_ORDER,
-  });
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [editingAgency, setEditingAgency] = useState<AgencyData | undefined>(
-    undefined
-  );
-
-  const [isModalFormVisible, setIsModalFormVisible] = useState(false);
-  const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
-
-  const resetStatesAfterLoad = () => {
-    setIsLoading(false);
-    setIsModalFormVisible(false);
-    setEditingAgency(undefined);
-    setIsModalDeleteVisible(false);
-  };
-
-  const handleAddAgency = (formData: Record<string, any>) => {
-    setIsLoading(true);
-    addAgencyData(formData)
-      .then(() => getAgencyData(tableState))
-      .then((result: any) => {
-        setAgencies(result.data);
-        setNumberOfAgencies(result.total);
-        setTableState(tableState);
-        resetStatesAfterLoad();
-        message.success({
-          content: t("message.agency.add"),
-          duration: 3,
-        });
-        setIsModalFormVisible(false);
-      })
-      .catch(() => {});
-  };
-
-  const handleEditAgency = (formData: AgencyData, agencyData: AgencyData) => {
-    setIsLoading(true);
-    updateAgencyData(agencyData, formData)
-      .then(() => getAgencyData(tableState))
-      .then((result: any) => {
-        setAgencies(result.data);
-        setNumberOfAgencies(result.total);
-        resetStatesAfterLoad();
-        message.success({
-          content: t("message.agency.update"),
-          duration: 3,
-        });
-        setIsLoading(false);
-        setIsModalFormVisible(false);
-      })
-      .catch(() => {
-        resetStatesAfterLoad();
-      });
-  };
-
-  const handleDeleteAgency = (formData: AgencyData) => {
-    setIsLoading(true);
-    deleteAgencyData(formData)
-      .then(() => getAgencyData(tableState))
-      .then((result: any) => {
-        setAgencies(result.data);
-        setTableState(tableState);
-        resetStatesAfterLoad();
-        message.success({
-          content: t("message.agency.delete"),
-          duration: 3,
-        });
-      })
-      .catch(() => {
-        resetStatesAfterLoad();
-      });
-  };
-
-  const handleCreateModal = () => {
-    setIsModalFormVisible(true);
-  };
-
-  const handleFormModalCancel = () => {
-    resetStatesAfterLoad();
-  };
-
-  const handleOnDelete = () => {
-    setIsModalDeleteVisible(false);
-    if (editingAgency) {
-      handleDeleteAgency(editingAgency);
-    }
-  };
-
-  const handleDeleteModal = (record: AgencyData | undefined) => {
-    setEditingAgency(record as AgencyData);
-    setIsModalDeleteVisible(!isModalDeleteVisible);
-  };
-
-  const handleEdit = (record: any) => {
-    setEditingAgency(record);
-    setIsModalFormVisible(true);
-  };
-
-  const columns: any[] = [
+  return [
     {
       title: t("agency.name"),
       dataIndex: "name",
@@ -180,7 +80,7 @@ function AgencyList() {
       ellipsis: true,
       fixed: "left",
       editable: true,
-      render: (data: any) => {
+      render: (data: string) => {
         return data === "true" ? "JA" : "NEIN";
       },
     },
@@ -202,8 +102,12 @@ function AgencyList() {
         return (
           <div className="tableActionWrapper">
             <EditButtons
-              handleEdit={handleEdit}
-              handleDelete={(data) => handleDeleteModal(data as AgencyData)}
+              handleEdit={() =>
+                pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, record)
+              }
+              handleDelete={() =>
+                pubsub.publishEvent(PubSubEvents.AGENCY_DELETE, record)
+              }
               record={record}
             />
           </div>
@@ -211,29 +115,47 @@ function AgencyList() {
       },
     },
   ];
+}
+
+function AgencyList() {
+  const { t } = useTranslation();
+  const [agencies, setAgencies] = useState([]);
+  const [numberOfAgencies, setNumberOfAgencies] = useState(0);
+  const [tableState, setTableState] = useState<TableState>({
+    current: 1,
+    sortBy: undefined,
+    order: undefined,
+  });
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const reloadAgencyList = () => {
+    setIsLoading(true);
+    getAgencyData(tableState).then((result) => {
+      setAgencies(result.data);
+      setNumberOfAgencies(result.total);
+      setIsLoading(false);
+    });
+  };
+
+  useEffect(
+    () => pubsub.subscribe(PubSubEvents.AGENCYLIST_UPDATE, reloadAgencyList),
+    []
+  );
 
   useEffect(() => {
-    setIsLoading(true);
-    getAgencyData(tableState)
-      .then((result: any) => {
-        setAgencies(result.data);
-        setNumberOfAgencies(result.total);
-        resetStatesAfterLoad();
-      })
-      .catch(() => {
-        setIsLoading(false);
-      });
-  }, [t, tableState]);
+    reloadAgencyList();
+  }, [tableState]);
 
-  const handleTableAction = (pagination: any, filters: any, sorter: any) => {
+  const tableChangeHandler = (pagination: any, filters: any, sorter: any) => {
     if (sorter.field) {
       const sortBy = sorter.field.toUpperCase();
       const order = sorter.order === "descend" ? "DESC" : "ASC";
       setTableState({
         ...tableState,
         current: pagination.current,
-        sortBy,
-        order,
+        sortBy: undefined,
+        order: undefined,
       });
     } else {
       setTableState({ ...tableState, current: pagination.current });
@@ -255,7 +177,9 @@ function AgencyList() {
         className="mb-m mr-sm"
         type="primary"
         icon={<PlusOutlined />}
-        onClick={handleCreateModal}
+        onClick={() =>
+          pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, emptyAgencyModel)
+        }
       >
         {t("new")}
       </Button>
@@ -264,57 +188,19 @@ function AgencyList() {
         loading={isLoading}
         className="editableTable"
         dataSource={agencies}
-        columns={columns}
+        columns={useTableColumns()}
         scroll={{
           x: "max-content",
           y: "100%",
         }}
         sticky
         tableLayout="fixed"
-        onChange={handleTableAction}
+        onChange={tableChangeHandler}
         pagination={pagination}
       />
 
-      <Modal
-        title={<Title level={2}>{t("agency.modal.headline.delete")}</Title>}
-        visible={isModalDeleteVisible}
-        onOk={handleOnDelete}
-        onCancel={() => handleDeleteModal(editingAgency)}
-        cancelText={t("btn.cancel.uppercase")}
-        closable={false}
-        centered
-      >
-        <p>{t("agency.modal.text.delete")}</p>
-      </Modal>
-
-      <ModalForm
-        title={
-          editingAgency
-            ? t("agency.modal.headline.edit")
-            : t("agency.modal.headline.add")
-        }
-        isInAddMode={!editingAgency}
-        isModalCreateVisible={isModalFormVisible}
-        handleCreateModalCancel={handleFormModalCancel}
-        handleOnAddElement={
-          editingAgency
-            ? (param) => handleEditAgency(param, editingAgency)
-            : handleAddAgency
-        }
-        formData={editingAgency}
-        renderFormFields={({
-          form,
-          setButtonDisabled,
-          isInAddMode,
-        }: RenderFormProps) => (
-          <AgencyForm
-            agencyModelParam={editingAgency}
-            formInstance={form}
-            isInAddMode={isInAddMode}
-            setButtonDisabled={setButtonDisabled}
-          />
-        )}
-      />
+      <AgencyFormModal />
+      <AgencyDeletionModal />
     </>
   );
 }

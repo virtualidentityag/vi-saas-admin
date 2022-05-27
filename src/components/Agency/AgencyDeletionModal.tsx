@@ -13,6 +13,7 @@ export default function AgencyDeletionModal() {
     undefined
   );
   const handleOnDelete = () => {
+    setIsModalVisible(false);
     if (agencyModel) {
       deleteAgencyData(agencyModel).then(() => {
         setAgencyModel(undefined);

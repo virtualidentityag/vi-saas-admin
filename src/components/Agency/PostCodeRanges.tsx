@@ -89,7 +89,7 @@ export default function PostCodeRanges(props: {
         </Item>
         <Item
           style={{ width: "40%" }}
-          label={t("agency.postcode.to")}
+          label={t("agency.postcode.until")}
           name="postcodeUntilAdd"
         >
           <Input />

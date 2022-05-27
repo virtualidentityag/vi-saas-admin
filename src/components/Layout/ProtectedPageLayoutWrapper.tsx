@@ -5,6 +5,7 @@ import {
   // DesktopOutlined,
   SettingOutlined,
   TeamOutlined,
+  ShopOutlined,
   // UserOutlined,
   BankOutlined,
 } from "@ant-design/icons";
@@ -45,15 +46,6 @@ function ProtectedPageLayoutWrapper({ children }: any) {
         <div className="logo" />
         <nav className="mainMenu">
           <ul>
-            {/* later..... <li key="1" className="menuItem">
-              <NavLink
-                to="/"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                <DesktopOutlined className="menuIcon" />
-                <span>Dashboard</span>
-              </NavLink>
-            </li> */}
             {!tenantData.isSuperAdmin ? (
               <>
                 <li key="2" className="menuItem">
@@ -73,6 +65,16 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                   >
                     <TeamOutlined className="menuIcon" />
                     <span>{t("counselor.title")}</span>
+                  </NavLink>
+                </li>
+
+                <li key="4" className="menuItem">
+                  <NavLink
+                    to={routePathNames.agency}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    <ShopOutlined className="menuIcon" />
+                    <span>{t("agency")}</span>
                   </NavLink>
                 </li>
               </>

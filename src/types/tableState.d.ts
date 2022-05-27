@@ -1,5 +1,5 @@
 interface TableState {
   current: number;
-  sortBy: string;
-  order: string;
+  sortBy: string | undefined;
+  order: string | undefined;
 }

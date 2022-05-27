@@ -27,97 +27,7 @@ const emptyAgencyModel: AgencyData = {
   status: undefined,
 };
 
-function useTableColumns(): any {
-  const { t } = useTranslation();
-  return [
-    {
-      title: t("agency.name"),
-      dataIndex: "name",
-      key: "name",
-      sorter: (a: AgencyData, b: AgencyData) => a.name.localeCompare(b.name),
-      width: 150,
-      ellipsis: true,
-      fixed: "left",
-      editable: true,
-    },
-    {
-      title: t("agency.description"),
-      dataIndex: "description",
-      key: "description",
-      sorter: (a: AgencyData, b: AgencyData) =>
-        a.description.localeCompare(b.description),
-      width: 200,
-      ellipsis: true,
-      fixed: "left",
-      editable: true,
-    },
-    {
-      title: t("agency.postcode"),
-      dataIndex: "postcode",
-      key: "postcode",
-      sorter: (a: AgencyData, b: AgencyData) =>
-        a.postcode.localeCompare(b.postcode),
-      width: 100,
-      ellipsis: true,
-      fixed: "left",
-      editable: true,
-    },
-    {
-      title: t("agency.city"),
-      dataIndex: "city",
-      key: "city",
-      sorter: (a: AgencyData, b: AgencyData) => a.city.localeCompare(b.city),
-      width: 100,
-      ellipsis: true,
-      fixed: "left",
-      editable: true,
-    },
-    {
-      title: t("agency.teamAgency"),
-      dataIndex: "teamAgency",
-      key: "teamAgency",
-      sorter: (a: AgencyData, b: AgencyData) => a.teamAgency !== b.teamAgency,
-      width: 100,
-      ellipsis: true,
-      fixed: "left",
-      editable: true,
-      render: (data: string) => {
-        return data === "true" ? "JA" : "NEIN";
-      },
-    },
-    {
-      width: 80,
-      title: t("status"),
-      dataIndex: "status",
-      key: "status",
-      ellipsis: true,
-      render: (status: Status) => {
-        return <StatusIcons status={status} />;
-      },
-    },
-    {
-      width: 88,
-      title: "",
-      key: "edit",
-      render: (_: any, record: AgencyData) => {
-        return (
-          <div className="tableActionWrapper">
-            <EditButtons
-              isDisabled={record.status === "IN_DELETION"}
-              handleEdit={() =>
-                pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, record)
-              }
-              handleDelete={() =>
-                pubsub.publishEvent(PubSubEvents.AGENCY_DELETE, record)
-              }
-              record={record}
-            />
-          </div>
-        );
-      },
-    },
-  ];
-}
+let tableStateHolder: TableState;
 
 function AgencyList() {
   const { t } = useTranslation();
@@ -131,18 +41,113 @@ function AgencyList() {
 
   const [isLoading, setIsLoading] = useState(true);
 
+  function defineTableColumns(): any {
+    return [
+      {
+        title: t("agency.name"),
+        dataIndex: "name",
+        key: "name",
+        sorter: (a: AgencyData, b: AgencyData) => a.name.localeCompare(b.name),
+        width: 150,
+        ellipsis: true,
+        fixed: "left",
+        editable: true,
+      },
+      {
+        title: t("agency.description"),
+        dataIndex: "description",
+        key: "description",
+        sorter: (a: AgencyData, b: AgencyData) =>
+          a.description.localeCompare(b.description),
+        width: 200,
+        ellipsis: true,
+        fixed: "left",
+        editable: true,
+      },
+      {
+        title: t("agency.postcode"),
+        dataIndex: "postcode",
+        key: "postcode",
+        sorter: (a: AgencyData, b: AgencyData) =>
+          a.postcode.localeCompare(b.postcode),
+        width: 100,
+        ellipsis: true,
+        fixed: "left",
+        editable: true,
+      },
+      {
+        title: t("agency.city"),
+        dataIndex: "city",
+        key: "city",
+        sorter: (a: AgencyData, b: AgencyData) => a.city.localeCompare(b.city),
+        width: 100,
+        ellipsis: true,
+        fixed: "left",
+        editable: true,
+      },
+      {
+        title: t("agency.teamAgency"),
+        dataIndex: "teamAgency",
+        key: "teamAgency",
+        sorter: (a: AgencyData, b: AgencyData) => a.teamAgency !== b.teamAgency,
+        width: 100,
+        ellipsis: true,
+        fixed: "left",
+        editable: true,
+        render: (data: string) => {
+          return data === "true" ? "JA" : "NEIN";
+        },
+      },
+      {
+        width: 80,
+        title: t("status"),
+        dataIndex: "status",
+        key: "status",
+        ellipsis: true,
+        render: (status: Status) => {
+          return <StatusIcons status={status} />;
+        },
+      },
+      {
+        width: 88,
+        title: "",
+        key: "edit",
+        render: (_: any, record: AgencyData) => {
+          return (
+            <div className="tableActionWrapper">
+              <EditButtons
+                isDisabled={record.status === "IN_DELETION"}
+                handleEdit={() => {
+                  tableStateHolder = tableState;
+                  pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, record);
+                }}
+                handleDelete={() => {
+                  tableStateHolder = tableState;
+                  pubsub.publishEvent(PubSubEvents.AGENCY_DELETE, record);
+                }}
+                record={record}
+              />
+            </div>
+          );
+        },
+      },
+    ];
+  }
+
   const reloadAgencyList = () => {
     setIsLoading(true);
     getAgencyData(tableState).then((result) => {
       setAgencies(result.data);
       setNumberOfAgencies(result.total);
-      setTableState(tableState);
       setIsLoading(false);
     });
   };
 
   useEffect(
-    () => pubsub.subscribe(PubSubEvents.AGENCYLIST_UPDATE, reloadAgencyList),
+    () =>
+      pubsub.subscribe(PubSubEvents.AGENCYLIST_UPDATE, () =>
+        setTableState({ ...tableStateHolder })
+      ),
     []
   );
 
@@ -191,7 +196,7 @@ function AgencyList() {
         loading={isLoading}
         className="editableTable"
         dataSource={agencies}
-        columns={useTableColumns()}
+        columns={defineTableColumns()}
         scroll={{
           x: "max-content",
           y: "100%",

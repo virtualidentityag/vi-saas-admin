@@ -30,7 +30,9 @@ const getPostCodeRangeRequestBodyFromForm = (formData: Record<string, any>) => {
         break;
       }
     }
-  } else {
+  }
+
+  if (!formData.postCodeRangesActive || postcodeRanges === "") {
     postcodeRanges = "00000-99999;";
   }
 

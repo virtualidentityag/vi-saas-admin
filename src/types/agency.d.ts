@@ -7,5 +7,5 @@ export interface AgencyData {
   postcode: string;
   teamAgency: string;
   consultingType: string;
-  status: string | undefined
+  status: string | undefined;
 }

@@ -6,6 +6,9 @@ export const enum PubSubEvents {
   AGENCYLIST_UPDATE,
   AGENCY_UPDATE,
   AGENCY_DELETE,
+  TOPICLIST_UPDATE,
+  TOPIC_UPDATE,
+  TOPIC_DELETE,
 }
 
 /**

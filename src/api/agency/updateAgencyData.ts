@@ -31,7 +31,7 @@ const updateAgencyData = async (
     postcode: formInput.postcode,
     city: formInput.city,
     consultingType: consultingTypeId,
-    offline: formInput.offline,
+    offline: formInput.online,
     external: false,
   };
   return fetchData({

@@ -28,10 +28,11 @@ export const tenantPublicEndpoint = `${mainURL}/service/tenant/public/${subdomai
 export const counselorEndpoint = `${mainURL}/service/useradmin/consultants`;
 export const agencyEndpointBase = `${mainURL}/service/agencyadmin/agencies`;
 export const agencyPostcodeRangeEndpointBase = `${mainURL}/service/agencyadmin/postcoderanges`;
-export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&perPage=10`;
+export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&perPage=100`;
 export const consultingTypeEndpoint = `${mainURL}/service/consultingtypes`;
 export const customerEndpoint = `${mainURL}/customers`;
 export const usersConsultantsSearchEndpoint = `${mainURL}/service/users/consultants/search`;
+export const consultantsForAgencyEndpoint = `${mainURL}/service/useradmin/agencies/{agencyId}/consultants`;
 
 /*
  * routes

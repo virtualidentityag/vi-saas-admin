@@ -4,6 +4,7 @@ export interface AgencyData {
   city: string;
   description: string;
   offline: boolean;
+  online: boolean;
   postcode: string;
   teamAgency: string;
   consultingType: string;

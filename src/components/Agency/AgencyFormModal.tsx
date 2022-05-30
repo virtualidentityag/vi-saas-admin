@@ -159,7 +159,7 @@ function AgencyFormModal() {
         initialValues={{
           ...agencyModel,
           postCodeRangesActive: postCodeRangesSwitchActive,
-          online: false,
+          online,
         }}
       >
         <Item label={t("agency.name")} name="name" rules={[{ required: true }]}>
@@ -210,19 +210,25 @@ function AgencyFormModal() {
           {onlineSwitchDisabled && (
             <Tooltip title={t("agency.online.tooltip")}>
               <Switch
-                defaultChecked={online}
                 checkedChildren="Ja"
                 unCheckedChildren="Nein"
                 disabled={onlineSwitchDisabled}
+                defaultChecked={online}
+                onChange={(value) => {
+                  formInstance.setFieldsValue({ online: value });
+                }}
               />
             </Tooltip>
           )}
           {!onlineSwitchDisabled && (
             <Switch
-              defaultChecked={online}
               checkedChildren="Ja"
               unCheckedChildren="Nein"
               disabled={onlineSwitchDisabled}
+              defaultChecked={online}
+              onChange={(value) => {
+                formInstance.setFieldsValue({ online: value });
+              }}
             />
           )}
         </Item>

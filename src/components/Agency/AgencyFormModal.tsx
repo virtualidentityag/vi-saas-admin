@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, message, Modal, Select, Switch, Tooltip } from "antd";
 import { useTranslation } from "react-i18next";
-import { Option } from "antd/es/mentions";
 
 import Title from "antd/es/typography/Title";
 import { AgencyData } from "../../types/agency";
@@ -134,6 +133,12 @@ function AgencyFormModal() {
       onOk={() => {
         formInstance.validateFields().then((values) => {
           handleAddAction(values);
+          setOnlineSwitchDisabled(true);
+          setIsModalVisible(false);
+          setAgencyModel(undefined);
+          setAgencyPostCodeRanges([]);
+          setPostCodeRangesSwitchActive(false);
+          formInstance.resetFields();
         });
       }}
       onCancel={() => {
@@ -173,13 +178,13 @@ function AgencyFormModal() {
           <TextArea placeholder={t("placeholder.agency.description")} />
         </Item>
         <Item label={t("agency.teamAgency")} name="teamAgency">
-          <Select placeholder={t("plsSelect")} defaultValue>
-            <Option key="0" value="true">
+          <Select placeholder={t("plsSelect")}>
+            <Select.Option key="0" value="true">
               {t("yes")}
-            </Option>
-            <Option key="1" value="false">
+            </Select.Option>
+            <Select.Option key="1" value="false">
               {t("no")}
-            </Option>
+            </Select.Option>
           </Select>
         </Item>
         <Item label={t("agency.city")} name="city" rules={[{ required: true }]}>
@@ -206,8 +211,8 @@ function AgencyFormModal() {
             formInputData={formInstance}
           />
         )}
-        <Item label={t("agency.online")} name="online">
-          {onlineSwitchDisabled && (
+        {onlineSwitchDisabled && (
+          <Item label={t("agency.online")} name="online">
             <Tooltip title={t("agency.online.tooltip")}>
               <Switch
                 checkedChildren="Ja"
@@ -219,8 +224,10 @@ function AgencyFormModal() {
                 }}
               />
             </Tooltip>
-          )}
-          {!onlineSwitchDisabled && (
+          </Item>
+        )}
+        {!onlineSwitchDisabled && (
+          <Item label={t("agency.online")} name="online">
             <Switch
               checkedChildren="Ja"
               unCheckedChildren="Nein"
@@ -230,8 +237,8 @@ function AgencyFormModal() {
                 formInstance.setFieldsValue({ online: value });
               }}
             />
-          )}
-        </Item>
+          </Item>
+        )}
       </Form>
     </Modal>
   );

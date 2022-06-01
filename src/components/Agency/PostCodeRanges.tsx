@@ -27,7 +27,7 @@ export default function PostCodeRanges(props: {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Item
-          key={`from_${index}`}
+          key="from"
           style={{ width: "40%" }}
           label={t("agency.postcode.from")}
           name={`postcodeFrom_${index}`}
@@ -37,26 +37,25 @@ export default function PostCodeRanges(props: {
           <Input key={`until_from_${index}`} />
         </Item>
         <Item
-          key={`until_${index}`}
+          key="until"
           style={{ width: "40%" }}
           label={t("agency.postcode.until")}
           name={`postcodeTo_${index}`}
           initialValue={el.until}
           rules={[{ required: true }]}
         >
-          <Input key={`input_until_${index}`} />
+          <Input key="input_until" />
         </Item>
         <div
-          key={`minus_container_${index}`}
+          key="minus_container"
           style={{
             alignItems: "center",
             display: "flex",
           }}
         >
-          <MinusOutlined
-            key={`minus_${index}`}
-            onClick={() => removeAction(index)}
-          />
+          {postCodeRanges.length - 1 === index && (
+            <MinusOutlined key="minus" onClick={() => removeAction(index)} />
+          )}
         </div>
       </div>
     );

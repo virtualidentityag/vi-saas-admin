@@ -23,6 +23,7 @@ const emptyAgencyModel: AgencyData = {
   consultingType: "",
   description: "",
   offline: true,
+  online: false,
   postcode: "",
   teamAgency: "true",
   status: undefined,
@@ -184,9 +185,10 @@ function AgencyList() {
         className="mb-m mr-sm"
         type="primary"
         icon={<PlusOutlined />}
-        onClick={() =>
-          pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, emptyAgencyModel)
-        }
+        onClick={() => {
+          tableStateHolder = tableState;
+          pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, emptyAgencyModel);
+        }}
       >
         {t("new")}
       </Button>

@@ -44,6 +44,7 @@ const getAgencyData = (params: TableState) => {
             ...el,
             teamAgency: el.teamAgency ? "true" : "false",
             status: resolveAgencyStatus(el),
+            online: !el.offline,
           };
         }),
       };

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, message, Modal, Select, Switch } from "antd";
+import { Form, Input, message, Modal, Select, Switch, Tooltip } from "antd";
 import { useTranslation } from "react-i18next";
-import { Option } from "antd/es/mentions";
 
 import Title from "antd/es/typography/Title";
 import { AgencyData } from "../../types/agency";
@@ -12,6 +11,7 @@ import PostCodeRanges from "./PostCodeRanges";
 import addAgencyData from "../../api/agency/addAgencyData";
 import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
 import updateAgencyData from "../../api/agency/updateAgencyData";
+import hasAgencyConsultants from "../../api/agency/hasAgencyConsultants";
 
 const { TextArea } = Input;
 const { Item } = Form;
@@ -30,6 +30,7 @@ function AgencyFormModal() {
   const [formInstance] = Form.useForm();
   const [postCodeRangesSwitchActive, setPostCodeRangesSwitchActive] =
     useState(false);
+  const [onlineSwitchDisabled, setOnlineSwitchDisabled] = useState(true);
   const [agencyPostCodeRanges, setAgencyPostCodeRanges] = useState(
     [] as PostCodeRange[]
   );
@@ -60,9 +61,15 @@ function AgencyFormModal() {
   useEffect(() => {
     const agencyId = agencyModel && agencyModel.id;
     if (agencyId) {
-      getAgencyPostCodeRange(agencyId).then((data) => {
-        setAgencyPostCodeRanges(data);
-        setPostCodeRangesSwitchState(data);
+      Promise.all([
+        hasAgencyConsultants(agencyId),
+        getAgencyPostCodeRange(agencyId),
+      ]).then((values) => {
+        const hasAgencyConsultantsResponse = values[0];
+        setOnlineSwitchDisabled(!hasAgencyConsultantsResponse);
+        const agencyPostCodeRangesResponse = values[1];
+        setAgencyPostCodeRanges(agencyPostCodeRangesResponse);
+        setPostCodeRangesSwitchState(agencyPostCodeRangesResponse);
       });
     }
   }, [agencyModel, formInstance]);
@@ -110,7 +117,7 @@ function AgencyFormModal() {
     return <div />;
   }
 
-  const { offline } = agencyModel;
+  const { online } = agencyModel;
 
   return (
     <Modal
@@ -126,9 +133,16 @@ function AgencyFormModal() {
       onOk={() => {
         formInstance.validateFields().then((values) => {
           handleAddAction(values);
+          setOnlineSwitchDisabled(true);
+          setIsModalVisible(false);
+          setAgencyModel(undefined);
+          setAgencyPostCodeRanges([]);
+          setPostCodeRangesSwitchActive(false);
+          formInstance.resetFields();
         });
       }}
       onCancel={() => {
+        setOnlineSwitchDisabled(true);
         setIsModalVisible(false);
         setAgencyModel(undefined);
         setAgencyPostCodeRanges([]);
@@ -150,6 +164,7 @@ function AgencyFormModal() {
         initialValues={{
           ...agencyModel,
           postCodeRangesActive: postCodeRangesSwitchActive,
+          online,
         }}
       >
         <Item label={t("agency.name")} name="name" rules={[{ required: true }]}>
@@ -163,13 +178,13 @@ function AgencyFormModal() {
           <TextArea placeholder={t("placeholder.agency.description")} />
         </Item>
         <Item label={t("agency.teamAgency")} name="teamAgency">
-          <Select placeholder={t("plsSelect")} defaultValue>
-            <Option key="0" value="true">
+          <Select placeholder={t("plsSelect")}>
+            <Select.Option key="0" value="true">
               {t("yes")}
-            </Option>
-            <Option key="1" value="false">
+            </Select.Option>
+            <Select.Option key="1" value="false">
               {t("no")}
-            </Option>
+            </Select.Option>
           </Select>
         </Item>
         <Item label={t("agency.city")} name="city" rules={[{ required: true }]}>
@@ -196,9 +211,34 @@ function AgencyFormModal() {
             formInputData={formInstance}
           />
         )}
-        <Item label={t("agency.offline")} name="offline">
-          <Switch defaultChecked={offline} />
-        </Item>
+        {onlineSwitchDisabled && (
+          <Item label={t("agency.online")} name="online">
+            <Tooltip title={t("agency.online.tooltip")}>
+              <Switch
+                checkedChildren="Ja"
+                unCheckedChildren="Nein"
+                disabled={onlineSwitchDisabled}
+                defaultChecked={online}
+                onChange={(value) => {
+                  formInstance.setFieldsValue({ online: value });
+                }}
+              />
+            </Tooltip>
+          </Item>
+        )}
+        {!onlineSwitchDisabled && (
+          <Item label={t("agency.online")} name="online">
+            <Switch
+              checkedChildren="Ja"
+              unCheckedChildren="Nein"
+              disabled={onlineSwitchDisabled}
+              defaultChecked={online}
+              onChange={(value) => {
+                formInstance.setFieldsValue({ online: value });
+              }}
+            />
+          </Item>
+        )}
       </Form>
     </Modal>
   );

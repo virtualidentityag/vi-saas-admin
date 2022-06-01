@@ -66,32 +66,33 @@ function TopicList() {
         key: "status",
         ellipsis: true,
         render: (status: Status) => {
+          console.log(status); // TAM
           return <StatusIcons status={status} />;
         },
       },
-      {
-        width: 88,
-        title: "",
-        key: "edit",
-        render: (_: any, record: TopicData) => {
-          return (
-            <div className="tableActionWrapper">
-              <EditButtons
-                isDisabled={record.status === "IN_DELETION"}
-                handleEdit={() => {
-                  tableStateHolder = tableState;
-                  pubsub.publishEvent(PubSubEvents.TOPIC_UPDATE, record);
-                }}
-                handleDelete={() => {
-                  tableStateHolder = tableState;
-                  pubsub.publishEvent(PubSubEvents.TOPIC_DELETE, record);
-                }}
-                record={record}
-              />
-            </div>
-          );
-        },
-      },
+      // {
+      //   width: 88,
+      //   title: "",
+      //   key: "edit",
+      //   render: (_: any, record: TopicData) => {
+      //     return (
+      //       <div className="tableActionWrapper">
+      //         <EditButtons
+      //           isDisabled={record.status === "IN_DELETION"}
+      //           handleEdit={() => {
+      //             tableStateHolder = tableState;
+      //             pubsub.publishEvent(PubSubEvents.TOPIC_UPDATE, record);
+      //           }}
+      //           handleDelete={() => {
+      //             tableStateHolder = tableState;
+      //             pubsub.publishEvent(PubSubEvents.TOPIC_DELETE, record);
+      //           }}
+      //           record={record}
+      //         />
+      //       </div>
+      //     );
+      //   },
+      // },
     ];
   }
 

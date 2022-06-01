@@ -5,6 +5,7 @@ import {
   CloseCircleOutlined,
   DeleteOutlined,
   InfoCircleOutlined,
+  StopOutlined,
 } from "@ant-design/icons";
 import { Tooltip } from "antd";
 import clsx from "clsx";
@@ -37,6 +38,16 @@ function StatusIcons({ status }: { status: Status }) {
       {status === "CREATED" && (
         <Tooltip color={successColor} title={t("status.CREATED.tooltip")}>
           <CheckCircleOutlined style={{ color: successColor }} />
+        </Tooltip>
+      )}
+      {status === "ACTIVE" && (
+        <Tooltip color={successColor} title={t("status.ACTIVE.tooltip")}>
+          <CheckCircleOutlined style={{ color: successColor }} />
+        </Tooltip>
+      )}
+      {status === "INACTIVE" && (
+        <Tooltip color={successColor} title={t("status.INACTIVE.tooltip")}>
+          <StopOutlined style={{ color: errorColor }} />
         </Tooltip>
       )}
     </div>

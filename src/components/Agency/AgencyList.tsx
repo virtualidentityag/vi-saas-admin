@@ -5,6 +5,7 @@ import Title from "antd/es/typography/Title";
 import { Button, Table } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
+import { ColumnsType } from "antd/lib/table";
 import AgencyFormModal from "./AgencyFormModal";
 
 import EditButtons from "../EditableTable/EditButtons";
@@ -41,59 +42,57 @@ function AgencyList() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  function defineTableColumns(): any {
+  function defineTableColumns(): ColumnsType<AgencyData> {
     return [
       {
         title: t("agency.name"),
         dataIndex: "name",
         key: "name",
-        sorter: (a: AgencyData, b: AgencyData) => a.name.localeCompare(b.name),
+        sorter: (a, b) => a.name.localeCompare(b.name),
         width: 150,
         ellipsis: true,
         fixed: "left",
-        editable: true,
+        // editable: true,
       },
       {
         title: t("agency.description"),
         dataIndex: "description",
         key: "description",
-        sorter: (a: AgencyData, b: AgencyData) =>
-          a.description.localeCompare(b.description),
+        sorter: (a, b) => a.description.localeCompare(b.description),
         width: 200,
         ellipsis: true,
         fixed: "left",
-        editable: true,
+        // editable: true,
       },
       {
         title: t("agency.postcode"),
         dataIndex: "postcode",
         key: "postcode",
-        sorter: (a: AgencyData, b: AgencyData) =>
-          a.postcode.localeCompare(b.postcode),
+        sorter: (a, b) => a.postcode.localeCompare(b.postcode),
         width: 100,
         ellipsis: true,
         fixed: "left",
-        editable: true,
+        // editable: true,
       },
       {
         title: t("agency.city"),
         dataIndex: "city",
         key: "city",
-        sorter: (a: AgencyData, b: AgencyData) => a.city.localeCompare(b.city),
+        sorter: (a, b) => a.city.localeCompare(b.city),
         width: 100,
         ellipsis: true,
         fixed: "left",
-        editable: true,
+        // editable: true,
       },
       {
         title: t("agency.teamAgency"),
         dataIndex: "teamAgency",
         key: "teamAgency",
-        sorter: (a: AgencyData, b: AgencyData) => a.teamAgency !== b.teamAgency,
+        sorter: (a, b) => (a.teamAgency > b.teamAgency ? 1 : -1),
         width: 100,
         ellipsis: true,
         fixed: "left",
-        editable: true,
+        // editable: true,
         render: (data: string) => {
           return data === "true" ? "JA" : "NEIN";
         },
@@ -201,10 +200,14 @@ function AgencyList() {
           x: "max-content",
           y: "100%",
         }}
-        sticky
-        tableLayout="fixed"
+        // sticky
+        // tableLayout="fixed"
         onChange={tableChangeHandler}
         pagination={pagination}
+        rowKey="name"
+        style={{
+          width: "100%",
+        }}
       />
 
       <AgencyFormModal />

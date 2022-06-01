@@ -1,7 +1,7 @@
 import { topicEndpoint } from "../../appConfig";
 
 import { FETCH_METHODS, fetchData } from "../fetchData";
-import removeEmbedded from "../../utils/removeEmbedded";
+// import removeEmbedded from "../../utils/removeEmbedded";
 
 export const DEFAULT_SORT = "NAME";
 export const DEFAULT_ORDER = "ASC";

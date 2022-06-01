@@ -7,7 +7,7 @@ import { Button, Table } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import TopicFormModal from "./TopicFormModal";
 
-import EditButtons from "../EditableTable/EditButtons";
+// import EditButtons from "../EditableTable/EditButtons";
 import getTopicData from "../../api/topic/getTopicData";
 import { TopicData } from "../../types/topic";
 import { Status } from "../../types/status";

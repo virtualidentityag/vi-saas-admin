@@ -8,6 +8,7 @@ import {
   ShopOutlined,
   // UserOutlined,
   BankOutlined,
+  FileTextOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -77,9 +78,19 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                     <span>{t("agency")}</span>
                   </NavLink>
                 </li>
+
+                <li key="5" className="menuItem">
+                  <NavLink
+                    to={routePathNames.topics}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    <FileTextOutlined className="menuIcon" />
+                    <span>{t("topics.title")}</span>
+                  </NavLink>
+                </li>
               </>
             ) : (
-              <li key="4" className="menuItem">
+              <li key="6" className="menuItem">
                 <NavLink
                   to={routePathNames.tenants}
                   className={({ isActive }) => (isActive ? "active" : "")}

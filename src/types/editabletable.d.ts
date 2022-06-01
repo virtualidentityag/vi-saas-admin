@@ -1,9 +1,15 @@
 import { Dispatch, SetStateAction } from "react";
 import { CounselorData } from "./counselor";
 import { BasicTenantData } from "./tenant";
+import { BasicTopicData } from "./topic";
 import { AgencyData } from "./agency";
 
-export type EditableData = CounselorData | BasicTenantData | AgencyData | undefined;
+export type EditableData =
+  | CounselorData
+  | BasicTenantData
+  | BasicTopicData
+  | AgencyData
+  | undefined;
 
 export default interface EditableTableProps {
   handleBtnAdd: (formData: any) => void;
@@ -26,6 +32,6 @@ export default interface EditableTableProps {
 export interface EditButtonsProps extends React.HTMLAttributes<HTMLElement> {
   handleEdit: (formData: EditableData) => void;
   handleDelete: (formData: EditableData) => void;
-  record: CounselorData | AgencyData | BasicTenantData;
+  record: CounselorData | AgencyData | BasicTenantData | BasicTopicData;
   isDisabled?: boolean;
 }

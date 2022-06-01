@@ -5,36 +5,29 @@ import Title from "antd/es/typography/Title";
 import { Button, Table } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
-import { ColumnsType } from "antd/lib/table";
-import AgencyFormModal from "./AgencyFormModal";
+import TopicFormModal from "./TopicFormModal";
 
 import EditButtons from "../EditableTable/EditButtons";
-import getAgencyData from "../../api/agency/getAgencyData";
-import { AgencyData } from "../../types/agency";
+import getTopicData from "../../api/topic/getTopicData";
+import { TopicData } from "../../types/topic";
 import { Status } from "../../types/status";
 import StatusIcons from "../EditableTable/StatusIcons";
 import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
-import AgencyDeletionModal from "./AgencyDeletionModal";
+import TopicDeletionModal from "./TopicDeletionModal";
 
-const emptyAgencyModel: AgencyData = {
+const emptyTopicModel: TopicData = {
   id: null,
   name: "",
-  city: "",
-  consultingType: "",
   description: "",
-  offline: true,
-  online: false,
-  postcode: "",
-  teamAgency: "true",
   status: undefined,
 };
 
 let tableStateHolder: TableState;
 
-function AgencyList() {
+function TopicList() {
   const { t } = useTranslation();
-  const [agencies, setAgencies] = useState([]);
-  const [numberOfAgencies, setNumberOfAgencies] = useState(0);
+  const [topics, setTopics] = useState([]);
+  const [numberOfTopics, setNumberOfTopics] = useState(0);
   const [tableState, setTableState] = useState<TableState>({
     current: 1,
     sortBy: undefined,
@@ -43,60 +36,28 @@ function AgencyList() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  function defineTableColumns(): ColumnsType<AgencyData> {
+  function defineTableColumns(): any {
     return [
       {
-        title: t("agency.name"),
+        title: t("topic.name"),
         dataIndex: "name",
         key: "name",
-        sorter: (a, b) => a.name.localeCompare(b.name),
+        sorter: (a: TopicData, b: TopicData) => a.name.localeCompare(b.name),
         width: 150,
         ellipsis: true,
         fixed: "left",
-        // editable: true,
+        editable: true,
       },
       {
-        title: t("agency.description"),
+        title: t("topic.description"),
         dataIndex: "description",
         key: "description",
-        sorter: (a, b) => a.description.localeCompare(b.description),
-        width: 200,
+        sorter: (a: TopicData, b: TopicData) =>
+          a.description.localeCompare(b.description),
+        width: 500,
         ellipsis: true,
         fixed: "left",
-        // editable: true,
-      },
-      {
-        title: t("agency.postcode"),
-        dataIndex: "postcode",
-        key: "postcode",
-        sorter: (a, b) => a.postcode.localeCompare(b.postcode),
-        width: 100,
-        ellipsis: true,
-        fixed: "left",
-        // editable: true,
-      },
-      {
-        title: t("agency.city"),
-        dataIndex: "city",
-        key: "city",
-        sorter: (a, b) => a.city.localeCompare(b.city),
-        width: 100,
-        ellipsis: true,
-        fixed: "left",
-        // editable: true,
-      },
-      {
-        title: t("agency.teamAgency"),
-        dataIndex: "teamAgency",
-        key: "teamAgency",
-        sorter: (a, b) => (a.teamAgency > b.teamAgency ? 1 : -1),
-        width: 100,
-        ellipsis: true,
-        fixed: "left",
-        // editable: true,
-        render: (data: string) => {
-          return data === "true" ? "JA" : "NEIN";
-        },
+        editable: true,
       },
       {
         width: 80,
@@ -108,51 +69,52 @@ function AgencyList() {
           return <StatusIcons status={status} />;
         },
       },
-      {
+      // editing and deletion are not part of the current sprint
+      /* {
         width: 88,
         title: "",
         key: "edit",
-        render: (_: any, record: AgencyData) => {
+        render: (_: any, record: TopicData) => {
           return (
             <div className="tableActionWrapper">
               <EditButtons
                 isDisabled={record.status === "IN_DELETION"}
                 handleEdit={() => {
                   tableStateHolder = tableState;
-                  pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, record);
+                  pubsub.publishEvent(PubSubEvents.TOPIC_UPDATE, record);
                 }}
                 handleDelete={() => {
                   tableStateHolder = tableState;
-                  pubsub.publishEvent(PubSubEvents.AGENCY_DELETE, record);
+                  pubsub.publishEvent(PubSubEvents.TOPIC_DELETE, record);
                 }}
                 record={record}
               />
             </div>
           );
         },
-      },
+      }, */
     ];
   }
 
-  const reloadAgencyList = () => {
+  const reloadTopicList = () => {
     setIsLoading(true);
-    getAgencyData(tableState).then((result) => {
-      setAgencies(result.data);
-      setNumberOfAgencies(result.total);
+    getTopicData(tableState).then((result) => {
+      setTopics(result.data);
+      setNumberOfTopics(result.total);
       setIsLoading(false);
     });
   };
 
   useEffect(
     () =>
-      pubsub.subscribe(PubSubEvents.AGENCYLIST_UPDATE, () =>
+      pubsub.subscribe(PubSubEvents.TOPICLIST_UPDATE, () =>
         setTableState({ ...tableStateHolder })
       ),
     []
   );
 
   useEffect(() => {
-    reloadAgencyList();
+    reloadTopicList();
   }, [tableState]);
 
   const tableChangeHandler = (pagination: any, filters: any, sorter: any) => {
@@ -171,24 +133,23 @@ function AgencyList() {
   };
 
   const pagination = {
-    total: numberOfAgencies,
+    total: numberOfTopics,
     current: tableState.current,
     pageSize: 10,
   };
 
   return (
     <>
-      <Title level={3}>{t("agency")}</Title>
-      <p>{t("agency.title.text")}</p>
+      <Title level={3}>{t("topics.title")}</Title>
+      <p>{t("topics.title.text")}</p>
 
       <Button
         className="mb-m mr-sm"
         type="primary"
         icon={<PlusOutlined />}
-        onClick={() => {
-          tableStateHolder = tableState;
-          pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, emptyAgencyModel);
-        }}
+        onClick={() =>
+          pubsub.publishEvent(PubSubEvents.TOPIC_UPDATE, emptyTopicModel)
+        }
       >
         {t("new")}
       </Button>
@@ -196,26 +157,22 @@ function AgencyList() {
       <Table
         loading={isLoading}
         className="editableTable"
-        dataSource={agencies}
+        dataSource={topics}
         columns={defineTableColumns()}
         scroll={{
           x: "max-content",
           y: "100%",
         }}
-        // sticky
-        // tableLayout="fixed"
+        sticky
+        tableLayout="fixed"
         onChange={tableChangeHandler}
         pagination={pagination}
-        rowKey="name"
-        style={{
-          width: "100%",
-        }}
       />
 
-      <AgencyFormModal />
-      <AgencyDeletionModal />
+      <TopicFormModal />
+      <TopicDeletionModal />
     </>
   );
 }
 
-export default AgencyList;
+export default TopicList;

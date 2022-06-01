@@ -1,0 +1,129 @@
+import React, { useEffect, useState } from "react";
+import { Form, Input, message, Modal } from "antd";
+import { useTranslation } from "react-i18next";
+
+import Title from "antd/es/typography/Title";
+import { TopicData } from "../../types/topic";
+import addTopicData from "../../api/topic/addTopicData";
+import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
+import updateTopicData from "../../api/topic/updateTopicData";
+
+const { TextArea } = Input;
+const { Item } = Form;
+
+function TopicFormModal() {
+  const { t } = useTranslation();
+  const [topicModel, setTopicModel] = useState<TopicData | undefined>(
+    undefined
+  );
+  const [formInstance] = Form.useForm();
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(true);
+
+  useEffect(() => {
+    pubsub.subscribe(PubSubEvents.TOPIC_UPDATE, (data) => {
+      setTopicModel({ ...data });
+      setIsModalVisible(true);
+      formInstance.setFieldsValue(data);
+      if (data) {
+        setSubmitButtonDisabled(data.id === null);
+      }
+    });
+  }, []);
+
+  const handleAddAction = (formData: Record<string, any>) => {
+    setIsModalVisible(false);
+    if (topicModel && topicModel.id) {
+      updateTopicData(topicModel, formData as TopicData).then(() => {
+        message.success({
+          content: t("message.topic.update"),
+          duration: 3,
+        });
+        pubsub.publishEvent(PubSubEvents.TOPICLIST_UPDATE, undefined);
+      });
+    } else {
+      addTopicData(formData).then(() => {
+        message.success({
+          content: t("message.topic.add"),
+          duration: 3,
+        });
+        pubsub.publishEvent(PubSubEvents.TOPICLIST_UPDATE, undefined);
+      });
+    }
+  };
+
+  const onFinishFailed = () => {
+    message.error({
+      content: t("message.error.default"),
+      duration: 3,
+    });
+  };
+
+  const onFieldsChange = () => {
+    setSubmitButtonDisabled(
+      Object.values(formInstance.getFieldsValue(["name", "description"])).some(
+        (field: any) => field.length === 0
+      ) ||
+        formInstance
+          .getFieldsError()
+          .some((field: any) => field.errors.length > 0)
+    );
+  };
+
+  if (topicModel === undefined) {
+    return <div />;
+  }
+
+  return (
+    <Modal
+      destroyOnClose
+      title={
+        <Title level={2}>
+          {topicModel.id
+            ? t("topic.modal.headline.edit")
+            : t("topic.modal.headline.add")}
+        </Title>
+      }
+      visible={isModalVisible}
+      onOk={() => {
+        formInstance.validateFields().then((values) => {
+          handleAddAction(values);
+        });
+      }}
+      onCancel={() => {
+        setIsModalVisible(false);
+        setTopicModel(undefined);
+        formInstance.resetFields();
+      }}
+      okButtonProps={{
+        disabled: submitButtonDisabled,
+      }}
+    >
+      <Form
+        form={formInstance}
+        onFinishFailed={onFinishFailed}
+        onFieldsChange={onFieldsChange}
+        size="small"
+        labelAlign="left"
+        labelWrap
+        layout="vertical"
+        initialValues={{
+          ...topicModel,
+        }}
+      >
+        <Item label={t("topic.name")} name="name" rules={[{ required: true }]}>
+          <Input placeholder={t("placeholder.topic.name")} maxLength={100} />
+        </Item>
+        <Item
+          label={t("topic.description")}
+          name="description"
+          rules={[{ required: false }]}
+        >
+          <TextArea placeholder={t("placeholder.topic.description")} />
+        </Item>
+      </Form>
+    </Modal>
+  );
+}
+
+export default TopicFormModal;

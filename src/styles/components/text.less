@@ -1,24 +1,24 @@
 .text {
-	text-align: left;
 	margin: 0;
 	font-family: @font-family-sans-serif;
+	text-align: left;
 
 	&__standard {
+		color: @text-color-standard;
 		font-size: @font-size-primary;
 		line-height: @line-height-primary;
-		color: @text-color-standard;
 	}
 
 	&__infoLargeStandard {
+		color: @text-color-info-large-standard;
 		font-size: @font-size-tertiary;
 		line-height: 19px;
-		color: @text-color-info-large-standard;
 	}
 
 	&__infoLargeAlternative {
+		color: @tertiary;
 		font-size: @font-size-tertiary;
 		line-height: 19px;
-		color: @tertiary;
 
 		.text__label {
 			text-transform: none;
@@ -26,29 +26,29 @@
 	}
 
 	&__infoSmall {
+		color: @tertiary;
 		font-size: @font-size-secondary;
 		line-height: @line-height-secondary;
-		color: @tertiary;
 	}
 
 	&__divider {
+		color: var(--skin-color-secondary-contrast-safe, @text-divider-color);
 		font-family: @font-family-divider;
 		font-size: @font-size-secondary;
 		font-weight: @text-divider-font-weight;
-		text-transform: @text-divider-text-transform;
-		line-height: @line-height-secondary;
-		color: var(--skin-color-secondary-contrast-safe, @text-divider-color);
 		letter-spacing: @text-divider-letter-spacing;
+		line-height: @line-height-secondary;
+		text-transform: @text-divider-text-transform;
 	}
 
 	&__label {
+		margin-right: 4px;
 		font-weight: @font-weight-medium;
 		text-transform: uppercase;
-		margin-right: 4px;
 
 		&:after {
-			content: ':';
 			display: inline-block;
+			content: ':';
 		}
 
 		&--notice {
@@ -57,8 +57,8 @@
 	}
 
 	ul {
-		margin: @grid-base 0 12px 0;
 		padding-left: 20px;
+		margin: @grid-base 0 12px 0;
 
 		li:not(:first-of-type) {
 			margin-top: @grid-base;

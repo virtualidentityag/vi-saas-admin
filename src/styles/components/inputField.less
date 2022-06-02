@@ -1,21 +1,21 @@
 .inputField {
 	position: relative;
 	display: flex;
-	align-items: center;
 	flex-wrap: wrap;
+	align-items: center;
 
 	&__input {
-		appearance: none;
-		-moz-appearance: textfield;
-		height: @input-field-height;
 		min-width: 0;
-		padding: 12px @grid-base-three 0;
+		height: @input-field-height;
 		flex: 1;
-		color: @form-secondary;
+		padding: 12px @grid-base-three 0;
 		border: 1px solid @form-primary;
+		appearance: textfield;
+		appearance: none;
 		border-radius: @input-field-border-radius;
-		outline: 0;
 		box-shadow: @input-field-box-shadow;
+		color: @form-secondary;
+		outline: 0;
 
 		&:hover {
 			border: 1px solid @form-active;
@@ -29,28 +29,28 @@
 			appearance: none;
 		}
 
-		&:-ms-input-placeholder {
+		&:input-placeholder {
 			color: transparent;
 		}
 
-		&::-webkit-input-placeholder {
+		&::input-placeholder {
 			color: transparent;
 		}
 
-		&::-moz-placeholder {
+		&::placeholder {
 			color: transparent;
 		}
 
 		&:focus + label,
 		&:not(:placeholder-shown) + label {
-			font-size: 12px;
 			top: 3px;
+			font-size: 12px;
 			transition: font-size 0.5s, top 0.5s;
 		}
 
 		&[disabled] {
-			background-color: @white;
 			border: 1px solid @form-input-border;
+			background-color: @white;
 
 			+ label {
 				color: @form-input-border;
@@ -68,8 +68,8 @@
 
 			&:hover,
 			&:focus {
-				cursor: not-allowed;
 				border: 1px solid @form-disabled !important;
+				cursor: not-allowed;
 			}
 		}
 
@@ -93,9 +93,9 @@
 
 		/* TODO: check if --error state still needed (class added in warningLabels.ts) */
 		&--error {
+			border-width: 2px;
 			border-color: @form-error !important;
 			color: @form-error;
-			border-width: 2px;
 
 			&.inputField__input--valid {
 				border-color: @form-error !important;
@@ -112,8 +112,8 @@
 		position: absolute;
 		top: 15px;
 		left: @grid-base-three;
-		transition: font-size 0.5s, top 0.5s;
 		color: @tertiary;
+		transition: font-size 0.5s, top 0.5s;
 	}
 
 	&__infoText {
@@ -122,8 +122,8 @@
 	}
 
 	&__passwordToggle {
-		z-index: 15;
 		position: absolute;
+		z-index: 15;
 		top: 0;
 		right: 0;
 		margin: 14px @grid-base-two 0 0;

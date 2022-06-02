@@ -149,6 +149,7 @@ export function Tooltip({
 
   return (
     <div
+      aria-hidden="true"
       className={`tooltip tooltip--${
         direction || DIRECTION_BOTTOM
       } ${className}`}

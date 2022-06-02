@@ -16,6 +16,8 @@ import StatusIcons from "../EditableTable/StatusIcons";
 import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
 import AgencyDeletionModal from "./AgencyDeletionModal";
 
+import agencyListStyles from "./AgencyList.module.css";
+
 const emptyAgencyModel: AgencyData = {
   id: null,
   name: "",
@@ -53,7 +55,6 @@ function AgencyList() {
         width: 150,
         ellipsis: true,
         fixed: "left",
-        // editable: true,
       },
       {
         title: t("agency.description"),
@@ -63,7 +64,7 @@ function AgencyList() {
         width: 200,
         ellipsis: true,
         fixed: "left",
-        // editable: true,
+        className: agencyListStyles.agencyDescription,
       },
       {
         title: t("agency.postcode"),
@@ -73,7 +74,6 @@ function AgencyList() {
         width: 100,
         ellipsis: true,
         fixed: "left",
-        // editable: true,
       },
       {
         title: t("agency.city"),
@@ -83,7 +83,6 @@ function AgencyList() {
         width: 100,
         ellipsis: true,
         fixed: "left",
-        // editable: true,
       },
       {
         title: t("agency.teamAgency"),
@@ -93,7 +92,6 @@ function AgencyList() {
         width: 100,
         ellipsis: true,
         fixed: "left",
-        // editable: true,
         render: (data: string) => {
           return data === "true" ? "JA" : "NEIN";
         },

@@ -3,7 +3,13 @@ import { useTranslation } from "react-i18next";
 import { ReactComponent as CheckmarkIcon } from "../../resources/img/svg/checkmark.svg";
 import { Text } from "../text/Text";
 
-export function TwoFactorAuthResendMail(resendHandler: any) {
+interface TwoFactorAuthResendMailProps {
+  resendHandler: (callback: Function) => void;
+}
+
+export function TwoFactorAuthResendMail({
+  resendHandler,
+}: TwoFactorAuthResendMailProps) {
   const { t } = useTranslation();
   const [isCodeSent, setIsCodeSent] = useState(false);
   return (

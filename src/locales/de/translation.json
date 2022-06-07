@@ -179,7 +179,10 @@
   "twoFactorAuth.activate.radio.tooltip.app": "Installieren Sie sich die App. Die App generiert Ihnen einen Code den Sie bei der Anmeldung eingeben müssen.",
   "twoFactorAuth.activate.radio.tooltip.email": "Sie erhalten bei der Anmeldung eine E-Mail mit einem Code. Diesen Code müssen Sie dann eingeben.",
   "twoFactorAuth.activate.email.input.label": "E-Mail-Adresse angeben",
+  "twoFactorAuth.activate.email.input.valid": "E-Mail-Adresse angeben",
+  "twoFactorAuth.activate.email.input.invalid": "E-Mail-Adresse ungültig",
   "twoFactorAuth.activate.email.input.info": "Sie können nur eine E-Mail-Adresse bei uns hinterlegen. Falls Sie die E-Mail-Adresse hier ändern, erhalten Sie auf diese E-Mail-Adresse zukünftig auch die Benachrichtigungen.",
+  "twoFactorAuth.activate.email.input.duplicate": "E-Mail-Adresse wird bereits verwendet",
   "twoFactorAuth.activate.email.input.duplicate.info": "Diese E-Mail-Adresse wird bereits von einer anderen Person verwendet. Bitte geben Sie eine andere E-Mail-Adresse an. Oder nutzen Sie die App als 2. Faktor.",
   "twoFactorAuth.activate.email.resend.headline": "Es hat nicht funktioniert?",
   "twoFactorAuth.activate.email.resend.new": "Neuen Code senden",
@@ -189,5 +192,8 @@
   "twoFactorAuth.overlayButton.save": "Speichern",
   "twoFactorAuth.overlayButton.close": "Schliessen",
   "twoFactorAuth.overlayButton.confirm": "Bestätigen",
+  "twoFactorAuth.switch.type.label": "Ihr 2. Faktor",
+  "twoFactorAuth.switch.type.EMAIL": "E-Mail",
+  "twoFactorAuth.switch.type.APP": "App",
   "overlay.step.headline.prefix": ". Schritt | "
 }

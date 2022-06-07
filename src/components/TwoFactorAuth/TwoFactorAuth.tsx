@@ -1,9 +1,17 @@
-import { useContext, useState, useMemo, useCallback, useEffect } from "react";
-
+import { useState, useMemo, useCallback, useEffect } from "react";
 import Title from "antd/es/typography/Title";
 import { Col, Row, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import Switch from "react-switch";
+import { store } from "../../store/store";
+import {
+  apiDeleteTwoFactorAuth,
+  apiPutTwoFactorAuthEmail,
+  apiPostTwoFactorAuthEmailWithCode,
+  apiPutTwoFactorAuthApp,
+  apiPatchTwoFactorAuthEncourage,
+} from "../../api/user/apiTwoFactorAuth";
+import { FETCH_ERRORS } from "../../api/fetchData";
 import {
   OVERLAY_FUNCTIONS,
   OverlayItem,
@@ -29,7 +37,8 @@ import { ReactComponent as CheckIcon } from "../../resources/img/svg/checkmark.s
 import { ReactComponent as DownloadIcon } from "../../resources/img/svg/download.svg";
 import { ReactComponent as PenIcon } from "../../resources/img/svg/pen.svg";
 import { ReactComponent as IlluCheck } from "../../resources/img/illustrations/check.svg";
-import { store } from "../../store/store";
+import storeDispatch from "../../state/actions/storeDispatch";
+import { getUserData } from "../../api/user/getUserData";
 
 const { Paragraph } = Typography;
 
@@ -46,22 +55,9 @@ const isStringValidEmail = (email: string) =>
     email
   );
 
-const userDataMock = {
-  email: "test@test.com",
-  twoFactorAuth: {
-    isActive: false,
-    qrCode:
-      "iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2AQAAAADNaUdlAAACw0lEQVR4Xu2WsY7cMAxE2fGX1YmdfllFAGUeFXtjF1dFBAKssNhb8/GAAcmhbOvH88vekef58nfkeb78HXme/4KHma81++yLj8/ma+xgCR/6hAuNaR6dL3OCVTx8TD6zj+hKsq7HIKWM7zjClsozyCzlayYxs8bfvoNFnJRmPVofS41qJvR3fw5zRnG8z2t+3/hfcg4lCZO+rEv4n3AJ11AEI6EBoT+t5VfTf9TwNQbrQYmN4ZA7Grntrs9pPnsQ125gTLShorEnqrhmoUfWRbq6nKpuNaajiE+mU76wvZRoFPqoWgmnO5REbRmYE2Ez7VHDecqgfCGh1Mn4eBFnGRHV88QWeh6yy72fznNWlAg2zRRVK/Nq+OJmzCytBG6nHBG/9R3nWlAK7+4g1POm+Pj3NEcYCQiLLJKKRodquIQEq8HQ13Na4+nfszxlGTXqeUt0KqPXlUvfaR7pxclrmbGk8xuNVdxxJHqoVB96njTrqs9pzjpgL6lITlOQqlXdLn3HOWoUpz/7/WTy4zO/h3n2R0/MJU1q2Sjrd/1Oc0aT1eR7TnGrfn70HeYC6FKepU21I1jStz+Oc2VIEX8abwlSKbEoruFs5WZpksAgQYlwaBFPeZYjQvAy6ac/h/lIh1KiyClRltpTyCfbsV9GwSGNW/Lyx3E+WJHBcEqlkpwe6R21igfaLlcYGMeUccZhYU5jJCmOczfd99Nprh+5msUyScOa/VlFnMnM9iTBILqcdkINZyJ1J4vLn5ESQ/M6inhwPapCW6UKtcskr9ZwDrdyzoneU2iX70gJlyh+I0vvJyMNMyT16s9pTmRfyDN3o1oloZi2iKsUWZoUhTmYj9RcxpkPVUitIa4dwaos5FqJTKRkySy+L8dVxUmRIvlUMl2t4rcTL+H0ItBFczQhuStzU9XwH86XvyPP8+XvyPP89/w3F0UfYRinml8AAAAASUVORK5CYII=",
-    secret: "KvFS40q19KftGl9PnB6VSUBDafdKORhD",
-  },
-};
-
 function TwoFactorAuth() {
   const { t } = useTranslation();
-  let { userData } = store.getState();
-
-  // DEMO MOCK
-  userData = userDataMock;
+  const { userData } = store.getState();
 
   const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(
     userData.twoFactorAuth.isActive
@@ -81,6 +77,21 @@ function TwoFactorAuth() {
   const [email, setEmail] = useState<string>(userData.email);
   const [isRequestInProgress, setIsRequestInProgress] =
     useState<boolean>(false);
+  const [twoFactorType, setTwoFactorType] = useState<string>(
+    TWO_FACTOR_TYPES.APP
+  );
+
+  const updateUserData = useCallback(() => {
+    storeDispatch("user/set-data", {
+      ...userData,
+      twoFactorAuth: {
+        ...userData.twoFactorAuth,
+        isActive: userData.twoFactorAuth.isActive,
+        type: twoFactorType,
+      },
+    });
+    getUserData();
+  }, [isSwitchChecked]);
 
   const handleSwitchChange = () => {
     if (!isSwitchChecked) {
@@ -88,19 +99,15 @@ function TwoFactorAuth() {
       setOverlayActive(true);
     } else {
       setIsSwitchChecked(false);
-      //   apiDeleteTwoFactorAuth()
-      //     .then((response) => {
-      //       updateUserData();
-      //     })
-      //     .catch((error) => {
-      //       setIsSwitchChecked(true);
-      //     });
+      apiDeleteTwoFactorAuth()
+        .then((response) => {
+          updateUserData();
+        })
+        .catch((error) => {
+          setIsSwitchChecked(true);
+        });
     }
   };
-
-  const [twoFactorType, setTwoFactorType] = useState<string>(
-    TWO_FACTOR_TYPES.APP
-  );
 
   const selectTwoFactorTypeButtons = useCallback((): JSX.Element => {
     return (
@@ -333,23 +340,18 @@ function TwoFactorAuth() {
 
   const sendEmailActivationCode = useCallback(
     (triggerNextStep) => {
-      console.log("sendEmailActivationCode");
-      // apiPutTwoFactorAuthEmail(email)
-      // 	.then(() => {
-      // 		if (triggerNextStep) triggerNextStep();
-      // 		setHasDuplicateError(false);
-      // 	})
-      // 	.catch((error) => {
-      // 		if (error.message === FETCH_ERRORS.PRECONDITION_FAILED) {
-      // 			setEmailLabelState('invalid');
-      // 			setEmailLabel(
-      // 				translate(
-      // 					'twoFactorAuth.activate.email.input.duplicate'
-      // 				)
-      // 			);
-      // 			setHasDuplicateError(true);
-      // 		}
-      // 	});
+      apiPutTwoFactorAuthEmail(email)
+        .then(() => {
+          if (triggerNextStep) triggerNextStep();
+          setHasDuplicateError(false);
+        })
+        .catch((error) => {
+          if (error.message === FETCH_ERRORS.PRECONDITION_FAILED) {
+            setEmailLabelState("invalid");
+            setEmailLabel(t("twoFactorAuth.activate.email.input.duplicate"));
+            setHasDuplicateError(true);
+          }
+        });
     },
     [email]
   );
@@ -402,59 +404,59 @@ function TwoFactorAuth() {
 
   const activateTwoFactorAuthByType = useCallback(
     (triggerNextStep) => {
-      let apiCall;
-      let apiData;
-      console.log("submit 2FA");
-      // if (twoFactorType === TWO_FACTOR_TYPES.APP) {
-      // 	apiCall = apiPutTwoFactorAuthApp;
-      // 	apiData = {
-      // 		secret: userData.twoFactorAuth.secret,
-      // 		otp
-      // 	};
-      // }
-      // if (twoFactorType === TWO_FACTOR_TYPES.EMAIL) {
-      // 	apiCall = apiPostTwoFactorAuthEmailWithCode;
-      // 	apiData = otp;
-      // }
+      let apiCall: any;
+      let apiData: any;
 
-      // if (twoFactorType === TWO_FACTOR_TYPES.NONE) return;
+      if (twoFactorType === TWO_FACTOR_TYPES.APP) {
+        apiCall = apiPutTwoFactorAuthApp;
+        apiData = {
+          secret: userData.twoFactorAuth.secret,
+          otp,
+        };
+      }
+      if (twoFactorType === TWO_FACTOR_TYPES.EMAIL) {
+        apiCall = apiPostTwoFactorAuthEmailWithCode;
+        apiData = otp;
+      }
 
-      // if (!isRequestInProgress) {
-      // 	setIsRequestInProgress(true);
-      // 	setOtpInputInfo('');
-      // 	apiCall(apiData)
-      // 		.then(() => {
-      // 			if (twoFactorType === TWO_FACTOR_TYPES.APP) {
-      // 				setOverlayActive(false);
-      // 			}
-      // 			if (twoFactorType === TWO_FACTOR_TYPES.EMAIL) {
-      // 				apiPatchTwoFactorAuthEncourage(false);
-      // 				if (triggerNextStep) triggerNextStep();
-      // 			}
-      // 			setIsRequestInProgress(false);
-      // 			updateUserData();
-      // 		})
-      // 		.catch((error) => {
-      // 			if (error.message === FETCH_ERRORS.BAD_REQUEST) {
-      // 				setOtpLabel(defaultOtpLabel);
-      // 				setOtpInputInfo(
-      // 					translate(
-      // 						'twoFactorAuth.activate.otp.input.label.error'
-      // 					)
-      // 				);
-      // 				setOtpLabelState('invalid');
-      // 				setIsRequestInProgress(false);
-      // 				setIsSwitchChecked(false);
-      // 			}
-      // 		});
-      // }
+      if (twoFactorType === TWO_FACTOR_TYPES.NONE) return;
+
+      if (!isRequestInProgress) {
+        setIsRequestInProgress(true);
+        setOtpInputInfo("");
+        if (apiCall && apiData) {
+          apiCall(apiData)
+            .then(() => {
+              if (twoFactorType === TWO_FACTOR_TYPES.APP) {
+                setOverlayActive(false);
+              }
+              if (twoFactorType === TWO_FACTOR_TYPES.EMAIL) {
+                apiPatchTwoFactorAuthEncourage(false);
+                if (triggerNextStep) triggerNextStep();
+              }
+              setIsRequestInProgress(false);
+              updateUserData();
+            })
+            .catch((error: any) => {
+              if (error.message === FETCH_ERRORS.BAD_REQUEST) {
+                setOtpLabel(defaultOtpLabel);
+                setOtpInputInfo(
+                  t("twoFactorAuth.activate.otp.input.label.error")
+                );
+                setOtpLabelState("invalid");
+                setIsRequestInProgress(false);
+                setIsSwitchChecked(false);
+              }
+            });
+        }
+      }
     },
     [
       defaultOtpLabel,
       isRequestInProgress,
       otp,
       twoFactorType,
-      // updateUserData,
+      updateUserData,
       userData.twoFactorAuth.secret,
     ]
   );
@@ -672,25 +674,38 @@ function TwoFactorAuth() {
           <Title className="formHeadline mb-m" level={4}>
             {t("twoFactorAuth.title")}
           </Title>
-          <Paragraph className="mb-l">{t("twoFactorAuth.subtitle")}</Paragraph>
-          <Switch
-            onChange={handleSwitchChange}
-            checked={isSwitchChecked}
-            uncheckedIcon={false}
-            checkedIcon={false}
-            width={48}
-            height={26}
-            onColor="#0dcd21"
-            offColor="#8C878C"
-            boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
-            handleDiameter={27}
-            activeBoxShadow="none"
-          />
-          <Paragraph className="mb-l">
-            {isSwitchChecked
-              ? t("twoFactorAuth.switch.active.label")
-              : t("twoFactorAuth.switch.deactive.label")}
+          <Paragraph className="mb-l desc">
+            {t("twoFactorAuth.subtitle")}
           </Paragraph>
+          <div className="twoFactorAuth__switch mb-m">
+            <Switch
+              onChange={handleSwitchChange}
+              checked={isSwitchChecked}
+              uncheckedIcon={false}
+              checkedIcon={false}
+              width={48}
+              height={26}
+              onColor="#0dcd21"
+              offColor="#8C878C"
+              boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
+              handleDiameter={27}
+              activeBoxShadow="none"
+            />
+            <Paragraph className="text desc">
+              {isSwitchChecked
+                ? t("twoFactorAuth.switch.active.label")
+                : t("twoFactorAuth.switch.deactive.label")}
+            </Paragraph>
+          </div>
+          {isSwitchChecked && userData.twoFactorAuth.type && (
+            <p className="desc">
+              <strong>{t("twoFactorAuth.switch.type.label")}</strong>{" "}
+              {t(`twoFactorAuth.switch.type.${userData.twoFactorAuth.type}`)}{" "}
+              {userData.twoFactorAuth.type === TWO_FACTOR_TYPES.EMAIL
+                ? `(${userData.email})`
+                : ""}
+            </p>
+          )}
           {overlayActive ? (
             <OverlayWrapper>
               <Overlay

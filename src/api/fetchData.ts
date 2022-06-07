@@ -14,6 +14,7 @@ export const FETCH_METHODS = {
   GET: "GET",
   POST: "POST",
   PUT: "PUT",
+  PATCH: "PATCH",
 };
 
 export const FETCH_ERRORS = {
@@ -26,6 +27,7 @@ export const FETCH_ERRORS = {
   NO_MATCH: "NO_MATCH",
   TIMEOUT: "TIMEOUT",
   UNAUTHORIZED: "UNAUTHORIZED",
+  PRECONDITION_FAILED: "PRECONDITION FAILED",
   X_REASON: "X-Reason",
 };
 

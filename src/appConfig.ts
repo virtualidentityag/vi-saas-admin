@@ -20,6 +20,10 @@ export const tenantPublicEndpoint = `${mainURL}/service/tenant/public/${subdomai
 export const counselorEndpoint = `${mainURL}/service/useradmin/consultants`;
 export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&perPage=10`;
 export const customerEndpoint = `${mainURL}/customers`;
+export const userDataEndpoint = `${mainURL}/service/users/data`;
+export const twoFactorAuth = `${mainURL}/service/users/2fa`;
+export const twoFactorAuthApp = `${mainURL}/service/users/2fa/app`;
+export const twoFactorAuthAppEmail = `${mainURL}/service/users/2fa/email`;
 
 /*
  * routes

@@ -12,6 +12,12 @@ const initialState: UserData = {
   tenantId: null,
   active: true,
   username: "",
+  twoFactorAuth: {
+    isActive: false,
+    qrCode: "",
+    secret: "",
+    type: null,
+  },
 };
 
 // eslint-disable-next-line @typescript-eslint/default-param-last

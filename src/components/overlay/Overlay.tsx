@@ -95,9 +95,8 @@ export function Overlay(props: {
   const handleButtonClick = (buttonFunction: string) => {
     if (buttonFunction === OVERLAY_FUNCTIONS.NEXT_STEP) {
       if (activeOverlay.handleNextStep) {
-        activeOverlay.handleNextStep(() => {
-          setActiveStep(activeStep + 1);
-        });
+        activeOverlay.handleNextStep(() => {});
+        setActiveStep(activeStep + 1);
       } else {
         setActiveStep(activeStep + 1);
       }

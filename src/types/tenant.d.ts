@@ -7,6 +7,7 @@ export interface BasicTenantData {
   startServiceDate?: string; // to-do: show startServiceDate instead of createDate
   updateDate?: string;
   isSuperAdmin: boolean;
+  userRoles: string[];
   licensing?: {
     allowedNumberOfUsers: number | 0;
     videoFeature?: boolean;

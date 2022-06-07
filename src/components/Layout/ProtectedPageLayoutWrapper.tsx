@@ -79,15 +79,20 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                   </NavLink>
                 </li>
 
-                <li key="5" className="menuItem">
-                  <NavLink
-                    to={routePathNames.topics}
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                  >
-                    <FileTextOutlined className="menuIcon" />
-                    <span>{t("topics.title")}</span>
-                  </NavLink>
-                </li>
+                {tenantData.userRoles &&
+                  tenantData.userRoles.some(
+                    (role: string) => role === "topic-admin"
+                  ) && (
+                    <li key="5" className="menuItem">
+                      <NavLink
+                        to={routePathNames.topics}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                      >
+                        <FileTextOutlined className="menuIcon" />
+                        <span>{t("topics.title")}</span>
+                      </NavLink>
+                    </li>
+                  )}
               </>
             ) : (
               <li key="6" className="menuItem">

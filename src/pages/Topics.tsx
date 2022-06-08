@@ -1,14 +1,11 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import routePathNames from "../appConfig";
 import TopicList from "../components/Topic/TopicList";
+import hasUserRole from "../utils/hasUserRole";
 
 function Topics() {
-  const { tenantData } = useSelector((state: any) => state);
-
-  return tenantData.userRoles &&
-    tenantData.userRoles.some((role: string) => role === "topic-admin") ? (
+  return hasUserRole("topic-admin") ? (
     <div>
       <TopicList />
     </div>

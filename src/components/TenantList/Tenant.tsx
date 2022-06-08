@@ -13,6 +13,7 @@ export const defaultTenant: BasicTenantData = {
   subdomain: "",
   createDate: "",
   isSuperAdmin: false,
+  userRoles: [],
   licensing: { allowedNumberOfUsers: 0, videoFeature: false },
   consultingType: "beratung",
   twoFactorAuth: false,

@@ -31,6 +31,8 @@
     "react/react-in-jsx-scope": "off",
     "valid-jsdoc": "off",
     "react/jsx-fragments": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "react/no-array-index-key": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/ban-types": "off",
@@ -45,7 +47,7 @@
   },
   "settings": {
     "react": {
-      "version": "latest"
+      "version": "detect"
     },
     " import/resolver": {
       "node": {

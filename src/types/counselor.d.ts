@@ -9,7 +9,7 @@ export interface CounselorData {
   id: string;
   phone: string;
   agencies: Record<string, any>[];
-  agencyId: string | null;
+  agencyIds: string[];
   username: string;
   key: string;
   formalLanguage: boolean;

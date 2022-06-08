@@ -3,6 +3,12 @@
  */
 export const enum PubSubEvents {
   USER_AUTHORISED,
+  AGENCYLIST_UPDATE,
+  AGENCY_UPDATE,
+  AGENCY_DELETE,
+  TOPICLIST_UPDATE,
+  TOPIC_UPDATE,
+  TOPIC_DELETE,
 }
 
 /**

@@ -3,4 +3,6 @@ export type Status =
   | "CREATED"
   | "ERROR"
   | "IN_DELETION"
+  | "ACTIVE"
+  | "INACTIVE"
   | "null";

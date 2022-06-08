@@ -6,7 +6,9 @@ import {
   SettingOutlined,
   TeamOutlined,
   BankOutlined,
+  ShopOutlined,
   UserOutlined,
+  FileTextOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -17,6 +19,7 @@ import CustomLogoutIcon from "../CustomIcons/Logout";
 import { handleTokenRefresh } from "../../api/auth/auth";
 import logout from "../../api/auth/logout";
 import getLocationVariables from "../../utils/getLocationVariables";
+import hasUserRole from "../../utils/hasUserRole";
 
 const { Content, Sider } = Layout;
 
@@ -45,15 +48,6 @@ function ProtectedPageLayoutWrapper({ children }: any) {
         <div className="logo" />
         <nav className="mainMenu">
           <ul>
-            {/* later..... <li key="1" className="menuItem">
-              <NavLink
-                to="/"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                <DesktopOutlined className="menuIcon" />
-                <span>Dashboard</span>
-              </NavLink>
-            </li> */}
             {!tenantData.isSuperAdmin ? (
               <>
                 <li key="2" className="menuItem">
@@ -75,8 +69,28 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                     <span>{t("counselor.title")}</span>
                   </NavLink>
                 </li>
+                <li key="4" className="menuItem">
+                  <NavLink
+                    to={routePathNames.agency}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    <ShopOutlined className="menuIcon" />
+                    <span>{t("agency")}</span>
+                  </NavLink>
+                </li>
 
-                <li key="5" className="menuItem">
+                {hasUserRole("topic-admin") && (
+                  <li key="5" className="menuItem">
+                    <NavLink
+                      to={routePathNames.topics}
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                      <FileTextOutlined className="menuIcon" />
+                      <span>{t("topics.title")}</span>
+                    </NavLink>
+                  </li>
+                )}
+                <li key="6" className="menuItem">
                   <NavLink
                     to={routePathNames.userProfile}
                     className={({ isActive }) => (isActive ? "active" : "")}
@@ -87,7 +101,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                 </li>
               </>
             ) : (
-              <li key="4" className="menuItem">
+              <li key="6" className="menuItem">
                 <NavLink
                   to={routePathNames.tenants}
                   className={({ isActive }) => (isActive ? "active" : "")}

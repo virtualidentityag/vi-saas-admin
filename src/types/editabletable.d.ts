@@ -1,8 +1,15 @@
 import { Dispatch, SetStateAction } from "react";
 import { CounselorData } from "./counselor";
 import { BasicTenantData } from "./tenant";
+import { BasicTopicData } from "./topic";
+import { AgencyData } from "./agency";
 
-export type EditableData = CounselorData | BasicTenantData;
+export type EditableData =
+  | CounselorData
+  | BasicTenantData
+  | BasicTopicData
+  | AgencyData
+  | undefined;
 
 export default interface EditableTableProps {
   handleBtnAdd: (formData: any) => void;
@@ -17,11 +24,14 @@ export default interface EditableTableProps {
   handlePagination: Dispatch<SetStateAction<number>>;
   page: number;
   allowedNumberOfUsers: number | false;
+  hasSearch?: boolean;
+  handleOnSearch?: (query: string) => void;
+  handleOnSearchClear?: () => void;
 }
 
 export interface EditButtonsProps extends React.HTMLAttributes<HTMLElement> {
   handleEdit: (formData: EditableData) => void;
   handleDelete: (formData: EditableData) => void;
-  record: CounselorData | BasicTenantData;
+  record: CounselorData | AgencyData | BasicTenantData | BasicTopicData;
   isDisabled?: boolean;
 }

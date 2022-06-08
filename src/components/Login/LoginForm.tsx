@@ -12,6 +12,7 @@ import { setTokens } from "../../api/auth/auth";
 import setIsSuperAdmin from "../../utils/setIsSuperAdmin";
 import CustomVerifiedIcon from "../CustomIcons/Verified";
 import { FETCH_ERRORS } from "../../api/fetchData";
+import retrieveUserRoles from "../../utils/retrieveUserRoles";
 
 function LoginForm() {
   const { t } = useTranslation();
@@ -39,6 +40,7 @@ function LoginForm() {
         return response;
       })
       .then((response) => {
+        retrieveUserRoles(response.access_token);
         return setIsSuperAdmin(response.access_token);
       })
       .then((isSuperAdmin) => {

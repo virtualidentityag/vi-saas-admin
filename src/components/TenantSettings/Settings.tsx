@@ -32,8 +32,16 @@ function Settings() {
   const [form] = Form.useForm();
   const { t } = useTranslation();
   const { tenantData } = useSelector((state: any) => state);
-  const { id, theming, name, subdomain, content, licensing, isSuperAdmin } =
-    tenantData;
+  const {
+    id,
+    theming,
+    name,
+    subdomain,
+    content,
+    licensing,
+    isSuperAdmin,
+    userRoles,
+  } = tenantData;
   const { logo, favicon, primaryColor, secondaryColor } = theming;
   const { impressum, claim, privacy, termsAndConditions } = content;
   const { allowedNumberOfUsers } = licensing;
@@ -73,6 +81,7 @@ function Settings() {
       subdomain,
       updateDate: moment().format(), // ISO format
       isSuperAdmin,
+      userRoles,
       licensing: {
         allowedNumberOfUsers: allowedNumberOfUsers || 3,
       },

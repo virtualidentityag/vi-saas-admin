@@ -12,6 +12,7 @@ const initialState: TenantData = {
     allowedNumberOfUsers: 3,
   },
   isSuperAdmin: false,
+  userRoles: [],
   theming: {
     logo: "",
     favicon: "",

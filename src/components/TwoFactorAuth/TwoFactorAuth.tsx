@@ -424,7 +424,7 @@ function TwoFactorAuth() {
       if (!isRequestInProgress) {
         setIsRequestInProgress(true);
         setOtpInputInfo("");
-        if (apiCall && apiData) {
+        if (apiData) {
           apiCall(apiData)
             .then(() => {
               if (twoFactorType === TWO_FACTOR_TYPES.APP) {
@@ -435,7 +435,6 @@ function TwoFactorAuth() {
                 if (triggerNextStep) triggerNextStep();
               }
               setIsRequestInProgress(false);
-              updateUserData();
             })
             .catch((error: any) => {
               if (error.message === FETCH_ERRORS.BAD_REQUEST) {
@@ -448,6 +447,7 @@ function TwoFactorAuth() {
                 setIsSwitchChecked(false);
               }
             });
+          updateUserData();
         }
       }
     },

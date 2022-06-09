@@ -100,10 +100,10 @@ function TwoFactorAuth() {
     } else {
       setIsSwitchChecked(false);
       apiDeleteTwoFactorAuth()
-        .then((response) => {
+        .then(() => {
           updateUserData();
         })
-        .catch((error) => {
+        .catch(() => {
           setIsSwitchChecked(true);
         });
     }

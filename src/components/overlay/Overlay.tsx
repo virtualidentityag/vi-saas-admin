@@ -1,4 +1,5 @@
 /* eslint-disable  @typescript-eslint/ban-types */
+/* eslint-disable  @typescript-eslint/no-non-null-assertion */
 import * as React from "react";
 import { useEffect, useState } from "react";
 import * as ReactDOM from "react-dom";

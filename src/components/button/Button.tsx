@@ -1,4 +1,5 @@
 /* eslint-disable  @typescript-eslint/ban-types */
+/* eslint-disable  @typescript-eslint/no-non-null-assertion */
 import { useEffect } from "react";
 
 export const BUTTON_TYPES = {

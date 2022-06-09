@@ -11,8 +11,8 @@ export const DEFAULT_ORDER = "ASC";
  * @return {Promise}
  */
 const getCounselorSearchData = (state: TableState, query: string) => {
-  const { sortBy } = state || DEFAULT_SORT;
-  const { order } = state || DEFAULT_ORDER;
+  const { sortBy }: any = state || DEFAULT_SORT;
+  const { order }: any = state || DEFAULT_ORDER;
 
   let searchQuery = query;
 

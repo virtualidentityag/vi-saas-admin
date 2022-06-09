@@ -21,7 +21,7 @@ const invalidateCookies = (withRedirect = true, redirectUrl?: string) => {
   }
 };
 
-const logout = (withRedirect = true, redirectUrl?: string) => {
+const logout = (withRedirect = true, redirectUrl?: string): any => {
   if (isRequestInProgress) {
     return null;
   }

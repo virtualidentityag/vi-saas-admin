@@ -46,7 +46,11 @@ export function Text(props: TextProps) {
           {getLabelContent(props.labelType).text}
         </span>
       )}
-      <span>{props.text}</span>
+      <span
+        dangerouslySetInnerHTML={{
+          __html: props.text,
+        }}
+      />
     </p>
   );
 }

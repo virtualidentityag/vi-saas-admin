@@ -1,5 +1,4 @@
 /* eslint-disable  @typescript-eslint/ban-types */
-/* eslint-disable  @typescript-eslint/no-non-null-assertion */
 import { useEffect } from "react";
 
 export const BUTTON_TYPES = {
@@ -40,7 +39,7 @@ export function Button(props: ButtonProps) {
   const handleButtonTimer = () => {
     if (item.type === BUTTON_TYPES.AUTO_CLOSE) {
       timeoutID = window.setTimeout(() => {
-        props.buttonHandle!(item.function);
+        props.buttonHandle(item.function);
       }, OVERLAY_RESET_TIME);
     }
   };

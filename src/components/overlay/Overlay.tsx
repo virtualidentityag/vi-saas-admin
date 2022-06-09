@@ -1,5 +1,4 @@
 /* eslint-disable  @typescript-eslint/ban-types */
-/* eslint-disable  @typescript-eslint/no-non-null-assertion */
 import * as React from "react";
 import { useEffect, useState } from "react";
 import * as ReactDOM from "react-dom";
@@ -68,14 +67,14 @@ export function Overlay(props: {
   const [activeOverlay, setActiveOverlay] = useState<OverlayItem>(
     props.item
       ? { ...props.item, ...props.handleOverlay }
-      : props.items![activeStep]
+      : props.items?.[activeStep]
   );
 
   useEffect(() => {
     setActiveOverlay(
       props.item
         ? { ...props.item, ...props.handleOverlay }
-        : props.items![activeStep]
+        : props.items?.[activeStep]
     );
   }, [props.item, props.items]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -130,7 +129,7 @@ export function Overlay(props: {
       className={clsx(
         props.className,
         "overlay",
-        props.items!.length > 0 && "overlay--stepped",
+        props.items?.length > 0 && "overlay--stepped",
         activeOverlay.svg && "overlay--illustration"
       )}
     >
@@ -139,7 +138,7 @@ export function Overlay(props: {
         {props.handleOverlayClose && (
           <XIcon
             className="overlay__closeIcon"
-            onClick={(e) => props.handleOverlayClose!(e)}
+            onClick={(e) => props.handleOverlayClose(e)}
           />
         )}
         {props.items?.some((item) => item.step) && (
@@ -187,7 +186,7 @@ export function Overlay(props: {
         {activeOverlay.headline && (
           <Headline
             semanticLevel="3"
-            text={getOverlayHeadline()!}
+            text={getOverlayHeadline()}
             styleLevel={activeOverlay.headlineStyleLevel}
           />
         )}

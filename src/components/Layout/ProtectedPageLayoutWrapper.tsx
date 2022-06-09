@@ -5,9 +5,9 @@ import {
   // DesktopOutlined,
   SettingOutlined,
   TeamOutlined,
-  ShopOutlined,
-  // UserOutlined,
   BankOutlined,
+  ShopOutlined,
+  UserOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
@@ -69,7 +69,6 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                     <span>{t("counselor.title")}</span>
                   </NavLink>
                 </li>
-
                 <li key="4" className="menuItem">
                   <NavLink
                     to={routePathNames.agency}
@@ -91,6 +90,15 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                     </NavLink>
                   </li>
                 )}
+                <li key="6" className="menuItem">
+                  <NavLink
+                    to={routePathNames.userProfile}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    <UserOutlined className="menuIcon" />
+                    <span>{t("profile.title")}</span>
+                  </NavLink>
+                </li>
               </>
             ) : (
               <li key="6" className="menuItem">
@@ -103,18 +111,6 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                 </NavLink>
               </li>
             )}
-
-            {/* later.....
-            <li key="5" className="menuItem">
-              <NavLink
-                to={routePathNames.userProfile}
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                <UserOutlined className="menuIcon" />
-                <span>{t("profile.title")}</span>
-              </NavLink>
-            </li>
-           */}
 
             <li key="6" className="menuItem">
               <button onClick={handleLogout} type="button">

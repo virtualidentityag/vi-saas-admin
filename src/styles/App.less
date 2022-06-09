@@ -3,9 +3,37 @@
 @import "variables/index.less";
 @import "components/index.less";
 @import "util/index.less";
+@import "./Settings.less";
+
+html,
+body {
+	height: 100%;
+}
+
+html {
+	box-sizing: border-box;
+	text-size-adjust: 100%;
+}
+
+
+body {
+	font-family: @body-font-family;
+	font-size: @body-font-size;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	line-height: @body-line-height;
+}
 
 .root {
   overflow: hidden;
+}
+
+.app {
+	height: 100%;
+
+	&--blur {
+		filter: blur(5px);
+	}
 }
 
 h1 {

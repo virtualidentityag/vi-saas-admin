@@ -9,6 +9,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "strictNullChecks": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -19,6 +20,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+		"noImplicitAny": false,
+		"suppressImplicitAnyIndexErrors": true,
+		"downlevelIteration": true,
     "types": ["cypress"]
   },
   "include": [

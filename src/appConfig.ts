@@ -32,6 +32,10 @@ export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&pe
 export const topicEndpoint = `${mainURL}/service/topic`;
 export const consultingTypeEndpoint = `${mainURL}/service/consultingtypes`;
 export const customerEndpoint = `${mainURL}/customers`;
+export const userDataEndpoint = `${mainURL}/service/users/data`;
+export const twoFactorAuth = `${mainURL}/service/users/2fa`;
+export const twoFactorAuthApp = `${mainURL}/service/users/2fa/app`;
+export const twoFactorAuthAppEmail = `${mainURL}/service/users/2fa/email`;
 export const usersConsultantsSearchEndpoint = `${mainURL}/service/users/consultants/search`;
 export const consultantsForAgencyEndpoint = `${mainURL}/service/useradmin/agencies/{agencyId}/consultants`;
 

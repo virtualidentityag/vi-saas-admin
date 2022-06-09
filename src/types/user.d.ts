@@ -9,4 +9,10 @@ export interface UserData {
   agency?: string;
   username: string;
   tenantId: number | null;
+  twoFactorAuth: {
+    isActive: boolean;
+    qrCode: string;
+    secret: string;
+    type: string | null;
+  };
 }

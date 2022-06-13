@@ -46,7 +46,13 @@ export function Text(props: TextProps) {
           {getLabelContent(props.labelType).text}
         </span>
       )}
-      <span>{props.text}</span>
+      <span
+        /* eslint-disable */
+        dangerouslySetInnerHTML={{
+          __html: props.text,
+        }}
+        /* eslint-enable */
+      />
     </p>
   );
 }

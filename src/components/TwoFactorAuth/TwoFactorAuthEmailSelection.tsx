@@ -1,12 +1,19 @@
 import { useTranslation } from "react-i18next";
 import { Text } from "../text/Text";
-import { InputField } from "../inputField/InputField";
+import { InputField, InputFieldItem } from "../inputField/InputField";
+import { UserData } from "../../types/user";
+
+interface TwoFactorAuthEmailSelectionProps {
+  userData: UserData;
+  emailInputItem: InputFieldItem;
+  handleEmailChange: Function;
+}
 
 export function TwoFactorAuthEmailSelection({
   userData,
   emailInputItem,
   handleEmailChange,
-}) {
+}: TwoFactorAuthEmailSelectionProps) {
   const { t } = useTranslation();
   return (
     <div className="twoFactorAuth__emailSelection">

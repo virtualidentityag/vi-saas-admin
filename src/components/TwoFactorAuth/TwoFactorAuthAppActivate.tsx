@@ -1,7 +1,14 @@
 import { useTranslation } from "react-i18next";
+import { UserData } from "../../types/user";
 import { Text } from "../text/Text";
 
-export function TwoFactorAuthAppActivate({ userData }) {
+interface TwoFactorAuthAppActivateProps {
+  userData: UserData;
+}
+
+export function TwoFactorAuthAppActivate({
+  userData,
+}: TwoFactorAuthAppActivateProps) {
   const { t } = useTranslation();
   return (
     <div className="twoFactorAuth__connect">

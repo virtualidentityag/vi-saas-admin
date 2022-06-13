@@ -4,7 +4,15 @@ import { Tooltip } from "../tooltip/Tooltip";
 import { ReactComponent as InfoIcon } from "../../resources/img/svg/i.svg";
 import { TwoFactorType } from "../../enums/TwoFactorType";
 
-export function TwoFactorAuthTypeButtons({ twoFactorType, setTwoFactorType }) {
+interface TwoFactorAuthTypeButtonsProps {
+  twoFactorType: TwoFactorType;
+  setTwoFactorType: Function;
+}
+
+export function TwoFactorAuthTypeButtons({
+  twoFactorType,
+  setTwoFactorType,
+}: TwoFactorAuthTypeButtonsProps) {
   const { t } = useTranslation();
   return (
     <div className="twoFactorAuth__selectType">

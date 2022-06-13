@@ -33,7 +33,7 @@ import { AuthenticatorTools } from "./TwoFactorAuthTools";
 import { TwoFactorAuthAppActivate } from "./TwoFactorAuthAppActivate";
 import { TwoFactorAuthEmailSelection } from "./TwoFactorAuthEmailSelection";
 import { isStringValidEmail } from "../../utils/validateEmailString";
-import { TwoFactorAutoEmailCodeInput } from "./TwoFactorAuthEmailCodeInput";
+import { TwoFactorAuthEmailCodeInput } from "./TwoFactorAuthEmailCodeInput";
 import { TwoFactorAuthEmailConfirmation } from "./TwoFactorAuthEmailConfirmation";
 
 const { Paragraph } = Typography;
@@ -292,7 +292,7 @@ function TwoFactorAuth() {
           "twoFactorAuth.activate.email.step3.copy.2"
         )}`,
         nestedComponent: (
-          <TwoFactorAutoEmailCodeInput
+          <TwoFactorAuthEmailCodeInput
             otpInputItem={otpInputItem}
             handleOtpChange={(e) => handleOtpChange(e)}
             sendEmailActivationCode={sendEmailActivationCode}

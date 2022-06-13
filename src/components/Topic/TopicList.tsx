@@ -5,20 +5,22 @@ import Title from "antd/es/typography/Title";
 import { Button, Table } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
+import { ColumnsType } from "antd/lib/table";
+import { isDisabled } from "@testing-library/user-event/dist/utils";
 import TopicFormModal from "./TopicFormModal";
 
-// import EditButtons from "../EditableTable/EditButtons";
 import getTopicData from "../../api/topic/getTopicData";
 import { TopicData } from "../../types/topic";
-import { Status } from "../../types/status";
 import StatusIcons from "../EditableTable/StatusIcons";
 import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
 import TopicDeletionModal from "./TopicDeletionModal";
+import EditButtons from "../EditableTable/EditButtons";
 
 const emptyTopicModel: TopicData = {
   id: null,
   name: "",
   description: "",
+  internalIdentifier: null,
   status: undefined,
 };
 
@@ -36,41 +38,52 @@ function TopicList() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  function defineTableColumns(): any {
+  function defineTableColumns(): ColumnsType<TopicData> {
     return [
       {
         title: t("topic.name"),
         dataIndex: "name",
         key: "name",
-        sorter: (a: TopicData, b: TopicData) => a.name.localeCompare(b.name),
+        sorter: (a, b) => a.name.localeCompare(b.name),
         width: 150,
         ellipsis: true,
         fixed: "left",
-        editable: true,
       },
       {
         title: t("topic.description"),
         dataIndex: "description",
         key: "description",
-        sorter: (a: TopicData, b: TopicData) =>
-          a.description.localeCompare(b.description),
-        width: 500,
+        sorter: (a, b) => a.description.localeCompare(b.description),
+        width: 350,
         ellipsis: true,
         fixed: "left",
-        editable: true,
+      },
+      {
+        title: t("topic.internalIdentifier"),
+        dataIndex: "internalIdentifier",
+        key: "internalIdentifier",
+        sorter: (a, b) =>
+          (a.internalIdentifier || "a").localeCompare(
+            b.internalIdentifier || "b"
+          ),
+        width: 150,
+        ellipsis: true,
+        fixed: "left",
       },
       {
         width: 80,
         title: t("status"),
         dataIndex: "status",
         key: "status",
+        sorter: (a, b) => (a.status > b.status ? 1 : -1),
         ellipsis: true,
-        render: (status: Status) => {
-          return <StatusIcons status={status} />;
+        render: (status: string) => {
+          return (
+            <StatusIcons status={status === "ACTIVE" ? "ACTIVE" : "INACTIVE"} />
+          );
         },
       },
-      // editing and deletion are not part of the current sprint
-      /* {
+      {
         width: 88,
         title: "",
         key: "edit",
@@ -83,16 +96,14 @@ function TopicList() {
                   tableStateHolder = tableState;
                   pubsub.publishEvent(PubSubEvents.TOPIC_UPDATE, record);
                 }}
-                handleDelete={() => {
-                  tableStateHolder = tableState;
-                  pubsub.publishEvent(PubSubEvents.TOPIC_DELETE, record);
-                }}
+                handleDelete={isDisabled}
                 record={record}
+                hide={["delete"]}
               />
             </div>
           );
         },
-      }, */
+      },
     ];
   }
 
@@ -167,6 +178,10 @@ function TopicList() {
         tableLayout="fixed"
         onChange={tableChangeHandler}
         pagination={pagination}
+        rowKey="name"
+        style={{
+          width: "100%",
+        }}
       />
 
       <TopicFormModal />

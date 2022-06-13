@@ -2,20 +2,18 @@ import React, { useState } from "react";
 import { Form, Input, Button, message } from "antd";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
-import getAccessToken from "../../api/auth/getAccessToken";
-
-import getTenantData from "../../api/tenant/getTenantData";
+import { useNavigate } from "react-router-dom";
 import CustomLockIcon from "../CustomIcons/Lock";
 import CustomPersonIcon from "../CustomIcons/Person";
 import routePathNames from "../../appConfig";
-import { setTokens } from "../../api/auth/auth";
-import setIsSuperAdmin from "../../utils/setIsSuperAdmin";
 import CustomVerifiedIcon from "../CustomIcons/Verified";
 import { FETCH_ERRORS } from "../../api/fetchData";
-import retrieveUserRoles from "../../utils/retrieveUserRoles";
+import { useLoginMutation } from "../../hooks/useLoginMutation.hook";
 
 function LoginForm() {
+  const navigate = useNavigate();
   const { t } = useTranslation();
+  const { mutate: login } = useLoginMutation();
   const [postLoading, setPostLoading] = useState(false);
   const [otpDisabled, setOtpDisabled] = useState(true);
 
@@ -23,42 +21,20 @@ function LoginForm() {
   const onFinish = async (values: any) => {
     setPostLoading(true);
 
-    return getAccessToken({
-      username: values.username,
-      password: values.password,
-      otp: values.otp,
-    })
-      .then((response) => {
-        // store the access token data
-        setTokens(
-          response.access_token,
-          response.expires_in,
-          response.refresh_token,
-          response.refresh_expires_in
-        );
-
-        return response;
-      })
-      .then((response) => {
-        retrieveUserRoles(response.access_token);
-        return setIsSuperAdmin(response.access_token);
-      })
-      .then((isSuperAdmin) => {
-        if (!isSuperAdmin) {
-          getTenantData();
-        }
-        return isSuperAdmin;
-      })
-      .catch((data) => {
+    login(values, {
+      onSuccess: () => {
+        setPostLoading(false);
+        navigate("/admin");
+      },
+      onError: (data) => {
         if (data === FETCH_ERRORS.BAD_REQUEST) {
           setOtpDisabled(false);
         } else {
           message.error(t("message.error.auth.login"));
         }
-      })
-      .finally(() => {
         setPostLoading(false);
-      });
+      },
+    });
   };
 
   return (

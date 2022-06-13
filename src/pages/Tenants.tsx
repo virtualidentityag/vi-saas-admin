@@ -1,13 +1,14 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import TenantsList from "../components/TenantList/TenantsList";
 import routePathNames from "../appConfig";
+import { useUserRoles } from "../hooks/useUserRoles.hook";
+import { UserRole } from "../enums/UserRole";
 
 function Tenants() {
-  const { isSuperAdmin } = useSelector((state: any) => state.tenantData);
+  const [, hasRole] = useUserRoles();
 
-  return !isSuperAdmin ? (
+  return !hasRole(UserRole.TenantAdmin) ? (
     <Navigate to={routePathNames.themeSettings} />
   ) : (
     <div>

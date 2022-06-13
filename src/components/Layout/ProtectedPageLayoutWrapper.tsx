@@ -11,7 +11,6 @@ import {
   FileTextOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import routePathNames from "../../appConfig";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
@@ -19,13 +18,16 @@ import CustomLogoutIcon from "../CustomIcons/Logout";
 import { handleTokenRefresh } from "../../api/auth/auth";
 import logout from "../../api/auth/logout";
 import getLocationVariables from "../../utils/getLocationVariables";
-import hasUserRole from "../../utils/hasUserRole";
+import { useUserRoles } from "../../hooks/useUserRoles.hook";
+import { useTenantData } from "../../hooks/useTenantData.hook";
+import { UserRole } from "../../enums/UserRole";
 
 const { Content, Sider } = Layout;
 
 function ProtectedPageLayoutWrapper({ children }: any) {
   const { subdomain } = getLocationVariables();
-  const { tenantData } = useSelector((state: any) => state);
+  const [, hasRole] = useUserRoles();
+  const { data: tenantData } = useTenantData();
   const { t } = useTranslation();
   const handleLogout = () => {
     logout(true);
@@ -48,7 +50,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
         <div className="logo" />
         <nav className="mainMenu">
           <ul>
-            {!tenantData.isSuperAdmin ? (
+            {!hasRole(UserRole.TenantAdmin) ? (
               <>
                 <li key="2" className="menuItem">
                   <NavLink
@@ -79,7 +81,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                   </NavLink>
                 </li>
 
-                {hasUserRole("topic-admin") && (
+                {hasRole(UserRole.TopicAdmin) && (
                   <li key="5" className="menuItem">
                     <NavLink
                       to={routePathNames.topics}
@@ -112,7 +114,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
               </li>
             )}
 
-            <li key="6" className="menuItem">
+            <li key="999" className="menuItem">
               <button onClick={handleLogout} type="button">
                 <CustomLogoutIcon className="menuIcon" />
                 <span>{t("logout")}</span>
@@ -126,7 +128,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
         <Content className="content">
           <div className="contentInner">{children}</div>
         </Content>
-        {!tenantData.isSuperAdmin && <SiteFooter />}
+        {!hasRole(UserRole.TenantAdmin) && <SiteFooter />}
       </Layout>
     </Layout>
   );

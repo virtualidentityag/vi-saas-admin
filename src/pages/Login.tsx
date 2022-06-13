@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
-import { useSelector } from "react-redux";
 import { Col, Row } from "antd";
 import { useTranslation } from "react-i18next";
 import Stage from "../components/Login/Stage";
@@ -10,6 +9,9 @@ import LoginForm from "../components/Login/LoginForm";
 import routePathNames from "../appConfig";
 import { getValueFromCookie } from "../api/auth/accessSessionCookie";
 import { getTokenExpiryFromLocalStorage } from "../api/auth/accessSessionLocalStorage";
+import { useUserRoles } from "../hooks/useUserRoles.hook";
+import { usePublicTenantData } from "../hooks/usePublicTenantData.hook";
+import { UserRole } from "../enums/UserRole";
 
 /**
  * login component
@@ -20,14 +22,14 @@ function Login() {
   const accessToken = getValueFromCookie("keycloak");
   const currentTime = new Date().getTime();
   const tokenExpiry = getTokenExpiryFromLocalStorage();
+  const { data: tenantData } = usePublicTenantData();
+  const [, hasRole] = useUserRoles();
   const accessTokenValidInMs =
     tokenExpiry.accessTokenValidUntilTime - currentTime;
 
   const refreshTokenValidInMs =
     tokenExpiry.refreshTokenValidUntilTime - currentTime;
-  const { id: tenantId, isSuperAdmin } = useSelector(
-    (state: any) => state.tenantData
-  );
+
   const [redirectUrl, setRedirectUrl] = useState("");
   const { t } = useTranslation();
   /**
@@ -36,7 +38,7 @@ function Login() {
    */
   useEffect(() => {
     if (
-      isSuperAdmin &&
+      hasRole(UserRole.TenantAdmin) &&
       accessToken &&
       refreshTokenValidInMs > 0 &&
       accessTokenValidInMs > 0
@@ -46,7 +48,7 @@ function Login() {
       accessToken &&
       refreshTokenValidInMs > 0 &&
       accessTokenValidInMs > 0 &&
-      tenantId
+      tenantData
     ) {
       setRedirectUrl(routePathNames.themeSettings);
     }
@@ -54,9 +56,9 @@ function Login() {
     accessToken,
     accessTokenValidInMs,
     refreshTokenValidInMs,
-    tenantId,
+    tenantData,
     t,
-    isSuperAdmin,
+    hasRole(UserRole.TenantAdmin),
   ]);
 
   return redirectUrl ? (

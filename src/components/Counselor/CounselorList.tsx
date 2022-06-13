@@ -1,11 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import ReactDOM from "react-dom";
-
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import { message, Modal, Table } from "antd";
-
-import { useSelector } from "react-redux";
 import getCounselorSearchData, {
   DEFAULT_ORDER,
   DEFAULT_SORT,
@@ -27,6 +24,7 @@ import SearchInput from "../SearchInput/SearchInput";
 import CustomChevronDownIcon from "../CustomIcons/ChevronDown";
 import CustomChevronUpIcon from "../CustomIcons/ChevronUp";
 import putAgenciesForCounselor from "../../api/agency/putAgenciesForCounselor";
+import { useTenantData } from "../../hooks/useTenantData.hook";
 
 enum OpenStatus {
   OPEN,
@@ -55,7 +53,7 @@ function CounselorList() {
     CounselorData | undefined
   >(undefined);
 
-  const { tenantData } = useSelector((state: any) => state);
+  const { data: tenantData } = useTenantData();
   const { licensing } = tenantData;
   const { allowedNumberOfUsers } = licensing;
 

@@ -2,10 +2,13 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import routePathNames from "../appConfig";
 import TopicList from "../components/Topic/TopicList";
-import hasUserRole from "../utils/hasUserRole";
+import { UserRole } from "../enums/UserRole";
+import { useUserRoles } from "../hooks/useUserRoles.hook";
 
 function Topics() {
-  return hasUserRole("topic-admin") ? (
+  const [, hasRole] = useUserRoles();
+
+  return hasRole(UserRole.TopicAdmin) ? (
     <div>
       <TopicList />
     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./styles/App.less";
 import { Route, Routes, useLocation, useNavigate } from "react-router";
 import ProtectedPageLayoutWrapper from "./components/Layout/ProtectedPageLayoutWrapper";
@@ -9,14 +9,12 @@ import Counselors from "./pages/Counselors";
 import Topics from "./pages/Topics";
 import UserProfile from "./pages/UserProfile";
 import Tenants from "./pages/Tenants";
-import pubsub, { PubSubEvents } from "./state/pubsub/PubSub";
 import Initialisation from "./components/Layout/Initialisation";
 import Agencies from "./pages/Agencies";
+import { useTenantData } from "./hooks/useTenantData.hook";
 
 function App() {
-  const [renderAppComponent, setRenderAppComponent] = useState(false);
-  pubsub.subscribe(PubSubEvents.USER_AUTHORISED, setRenderAppComponent);
-
+  const { isLoading } = useTenantData();
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
@@ -28,7 +26,9 @@ function App() {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return renderAppComponent ? (
+  return isLoading ? (
+    <Initialisation />
+  ) : (
     <ProtectedPageLayoutWrapper>
       <Routes>
         {/* later <Route path="/" element={<Dashboard />} /> */}
@@ -43,8 +43,6 @@ function App() {
         <Route path={routePathNames.tenants} element={<Tenants />} />
       </Routes>
     </ProtectedPageLayoutWrapper>
-  ) : (
-    <Initialisation />
   );
 }
 

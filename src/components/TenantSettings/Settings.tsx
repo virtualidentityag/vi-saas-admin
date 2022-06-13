@@ -9,7 +9,6 @@ import {
   Typography,
 } from "antd";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
@@ -20,10 +19,11 @@ import RichTextEditor from "../RichText/RichTextEditor";
 // import getComplentaryColor from "../../utils/getComplentaryColor";
 
 import CustomInfoIcon from "../CustomIcons/Info";
-import editTenantData from "../../api/tenant/editTenantData";
 import FileUploader from "../FileUploader/FileUploader";
 import decodeHTML from "../../utils/decodeHTML";
 import { TenantData } from "../../types/tenant";
+import { useTenantData } from "../../hooks/useTenantData.hook";
+import { useTenantDataMutation } from "../../hooks/useTenantDataMutation.hook";
 
 const { Item } = Form;
 const { Paragraph } = Typography;
@@ -31,7 +31,8 @@ const { Paragraph } = Typography;
 function Settings() {
   const [form] = Form.useForm();
   const { t } = useTranslation();
-  const { tenantData } = useSelector((state: any) => state);
+  const { mutate: updateTenant } = useTenantDataMutation();
+  const { data: tenantData } = useTenantData();
   const {
     id,
     theming,
@@ -101,18 +102,15 @@ function Settings() {
         claim: values.claim.toString("html"),
       },
     };
-
-    editTenantData(changedTenantData)
-      .then(() => {
-        setIsLoading(false);
+    updateTenant(changedTenantData, {
+      onSuccess: () => {
         message.success({
           content: t("message.success.setting.update"),
           duration: 3,
         });
-      })
-      .catch(() => {
-        setIsLoading(false);
-      });
+      },
+      onSettled: () => setIsLoading(false),
+    });
   };
 
   const onFinishFailed = () => {

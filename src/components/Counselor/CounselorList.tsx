@@ -25,6 +25,7 @@ import CustomChevronDownIcon from "../CustomIcons/ChevronDown";
 import CustomChevronUpIcon from "../CustomIcons/ChevronUp";
 import putAgenciesForCounselor from "../../api/agency/putAgenciesForCounselor";
 import { useTenantData } from "../../hooks/useTenantData.hook";
+import ResizableTitle from "../Resizable/Resizable";
 
 enum OpenStatus {
   OPEN,
@@ -211,7 +212,7 @@ function CounselorList() {
     );
   };
 
-  const columns: any[] = [
+  const columnsData: any[] = [
     {
       title: "",
       dataIndex: "openStatus",
@@ -246,6 +247,7 @@ function CounselorList() {
       ellipsis: true,
       fixed: "left",
       editable: true,
+      className: "counselorList__column",
     },
     {
       title: t("lastname"),
@@ -257,6 +259,7 @@ function CounselorList() {
       ellipsis: true,
       fixed: "left",
       editable: true,
+      className: "counselorList__column",
     },
 
     {
@@ -333,6 +336,8 @@ function CounselorList() {
     },
   ];
 
+  const [columns, setColumns] = useState(columnsData);
+
   const handleTableAction = (pagination: any, filters: any, sorter: any) => {
     if (sorter.field) {
       const sortBy = sorter.field.toUpperCase();
@@ -353,6 +358,22 @@ function CounselorList() {
     current: tableState.current,
     pageSize: 10,
   };
+
+  const handleResize =
+    (index) =>
+    (_, { size }) => {
+      const newColumns = [...columns];
+      newColumns[index] = { ...newColumns[index], width: size.width };
+      setColumns(newColumns);
+    };
+
+  const mergeColumns = columns.map((col, index) => ({
+    ...col,
+    onHeaderCell: (column) => ({
+      width: column.width,
+      onResize: handleResize(index),
+    }),
+  }));
 
   useEffect(() => {
     setIsLoading(true);
@@ -392,7 +413,7 @@ function CounselorList() {
         loading={isLoading}
         className="counselorList editableTable"
         dataSource={counselors}
-        columns={columns}
+        columns={mergeColumns}
         scroll={{
           x: "max-content",
           y: "100%",
@@ -401,6 +422,11 @@ function CounselorList() {
         tableLayout="fixed"
         onChange={handleTableAction}
         pagination={pagination}
+        components={{
+          header: {
+            cell: ResizableTitle,
+          },
+        }}
       />
 
       <Modal

@@ -9,6 +9,7 @@ import routePathNames from "../../appConfig";
 import CustomVerifiedIcon from "../CustomIcons/Verified";
 import { FETCH_ERRORS } from "../../api/fetchData";
 import { useLoginMutation } from "../../hooks/useLoginMutation.hook";
+import { TwoFactorType } from "../../enums/TwoFactorType";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ function LoginForm() {
   const { mutate: login } = useLoginMutation();
   const [postLoading, setPostLoading] = useState(false);
   const [otpDisabled, setOtpDisabled] = useState(true);
+  const [twoFactorType, setTwoFactorType] = useState(TwoFactorType.None);
 
   // Function gets fired on Form Submit
   const onFinish = async (values: any) => {
@@ -26,9 +28,10 @@ function LoginForm() {
         setPostLoading(false);
         navigate("/admin");
       },
-      onError: (data) => {
-        if (data === FETCH_ERRORS.BAD_REQUEST) {
+      onError: (error) => {
+        if (error.message === FETCH_ERRORS.BAD_REQUEST) {
           setOtpDisabled(false);
+          setTwoFactorType(error.options.data.otpType);
         } else {
           message.error(t("message.error.auth.login"));
         }
@@ -102,7 +105,7 @@ function LoginForm() {
             { required: !otpDisabled, message: t("message.form.login.otp") },
           ]}
           hidden={otpDisabled}
-          extra={t("message.form.login.otp.extra")}
+          extra={t(`message.form.login.otp.${twoFactorType}`)}
         >
           <Input placeholder={t("otp")} />
         </Form.Item>

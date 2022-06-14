@@ -34,4 +34,5 @@ export interface EditButtonsProps extends React.HTMLAttributes<HTMLElement> {
   handleDelete: (formData: EditableData) => void;
   record: CounselorData | AgencyData | BasicTenantData | BasicTopicData;
   isDisabled?: boolean;
+  hide?: string[];
 }

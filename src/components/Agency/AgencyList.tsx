@@ -15,8 +15,7 @@ import { Status } from "../../types/status";
 import StatusIcons from "../EditableTable/StatusIcons";
 import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
 import AgencyDeletionModal from "./AgencyDeletionModal";
-
-import agencyListStyles from "./AgencyList.module.css";
+import ResizableTitle from "../Resizable/Resizable";
 
 const emptyAgencyModel: AgencyData = {
   id: null,
@@ -55,6 +54,7 @@ function AgencyList() {
         width: 150,
         ellipsis: true,
         fixed: "left",
+        className: "agencyList__column",
       },
       {
         title: t("agency.description"),
@@ -64,7 +64,7 @@ function AgencyList() {
         width: 200,
         ellipsis: true,
         fixed: "left",
-        className: agencyListStyles.agencyDescription,
+        className: "agencyList__column",
       },
       {
         title: t("agency.postcode"),
@@ -132,6 +132,8 @@ function AgencyList() {
     ];
   }
 
+  const [columns, setColumns] = useState(defineTableColumns());
+
   const reloadAgencyList = () => {
     setIsLoading(true);
     getAgencyData(tableState).then((result) => {
@@ -174,6 +176,22 @@ function AgencyList() {
     pageSize: 10,
   };
 
+  const handleResize =
+    (index) =>
+    (_, { size }) => {
+      const newColumns = [...columns];
+      newColumns[index] = { ...newColumns[index], width: size.width };
+      setColumns(newColumns);
+    };
+
+  const mergeColumns = columns.map((col, index) => ({
+    ...col,
+    onHeaderCell: (column) => ({
+      width: column.width,
+      onResize: handleResize(index),
+    }),
+  }));
+
   return (
     <>
       <Title level={3}>{t("agency")}</Title>
@@ -193,9 +211,9 @@ function AgencyList() {
 
       <Table
         loading={isLoading}
-        className="editableTable"
+        className="agencyList editableTable"
         dataSource={agencies}
-        columns={defineTableColumns()}
+        columns={mergeColumns}
         scroll={{
           x: "max-content",
           y: "100%",
@@ -207,6 +225,11 @@ function AgencyList() {
         rowKey="name"
         style={{
           width: "100%",
+        }}
+        components={{
+          header: {
+            cell: ResizableTitle,
+          },
         }}
       />
 

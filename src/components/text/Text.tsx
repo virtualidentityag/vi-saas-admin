@@ -6,7 +6,7 @@ export type TextTypeOptions =
   | "divider";
 
 export interface TextProps {
-  text: string;
+  text: string | JSX.Element;
   labelType?: LabelTypes;
   className?: string;
   type: TextTypeOptions;

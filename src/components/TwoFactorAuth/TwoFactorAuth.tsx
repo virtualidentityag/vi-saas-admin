@@ -11,24 +11,16 @@ import {
   Overlay,
 } from "../overlay/Overlay";
 import { BUTTON_TYPES } from "../button/Button";
-import { RadioButton } from "../radioButton/RadioButton";
-import { Tooltip } from "../tooltip/Tooltip";
-import { Text } from "../text/Text";
 import {
   InputField,
   InputFieldItem,
   InputFieldLabelState,
 } from "../inputField/InputField";
-import { TwoFactorAuthResendMail } from "./TwoFactorAuthResendMail";
-import { Headline } from "../headline/Headline";
 import { ReactComponent as LockIcon } from "../../resources/img/svg/lock.svg";
-import { ReactComponent as InfoIcon } from "../../resources/img/svg/i.svg";
 import { ReactComponent as AddIcon } from "../../resources/img/svg/add.svg";
 import { ReactComponent as UrlIcon } from "../../resources/img/svg/url.svg";
 import { ReactComponent as CheckIcon } from "../../resources/img/svg/checkmark.svg";
-import { ReactComponent as DownloadIcon } from "../../resources/img/svg/download.svg";
 import { ReactComponent as PenIcon } from "../../resources/img/svg/pen.svg";
-import { ReactComponent as IlluCheck } from "../../resources/img/illustrations/check.svg";
 import { useUserData } from "../../hooks/useUserData.hook";
 import { TwoFactorType } from "../../enums/TwoFactorType";
 import {
@@ -36,15 +28,17 @@ import {
   useUserTwoFactorDelete,
   useUserTwoFactorSendEmailCode,
 } from "../../hooks/useUserTwoFactorAuth.hook";
+import { TwoFactorAuthTypeButtons } from "./TwoFactorAuthTypeButtons";
+import { AuthenticatorTools } from "./TwoFactorAuthTools";
+import { TwoFactorAuthAppActivate } from "./TwoFactorAuthAppActivate";
+import { TwoFactorAuthEmailSelection } from "./TwoFactorAuthEmailSelection";
+import { isStringValidEmail } from "../../utils/validateEmailString";
+import { TwoFactorAuthEmailCodeInput } from "./TwoFactorAuthEmailCodeInput";
+import { TwoFactorAuthEmailConfirmation } from "./TwoFactorAuthEmailConfirmation";
 
 const { Paragraph } = Typography;
 
 const OTP_LENGTH = 6;
-
-const isStringValidEmail = (email: string) =>
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-    email
-  );
 
 function TwoFactorAuth() {
   const { t } = useTranslation();
@@ -77,45 +71,6 @@ function TwoFactorAuth() {
     }
   }, [userData?.twoFactorAuth?.isActive, overlayActive]);
 
-  const selectTwoFactorTypeButtons = useCallback((): JSX.Element => {
-    return (
-      <div className="twoFactorAuth__selectType">
-        <div className="twoFactorAuth__radioWrapper">
-          <RadioButton
-            checked={twoFactorType === TwoFactorType.App}
-            handleRadioButton={() => {
-              setTwoFactorType(TwoFactorType.App);
-            }}
-            label={t("twoFactorAuth.activate.radio.label.app")}
-            inputId="radio_2fa_app"
-            name="radio_2fa"
-            type="default"
-            value={TwoFactorType.App}
-          />
-          <Tooltip trigger={<InfoIcon />}>
-            {t("twoFactorAuth.activate.radio.tooltip.app")}
-          </Tooltip>
-        </div>
-        <div className="twoFactorAuth__radioWrapper">
-          <RadioButton
-            checked={twoFactorType === TwoFactorType.Email}
-            handleRadioButton={() => {
-              setTwoFactorType(TwoFactorType.Email);
-            }}
-            label={t("twoFactorAuth.activate.radio.label.email")}
-            inputId="radio_2fa_email"
-            name="radio_2fa"
-            type="default"
-            value={TwoFactorType.Email}
-          />
-          <Tooltip trigger={<InfoIcon />}>
-            {t("twoFactorAuth.activate.radio.tooltip.email")}
-          </Tooltip>
-        </div>
-      </div>
-    );
-  }, [twoFactorType]);
-
   const twoFactorAuthStepsOverlayStart: OverlayItem[] = useMemo(
     () => [
       {
@@ -125,7 +80,12 @@ function TwoFactorAuth() {
           icon: LockIcon,
           label: t("twoFactorAuth.activate.step1.visualisation.label"),
         },
-        nestedComponent: selectTwoFactorTypeButtons(),
+        nestedComponent: (
+          <TwoFactorAuthTypeButtons
+            twoFactorType={twoFactorType}
+            setTwoFactorType={setTwoFactorType}
+          />
+        ),
         buttonSet: [
           {
             disabled: twoFactorType === TwoFactorType.None,
@@ -136,84 +96,12 @@ function TwoFactorAuth() {
         ],
       },
     ],
-    [selectTwoFactorTypeButtons, twoFactorType]
+    [twoFactorType]
   );
 
   const [overlayItems, setOverlayItems] = useState<OverlayItem[]>([
     ...twoFactorAuthStepsOverlayStart,
   ]);
-
-  const getAuthenticatorTools = (): JSX.Element => {
-    const tools = [
-      {
-        title: t("twoFactorAuth.activate.app.step2.tool1"),
-        urlGoogle: t("twoFactorAuth.activate.app.step2.tool1.url.google"),
-        urlApple: t("twoFactorAuth.activate.app.step2.tool1.url.apple"),
-      },
-      {
-        title: t("twoFactorAuth.activate.app.step2.tool2"),
-        urlGoogle: t("twoFactorAuth.activate.app.step2.tool2.url.google"),
-        urlApple: t("twoFactorAuth.activate.app.step2.tool2.url.apple"),
-      },
-    ];
-    return (
-      <div className="twoFactorAuth__tools">
-        {tools.map((tool, i) => {
-          return (
-            <div
-              className="twoFactorAuth__tool"
-              key={i} // eslint-disable-line react/no-array-index-key
-            >
-              <Text text={tool.title} type="standard" />
-              <a target="_blank" rel="noreferrer" href={tool.urlGoogle}>
-                <DownloadIcon />
-                <Text
-                  text={t("twoFactorAuth.activate.app.step2.download.google")}
-                  type="standard"
-                />
-              </a>
-              <a target="_blank" rel="noreferrer" href={tool.urlApple}>
-                <DownloadIcon />
-                <Text
-                  text={t("twoFactorAuth.activate.app.step2.download.apple")}
-                  type="standard"
-                />
-              </a>
-            </div>
-          );
-        })}
-      </div>
-    );
-  };
-
-  const connectAuthAccount = useCallback((): JSX.Element => {
-    return (
-      <div className="twoFactorAuth__connect">
-        <div className="twoFactorAuth__qrCode">
-          <Text
-            text={t("twoFactorAuth.activate.app.step3.connect.qrCode")}
-            type="standard"
-          />
-          <img
-            className="twoFactorAuth__qrCodeImage"
-            alt="qr code"
-            src={`data:image/png;base64,${userData?.twoFactorAuth.qrCode}`}
-          />
-        </div>
-        <Text
-          text={t("twoFactorAuth.activate.app.step3.connect.divider")}
-          type="divider"
-        />
-        <div className="twoFactorAuth__key">
-          <Text
-            text={t("twoFactorAuth.activate.app.step3.connect.key")}
-            type="standard"
-          />
-          <Text text={userData?.twoFactorAuth.secret} type="standard" />
-        </div>
-      </div>
-    );
-  }, [userData]);
 
   const validateOtp = (
     totp: any
@@ -353,44 +241,6 @@ function TwoFactorAuth() {
     [email]
   );
 
-  const emailSelection = useCallback((): JSX.Element => {
-    return (
-      <div className="twoFactorAuth__emailSelection">
-        <InputField
-          item={emailInputItem}
-          inputHandle={(e: any) => handleEmailChange(e)}
-        />
-        {userData?.email && (
-          <Text
-            type="infoLargeAlternative"
-            text={t("twoFactorAuth.activate.email.input.info")}
-          />
-        )}
-      </div>
-    );
-  }, [emailInputItem, handleEmailChange, userData?.email]);
-
-  const emailCodeInput = useCallback((): JSX.Element => {
-    return (
-      <div className="twoFactorAuth__emailCode">
-        <InputField item={otpInputItem} inputHandle={handleOtpChange} />
-        <TwoFactorAuthResendMail resendHandler={sendEmailActivationCode} />
-      </div>
-    );
-  }, [handleOtpChange, otpInputItem, sendEmailActivationCode]);
-
-  const emailConfirmation = (): JSX.Element => {
-    return (
-      <div className="twoFactorAuth__emailConfirmation">
-        <IlluCheck />
-        <Headline
-          text={t("twoFactorAuth.activate.email.step4.title")}
-          semanticLevel="3"
-        />
-      </div>
-    );
-  };
-
   const handleOverlayCloseSuccess = useCallback(() => {
     setOverlayActive(false);
     setOtp("");
@@ -408,7 +258,13 @@ function TwoFactorAuth() {
           icon: PenIcon,
           label: t("twoFactorAuth.activate.email.step2.visualisation.label"),
         },
-        nestedComponent: emailSelection(),
+        nestedComponent: (
+          <TwoFactorAuthEmailSelection
+            userData={userData}
+            emailInputItem={emailInputItem}
+            handleEmailChange={handleEmailChange}
+          />
+        ),
         handleNextStep: sendEmailActivationCode,
         buttonSet: [
           {
@@ -426,12 +282,20 @@ function TwoFactorAuth() {
       },
       {
         headline: t("twoFactorAuth.activate.email.step3.title"),
-        copy: `${t(
-          "twoFactorAuth.activate.email.step3.copy.1"
-        )} <strong>${email}</strong> ${t(
-          "twoFactorAuth.activate.email.step3.copy.2"
-        )}`,
-        nestedComponent: emailCodeInput(),
+        copy: (
+          <>
+            {t("twoFactorAuth.activate.email.step3.copy.1")}{" "}
+            <strong>{email}</strong>{" "}
+            {t("twoFactorAuth.activate.email.step3.copy.2")}
+          </>
+        ),
+        nestedComponent: (
+          <TwoFactorAuthEmailCodeInput
+            otpInputItem={otpInputItem}
+            handleOtpChange={handleOtpChange}
+            sendEmailActivationCode={sendEmailActivationCode}
+          />
+        ),
         buttonSet: [
           {
             label: t("twoFactorAuth.overlayButton.back"),
@@ -452,7 +316,7 @@ function TwoFactorAuth() {
         },
       },
       {
-        nestedComponent: emailConfirmation(),
+        nestedComponent: <TwoFactorAuthEmailConfirmation />,
         buttonSet: [
           {
             label: t("twoFactorAuth.overlayButton.close"),
@@ -469,13 +333,12 @@ function TwoFactorAuth() {
     ],
     [
       email,
-      emailCodeInput,
       emailLabelState,
-      emailSelection,
       handleOverlayCloseSuccess,
       otpLabelState,
       sendEmailActivationCode,
       userData?.email,
+      otpInputItem,
     ]
   );
 
@@ -484,7 +347,7 @@ function TwoFactorAuth() {
       {
         headline: t("twoFactorAuth.activate.app.step2.title"),
         copy: t("twoFactorAuth.activate.app.step2.copy"),
-        nestedComponent: getAuthenticatorTools(),
+        nestedComponent: <AuthenticatorTools />,
         buttonSet: [
           {
             label: t("twoFactorAuth.overlayButton.back"),
@@ -505,7 +368,7 @@ function TwoFactorAuth() {
       {
         headline: t("twoFactorAuth.activate.app.step3.title"),
         copy: t("twoFactorAuth.activate.app.step3.copy"),
-        nestedComponent: connectAuthAccount(),
+        nestedComponent: <TwoFactorAuthAppActivate userData={userData} />,
         buttonSet: [
           {
             label: t("twoFactorAuth.overlayButton.back"),
@@ -548,7 +411,7 @@ function TwoFactorAuth() {
         },
       },
     ],
-    [connectAuthAccount, handleOtpChange, otpInputItem, otpLabelState]
+    [userData, handleOtpChange, otpInputItem, otpLabelState]
   );
 
   const setOverlayByType = useCallback(() => {

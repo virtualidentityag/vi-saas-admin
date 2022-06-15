@@ -336,7 +336,9 @@ function CounselorList() {
     },
   ];
 
-  const [columns, setColumns] = useState(columnsData);
+  const [columnsWidth, setColumnsWidth] = useState(
+    columnsData.map(({ width }) => width)
+  );
 
   const handleTableAction = (pagination: any, filters: any, sorter: any) => {
     if (sorter.field) {
@@ -359,16 +361,19 @@ function CounselorList() {
     pageSize: 10,
   };
 
-  const handleResize =
+  const handleResize = useCallback(
     (index) =>
-    (_, { size }) => {
-      const newColumns = [...columns];
-      newColumns[index] = { ...newColumns[index], width: size.width };
-      setColumns(newColumns);
-    };
+      (_, { size }) => {
+        const newColumnsWidth = [...columnsWidth];
+        newColumnsWidth[index] = size.width;
+        setColumnsWidth(newColumnsWidth);
+      },
+    [columnsWidth]
+  );
 
-  const mergeColumns = columns.map((col, index) => ({
+  const mergeColumns = columnsData.map((col, index) => ({
     ...col,
+    width: columnsWidth[index],
     onHeaderCell: (column) => ({
       width: column.width,
       onResize: handleResize(index),

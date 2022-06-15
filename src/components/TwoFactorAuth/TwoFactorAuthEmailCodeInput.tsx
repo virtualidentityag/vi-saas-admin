@@ -3,8 +3,8 @@ import { TwoFactorAuthResendMail } from "./TwoFactorAuthResendMail";
 
 interface TwoFactorAuthEmailCodeInputProps {
   otpInputItem: InputFieldItem;
-  handleOtpChange: Function;
-  sendEmailActivationCode: Function;
+  handleOtpChange: (e: Event) => void;
+  sendEmailActivationCode: (e) => void;
 }
 
 export function TwoFactorAuthEmailCodeInput({
@@ -15,11 +15,7 @@ export function TwoFactorAuthEmailCodeInput({
   return (
     <div className="twoFactorAuth__emailCode">
       <InputField item={otpInputItem} inputHandle={(e) => handleOtpChange(e)} />
-      <TwoFactorAuthResendMail
-        resendHandler={() => {
-          sendEmailActivationCode();
-        }}
-      />
+      <TwoFactorAuthResendMail resendHandler={sendEmailActivationCode} />
     </div>
   );
 }

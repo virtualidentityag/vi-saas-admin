@@ -6,7 +6,7 @@ export type TextTypeOptions =
   | "divider";
 
 export interface TextProps {
-  text: string;
+  text: string | JSX.Element;
   labelType?: LabelTypes;
   className?: string;
   type: TextTypeOptions;
@@ -46,13 +46,7 @@ export function Text(props: TextProps) {
           {getLabelContent(props.labelType).text}
         </span>
       )}
-      <span
-        /* eslint-disable */
-        dangerouslySetInnerHTML={{
-          __html: props.text,
-        }}
-        /* eslint-enable */
-      />
+      <span>{props.text}</span>
     </p>
   );
 }

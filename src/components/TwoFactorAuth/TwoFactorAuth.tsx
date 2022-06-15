@@ -83,9 +83,7 @@ function TwoFactorAuth() {
         nestedComponent: (
           <TwoFactorAuthTypeButtons
             twoFactorType={twoFactorType}
-            setTwoFactorType={(twoFactorTypeChoosen: TwoFactorType) =>
-              setTwoFactorType(twoFactorTypeChoosen)
-            }
+            setTwoFactorType={setTwoFactorType}
           />
         ),
         buttonSet: [
@@ -264,9 +262,7 @@ function TwoFactorAuth() {
           <TwoFactorAuthEmailSelection
             userData={userData}
             emailInputItem={emailInputItem}
-            handleEmailChange={(e) => {
-              handleEmailChange(e);
-            }}
+            handleEmailChange={handleEmailChange}
           />
         ),
         handleNextStep: sendEmailActivationCode,
@@ -286,15 +282,17 @@ function TwoFactorAuth() {
       },
       {
         headline: t("twoFactorAuth.activate.email.step3.title"),
-        copy: `${t(
-          "twoFactorAuth.activate.email.step3.copy.1"
-        )} <strong>${email}</strong> ${t(
-          "twoFactorAuth.activate.email.step3.copy.2"
-        )}`,
+        copy: (
+          <>
+            {t("twoFactorAuth.activate.email.step3.copy.1")}{" "}
+            <strong>{email}</strong>{" "}
+            {t("twoFactorAuth.activate.email.step3.copy.2")}
+          </>
+        ),
         nestedComponent: (
           <TwoFactorAuthEmailCodeInput
             otpInputItem={otpInputItem}
-            handleOtpChange={(e) => handleOtpChange(e)}
+            handleOtpChange={handleOtpChange}
             sendEmailActivationCode={sendEmailActivationCode}
           />
         ),

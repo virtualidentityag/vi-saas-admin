@@ -6,7 +6,7 @@ import { TwoFactorType } from "../../enums/TwoFactorType";
 
 interface TwoFactorAuthTypeButtonsProps {
   twoFactorType: TwoFactorType;
-  setTwoFactorType: Function;
+  setTwoFactorType: (type: TwoFactorType) => void;
 }
 
 export function TwoFactorAuthTypeButtons({

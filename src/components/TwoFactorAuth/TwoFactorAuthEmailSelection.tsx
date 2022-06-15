@@ -6,7 +6,7 @@ import { UserData } from "../../types/user";
 interface TwoFactorAuthEmailSelectionProps {
   userData: UserData;
   emailInputItem: InputFieldItem;
-  handleEmailChange: Function;
+  handleEmailChange: (e: Event) => void;
 }
 
 export function TwoFactorAuthEmailSelection({

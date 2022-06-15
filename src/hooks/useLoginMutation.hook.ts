@@ -4,7 +4,7 @@ import getAccessToken from "../api/auth/getAccessToken";
 import { TwoFactorType } from "../enums/TwoFactorType";
 import { LoginData } from "../types/loginData";
 
-interface Variables {
+interface LoginParams {
   username: string;
   password: string;
   otp: string;
@@ -18,7 +18,7 @@ interface Error {
 }
 
 export const useLoginMutation = () => {
-  return useMutation<LoginData, Error, Variables>(
+  return useMutation<LoginData, Error, LoginParams>(
     ["login", "user-data"],
     async ({ username, password, otp }: any) => {
       return getAccessToken({ username, password, otp });

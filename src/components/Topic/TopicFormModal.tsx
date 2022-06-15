@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, message, Modal } from "antd";
+import { Form, Input, message, Modal, Select } from "antd";
 import { useTranslation } from "react-i18next";
 
 import Title from "antd/es/typography/Title";
@@ -61,12 +61,16 @@ function TopicFormModal() {
 
   const onFieldsChange = () => {
     setSubmitButtonDisabled(
-      Object.values(formInstance.getFieldsValue(["name", "description"])).some(
-        (field: any) => field.length === 0
-      ) ||
+      Object.values(
+        formInstance.getFieldsValue([
+          "name",
+          "description",
+          "internalIdentifier",
+        ])
+      ).some((field: any) => field && field.length === 0) ||
         formInstance
           .getFieldsError()
-          .some((field: any) => field.errors.length > 0)
+          .some((field: any) => field && field.errors.length > 0)
     );
   };
 
@@ -117,9 +121,29 @@ function TopicFormModal() {
         <Item
           label={t("topic.description")}
           name="description"
-          rules={[{ required: false }]}
+          rules={[{ required: true }]}
         >
           <TextArea placeholder={t("placeholder.topic.description")} />
+        </Item>
+        <Item
+          label={t("topic.internalIdentifier")}
+          name="internalIdentifier"
+          rules={[{ required: true }]}
+        >
+          <Input
+            placeholder={t("placeholder.topic.internalIdentifier")}
+            maxLength={50}
+          />
+        </Item>
+        <Item label={t("status")} name="status">
+          <Select placeholder={t("plsSelect")}>
+            <Select.Option key="0" value="ACTIVE">
+              {t("status.ACTIVE.tooltip")}
+            </Select.Option>
+            <Select.Option key="1" value="INACTIVE">
+              {t("status.INACTIVE.tooltip")}
+            </Select.Option>
+          </Select>
         </Item>
       </Form>
     </Modal>

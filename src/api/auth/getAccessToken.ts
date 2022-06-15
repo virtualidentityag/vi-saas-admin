@@ -2,7 +2,7 @@ import { LoginData } from "../../types/loginData";
 import { loginEndpoint } from "../../appConfig";
 
 import { encodeUsername } from "../../utils/encryptionHelpers";
-import { FETCH_ERRORS } from "../fetchData";
+import { FetchErrorWithOptions, FETCH_ERRORS } from "../fetchData";
 
 const getKeycloakAccessToken = (loginProps: {
   username: string;
@@ -37,7 +37,13 @@ const getKeycloakAccessToken = (loginProps: {
           const dataResponse = response.json();
           resolve(dataResponse);
         } else if (response.status === 400) {
-          reject(FETCH_ERRORS.BAD_REQUEST);
+          response.json().then((data) => {
+            reject(
+              new FetchErrorWithOptions(FETCH_ERRORS.BAD_REQUEST, {
+                data,
+              })
+            );
+          });
         } else if (response.status === 401) {
           if (!tryUnencryptedForEmail) {
             getKeycloakAccessToken({

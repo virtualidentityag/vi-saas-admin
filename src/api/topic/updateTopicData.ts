@@ -18,6 +18,8 @@ const updateTopicData = async (topicModel: TopicData, formInput: TopicData) => {
     dioceseId: 0,
     name: formInput.name,
     description: formInput.description,
+    internalIdentifier: formInput.internalIdentifier,
+    status: formInput.status,
     external: false,
   };
   return fetchData({

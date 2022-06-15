@@ -39,6 +39,18 @@ export const FETCH_SUCCESS = {
   CONTENT: "CONTENT",
 };
 
+export class FetchErrorWithOptions extends Error {
+  options = {};
+
+  constructor(errorMessage: string, options: {}) {
+    super(errorMessage);
+
+    this.options = { ...options };
+    // Set the prototype explicitly.
+    Object.setPrototypeOf(this, FetchErrorWithOptions.prototype);
+  }
+}
+
 interface FetchDataProps {
   url: string;
   method: string;

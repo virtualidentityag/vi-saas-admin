@@ -150,6 +150,7 @@
   "settings.colors": "Farben",
   "settings.colors.howto": "Wählen Sie die Hauptfarben Ihrer Anwendung. Falls sie keine zweite Farbe haben, wird automatisch eine passende zweite Farbe vorgeschlagen.",
   "profile.title": "Profil",
+  "profile.title.text": "Hier sind Ihre Profilinformationen",
   "placeholder.firstname": "Maxime",
   "placeholder.lastname": "Musterfrau",
   "placeholder.email": "maxime.musterfrau@onlineberatung.de",

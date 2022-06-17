@@ -7,8 +7,10 @@ function buildTopicDataRequestBody(formData: Record<string, any>) {
     // dioceseId: 0,
     name: formData.name,
     description: formData.description,
+    internalIdentifier: formData.internalIdentifier,
+    status: formData.status,
     // enforced by admin API, without business value for SAAS
-    // external: false,
+    external: false,
   });
 }
 

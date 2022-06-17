@@ -28,6 +28,7 @@ const updateAgencyData = async (
     dioceseId: 0,
     name: formInput.name,
     description: formInput.description,
+    topicIds: formInput.topicIds,
     postcode: formInput.postcode,
     city: formInput.city,
     consultingType: consultingTypeId,

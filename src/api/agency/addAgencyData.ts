@@ -12,6 +12,7 @@ function buildAgencyDataRequestBody(
     dioceseId: 0,
     name: formData.name,
     description: formData.description,
+    topicIds: formData.topicIds,
     postcode: formData.postcode,
     city: formData.city,
     consultingType: consultingTypeResponseId,

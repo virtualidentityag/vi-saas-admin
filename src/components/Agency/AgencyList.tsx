@@ -21,6 +21,8 @@ const emptyAgencyModel: AgencyData = {
   id: null,
   name: "",
   city: "",
+  topics: [],
+  topicIds: [],
   consultingType: "",
   description: "",
   offline: true,
@@ -83,6 +85,31 @@ function AgencyList() {
         width: 100,
         ellipsis: true,
         fixed: "left",
+      },
+      {
+        title: t("topics.title"),
+        dataIndex: "topics",
+        key: "topics",
+        width: 100,
+        ellipsis: true,
+        fixed: "left",
+        render: (topics: any[]) => {
+          if (topics) {
+            const visibleTopics = [...topics];
+
+            return visibleTopics.map((topicItem) => {
+              return topicItem ? (
+                <div key={topicItem.id} className="TopicList__agencies">
+                  <span>{topicItem.name}</span>
+                </div>
+              ) : (
+                ""
+              );
+            });
+          }
+
+          return null;
+        },
       },
       {
         title: t("agency.teamAgency"),
@@ -222,7 +249,7 @@ function AgencyList() {
         // tableLayout="fixed"
         onChange={tableChangeHandler}
         pagination={pagination}
-        rowKey="name"
+        rowKey="id"
         style={{
           width: "100%",
         }}

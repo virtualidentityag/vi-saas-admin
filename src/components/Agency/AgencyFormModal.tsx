@@ -12,7 +12,9 @@ import addAgencyData from "../../api/agency/addAgencyData";
 import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
 import updateAgencyData from "../../api/agency/updateAgencyData";
 import hasAgencyConsultants from "../../api/agency/hasAgencyConsultants";
+import getTopicByTenantData from "../../api/topic/getTopicByTenantData";
 
+const { Option } = Select;
 const { TextArea } = Input;
 const { Item } = Form;
 
@@ -37,6 +39,9 @@ function AgencyFormModal() {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(true);
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [allTopics, setAllTopics] = useState<Record<string, any>[]>([]);
+
   useEffect(() => {
     pubsub.subscribe(PubSubEvents.AGENCY_UPDATE, (data) => {
       setAgencyModel({ ...data });
@@ -58,8 +63,10 @@ function AgencyFormModal() {
     }
   };
 
+  const agencyId = agencyModel && agencyModel.id;
+
   useEffect(() => {
-    const agencyId = agencyModel && agencyModel.id;
+    formInstance.resetFields();
     if (agencyId) {
       Promise.all([
         hasAgencyConsultants(agencyId),
@@ -72,7 +79,7 @@ function AgencyFormModal() {
         setPostCodeRangesSwitchState(agencyPostCodeRangesResponse);
       });
     }
-  }, [agencyModel, formInstance]);
+  }, [t, agencyId, formInstance]);
 
   const handleAddAction = (formData: Record<string, any>) => {
     setIsModalVisible(false);
@@ -113,11 +120,31 @@ function AgencyFormModal() {
     );
   };
 
+  useEffect(() => {
+    setIsLoading(true);
+    getTopicByTenantData()
+      .then((result: any) => {
+        formInstance.setFieldsValue({ topic: result[0].id });
+        setAllTopics(result);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        setAllTopics([]);
+      });
+  }, [t, formInstance]);
+
   if (agencyModel === undefined) {
     return <div />;
   }
 
   const { online } = agencyModel;
+
+  const renderTopicOptions = (topicItem: Record<string, any>) => (
+    <Option key={topicItem.id.toString()} value={topicItem.id.toString()}>
+      <span title={`${topicItem.name}`}>{topicItem.name}</span>
+    </Option>
+  );
 
   return (
     <Modal
@@ -163,6 +190,7 @@ function AgencyFormModal() {
         layout="vertical"
         initialValues={{
           ...agencyModel,
+          topicIds: agencyModel.topics.map((topic) => topic.id.toString()),
           postCodeRangesActive: postCodeRangesSwitchActive,
           online,
         }}
@@ -185,6 +213,25 @@ function AgencyFormModal() {
             <Select.Option key="1" value="false">
               {t("no")}
             </Select.Option>
+          </Select>
+        </Item>
+        <Item
+          label={t("topics.title")}
+          name="topicIds"
+          rules={[{ required: false, type: "array" }]}
+        >
+          <Select
+            mode="multiple"
+            disabled={isLoading}
+            allowClear
+            filterOption={(input, option) =>
+              option?.props.children?.props.title
+                .toLocaleLowerCase()
+                .indexOf(input.toLocaleLowerCase()) !== -1
+            }
+            placeholder={t("plsSelect")}
+          >
+            {allTopics?.map(renderTopicOptions)}
           </Select>
         </Item>
         <Item label={t("agency.city")} name="city" rules={[{ required: true }]}>

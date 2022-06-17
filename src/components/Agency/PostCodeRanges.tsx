@@ -25,7 +25,10 @@ export default function PostCodeRanges(props: {
 
   const postCodeRangeComponents = postCodeRanges.map((el, index) => {
     return (
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div
+        key={index}
+        style={{ display: "flex", justifyContent: "space-between" }}
+      >
         <Item
           key="from"
           style={{ width: "40%" }}

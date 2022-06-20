@@ -4,7 +4,7 @@ import { topicEndpoint } from "../../appConfig";
 function buildTopicDataRequestBody(formData: Record<string, any>) {
   return JSON.stringify({
     // diocese in case of SAAS is not relevant object but enforced by API
-    // dioceseId: 0,
+    dioceseId: 0,
     name: formData.name,
     description: formData.description,
     internalIdentifier: formData.internalIdentifier,

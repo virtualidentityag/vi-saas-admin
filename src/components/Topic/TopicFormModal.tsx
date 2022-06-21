@@ -115,27 +115,31 @@ function TopicFormModal() {
           ...topicModel,
         }}
       >
-        <Item label={t("topic.name")} name="name" rules={[{ required: true }]}>
+        <Item
+          label={t("topic.name")}
+          name="name"
+          rules={[{ required: true, max: 100 }]}
+        >
           <Input placeholder={t("placeholder.topic.name")} maxLength={100} />
         </Item>
         <Item
           label={t("topic.description")}
           name="description"
-          rules={[{ required: true }]}
+          rules={[{ required: true, max: 200 }]}
         >
           <TextArea placeholder={t("placeholder.topic.description")} />
         </Item>
         <Item
           label={t("topic.internalIdentifier")}
           name="internalIdentifier"
-          rules={[{ required: true }]}
+          rules={[{ required: true, max: 50 }]}
         >
           <Input
             placeholder={t("placeholder.topic.internalIdentifier")}
             maxLength={50}
           />
         </Item>
-        <Item label={t("status")} name="status">
+        <Item label={t("status")} name="status" rules={[{ required: true }]}>
           <Select placeholder={t("plsSelect")}>
             <Select.Option key="0" value="ACTIVE">
               {t("status.ACTIVE.tooltip")}

@@ -55,7 +55,6 @@ function AgencyList() {
         sorter: (a, b) => a.name.localeCompare(b.name),
         width: 150,
         ellipsis: true,
-        fixed: "left",
         className: "agencyList__column",
       },
       {
@@ -65,7 +64,6 @@ function AgencyList() {
         sorter: (a, b) => a.description.localeCompare(b.description),
         width: 200,
         ellipsis: true,
-        fixed: "left",
         className: "agencyList__column",
       },
       {
@@ -75,7 +73,7 @@ function AgencyList() {
         sorter: (a, b) => a.postcode.localeCompare(b.postcode),
         width: 100,
         ellipsis: true,
-        fixed: "left",
+        className: "agencyList__column",
       },
       {
         title: t("agency.city"),
@@ -84,7 +82,7 @@ function AgencyList() {
         sorter: (a, b) => a.city.localeCompare(b.city),
         width: 100,
         ellipsis: true,
-        fixed: "left",
+        className: "agencyList__column",
       },
       {
         title: t("topics.title"),
@@ -92,7 +90,6 @@ function AgencyList() {
         key: "topics",
         width: 100,
         ellipsis: true,
-        fixed: "left",
         render: (topics: any[]) => {
           if (topics) {
             const visibleTopics = [...topics];
@@ -110,6 +107,7 @@ function AgencyList() {
 
           return null;
         },
+        className: "agencyList__column",
       },
       {
         title: t("agency.teamAgency"),
@@ -118,10 +116,10 @@ function AgencyList() {
         sorter: (a, b) => (a.teamAgency > b.teamAgency ? 1 : -1),
         width: 100,
         ellipsis: true,
-        fixed: "left",
         render: (data: string) => {
           return data === "true" ? "JA" : "NEIN";
         },
+        className: "agencyList__column",
       },
       {
         width: 80,
@@ -132,6 +130,7 @@ function AgencyList() {
         render: (status: Status) => {
           return <StatusIcons status={status} />;
         },
+        className: "agencyList__column",
       },
       {
         width: 88,
@@ -155,6 +154,7 @@ function AgencyList() {
             </div>
           );
         },
+        className: "agencyList__column",
       },
     ];
   }

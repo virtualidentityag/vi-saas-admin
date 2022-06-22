@@ -30,6 +30,8 @@ function ResizableTitle(props: any) {
       draggableOpts={{
         enableUserSelectHack: false,
       }}
+      maxConstraints={[500, 500]}
+      minConstraints={[50, 50]}
     >
       <th {...restProps} />
     </Resizable>

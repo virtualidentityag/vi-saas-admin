@@ -270,6 +270,7 @@ function CounselorList() {
       ellipsis: true,
       sorter: (a: CounselorData, b: CounselorData) =>
         a.email.localeCompare(b.email),
+      className: "counselorList__column",
     },
     {
       width: 150,
@@ -306,6 +307,7 @@ function CounselorList() {
 
         return null;
       },
+      className: "counselorList__column",
     },
     {
       width: 80,
@@ -333,6 +335,7 @@ function CounselorList() {
           </div>
         );
       },
+      className: "counselorList__column",
     },
   ];
 
@@ -423,8 +426,8 @@ function CounselorList() {
           x: "max-content",
           y: "100%",
         }}
-        sticky
-        tableLayout="fixed"
+        // sticky
+        // tableLayout="fixed"
         onChange={handleTableAction}
         pagination={pagination}
         components={{

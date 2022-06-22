@@ -236,6 +236,7 @@ function CounselorList() {
           </button>
         );
       },
+      className: "counselorList__column",
     },
     {
       title: t("firstname"),
@@ -279,6 +280,7 @@ function CounselorList() {
       key: "username",
       ellipsis: true,
       render: (username: string) => decodeUsername(username),
+      className: "counselorList__column",
     },
     {
       width: 250,
@@ -318,6 +320,7 @@ function CounselorList() {
       render: (status: Status) => {
         return <StatusIcons status={status} />;
       },
+      className: "counselorList__column",
     },
     {
       width: 88,

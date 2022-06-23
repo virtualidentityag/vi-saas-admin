@@ -217,7 +217,7 @@ function CounselorList() {
       title: "",
       dataIndex: "openStatus",
       key: "openStatus",
-      width: 50,
+      width: 30,
       fixed: "left",
       render: (_: any, record: ModifiedCounselorData) => {
         if (record.openStatus === OpenStatus.NOT_AVAILABLE) return null;
@@ -312,7 +312,7 @@ function CounselorList() {
       className: "counselorList__column",
     },
     {
-      width: 80,
+      width: 60,
       title: t("status"),
       dataIndex: "status",
       key: "status",
@@ -323,7 +323,7 @@ function CounselorList() {
       className: "counselorList__column",
     },
     {
-      width: 88,
+      width: 80,
       title: "",
       key: "edit",
       render: (_: any, record: CounselorData) => {
@@ -339,6 +339,7 @@ function CounselorList() {
         );
       },
       className: "counselorList__column",
+      fixed: "right",
     },
   ];
 

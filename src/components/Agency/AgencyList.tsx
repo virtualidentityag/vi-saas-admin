@@ -56,6 +56,7 @@ function AgencyList() {
         width: 150,
         ellipsis: true,
         className: "agencyList__column",
+        fixed: "left",
       },
       {
         title: t("agency.description"),
@@ -122,7 +123,7 @@ function AgencyList() {
         className: "agencyList__column",
       },
       {
-        width: 80,
+        width: 60,
         title: t("status"),
         dataIndex: "status",
         key: "status",
@@ -133,7 +134,7 @@ function AgencyList() {
         className: "agencyList__column",
       },
       {
-        width: 88,
+        width: 80,
         title: "",
         key: "edit",
         render: (_: any, record: AgencyData) => {
@@ -155,6 +156,7 @@ function AgencyList() {
           );
         },
         className: "agencyList__column",
+        fixed: "right",
       },
     ];
   }

@@ -1,6 +1,7 @@
 import { Form, Modal } from "antd";
 import React, { useState } from "react";
 import Title from "antd/es/typography/Title";
+import { useTranslation } from "react-i18next";
 
 import { ModalFormProps } from "../../types/modalForm";
 
@@ -15,6 +16,7 @@ function ModalForm({
 }: ModalFormProps) {
   const [form] = Form.useForm();
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  const { t } = useTranslation();
 
   return (
     <Modal
@@ -33,6 +35,7 @@ function ModalForm({
       okButtonProps={{
         disabled: buttonDisabled,
       }}
+      okText={t("btn.ok.uppercase")}
     >
       {renderFormFields({ form, setButtonDisabled, isInAddMode, formData })}
     </Modal>

@@ -117,7 +117,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
             <li key="999" className="menuItem">
               <button onClick={handleLogout} type="button">
                 <CustomLogoutIcon className="menuIcon" />
-                <span>{t("logout")}</span>
+                <span className="logout">{t("logout")}</span>
               </button>
             </li>
           </ul>

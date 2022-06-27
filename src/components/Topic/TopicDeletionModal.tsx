@@ -47,6 +47,7 @@ export default function TopicDeletionModal() {
       }}
       cancelText={t("btn.cancel.uppercase")}
       centered
+      okText={t("btn.ok.uppercase")}
     >
       <p>{t("topic.modal.text.delete")}</p>
     </Modal>

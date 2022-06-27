@@ -1,8 +1,7 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import Title from "antd/es/typography/Title";
-import { Col, Row, Typography } from "antd";
+import { Col, Row, Typography, Switch } from "antd";
 import { useTranslation } from "react-i18next";
-import Switch from "react-switch";
 import { FETCH_ERRORS } from "../../api/fetchData";
 import {
   OVERLAY_FUNCTIONS,
@@ -466,17 +465,9 @@ function TwoFactorAuth() {
           </Paragraph>
           <div className="twoFactorAuth__switch mb-m">
             <Switch
+              size="default"
               onChange={handleSwitchChange}
               checked={userData?.twoFactorAuth.isActive || false}
-              uncheckedIcon={false}
-              checkedIcon={false}
-              width={48}
-              height={26}
-              onColor="#0dcd21"
-              offColor="#8C878C"
-              boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
-              handleDiameter={27}
-              activeBoxShadow="none"
             />
             <Paragraph className="text desc">
               {userData?.twoFactorAuth.isActive

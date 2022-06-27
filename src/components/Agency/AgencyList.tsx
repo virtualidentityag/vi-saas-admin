@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
-import { Button, Table } from "antd";
+import { Button, Switch, Table } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/lib/table";
+import Popconfirm from "antd/es/popconfirm";
 import AgencyFormModal from "./AgencyFormModal";
 
 import EditButtons from "../EditableTable/EditButtons";
@@ -16,6 +17,10 @@ import StatusIcons from "../EditableTable/StatusIcons";
 import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
 import AgencyDeletionModal from "./AgencyDeletionModal";
 import ResizableTitle from "../Resizable/Resizable";
+import { useFeatureContext } from "../../context/FeatureContext";
+import { TopicData } from "../../types/topic";
+import { UserRole } from "../../enums/UserRole";
+import { useUserRoles } from "../../hooks/useUserRoles.hook";
 
 const emptyAgencyModel: AgencyData = {
   id: null,
@@ -45,6 +50,10 @@ function AgencyList() {
   });
 
   const [isLoading, setIsLoading] = useState(true);
+
+  const [, hasRole] = useUserRoles();
+  const { isEnabled, toggleFeature } = useFeatureContext();
+  const isTopicsFeatureActive = isEnabled("topics");
 
   function defineTableColumns(): ColumnsType<AgencyData> {
     return [
@@ -91,9 +100,17 @@ function AgencyList() {
         key: "topics",
         width: 100,
         ellipsis: true,
-        render: (topics: any[]) => {
+        render: (topics: TopicData[]) => {
           if (topics) {
             const visibleTopics = [...topics];
+
+            if (isTopicsFeatureActive && visibleTopics.length === 0) {
+              return (
+                <div className="TopicList__agencies" style={{ color: "red" }}>
+                  {t("agency.noTopics")}
+                </div>
+              );
+            }
 
             return visibleTopics.map((topicItem) => {
               return topicItem ? (
@@ -221,11 +238,14 @@ function AgencyList() {
     }),
   }));
 
+  const onTopicsSwitch = () => {
+    toggleFeature("topics");
+  };
+
   return (
     <>
       <Title level={3}>{t("agency")}</Title>
       <p>{t("agency.title.text")}</p>
-
       <Button
         className="mb-m mr-sm"
         type="primary"
@@ -237,7 +257,28 @@ function AgencyList() {
       >
         {t("new")}
       </Button>
-
+      {hasRole(UserRole.TopicAdmin) && (
+        <div
+          style={{
+            float: "right",
+          }}
+        >
+          {t("topics.featureToggle")}{" "}
+          <Popconfirm
+            placement="bottom"
+            title={t(
+              isTopicsFeatureActive
+                ? "topics.featureToggle.off"
+                : "topics.featureToggle.on"
+            )}
+            onConfirm={onTopicsSwitch}
+            okText={t("yes")}
+            cancelText={t("btn.cancel")}
+          >
+            <Switch checked={isTopicsFeatureActive} />
+          </Popconfirm>
+        </div>
+      )}
       <Table
         loading={isLoading}
         className="agencyList editableTable"
@@ -247,8 +288,6 @@ function AgencyList() {
           x: "max-content",
           y: "100%",
         }}
-        // sticky
-        // tableLayout="fixed"
         onChange={tableChangeHandler}
         pagination={pagination}
         rowKey="id"
@@ -261,7 +300,6 @@ function AgencyList() {
           },
         }}
       />
-
       <AgencyFormModal />
       <AgencyDeletionModal />
     </>

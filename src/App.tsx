@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "./styles/App.less";
 import { Route, Routes, useLocation, useNavigate } from "react-router";
 import ProtectedPageLayoutWrapper from "./components/Layout/ProtectedPageLayoutWrapper";
@@ -12,11 +12,13 @@ import Tenants from "./pages/Tenants";
 import Initialisation from "./components/Layout/Initialisation";
 import Agencies from "./pages/Agencies";
 import { useTenantData } from "./hooks/useTenantData.hook";
+import { FeatureProvider } from "./context/FeatureContext";
 
 function App() {
   const { isLoading } = useTenantData();
   const navigate = useNavigate();
   const location = useLocation();
+
   useEffect(() => {
     if (
       location.pathname === routePathNames.root ||
@@ -29,20 +31,22 @@ function App() {
   return isLoading ? (
     <Initialisation />
   ) : (
-    <ProtectedPageLayoutWrapper>
-      <Routes>
-        {/* later <Route path="/" element={<Dashboard />} /> */}
-        <Route
-          path={routePathNames.themeSettings}
-          element={<TenantSettings />}
-        />
-        <Route path={routePathNames.counselors} element={<Counselors />} />
-        <Route path={routePathNames.agency} element={<Agencies />} />
-        <Route path={routePathNames.topics} element={<Topics />} />
-        <Route path={routePathNames.userProfile} element={<UserProfile />} />
-        <Route path={routePathNames.tenants} element={<Tenants />} />
-      </Routes>
-    </ProtectedPageLayoutWrapper>
+    <FeatureProvider>
+      <ProtectedPageLayoutWrapper>
+        <Routes>
+          {/* later <Route path="/" element={<Dashboard />} /> */}
+          <Route
+            path={routePathNames.themeSettings}
+            element={<TenantSettings />}
+          />
+          <Route path={routePathNames.counselors} element={<Counselors />} />
+          <Route path={routePathNames.agency} element={<Agencies />} />
+          <Route path={routePathNames.topics} element={<Topics />} />
+          <Route path={routePathNames.userProfile} element={<UserProfile />} />
+          <Route path={routePathNames.tenants} element={<Tenants />} />
+        </Routes>
+      </ProtectedPageLayoutWrapper>
+    </FeatureProvider>
   );
 }
 

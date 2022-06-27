@@ -82,11 +82,14 @@ function TopicFormModal() {
     <Modal
       destroyOnClose
       title={
-        <Title level={2}>
-          {topicModel.id
-            ? t("topic.modal.headline.edit")
-            : t("topic.modal.headline.add")}
-        </Title>
+        <>
+          <Title level={2}>
+            {topicModel.id
+              ? t("topic.modal.headline.edit")
+              : t("topic.modal.headline.add")}
+          </Title>
+          <small className="requiredFieldsInfo">{t("required.info")}</small>
+        </>
       }
       visible={isModalVisible}
       onOk={() => {
@@ -102,6 +105,7 @@ function TopicFormModal() {
       okButtonProps={{
         disabled: submitButtonDisabled,
       }}
+      okText={t("btn.ok.uppercase")}
     >
       <Form
         form={formInstance}

@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, message, Modal, Select, Switch, Tooltip } from "antd";
+import {
+  Form,
+  Input,
+  message,
+  Modal,
+  Select,
+  Switch,
+  Tooltip,
+  Typography,
+} from "antd";
 import { useTranslation } from "react-i18next";
 
 import Title from "antd/es/typography/Title";
@@ -17,6 +26,7 @@ import getTopicByTenantData from "../../api/topic/getTopicByTenantData";
 const { Option } = Select;
 const { TextArea } = Input;
 const { Item } = Form;
+const { Paragraph } = Typography;
 
 function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
   return (
@@ -150,11 +160,14 @@ function AgencyFormModal() {
     <Modal
       destroyOnClose
       title={
-        <Title level={2}>
-          {agencyModel.id
-            ? t("agency.modal.headline.edit")
-            : t("agency.modal.headline.add")}
-        </Title>
+        <>
+          <Title level={2}>
+            {agencyModel.id
+              ? t("agency.modal.headline.edit")
+              : t("agency.modal.headline.add")}
+          </Title>
+          <small className="requiredFieldsInfo">{t("required.info")}</small>
+        </>
       }
       visible={isModalVisible}
       onOk={() => {
@@ -179,6 +192,7 @@ function AgencyFormModal() {
       okButtonProps={{
         disabled: submitButtonDisabled,
       }}
+      okText={t("btn.ok.uppercase")}
     >
       <Form
         form={formInstance}
@@ -205,6 +219,42 @@ function AgencyFormModal() {
         >
           <TextArea placeholder={t("placeholder.agency.description")} />
         </Item>
+        {onlineSwitchDisabled && (
+          <Item name="online">
+            <Tooltip title={t("agency.online.tooltip")}>
+              <div className="flex">
+                <Switch
+                  size="default"
+                  disabled={onlineSwitchDisabled}
+                  defaultChecked={online}
+                  onChange={(value) => {
+                    formInstance.setFieldsValue({ online: value });
+                  }}
+                />
+                <Paragraph className="desc__toggleText">
+                  {t("agency.online")}
+                </Paragraph>
+              </div>
+            </Tooltip>
+          </Item>
+        )}
+        {!onlineSwitchDisabled && (
+          <Item name="online">
+            <div className="flex">
+              <Switch
+                size="default"
+                disabled={onlineSwitchDisabled}
+                defaultChecked={online}
+                onChange={(value) => {
+                  formInstance.setFieldsValue({ online: value });
+                }}
+              />
+              <Paragraph className="desc__toggleText">
+                <small>{t("agency.online")}</small>
+              </Paragraph>
+            </div>
+          </Item>
+        )}
         <Item label={t("agency.teamAgency")} name="teamAgency">
           <Select placeholder={t("plsSelect")}>
             <Select.Option key="0" value="true">
@@ -244,47 +294,25 @@ function AgencyFormModal() {
         >
           <Input placeholder={t("placeholder.agency.postcode")} maxLength={5} />
         </Item>
-        <Item label={t("agency.postCodeRanges")} name="postCodeRangesActive">
-          <Switch
-            checked={postCodeRangesSwitchActive}
-            onChange={() =>
-              setPostCodeRangesSwitchActive(!postCodeRangesSwitchActive)
-            }
-          />
+        <Item name="postCodeRangesActive">
+          <div className="flex">
+            <Switch
+              size="default"
+              checked={postCodeRangesSwitchActive}
+              onChange={() =>
+                setPostCodeRangesSwitchActive(!postCodeRangesSwitchActive)
+              }
+            />
+            <Paragraph className="desc__toggleText">
+              {t("agency.postCodeRanges")}
+            </Paragraph>
+          </div>
         </Item>
         {postCodeRangesSwitchActive && (
           <PostCodeRanges
             agencyPostCodeRanges={agencyPostCodeRanges}
             formInputData={formInstance}
           />
-        )}
-        {onlineSwitchDisabled && (
-          <Item label={t("agency.online")} name="online">
-            <Tooltip title={t("agency.online.tooltip")}>
-              <Switch
-                checkedChildren="Ja"
-                unCheckedChildren="Nein"
-                disabled={onlineSwitchDisabled}
-                defaultChecked={online}
-                onChange={(value) => {
-                  formInstance.setFieldsValue({ online: value });
-                }}
-              />
-            </Tooltip>
-          </Item>
-        )}
-        {!onlineSwitchDisabled && (
-          <Item label={t("agency.online")} name="online">
-            <Switch
-              checkedChildren="Ja"
-              unCheckedChildren="Nein"
-              disabled={onlineSwitchDisabled}
-              defaultChecked={online}
-              onChange={(value) => {
-                formInstance.setFieldsValue({ online: value });
-              }}
-            />
-          </Item>
         )}
       </Form>
     </Modal>

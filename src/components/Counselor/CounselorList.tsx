@@ -449,6 +449,7 @@ function CounselorList() {
         cancelText={t("btn.cancel.uppercase")}
         closable={false}
         centered
+        okText={t("btn.ok.uppercase")}
       >
         <p>{t("counselor.modal.text.delete")}</p>
       </Modal>

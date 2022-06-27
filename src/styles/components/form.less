@@ -13,6 +13,7 @@
       &.ant-form-item-required:not(.ant-form-item-required-mark-optional) {
         &:before {
           margin: 0 0 0 @spacing-xs;
+          color: @black-60-opacity;
         }
       }
 
@@ -39,6 +40,10 @@
   .desc {
     color: @label-color;
     font-size: @fontSize-sm;
+    &__toggleText {
+      color: @label-color;
+      margin-left: 10px;
+    }
   }
 }
 
@@ -67,4 +72,13 @@
     color: @white;
     opacity: 0.3;
   }
+}
+
+.ant-switch-checked {
+  background-color: rgb(13, 205, 33);
+}
+
+.requiredFieldsInfo {
+  font-weight: @font-weight-regular;
+  color: @black-60-opacity;
 }

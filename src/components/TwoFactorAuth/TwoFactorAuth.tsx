@@ -2,7 +2,6 @@ import { useState, useMemo, useCallback, useEffect } from "react";
 import Title from "antd/es/typography/Title";
 import { Col, Row, Typography, Switch } from "antd";
 import { useTranslation } from "react-i18next";
-// import Switch from "react-switch";
 import { FETCH_ERRORS } from "../../api/fetchData";
 import {
   OVERLAY_FUNCTIONS,

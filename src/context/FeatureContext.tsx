@@ -1,46 +1,56 @@
-import { createContext, ReactNode, useMemo, useState } from "react";
-import { FeatureContextType, IFeature } from "../types/feature";
+import {
+  createContext,
+  ReactNode,
+  useState,
+  useContext,
+  useCallback,
+} from "react";
+import { IFeature } from "../types/feature";
 
-export const FeatureContext = createContext<FeatureContextType | null>(null);
+const FeatureContext =
+  createContext<[IFeature[], (features: IFeature[]) => void]>(null);
 
 interface FeatureProviderProps {
   children: ReactNode;
 }
 
-// export const FeatureProvider: FC = ({ children }) => {
-// function FeatureProvider(children: ReactNode) {
-export function FeatureProvider({ children }: FeatureProviderProps) {
-  const [features, setFeatures] = useState<IFeature[]>([
+function FeatureProvider({ children }: FeatureProviderProps) {
+  const state = useState<IFeature[]>([
     {
       name: "topics",
       active: false,
     },
   ]);
 
-  const getFeatureStatus = (name: string) => {
-    const tempFeature = features.find((feature) => feature.name === name);
+  return (
+    <FeatureContext.Provider value={state}>{children}</FeatureContext.Provider>
+  );
+}
 
-    return tempFeature.active;
-  };
+function useFeatureContext() {
+  const [features, setFeatures] = useContext(FeatureContext);
 
-  const toggleFeature = (feature: IFeature) => {
-    const tempFeatures = features.map((e) => {
-      return e.name === feature.name ? feature : e;
-    });
+  const isEnabled = useCallback(
+    (name: string) => {
+      const tempFeature = features.find((feature) => feature.name === name);
 
-    setFeatures(tempFeatures);
-  };
-
-  const value = useMemo(
-    () => ({
-      features,
-      getFeatureStatus,
-      toggleFeature,
-    }),
+      return tempFeature?.active || false;
+    },
     [features]
   );
 
-  return (
-    <FeatureContext.Provider value={value}>{children}</FeatureContext.Provider>
-  );
+  const toggleFeature = (key: string) => {
+    const feature = features.find((f) => f.name === key);
+
+    feature.active = !feature.active;
+
+    setFeatures([...features]);
+  };
+
+  return {
+    isEnabled,
+    toggleFeature,
+  };
 }
+
+export { FeatureProvider, useFeatureContext };

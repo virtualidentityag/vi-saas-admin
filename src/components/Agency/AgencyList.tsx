@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
@@ -17,7 +17,7 @@ import StatusIcons from "../EditableTable/StatusIcons";
 import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
 import AgencyDeletionModal from "./AgencyDeletionModal";
 import ResizableTitle from "../Resizable/Resizable";
-import { FeatureContext } from "../../context/FeatureContext";
+import { useFeatureContext } from "../../context/FeatureContext";
 import { TopicData } from "../../types/topic";
 import { UserRole } from "../../enums/UserRole";
 import { useUserRoles } from "../../hooks/useUserRoles.hook";
@@ -52,8 +52,8 @@ function AgencyList() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [, hasRole] = useUserRoles();
-  const { getFeatureStatus, toggleFeature } = useContext(FeatureContext);
-  const isTopicsFeatureActive = getFeatureStatus("topics");
+  const { isEnabled, toggleFeature } = useFeatureContext();
+  const isTopicsFeatureActive = isEnabled("topics");
 
   function defineTableColumns(): ColumnsType<AgencyData> {
     return [
@@ -239,7 +239,7 @@ function AgencyList() {
   }));
 
   const onTopicsSwitch = () => {
-    toggleFeature({ name: "topics", active: !isTopicsFeatureActive });
+    toggleFeature("topics");
   };
 
   return (

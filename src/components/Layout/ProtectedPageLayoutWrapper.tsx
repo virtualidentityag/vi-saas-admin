@@ -36,8 +36,8 @@ function ProtectedPageLayoutWrapper({ children }: any) {
   };
   const { isEnabled, toggleFeature } = useFeatureContext();
   const [searchParams] = useSearchParams();
-  // add this to url to enable developer mode -> ?godmode=true
-  const developer = searchParams.get("godmode");
+  // add this to url to enable developer mode -> ?developer=true
+  const developer = searchParams.get("developer");
 
   useEffect(() => {
     // handle a refresh as registered user and not initialize a new user

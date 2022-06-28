@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
@@ -178,7 +178,9 @@ function AgencyList() {
     ];
   }
 
-  const [columns, setColumns] = useState(defineTableColumns());
+  const [columnsWidth, setColumnsWidth] = useState(
+    defineTableColumns().map(({ width }) => width)
+  );
 
   const reloadAgencyList = () => {
     setIsLoading(true);
@@ -222,16 +224,19 @@ function AgencyList() {
     pageSize: 10,
   };
 
-  const handleResize =
+  const handleResize = useCallback(
     (index) =>
-    (_, { size }) => {
-      const newColumns = [...columns];
-      newColumns[index] = { ...newColumns[index], width: size.width };
-      setColumns(newColumns);
-    };
+      (_, { size }) => {
+        const newColumnsWidth = [...columnsWidth];
+        newColumnsWidth[index] = size.width;
+        setColumnsWidth(newColumnsWidth);
+      },
+    [columnsWidth]
+  );
 
-  const mergeColumns = columns.map((col, index) => ({
+  const mergeColumns = defineTableColumns().map((col, index) => ({
     ...col,
+    width: columnsWidth[index],
     onHeaderCell: (column) => ({
       width: column.width,
       onResize: handleResize(index),

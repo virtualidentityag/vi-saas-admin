@@ -17,6 +17,10 @@ interface FeatureProviderProps {
 function FeatureProvider({ children }: FeatureProviderProps) {
   const state = useState<IFeature[]>([
     {
+      name: "developer",
+      active: false,
+    },
+    {
       name: "topics",
       active: false,
     },

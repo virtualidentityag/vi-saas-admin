@@ -94,39 +94,46 @@ function AgencyList() {
         ellipsis: true,
         className: "agencyList__column",
       },
-      {
-        title: t("topics.title"),
-        dataIndex: "topics",
-        key: "topics",
-        width: 100,
-        ellipsis: true,
-        render: (topics: TopicData[]) => {
-          if (topics) {
-            const visibleTopics = [...topics];
+      ...(hasRole(UserRole.TopicAdmin)
+        ? [
+            {
+              title: t("topics.title"),
+              dataIndex: "topics",
+              key: "topics",
+              width: 100,
+              ellipsis: true,
+              render: (topics: TopicData[]) => {
+                if (topics) {
+                  const visibleTopics = [...topics];
 
-            if (isTopicsFeatureActive && visibleTopics.length === 0) {
-              return (
-                <div className="TopicList__agencies" style={{ color: "red" }}>
-                  {t("agency.noTopics")}
-                </div>
-              );
-            }
+                  if (isTopicsFeatureActive && visibleTopics.length === 0) {
+                    return (
+                      <div
+                        className="TopicList__agencies"
+                        style={{ color: "red" }}
+                      >
+                        {t("agency.noTopics")}
+                      </div>
+                    );
+                  }
 
-            return visibleTopics.map((topicItem) => {
-              return topicItem ? (
-                <div key={topicItem.id} className="TopicList__agencies">
-                  <span>{topicItem.name}</span>
-                </div>
-              ) : (
-                ""
-              );
-            });
-          }
+                  return visibleTopics.map((topicItem) => {
+                    return topicItem ? (
+                      <div key={topicItem.id} className="TopicList__agencies">
+                        <span>{topicItem.name}</span>
+                      </div>
+                    ) : (
+                      ""
+                    );
+                  });
+                }
 
-          return null;
-        },
-        className: "agencyList__column",
-      },
+                return null;
+              },
+              className: "agencyList__column",
+            },
+          ]
+        : []),
       {
         title: t("agency.teamAgency"),
         dataIndex: "teamAgency",

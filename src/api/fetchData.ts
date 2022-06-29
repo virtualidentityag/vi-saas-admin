@@ -111,7 +111,9 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 
     fetch(req)
       .then((response) => {
-        if (response.status >= 200 && response.status < 300) {
+        if (response.status === 204) {
+          resolve(response);
+        } else if (response.status >= 200 && response.status < 300) {
           const data =
             props.method === FETCH_METHODS.GET ||
             (props.responseHandling &&

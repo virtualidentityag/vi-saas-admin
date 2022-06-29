@@ -51,6 +51,9 @@ function AgencyFormModal() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [allTopics, setAllTopics] = useState<Record<string, any>[]>([]);
+  const [selectedTopics, setSelectedTopics] = useState<Record<string, any>[]>(
+    []
+  );
 
   useEffect(() => {
     pubsub.subscribe(PubSubEvents.AGENCY_UPDATE, (data) => {
@@ -280,6 +283,36 @@ function AgencyFormModal() {
                 .indexOf(input.toLocaleLowerCase()) !== -1
             }
             placeholder={t("plsSelect")}
+            onSelect={(id) => {
+              const selectedTopic = allTopics.filter((topic) => {
+                return topic.id === parseInt(id, 10);
+              })[0];
+
+              const temp = selectedTopics;
+              temp.push(selectedTopic);
+              setSelectedTopics(temp);
+
+              setAllTopics(
+                allTopics.filter((topic) => {
+                  return topic.id !== parseInt(id, 10);
+                })
+              );
+            }}
+            onDeselect={(id) => {
+              const selectedTopic = selectedTopics.filter((topic) => {
+                return topic.id === parseInt(id, 10);
+              })[0];
+
+              const temp = allTopics;
+              temp.push(selectedTopic);
+              setAllTopics(temp);
+
+              setSelectedTopics(
+                selectedTopics.filter((topic) => {
+                  return topic.id !== parseInt(id, 10);
+                })
+              );
+            }}
           >
             {allTopics?.map(renderTopicOptions)}
           </Select>

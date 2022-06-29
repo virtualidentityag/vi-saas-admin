@@ -25,9 +25,10 @@ const getTopicData = (params: TableState) => {
     skipAuth: false,
     responseHandling: [],
   }).then((result) => {
+    const resultArray = result instanceof Array ? result : [];
     return {
-      total: result.length,
-      data: result,
+      total: resultArray.length,
+      data: resultArray,
     };
   });
 };

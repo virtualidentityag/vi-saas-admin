@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Form,
   Input,
@@ -22,6 +22,8 @@ import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
 import updateAgencyData from "../../api/agency/updateAgencyData";
 import hasAgencyConsultants from "../../api/agency/hasAgencyConsultants";
 import getTopicByTenantData from "../../api/topic/getTopicByTenantData";
+import { useUserRoles } from "../../hooks/useUserRoles.hook";
+import { UserRole } from "../../enums/UserRole";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -51,6 +53,8 @@ function AgencyFormModal() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [allTopics, setAllTopics] = useState<Record<string, any>[]>([]);
+
+  const [, hasRole] = useUserRoles();
 
   useEffect(() => {
     pubsub.subscribe(PubSubEvents.AGENCY_UPDATE, (data) => {
@@ -135,7 +139,10 @@ function AgencyFormModal() {
     getTopicByTenantData()
       .then((result: any) => {
         formInstance.setFieldsValue({ topic: result[0].id });
-        setAllTopics(result);
+        const activeTopics = result.filter((topic) => {
+          return topic.status === "ACTIVE";
+        });
+        setAllTopics(activeTopics);
         setIsLoading(false);
       })
       .catch(() => {
@@ -265,25 +272,28 @@ function AgencyFormModal() {
             </Select.Option>
           </Select>
         </Item>
-        <Item
-          label={t("topics.title")}
-          name="topicIds"
-          rules={[{ required: false, type: "array" }]}
-        >
-          <Select
-            mode="multiple"
-            disabled={isLoading}
-            allowClear
-            filterOption={(input, option) =>
-              option?.props.children?.props.title
-                .toLocaleLowerCase()
-                .indexOf(input.toLocaleLowerCase()) !== -1
-            }
-            placeholder={t("plsSelect")}
+        {hasRole(UserRole.TopicAdmin) && (
+          <Item
+            label={t("topics.title")}
+            name="topicIds"
+            rules={[{ required: false, type: "array" }]}
           >
-            {allTopics?.map(renderTopicOptions)}
-          </Select>
-        </Item>
+            <Select
+              mode="multiple"
+              className="topics-select"
+              disabled={isLoading}
+              allowClear
+              filterOption={(input, option) =>
+                option?.props.children?.props.title
+                  .toLocaleLowerCase()
+                  .indexOf(input.toLocaleLowerCase()) !== -1
+              }
+              placeholder={t("plsSelect")}
+            >
+              {allTopics?.map(renderTopicOptions)}
+            </Select>
+          </Item>
+        )}
         <Item label={t("agency.city")} name="city" rules={[{ required: true }]}>
           <Input placeholder={t("placeholder.agency.city")} maxLength={100} />
         </Item>

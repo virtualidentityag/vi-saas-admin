@@ -237,7 +237,7 @@
   "topic": "Thema",
   "topics.title": "Themen",
   "topics.title.text": "Erstellen und bearbeiten Sie Themen",
-  "topics.featureToggle": "Feature \"Themen\" aktivieren/deaktivieren",
+  "topics.featureToggle": "Themen übergreifend in der Anwendung aktivieren",
   "topics.featureToggle.on": "Wenn Sie das Feature \"Themen\" aktivieren, sind fortan ausschließlich Agenturen über die Registrierung auffindbar, die mindestens ein Thema zugeordnet haben.",
   "topics.featureToggle.off": "Wenn Sie das Feature \"Themen\" deaktivieren, wird fortan bei der Registrierung kein Thema mehr vom Hilfesuchenden abgefragt. Bereits bestehende Chats mit einem zugeordneten Thema bleiben davon unberührt und sind weiterhin für Berater sichtbar.",
   "topic.name": "Name",

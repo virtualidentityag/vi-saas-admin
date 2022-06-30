@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
-import { Button, Switch, Table } from "antd";
+import { Button, Space, Switch, Table } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/lib/table";
@@ -94,39 +94,46 @@ function AgencyList() {
         ellipsis: true,
         className: "agencyList__column",
       },
-      {
-        title: t("topics.title"),
-        dataIndex: "topics",
-        key: "topics",
-        width: 100,
-        ellipsis: true,
-        render: (topics: TopicData[]) => {
-          if (topics) {
-            const visibleTopics = [...topics];
+      ...(hasRole(UserRole.TopicAdmin)
+        ? [
+            {
+              title: t("topics.title"),
+              dataIndex: "topics",
+              key: "topics",
+              width: 100,
+              ellipsis: true,
+              render: (topics: TopicData[]) => {
+                if (topics) {
+                  const visibleTopics = [...topics];
 
-            if (isTopicsFeatureActive && visibleTopics.length === 0) {
-              return (
-                <div className="TopicList__agencies" style={{ color: "red" }}>
-                  {t("agency.noTopics")}
-                </div>
-              );
-            }
+                  if (isTopicsFeatureActive && visibleTopics.length === 0) {
+                    return (
+                      <div
+                        className="TopicList__agencies"
+                        style={{ color: "red" }}
+                      >
+                        {t("agency.noTopics")}
+                      </div>
+                    );
+                  }
 
-            return visibleTopics.map((topicItem) => {
-              return topicItem ? (
-                <div key={topicItem.id} className="TopicList__agencies">
-                  <span>{topicItem.name}</span>
-                </div>
-              ) : (
-                ""
-              );
-            });
-          }
+                  return visibleTopics.map((topicItem) => {
+                    return topicItem ? (
+                      <div key={topicItem.id} className="TopicList__agencies">
+                        <span>{topicItem.name}</span>
+                      </div>
+                    ) : (
+                      ""
+                    );
+                  });
+                }
 
-          return null;
-        },
-        className: "agencyList__column",
-      },
+                return null;
+              },
+              className: "agencyList__column",
+            },
+          ]
+        : []),
       {
         title: t("agency.teamAgency"),
         dataIndex: "teamAgency",
@@ -251,39 +258,37 @@ function AgencyList() {
     <>
       <Title level={3}>{t("agency")}</Title>
       <p>{t("agency.title.text")}</p>
-      <Button
-        className="mb-m mr-sm"
-        type="primary"
-        icon={<PlusOutlined />}
-        onClick={() => {
-          tableStateHolder = tableState;
-          pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, emptyAgencyModel);
-        }}
-      >
-        {t("new")}
-      </Button>
-      {hasRole(UserRole.TopicAdmin) && (
-        <div
-          style={{
-            float: "right",
+      <Space align="baseline">
+        <Button
+          className="mb-m mr-sm"
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => {
+            tableStateHolder = tableState;
+            pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, emptyAgencyModel);
           }}
         >
-          {t("topics.featureToggle")}{" "}
-          <Popconfirm
-            placement="bottom"
-            title={t(
-              isTopicsFeatureActive
-                ? "topics.featureToggle.off"
-                : "topics.featureToggle.on"
-            )}
-            onConfirm={onTopicsSwitch}
-            okText={t("yes")}
-            cancelText={t("btn.cancel")}
-          >
-            <Switch checked={isTopicsFeatureActive} />
-          </Popconfirm>
-        </div>
-      )}
+          {t("new")}
+        </Button>
+        {hasRole(UserRole.TopicAdmin) && (
+          <>
+            <Popconfirm
+              placement="bottom"
+              title={t(
+                isTopicsFeatureActive
+                  ? "topics.featureToggle.off"
+                  : "topics.featureToggle.on"
+              )}
+              onConfirm={onTopicsSwitch}
+              okText={t("yes")}
+              cancelText={t("btn.cancel")}
+            >
+              <Switch checked={isTopicsFeatureActive} />
+            </Popconfirm>
+            {t("topics.featureToggle")}
+          </>
+        )}
+      </Space>
       <Table
         loading={isLoading}
         className="agencyList editableTable"

@@ -2,7 +2,8 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Form, Input, message, FormInstance, Select, Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { BasicTenantData } from "../../types/tenant";
+import { BasicTenantData, TenantData } from "../../types/tenant";
+import { useFeatureContext } from "../../context/FeatureContext";
 
 const { Option } = Select;
 const { Item } = Form;
@@ -15,6 +16,7 @@ export const defaultTenant: BasicTenantData = {
   isSuperAdmin: false,
   userRoles: [],
   licensing: { allowedNumberOfUsers: 0, videoFeature: false },
+  settings: {},
   consultingType: "beratung",
   twoFactorAuth: false,
   formalLanguage: false,
@@ -40,6 +42,8 @@ function Tenant({
 
   const [editing, setEditing] = useState(isInAddMode);
 
+  const { isEnabled } = useFeatureContext();
+
   useEffect(() => {
     modalForm.resetFields();
   }, [formData, modalForm]);
@@ -50,15 +54,23 @@ function Tenant({
     subdomain,
     createDate,
     licensing,
+    settings,
     consultingType,
     formalLanguage,
     startServiceDate,
   } = formData;
 
-  const onFormSubmit = (values: any) => {
+  const onFormSubmit = (values: TenantData) => {
     setEditing(!editing);
+
+    const formValues = values;
+
+    if (isEnabled("topics")) {
+      formValues.settings.topicsInRegistrationEnabled = true;
+    }
+
     if (handleEditTenant) {
-      handleEditTenant(values);
+      handleEditTenant(formValues);
     }
   };
 
@@ -99,6 +111,7 @@ function Tenant({
           id,
           createDate,
           licensing,
+          settings,
           consultingType,
           formalLanguage,
           startServiceDate,

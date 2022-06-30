@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { message } from "antd";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
@@ -15,6 +15,7 @@ import Tenant from "./Tenant";
 import addTenantData from "../../api/tenant/addTenantData";
 import deleteTenantData from "../../api/tenant/deleteTenantData";
 import editTenantData from "../../api/tenant/editTenantData";
+import { useFeatureContext } from "../../context/FeatureContext";
 
 function TenantsList() {
   const { t } = useTranslation();
@@ -27,6 +28,8 @@ function TenantsList() {
 
   const [isModalFormVisible, setIsModalFormVisible] = useState(false);
   const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
+
+  const { isEnabled } = useFeatureContext();
 
   const resetStatesAfterLoad = () => {
     setIsLoading(false);
@@ -54,7 +57,13 @@ function TenantsList() {
   const handleEditTenant = (formData: TenantData) => {
     setIsLoading(true);
     // PUT request method must be allowed in the API
-    editTenantData(formData)
+    const formValues = formData;
+
+    if (isEnabled("topics")) {
+      formValues.settings.topicsInRegistrationEnabled = true;
+    }
+
+    editTenantData(formValues)
       .then(() => getMultipleTenants(page.toString()))
       .then((result: any) => {
         setTenants(result);

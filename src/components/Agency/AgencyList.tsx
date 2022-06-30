@@ -21,6 +21,8 @@ import { useFeatureContext } from "../../context/FeatureContext";
 import { TopicData } from "../../types/topic";
 import { UserRole } from "../../enums/UserRole";
 import { useUserRoles } from "../../hooks/useUserRoles.hook";
+import { useTenantData } from "../../hooks/useTenantData.hook";
+import editTenantData from "../../api/tenant/editTenantData";
 
 const emptyAgencyModel: AgencyData = {
   id: null,
@@ -54,6 +56,14 @@ function AgencyList() {
   const [, hasRole] = useUserRoles();
   const { isEnabled, toggleFeature } = useFeatureContext();
   const isTopicsFeatureActive = isEnabled("topics");
+
+  const { data: tenantData } = useTenantData();
+
+  // whenever topics feature switch is toggled -> send new value to backend
+  useEffect(() => {
+    tenantData.settings.topicsInRegistrationEnabled = isEnabled("topics");
+    editTenantData(tenantData);
+  }, [isEnabled("topics")]);
 
   function defineTableColumns(): ColumnsType<AgencyData> {
     return [

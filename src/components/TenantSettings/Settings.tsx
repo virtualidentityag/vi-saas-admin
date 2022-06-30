@@ -24,6 +24,7 @@ import decodeHTML from "../../utils/decodeHTML";
 import { TenantData } from "../../types/tenant";
 import { useTenantData } from "../../hooks/useTenantData.hook";
 import { useTenantDataMutation } from "../../hooks/useTenantDataMutation.hook";
+import { useFeatureContext } from "../../context/FeatureContext";
 
 const { Item } = Form;
 const { Paragraph } = Typography;
@@ -51,6 +52,7 @@ function Settings() {
   const [faviconUrl, setFaviconUrl] = useState<string>(
     decodeHTML(favicon) || ""
   );
+  const { isEnabled } = useFeatureContext();
 
   /* currently we don't have a proper UX concept for this const
   setComplementaryColor = (color: string) => {
@@ -85,6 +87,9 @@ function Settings() {
       userRoles,
       licensing: {
         allowedNumberOfUsers: allowedNumberOfUsers || 3,
+      },
+      settings: {
+        ...(isEnabled("topics") && { topicsInRegistrationEnabled: true }),
       },
       theming: {
         logo: logoUrl,

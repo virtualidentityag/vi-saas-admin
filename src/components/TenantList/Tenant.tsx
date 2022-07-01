@@ -3,7 +3,6 @@ import { Form, Input, message, FormInstance, Select, Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { BasicTenantData, TenantData } from "../../types/tenant";
-import { useFeatureContext } from "../../context/FeatureContext";
 
 const { Option } = Select;
 const { Item } = Form;
@@ -42,8 +41,6 @@ function Tenant({
 
   const [editing, setEditing] = useState(isInAddMode);
 
-  const { isEnabled } = useFeatureContext();
-
   useEffect(() => {
     modalForm.resetFields();
   }, [formData, modalForm]);
@@ -63,15 +60,7 @@ function Tenant({
   const onFormSubmit = (values: TenantData) => {
     setEditing(!editing);
 
-    const formValues = values;
-
-    if (isEnabled("topics")) {
-      formValues.settings.topicsInRegistrationEnabled = true;
-    }
-
-    if (handleEditTenant) {
-      handleEditTenant(formValues);
-    }
+    handleEditTenant?.(values);
   };
 
   const onFinishFailed = () => {
@@ -95,7 +84,7 @@ function Tenant({
                 "subdomain",
                 "allowedNumberOfUsers",
               ])
-            ).some((field: any) => field.length === 0) ||
+            ).some((field: any) => field?.length === 0) ||
               modalForm
                 .getFieldsError()
                 .some((field: any) => field.errors.length > 0)

@@ -15,7 +15,6 @@ import Tenant from "./Tenant";
 import addTenantData from "../../api/tenant/addTenantData";
 import deleteTenantData from "../../api/tenant/deleteTenantData";
 import editTenantData from "../../api/tenant/editTenantData";
-import { useFeatureContext } from "../../context/FeatureContext";
 
 function TenantsList() {
   const { t } = useTranslation();
@@ -28,8 +27,6 @@ function TenantsList() {
 
   const [isModalFormVisible, setIsModalFormVisible] = useState(false);
   const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
-
-  const { isEnabled } = useFeatureContext();
 
   const resetStatesAfterLoad = () => {
     setIsLoading(false);
@@ -57,13 +54,7 @@ function TenantsList() {
   const handleEditTenant = (formData: TenantData) => {
     setIsLoading(true);
     // PUT request method must be allowed in the API
-    const formValues = formData;
-
-    if (isEnabled("topics")) {
-      formValues.settings.topicsInRegistrationEnabled = true;
-    }
-
-    editTenantData(formValues)
+    editTenantData(formData)
       .then(() => getMultipleTenants(page.toString()))
       .then((result: any) => {
         setTenants(result);

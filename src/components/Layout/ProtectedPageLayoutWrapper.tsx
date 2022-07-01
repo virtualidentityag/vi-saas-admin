@@ -26,8 +26,6 @@ import { useFeatureContext } from "../../context/FeatureContext";
 
 const { Content, Sider } = Layout;
 
-let isFetchedTopicsInRegistrationEnabled = false;
-
 function ProtectedPageLayoutWrapper({ children }: any) {
   const { subdomain } = getLocationVariables();
   const [, hasRole] = useUserRoles();
@@ -53,15 +51,11 @@ function ProtectedPageLayoutWrapper({ children }: any) {
   // initially check database value of topics feature toggle and write it into context state
   useEffect(() => {
     if (
-      !isFetchedTopicsInRegistrationEnabled &&
-      !isEnabled("topics") &&
-      tenantData.settings.topicsInRegistrationEnabled
+      tenantData.settings.topicsInRegistrationEnabled !== isEnabled("topics")
     ) {
       toggleFeature("topics");
     }
-
-    isFetchedTopicsInRegistrationEnabled = true;
-  }, []);
+  }, [tenantData?.settings.topicsInRegistrationEnabled, isEnabled("topics")]);
 
   useEffect(() => {
     if (subdomain !== tenantData.subdomain) {

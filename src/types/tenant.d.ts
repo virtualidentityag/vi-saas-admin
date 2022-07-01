@@ -15,6 +15,9 @@ export interface BasicTenantData {
   consultingType?: string; // to-do: define what other consulting types are available besides Beratung
   twoFactorAuth?: boolean; // to-do: toggeable for different usertypes (consultants and advice seekers)
   formalLanguage?: boolean;
+  settings: {
+    topicsInRegistrationEnabled?: boolean | null;
+  };
 }
 
 export interface TenantData extends BasicTenantData {

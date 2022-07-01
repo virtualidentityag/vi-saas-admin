@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Form, Input, message, FormInstance, Select, Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { BasicTenantData } from "../../types/tenant";
+import { BasicTenantData, TenantData } from "../../types/tenant";
 
 const { Option } = Select;
 const { Item } = Form;
@@ -15,6 +15,7 @@ export const defaultTenant: BasicTenantData = {
   isSuperAdmin: false,
   userRoles: [],
   licensing: { allowedNumberOfUsers: 0, videoFeature: false },
+  settings: {},
   consultingType: "beratung",
   twoFactorAuth: false,
   formalLanguage: false,
@@ -50,16 +51,16 @@ function Tenant({
     subdomain,
     createDate,
     licensing,
+    settings,
     consultingType,
     formalLanguage,
     startServiceDate,
   } = formData;
 
-  const onFormSubmit = (values: any) => {
+  const onFormSubmit = (values: TenantData) => {
     setEditing(!editing);
-    if (handleEditTenant) {
-      handleEditTenant(values);
-    }
+
+    handleEditTenant?.(values);
   };
 
   const onFinishFailed = () => {
@@ -83,7 +84,7 @@ function Tenant({
                 "subdomain",
                 "allowedNumberOfUsers",
               ])
-            ).some((field: any) => field.length === 0) ||
+            ).some((field: any) => field?.length === 0) ||
               modalForm
                 .getFieldsError()
                 .some((field: any) => field.errors.length > 0)
@@ -99,6 +100,7 @@ function Tenant({
           id,
           createDate,
           licensing,
+          settings,
           consultingType,
           formalLanguage,
           startServiceDate,

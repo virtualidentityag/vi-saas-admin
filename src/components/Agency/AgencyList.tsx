@@ -21,6 +21,8 @@ import { useFeatureContext } from "../../context/FeatureContext";
 import { TopicData } from "../../types/topic";
 import { UserRole } from "../../enums/UserRole";
 import { useUserRoles } from "../../hooks/useUserRoles.hook";
+import { useTenantData } from "../../hooks/useTenantData.hook";
+import { useTenantDataUpdate } from "../../hooks/useTenantDataUpdate.hook";
 
 const emptyAgencyModel: AgencyData = {
   id: null,
@@ -52,8 +54,10 @@ function AgencyList() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [, hasRole] = useUserRoles();
-  const { isEnabled, toggleFeature } = useFeatureContext();
+  const { isEnabled } = useFeatureContext();
+  const { data: tenantData } = useTenantData();
   const isTopicsFeatureActive = isEnabled("topics");
+  const { mutate: updateTenantData } = useTenantDataUpdate();
 
   function defineTableColumns(): ColumnsType<AgencyData> {
     return [
@@ -250,9 +254,15 @@ function AgencyList() {
     }),
   }));
 
-  const onTopicsSwitch = () => {
-    toggleFeature("topics");
-  };
+  const onTopicsSwitch = useCallback(() => {
+    updateTenantData({
+      ...tenantData,
+      settings: {
+        ...tenantData.settings,
+        topicsInRegistrationEnabled: !isTopicsFeatureActive,
+      },
+    });
+  }, [isTopicsFeatureActive]);
 
   return (
     <>

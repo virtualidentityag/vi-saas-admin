@@ -48,6 +48,7 @@ function TopicList() {
         width: 150,
         ellipsis: true,
         fixed: "left",
+        className: "topicList__column",
       },
       {
         title: t("topic.description"),
@@ -56,7 +57,7 @@ function TopicList() {
         sorter: (a, b) => a.description.localeCompare(b.description),
         width: 350,
         ellipsis: true,
-        fixed: "left",
+        className: "topicList__column",
       },
       {
         title: t("topic.internalIdentifier"),
@@ -68,7 +69,6 @@ function TopicList() {
           ),
         width: 150,
         ellipsis: true,
-        fixed: "left",
       },
       {
         width: 80,
@@ -103,6 +103,7 @@ function TopicList() {
             </div>
           );
         },
+        fixed: "right",
       },
     ];
   }
@@ -167,7 +168,7 @@ function TopicList() {
 
       <Table
         loading={isLoading}
-        className="editableTable"
+        className="topicList editableTable"
         dataSource={topics}
         columns={defineTableColumns()}
         scroll={{

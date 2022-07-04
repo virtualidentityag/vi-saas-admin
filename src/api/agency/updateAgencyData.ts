@@ -34,6 +34,11 @@ const updateAgencyData = async (
     consultingType: consultingTypeId,
     offline: !formInput.online,
     external: false,
+    demographics: formInput.demographics && {
+      genders: formInput.demographics.genders,
+      ageFrom: formInput.demographics.age[0],
+      ageTo: formInput.demographics.age[1],
+    },
   };
   return fetchData({
     url: `${agencyEndpointBase}/${agencyModel.id}`,

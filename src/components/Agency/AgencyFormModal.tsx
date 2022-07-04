@@ -1,14 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Form,
-  Input,
-  message,
-  Modal,
-  Select,
-  Switch,
-  Tooltip,
-  Typography,
-} from "antd";
+import { Form, Input, message, Modal, Switch, Tooltip, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 
 import Title from "antd/es/typography/Title";
@@ -24,11 +15,16 @@ import hasAgencyConsultants from "../../api/agency/hasAgencyConsultants";
 import getTopicByTenantData from "../../api/topic/getTopicByTenantData";
 import { useUserRoles } from "../../hooks/useUserRoles.hook";
 import { UserRole } from "../../enums/UserRole";
+import { convertToOptions } from "../../utils/convertToOptions";
+import { SelectFormField } from "../SelectFormField";
+import { SliderFormField } from "../SliderFormField";
+import { Gender } from "../../enums/Gender";
 
-const { Option } = Select;
 const { TextArea } = Input;
 const { Item } = Form;
 const { Paragraph } = Typography;
+const MIN_AGE = 18;
+const MAX_AGE = 65;
 
 function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
   return (
@@ -157,12 +153,6 @@ function AgencyFormModal() {
 
   const { online } = agencyModel;
 
-  const renderTopicOptions = (topicItem: Record<string, any>) => (
-    <Option key={topicItem.id.toString()} value={topicItem.id.toString()}>
-      <span title={`${topicItem.name}`}>{topicItem.name}</span>
-    </Option>
-  );
-
   return (
     <Modal
       destroyOnClose
@@ -211,6 +201,17 @@ function AgencyFormModal() {
         layout="vertical"
         initialValues={{
           ...agencyModel,
+          demographics: {
+            age: agencyModel?.demographics?.ageFrom
+              ? [
+                  agencyModel.demographics.ageFrom,
+                  agencyModel.demographics.ageTo,
+                ]
+              : [MIN_AGE, MAX_AGE],
+            genders: agencyModel?.id
+              ? agencyModel?.demographics?.genders
+              : undefined,
+          },
           topicIds: agencyModel.topics.map((topic) => topic.id.toString()),
           postCodeRangesActive: postCodeRangesSwitchActive,
           online,
@@ -262,37 +263,40 @@ function AgencyFormModal() {
             </div>
           </Item>
         )}
-        <Item label={t("agency.teamAgency")} name="teamAgency">
-          <Select placeholder={t("plsSelect")}>
-            <Select.Option key="0" value="true">
-              {t("yes")}
-            </Select.Option>
-            <Select.Option key="1" value="false">
-              {t("no")}
-            </Select.Option>
-          </Select>
-        </Item>
+        <SelectFormField
+          label="agency.teamAgency"
+          name="teamAgency"
+          placeholder="plsSelect"
+          options={[
+            { value: "true", label: t("yes") },
+            { value: "false", label: t("no") },
+          ]}
+        />
+        <SliderFormField
+          label={t("agency.age")}
+          name={["demographics", "age"]}
+          min={MIN_AGE}
+          max={MAX_AGE}
+        />
+        <SelectFormField
+          label="agency.gender"
+          name={["demographics", "genders"]}
+          isMulti
+          options={Object.values(Gender).map((gender) => ({
+            value: gender,
+            label: t(`agency.gender.option.${gender.toLowerCase()}`),
+          }))}
+        />
         {hasRole(UserRole.TopicAdmin) && (
-          <Item
-            label={t("topics.title")}
+          <SelectFormField
+            label="topics.title"
             name="topicIds"
-            rules={[{ required: false, type: "array" }]}
-          >
-            <Select
-              mode="multiple"
-              className="topics-select"
-              disabled={isLoading}
-              allowClear
-              filterOption={(input, option) =>
-                option?.props.children?.props.title
-                  .toLocaleLowerCase()
-                  .indexOf(input.toLocaleLowerCase()) !== -1
-              }
-              placeholder={t("plsSelect")}
-            >
-              {allTopics?.map(renderTopicOptions)}
-            </Select>
-          </Item>
+            isMulti
+            loading={isLoading}
+            allowClear
+            placeholder="plsSelect"
+            options={convertToOptions(allTopics, "name", "id")}
+          />
         )}
         <Item label={t("agency.city")} name="city" rules={[{ required: true }]}>
           <Input placeholder={t("placeholder.agency.city")} maxLength={100} />

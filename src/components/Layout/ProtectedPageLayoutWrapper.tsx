@@ -23,6 +23,7 @@ import { useUserRoles } from "../../hooks/useUserRoles.hook";
 import { useTenantData } from "../../hooks/useTenantData.hook";
 import { UserRole } from "../../enums/UserRole";
 import { useFeatureContext } from "../../context/FeatureContext";
+import { FeatureFlag } from "../../enums/FeatureFlag";
 
 const { Content, Sider } = Layout;
 
@@ -43,19 +44,23 @@ function ProtectedPageLayoutWrapper({ children }: any) {
     // handle a refresh as registered user and not initialize a new user
     handleTokenRefresh();
 
-    if (!isEnabled("developer") && developer === "true") {
-      toggleFeature("developer");
+    if (!isEnabled(FeatureFlag.Developer) && developer === "true") {
+      toggleFeature(FeatureFlag.Developer);
     }
   }, []);
 
   // initially check database value of topics feature toggle and write it into context state
   useEffect(() => {
     if (
-      tenantData.settings.topicsInRegistrationEnabled !== isEnabled("topics")
+      tenantData.settings.topicsInRegistrationEnabled !==
+      isEnabled(FeatureFlag.Topics)
     ) {
-      toggleFeature("topics");
+      toggleFeature(FeatureFlag.Topics);
     }
-  }, [tenantData?.settings.topicsInRegistrationEnabled, isEnabled("topics")]);
+  }, [
+    tenantData?.settings.topicsInRegistrationEnabled,
+    isEnabled(FeatureFlag.Topics),
+  ]);
 
   useEffect(() => {
     if (subdomain !== tenantData.subdomain) {
@@ -151,7 +156,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
           {!hasRole(UserRole.TenantAdmin) && <SiteFooter />}
         </Layout>
       </Layout>
-      {isEnabled("developer") && <ReactQueryDevtools />}
+      {isEnabled(FeatureFlag.Developer) && <ReactQueryDevtools />}
     </>
   );
 }

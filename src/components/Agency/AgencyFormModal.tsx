@@ -19,6 +19,8 @@ import { convertToOptions } from "../../utils/convertToOptions";
 import { SelectFormField } from "../SelectFormField";
 import { SliderFormField } from "../SliderFormField";
 import { Gender } from "../../enums/Gender";
+import { useFeatureContext } from "../../context/FeatureContext";
+import { FeatureFlag } from "../../enums/FeatureFlag";
 
 const { TextArea } = Input;
 const { Item } = Form;
@@ -46,7 +48,7 @@ function AgencyFormModal() {
   );
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(true);
-
+  const { isEnabled } = useFeatureContext();
   const [isLoading, setIsLoading] = useState(true);
   const [allTopics, setAllTopics] = useState<Record<string, any>[]>([]);
 
@@ -272,21 +274,25 @@ function AgencyFormModal() {
             { value: "false", label: t("no") },
           ]}
         />
-        <SliderFormField
-          label={t("agency.age")}
-          name={["demographics", "age"]}
-          min={MIN_AGE}
-          max={MAX_AGE}
-        />
-        <SelectFormField
-          label="agency.gender"
-          name={["demographics", "genders"]}
-          isMulti
-          options={Object.values(Gender).map((gender) => ({
-            value: gender,
-            label: t(`agency.gender.option.${gender.toLowerCase()}`),
-          }))}
-        />
+        {isEnabled(FeatureFlag.Demographics) && (
+          <>
+            <SliderFormField
+              label={t("agency.age")}
+              name={["demographics", "age"]}
+              min={MIN_AGE}
+              max={MAX_AGE}
+            />
+            <SelectFormField
+              label="agency.gender"
+              name={["demographics", "genders"]}
+              isMulti
+              options={Object.values(Gender).map((gender) => ({
+                value: gender,
+                label: t(`agency.gender.option.${gender.toLowerCase()}`),
+              }))}
+            />
+          </>
+        )}
         {hasRole(UserRole.TopicAdmin) && (
           <SelectFormField
             label="topics.title"

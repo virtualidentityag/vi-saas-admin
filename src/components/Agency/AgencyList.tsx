@@ -22,6 +22,7 @@ import { UserRole } from "../../enums/UserRole";
 import { useUserRoles } from "../../hooks/useUserRoles.hook";
 import { useTenantData } from "../../hooks/useTenantData.hook";
 import { useTenantDataUpdate } from "../../hooks/useTenantDataUpdate.hook";
+import { FeatureFlag } from "../../enums/FeatureFlag";
 
 const emptyAgencyModel: AgencyData = {
   id: null,
@@ -55,7 +56,7 @@ function AgencyList() {
   const [, hasRole] = useUserRoles();
   const { isEnabled } = useFeatureContext();
   const { data: tenantData } = useTenantData();
-  const isTopicsFeatureActive = isEnabled("topics");
+  const isTopicsFeatureActive = isEnabled(FeatureFlag.Topics);
   const { mutate: updateTenantData } = useTenantDataUpdate();
 
   const { confirm } = Modal;

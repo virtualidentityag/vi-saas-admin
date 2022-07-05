@@ -258,7 +258,7 @@ function AgencyFormModal() {
                 }}
               />
               <Paragraph className="desc__toggleText">
-                <small>{t("agency.online")}</small>
+                {t("agency.online")}
               </Paragraph>
             </div>
           </Item>

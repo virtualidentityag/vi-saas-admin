@@ -2,11 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
-import { Button, Space, Switch, Table } from "antd";
+import { Button, Modal, Space, Switch, Table } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/lib/table";
-import Popconfirm from "antd/es/popconfirm";
 import AgencyFormModal from "./AgencyFormModal";
 
 import EditButtons from "../EditableTable/EditButtons";
@@ -58,6 +57,8 @@ function AgencyList() {
   const { data: tenantData } = useTenantData();
   const isTopicsFeatureActive = isEnabled("topics");
   const { mutate: updateTenantData } = useTenantDataUpdate();
+
+  const { confirm } = Modal;
 
   function defineTableColumns(): ColumnsType<AgencyData> {
     return [
@@ -255,11 +256,27 @@ function AgencyList() {
   }));
 
   const onTopicsSwitch = useCallback(() => {
-    updateTenantData({
-      ...tenantData,
-      settings: {
-        ...tenantData.settings,
-        topicsInRegistrationEnabled: !isTopicsFeatureActive,
+    confirm({
+      title: t(
+        isTopicsFeatureActive
+          ? "topics.featureToggle.off.title"
+          : "topics.featureToggle.on.title"
+      ),
+      content: t(
+        isTopicsFeatureActive
+          ? "topics.featureToggle.off.description"
+          : "topics.featureToggle.on.description"
+      ),
+      width: "768px",
+      // icon: <ExclamationCircleOutlined /> // todo: use Google icons
+      onOk() {
+        updateTenantData({
+          ...tenantData,
+          settings: {
+            ...tenantData.settings,
+            topicsInRegistrationEnabled: !isTopicsFeatureActive,
+          },
+        });
       },
     });
   }, [isTopicsFeatureActive]);
@@ -282,19 +299,7 @@ function AgencyList() {
         </Button>
         {hasRole(UserRole.TopicAdmin) && (
           <>
-            <Popconfirm
-              placement="bottom"
-              title={t(
-                isTopicsFeatureActive
-                  ? "topics.featureToggle.off"
-                  : "topics.featureToggle.on"
-              )}
-              onConfirm={onTopicsSwitch}
-              okText={t("yes")}
-              cancelText={t("btn.cancel")}
-            >
-              <Switch checked={isTopicsFeatureActive} />
-            </Popconfirm>
+            <Switch checked={isTopicsFeatureActive} onClick={onTopicsSwitch} />
             {t("topics.featureToggle")}
           </>
         )}

@@ -20,6 +20,12 @@ function buildAgencyDataRequestBody(
     // enforced by admin API, without business value for SAAS
     external: false,
     offline: formData.offline,
+
+    demographics: formData.demographics && {
+      genders: formData.demographics.genders,
+      ageFrom: formData.demographics.age[0],
+      ageTo: formData.demographics.age[1],
+    },
   });
 }
 

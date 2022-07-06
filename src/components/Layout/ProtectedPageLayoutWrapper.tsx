@@ -2,10 +2,6 @@ import { useEffect } from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Layout } from "antd";
 import { NavLink, useSearchParams } from "react-router-dom";
-import {
-  // DesktopOutlined,
-  BankOutlined,
-} from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import routePathNames from "../../appConfig";
 import SiteFooter from "./SiteFooter";

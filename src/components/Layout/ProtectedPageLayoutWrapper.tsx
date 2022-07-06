@@ -123,7 +123,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                     to={routePathNames.tenants}
                     className={({ isActive }) => (isActive ? "active" : "")}
                   >
-                    <BankOutlined className="menuIcon" />
+                    <NavIcon path={routePathNames.tenants} />
                     <span>{t("organisations.title")}</span>
                   </NavLink>
                 </li>

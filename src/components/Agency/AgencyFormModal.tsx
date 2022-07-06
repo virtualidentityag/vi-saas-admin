@@ -288,7 +288,8 @@ function AgencyFormModal() {
                   .toLocaleLowerCase()
                   .indexOf(input.toLocaleLowerCase()) !== -1
               }
-              placeholder={t("plsSelect")}
+              // placeholder={t("plsSelect")}
+              placeholder=" Bitte wählen"
             >
               {allTopics?.map(renderTopicOptions)}
             </Select>

@@ -4,18 +4,12 @@ import { Layout } from "antd";
 import { NavLink, useSearchParams } from "react-router-dom";
 import {
   // DesktopOutlined,
-  SettingOutlined,
-  TeamOutlined,
   BankOutlined,
-  ShopOutlined,
-  UserOutlined,
-  FileTextOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import routePathNames from "../../appConfig";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
-import CustomLogoutIcon from "../CustomIcons/Logout";
 import { handleTokenRefresh } from "../../api/auth/auth";
 import logout from "../../api/auth/logout";
 import getLocationVariables from "../../utils/getLocationVariables";
@@ -23,6 +17,7 @@ import { useUserRoles } from "../../hooks/useUserRoles.hook";
 import { useTenantData } from "../../hooks/useTenantData.hook";
 import { UserRole } from "../../enums/UserRole";
 import { useFeatureContext } from "../../context/FeatureContext";
+import { NavIcon } from "./NavIcon";
 
 const { Content, Sider } = Layout;
 
@@ -77,7 +72,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                       to={routePathNames.themeSettings}
                       className={({ isActive }) => (isActive ? "active" : "")}
                     >
-                      <SettingOutlined className="menuIcon" />
+                      <NavIcon path={routePathNames.themeSettings} />
                       <span>{t("settings.title")}</span>
                     </NavLink>
                   </li>
@@ -87,7 +82,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                       to={routePathNames.counselors}
                       className={({ isActive }) => (isActive ? "active" : "")}
                     >
-                      <TeamOutlined className="menuIcon" />
+                      <NavIcon path={routePathNames.counselors} />
                       <span>{t("counselor.title")}</span>
                     </NavLink>
                   </li>
@@ -96,7 +91,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                       to={routePathNames.agency}
                       className={({ isActive }) => (isActive ? "active" : "")}
                     >
-                      <ShopOutlined className="menuIcon" />
+                      <NavIcon path={routePathNames.agency} />
                       <span>{t("agency")}</span>
                     </NavLink>
                   </li>
@@ -107,7 +102,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                         to={routePathNames.topics}
                         className={({ isActive }) => (isActive ? "active" : "")}
                       >
-                        <FileTextOutlined className="menuIcon" />
+                        <NavIcon path={routePathNames.topics} />
                         <span>{t("topics.title")}</span>
                       </NavLink>
                     </li>
@@ -117,7 +112,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                       to={routePathNames.userProfile}
                       className={({ isActive }) => (isActive ? "active" : "")}
                     >
-                      <UserOutlined className="menuIcon" />
+                      <NavIcon path={routePathNames.userProfile} />
                       <span>{t("profile.title")}</span>
                     </NavLink>
                   </li>
@@ -136,7 +131,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
 
               <li key="999" className="menuItem">
                 <button onClick={handleLogout} type="button">
-                  <CustomLogoutIcon className="menuIcon" />
+                  <NavIcon path="logout" />
                   <span className="logout">{t("logout")}</span>
                 </button>
               </li>

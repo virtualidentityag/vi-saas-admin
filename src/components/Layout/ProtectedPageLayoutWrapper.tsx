@@ -46,7 +46,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
   // initially check database value of topics feature toggle and write it into context state
   useEffect(() => {
     if (
-      tenantData.settings.topicsInRegistrationEnabled !== isEnabled("topics")
+      !!tenantData.settings.topicsInRegistrationEnabled !== isEnabled("topics")
     ) {
       toggleFeature("topics");
     }

@@ -208,6 +208,7 @@ function Counselor({
           >
             <Select
               mode="multiple"
+              className="agencies-select"
               disabled={isLoading}
               allowClear
               filterOption={(input, option) =>

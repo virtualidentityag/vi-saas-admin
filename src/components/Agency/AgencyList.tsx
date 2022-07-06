@@ -6,7 +6,7 @@ import { Button, Modal, Space, Switch, Table } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/lib/table";
-import { Interests } from "@mui/icons-material";
+import { InterestsOutlined } from "@mui/icons-material";
 import AgencyFormModal from "./AgencyFormModal";
 
 import EditButtons from "../EditableTable/EditButtons";
@@ -269,7 +269,7 @@ function AgencyList() {
           : "topics.featureToggle.on.description"
       ),
       width: "768px",
-      icon: <Interests />,
+      icon: <InterestsOutlined />,
       onOk() {
         updateTenantData({
           ...tenantData,

@@ -11,6 +11,8 @@ import {
   AccountCircle,
   AccountCircleOutlined,
   Logout,
+  AccountBalance,
+  AccountBalanceOutlined,
 } from "@mui/icons-material/";
 import { useLocation } from "react-router";
 import routePathNames from "../../appConfig";
@@ -54,6 +56,12 @@ export function NavIcon({ path }: Props) {
         <AccountCircle {...props} />
       ) : (
         <AccountCircleOutlined {...props} />
+      );
+    case routePathNames.tenants:
+      return currentlySelected ? (
+        <AccountBalance {...props} />
+      ) : (
+        <AccountBalanceOutlined {...props} />
       );
     case "logout":
       return <Logout {...props} />;

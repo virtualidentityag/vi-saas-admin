@@ -2,10 +2,6 @@ import { useEffect } from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Layout } from "antd";
 import { NavLink, useSearchParams } from "react-router-dom";
-import {
-  // DesktopOutlined,
-  BankOutlined,
-} from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import routePathNames from "../../appConfig";
 import SiteFooter from "./SiteFooter";
@@ -123,7 +119,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                     to={routePathNames.tenants}
                     className={({ isActive }) => (isActive ? "active" : "")}
                   >
-                    <BankOutlined className="menuIcon" />
+                    <NavIcon path={routePathNames.tenants} />
                     <span>{t("organisations.title")}</span>
                   </NavLink>
                 </li>

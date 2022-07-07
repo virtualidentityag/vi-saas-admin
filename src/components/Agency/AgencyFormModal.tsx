@@ -23,8 +23,8 @@ import { Gender } from "../../enums/Gender";
 const { TextArea } = Input;
 const { Item } = Form;
 const { Paragraph } = Typography;
-const MIN_AGE = 18;
-const MAX_AGE = 65;
+const DEFAULT_MIN_AGE = 18;
+const DEFAULT_MAX_AGE = 100;
 
 function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
   return (
@@ -207,10 +207,10 @@ function AgencyFormModal() {
                   agencyModel.demographics.ageFrom,
                   agencyModel.demographics.ageTo,
                 ]
-              : [MIN_AGE, MAX_AGE],
+              : [DEFAULT_MIN_AGE, DEFAULT_MAX_AGE],
             genders: agencyModel?.id
               ? agencyModel?.demographics?.genders
-              : undefined,
+              : Object.values(Gender),
           },
           topicIds: agencyModel.topics.map((topic) => topic.id.toString()),
           postCodeRangesActive: postCodeRangesSwitchActive,
@@ -275,8 +275,8 @@ function AgencyFormModal() {
         <SliderFormField
           label={t("agency.age")}
           name={["demographics", "age"]}
-          min={MIN_AGE}
-          max={MAX_AGE}
+          min={0}
+          max={100}
         />
         <SelectFormField
           label="agency.gender"

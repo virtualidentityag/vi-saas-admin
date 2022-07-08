@@ -319,9 +319,13 @@ function AgencyFormModal() {
             <Switch
               size="default"
               checked={postCodeRangesSwitchActive}
-              onChange={() =>
-                setPostCodeRangesSwitchActive(!postCodeRangesSwitchActive)
-              }
+              onChange={() => {
+                const switchBool = !postCodeRangesSwitchActive;
+                setPostCodeRangesSwitchActive(switchBool);
+                formInstance.setFieldsValue({
+                  postCodeRangesActive: switchBool,
+                });
+              }}
             />
             <Paragraph className="desc__toggleText">
               {t("agency.postCodeRanges")}

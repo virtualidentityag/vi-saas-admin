@@ -46,7 +46,7 @@ function StatusIcons({ status }: { status: Status }) {
         </Tooltip>
       )}
       {status === "INACTIVE" && (
-        <Tooltip color={successColor} title={t("status.INACTIVE.tooltip")}>
+        <Tooltip color={errorColor} title={t("status.INACTIVE.tooltip")}>
           <StopOutlined style={{ color: errorColor }} />
         </Tooltip>
       )}

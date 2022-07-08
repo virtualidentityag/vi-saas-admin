@@ -11,6 +11,7 @@ import TopicFormModal from "./TopicFormModal";
 
 import getTopicData from "../../api/topic/getTopicData";
 import { TopicData } from "../../types/topic";
+import { Status } from "../../types/status";
 import StatusIcons from "../EditableTable/StatusIcons";
 import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
 import TopicDeletionModal from "./TopicDeletionModal";
@@ -77,10 +78,8 @@ function TopicList() {
         key: "status",
         sorter: (a, b) => (a.status > b.status ? 1 : -1),
         ellipsis: true,
-        render: (status: string) => {
-          return (
-            <StatusIcons status={status === "ACTIVE" ? "ACTIVE" : "INACTIVE"} />
-          );
+        render: (status: Status) => {
+          return <StatusIcons status={status} />;
         },
       },
       {

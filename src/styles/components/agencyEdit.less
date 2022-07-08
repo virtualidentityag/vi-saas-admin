@@ -1,0 +1,81 @@
+.agencyEdit {
+  &__header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-bottom: 2rem;
+
+    &--headline {
+      margin-bottom: 0;
+    }
+  }
+
+  &__headerBack {
+    display: flex;
+    
+    a {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+  }
+
+  &__headline {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__nav{
+    display: flex;
+
+    &Item {
+      padding: 0 15px;
+    }
+
+    a {
+      height: 100%;
+      display: inline-flex;
+      align-items: center;
+      color: @form-active;
+      font-weight: @font-weight-medium;
+      border-bottom: 4px solid transparent;
+
+      &.active {
+        color: var(--skin-color-primary-contrast-safe, @primary);
+        border-color: var(--skin-color-primary-contrast-safe, @primary);
+      }
+
+      &:hover {
+        color: var(--skin-color-primary-contrast-safe, @hover-primary);
+      }
+    }
+  }
+}
+
+.agencieEditErstberatung{
+  &__minutes {
+    align-items: center;
+    gap: 1rem;
+    
+    input {
+      width: 90px;
+    }
+
+    &__text {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  &__url {
+    position: relative;
+
+    input {
+      padding-right: 2rem !important;
+    }
+
+    svg {
+      position: absolute;
+      right: 0;
+      bottom: .5rem;
+    }
+  }
+}

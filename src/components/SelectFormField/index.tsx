@@ -17,6 +17,7 @@ export interface SelectFormFieldProps {
   isMulti?: boolean;
   options: Option[];
   allowClear?: boolean;
+  disabled?: boolean;
 }
 
 export function SelectFormField({
@@ -29,6 +30,7 @@ export function SelectFormField({
   required,
   loading,
   placeholder,
+  disabled,
 }: SelectFormFieldProps) {
   const [t] = useTranslation();
   return (
@@ -43,6 +45,7 @@ export function SelectFormField({
       help={help ? t(help) : undefined}
     >
       <Select
+        disabled={disabled}
         showSearch
         loading={loading}
         allowClear={allowClear}

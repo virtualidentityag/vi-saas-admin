@@ -6,6 +6,7 @@ import { Button, Modal, Space, Switch, Table } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/lib/table";
+import { useNavigate } from "react-router-dom";
 import AgencyFormModal from "./AgencyFormModal";
 
 import EditButtons from "../EditableTable/EditButtons";
@@ -22,6 +23,7 @@ import { UserRole } from "../../enums/UserRole";
 import { useUserRoles } from "../../hooks/useUserRoles.hook";
 import { useTenantData } from "../../hooks/useTenantData.hook";
 import { useTenantDataUpdate } from "../../hooks/useTenantDataUpdate.hook";
+import routePathNames from "../../appConfig";
 
 const emptyAgencyModel: AgencyData = {
   id: null,
@@ -59,6 +61,8 @@ function AgencyList() {
   const { mutate: updateTenantData } = useTenantDataUpdate();
 
   const { confirm } = Modal;
+
+  const navigate = useNavigate();
 
   function defineTableColumns(): ColumnsType<AgencyData> {
     return [
@@ -172,8 +176,9 @@ function AgencyList() {
               <EditButtons
                 isDisabled={record.status === "IN_DELETION"}
                 handleEdit={() => {
-                  tableStateHolder = tableState;
-                  pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, record);
+                  navigate(routePathNames.agencyEditAllgemeines);
+                  // tableStateHolder = tableState;
+                  // pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, record);
                 }}
                 handleDelete={() => {
                   tableStateHolder = tableState;
@@ -197,6 +202,7 @@ function AgencyList() {
   const reloadAgencyList = () => {
     setIsLoading(true);
     getAgencyData(tableState).then((result) => {
+      // get all agency data
       setAgencies(result.data);
       setNumberOfAgencies(result.total);
       setIsLoading(false);

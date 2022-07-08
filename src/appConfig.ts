@@ -51,6 +51,8 @@ const routePathNames = {
   counselorProfileAdd: "/admin/counselor/add/",
   agency: "/admin/agency/",
   agencyEdit: "/admin/agency/edit",
+  agencyEditAllgemeines: "/admin/agency/edit/allgemeines",
+  agencyEditErstberatung: "/admin/agency/edit/erstberatung",
   agencyAdd: "/admin/agency/add",
   topics: "/admin/topics",
   userProfile: "/admin/profil/",

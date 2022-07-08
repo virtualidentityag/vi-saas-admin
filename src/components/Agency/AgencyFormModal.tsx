@@ -25,6 +25,7 @@ const { Item } = Form;
 const { Paragraph } = Typography;
 const DEFAULT_MIN_AGE = 18;
 const DEFAULT_MAX_AGE = 100;
+const DEMOGRAPHICS_ENABLED = false;
 
 function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
   return (
@@ -152,7 +153,18 @@ function AgencyFormModal() {
   }
 
   const { online } = agencyModel;
-
+  const demographicsInitialValues = DEMOGRAPHICS_ENABLED
+    ? {
+        demographics: {
+          age: agencyModel?.demographics?.ageFrom
+            ? [agencyModel.demographics.ageFrom, agencyModel.demographics.ageTo]
+            : [DEFAULT_MIN_AGE, DEFAULT_MAX_AGE],
+          genders: agencyModel?.id
+            ? agencyModel?.demographics?.genders
+            : Object.values(Gender),
+        },
+      }
+    : {};
   return (
     <Modal
       destroyOnClose
@@ -201,17 +213,7 @@ function AgencyFormModal() {
         layout="vertical"
         initialValues={{
           ...agencyModel,
-          demographics: {
-            age: agencyModel?.demographics?.ageFrom
-              ? [
-                  agencyModel.demographics.ageFrom,
-                  agencyModel.demographics.ageTo,
-                ]
-              : [DEFAULT_MIN_AGE, DEFAULT_MAX_AGE],
-            genders: agencyModel?.id
-              ? agencyModel?.demographics?.genders
-              : Object.values(Gender),
-          },
+          ...demographicsInitialValues,
           topicIds: agencyModel.topics.map((topic) => topic.id.toString()),
           postCodeRangesActive: postCodeRangesSwitchActive,
           online,
@@ -272,21 +274,25 @@ function AgencyFormModal() {
             { value: "false", label: t("no") },
           ]}
         />
-        <SliderFormField
-          label={t("agency.age")}
-          name={["demographics", "age"]}
-          min={0}
-          max={100}
-        />
-        <SelectFormField
-          label="agency.gender"
-          name={["demographics", "genders"]}
-          isMulti
-          options={Object.values(Gender).map((gender) => ({
-            value: gender,
-            label: t(`agency.gender.option.${gender.toLowerCase()}`),
-          }))}
-        />
+        {DEMOGRAPHICS_ENABLED && (
+          <>
+            <SliderFormField
+              label={t("agency.age")}
+              name={["demographics", "age"]}
+              min={0}
+              max={100}
+            />
+            <SelectFormField
+              label="agency.gender"
+              name={["demographics", "genders"]}
+              isMulti
+              options={Object.values(Gender).map((gender) => ({
+                value: gender,
+                label: t(`agency.gender.option.${gender.toLowerCase()}`),
+              }))}
+            />
+          </>
+        )}
         {hasRole(UserRole.TopicAdmin) && (
           <SelectFormField
             label="topics.title"

@@ -1,6 +1,5 @@
 import { Form, Input, Modal, Typography } from "antd";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
 import Title from "antd/es/typography/Title";
 import TextArea from "antd/lib/input/TextArea";
 import { SelectFormField } from "../SelectFormField";
@@ -24,7 +23,7 @@ export default function ErstberatungNewModal(props: {
         </Title>
       }
       visible={props.showEditModal}
-      onOk={() => console.log("ok")}
+      onOk={() => {}}
       onCancel={() => {
         props.handleCancel(() => {});
       }}

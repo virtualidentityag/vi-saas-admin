@@ -20,24 +20,26 @@ if (process.env.REACT_APP_USE_API_URL === "true") {
 
 export const mainURL = url;
 
-export const XHRheader = { AcceptLanguage: "de" };
+export const agencyDataAgencyId = `${mainURL}/service/agencyadmin/agencies/{agencyId}`;
+export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&perPage=100`;
+export const agencyEndpointBase = `${mainURL}/service/agencyadmin/agencies`;
+export const agencyPostcodeRangeEndpointBase = `${mainURL}/service/agencyadmin/postcoderanges`;
+export const consultantsForAgencyEndpoint = `${mainURL}/service/useradmin/agencies/{agencyId}/consultants`;
+export const consultingTypeEndpoint = `${mainURL}/service/consultingtypes`;
+export const counselorEndpoint = `${mainURL}/service/useradmin/consultants`;
+export const customerEndpoint = `${mainURL}/customers`;
+export const eventTypeById = `${mainURL}/eventTypes/{eventTypeId}`;
 export const loginEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/token`;
 export const logoutEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/logout`;
 export const tenantEndpoint = `${mainURL}/service/tenant/`;
 export const tenantPublicEndpoint = `${mainURL}/service/tenant/public/${subdomain}`;
-export const counselorEndpoint = `${mainURL}/service/useradmin/consultants`;
-export const agencyEndpointBase = `${mainURL}/service/agencyadmin/agencies`;
-export const agencyPostcodeRangeEndpointBase = `${mainURL}/service/agencyadmin/postcoderanges`;
-export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&perPage=100`;
 export const topicEndpoint = `${mainURL}/service/topic`;
-export const consultingTypeEndpoint = `${mainURL}/service/consultingtypes`;
-export const customerEndpoint = `${mainURL}/customers`;
-export const userDataEndpoint = `${mainURL}/service/users/data`;
 export const twoFactorAuth = `${mainURL}/service/users/2fa`;
 export const twoFactorAuthApp = `${mainURL}/service/users/2fa/app`;
 export const twoFactorAuthAppEmail = `${mainURL}/service/users/2fa/email`;
+export const userDataEndpoint = `${mainURL}/service/users/data`;
 export const usersConsultantsSearchEndpoint = `${mainURL}/service/users/consultants/search`;
-export const consultantsForAgencyEndpoint = `${mainURL}/service/useradmin/agencies/{agencyId}/consultants`;
+export const XHRheader = { AcceptLanguage: "de" };
 
 /*
  * routes
@@ -50,9 +52,9 @@ const routePathNames = {
   counselorProfileEdit: "/admin/counselor/edit/",
   counselorProfileAdd: "/admin/counselor/add/",
   agency: "/admin/agency/",
-  agencyEdit: "/admin/agency/edit",
-  agencyEditAllgemeines: "/admin/agency/edit/allgemeines",
-  agencyEditErstberatung: "/admin/agency/edit/erstberatung",
+  agencyEdit: "/admin/agency/",
+  agencyEditAllgemeines: "/admin/agency/:id/allgemeines",
+  agencyEditErstberatung: "/admin/agency/:id/erstberatung",
   agencyAdd: "/admin/agency/add",
   topics: "/admin/topics",
   userProfile: "/admin/profil/",

@@ -18,7 +18,7 @@ export default function AgencieEditErstberatung() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showNewModal, setShowNewModal] = useState(false);
   const [editableData, setEditableData] = useState(undefined);
-  const [tableState, setTableState] = useState<TableState>({
+  const [tableState] = useState<TableState>({
     current: 1,
     sortBy: undefined,
     order: undefined,
@@ -54,9 +54,7 @@ export default function AgencieEditErstberatung() {
     setShowEditModal(false);
   };
 
-  const handleDeleteTable = () => {
-    console.log("delete");
-  };
+  const handleDeleteTable = () => {};
 
   function defineTableColumns(): ColumnsType<AgencyEditData> {
     return [

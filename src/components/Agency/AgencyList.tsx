@@ -176,9 +176,14 @@ function AgencyList() {
               <EditButtons
                 isDisabled={record.status === "IN_DELETION"}
                 handleEdit={() => {
-                  navigate(routePathNames.agencyEditAllgemeines);
-                  // tableStateHolder = tableState;
-                  // pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, record);
+                  tableStateHolder = tableState;
+                  pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, record);
+                  navigate(
+                    `${routePathNames.agencyEditAllgemeines.replace(
+                      ":id",
+                      record.id
+                    )}`
+                  );
                 }}
                 handleDelete={() => {
                   tableStateHolder = tableState;
@@ -202,7 +207,6 @@ function AgencyList() {
   const reloadAgencyList = () => {
     setIsLoading(true);
     getAgencyData(tableState).then((result) => {
-      // get all agency data
       setAgencies(result.data);
       setNumberOfAgencies(result.total);
       setIsLoading(false);

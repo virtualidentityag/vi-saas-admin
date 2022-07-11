@@ -54,6 +54,7 @@ export default function PostCodeRanges(props: {
           style={{
             alignItems: "center",
             display: "flex",
+            width: "14px",
           }}
         >
           {postCodeRanges.length - 1 === index && (
@@ -100,6 +101,7 @@ export default function PostCodeRanges(props: {
           style={{
             alignItems: "center",
             display: "flex",
+            width: "14px",
           }}
         >
           <PlusOutlined onClick={addAction} />

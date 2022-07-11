@@ -12,9 +12,10 @@ function AgencieEdit() {
   const { t } = useTranslation();
   const currentPath = useLocation().pathname;
   const [agencyEditComponent, setAgencyEditComponent] = useState(null);
+  const [, agencyId] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
 
   useEffect(() => {
-    switch (currentPath) {
+    switch (currentPath.replace(agencyId, ":id")) {
       case routePathNames.agencyEditAllgemeines:
         setAgencyEditComponent(<AgencieEditAllgemeines />);
         break;
@@ -43,7 +44,7 @@ function AgencieEdit() {
           {agencyRoutes.map((tab) => (
             <div key={tab.url} className="agencyEdit__navItem">
               <NavLink
-                to={`/admin/agency/edit${tab.url}`}
+                to={`/admin/agency/${agencyId}${tab.url}`}
                 className={({ isActive }) => {
                   return isActive ? "active" : "";
                 }}

@@ -28,7 +28,7 @@ export default function ErstberatungEditModal(props: {
         </Title>
       }
       visible={props.showEditModal}
-      onOk={() => console.log("ok")}
+      onOk={() => {}}
       onCancel={() => {
         props.handleCancel(() => {});
       }}

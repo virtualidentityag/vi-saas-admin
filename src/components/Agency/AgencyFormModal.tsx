@@ -314,10 +314,10 @@ function AgencyFormModal() {
               size="default"
               checked={postCodeRangesSwitchActive}
               onChange={() => {
-                const switchBool = !postCodeRangesSwitchActive;
-                setPostCodeRangesSwitchActive(switchBool);
+                const switchValue = !postCodeRangesSwitchActive;
+                setPostCodeRangesSwitchActive(switchValue);
                 formInstance.setFieldsValue({
-                  postCodeRangesActive: switchBool,
+                  postCodeRangesActive: switchValue,
                 });
               }}
             />

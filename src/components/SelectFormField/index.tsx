@@ -5,6 +5,7 @@ import { Form, Select } from "antd";
 export interface Option {
   label: string;
   value: string;
+  active?: boolean;
 }
 
 export interface SelectFormFieldProps {
@@ -43,6 +44,7 @@ export function SelectFormField({
       help={help ? t(help) : undefined}
     >
       <Select
+        // value={[{ id: 2, label: "bla" }]}
         showSearch
         loading={loading}
         allowClear={allowClear}
@@ -59,7 +61,11 @@ export function SelectFormField({
         }
       >
         {options.map((option) => (
-          <Select.Option value={option.value} key={option.value}>
+          <Select.Option
+            value={option.value}
+            key={option.value}
+            className={option.active ? "" : "inactive"}
+          >
             {option.label}
           </Select.Option>
         ))}

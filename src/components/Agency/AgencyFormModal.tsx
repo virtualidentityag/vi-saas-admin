@@ -49,7 +49,9 @@ function AgencyFormModal() {
   const [isModalVisible, setIsModalVisible] = useState(true);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [allTopics, setAllTopics] = useState<Record<string, any>[]>([]);
+  const [allActiveTopics, setAllActiveTopics] = useState<Record<string, any>[]>(
+    []
+  );
 
   const [, hasRole] = useUserRoles();
 
@@ -139,12 +141,18 @@ function AgencyFormModal() {
         const activeTopics = result.filter((topic) => {
           return topic.status === "ACTIVE";
         });
-        setAllTopics(activeTopics);
+        setAllActiveTopics(activeTopics);
+        // const activeTopics = result.map((topic) => {
+        // return topic.status === "ACTIVE";
+        // return topic;
+        // });
+        // setAllActiveTopics(activeTopics);
+        // console.log("Tariik topics:", activeTopics);
         setIsLoading(false);
       })
       .catch(() => {
         setIsLoading(false);
-        setAllTopics([]);
+        setAllActiveTopics([]);
       });
   }, [t, formInstance]);
 
@@ -214,7 +222,11 @@ function AgencyFormModal() {
         initialValues={{
           ...agencyModel,
           ...demographicsInitialValues,
-          topicIds: agencyModel.topics.map((topic) => topic.id.toString()),
+          topicIds: convertToOptions(agencyModel.topics, "name", "id"),
+          // agencyModel.topics.map((topic) => ({
+          //   id: topic.id,
+          //   label: topic.name,
+          // })),
           postCodeRangesActive: postCodeRangesSwitchActive,
           online,
         }}
@@ -301,7 +313,7 @@ function AgencyFormModal() {
             loading={isLoading}
             allowClear
             placeholder="plsSelect"
-            options={convertToOptions(allTopics, "name", "id")}
+            options={convertToOptions(allActiveTopics, "name", "id", "status")}
           />
         )}
         <Item label={t("agency.city")} name="city" rules={[{ required: true }]}>

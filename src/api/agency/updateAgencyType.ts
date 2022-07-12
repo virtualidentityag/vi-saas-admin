@@ -6,22 +6,22 @@ export default async function updateAgencyType(
   agencyModel: AgencyData,
   formInput: AgencyData
 ) {
-  if (agencyModel.teamAgency === formInput.teamAgency) {
-    return Promise.resolve();
-  }
+  // if (agencyModel.teamAgency === formInput.teamAgency) {
+  return Promise.resolve();
+  // }
 
-  let agencyTypeChangeRequestBody = null;
-  if (formInput.teamAgency === "true") {
-    agencyTypeChangeRequestBody = { agencyType: "TEAM_AGENCY" };
-  } else {
-    agencyTypeChangeRequestBody = { agencyType: "DEFAULT_AGENCY" };
-  }
+  // let agencyTypeChangeRequestBody = null;
+  // if (formInput.teamAgency === "true") {
+  //   agencyTypeChangeRequestBody = { agencyType: "TEAM_AGENCY" };
+  // } else {
+  //   agencyTypeChangeRequestBody = { agencyType: "DEFAULT_AGENCY" };
+  // }
 
-  return fetchData({
-    url: `${agencyEndpointBase}/${agencyModel.id}/changetype`,
-    method: FETCH_METHODS.POST,
-    skipAuth: false,
-    responseHandling: [FETCH_ERRORS.CATCH_ALL],
-    bodyData: JSON.stringify(agencyTypeChangeRequestBody),
-  });
+  // return fetchData({
+  //   url: `${agencyEndpointBase}/${agencyModel.id}/changetype`,
+  //   method: FETCH_METHODS.POST,
+  //   skipAuth: false,
+  //   responseHandling: [FETCH_ERRORS.CATCH_ALL],
+  //   bodyData: JSON.stringify(agencyTypeChangeRequestBody),
+  // });
 }

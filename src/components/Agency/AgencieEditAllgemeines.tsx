@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Col, Form, Input, Row, Switch, Typography } from "antd";
+import { useEffect, useState } from "react";
+import { Col, Form, Input, message, Row, Switch, Typography } from "antd";
 import Title from "antd/es/typography/Title";
 import TextArea from "antd/lib/input/TextArea";
 import { useTranslation } from "react-i18next";
@@ -16,6 +16,7 @@ import getTopicByTenantData from "../../api/topic/getTopicByTenantData";
 import getAgencyDataAgencyId from "../../api/agency/getAgencyByAgencieId";
 import { AgencyData } from "../../types/agency";
 import { Button, ButtonItem, BUTTON_TYPES } from "../button/Button";
+import updateAgencyData from "../../api/agency/updateAgencyData";
 
 const { Paragraph } = Typography;
 const { Item } = Form;
@@ -63,6 +64,98 @@ export default function AgencieEditAllgemeines() {
     setReadOnlyCity(true);
   };
 
+  const onFinish = () => {
+    formAgencyEdit.validateFields().then((formData) => {
+      updateAgencyData(agencyModel, formData as AgencyData).then(() => {
+        message.success({
+          content: t("message.agency.update"),
+          duration: 3,
+        });
+      });
+    });
+  };
+
+  const handleGeneralInformation = () => {
+    setReadOnlyName(false);
+    setReadOnlyDescription(false);
+  };
+
+  const resetForm = () => {
+    formAgencyEdit.resetFields();
+  };
+
+  const handleCancelGeneralInformation = () => {
+    resetGeneralInformation();
+    resetForm();
+  };
+
+  const handleSaveGeneralInformation = () => {
+    onFinish();
+    resetGeneralInformation();
+  };
+
+  const handleMoreSettings = () => {
+    setReadOnlyTopicIds(false);
+    setReadOnlyOnline(false);
+    setReadOnlyTeamAdviceCenter(false);
+  };
+
+  const handleCancelMoreSettings = () => {
+    resetMoreSettings();
+    resetForm();
+  };
+
+  const handleSaveMoreSettings = () => {
+    onFinish();
+    resetMoreSettings();
+  };
+
+  const handleAddress = () => {
+    setReadOnlyZipCodeScope(false);
+    setReadOnlyPostCode(false);
+    setReadOnlyCity(false);
+  };
+
+  const handleCancelAddress = () => {
+    resetAddress();
+    resetForm();
+  };
+
+  const handleSaveAddress = () => {
+    onFinish();
+    resetAddress();
+  };
+
+  const cancelGeneralInformationEditButton: ButtonItem = {
+    label: t("agency.edit.allgemeines.general_information.cancel"),
+    type: BUTTON_TYPES.LINK,
+  };
+
+  const saveGeneralInformationEditButton: ButtonItem = {
+    label: t("agency.edit.allgemeines.general_information.save"),
+    type: BUTTON_TYPES.LINK,
+  };
+
+  const cancelMoreSettingsEditButton: ButtonItem = {
+    label: t("agency.edit.allgemeines.more_settings.cancel"),
+    type: BUTTON_TYPES.LINK,
+  };
+
+  const saveMoreSettingsEditButton: ButtonItem = {
+    label: t("agency.edit.allgemeines.more_settings.save"),
+    type: BUTTON_TYPES.LINK,
+  };
+
+  const cancelAddressEditButton: ButtonItem = {
+    label: t("agency.edit.allgemeines.address.cancel"),
+    type: BUTTON_TYPES.LINK,
+  };
+
+  const saveAddressEditButton: ButtonItem = {
+    label: t("agency.edit.allgemeines.address.save"),
+    type: BUTTON_TYPES.LINK,
+  };
+
   useEffect(() => {
     setAgencyId(agencyID);
   }, []);
@@ -98,77 +191,6 @@ export default function AgencieEditAllgemeines() {
         setAllTopics([]);
       });
   }, [t, formAgencyEdit]);
-
-  const handleGeneralInformation = () => {
-    setReadOnlyName(false);
-    setReadOnlyDescription(false);
-  };
-
-  const handleCancelGeneralInformation = () => {
-    resetGeneralInformation();
-  };
-
-  const handleSaveGeneralInformation = () => {
-    resetGeneralInformation();
-  };
-
-  const handleMoreSettings = () => {
-    setReadOnlyTopicIds(false);
-    setReadOnlyOnline(false);
-    setReadOnlyTeamAdviceCenter(false);
-  };
-
-  const handleCancelMoreSettings = () => {
-    resetMoreSettings();
-  };
-
-  const handleSaveMoreSettings = () => {
-    resetMoreSettings();
-  };
-
-  const handleAddress = () => {
-    setReadOnlyZipCodeScope(false);
-    setReadOnlyPostCode(false);
-    setReadOnlyCity(false);
-  };
-
-  const handleCancelAddress = () => {
-    resetAddress();
-  };
-
-  const handleSaveAddress = () => {
-    resetAddress();
-  };
-
-  const cancelGeneralInformationEditButton: ButtonItem = {
-    label: t("agency.edit.allgemeines.general_information.cancel"),
-    type: BUTTON_TYPES.LINK,
-  };
-
-  const saveGeneralInformationEditButton: ButtonItem = {
-    label: t("agency.edit.allgemeines.general_information.save"),
-    type: BUTTON_TYPES.LINK,
-  };
-
-  const cancelMoreSettingsEditButton: ButtonItem = {
-    label: t("agency.edit.allgemeines.more_settings.cancel"),
-    type: BUTTON_TYPES.LINK,
-  };
-
-  const saveMoreSettingsEditButton: ButtonItem = {
-    label: t("agency.edit.allgemeines.more_settings.save"),
-    type: BUTTON_TYPES.LINK,
-  };
-
-  const cancelAddressEditButton: ButtonItem = {
-    label: t("agency.edit.allgemeines.address.cancel"),
-    type: BUTTON_TYPES.LINK,
-  };
-
-  const saveAddressEditButton: ButtonItem = {
-    label: t("agency.edit.allgemeines.address.save"),
-    type: BUTTON_TYPES.LINK,
-  };
 
   return (
     <div className="editForm">

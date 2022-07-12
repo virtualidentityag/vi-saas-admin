@@ -142,12 +142,6 @@ function AgencyFormModal() {
           return topic.status === "ACTIVE";
         });
         setAllActiveTopics(activeTopics);
-        // const activeTopics = result.map((topic) => {
-        // return topic.status === "ACTIVE";
-        // return topic;
-        // });
-        // setAllActiveTopics(activeTopics);
-        // console.log("Tariik topics:", activeTopics);
         setIsLoading(false);
       })
       .catch(() => {
@@ -223,10 +217,6 @@ function AgencyFormModal() {
           ...agencyModel,
           ...demographicsInitialValues,
           topicIds: convertToOptions(agencyModel.topics, "name", "id"),
-          // agencyModel.topics.map((topic) => ({
-          //   id: topic.id,
-          //   label: topic.name,
-          // })),
           postCodeRangesActive: postCodeRangesSwitchActive,
           online,
         }}
@@ -313,7 +303,7 @@ function AgencyFormModal() {
             loading={isLoading}
             allowClear
             placeholder="plsSelect"
-            options={convertToOptions(allActiveTopics, "name", "id", "status")}
+            options={convertToOptions(allActiveTopics, "name", "id")}
           />
         )}
         <Item label={t("agency.city")} name="city" rules={[{ required: true }]}>

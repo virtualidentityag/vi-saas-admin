@@ -12,7 +12,7 @@ export interface AgencyData {
   name: string;
   city: string;
   topics: TopicData[];
-  topicIds: string[];
+  topicIds: Array<{ value: string; label: string }> | string[];
   demographics?: AgencyDemographicsData;
   description: string;
   offline: boolean;

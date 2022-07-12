@@ -24,11 +24,16 @@ const updateAgencyData = async (
   await updateAgencyPostCodeRange(agencyId, formInput, "PUT");
 
   const consultingTypeId = await getConsultingType4Tenant();
+
+  const topicIds = formInput.topicIds
+    .map((topic) => (typeof topic === "string" ? topic : topic?.value))
+    .filter(Boolean);
+
   const agencyDataRequestBody = {
     dioceseId: 0,
     name: formInput.name,
     description: formInput.description,
-    topicIds: formInput.topicIds,
+    topicIds,
     postcode: formInput.postcode,
     city: formInput.city,
     consultingType: consultingTypeId,

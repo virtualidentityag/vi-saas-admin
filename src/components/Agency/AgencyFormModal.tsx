@@ -25,7 +25,7 @@ const { Item } = Form;
 const { Paragraph } = Typography;
 const DEFAULT_MIN_AGE = 18;
 const DEFAULT_MAX_AGE = 100;
-const DEMOGRAPHICS_ENABLED = false;
+const DEMOGRAPHICS_ENABLED = true;
 
 function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
   return (

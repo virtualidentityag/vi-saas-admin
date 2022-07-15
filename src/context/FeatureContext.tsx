@@ -5,24 +5,35 @@ import {
   useContext,
   useCallback,
 } from "react";
+import { FeatureFlag } from "../enums/FeatureFlag";
 import { IFeature } from "../types/feature";
+import { TenantData } from "../types/tenant";
 
 const FeatureContext =
   createContext<[IFeature[], (features: IFeature[]) => void]>(null);
 
 interface FeatureProviderProps {
   children: ReactNode;
+  tenantData: TenantData;
 }
 
-function FeatureProvider({ children }: FeatureProviderProps) {
+function FeatureProvider({ children, tenantData }: FeatureProviderProps) {
   const state = useState<IFeature[]>([
     {
-      name: "developer",
+      name: FeatureFlag.Developer,
       active: false,
     },
     {
-      name: "topics",
-      active: false,
+      name: FeatureFlag.Topics,
+      active: !!tenantData.settings.featureTopicsEnabled,
+    },
+    {
+      name: FeatureFlag.TopicsInRegistration,
+      active: !!tenantData.settings.topicsInRegistrationEnabled,
+    },
+    {
+      name: FeatureFlag.Demographics,
+      active: !!tenantData.settings.featureDemographicsEnabled,
     },
   ]);
 
@@ -35,7 +46,7 @@ function useFeatureContext() {
   const [features, setFeatures] = useContext(FeatureContext);
 
   const isEnabled = useCallback(
-    (name: string) => {
+    (name: FeatureFlag) => {
       const tempFeature = features.find((feature) => feature.name === name);
 
       return tempFeature?.active || false;
@@ -43,7 +54,7 @@ function useFeatureContext() {
     [features]
   );
 
-  const toggleFeature = (key: string) => {
+  const toggleFeature = (key: FeatureFlag) => {
     const feature = features.find((f) => f.name === key);
 
     feature.active = !feature.active;

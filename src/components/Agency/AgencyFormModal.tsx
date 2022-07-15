@@ -19,13 +19,14 @@ import { convertToOptions } from "../../utils/convertToOptions";
 import { SelectFormField } from "../SelectFormField";
 import { SliderFormField } from "../SliderFormField";
 import { Gender } from "../../enums/Gender";
+import { FeatureFlag } from "../../enums/FeatureFlag";
+import { useFeatureContext } from "../../context/FeatureContext";
 
 const { TextArea } = Input;
 const { Item } = Form;
 const { Paragraph } = Typography;
 const DEFAULT_MIN_AGE = 18;
 const DEFAULT_MAX_AGE = 100;
-const DEMOGRAPHICS_ENABLED = true;
 
 function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
   return (
@@ -35,6 +36,7 @@ function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
 
 function AgencyFormModal() {
   const { t } = useTranslation();
+  const { isEnabled } = useFeatureContext();
   const [agencyModel, setAgencyModel] = useState<AgencyData | undefined>(
     undefined
   );
@@ -155,7 +157,7 @@ function AgencyFormModal() {
   }
 
   const { online } = agencyModel;
-  const demographicsInitialValues = DEMOGRAPHICS_ENABLED
+  const demographicsInitialValues = isEnabled(FeatureFlag.Demographics)
     ? {
         demographics: {
           age: agencyModel?.demographics?.ageFrom
@@ -276,7 +278,7 @@ function AgencyFormModal() {
             { value: "false", label: t("no") },
           ]}
         />
-        {DEMOGRAPHICS_ENABLED && (
+        {isEnabled(FeatureFlag.Demographics) && (
           <>
             <SliderFormField
               label={t("agency.age")}
@@ -295,7 +297,7 @@ function AgencyFormModal() {
             />
           </>
         )}
-        {hasRole(UserRole.TopicAdmin) && (
+        {hasRole(UserRole.TopicAdmin) && isEnabled(FeatureFlag.Topics) && (
           <SelectFormField
             label="topics.title"
             name="topicIds"

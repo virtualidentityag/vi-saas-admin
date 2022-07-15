@@ -1,10 +1,12 @@
+import { FeatureFlag } from "../enums/FeatureFlag";
+
 export interface IFeature {
-  name: string;
+  name: FeatureFlag;
   active: boolean;
 }
 
 export type FeatureContextType = {
   features: IFeature[];
-  getFeatureStatus: (name: string) => boolean;
+  getFeatureStatus: (name: FeatureFlag) => boolean;
   toggleFeature: (feature: IFeature) => void;
 };

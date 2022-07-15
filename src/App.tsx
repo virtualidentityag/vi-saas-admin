@@ -15,7 +15,7 @@ import { useTenantData } from "./hooks/useTenantData.hook";
 import { FeatureProvider } from "./context/FeatureContext";
 
 function App() {
-  const { isLoading } = useTenantData();
+  const { isLoading, data } = useTenantData();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -31,7 +31,7 @@ function App() {
   return isLoading ? (
     <Initialisation />
   ) : (
-    <FeatureProvider>
+    <FeatureProvider tenantData={data}>
       <ProtectedPageLayoutWrapper>
         <Routes>
           {/* later <Route path="/" element={<Dashboard />} /> */}

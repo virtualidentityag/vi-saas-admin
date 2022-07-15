@@ -23,6 +23,7 @@ import { UserRole } from "../../enums/UserRole";
 import { useUserRoles } from "../../hooks/useUserRoles.hook";
 import { useTenantData } from "../../hooks/useTenantData.hook";
 import { useTenantDataUpdate } from "../../hooks/useTenantDataUpdate.hook";
+import { FeatureFlag } from "../../enums/FeatureFlag";
 
 const emptyAgencyModel: AgencyData = {
   id: null,
@@ -54,9 +55,9 @@ function AgencyList() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [, hasRole] = useUserRoles();
-  const { isEnabled } = useFeatureContext();
+  const { isEnabled, toggleFeature } = useFeatureContext();
   const { data: tenantData } = useTenantData();
-  const isTopicsFeatureActive = isEnabled("topics");
+  const isTopicsFeatureActive = isEnabled(FeatureFlag.TopicsInRegistration);
   const { mutate: updateTenantData } = useTenantDataUpdate();
 
   const { confirm } = Modal;
@@ -271,13 +272,18 @@ function AgencyList() {
       width: "768px",
       icon: <InterestsOutlined />,
       onOk() {
-        updateTenantData({
-          ...tenantData,
-          settings: {
-            ...tenantData.settings,
-            topicsInRegistrationEnabled: !isTopicsFeatureActive,
+        updateTenantData(
+          {
+            ...tenantData,
+            settings: {
+              ...tenantData.settings,
+              topicsInRegistrationEnabled: !isTopicsFeatureActive,
+            },
           },
-        });
+          {
+            onSuccess: () => toggleFeature(FeatureFlag.TopicsInRegistration),
+          }
+        );
       },
     });
   }, [isTopicsFeatureActive]);
@@ -298,7 +304,7 @@ function AgencyList() {
         >
           {t("new")}
         </Button>
-        {hasRole(UserRole.TopicAdmin) && (
+        {hasRole(UserRole.TopicAdmin) && isEnabled(FeatureFlag.Topics) && (
           <>
             <Switch checked={isTopicsFeatureActive} onClick={onTopicsSwitch} />
             {t("topics.featureToggle")}

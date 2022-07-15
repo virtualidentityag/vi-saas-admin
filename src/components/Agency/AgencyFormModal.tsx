@@ -297,17 +297,19 @@ function AgencyFormModal() {
             />
           </>
         )}
-        {hasRole(UserRole.TopicAdmin) && isEnabled(FeatureFlag.Topics) && (
-          <SelectFormField
-            label="topics.title"
-            name="topicIds"
-            isMulti
-            loading={isLoading}
-            allowClear
-            placeholder="plsSelect"
-            options={convertToOptions(allActiveTopics, "name", "id")}
-          />
-        )}
+        {hasRole(UserRole.TopicAdmin) &&
+          isEnabled(FeatureFlag.Topics) &&
+          allActiveTopics?.length > 0 && (
+            <SelectFormField
+              label="topics.title"
+              name="topicIds"
+              isMulti
+              loading={isLoading}
+              allowClear
+              placeholder="plsSelect"
+              options={convertToOptions(allActiveTopics, "name", "id")}
+            />
+          )}
         <Item label={t("agency.city")} name="city" rules={[{ required: true }]}>
           <Input placeholder={t("placeholder.agency.city")} maxLength={100} />
         </Item>

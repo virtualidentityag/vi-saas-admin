@@ -90,6 +90,7 @@ function Settings() {
         allowedNumberOfUsers: allowedNumberOfUsers || 3,
       },
       settings: {
+        ...tenantData.settings,
         ...(isEnabled(FeatureFlag.Topics) && {
           topicsInRegistrationEnabled: isEnabled(
             FeatureFlag.TopicsInRegistration

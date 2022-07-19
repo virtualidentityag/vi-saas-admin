@@ -46,6 +46,7 @@ export function SelectFormField({
         showSearch
         loading={loading}
         allowClear={allowClear}
+        getPopupContainer={(element: HTMLElement) => element.parentElement}
         mode={isMulti ? "multiple" : undefined}
         placeholder={placeholder ? t(placeholder) : undefined}
         optionFilterProp="children"

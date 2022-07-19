@@ -90,10 +90,13 @@ function CounselorList() {
   const handleAddCounselor = (formData: Record<string, any>) => {
     setIsLoading(true);
     addCouselorData(formData)
-      .then((response) => {
-        // eslint-disable-next-line no-underscore-dangle
-        putAgenciesForCounselor(response?._embedded.id, formData.agencyIds);
-      })
+      .then((response) =>
+        putAgenciesForCounselor(
+          // eslint-disable-next-line no-underscore-dangle
+          response?._embedded.id,
+          formData.agencyIds
+        )
+      )
       .then(() => getCounselorSearchData(tableState, searchQuery))
       .then((result: any) => {
         updateCounselors(result.data);

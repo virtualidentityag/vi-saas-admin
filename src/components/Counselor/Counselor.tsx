@@ -204,12 +204,16 @@ function Counselor({
           <Item
             label={t("agency")}
             name="agencyIds"
+            className="agency-select-container"
             rules={[{ required: true, type: "array" }]}
           >
             <Select
               mode="multiple"
               className="agencies-select"
               disabled={isLoading}
+              getPopupContainer={(element: HTMLElement) =>
+                element.parentElement
+              }
               allowClear
               filterOption={(input, option) =>
                 option?.props.children?.props.title

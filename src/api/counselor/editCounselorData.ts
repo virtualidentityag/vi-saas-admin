@@ -10,7 +10,7 @@ import putAgenciesForCounselor from "../agency/putAgenciesForCounselor";
  * @param formData - input data from form
  * @return data
  */
-const editCounselorData = (
+const editCounselorData = async (
   counselorData: CounselorData,
   formData: CounselorData
 ) => {
@@ -43,7 +43,7 @@ const editCounselorData = (
     formData.agencyIds.length > 0 &&
     counselorData.agencyIds !== formData.agencyIds
   ) {
-    putAgenciesForCounselor(counselorData.id, formData.agencyIds);
+    await putAgenciesForCounselor(counselorData.id, formData.agencyIds);
   }
 
   return fetchData({

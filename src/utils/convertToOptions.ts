@@ -10,8 +10,11 @@ export const convertToOptions = <T>(
       const label =
         labelKey instanceof Array
           ? labelKey.map((key) => d[key]).join(" ")
-          : d[labelKey as keyof T];
-      return { label, value: d[valueKey].toString() as unknown } as Option;
+          : d[labelKey];
+      return {
+        label,
+        value: d[valueKey].toString() as unknown,
+      } as Option;
     }) || []
   );
 };

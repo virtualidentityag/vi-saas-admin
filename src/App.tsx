@@ -16,7 +16,7 @@ import { FeatureProvider } from "./context/FeatureContext";
 import AgencieEdit from "./pages/AgencieEdit";
 
 function App() {
-  const { isLoading } = useTenantData();
+  const { isLoading, data } = useTenantData();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -32,7 +32,7 @@ function App() {
   return isLoading ? (
     <Initialisation />
   ) : (
-    <FeatureProvider>
+    <FeatureProvider tenantData={data}>
       <ProtectedPageLayoutWrapper>
         <Routes>
           {/* later <Route path="/" element={<Dashboard />} /> */}

@@ -7,12 +7,16 @@ function buildAgencyDataRequestBody(
   consultingTypeResponseId: string,
   formData: Record<string, any>
 ) {
+  const topicIds = formData.topicIds
+    .map((topic) => (typeof topic === "string" ? topic : topic?.value))
+    .filter(Boolean);
+
   return JSON.stringify({
     // diocese in case of SAAS is not relevant object but enforced by API
     dioceseId: 0,
     name: formData.name,
     description: formData.description,
-    topicIds: formData.topicIds,
+    topicIds,
     postcode: formData.postcode,
     city: formData.city,
     consultingType: consultingTypeResponseId,

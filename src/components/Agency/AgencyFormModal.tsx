@@ -19,12 +19,14 @@ import { convertToOptions } from "../../utils/convertToOptions";
 import { SelectFormField } from "../SelectFormField";
 import { SliderFormField } from "../SliderFormField";
 import { Gender } from "../../enums/Gender";
+import { FeatureFlag } from "../../enums/FeatureFlag";
+import { useFeatureContext } from "../../context/FeatureContext";
 
 const { TextArea } = Input;
 const { Item } = Form;
 const { Paragraph } = Typography;
-const MIN_AGE = 18;
-const MAX_AGE = 65;
+const DEFAULT_MIN_AGE = 18;
+const DEFAULT_MAX_AGE = 100;
 
 function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
   return (
@@ -34,6 +36,7 @@ function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
 
 function AgencyFormModal() {
   const { t } = useTranslation();
+  const { isEnabled } = useFeatureContext();
   const [agencyModel, setAgencyModel] = useState<AgencyData | undefined>(
     undefined
   );
@@ -48,7 +51,9 @@ function AgencyFormModal() {
   const [isModalVisible, setIsModalVisible] = useState(true);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [allTopics, setAllTopics] = useState<Record<string, any>[]>([]);
+  const [allActiveTopics, setAllActiveTopics] = useState<Record<string, any>[]>(
+    []
+  );
 
   const [, hasRole] = useUserRoles();
 
@@ -127,12 +132,12 @@ function AgencyFormModal() {
         const activeTopics = result.filter((topic) => {
           return topic.status === "ACTIVE";
         });
-        setAllTopics(activeTopics);
+        setAllActiveTopics(activeTopics);
         setIsLoading(false);
       })
       .catch(() => {
         setIsLoading(false);
-        setAllTopics([]);
+        setAllActiveTopics([]);
       });
   }, [t, formInstance]);
 
@@ -141,7 +146,18 @@ function AgencyFormModal() {
   }
 
   const { online } = agencyModel;
-
+  const demographicsInitialValues = isEnabled(FeatureFlag.Demographics)
+    ? {
+        demographics: {
+          age: agencyModel?.demographics?.ageFrom
+            ? [agencyModel.demographics.ageFrom, agencyModel.demographics.ageTo]
+            : [DEFAULT_MIN_AGE, DEFAULT_MAX_AGE],
+          genders: agencyModel?.id
+            ? agencyModel?.demographics?.genders
+            : Object.values(Gender),
+        },
+      }
+    : {};
   return (
     <Modal
       destroyOnClose
@@ -190,18 +206,8 @@ function AgencyFormModal() {
         layout="vertical"
         initialValues={{
           ...agencyModel,
-          demographics: {
-            age: agencyModel?.demographics?.ageFrom
-              ? [
-                  agencyModel.demographics.ageFrom,
-                  agencyModel.demographics.ageTo,
-                ]
-              : [MIN_AGE, MAX_AGE],
-            genders: agencyModel?.id
-              ? agencyModel?.demographics?.genders
-              : undefined,
-          },
-          topicIds: agencyModel.topics.map((topic) => topic.id.toString()),
+          ...demographicsInitialValues,
+          topicIds: convertToOptions(agencyModel.topics, "name", "id"),
           postCodeRangesActive: postCodeRangesSwitchActive,
           online,
         }}
@@ -247,7 +253,7 @@ function AgencyFormModal() {
                 }}
               />
               <Paragraph className="desc__toggleText">
-                <small>{t("agency.online")}</small>
+                {t("agency.online")}
               </Paragraph>
             </div>
           </Item>
@@ -261,32 +267,38 @@ function AgencyFormModal() {
             { value: "false", label: t("no") },
           ]}
         />
-        <SliderFormField
-          label={t("agency.age")}
-          name={["demographics", "age"]}
-          min={MIN_AGE}
-          max={MAX_AGE}
-        />
-        <SelectFormField
-          label="agency.gender"
-          name={["demographics", "genders"]}
-          isMulti
-          options={Object.values(Gender).map((gender) => ({
-            value: gender,
-            label: t(`agency.gender.option.${gender.toLowerCase()}`),
-          }))}
-        />
-        {hasRole(UserRole.TopicAdmin) && (
-          <SelectFormField
-            label="topics.title"
-            name="topicIds"
-            isMulti
-            loading={isLoading}
-            allowClear
-            placeholder="plsSelect"
-            options={convertToOptions(allTopics, "name", "id")}
-          />
+        {isEnabled(FeatureFlag.Demographics) && (
+          <>
+            <SliderFormField
+              label={t("agency.age")}
+              name={["demographics", "age"]}
+              min={0}
+              max={100}
+            />
+            <SelectFormField
+              label="agency.gender"
+              name={["demographics", "genders"]}
+              isMulti
+              options={Object.values(Gender).map((gender) => ({
+                value: gender,
+                label: t(`agency.gender.option.${gender.toLowerCase()}`),
+              }))}
+            />
+          </>
         )}
+        {hasRole(UserRole.TopicAdmin) &&
+          isEnabled(FeatureFlag.Topics) &&
+          allActiveTopics?.length > 0 && (
+            <SelectFormField
+              label="topics.title"
+              name="topicIds"
+              isMulti
+              loading={isLoading}
+              allowClear
+              placeholder="plsSelect"
+              options={convertToOptions(allActiveTopics, "name", "id")}
+            />
+          )}
         <Item label={t("agency.city")} name="city" rules={[{ required: true }]}>
           <Input placeholder={t("placeholder.agency.city")} maxLength={100} />
         </Item>
@@ -302,9 +314,13 @@ function AgencyFormModal() {
             <Switch
               size="default"
               checked={postCodeRangesSwitchActive}
-              onChange={() =>
-                setPostCodeRangesSwitchActive(!postCodeRangesSwitchActive)
-              }
+              onChange={() => {
+                const switchValue = !postCodeRangesSwitchActive;
+                setPostCodeRangesSwitchActive(switchValue);
+                formInstance.setFieldsValue({
+                  postCodeRangesActive: switchValue,
+                });
+              }}
             />
             <Paragraph className="desc__toggleText">
               {t("agency.postCodeRanges")}

@@ -25,6 +25,7 @@ import { TenantData } from "../../types/tenant";
 import { useTenantData } from "../../hooks/useTenantData.hook";
 import { useTenantDataMutation } from "../../hooks/useTenantDataMutation.hook";
 import { useFeatureContext } from "../../context/FeatureContext";
+import { FeatureFlag } from "../../enums/FeatureFlag";
 
 const { Item } = Form;
 const { Paragraph } = Typography;
@@ -89,7 +90,12 @@ function Settings() {
         allowedNumberOfUsers: allowedNumberOfUsers || 3,
       },
       settings: {
-        ...(isEnabled("topics") && { topicsInRegistrationEnabled: true }),
+        ...tenantData.settings,
+        ...(isEnabled(FeatureFlag.Topics) && {
+          topicsInRegistrationEnabled: isEnabled(
+            FeatureFlag.TopicsInRegistration
+          ),
+        }),
       },
       theming: {
         logo: logoUrl,

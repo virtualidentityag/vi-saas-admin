@@ -17,6 +17,8 @@ export interface BasicTenantData {
   formalLanguage?: boolean;
   settings: {
     topicsInRegistrationEnabled?: boolean | null;
+    featureTopicsEnabled?: boolean | null;
+    featureDemographicsEnabled?: boolean | null;
   };
 }
 

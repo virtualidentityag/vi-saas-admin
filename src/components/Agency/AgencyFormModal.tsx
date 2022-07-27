@@ -57,6 +57,17 @@ function AgencyFormModal() {
 
   const [, hasRole] = useUserRoles();
 
+  useEffect(() => {
+    pubsub.subscribe(PubSubEvents.AGENCY_UPDATE, (data) => {
+      setAgencyModel({ ...data });
+      setIsModalVisible(true);
+      formInstance.setFieldsValue(data);
+      if (data) {
+        setSubmitButtonDisabled(data.id === null);
+      }
+    });
+  }, []);
+
   const setPostCodeRangesSwitchState = (data: PostCodeRange[]) => {
     if (hasOnlyDefaultRangeDefined(data)) {
       setPostCodeRangesSwitchActive(false);

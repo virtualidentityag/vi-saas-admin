@@ -24,9 +24,8 @@ const updateAgencyData = async (
   await updateAgencyPostCodeRange(agencyId, formInput, "PUT");
 
   const consultingTypeId = await getConsultingType4Tenant();
-
-  const topicIds = formInput.topicIds
-    .map((topic) => (typeof topic === "string" ? topic : topic?.value))
+  const topicIds = formInput?.topicIds
+    ?.map((topic) => (typeof topic === "string" ? topic : topic?.value))
     .filter(Boolean);
 
   const agencyDataRequestBody = {

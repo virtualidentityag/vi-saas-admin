@@ -8,6 +8,7 @@ export interface SliderFormFieldProps {
   help?: string;
   min: number;
   max: number;
+  disabled?: boolean;
 }
 
 export function SliderFormField({
@@ -16,6 +17,7 @@ export function SliderFormField({
   help,
   min,
   max,
+  disabled,
 }: SliderFormFieldProps) {
   const [t] = useTranslation();
   return (
@@ -26,6 +28,7 @@ export function SliderFormField({
       className="sliderFormField"
     >
       <Slider
+        disabled={disabled}
         range
         min={min}
         max={max}

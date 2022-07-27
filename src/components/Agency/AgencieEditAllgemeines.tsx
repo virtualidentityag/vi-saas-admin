@@ -17,12 +17,21 @@ import getAgencyDataAgencyId from "../../api/agency/getAgencyByAgencieId";
 import { AgencyData } from "../../types/agency";
 import { Button, ButtonItem, BUTTON_TYPES } from "../button/Button";
 import updateAgencyData from "../../api/agency/updateAgencyData";
+import { FeatureFlag } from "../../enums/FeatureFlag";
+import { Gender } from "../../enums/Gender";
+import { UserRole } from "../../enums/UserRole";
+import { SliderFormField } from "../SliderFormField";
+import { useFeatureContext } from "../../context/FeatureContext";
+import { useUserRoles } from "../../hooks/useUserRoles.hook";
 
 const { Paragraph } = Typography;
 const { Item } = Form;
+const DEFAULT_MIN_AGE = 18;
+const DEFAULT_MAX_AGE = 100;
 
 export default function AgencieEditAllgemeines() {
   const { t } = useTranslation();
+  const { isEnabled } = useFeatureContext();
   const [formAgencyEdit] = Form.useForm();
   const [postCodeRangesSwitchActive, setPostCodeRangesSwitchActive] =
     useState(false);
@@ -44,8 +53,24 @@ export default function AgencieEditAllgemeines() {
   const [readOnlyZipCodeScope, setReadOnlyZipCodeScope] = useState(true);
   const [readOnlyPostCode, setReadOnlyPostCode] = useState(true);
   const [readOnlyCity, setReadOnlyCity] = useState(true);
+  const [readOnlyAgencyGender, setReadOnlyAgencyGender] = useState(true);
+  const [readOnlyAgencyAge, setReadOnlyAgencyAge] = useState(true);
   const currentPath = useLocation().pathname;
   const [, agencyID] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
+  const [, hasRole] = useUserRoles();
+
+  const demographicsInitialValues = isEnabled(FeatureFlag.Demographics)
+    ? {
+        demographics: {
+          age: agencyModel?.demographics?.ageFrom
+            ? [agencyModel.demographics.ageFrom, agencyModel.demographics.ageTo]
+            : [DEFAULT_MIN_AGE, DEFAULT_MAX_AGE],
+          genders: agencyModel?.id
+            ? agencyModel?.demographics?.genders
+            : Object.values(Gender),
+        },
+      }
+    : {};
 
   const resetGeneralInformation = () => {
     setReadOnlyName(true);
@@ -56,6 +81,8 @@ export default function AgencieEditAllgemeines() {
     setReadOnlyTopicIds(true);
     setReadOnlyOnline(true);
     setReadOnlyTeamAdviceCenter(true);
+    setReadOnlyAgencyGender(true);
+    setReadOnlyAgencyAge(true);
   };
 
   const resetAddress = () => {
@@ -66,6 +93,7 @@ export default function AgencieEditAllgemeines() {
 
   const onFinish = () => {
     formAgencyEdit.validateFields().then((formData) => {
+      debugger; // eslint-disable-line no-debugger
       updateAgencyData(agencyModel, formData as AgencyData).then(() => {
         message.success({
           content: t("message.agency.update"),
@@ -98,6 +126,8 @@ export default function AgencieEditAllgemeines() {
     setReadOnlyTopicIds(false);
     setReadOnlyOnline(false);
     setReadOnlyTeamAdviceCenter(false);
+    setReadOnlyAgencyGender(false);
+    setReadOnlyAgencyAge(false);
   };
 
   const handleCancelMoreSettings = () => {
@@ -204,6 +234,7 @@ export default function AgencieEditAllgemeines() {
           layout="vertical"
           initialValues={{
             ...agencyModel,
+            ...demographicsInitialValues,
             topicIds: agencyModel?.topics.map((topic) => topic.id.toString()),
           }}
         >
@@ -262,87 +293,6 @@ export default function AgencieEditAllgemeines() {
                   )}
                 </div>
               </Box>
-            </Col>
-            <Col xs={12} lg={6}>
-              <Box>
-                <div className="agencyEdit__headline">
-                  <Title className="formHeadline mb-m" level={4}>
-                    {t("agency.edit.allgemeines.more_settings")}
-                  </Title>
-                  <Pencil
-                    className="agencyEdit__pointer"
-                    onClick={handleMoreSettings}
-                  />
-                </div>
-                <div>
-                  <SelectFormField
-                    label="topics.title"
-                    name="topicIds"
-                    isMulti
-                    loading={isLoading}
-                    allowClear
-                    placeholder="plsSelect"
-                    options={convertToOptions(allTopics, "name", "id")}
-                    disabled={readOnlyTopicIds}
-                  />
-                  <Row gutter={[20, 10]}>
-                    <Col xs={12} lg={6}>
-                      <Item
-                        label={t(
-                          "agency.edit.allgemeines.more_settings.team_advice_center"
-                        )}
-                        name="teamAdviceCenter"
-                      >
-                        <div className="flex">
-                          <Switch
-                            size="default"
-                            defaultChecked={false}
-                            disabled={readOnlyTeamAdviceCenter}
-                          />
-                          <Paragraph className="desc__toggleText">
-                            {t("yes")}
-                          </Paragraph>
-                        </div>
-                      </Item>
-                    </Col>
-                    <Col xs={12} lg={6}>
-                      <Item
-                        label={t(
-                          "agency.edit.allgemeines.more_settings.online"
-                        )}
-                        name="online"
-                      >
-                        <div className="flex">
-                          <Switch
-                            size="default"
-                            defaultChecked={false}
-                            disabled={readOnlyOnline}
-                          />
-                          <Paragraph className="desc__toggleText">
-                            {t("yes")}
-                          </Paragraph>
-                        </div>
-                      </Item>
-                    </Col>
-                  </Row>
-                </div>
-                {!readOnlyTopicIds &&
-                  !readOnlyOnline &&
-                  !readOnlyTeamAdviceCenter && (
-                    <div className="agencyEdit__editableButtons">
-                      <Button
-                        item={cancelMoreSettingsEditButton}
-                        buttonHandle={handleCancelMoreSettings}
-                      />
-                      <Button
-                        item={saveMoreSettingsEditButton}
-                        buttonHandle={handleSaveMoreSettings}
-                      />
-                    </div>
-                  )}
-              </Box>
-            </Col>
-            <Col xs={12} lg={6}>
               <Box>
                 <div className="agencyEdit__headline">
                   <Title className="formHeadline mb-m" level={4}>
@@ -427,6 +377,116 @@ export default function AgencieEditAllgemeines() {
                     />
                   </div>
                 )}
+              </Box>
+            </Col>
+            <Col xs={12} lg={6}>
+              <Box>
+                <div className="agencyEdit__headline">
+                  <Title className="formHeadline mb-m" level={4}>
+                    {t("agency.edit.allgemeines.more_settings")}
+                  </Title>
+                  <Pencil
+                    className="agencyEdit__pointer"
+                    onClick={handleMoreSettings}
+                  />
+                </div>
+                <div>
+                  {hasRole(UserRole.TopicAdmin) &&
+                    isEnabled(FeatureFlag.Topics) &&
+                    allTopics?.length > 0 && (
+                      <Item name="topicIds">
+                        <SelectFormField
+                          label="topics.title"
+                          name=""
+                          isMulti
+                          loading={isLoading}
+                          allowClear
+                          placeholder="plsSelect"
+                          options={convertToOptions(allTopics, "name", "id")}
+                          disabled={readOnlyTopicIds}
+                        />
+                      </Item>
+                    )}
+                  <Row gutter={[20, 10]}>
+                    <Col xs={12} lg={6}>
+                      <Item
+                        label={t(
+                          "agency.edit.allgemeines.more_settings.team_advice_center"
+                        )}
+                        name="teamAdviceCenter"
+                      >
+                        <div className="flex">
+                          <Switch
+                            size="default"
+                            defaultChecked={false}
+                            disabled={readOnlyTeamAdviceCenter}
+                          />
+                          <Paragraph className="desc__toggleText">
+                            {t("yes")}
+                          </Paragraph>
+                        </div>
+                      </Item>
+                    </Col>
+                    <Col xs={12} lg={6}>
+                      <Item
+                        label={t(
+                          "agency.edit.allgemeines.more_settings.online"
+                        )}
+                        name="online"
+                      >
+                        <div className="flex">
+                          <Switch
+                            size="default"
+                            defaultChecked={false}
+                            disabled={readOnlyOnline}
+                          />
+                          <Paragraph className="desc__toggleText">
+                            {t("yes")}
+                          </Paragraph>
+                        </div>
+                      </Item>
+                    </Col>
+                  </Row>
+                </div>
+                {isEnabled(FeatureFlag.Demographics) && (
+                  <>
+                    <SliderFormField
+                      label={t("agency.age")}
+                      name={["demographics", "age"]}
+                      min={0}
+                      max={100}
+                      disabled={readOnlyAgencyAge}
+                    />
+                    <SelectFormField
+                      label="agency.gender"
+                      name={["demographics", "genders"]}
+                      isMulti
+                      options={Object.values(Gender).map((gender) => ({
+                        value: gender,
+                        label: t(
+                          `agency.gender.option.${gender.toLowerCase()}`
+                        ),
+                      }))}
+                      disabled={readOnlyAgencyGender}
+                    />
+                  </>
+                )}
+                {!readOnlyTopicIds &&
+                  !readOnlyOnline &&
+                  !readOnlyTeamAdviceCenter &&
+                  !readOnlyAgencyAge &&
+                  !readOnlyAgencyGender && (
+                    <div className="agencyEdit__editableButtons">
+                      <Button
+                        item={cancelMoreSettingsEditButton}
+                        buttonHandle={handleCancelMoreSettings}
+                      />
+                      <Button
+                        item={saveMoreSettingsEditButton}
+                        buttonHandle={handleSaveMoreSettings}
+                      />
+                    </div>
+                  )}
               </Box>
             </Col>
           </Row>

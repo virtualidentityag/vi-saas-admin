@@ -5,10 +5,11 @@ import { useCallback, useEffect, useState } from "react";
 import { ColumnsType } from "antd/lib/table";
 import Title from "antd/es/typography/Title";
 import EditButtons from "../EditableTable/EditButtons";
-import { AgencyEditData } from "../../types/agencyEdit";
+import { AgencyEditData, AgencyEventTypes } from "../../types/agencyEdit";
 import ResizableTitle from "../Resizable/Resizable";
 import ErstberatungNewModal from "./ErstberatungNewModal";
 import ErstberatungEditModal from "./ErstberatungEditModal";
+import getAgencyEventTypes from "../../api/agency/getAgencyEventTypes";
 
 const { Paragraph } = Typography;
 
@@ -23,19 +24,6 @@ export default function AgencieEditErstberatung() {
     sortBy: undefined,
     order: undefined,
   });
-
-  // TODO: Change typing to AgencyData
-  const fakeData: AgencyEditData[] = [
-    {
-      id: 1,
-      name: "Erstberatung, alle",
-      description: undefined,
-      url: "https://onlineberatung-tenant.de/terminname",
-      duration: 60,
-      advisor: undefined,
-      location: "Videoberatung",
-    },
-  ];
 
   const handleEditTable = (data: AgencyEditData) => {
     setEditableData(data);
@@ -124,8 +112,36 @@ export default function AgencieEditErstberatung() {
     }),
   }));
 
+  const transformData = (eventTypes: AgencyEventTypes[]) => {
+    const agencyEventTypes = [];
+    eventTypes.forEach((event: AgencyEventTypes) => {
+      agencyEventTypes.push({
+        id: event.id,
+        name: event.title,
+        description: event.description,
+        url: "https://onlineberatung-tenant.de/terminname",
+        duration: event.length,
+        advisor: [
+          {
+            id: "consultantId",
+            name: "consulantName",
+          },
+          {
+            id: "consultant2Id",
+            name: "consulant2Name",
+          },
+        ],
+        location: "Videoberatung",
+      });
+    });
+    return agencyEventTypes;
+  };
+
   useEffect(() => {
-    setTopics(fakeData);
+    getAgencyEventTypes("1005").then((resp: AgencyEventTypes[]) => {
+      const agencyEventTypes = transformData(resp);
+      setTopics(agencyEventTypes);
+    });
   }, [tableState]);
 
   return (

@@ -23,6 +23,7 @@ export const mainURL = url;
 export const agencyDataAgencyId = `${mainURL}/service/agencyadmin/agencies/{agencyId}`;
 export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&perPage=100`;
 export const agencyEndpointBase = `${mainURL}/service/agencyadmin/agencies`;
+export const agencyEventTypes = `${mainURL}/service/appointservice/agencies/{agencyId}/eventTypes`;
 export const agencyPostcodeRangeEndpointBase = `${mainURL}/service/agencyadmin/postcoderanges`;
 export const consultantsForAgencyEndpoint = `${mainURL}/service/useradmin/agencies/{agencyId}/consultants`;
 export const consultingTypeEndpoint = `${mainURL}/service/consultingtypes`;

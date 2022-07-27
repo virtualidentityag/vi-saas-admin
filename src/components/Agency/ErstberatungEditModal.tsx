@@ -51,7 +51,12 @@ export default function ErstberatungEditModal(props: {
           description: props?.data?.description,
           url: props?.data?.url,
           duration: props?.data?.duration,
-          advisor: props?.data?.advisor,
+          advisor: props?.data?.advisor?.map((advisor) => {
+            return {
+              label: advisor.name,
+              value: advisor.id,
+            };
+          }),
           location: props?.data?.location,
         }}
       >
@@ -126,17 +131,12 @@ export default function ErstberatungEditModal(props: {
           allowClear
           placeholder="agency.edit.erstberatung.modal_new_consultation_type.advisor"
           required
-          options={[
-            {
-              label: "Beraterin1 Vorname Nachname",
-              value: "Beraterin1VornameNachname",
-            },
-            {
-              label: "BerterinMonika Mustermann",
-              value: "BerterinMonikaMustermann",
-            },
-            { label: "Max Mustermann", value: "MaxMustermann" },
-          ]}
+          options={props?.data?.advisor?.map((advisor) => {
+            return {
+              label: advisor.name,
+              value: advisor.id,
+            };
+          })}
         />
         <SelectFormField
           disabled

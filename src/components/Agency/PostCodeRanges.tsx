@@ -35,7 +35,9 @@ export default function PostCodeRanges(props: {
           label={t("agency.postcode.from")}
           name={`postcodeFrom_${index}`}
           initialValue={el.from}
-          rules={[{ required: true, message: t("agency.postcode.empty") }]}
+          rules={[
+            { min: 5, required: true, message: t("agency.postcode.minimum") },
+          ]}
         >
           <Input maxLength={5} key={`until_from_${index}`} />
         </Item>
@@ -45,7 +47,9 @@ export default function PostCodeRanges(props: {
           label={t("agency.postcode.until")}
           name={`postcodeTo_${index}`}
           initialValue={el.until === undefined || null ? el.from : el.until}
-          rules={[{ required: true, message: t("agency.postcode.empty") }]}
+          rules={[
+            { min: 5, required: true, message: t("agency.postcode.minimum") },
+          ]}
         >
           <Input maxLength={5} key="input_until" />
         </Item>

@@ -149,7 +149,7 @@ function AgencyList() {
         width: 100,
         ellipsis: true,
         render: (offline: Boolean) => {
-          return offline === true ? "NEIN" : "JA";
+          return offline ? "NEIN" : "JA";
         },
         className: "agencyListOnline__column",
       },

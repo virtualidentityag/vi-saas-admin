@@ -145,7 +145,7 @@ function AgencyList() {
         title: t("agency.online.title"),
         dataIndex: "offline",
         key: "offline",
-        sorter: (a, b) => a.offline - b.offline,
+        sorter: (a, b) => (a.status > b.status ? 1 : -1),
         width: 100,
         ellipsis: true,
         render: (offline: Boolean) => {

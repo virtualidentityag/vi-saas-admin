@@ -69,7 +69,7 @@ function AgencyList() {
         dataIndex: "name",
         key: "name",
         sorter: (a, b) => a.name.localeCompare(b.name),
-        width: 150,
+        width: 100,
         ellipsis: true,
         className: "agencyList__column",
         fixed: "left",
@@ -142,16 +142,16 @@ function AgencyList() {
           ]
         : []),
       {
-        title: t("agency.teamAgency"),
-        dataIndex: "teamAgency",
-        key: "teamAgency",
-        sorter: (a, b) => (a.teamAgency > b.teamAgency ? 1 : -1),
+        title: t("agency.online.title"),
+        dataIndex: "offline",
+        key: "offline",
+        sorter: (a, b) => (a.offline > b.offline ? 1 : -1),
         width: 100,
         ellipsis: true,
-        render: (data: string) => {
-          return data === "true" ? "JA" : "NEIN";
+        render: (offline: Boolean) => {
+          return offline === true ? "NEIN" : "JA";
         },
-        className: "agencyList__column",
+        className: "agencyListOnline__column",
       },
       {
         width: 60,

@@ -371,7 +371,6 @@ function CounselorList() {
   const pagination = {
     total: numberOfCounselors,
     current: tableState.current,
-    // pageSize: 10,
     showSizeChanger: true,
     pageSizeOptions: ["10", "20", "30"],
   };

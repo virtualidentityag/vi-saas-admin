@@ -2,7 +2,6 @@ import { agencyEndpointBase } from "../../appConfig";
 
 import { FETCH_METHODS, fetchData } from "../fetchData";
 import removeEmbedded from "../../utils/removeEmbedded";
-// import AgencyList from "../../components/Agency/AgencyList";
 
 export const DEFAULT_SORT = "NAME";
 export const DEFAULT_ORDER = "ASC";

@@ -50,6 +50,7 @@ function AgencyList() {
     current: 1,
     sortBy: undefined,
     order: undefined,
+    pageSize: "10",
   });
 
   const [isLoading, setIsLoading] = useState(true);
@@ -218,24 +219,27 @@ function AgencyList() {
   }, [tableState]);
 
   const tableChangeHandler = (pagination: any, filters: any, sorter: any) => {
+    const { current, pageSize } = pagination;
     if (sorter.field) {
       const sortBy = sorter.field.toUpperCase();
       const order = sorter.order === "descend" ? "DESC" : "ASC";
       setTableState({
         ...tableState,
-        current: pagination.current,
+        current,
+        pageSize,
         sortBy,
         order,
       });
     } else {
-      setTableState({ ...tableState, current: pagination.current });
+      setTableState({ ...tableState, current, pageSize });
     }
   };
 
   const pagination = {
     total: numberOfAgencies,
     current: tableState.current,
-    pageSize: 10,
+    showSizeChanger: true,
+    pageSizeOptions: ["10", "20", "30"],
   };
 
   const handleResize = useCallback(

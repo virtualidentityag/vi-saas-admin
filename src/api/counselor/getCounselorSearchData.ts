@@ -21,7 +21,9 @@ const getCounselorSearchData = (state: TableState, query: string) => {
   return fetchData({
     url: `${usersConsultantsSearchEndpoint}?query=${encodeURIComponent(
       searchQuery
-    )}&page=${state.current}&perPage=10&order=${order}&field=${sortBy}`,
+    )}&page=${state.current}&perPage=${
+      state?.pageSize
+    }&order=${order}&field=${sortBy}`,
     method: FETCH_METHODS.GET,
     skipAuth: false,
     responseHandling: [],

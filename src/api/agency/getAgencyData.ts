@@ -2,6 +2,7 @@ import { agencyEndpointBase } from "../../appConfig";
 
 import { FETCH_METHODS, fetchData } from "../fetchData";
 import removeEmbedded from "../../utils/removeEmbedded";
+// import AgencyList from "../../components/Agency/AgencyList";
 
 export const DEFAULT_SORT = "NAME";
 export const DEFAULT_ORDER = "ASC";
@@ -27,7 +28,7 @@ const getAgencyData = (params: TableState) => {
   };
 
   return fetchData({
-    url: `${agencyEndpointBase}/?page=${params.current}&perPage=10&order=${order}&field=${sortBy}`,
+    url: `${agencyEndpointBase}/?page=${params.current}&perPage=${params?.pageSize}&order=${order}&field=${sortBy}`,
     method: FETCH_METHODS.GET,
     skipAuth: false,
     responseHandling: [],

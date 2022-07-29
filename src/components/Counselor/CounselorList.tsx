@@ -42,10 +42,11 @@ function CounselorList() {
   const [counselors, setCounselors] = useState<ModifiedCounselorData[]>([]);
 
   const [numberOfCounselors, setNumberOfCounselors] = useState(0);
-  const [tableState, setTableState] = useState({
+  const [tableState, setTableState] = useState<TableState>({
     current: 1,
     sortBy: DEFAULT_SORT,
     order: DEFAULT_ORDER,
+    pageSize: "10",
   });
 
   const [isLoading, setIsLoading] = useState(true);
@@ -351,24 +352,28 @@ function CounselorList() {
   );
 
   const handleTableAction = (pagination: any, filters: any, sorter: any) => {
+    const { current, pageSize } = pagination;
     if (sorter.field) {
       const sortBy = sorter.field.toUpperCase();
       const order = sorter.order === "descend" ? "DESC" : "ASC";
       setTableState({
         ...tableState,
-        current: pagination.current,
+        current,
+        pageSize,
         sortBy,
         order,
       });
     } else {
-      setTableState({ ...tableState, current: pagination.current });
+      setTableState({ ...tableState, current, pageSize });
     }
   };
 
   const pagination = {
     total: numberOfCounselors,
     current: tableState.current,
-    pageSize: 10,
+    // pageSize: 10,
+    showSizeChanger: true,
+    pageSizeOptions: ["10", "20", "30"],
   };
 
   const handleResize = useCallback(

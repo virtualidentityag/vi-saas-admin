@@ -82,7 +82,7 @@ function AgencyFormModal() {
 
   useEffect(() => {
     formInstance.resetFields();
-    if (agencyId) {
+    if (agencyId != null) {
       Promise.all([
         hasAgencyConsultants(agencyId),
         getAgencyPostCodeRange(agencyId),

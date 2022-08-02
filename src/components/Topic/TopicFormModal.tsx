@@ -136,7 +136,7 @@ function TopicFormModal() {
         <Item
           label={t("topic.internalIdentifier")}
           name="internalIdentifier"
-          rules={[{ required: true, max: 50 }]}
+          rules={[{ max: 50 }]}
         >
           <Input
             placeholder={t("placeholder.topic.internalIdentifier")}

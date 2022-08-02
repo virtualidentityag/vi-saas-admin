@@ -63,7 +63,7 @@ function AgencyFormModal() {
       setIsModalVisible(true);
       formInstance.setFieldsValue(data);
       if (data) {
-        setSubmitButtonDisabled(data.id === null);
+        setSubmitButtonDisabled(data.id == null);
       }
     });
   }, []);
@@ -98,7 +98,7 @@ function AgencyFormModal() {
 
   const handleAddAction = (formData: Record<string, any>) => {
     setIsModalVisible(false);
-    if (agencyModel && agencyModel.id) {
+    if (agencyModel && agencyModel.id != null) {
       updateAgencyData(agencyModel, formData as AgencyData).then(() => {
         message.success({
           content: t("message.agency.update"),
@@ -163,9 +163,10 @@ function AgencyFormModal() {
           age: agencyModel?.demographics?.ageFrom
             ? [agencyModel.demographics.ageFrom, agencyModel.demographics.ageTo]
             : [DEFAULT_MIN_AGE, DEFAULT_MAX_AGE],
-          genders: agencyModel?.id
-            ? agencyModel?.demographics?.genders
-            : Object.values(Gender),
+          genders:
+            agencyModel?.id != null
+              ? agencyModel?.demographics?.genders
+              : Object.values(Gender),
         },
       }
     : {};
@@ -175,7 +176,7 @@ function AgencyFormModal() {
       title={
         <>
           <Title level={2}>
-            {agencyModel.id
+            {agencyModel.id != null
               ? t("agency.modal.headline.edit")
               : t("agency.modal.headline.add")}
           </Title>

@@ -27,7 +27,7 @@ const getAgencyData = (params: TableState) => {
   };
 
   return fetchData({
-    url: `${agencyEndpointBase}/?page=${params.current}&perPage=10&order=${order}&field=${sortBy}`,
+    url: `${agencyEndpointBase}/?page=${params.current}&perPage=${params?.pageSize}&order=${order}&field=${sortBy}`,
     method: FETCH_METHODS.GET,
     skipAuth: false,
     responseHandling: [],

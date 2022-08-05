@@ -146,7 +146,9 @@ function TopicList() {
   const pagination = {
     total: numberOfTopics,
     current: tableState.current,
-    pageSize: 10,
+    defaultPageSize: 10,
+    showSizeChanger: true,
+    pageSizeOptions: ["10", "20", "30"],
   };
 
   return (

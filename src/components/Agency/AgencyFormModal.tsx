@@ -11,7 +11,7 @@ import PostCodeRanges from "./PostCodeRanges";
 import addAgencyData from "../../api/agency/addAgencyData";
 import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
 import updateAgencyData from "../../api/agency/updateAgencyData";
-import hasAgencyConsultants from "../../api/agency/hasAgencyConsultants";
+import { hasAgencyConsultants } from "../../api/agency/hasAgencyConsultants";
 import getTopicByTenantData from "../../api/topic/getTopicByTenantData";
 import { useUserRoles } from "../../hooks/useUserRoles.hook";
 import { UserRole } from "../../enums/UserRole";

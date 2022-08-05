@@ -1,8 +1,12 @@
-import { Form, Input, Modal, Typography } from "antd";
+import { Form, Input, message, Modal, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import TextArea from "antd/lib/input/TextArea";
+import { useLocation } from "react-router";
+import { useEffect, useState } from "react";
 import { SelectFormField } from "../SelectFormField";
+import postConsultantForAgencyEventTypes from "../../api/agency/postConsultantForAgencyEventTypes";
+import { AgencyEventTypes, ConsultantInterface } from "../../types/agencyEdit";
 
 const { Paragraph } = Typography;
 const { Item } = Form;
@@ -10,9 +14,25 @@ const { Item } = Form;
 export default function ErstberatungNewModal(props: {
   showEditModal: boolean;
   handleCancel?: (callback: Function) => void;
+  handleSave?: (callback: Function) => void;
+  apiData: AgencyEventTypes[];
 }) {
   const { t } = useTranslation();
   const [formInstance] = Form.useForm();
+  const currentPath = useLocation().pathname;
+  const [, agencyId] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
+  const [advisors, setAdvisors] = useState([]);
+
+  useEffect(() => {
+    const newConsultants = [];
+    props?.apiData[0]?.consultants?.map((consultant: ConsultantInterface) => {
+      return newConsultants.push({
+        id: consultant.consultantId,
+        name: consultant.consultantName,
+      });
+    });
+    setAdvisors(newConsultants);
+  }, [props?.apiData]);
 
   return (
     <Modal
@@ -23,7 +43,41 @@ export default function ErstberatungNewModal(props: {
         </Title>
       }
       visible={props.showEditModal}
-      onOk={() => {}}
+      onOk={() => {
+        formInstance.validateFields().then((formData) => {
+          const consultants = [];
+          formData.advisor.forEach((advisor) => {
+            let consultant;
+            if (advisor.label) {
+              consultant = { consultantId: advisor.value };
+            } else {
+              consultant = {
+                consultantId: advisor,
+              };
+            }
+            consultants.push(consultant);
+          });
+          const updateData = {
+            title: formData.name,
+            description: formData.description,
+            length: parseInt(formData.duration, 10),
+            consultants,
+          };
+          postConsultantForAgencyEventTypes(agencyId, updateData)
+            .then(() => {
+              message.success({
+                content: t("message.agency.add"),
+                duration: 3,
+              });
+              props.handleSave(() => {});
+            })
+            .catch((error) => {
+              props.handleSave(() => {});
+              // eslint-disable-next-line no-console
+              console.error(error);
+            });
+        });
+      }}
       onCancel={() => {
         props.handleCancel(() => {});
       }}
@@ -96,19 +150,13 @@ export default function ErstberatungNewModal(props: {
           name="advisor"
           isMulti
           allowClear
-          required
           placeholder="agency.edit.erstberatung.modal_new_consultation_type.advisor"
-          options={[
-            {
-              label: "Beraterin1 Vorname Nachname",
-              value: "Beraterin1VornameNachname",
-            },
-            {
-              label: "BerterinMonika Mustermann",
-              value: "BerterinMonikaMustermann",
-            },
-            { label: "Max Mustermann", value: "MaxMustermann" },
-          ]}
+          options={advisors?.map((advisor) => {
+            return {
+              label: advisor.name,
+              value: advisor.id,
+            };
+          })}
         />
         <SelectFormField
           disabled

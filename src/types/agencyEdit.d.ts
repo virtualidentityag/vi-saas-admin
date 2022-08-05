@@ -14,6 +14,11 @@ interface AdvisorInterface {
   id: string;
 }
 
+interface ConsultantInterface {
+  consultantId: string;
+  consultantName: string;
+}
+
 export interface AgencyEventTypes {
   id: number;
   title: string;
@@ -47,4 +52,16 @@ export interface AgencyEventTypes {
   metadata: any;
   type?: any;
   consultantIds?: any;
+  consultants?: ConsultantInterface[];
+}
+
+export interface AgencyEventTypeUpdate {
+  title?: string;
+  slug?: string;
+  length?: number;
+  minimumBookingNotice?: number;
+  beforeEventBuffer?: number;
+  afterEventBuffer?: number;
+  description?: string;
+  consultants: { consultantId: string }[];
 }

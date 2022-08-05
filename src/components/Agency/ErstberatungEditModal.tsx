@@ -1,11 +1,16 @@
-import { Form, Input, Modal, Typography } from "antd";
+import { Form, Input, message, Modal, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import TextArea from "antd/lib/input/TextArea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import { SelectFormField } from "../SelectFormField";
-import { ReactComponent as Pencil } from "../../resources/img/svg/pencil.svg";
-import { AgencyEditData } from "../../types/agencyEdit";
+import {
+  AgencyEditData,
+  AgencyEventTypes,
+  ConsultantInterface,
+} from "../../types/agencyEdit";
+import putConsultantForAgencyEventTypes from "../../api/agency/putConsultantForAgencyEventTypes";
 
 const { Paragraph } = Typography;
 const { Item } = Form;
@@ -13,11 +18,26 @@ const { Item } = Form;
 export default function ErstberatungEditModal(props: {
   showEditModal: boolean;
   handleCancel?: (callback: Function) => void;
-  data: AgencyEditData;
+  handleSave?: (callback: Function) => void;
+  editableData: AgencyEditData;
+  apiData: AgencyEventTypes[];
 }) {
   const { t } = useTranslation();
   const [formInstance] = Form.useForm();
-  const [urlReadOnly, setUrlReadOnly] = useState(true);
+  const currentPath = useLocation().pathname;
+  const [, agencyId] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
+  const [advisors, setAdvisors] = useState([]);
+
+  useEffect(() => {
+    const newConsultants = [];
+    props?.apiData[0]?.consultants?.map((consultant: ConsultantInterface) => {
+      return newConsultants.push({
+        id: consultant.consultantId,
+        name: consultant.consultantName,
+      });
+    });
+    setAdvisors(newConsultants);
+  }, []);
 
   return (
     <Modal
@@ -28,7 +48,45 @@ export default function ErstberatungEditModal(props: {
         </Title>
       }
       visible={props.showEditModal}
-      onOk={() => {}}
+      onOk={() => {
+        formInstance.validateFields().then((formData) => {
+          const consultants = [];
+          formData.advisor.forEach((advisor) => {
+            let consultant;
+            if (advisor.label) {
+              consultant = { consultantId: advisor.value };
+            } else {
+              consultant = {
+                consultantId: advisor,
+              };
+            }
+            consultants.push(consultant);
+          });
+          const updateData = {
+            title: formData.name,
+            description: formData.description,
+            length: parseInt(formData.duration, 10),
+            consultants,
+          };
+          putConsultantForAgencyEventTypes(
+            agencyId,
+            props.editableData.id,
+            updateData
+          )
+            .then(() => {
+              message.success({
+                content: t("message.eventType.update"),
+                duration: 3,
+              });
+              props.handleSave(() => {});
+            })
+            .catch((error) => {
+              // eslint-disable-next-line no-console
+              console.error(error);
+              props.handleSave(() => {});
+            });
+        });
+      }}
       onCancel={() => {
         props.handleCancel(() => {});
       }}
@@ -47,17 +105,17 @@ export default function ErstberatungEditModal(props: {
         labelWrap
         layout="vertical"
         initialValues={{
-          name: props?.data?.name,
-          description: props?.data?.description,
-          url: props?.data?.url,
-          duration: props?.data?.duration,
-          advisor: props?.data?.advisor?.map((advisor) => {
+          name: props?.editableData?.name,
+          description: props?.editableData?.description,
+          url: props?.editableData?.url,
+          duration: props?.editableData?.duration,
+          advisor: props?.editableData?.advisor?.map((advisor) => {
             return {
               label: advisor.name,
               value: advisor.id,
             };
           }),
-          location: props?.data?.location,
+          location: props?.editableData?.location,
         }}
       >
         <Item
@@ -92,16 +150,14 @@ export default function ErstberatungEditModal(props: {
               "agency.edit.erstberatung.modal_edit_consultation_type.url"
             )}
             name="url"
-            rules={[{ required: true }]}
           >
             <Input
-              readOnly={urlReadOnly}
+              readOnly
               placeholder={t(
                 "agency.edit.erstberatung.modal_edit_consultation_type.url.placeholder"
               )}
             />
           </Item>
-          <Pencil onClick={() => setUrlReadOnly(false)} />
         </div>
         <div className="flex agencieEditErstberatung__minutes">
           <Item
@@ -130,8 +186,7 @@ export default function ErstberatungEditModal(props: {
           isMulti
           allowClear
           placeholder="agency.edit.erstberatung.modal_new_consultation_type.advisor"
-          required
-          options={props?.data?.advisor?.map((advisor) => {
+          options={advisors?.map((advisor) => {
             return {
               label: advisor.name,
               value: advisor.id,

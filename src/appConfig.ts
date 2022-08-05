@@ -25,7 +25,9 @@ export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&pe
 export const agencyEndpointBase = `${mainURL}/service/agencyadmin/agencies`;
 export const agencyEventTypes = `${mainURL}/service/appointservice/agencies/{agencyId}/eventTypes`;
 export const agencyPostcodeRangeEndpointBase = `${mainURL}/service/agencyadmin/postcoderanges`;
-export const consultantsForAgencyEndpoint = `${mainURL}/service/useradmin/agencies/{agencyId}/consultants`;
+export const consultantsForAgencyEndpoint = `${mainURL}/service/appointservice/agencies/{agencyId}/consultants`;
+export const consultantsForAgencyEventTypes = `${mainURL}/service/appointservice/agencies/{agencyId}/eventTypes/{eventTypeId}/`;
+export const consultantsForAgencyEventTypesNew = `${mainURL}/service/appointservice/agencies/{agencyId}/eventTypes`;
 export const consultingTypeEndpoint = `${mainURL}/service/consultingtypes`;
 export const counselorEndpoint = `${mainURL}/service/useradmin/consultants`;
 export const customerEndpoint = `${mainURL}/customers`;

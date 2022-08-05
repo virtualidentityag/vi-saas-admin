@@ -93,7 +93,6 @@ export default function AgencieEditAllgemeines() {
 
   const onFinish = () => {
     formAgencyEdit.validateFields().then((formData) => {
-      debugger; // eslint-disable-line no-debugger
       updateAgencyData(agencyModel, formData as AgencyData).then(() => {
         message.success({
           content: t("message.agency.update"),

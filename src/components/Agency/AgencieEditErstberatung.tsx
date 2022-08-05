@@ -4,30 +4,89 @@ import { PlusOutlined } from "@ant-design/icons";
 import { useCallback, useEffect, useState } from "react";
 import { ColumnsType } from "antd/lib/table";
 import Title from "antd/es/typography/Title";
+import { useLocation } from "react-router";
 import EditButtons from "../EditableTable/EditButtons";
-import { AgencyEditData, AgencyEventTypes } from "../../types/agencyEdit";
+import {
+  ConsultantInterface,
+  AgencyEditData,
+  AgencyEventTypes,
+} from "../../types/agencyEdit";
 import ResizableTitle from "../Resizable/Resizable";
 import ErstberatungNewModal from "./ErstberatungNewModal";
 import ErstberatungEditModal from "./ErstberatungEditModal";
 import getAgencyEventTypes from "../../api/agency/getAgencyEventTypes";
+import getConsultantForAgencyEventTypes from "../../api/agency/getConsultantForAgencyEventTypes";
+import EventTypeDeletionModal from "./EventTypeDeletionModal";
 
 const { Paragraph } = Typography;
 
 export default function AgencieEditErstberatung() {
   const { t } = useTranslation();
   const [topics, setTopics] = useState([]);
+  const [apiAgencyEventTypes, setApiAgencyEventTypes] = useState<
+    AgencyEventTypes[]
+  >([]);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showNewModal, setShowNewModal] = useState(false);
   const [editableData, setEditableData] = useState(undefined);
+  const [eventTypeDelete, setEventTypeDelete] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(true);
   const [tableState] = useState<TableState>({
     current: 1,
     sortBy: undefined,
     order: undefined,
   });
+  const currentPath = useLocation().pathname;
+  const [, agencyId] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
+
+  const transformData = (eventTypes: AgencyEventTypes[]) => {
+    const agencyEventTypes = [];
+    eventTypes.forEach((event: AgencyEventTypes) => {
+      agencyEventTypes.push({
+        id: event.id,
+        name: event.title,
+        description: event.description,
+        url: `https://calcom-develop.suchtberatung.digital/team/${event.slug}`,
+        duration: event.length,
+        advisor: null,
+        location: "Videoberatung",
+      });
+    });
+    return agencyEventTypes;
+  };
+
+  const getAgencyData = () => {
+    getAgencyEventTypes(agencyId).then((resp: AgencyEventTypes[]) => {
+      setApiAgencyEventTypes(resp);
+      const agencyEventTypes = transformData(resp);
+      setTopics(agencyEventTypes);
+      setIsLoading(false);
+    });
+  };
+
+  const agencyDataConsultantsTransform = (
+    resp: AgencyEventTypes,
+    data: AgencyEditData
+  ) => {
+    const newAdvisors = [];
+    resp.consultants.map((consultant: ConsultantInterface) => {
+      return newAdvisors.push({
+        id: consultant.consultantId,
+        name: consultant.consultantName,
+      });
+    });
+    return { ...data, advisor: newAdvisors };
+  };
 
   const handleEditTable = (data: AgencyEditData) => {
-    setEditableData(data);
-    setShowEditModal(true);
+    getConsultantForAgencyEventTypes(agencyId, data.id).then(
+      (resp: AgencyEventTypes) => {
+        const editableDataContent = agencyDataConsultantsTransform(resp, data);
+        setEditableData(editableDataContent);
+        setShowEditModal(true);
+      }
+    );
   };
 
   const handleConsultantTypeNew = () => {
@@ -38,11 +97,34 @@ export default function AgencieEditErstberatung() {
     setShowNewModal(false);
   };
 
+  const handleSaveNew = () => {
+    setShowNewModal(false);
+    getAgencyData();
+  };
+
   const handleCancelEdit = () => {
     setShowEditModal(false);
   };
 
-  const handleDeleteTable = () => {};
+  const handleSaveEdit = () => {
+    setShowEditModal(false);
+    getAgencyData();
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
+  };
+
+  const handleSaveDelete = () => {
+    setShowDeleteModal(false);
+    setEventTypeDelete(undefined);
+    getAgencyData();
+  };
+
+  const handleDeleteTable = (data: AgencyEditData) => {
+    setShowDeleteModal(true);
+    setEventTypeDelete(data);
+  };
 
   function defineTableColumns(): ColumnsType<AgencyEditData> {
     return [
@@ -112,37 +194,9 @@ export default function AgencieEditErstberatung() {
     }),
   }));
 
-  const transformData = (eventTypes: AgencyEventTypes[]) => {
-    const agencyEventTypes = [];
-    eventTypes.forEach((event: AgencyEventTypes) => {
-      agencyEventTypes.push({
-        id: event.id,
-        name: event.title,
-        description: event.description,
-        url: "https://onlineberatung-tenant.de/terminname",
-        duration: event.length,
-        advisor: [
-          {
-            id: "consultantId",
-            name: "consulantName",
-          },
-          {
-            id: "consultant2Id",
-            name: "consulant2Name",
-          },
-        ],
-        location: "Videoberatung",
-      });
-    });
-    return agencyEventTypes;
-  };
-
   useEffect(() => {
-    getAgencyEventTypes("1005").then((resp: AgencyEventTypes[]) => {
-      const agencyEventTypes = transformData(resp);
-      setTopics(agencyEventTypes);
-    });
-  }, [tableState]);
+    getAgencyData();
+  }, [tableState, agencyId]);
 
   return (
     <>
@@ -159,6 +213,7 @@ export default function AgencieEditErstberatung() {
         </Button>
       </Space>
       <Table
+        loading={isLoading}
         className="agencyList editableTable"
         dataSource={topics}
         columns={mergeColumns}
@@ -179,11 +234,21 @@ export default function AgencieEditErstberatung() {
       <ErstberatungNewModal
         showEditModal={showNewModal}
         handleCancel={handleCancelNew}
+        handleSave={handleSaveNew}
+        apiData={apiAgencyEventTypes}
       />
       <ErstberatungEditModal
         showEditModal={showEditModal}
         handleCancel={handleCancelEdit}
-        data={editableData}
+        handleSave={handleSaveEdit}
+        editableData={editableData}
+        apiData={apiAgencyEventTypes}
+      />
+      <EventTypeDeletionModal
+        showDeleteModal={showDeleteModal}
+        handleCancel={handleCancelDelete}
+        handleSave={handleSaveDelete}
+        eventType={eventTypeDelete}
       />
     </>
   );

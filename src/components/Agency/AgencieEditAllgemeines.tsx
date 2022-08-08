@@ -29,6 +29,12 @@ const { Item } = Form;
 const DEFAULT_MIN_AGE = 18;
 const DEFAULT_MAX_AGE = 100;
 
+function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
+  return (
+    data.length === 1 && data[0].from === "00000" && data[0].until === "99999"
+  );
+}
+
 export default function AgencieEditAllgemeines() {
   const { t } = useTranslation();
   const { isEnabled } = useFeatureContext();
@@ -73,6 +79,16 @@ export default function AgencieEditAllgemeines() {
         },
       }
     : {};
+
+  const setPostCodeRangesSwitchState = (data: PostCodeRange[]) => {
+    if (hasOnlyDefaultRangeDefined(data)) {
+      setPostCodeRangesSwitchActive(false);
+      formAgencyEdit.setFieldsValue({ postCodeRangesActive: false });
+    } else {
+      setPostCodeRangesSwitchActive(true);
+      formAgencyEdit.setFieldsValue({ postCodeRangesActive: true });
+    }
+  };
 
   const resetGeneralInformation = () => {
     setReadOnlyName(true);
@@ -201,6 +217,7 @@ export default function AgencieEditAllgemeines() {
         /* eslint no-underscore-dangle: ["error", { "allow": ["_embedded"] }] */
         const agencyData = values[1]._embedded;
         setAgencyPostCodeRanges(agencyPostCodeRangesResponse);
+        setPostCodeRangesSwitchState(agencyPostCodeRangesResponse);
         setAgencyModel(agencyData);
         setIsTeamAgency(agencyData.teamAgency);
       });
@@ -340,18 +357,23 @@ export default function AgencieEditAllgemeines() {
 
                   <Item
                     label={t("agency.edit.allgemeines.address.zip_code_scope")}
-                    name="zipCodeScope"
+                    name="postCodeRangesActive"
                   >
                     <div className="flex">
                       <Switch
                         size="default"
-                        defaultChecked={false}
+                        checked={postCodeRangesSwitchActive}
                         disabled={readOnlyZipCodeScope}
-                        onChange={() =>
+                        onChange={() => {
+                          const switchValue = !postCodeRangesSwitchActive;
+                          setPostCodeRangesSwitchActive(switchValue);
+                          formAgencyEdit.setFieldsValue({
+                            postCodeRangesActive: switchValue,
+                          });
                           setPostCodeRangesSwitchActive(
                             !postCodeRangesSwitchActive
-                          )
-                        }
+                          );
+                        }}
                       />
                       <Paragraph className="desc__toggleText">
                         {t(
@@ -364,6 +386,7 @@ export default function AgencieEditAllgemeines() {
                     <PostCodeRanges
                       agencyPostCodeRanges={agencyPostCodeRanges}
                       formInputData={formAgencyEdit}
+                      disabled={readOnlyZipCodeScope}
                     />
                   )}
                 </div>

@@ -9,6 +9,7 @@ const { Item } = Form;
 export default function PostCodeRanges(props: {
   agencyPostCodeRanges: PostCodeRange[];
   formInputData: Record<string, any>;
+  disabled?: boolean;
 }) {
   const { t } = useTranslation();
 
@@ -39,7 +40,11 @@ export default function PostCodeRanges(props: {
             { min: 5, required: true, message: t("agency.postcode.minimum") },
           ]}
         >
-          <Input maxLength={5} key={`until_from_${index}`} />
+          <Input
+            maxLength={5}
+            key={`until_from_${index}`}
+            disabled={props.disabled}
+          />
         </Item>
         <Item
           key="until"
@@ -51,7 +56,7 @@ export default function PostCodeRanges(props: {
             { min: 5, required: true, message: t("agency.postcode.minimum") },
           ]}
         >
-          <Input maxLength={5} key="input_until" />
+          <Input maxLength={5} key="input_until" disabled={props.disabled} />
         </Item>
         <div
           key="minus_container"
@@ -93,7 +98,7 @@ export default function PostCodeRanges(props: {
           label={t("agency.postcode.from")}
           name="postcodeFromAdd"
         >
-          <Input maxLength={5} />
+          <Input maxLength={5} disabled={props.disabled} />
         </Item>
         <Item
           rules={[{ min: 5, message: t("agency.postcode.minimum") }]}
@@ -101,7 +106,7 @@ export default function PostCodeRanges(props: {
           label={t("agency.postcode.until")}
           name="postcodeUntilAdd"
         >
-          <Input maxLength={5} />
+          <Input maxLength={5} disabled={props.disabled} />
         </Item>
         <div
           style={{

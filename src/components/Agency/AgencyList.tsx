@@ -8,7 +8,6 @@ import { PlusOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/lib/table";
 import { useNavigate } from "react-router-dom";
 import { InterestsOutlined } from "@mui/icons-material";
-import AgencyFormModal from "./AgencyFormModal";
 
 import EditButtons from "../EditableTable/EditButtons";
 import getAgencyData from "../../api/agency/getAgencyData";
@@ -346,7 +345,6 @@ function AgencyList() {
           },
         }}
       />
-      <AgencyFormModal />
       <AgencyDeletionModal />
     </>
   );

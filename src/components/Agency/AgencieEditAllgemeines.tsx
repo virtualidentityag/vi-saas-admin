@@ -43,18 +43,20 @@ export default function AgencieEditAllgemeines() {
     undefined
   );
   const [allTopics, setAllTopics] = useState<Record<string, any>[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [readOnlyName, setReadOnlyName] = useState(true);
-  const [readOnlyDescription, setReadOnlyDescription] = useState(true);
-  const [readOnlyTopicIds, setReadOnlyTopicIds] = useState(true);
-  const [readOnlyOnline, setReadOnlyOnline] = useState(true);
-  const [readOnlyTeamAdviceCenter, setReadOnlyTeamAdviceCenter] =
-    useState(true);
-  const [readOnlyZipCodeScope, setReadOnlyZipCodeScope] = useState(true);
-  const [readOnlyPostCode, setReadOnlyPostCode] = useState(true);
-  const [readOnlyCity, setReadOnlyCity] = useState(true);
-  const [readOnlyAgencyGender, setReadOnlyAgencyGender] = useState(true);
-  const [readOnlyAgencyAge, setReadOnlyAgencyAge] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isTeamAgency, setIsTeamAgency] = useState<boolean>();
+  const [readOnlyName, setReadOnlyName] = useState<boolean>(true);
+  const [readOnlyDescription, setReadOnlyDescription] = useState<boolean>(true);
+  const [readOnlyTopicIds, setReadOnlyTopicIds] = useState<boolean>(true);
+  const [readOnlyOnline, setReadOnlyOnline] = useState<boolean>(true);
+  const [readOnlyTeamAgency, setReadOnlyTeamAgency] = useState<boolean>(true);
+  const [readOnlyZipCodeScope, setReadOnlyZipCodeScope] =
+    useState<boolean>(true);
+  const [readOnlyPostCode, setReadOnlyPostCode] = useState<boolean>(true);
+  const [readOnlyCity, setReadOnlyCity] = useState<boolean>(true);
+  const [readOnlyAgencyGender, setReadOnlyAgencyGender] =
+    useState<boolean>(true);
+  const [readOnlyAgencyAge, setReadOnlyAgencyAge] = useState<boolean>(true);
   const currentPath = useLocation().pathname;
   const [, agencyID] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
   const [, hasRole] = useUserRoles();
@@ -80,7 +82,7 @@ export default function AgencieEditAllgemeines() {
   const resetMoreSettings = () => {
     setReadOnlyTopicIds(true);
     setReadOnlyOnline(true);
-    setReadOnlyTeamAdviceCenter(true);
+    setReadOnlyTeamAgency(true);
     setReadOnlyAgencyGender(true);
     setReadOnlyAgencyAge(true);
   };
@@ -124,7 +126,7 @@ export default function AgencieEditAllgemeines() {
   const handleMoreSettings = () => {
     setReadOnlyTopicIds(false);
     setReadOnlyOnline(false);
-    setReadOnlyTeamAdviceCenter(false);
+    setReadOnlyTeamAgency(false);
     setReadOnlyAgencyGender(false);
     setReadOnlyAgencyAge(false);
   };
@@ -200,6 +202,7 @@ export default function AgencieEditAllgemeines() {
         const agencyData = values[1]._embedded;
         setAgencyPostCodeRanges(agencyPostCodeRangesResponse);
         setAgencyModel(agencyData);
+        setIsTeamAgency(agencyData.teamAgency);
       });
     }
   }, [agencyId]);
@@ -412,13 +415,20 @@ export default function AgencieEditAllgemeines() {
                         label={t(
                           "agency.edit.allgemeines.more_settings.team_advice_center"
                         )}
-                        name="teamAdviceCenter"
+                        name="teamAgency"
                       >
                         <div className="flex">
                           <Switch
                             size="default"
                             defaultChecked={false}
-                            disabled={readOnlyTeamAdviceCenter}
+                            disabled={readOnlyTeamAgency}
+                            onChange={(value) => {
+                              setIsTeamAgency(value);
+                              formAgencyEdit.setFieldsValue({
+                                teamAgency: value,
+                              });
+                            }}
+                            checked={isTeamAgency}
                           />
                           <Paragraph className="desc__toggleText">
                             {t("yes")}
@@ -472,7 +482,7 @@ export default function AgencieEditAllgemeines() {
                 )}
                 {!readOnlyTopicIds &&
                   !readOnlyOnline &&
-                  !readOnlyTeamAdviceCenter &&
+                  !readOnlyTeamAgency &&
                   !readOnlyAgencyAge &&
                   !readOnlyAgencyGender && (
                     <div className="agencyEdit__editableButtons">

@@ -56,7 +56,7 @@ export default function AgencieEditAllgemeines() {
   const [readOnlyTopicIds, setReadOnlyTopicIds] = useState<boolean>(true);
   const [readOnlyOnline, setReadOnlyOnline] = useState<boolean>(true);
   const [readOnlyTeamAgency, setReadOnlyTeamAgency] = useState<boolean>(true);
-  const [readOnlyZipCodeScope, setReadOnlyZipCodeScope] =
+  const [readOnlyPostCodeRanges, setReadOnlyPostCodeRanges] =
     useState<boolean>(true);
   const [readOnlyPostCode, setReadOnlyPostCode] = useState<boolean>(true);
   const [readOnlyCity, setReadOnlyCity] = useState<boolean>(true);
@@ -104,7 +104,7 @@ export default function AgencieEditAllgemeines() {
   };
 
   const resetAddress = () => {
-    setReadOnlyZipCodeScope(true);
+    setReadOnlyPostCodeRanges(true);
     setReadOnlyPostCode(true);
     setReadOnlyCity(true);
   };
@@ -158,7 +158,7 @@ export default function AgencieEditAllgemeines() {
   };
 
   const handleAddress = () => {
-    setReadOnlyZipCodeScope(false);
+    setReadOnlyPostCodeRanges(false);
     setReadOnlyPostCode(false);
     setReadOnlyCity(false);
   };
@@ -363,7 +363,7 @@ export default function AgencieEditAllgemeines() {
                       <Switch
                         size="default"
                         checked={postCodeRangesSwitchActive}
-                        disabled={readOnlyZipCodeScope}
+                        disabled={readOnlyPostCodeRanges}
                         onChange={() => {
                           const switchValue = !postCodeRangesSwitchActive;
                           setPostCodeRangesSwitchActive(switchValue);
@@ -386,11 +386,11 @@ export default function AgencieEditAllgemeines() {
                     <PostCodeRanges
                       agencyPostCodeRanges={agencyPostCodeRanges}
                       formInputData={formAgencyEdit}
-                      disabled={readOnlyZipCodeScope}
+                      disabled={readOnlyPostCodeRanges}
                     />
                   )}
                 </div>
-                {!readOnlyZipCodeScope && !readOnlyPostCode && !readOnlyCity && (
+                {!readOnlyPostCodeRanges && !readOnlyPostCode && !readOnlyCity && (
                   <div className="agencyEdit__editableButtons">
                     <Button
                       item={cancelAddressEditButton}

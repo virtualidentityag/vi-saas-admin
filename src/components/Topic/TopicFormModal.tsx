@@ -26,14 +26,14 @@ function TopicFormModal() {
       setIsModalVisible(true);
       formInstance.setFieldsValue(data);
       if (data) {
-        setSubmitButtonDisabled(data.id === null);
+        setSubmitButtonDisabled(data.id == null);
       }
     });
   }, []);
 
   const handleAddAction = (formData: Record<string, any>) => {
     setIsModalVisible(false);
-    if (topicModel && topicModel.id) {
+    if (topicModel && topicModel.id != null) {
       updateTopicData(topicModel, formData as TopicData).then(() => {
         message.success({
           content: t("message.topic.update"),
@@ -84,7 +84,7 @@ function TopicFormModal() {
       title={
         <>
           <Title level={2}>
-            {topicModel.id
+            {topicModel.id != null
               ? t("topic.modal.headline.edit")
               : t("topic.modal.headline.add")}
           </Title>

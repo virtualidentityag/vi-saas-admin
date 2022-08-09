@@ -14,6 +14,7 @@ import Agencies from "./pages/Agencies";
 import { useTenantData } from "./hooks/useTenantData.hook";
 import { FeatureProvider } from "./context/FeatureContext";
 import AgencieEdit from "./pages/AgencieEdit";
+import AgencieAdd from "./pages/AgencieAdd";
 
 function App() {
   const { isLoading, data } = useTenantData();
@@ -45,6 +46,10 @@ function App() {
           <Route
             path={`${routePathNames.agencyEdit}/*`}
             element={<AgencieEdit />}
+          />
+          <Route
+            path={`${routePathNames.agencyAdd}/*`}
+            element={<AgencieAdd />}
           />
           <Route path={routePathNames.topics} element={<Topics />} />
           <Route path={routePathNames.userProfile} element={<UserProfile />} />

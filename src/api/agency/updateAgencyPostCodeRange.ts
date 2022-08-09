@@ -59,7 +59,7 @@ const updateAgencyPostCodeRange = (
       skipAuth: false,
       responseHandling: [FETCH_ERRORS.CATCH_ALL],
       bodyData: JSON.stringify(postcodeRange),
-    });
+    }).then(() => id);
   }
   return fetchData({
     url: `${agencyPostcodeRangeEndpointBase}/${id}`,

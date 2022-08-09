@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { useLocation } from "react-router";
 import { ReactComponent as ChevronLeft } from "../resources/img/svg/chevron-left.svg";
-import AgencieEditAllgemeines from "../components/Agency/AgencieEditAllgemeines";
-import AgencieEditErstberatung from "../components/Agency/AgencieEditErstberatung";
+import AgencieEditAllgemeines from "../components/Agency/AgencyEditAllgemeines";
+import AgencieEditErstberatung from "../components/Agency/AgencyEditErstberatung";
 import agencyRoutes from "../components/Agency/Agency.routes";
 import routePathNames from "../appConfig";
 
@@ -44,7 +44,7 @@ function AgencieEdit() {
           {agencyRoutes.map((tab) => (
             <div key={tab.url} className="agencyEdit__navItem">
               <NavLink
-                to={`/admin/agency/${agencyId}${tab.url}`}
+                to={`/admin/agency/edit/${agencyId}${tab.url}`}
                 className={({ isActive }) => {
                   return isActive ? "active" : "";
                 }}

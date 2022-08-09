@@ -312,6 +312,7 @@ function AgencyList() {
           icon={<PlusOutlined />}
           onClick={() => {
             tableStateHolder = tableState;
+            navigate(`${routePathNames.agencyAdd}/allgemeines`);
             pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, emptyAgencyModel);
           }}
         >

@@ -1,3 +1,5 @@
+@sidebar-plus-paddings-gap: 186px;
+
 .agencyEdit {
   &__header {
     display: grid;
@@ -102,8 +104,19 @@
     column-gap: 1rem;
     margin-top: 1rem;
 
+    &--sticky{
+      position: fixed;
+      width: calc(100% - @sidebar-plus-paddings-gap);
+      background-color: @skin-main-background;
+      padding: 1rem 0;
+    }
+
     button {
       border-radius: 4px;
     }
   }
+}
+
+.addForm {
+  padding-bottom: 30px;
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Form, Input, message, Row, Switch, Typography } from "antd";
 import Title from "antd/es/typography/Title";
 import TextArea from "antd/lib/input/TextArea";
@@ -29,6 +29,41 @@ export default function AgencieAddAllgemeines() {
     useState(false);
   const [isTeamAgency, setIsTeamAgency] = useState<boolean>();
   const navigate = useNavigate();
+  const [stickyActions, setStickyActions] = useState<boolean>();
+  const [stickyActionsPositionBottom, setStickyActionsPositionBottom] =
+    useState<number>(0);
+  const footerElement = document.querySelector("footer");
+
+  const elementPXSeen = (element: HTMLElement) => {
+    const viewportHeight = window?.innerHeight;
+    const scrollTop = window?.scrollY;
+    const elementOffsetTop = element?.offsetTop;
+    const distance = scrollTop + viewportHeight - elementOffsetTop;
+    return distance;
+  };
+
+  const isElementVisible = (element: HTMLElement) => {
+    const rect = element?.getBoundingClientRect();
+    const elemTop = rect?.top;
+    const elemBottom = rect?.bottom;
+    const isVisible = elemTop < window.innerHeight && elemBottom >= 0;
+    if (isVisible) {
+      setStickyActionsPositionBottom(elementPXSeen(footerElement));
+    } else {
+      setStickyActionsPositionBottom(0);
+    }
+  };
+
+  const handleResize = () => {
+    const contentHeight = document.querySelector(".content")?.clientHeight;
+    const headerHeight = document.querySelector(".siteHeader")?.clientHeight;
+    if (window.innerHeight < contentHeight + headerHeight) {
+      setStickyActions(true);
+    } else {
+      setStickyActions(false);
+    }
+    isElementVisible(footerElement);
+  };
 
   const demographicsInitialValues = isEnabled(FeatureFlag.Demographics)
     ? {
@@ -71,11 +106,21 @@ export default function AgencieAddAllgemeines() {
     type: BUTTON_TYPES.SECONDARY,
   };
 
+  useEffect(() => {
+    handleResize();
+    window.addEventListener("scroll", handleResize, { passive: true });
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleResize);
+      window.removeEventListener("resize", handleResize);
+    };
+  });
+
   return (
     <div className="addForm">
       <Form
         form={formAgencyAdd}
-        name="agencyEditGeneralInformation"
+        name="agencyAddGeneralInformation"
         size="small"
         labelAlign="left"
         labelWrap
@@ -257,7 +302,12 @@ export default function AgencieAddAllgemeines() {
           </Col>
         </Row>
       </Form>
-      <div className="agencyAdd_actions">
+      <div
+        className={`agencyAdd_actions ${
+          stickyActions ? "agencyAdd_actions--sticky" : ""
+        }`}
+        style={{ bottom: `${stickyActionsPositionBottom}px` }}
+      >
         <Button item={cancelButton} buttonHandle={onCancel} />
         <Button item={saveButton} buttonHandle={onFinish} />
       </div>

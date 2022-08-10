@@ -57,9 +57,18 @@ export default function AgencieAddAllgemeines() {
     });
   };
 
-  const saveGeneralInformationEditButton: ButtonItem = {
-    label: t("agency.add.allgemeines.general_information.save"),
-    type: BUTTON_TYPES.LINK,
+  const onCancel = () => {
+    formAgencyAdd.resetFields();
+  };
+
+  const saveButton: ButtonItem = {
+    label: t("agency.add.allgemeines.save"),
+    type: BUTTON_TYPES.PRIMARY,
+  };
+
+  const cancelButton: ButtonItem = {
+    label: t("agency.add.allgemeines.cancel"),
+    type: BUTTON_TYPES.SECONDARY,
   };
 
   return (
@@ -80,31 +89,23 @@ export default function AgencieAddAllgemeines() {
             <Box>
               <div className="agencyEdit__headline">
                 <Title className="formHeadline mb-m" level={4}>
-                  {t("agency.add.allgemeines.general_information")}
+                  {t("agency.add.allgemeines")}
                 </Title>
               </div>
               <div>
                 <Item
-                  label={t("agency.add.allgemeines.general_information.name")}
+                  label={t("agency.add.allgemeines.name")}
                   name="name"
                   rules={[{ required: true }]}
                 >
-                  <Input
-                    placeholder={t(
-                      "agency.add.allgemeines.general_information.name"
-                    )}
-                  />
+                  <Input placeholder={t("agency.add.allgemeines.name")} />
                 </Item>
                 <Item
-                  label={t(
-                    "agency.add.allgemeines.general_information.description"
-                  )}
+                  label={t("agency.add.allgemeines.description")}
                   name="description"
                 >
                   <TextArea
-                    placeholder={t(
-                      "agency.add.allgemeines.general_information.description"
-                    )}
+                    placeholder={t("agency.add.allgemeines.description")}
                     rows={3}
                   />
                 </Item>
@@ -256,11 +257,10 @@ export default function AgencieAddAllgemeines() {
           </Col>
         </Row>
       </Form>
-      <Button
-        className="agencyAdd_saveButton"
-        item={saveGeneralInformationEditButton}
-        buttonHandle={onFinish}
-      />
+      <div className="agencyAdd_actions">
+        <Button item={cancelButton} buttonHandle={onCancel} />
+        <Button item={saveButton} buttonHandle={onFinish} />
+      </div>
     </div>
   );
 }

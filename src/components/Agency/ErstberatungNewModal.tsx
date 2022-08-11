@@ -46,9 +46,9 @@ export default function ErstberatungNewModal(props: {
       onOk={() => {
         formInstance.validateFields().then((formData) => {
           const consultants = [];
-          formData.advisor.forEach((advisor) => {
+          formData?.advisor?.forEach((advisor) => {
             let consultant;
-            if (advisor.label) {
+            if (advisor?.label) {
               consultant = { consultantId: advisor.value };
             } else {
               consultant = {

@@ -168,12 +168,21 @@ export default function AgencieAddAllgemeines() {
                     <Item
                       label={t("agency.add.allgemeines.address.postcode")}
                       name="postcode"
-                      rules={[{ required: true }]}
+                      rules={[
+                        { required: true },
+                        {
+                          min: 5,
+                          message: t(
+                            "agency.add.allgemeines.address.range.error"
+                          ),
+                        },
+                      ]}
                     >
                       <Input
                         placeholder={t(
                           "agency.add.allgemeines.address.postcode"
                         )}
+                        minLength={5}
                         maxLength={5}
                       />
                     </Item>
@@ -245,7 +254,7 @@ export default function AgencieAddAllgemeines() {
                       <div className="flex">
                         <Switch
                           size="default"
-                          defaultChecked={false}
+                          defaultChecked
                           onChange={(value) => {
                             setIsTeamAgency(value);
                             formAgencyAdd.setFieldsValue({

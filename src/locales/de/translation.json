@@ -127,6 +127,7 @@
   "agency.add.allgemeines.more_settings.cancel": "Abbrechen",
   "agency.add.allgemeines.address": "Adresse",
   "agency.add.allgemeines.address.postcode": "PLZ",
+  "agency.add.allgemeines.address.range.error": "Bitte geben Sie einen 5-stelligen Wert ein",
   "agency.add.allgemeines.address.city": "Stadt",
   "agency.add.allgemeines.address.zip_code_scope": "Postleitzahl Umfang",
   "agency.add.allgemeines.address.zip_code_scope.information": "Umkreis für Beratungsstelle einstellen",

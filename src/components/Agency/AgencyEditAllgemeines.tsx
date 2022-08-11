@@ -443,7 +443,6 @@ export default function AgencieEditAllgemeines() {
                         <div className="flex">
                           <Switch
                             size="default"
-                            defaultChecked={false}
                             disabled={readOnlyTeamAgency}
                             onChange={(value) => {
                               setIsTeamAgency(value);

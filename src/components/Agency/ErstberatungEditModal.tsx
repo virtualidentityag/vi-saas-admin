@@ -37,7 +37,7 @@ export default function ErstberatungEditModal(props: {
       });
     });
     setAdvisors(newConsultants);
-  }, []);
+  }, [props.apiData]);
 
   return (
     <Modal

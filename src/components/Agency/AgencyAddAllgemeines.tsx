@@ -74,6 +74,12 @@ export default function AgencieAddAllgemeines() {
     : {};
 
   const onFinish = () => {
+    const teamAgency = formAgencyAdd.getFieldValue("teamAgency");
+    if (teamAgency === undefined) {
+      formAgencyAdd.setFieldsValue({
+        teamAgency: true,
+      });
+    }
     formAgencyAdd.validateFields().then((values) => {
       addAgencyData(values).then((id) => {
         const agencyId = id;

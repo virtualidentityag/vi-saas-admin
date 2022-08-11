@@ -37,7 +37,7 @@ const emptyAgencyModel: AgencyData = {
   offline: true,
   online: false,
   postcode: "",
-  teamAgency: "true",
+  teamAgency: true,
   status: undefined,
 };
 

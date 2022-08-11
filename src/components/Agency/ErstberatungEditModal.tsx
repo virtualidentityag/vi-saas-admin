@@ -2,14 +2,10 @@ import { Form, Input, message, Modal, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import TextArea from "antd/lib/input/TextArea";
-import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
+import { useEffect } from "react";
 import { SelectFormField } from "../SelectFormField";
-import {
-  AgencyEditData,
-  AgencyEventTypes,
-  ConsultantInterface,
-} from "../../types/agencyEdit";
+import { AgencyEditData, ConsultantInterface } from "../../types/agencyEdit";
 import putConsultantForAgencyEventTypes from "../../api/agency/putConsultantForAgencyEventTypes";
 
 const { Paragraph } = Typography;
@@ -20,24 +16,28 @@ export default function ErstberatungEditModal(props: {
   handleCancel?: (callback: Function) => void;
   handleSave?: (callback: Function) => void;
   editableData: AgencyEditData;
-  apiData: AgencyEventTypes[];
+  allAgencyConsultants: ConsultantInterface[];
 }) {
   const { t } = useTranslation();
   const [formInstance] = Form.useForm();
   const currentPath = useLocation().pathname;
   const [, agencyId] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
-  const [advisors, setAdvisors] = useState([]);
 
   useEffect(() => {
-    const newConsultants = [];
-    props?.apiData[0]?.consultants?.map((consultant: ConsultantInterface) => {
-      return newConsultants.push({
-        id: consultant.consultantId,
-        name: consultant.consultantName,
-      });
+    formInstance.setFieldsValue({
+      name: props?.editableData?.name,
+      description: props.editableData?.description,
+      url: props.editableData?.url,
+      duration: props.editableData?.duration,
+      advisor: props.editableData?.advisor?.map((advisor) => {
+        return {
+          label: advisor.name,
+          value: advisor.id,
+        };
+      }),
+      location: props.editableData?.location,
     });
-    setAdvisors(newConsultants);
-  }, [props.apiData]);
+  }, [props.editableData]);
 
   return (
     <Modal
@@ -87,9 +87,7 @@ export default function ErstberatungEditModal(props: {
             });
         });
       }}
-      onCancel={() => {
-        props.handleCancel(() => {});
-      }}
+      onCancel={() => props.handleCancel(() => {})}
       destroyOnClose
       cancelText={t(
         "agency.edit.erstberatung.modal_edit_consultation_type.cancel"
@@ -104,19 +102,6 @@ export default function ErstberatungEditModal(props: {
         labelAlign="left"
         labelWrap
         layout="vertical"
-        initialValues={{
-          name: props?.editableData?.name,
-          description: props?.editableData?.description,
-          url: props?.editableData?.url,
-          duration: props?.editableData?.duration,
-          advisor: props?.editableData?.advisor?.map((advisor) => {
-            return {
-              label: advisor.name,
-              value: advisor.id,
-            };
-          }),
-          location: props?.editableData?.location,
-        }}
       >
         <Item
           label={t(
@@ -186,10 +171,10 @@ export default function ErstberatungEditModal(props: {
           isMulti
           allowClear
           placeholder="agency.edit.erstberatung.modal_new_consultation_type.advisor"
-          options={advisors?.map((advisor) => {
+          options={props.allAgencyConsultants?.map((consultant) => {
             return {
-              label: advisor.name,
-              value: advisor.id,
+              label: consultant.consultantName,
+              value: consultant.consultantId,
             };
           })}
         />

@@ -14,7 +14,7 @@ interface AdvisorInterface {
   id: string;
 }
 
-interface ConsultantInterface {
+export interface ConsultantInterface {
   consultantId: string;
   consultantName: string;
 }

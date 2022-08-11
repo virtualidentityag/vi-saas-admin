@@ -3,10 +3,9 @@ import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
 import TextArea from "antd/lib/input/TextArea";
 import { useLocation } from "react-router";
-import { useEffect, useState } from "react";
 import { SelectFormField } from "../SelectFormField";
 import postConsultantForAgencyEventTypes from "../../api/agency/postConsultantForAgencyEventTypes";
-import { AgencyEventTypes, ConsultantInterface } from "../../types/agencyEdit";
+import { ConsultantInterface } from "../../types/agencyEdit";
 
 const { Paragraph } = Typography;
 const { Item } = Form;
@@ -15,24 +14,12 @@ export default function ErstberatungNewModal(props: {
   showEditModal: boolean;
   handleCancel?: (callback: Function) => void;
   handleSave?: (callback: Function) => void;
-  apiData: AgencyEventTypes[];
+  allAgencyConsultants: ConsultantInterface[];
 }) {
   const { t } = useTranslation();
   const [formInstance] = Form.useForm();
   const currentPath = useLocation().pathname;
   const [, agencyId] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
-  const [advisors, setAdvisors] = useState([]);
-
-  useEffect(() => {
-    const newConsultants = [];
-    props?.apiData[0]?.consultants?.map((consultant: ConsultantInterface) => {
-      return newConsultants.push({
-        id: consultant.consultantId,
-        name: consultant.consultantName,
-      });
-    });
-    setAdvisors(newConsultants);
-  }, [props?.apiData]);
 
   return (
     <Modal
@@ -79,6 +66,7 @@ export default function ErstberatungNewModal(props: {
         });
       }}
       onCancel={() => {
+        formInstance.resetFields();
         props.handleCancel(() => {});
       }}
       destroyOnClose
@@ -151,10 +139,10 @@ export default function ErstberatungNewModal(props: {
           isMulti
           allowClear
           placeholder="agency.edit.erstberatung.modal_new_consultation_type.advisor"
-          options={advisors?.map((advisor) => {
+          options={props.allAgencyConsultants?.map((consultant) => {
             return {
-              label: advisor.name,
-              value: advisor.id,
+              label: consultant.consultantName,
+              value: consultant.consultantId,
             };
           })}
         />

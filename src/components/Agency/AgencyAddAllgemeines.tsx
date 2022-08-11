@@ -281,7 +281,11 @@ export default function AgencieAddAllgemeines() {
                       name="online"
                     >
                       <div className="flex">
-                        <Switch size="default" defaultChecked={false} />
+                        <Switch
+                          size="default"
+                          defaultChecked={false}
+                          disabled
+                        />
                         <Paragraph className="desc__toggleText">
                           {t("yes")}
                         </Paragraph>

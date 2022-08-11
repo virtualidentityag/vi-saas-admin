@@ -17,20 +17,20 @@ import ErstberatungEditModal from "./ErstberatungEditModal";
 import getAgencyEventTypes from "../../api/agency/getAgencyEventTypes";
 import getConsultantForAgencyEventTypes from "../../api/agency/getConsultantForAgencyEventTypes";
 import EventTypeDeletionModal from "./EventTypeDeletionModal";
+import { agencyConsultants } from "../../api/agency/hasAgencyConsultants";
 
 const { Paragraph } = Typography;
 
 export default function AgencieEditErstberatung() {
   const { t } = useTranslation();
   const [topics, setTopics] = useState([]);
-  const [apiAgencyEventTypes, setApiAgencyEventTypes] = useState<
-    AgencyEventTypes[]
-  >([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showNewModal, setShowNewModal] = useState(false);
   const [editableData, setEditableData] = useState(undefined);
   const [eventTypeDelete, setEventTypeDelete] = useState(undefined);
+  const [allAgencyConsultants, setAllAgencyConsultants] =
+    useState<ConsultantInterface[]>(undefined);
   const [isLoading, setIsLoading] = useState(true);
   const [tableState] = useState<TableState>({
     current: 1,
@@ -57,11 +57,14 @@ export default function AgencieEditErstberatung() {
   };
 
   const getAgencyData = () => {
-    getAgencyEventTypes(agencyId).then((resp: AgencyEventTypes[]) => {
-      setApiAgencyEventTypes(resp);
-      const agencyEventTypes = transformData(resp);
+    Promise.all([
+      getAgencyEventTypes(agencyId),
+      agencyConsultants(agencyId),
+    ]).then((resp) => {
+      const agencyEventTypes = transformData(resp[0]);
       setTopics(agencyEventTypes);
       setIsLoading(false);
+      setAllAgencyConsultants(resp[1]);
     });
   };
 
@@ -235,14 +238,14 @@ export default function AgencieEditErstberatung() {
         showEditModal={showNewModal}
         handleCancel={handleCancelNew}
         handleSave={handleSaveNew}
-        apiData={apiAgencyEventTypes}
+        allAgencyConsultants={allAgencyConsultants}
       />
       <ErstberatungEditModal
         showEditModal={showEditModal}
         handleCancel={handleCancelEdit}
         handleSave={handleSaveEdit}
         editableData={editableData}
-        apiData={apiAgencyEventTypes}
+        allAgencyConsultants={allAgencyConsultants}
       />
       <EventTypeDeletionModal
         showDeleteModal={showDeleteModal}

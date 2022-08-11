@@ -23,6 +23,7 @@ import { UserRole } from "../../enums/UserRole";
 import { SliderFormField } from "../SliderFormField";
 import { useFeatureContext } from "../../context/FeatureContext";
 import { useUserRoles } from "../../hooks/useUserRoles.hook";
+import { hasAgencyConsultants } from "../../api/agency/hasAgencyConsultants";
 
 const { Paragraph } = Typography;
 const { Item } = Form;
@@ -63,6 +64,8 @@ export default function AgencieEditAllgemeines() {
   const [readOnlyAgencyGender, setReadOnlyAgencyGender] =
     useState<boolean>(true);
   const [readOnlyAgencyAge, setReadOnlyAgencyAge] = useState<boolean>(true);
+  const [agencyHasConsultants, setAgencyHasConsultants] =
+    useState<boolean>(true);
   const currentPath = useLocation().pathname;
   const [, agencyID] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
   const [, hasRole] = useUserRoles();
@@ -212,10 +215,12 @@ export default function AgencieEditAllgemeines() {
       Promise.all([
         getAgencyPostCodeRange(agencyId),
         getAgencyDataAgencyId(agencyId),
+        hasAgencyConsultants(agencyId),
       ]).then((values) => {
         const agencyPostCodeRangesResponse = values[0];
         /* eslint no-underscore-dangle: ["error", { "allow": ["_embedded"] }] */
         const agencyData = values[1]._embedded;
+        setAgencyHasConsultants(values[2]);
         setAgencyPostCodeRanges(agencyPostCodeRangesResponse);
         setPostCodeRangesSwitchState(agencyPostCodeRangesResponse);
         setAgencyModel(agencyData);
@@ -469,7 +474,10 @@ export default function AgencieEditAllgemeines() {
                           <Switch
                             size="default"
                             defaultChecked={false}
-                            disabled={readOnlyOnline}
+                            disabled={
+                              readOnlyOnline ||
+                              (!readOnlyOnline && !agencyHasConsultants)
+                            }
                           />
                           <Paragraph className="desc__toggleText">
                             {t("yes")}

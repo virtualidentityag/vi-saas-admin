@@ -15,6 +15,10 @@ import { Button, ButtonItem, BUTTON_TYPES } from "../button/Button";
 import addAgencyData from "../../api/agency/addAgencyData";
 import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
 import routePathNames from "../../appConfig";
+import { useUserRoles } from "../../hooks/useUserRoles.hook";
+import { UserRole } from "../../enums/UserRole";
+import { convertToOptions } from "../../utils/convertToOptions";
+import getTopicByTenantData from "../../api/topic/getTopicByTenantData";
 
 const { Paragraph } = Typography;
 const { Item } = Form;
@@ -30,8 +34,11 @@ export default function AgencieAddAllgemeines() {
   const [isTeamAgency, setIsTeamAgency] = useState<boolean>();
   const navigate = useNavigate();
   const [stickyActions, setStickyActions] = useState<boolean>();
+  const [, hasRole] = useUserRoles();
   const [stickyActionsPositionBottom, setStickyActionsPositionBottom] =
     useState<number>(0);
+  const [allTopics, setAllTopics] = useState<Record<string, any>[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const footerElement = document.querySelector("footer");
 
   const elementPXSeen = (element: HTMLElement) => {
@@ -121,6 +128,23 @@ export default function AgencieAddAllgemeines() {
       window.removeEventListener("resize", handleResize);
     };
   });
+
+  useEffect(() => {
+    setIsLoading(true);
+    getTopicByTenantData()
+      .then((result: any) => {
+        formAgencyAdd.setFieldsValue({ topic: result[0].id });
+        const activeTopics = result.filter((topic) => {
+          return topic.status === "ACTIVE";
+        });
+        setAllTopics(activeTopics);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        setAllTopics([]);
+      });
+  }, [t, formAgencyAdd]);
 
   return (
     <div className="addForm">
@@ -249,6 +273,21 @@ export default function AgencieAddAllgemeines() {
                 </Title>
               </div>
               <div>
+                {hasRole(UserRole.TopicAdmin) &&
+                  isEnabled(FeatureFlag.Topics) &&
+                  allTopics?.length > 0 && (
+                    <Item name="topicIds">
+                      <SelectFormField
+                        label="topics.title"
+                        name="topicIds"
+                        isMulti
+                        loading={isLoading}
+                        allowClear
+                        placeholder="plsSelect"
+                        options={convertToOptions(allTopics, "name", "id")}
+                      />
+                    </Item>
+                  )}
                 <Row gutter={[20, 10]}>
                   <Col xs={12} lg={6}>
                     <Item

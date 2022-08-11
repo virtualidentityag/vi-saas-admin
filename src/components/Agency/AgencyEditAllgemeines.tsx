@@ -427,7 +427,7 @@ export default function AgencieEditAllgemeines() {
                       <Item name="topicIds">
                         <SelectFormField
                           label="topics.title"
-                          name=""
+                          name="topicIds"
                           isMulti
                           loading={isLoading}
                           allowClear

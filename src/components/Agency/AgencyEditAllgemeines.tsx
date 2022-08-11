@@ -42,6 +42,7 @@ export default function AgencieEditAllgemeines() {
   const [formAgencyEdit] = Form.useForm();
   const [postCodeRangesSwitchActive, setPostCodeRangesSwitchActive] =
     useState(false);
+  const [onlineSwitchActive, setOnlineSwitchActive] = useState<boolean>(false);
   const [agencyPostCodeRanges, setAgencyPostCodeRanges] = useState(
     [] as PostCodeRange[]
   );
@@ -225,6 +226,7 @@ export default function AgencieEditAllgemeines() {
         setPostCodeRangesSwitchState(agencyPostCodeRangesResponse);
         setAgencyModel(agencyData);
         setIsTeamAgency(agencyData.teamAgency);
+        setOnlineSwitchActive(agencyData.offline);
       });
     }
   }, [agencyId]);
@@ -260,6 +262,7 @@ export default function AgencieEditAllgemeines() {
             ...agencyModel,
             ...demographicsInitialValues,
             topicIds: agencyModel?.topics.map((topic) => topic.id.toString()),
+            online: !agencyModel.offline,
           }}
         >
           <Row gutter={[20, 10]}>
@@ -473,11 +476,17 @@ export default function AgencieEditAllgemeines() {
                         <div className="flex">
                           <Switch
                             size="default"
-                            defaultChecked={false}
+                            checked={!onlineSwitchActive}
                             disabled={
                               readOnlyOnline ||
                               (!readOnlyOnline && !agencyHasConsultants)
                             }
+                            onChange={(value: boolean) => {
+                              formAgencyEdit.setFieldsValue({
+                                online: value,
+                              });
+                              setOnlineSwitchActive(!value);
+                            }}
                           />
                           <Paragraph className="desc__toggleText">
                             {t("yes")}

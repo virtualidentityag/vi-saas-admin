@@ -1,20 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { ReactComponent as ChevronLeft } from "../resources/img/svg/chevron-left.svg";
 import AgencieEditGeneral from "../components/Agency/AgencyEditGeneral";
 import AgencieEditInitialMeeting from "../components/Agency/AgencyEditInitialMeeting";
 import agencyRoutes from "../components/Agency/Agency.routes";
 import routePathNames from "../appConfig";
+import { useFeatureContext } from "../context/FeatureContext";
+import { FeatureFlag } from "../enums/FeatureFlag";
 
 function AgencieEdit() {
   const { t } = useTranslation();
   const currentPath = useLocation().pathname;
   const [agencyEditComponent, setAgencyEditComponent] = useState(null);
   const [, agencyId] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
+  const { isEnabled } = useFeatureContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (
+      currentPath.includes("/initial-meeting") &&
+      !isEnabled(FeatureFlag.Appointments)
+    ) {
+      navigate(routePathNames.agencyEditGeneral.replace(":id", agencyId));
+    }
     switch (currentPath.replace(agencyId, ":id")) {
       case routePathNames.agencyEditGeneral:
         setAgencyEditComponent(<AgencieEditGeneral />);
@@ -41,18 +51,24 @@ function AgencieEdit() {
           </NavLink>
         </div>
         <div className="agencyEdit__nav">
-          {agencyRoutes.map((tab) => (
-            <div key={tab.url} className="agencyEdit__navItem">
-              <NavLink
-                to={`/admin/agency/edit/${agencyId}${tab.url}`}
-                className={({ isActive }) => {
-                  return isActive ? "active" : "";
-                }}
-              >
-                {tab.title}
-              </NavLink>
-            </div>
-          ))}
+          {agencyRoutes
+            ?.filter(
+              (route: any) =>
+                !route.condition ||
+                route.condition(isEnabled(FeatureFlag.Appointments))
+            )
+            .map((tab) => (
+              <div key={tab.url} className="agencyEdit__navItem">
+                <NavLink
+                  to={`/admin/agency/edit/${agencyId}${tab.url}`}
+                  className={({ isActive }) => {
+                    return isActive ? "active" : "";
+                  }}
+                >
+                  {tab.title}
+                </NavLink>
+              </div>
+            ))}
         </div>
       </div>
       <div className="agencyEdit__innerWrapper">{agencyEditComponent}</div>

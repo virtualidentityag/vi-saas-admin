@@ -221,7 +221,7 @@ export default function AgencieEditGeneral() {
         const agencyPostCodeRangesResponse = values[0];
         /* eslint no-underscore-dangle: ["error", { "allow": ["_embedded"] }] */
         const agencyData = values[1]._embedded;
-        setAgencyHasConsultants(values[2].length >= 0);
+        setAgencyHasConsultants(values[2].length > 0);
         setAgencyPostCodeRanges(agencyPostCodeRangesResponse);
         setPostCodeRangesSwitchState(agencyPostCodeRangesResponse);
         setAgencyModel(agencyData);

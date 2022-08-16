@@ -107,6 +107,7 @@ export default function AgencieAddGeneral() {
 
   const onCancel = () => {
     formAgencyAdd.resetFields();
+    navigate(routePathNames.agency);
   };
 
   const saveButton: ButtonItem = {

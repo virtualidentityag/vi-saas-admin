@@ -23,7 +23,7 @@ import { UserRole } from "../../enums/UserRole";
 import { SliderFormField } from "../SliderFormField";
 import { useFeatureContext } from "../../context/FeatureContext";
 import { useUserRoles } from "../../hooks/useUserRoles.hook";
-import { hasAgencyConsultants } from "../../api/agency/getAgencyConsultants";
+import { getAgencyConsultants } from "../../api/agency/getAgencyConsultants";
 
 const { Paragraph } = Typography;
 const { Item } = Form;
@@ -216,12 +216,12 @@ export default function AgencieEditAllgemeines() {
       Promise.all([
         getAgencyPostCodeRange(agencyId),
         getAgencyDataById(agencyId),
-        hasAgencyConsultants(agencyId),
+        getAgencyConsultants(agencyId),
       ]).then((values) => {
         const agencyPostCodeRangesResponse = values[0];
         /* eslint no-underscore-dangle: ["error", { "allow": ["_embedded"] }] */
         const agencyData = values[1]._embedded;
-        setAgencyHasConsultants(values[2]);
+        setAgencyHasConsultants(values[2].length >= 0);
         setAgencyPostCodeRanges(agencyPostCodeRangesResponse);
         setPostCodeRangesSwitchState(agencyPostCodeRangesResponse);
         setAgencyModel(agencyData);

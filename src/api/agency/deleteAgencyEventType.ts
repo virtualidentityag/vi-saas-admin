@@ -7,17 +7,8 @@ import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
  * @return {Promise}
  */
 const deleteAgencyEventType = (agencyId: string, eventTypeId: number) => {
-  const agencyReplace = `${consultantsForAgencyEventTypes}`.replaceAll(
-    "{agencyId}",
-    agencyId
-  );
-  const url = `${agencyReplace}`.replaceAll(
-    "{eventTypeId}",
-    eventTypeId.toString()
-  );
-
   return fetchData({
-    url,
+    url: consultantsForAgencyEventTypes(agencyId, eventTypeId),
     method: FETCH_METHODS.DELETE,
     skipAuth: false,
     responseHandling: [FETCH_ERRORS.CATCH_ALL],

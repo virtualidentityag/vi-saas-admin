@@ -17,7 +17,7 @@ import ErstberatungEditModal from "./ErstberatungEditModal";
 import getAgencyEventTypes from "../../api/agency/getAgencyEventTypes";
 import getAgencyEventTypeById from "../../api/agency/getAgencyEventTypeById";
 import EventTypeDeletionModal from "./EventTypeDeletionModal";
-import { agencyConsultants } from "../../api/agency/getAgencyConsultants";
+import { getAgencyConsultants } from "../../api/agency/getAgencyConsultants";
 
 const { Paragraph } = Typography;
 
@@ -59,7 +59,7 @@ export default function AgencieEditErstberatung() {
   const getAgencyData = () => {
     Promise.all([
       getAgencyEventTypes(agencyId),
-      agencyConsultants(agencyId),
+      getAgencyConsultants(agencyId),
     ]).then((resp) => {
       const agencyEventTypes = transformData(resp[0]);
       setTopics(agencyEventTypes);

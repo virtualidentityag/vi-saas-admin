@@ -8,7 +8,7 @@ import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
  */
 const getAgencyDataById = (agencyId: string) => {
   return fetchData({
-    url: `${agencyDataAgencyId}`.replaceAll("{agencyId}", agencyId),
+    url: agencyDataAgencyId(agencyId),
     method: FETCH_METHODS.GET,
     skipAuth: false,
     responseHandling: [FETCH_ERRORS.CATCH_ALL],

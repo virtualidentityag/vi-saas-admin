@@ -12,17 +12,8 @@ const putConsultantForAgencyEventTypes = (
   eventTypeId: number,
   bodyData: AgencyEventTypeUpdate
 ) => {
-  const agencyReplace = `${consultantsForAgencyEventTypes}`.replaceAll(
-    "{agencyId}",
-    agencyId
-  );
-  const url = `${agencyReplace}`.replaceAll(
-    "{eventTypeId}",
-    eventTypeId.toString()
-  );
-
   return fetchData({
-    url,
+    url: consultantsForAgencyEventTypes(agencyId, eventTypeId),
     method: FETCH_METHODS.PUT,
     skipAuth: false,
     responseHandling: [FETCH_ERRORS.CATCH_ALL],

@@ -20,14 +20,22 @@ if (process.env.REACT_APP_USE_API_URL === "true") {
 
 export const mainURL = url;
 
-export const agencyDataAgencyId = `${mainURL}/service/agencyadmin/agencies/{agencyId}`;
+export const agencyDataAgencyId = (agencyId: string) =>
+  `${mainURL}/service/agencyadmin/agencies/${agencyId}`;
 export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&perPage=100`;
 export const agencyEndpointBase = `${mainURL}/service/agencyadmin/agencies`;
-export const agencyEventTypes = `${mainURL}/service/appointservice/agencies/{agencyId}/eventTypes`;
+export const agencyEventTypes = (agencyId: string) =>
+  `${mainURL}/service/appointservice/agencies/${agencyId}/eventTypes`;
 export const agencyPostcodeRangeEndpointBase = `${mainURL}/service/agencyadmin/postcoderanges`;
-export const consultantsForAgencyEndpoint = `${mainURL}/service/appointservice/agencies/{agencyId}/consultants`;
-export const consultantsForAgencyEventTypes = `${mainURL}/service/appointservice/agencies/{agencyId}/eventTypes/{eventTypeId}/`;
-export const consultantsForAgencyEventTypesNew = `${mainURL}/service/appointservice/agencies/{agencyId}/eventTypes`;
+export const consultantsForAgencyEndpoint = (agencyId: string) =>
+  `${mainURL}/service/appointservice/agencies/${agencyId}/consultants`;
+export const consultantsForAgencyEventTypes = (
+  agencyId: string,
+  eventTypeId: number
+) =>
+  `${mainURL}/service/appointservice/agencies/${agencyId}/eventTypes/${eventTypeId}/`;
+export const consultantsForAgencyEventTypesNew = (agencyId: string) =>
+  `${mainURL}/service/appointservice/agencies/{agencyId}/eventTypes`;
 export const consultingTypeEndpoint = `${mainURL}/service/consultingtypes`;
 export const counselorEndpoint = `${mainURL}/service/useradmin/consultants`;
 export const eventTypeById = `${mainURL}/eventTypes/{eventTypeId}`;

@@ -12,10 +12,7 @@ const postConsultantForAgencyEventTypes = (
   bodyData: AgencyEventTypeUpdate
 ) => {
   return fetchData({
-    url: `${consultantsForAgencyEventTypesNew}`.replaceAll(
-      "{agencyId}",
-      agencyId
-    ),
+    url: consultantsForAgencyEventTypesNew(agencyId),
     method: FETCH_METHODS.POST,
     skipAuth: false,
     responseHandling: [FETCH_ERRORS.CATCH_ALL],

@@ -10,7 +10,7 @@ import { ConsultantInterface } from "../../types/agencyEdit";
 const { Paragraph } = Typography;
 const { Item } = Form;
 
-export default function ErstberatungNewModal(props: {
+export default function InitialMeetingNewModal(props: {
   showEditModal: boolean;
   handleCancel?: (callback: Function) => void;
   handleSave?: (callback: Function) => void;
@@ -26,7 +26,7 @@ export default function ErstberatungNewModal(props: {
       closable
       title={
         <Title level={4}>
-          {t("agency.edit.erstberatung.modal_new_consultation_type.title")}
+          {t("agency.edit.initialMeeting.modal_new_consultation_type.title")}
         </Title>
       }
       visible={props.showEditModal}
@@ -71,13 +71,13 @@ export default function ErstberatungNewModal(props: {
       }}
       destroyOnClose
       cancelText={t(
-        "agency.edit.erstberatung.modal_new_consultation_type.cancel"
+        "agency.edit.initialMeeting.modal_new_consultation_type.cancel"
       )}
       centered
-      okText={t("agency.edit.erstberatung.modal_new_consultation_type.ok")}
-      className="agencieEditErstberatung"
+      okText={t("agency.edit.initialMeeting.modal_new_consultation_type.ok")}
+      className="agencieEditInitialMeeting"
     >
-      <p>{t("agency.edit.erstberatung.modal_new_consultation_type.intro")}</p>
+      <p>{t("agency.edit.initialMeeting.modal_new_consultation_type.intro")}</p>
       <Form
         form={formInstance}
         size="small"
@@ -89,33 +89,35 @@ export default function ErstberatungNewModal(props: {
         }}
       >
         <Item
-          label={t("agency.edit.erstberatung.modal_new_consultation_type.name")}
+          label={t(
+            "agency.edit.initialMeeting.modal_new_consultation_type.name"
+          )}
           name="name"
           rules={[{ required: true }]}
         >
           <Input
             placeholder={t(
-              "agency.edit.erstberatung.modal_new_consultation_type.name.placeholder"
+              "agency.edit.initialMeeting.modal_new_consultation_type.name.placeholder"
             )}
           />
         </Item>
         <Item
           label={t(
-            "agency.edit.erstberatung.modal_new_consultation_type.description"
+            "agency.edit.initialMeeting.modal_new_consultation_type.description"
           )}
           name="description"
         >
           <TextArea
             placeholder={t(
-              "agency.edit.erstberatung.modal_new_consultation_type.description.placeholder"
+              "agency.edit.initialMeeting.modal_new_consultation_type.description.placeholder"
             )}
             rows={3}
           />
         </Item>
-        <div className="flex agencieEditErstberatung__minutes">
+        <div className="flex agencieEditInitialMeeting__minutes">
           <Item
             label={t(
-              "agency.edit.erstberatung.modal_new_consultation_type.duration"
+              "agency.edit.initialMeeting.modal_new_consultation_type.duration"
             )}
             name="duration"
             rules={[{ required: true }]}
@@ -123,22 +125,22 @@ export default function ErstberatungNewModal(props: {
             <Input
               type="number"
               placeholder={t(
-                "agency.edit.erstberatung.modal_new_consultation_type.duration.placeholder"
+                "agency.edit.initialMeeting.modal_new_consultation_type.duration.placeholder"
               )}
             />
           </Item>
-          <Paragraph className="agencieEditErstberatung__minutes__text">
+          <Paragraph className="agencieEditInitialMeeting__minutes__text">
             {t(
-              "agency.edit.erstberatung.modal_new_consultation_type.duration.minutes"
+              "agency.edit.initialMeeting.modal_new_consultation_type.duration.minutes"
             )}
           </Paragraph>
         </div>
         <SelectFormField
-          label="agency.edit.erstberatung.modal_new_consultation_type.advisor"
+          label="agency.edit.initialMeeting.modal_new_consultation_type.advisor"
           name="advisor"
           isMulti
           allowClear
-          placeholder="agency.edit.erstberatung.modal_new_consultation_type.advisor"
+          placeholder="agency.edit.initialMeeting.modal_new_consultation_type.advisor"
           options={props.allAgencyConsultants?.map((consultant) => {
             return {
               label: consultant.consultantName,
@@ -148,12 +150,12 @@ export default function ErstberatungNewModal(props: {
         />
         <SelectFormField
           disabled
-          label="agency.edit.erstberatung.modal_new_consultation_type.location"
+          label="agency.edit.initialMeeting.modal_new_consultation_type.location"
           name="location"
           isMulti
           allowClear
           required
-          placeholder="agency.edit.erstberatung.modal_new_consultation_type.location"
+          placeholder="agency.edit.initialMeeting.modal_new_consultation_type.location"
           options={[
             {
               label: "Videoberatung",

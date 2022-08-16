@@ -32,7 +32,7 @@ export default function EventTypeDeletionModal(props: {
     <Modal
       title={
         <Title level={2}>
-          {t("agency.edit.erstberatung.modal_delete_consultation_type.title")}
+          {t("agency.edit.initialMeeting.modal_delete_consultation_type.title")}
         </Title>
       }
       visible={props.showDeleteModal}
@@ -46,7 +46,7 @@ export default function EventTypeDeletionModal(props: {
     >
       <p>
         {t(
-          "agency.edit.erstberatung.modal_delete_consultation_type.description"
+          "agency.edit.initialMeeting.modal_delete_consultation_type.description"
         )}
       </p>
     </Modal>

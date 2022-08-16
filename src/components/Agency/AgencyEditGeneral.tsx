@@ -36,7 +36,7 @@ function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
   );
 }
 
-export default function AgencieEditAllgemeines() {
+export default function AgencieEditGeneral() {
   const { t } = useTranslation();
   const { isEnabled } = useFeatureContext();
   const [formAgencyEdit] = Form.useForm();
@@ -178,32 +178,32 @@ export default function AgencieEditAllgemeines() {
   };
 
   const cancelGeneralInformationEditButton: ButtonItem = {
-    label: t("agency.edit.allgemeines.general_information.cancel"),
+    label: t("agency.edit.general.general_information.cancel"),
     type: BUTTON_TYPES.LINK,
   };
 
   const saveGeneralInformationEditButton: ButtonItem = {
-    label: t("agency.edit.allgemeines.general_information.save"),
+    label: t("agency.edit.general.general_information.save"),
     type: BUTTON_TYPES.LINK,
   };
 
   const cancelMoreSettingsEditButton: ButtonItem = {
-    label: t("agency.edit.allgemeines.more_settings.cancel"),
+    label: t("agency.edit.general.more_settings.cancel"),
     type: BUTTON_TYPES.LINK,
   };
 
   const saveMoreSettingsEditButton: ButtonItem = {
-    label: t("agency.edit.allgemeines.more_settings.save"),
+    label: t("agency.edit.general.more_settings.save"),
     type: BUTTON_TYPES.LINK,
   };
 
   const cancelAddressEditButton: ButtonItem = {
-    label: t("agency.edit.allgemeines.address.cancel"),
+    label: t("agency.edit.general.address.cancel"),
     type: BUTTON_TYPES.LINK,
   };
 
   const saveAddressEditButton: ButtonItem = {
-    label: t("agency.edit.allgemeines.address.save"),
+    label: t("agency.edit.general.address.save"),
     type: BUTTON_TYPES.LINK,
   };
 
@@ -270,7 +270,7 @@ export default function AgencieEditAllgemeines() {
               <Box>
                 <div className="agencyEdit__headline">
                   <Title className="formHeadline mb-m" level={4}>
-                    {t("agency.edit.allgemeines.general_information")}
+                    {t("agency.edit.general.general_information")}
                   </Title>
                   <Pencil
                     className="agencyEdit__pointer"
@@ -279,29 +279,27 @@ export default function AgencieEditAllgemeines() {
                 </div>
                 <div>
                   <Item
-                    label={t(
-                      "agency.edit.allgemeines.general_information.name"
-                    )}
+                    label={t("agency.edit.general.general_information.name")}
                     name="name"
                     rules={[{ required: true }]}
                   >
                     <Input
                       disabled={readOnlyName}
                       placeholder={t(
-                        "agency.edit.allgemeines.general_information.name"
+                        "agency.edit.general.general_information.name"
                       )}
                     />
                   </Item>
                   <Item
                     label={t(
-                      "agency.edit.allgemeines.general_information.description"
+                      "agency.edit.general.general_information.description"
                     )}
                     name="description"
                   >
                     <TextArea
                       disabled={readOnlyDescription}
                       placeholder={t(
-                        "agency.edit.allgemeines.general_information.description"
+                        "agency.edit.general.general_information.description"
                       )}
                       rows={3}
                     />
@@ -323,7 +321,7 @@ export default function AgencieEditAllgemeines() {
               <Box>
                 <div className="agencyEdit__headline">
                   <Title className="formHeadline mb-m" level={4}>
-                    {t("agency.edit.allgemeines.address")}
+                    {t("agency.edit.general.address")}
                   </Title>
                   <Pencil
                     className="agencyEdit__pointer"
@@ -334,14 +332,14 @@ export default function AgencieEditAllgemeines() {
                   <Row gutter={[20, 10]}>
                     <Col xs={12} lg={6}>
                       <Item
-                        label={t("agency.edit.allgemeines.address.postcode")}
+                        label={t("agency.edit.general.address.postcode")}
                         name="postcode"
                         rules={[{ required: true }]}
                       >
                         <Input
                           disabled={readOnlyPostCode}
                           placeholder={t(
-                            "agency.edit.allgemeines.address.postcode"
+                            "agency.edit.general.address.postcode"
                           )}
                           maxLength={5}
                         />
@@ -349,22 +347,20 @@ export default function AgencieEditAllgemeines() {
                     </Col>
                     <Col xs={12} lg={6}>
                       <Item
-                        label={t("agency.edit.allgemeines.address.city")}
+                        label={t("agency.edit.general.address.city")}
                         name="city"
                         rules={[{ required: true }]}
                       >
                         <Input
                           disabled={readOnlyCity}
-                          placeholder={t(
-                            "agency.edit.allgemeines.address.city"
-                          )}
+                          placeholder={t("agency.edit.general.address.city")}
                         />
                       </Item>
                     </Col>
                   </Row>
 
                   <Item
-                    label={t("agency.edit.allgemeines.address.zip_code_scope")}
+                    label={t("agency.edit.general.address.zip_code_scope")}
                     name="postCodeRangesActive"
                   >
                     <div className="flex">
@@ -385,7 +381,7 @@ export default function AgencieEditAllgemeines() {
                       />
                       <Paragraph className="desc__toggleText">
                         {t(
-                          "agency.edit.allgemeines.address.zip_code_scope.information"
+                          "agency.edit.general.address.zip_code_scope.information"
                         )}
                       </Paragraph>
                     </div>
@@ -416,7 +412,7 @@ export default function AgencieEditAllgemeines() {
               <Box>
                 <div className="agencyEdit__headline">
                   <Title className="formHeadline mb-m" level={4}>
-                    {t("agency.edit.allgemeines.more_settings")}
+                    {t("agency.edit.general.more_settings")}
                   </Title>
                   <Pencil
                     className="agencyEdit__pointer"
@@ -444,7 +440,7 @@ export default function AgencieEditAllgemeines() {
                     <Col xs={12} lg={6}>
                       <Item
                         label={t(
-                          "agency.edit.allgemeines.more_settings.team_advice_center"
+                          "agency.edit.general.more_settings.team_advice_center"
                         )}
                         name="teamAgency"
                       >
@@ -468,9 +464,7 @@ export default function AgencieEditAllgemeines() {
                     </Col>
                     <Col xs={12} lg={6}>
                       <Item
-                        label={t(
-                          "agency.edit.allgemeines.more_settings.online"
-                        )}
+                        label={t("agency.edit.general.more_settings.online")}
                         name="online"
                       >
                         <div className="flex">

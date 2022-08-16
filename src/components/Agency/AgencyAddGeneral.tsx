@@ -25,7 +25,7 @@ const { Item } = Form;
 const DEFAULT_MIN_AGE = 18;
 const DEFAULT_MAX_AGE = 100;
 
-export default function AgencieAddAllgemeines() {
+export default function AgencieAddGeneral() {
   const { t } = useTranslation();
   const { isEnabled } = useFeatureContext();
   const [formAgencyAdd] = Form.useForm();
@@ -95,7 +95,7 @@ export default function AgencieAddAllgemeines() {
           duration: 3,
         });
         navigate(
-          `${routePathNames.agencyEditAllgemeines.replace(
+          `${routePathNames.agencyEditGeneral.replace(
             ":id",
             agencyId.toString()
           )}`
@@ -110,12 +110,12 @@ export default function AgencieAddAllgemeines() {
   };
 
   const saveButton: ButtonItem = {
-    label: t("agency.add.allgemeines.save"),
+    label: t("agency.add.general.save"),
     type: BUTTON_TYPES.PRIMARY,
   };
 
   const cancelButton: ButtonItem = {
-    label: t("agency.add.allgemeines.cancel"),
+    label: t("agency.add.general.cancel"),
     type: BUTTON_TYPES.SECONDARY,
   };
 
@@ -164,23 +164,23 @@ export default function AgencieAddAllgemeines() {
             <Box>
               <div className="agencyEdit__headline">
                 <Title className="formHeadline mb-m" level={4}>
-                  {t("agency.add.allgemeines")}
+                  {t("agency.add.general")}
                 </Title>
               </div>
               <div>
                 <Item
-                  label={t("agency.add.allgemeines.name")}
+                  label={t("agency.add.general.name")}
                   name="name"
                   rules={[{ required: true }]}
                 >
-                  <Input placeholder={t("agency.add.allgemeines.name")} />
+                  <Input placeholder={t("agency.add.general.name")} />
                 </Item>
                 <Item
-                  label={t("agency.add.allgemeines.description")}
+                  label={t("agency.add.general.description")}
                   name="description"
                 >
                   <TextArea
-                    placeholder={t("agency.add.allgemeines.description")}
+                    placeholder={t("agency.add.general.description")}
                     rows={3}
                   />
                 </Item>
@@ -189,29 +189,25 @@ export default function AgencieAddAllgemeines() {
             <Box>
               <div className="agencyEdit__headline">
                 <Title className="formHeadline mb-m" level={4}>
-                  {t("agency.add.allgemeines.address")}
+                  {t("agency.add.general.address")}
                 </Title>
               </div>
               <div>
                 <Row gutter={[20, 10]}>
                   <Col xs={12} lg={6}>
                     <Item
-                      label={t("agency.add.allgemeines.address.postcode")}
+                      label={t("agency.add.general.address.postcode")}
                       name="postcode"
                       rules={[
                         { required: true },
                         {
                           min: 5,
-                          message: t(
-                            "agency.add.allgemeines.address.range.error"
-                          ),
+                          message: t("agency.add.general.address.range.error"),
                         },
                       ]}
                     >
                       <Input
-                        placeholder={t(
-                          "agency.add.allgemeines.address.postcode"
-                        )}
+                        placeholder={t("agency.add.general.address.postcode")}
                         minLength={5}
                         maxLength={5}
                       />
@@ -219,19 +215,19 @@ export default function AgencieAddAllgemeines() {
                   </Col>
                   <Col xs={12} lg={6}>
                     <Item
-                      label={t("agency.add.allgemeines.address.city")}
+                      label={t("agency.add.general.address.city")}
                       name="city"
                       rules={[{ required: true }]}
                     >
                       <Input
-                        placeholder={t("agency.add.allgemeines.address.city")}
+                        placeholder={t("agency.add.general.address.city")}
                       />
                     </Item>
                   </Col>
                 </Row>
 
                 <Item
-                  label={t("agency.add.allgemeines.address.zip_code_scope")}
+                  label={t("agency.add.general.address.zip_code_scope")}
                   name="postCodeRangesActive"
                 >
                   <div className="flex">
@@ -251,7 +247,7 @@ export default function AgencieAddAllgemeines() {
                     />
                     <Paragraph className="desc__toggleText">
                       {t(
-                        "agency.add.allgemeines.address.zip_code_scope.information"
+                        "agency.add.general.address.zip_code_scope.information"
                       )}
                     </Paragraph>
                   </div>
@@ -269,7 +265,7 @@ export default function AgencieAddAllgemeines() {
             <Box>
               <div className="agencyEdit__headline">
                 <Title className="formHeadline mb-m" level={4}>
-                  {t("agency.add.allgemeines.more_settings")}
+                  {t("agency.add.general.more_settings")}
                 </Title>
               </div>
               <div>
@@ -292,7 +288,7 @@ export default function AgencieAddAllgemeines() {
                   <Col xs={12} lg={6}>
                     <Item
                       label={t(
-                        "agency.add.allgemeines.more_settings.team_advice_center"
+                        "agency.add.general.more_settings.team_advice_center"
                       )}
                       name="teamAgency"
                     >
@@ -316,7 +312,7 @@ export default function AgencieAddAllgemeines() {
                   </Col>
                   <Col xs={12} lg={6}>
                     <Item
-                      label={t("agency.add.allgemeines.more_settings.online")}
+                      label={t("agency.add.general.more_settings.online")}
                       name="online"
                     >
                       <div className="flex">
@@ -342,9 +338,7 @@ export default function AgencieAddAllgemeines() {
                     max={100}
                   />
                   <SelectFormField
-                    errorMessage={t(
-                      "agency.add.allgemeines.gender.errorMessage"
-                    )}
+                    errorMessage={t("agency.add.general.gender.errorMessage")}
                     label="agency.gender"
                     name={["demographics", "genders"]}
                     isMulti

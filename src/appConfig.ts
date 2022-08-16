@@ -63,10 +63,10 @@ const routePathNames = {
   counselorProfileAdd: "/admin/counselor/add/",
   agency: "/admin/agency/",
   agencyEdit: "/admin/agency/edit",
-  agencyEditAllgemeines: "/admin/agency/edit/:id/allgemeines",
-  agencyEditErstberatung: "/admin/agency/edit/:id/erstberatung",
+  agencyEditGeneral: "/admin/agency/edit/:id/general",
+  agencyEditInitialMeeting: "/admin/agency/edit/:id/initial-meeting",
   agencyAdd: "/admin/agency/add",
-  agencyAddAllgemeines: "/admin/agency/add/allgemeines",
+  agencyAddGeneral: "/admin/agency/add/general",
   topics: "/admin/topics",
   userProfile: "/admin/profil/",
   termsAndConditions: "/admin/agb",
@@ -75,6 +75,7 @@ const routePathNames = {
   tenants: "/admin/organisationen",
   loginResetPasswordLink:
     "/auth/realms/online-beratung/login-actions/reset-credentials?client_id=account",
+  appointmentServiceDevServer: "https://calcom-develop.suchtberatung.digital",
 };
 
 export default routePathNames;

@@ -12,16 +12,17 @@ import {
   AgencyEventTypes,
 } from "../../types/agencyEdit";
 import ResizableTitle from "../Resizable/Resizable";
-import ErstberatungNewModal from "./ErstberatungNewModal";
-import ErstberatungEditModal from "./ErstberatungEditModal";
+import InitialMeetingNewModal from "./InitialMeetingNewModal";
+import InitialMeetingEditModal from "./InitialMeetingEditModal";
 import getAgencyEventTypes from "../../api/agency/getAgencyEventTypes";
 import getAgencyEventTypeById from "../../api/agency/getAgencyEventTypeById";
 import EventTypeDeletionModal from "./EventTypeDeletionModal";
 import { getAgencyConsultants } from "../../api/agency/getAgencyConsultants";
+import routePathNames from "../../appConfig";
 
 const { Paragraph } = Typography;
 
-export default function AgencieEditErstberatung() {
+export default function AgencieEditInitialMeeting() {
   const { t } = useTranslation();
   const [topics, setTopics] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -47,7 +48,7 @@ export default function AgencieEditErstberatung() {
         id: event.id,
         name: event.title,
         description: event.description,
-        url: `https://calcom-develop.suchtberatung.digital/team/${event.slug}`,
+        url: `${routePathNames.appointmentServiceDevServer}/team/${event.slug}`,
         duration: event.length,
         advisor: null,
         location: "Videoberatung",
@@ -130,7 +131,7 @@ export default function AgencieEditErstberatung() {
   function defineTableColumns(): ColumnsType<AgencyEditData> {
     return [
       {
-        title: t("agency.edit.erstberatung.table.appointment_label"),
+        title: t("agency.edit.initialMeeting.table.appointment_label"),
         dataIndex: "name",
         key: "name",
         width: 350,
@@ -138,14 +139,14 @@ export default function AgencieEditErstberatung() {
         fixed: "left",
       },
       {
-        title: t("agency.edit.erstberatung.table.location"),
+        title: t("agency.edit.initialMeeting.table.location"),
         dataIndex: "location",
         key: "location",
         width: 150,
         ellipsis: true,
       },
       {
-        title: t("agency.edit.erstberatung.table.duration"),
+        title: t("agency.edit.initialMeeting.table.duration"),
         dataIndex: "duration",
         key: "duration",
         width: 150,
@@ -201,8 +202,8 @@ export default function AgencieEditErstberatung() {
 
   return (
     <>
-      <Title level={3}>{t("agency.edit.erstberatung.title")}</Title>
-      <Paragraph>{t("agency.edit.erstberatung.description")}</Paragraph>
+      <Title level={3}>{t("agency.edit.initialMeeting.title")}</Title>
+      <Paragraph>{t("agency.edit.initialMeeting.description")}</Paragraph>
       <Space align="baseline">
         <Button
           className="mb-m mr-sm"
@@ -210,7 +211,7 @@ export default function AgencieEditErstberatung() {
           icon={<PlusOutlined />}
           onClick={handleConsultantTypeNew}
         >
-          {t("agency.edit.erstberatung.button_label")}
+          {t("agency.edit.initialMeeting.button_label")}
         </Button>
       </Space>
       <Table
@@ -232,13 +233,13 @@ export default function AgencieEditErstberatung() {
           },
         }}
       />
-      <ErstberatungNewModal
+      <InitialMeetingNewModal
         showEditModal={showNewModal}
         handleCancel={handleCancelNew}
         handleSave={handleSaveNew}
         allAgencyConsultants={allAgencyConsultants}
       />
-      <ErstberatungEditModal
+      <InitialMeetingEditModal
         showEditModal={showEditModal}
         handleCancel={handleCancelEdit}
         handleSave={handleSaveEdit}

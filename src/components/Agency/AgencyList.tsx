@@ -181,7 +181,7 @@ function AgencyList() {
                   tableStateHolder = tableState;
                   pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, record);
                   navigate(
-                    `${routePathNames.agencyEditAllgemeines.replace(
+                    `${routePathNames.agencyEditGeneral.replace(
                       ":id",
                       record.id
                     )}`
@@ -312,7 +312,7 @@ function AgencyList() {
           icon={<PlusOutlined />}
           onClick={() => {
             tableStateHolder = tableState;
-            navigate(`${routePathNames.agencyAdd}/allgemeines`);
+            navigate(`${routePathNames.agencyAdd}/general`);
             pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, emptyAgencyModel);
           }}
         >

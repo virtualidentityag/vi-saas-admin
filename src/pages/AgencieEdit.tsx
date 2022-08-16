@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { useLocation } from "react-router";
 import { ReactComponent as ChevronLeft } from "../resources/img/svg/chevron-left.svg";
-import AgencieEditAllgemeines from "../components/Agency/AgencyEditAllgemeines";
-import AgencieEditErstberatung from "../components/Agency/AgencyEditErstberatung";
+import AgencieEditGeneral from "../components/Agency/AgencyEditGeneral";
+import AgencieEditInitialMeeting from "../components/Agency/AgencyEditInitialMeeting";
 import agencyRoutes from "../components/Agency/Agency.routes";
 import routePathNames from "../appConfig";
 
@@ -16,12 +16,12 @@ function AgencieEdit() {
 
   useEffect(() => {
     switch (currentPath.replace(agencyId, ":id")) {
-      case routePathNames.agencyEditAllgemeines:
-        setAgencyEditComponent(<AgencieEditAllgemeines />);
+      case routePathNames.agencyEditGeneral:
+        setAgencyEditComponent(<AgencieEditGeneral />);
         break;
 
-      case routePathNames.agencyEditErstberatung:
-        setAgencyEditComponent(<AgencieEditErstberatung />);
+      case routePathNames.agencyEditInitialMeeting:
+        setAgencyEditComponent(<AgencieEditInitialMeeting />);
         break;
 
       default:
@@ -36,7 +36,7 @@ function AgencieEdit() {
           <NavLink to="/admin/agency/">
             <ChevronLeft />
             <h3 className="agencyEdit__header--headline">
-              {t("agency.edit.allgemeines.headline")}
+              {t("agency.edit.general.headline")}
             </h3>
           </NavLink>
         </div>

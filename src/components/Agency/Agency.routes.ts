@@ -8,11 +8,11 @@ type TabsType = TabType[];
 const agencyRoutes: TabsType = [
   {
     title: "Allgemeines",
-    url: "/allgemeines",
+    url: "/general",
   },
   {
     title: "Erstberatung",
-    url: "/erstberatung",
+    url: "/initial-meeting",
   },
 ];
 

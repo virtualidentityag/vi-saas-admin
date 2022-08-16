@@ -41,10 +41,10 @@ export function NavIcon({ path }: Props) {
       );
     case routePathNames.agency:
     case routePathNames.agencyAdd:
-    case routePathNames.agencyAddAllgemeines:
+    case routePathNames.agencyAddGeneral:
     case routePathNames.agencyEdit:
-    case routePathNames.agencyEditAllgemeines:
-    case routePathNames.agencyEditErstberatung:
+    case routePathNames.agencyEditGeneral:
+    case routePathNames.agencyEditInitialMeeting:
       return currentlySelected ? (
         <OtherHouses {...props} />
       ) : (

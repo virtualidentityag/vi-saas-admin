@@ -42,7 +42,9 @@ export default function EventTypeDeletionModal(props: {
       }}
       cancelText={t("btn.cancel.uppercase")}
       centered
-      okText={t("btn.ok.uppercase")}
+      okText={t(
+        "agency.edit.initialMeeting.modal_delete_consultation_type.btn.ok.uppercase"
+      )}
     >
       <p>
         {t(

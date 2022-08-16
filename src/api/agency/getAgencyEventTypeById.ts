@@ -3,13 +3,10 @@ import { consultantsForAgencyEventTypes } from "../../appConfig";
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 
 /**
- * retrieve all needed agency event type data
+ * retrieve agency event type by id
  * @return {Promise}
  */
-const getConsultantForAgencyEventTypes = (
-  agencyId: string,
-  eventTypeId: number
-) => {
+const getAgencyEventTypeById = (agencyId: string, eventTypeId: number) => {
   const agencyReplace = `${consultantsForAgencyEventTypes}`.replaceAll(
     "{agencyId}",
     agencyId
@@ -26,4 +23,4 @@ const getConsultantForAgencyEventTypes = (
   });
 };
 
-export default getConsultantForAgencyEventTypes;
+export default getAgencyEventTypeById;

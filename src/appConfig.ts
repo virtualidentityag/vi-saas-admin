@@ -30,7 +30,6 @@ export const consultantsForAgencyEventTypes = `${mainURL}/service/appointservice
 export const consultantsForAgencyEventTypesNew = `${mainURL}/service/appointservice/agencies/{agencyId}/eventTypes`;
 export const consultingTypeEndpoint = `${mainURL}/service/consultingtypes`;
 export const counselorEndpoint = `${mainURL}/service/useradmin/consultants`;
-export const customerEndpoint = `${mainURL}/customers`;
 export const eventTypeById = `${mainURL}/eventTypes/{eventTypeId}`;
 export const loginEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/token`;
 export const logoutEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/logout`;

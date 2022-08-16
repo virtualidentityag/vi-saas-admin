@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import Title from "antd/lib/typography/Title";
 import { useLocation } from "react-router";
 import { AgencyEditData } from "../../types/agencyEdit";
-import deleteConsultantForAgencyEventTypes from "../../api/agency/deleteConsultantForAgencyEventTypes";
+import deleteAgencyEventType from "../../api/agency/deleteAgencyEventType";
 
 export default function EventTypeDeletionModal(props: {
   showDeleteModal: boolean;
@@ -15,7 +15,7 @@ export default function EventTypeDeletionModal(props: {
   const currentPath = useLocation().pathname;
   const [, agencyId] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
   const handleOnDelete = () => {
-    deleteConsultantForAgencyEventTypes(agencyId, props.eventType.id)
+    deleteAgencyEventType(agencyId, props.eventType.id)
       .then(() => {
         message.success({
           content: t("message.eventType.delete"),

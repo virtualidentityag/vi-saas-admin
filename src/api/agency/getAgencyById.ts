@@ -3,10 +3,10 @@ import { agencyDataAgencyId } from "../../appConfig";
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 
 /**
- * retrieve all needed agency data
+ * retrieve all data based on agency
  * @return {Promise}
  */
-const getAgencyDataAgencyId = (agencyId: string) => {
+const getAgencyDataById = (agencyId: string) => {
   return fetchData({
     url: `${agencyDataAgencyId}`.replaceAll("{agencyId}", agencyId),
     method: FETCH_METHODS.GET,
@@ -15,4 +15,4 @@ const getAgencyDataAgencyId = (agencyId: string) => {
   });
 };
 
-export default getAgencyDataAgencyId;
+export default getAgencyDataById;

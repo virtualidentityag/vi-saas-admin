@@ -3,13 +3,10 @@ import { consultantsForAgencyEventTypes } from "../../appConfig";
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 
 /**
- * retrieve all needed agency event type data
+ * delete agency event type data
  * @return {Promise}
  */
-const deleteConsultantForAgencyEventTypes = (
-  agencyId: string,
-  eventTypeId: number
-) => {
+const deleteAgencyEventType = (agencyId: string, eventTypeId: number) => {
   const agencyReplace = `${consultantsForAgencyEventTypes}`.replaceAll(
     "{agencyId}",
     agencyId
@@ -27,4 +24,4 @@ const deleteConsultantForAgencyEventTypes = (
   });
 };
 
-export default deleteConsultantForAgencyEventTypes;
+export default deleteAgencyEventType;

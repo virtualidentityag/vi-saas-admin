@@ -15,9 +15,9 @@ import ResizableTitle from "../Resizable/Resizable";
 import ErstberatungNewModal from "./ErstberatungNewModal";
 import ErstberatungEditModal from "./ErstberatungEditModal";
 import getAgencyEventTypes from "../../api/agency/getAgencyEventTypes";
-import getConsultantForAgencyEventTypes from "../../api/agency/getConsultantForAgencyEventTypes";
+import getAgencyEventTypeById from "../../api/agency/getAgencyEventTypeById";
 import EventTypeDeletionModal from "./EventTypeDeletionModal";
-import { agencyConsultants } from "../../api/agency/hasAgencyConsultants";
+import { agencyConsultants } from "../../api/agency/getAgencyConsultants";
 
 const { Paragraph } = Typography;
 
@@ -83,13 +83,11 @@ export default function AgencieEditErstberatung() {
   };
 
   const handleEditTable = (data: AgencyEditData) => {
-    getConsultantForAgencyEventTypes(agencyId, data.id).then(
-      (resp: AgencyEventTypes) => {
-        const editableDataContent = agencyDataConsultantsTransform(resp, data);
-        setEditableData(editableDataContent);
-        setShowEditModal(true);
-      }
-    );
+    getAgencyEventTypeById(agencyId, data.id).then((resp: AgencyEventTypes) => {
+      const editableDataContent = agencyDataConsultantsTransform(resp, data);
+      setEditableData(editableDataContent);
+      setShowEditModal(true);
+    });
   };
 
   const handleConsultantTypeNew = () => {

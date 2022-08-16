@@ -13,7 +13,7 @@ import getAgencyPostCodeRange, {
 import PostCodeRanges from "./PostCodeRanges";
 import { convertToOptions } from "../../utils/convertToOptions";
 import getTopicByTenantData from "../../api/topic/getTopicByTenantData";
-import getAgencyDataAgencyId from "../../api/agency/getAgencyByAgencieId";
+import getAgencyDataById from "../../api/agency/getAgencyById";
 import { AgencyData } from "../../types/agency";
 import { Button, ButtonItem, BUTTON_TYPES } from "../button/Button";
 import updateAgencyData from "../../api/agency/updateAgencyData";
@@ -23,7 +23,7 @@ import { UserRole } from "../../enums/UserRole";
 import { SliderFormField } from "../SliderFormField";
 import { useFeatureContext } from "../../context/FeatureContext";
 import { useUserRoles } from "../../hooks/useUserRoles.hook";
-import { hasAgencyConsultants } from "../../api/agency/hasAgencyConsultants";
+import { hasAgencyConsultants } from "../../api/agency/getAgencyConsultants";
 
 const { Paragraph } = Typography;
 const { Item } = Form;
@@ -215,7 +215,7 @@ export default function AgencieEditAllgemeines() {
     if (agencyId) {
       Promise.all([
         getAgencyPostCodeRange(agencyId),
-        getAgencyDataAgencyId(agencyId),
+        getAgencyDataById(agencyId),
         hasAgencyConsultants(agencyId),
       ]).then((values) => {
         const agencyPostCodeRangesResponse = values[0];

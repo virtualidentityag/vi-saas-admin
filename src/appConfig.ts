@@ -35,7 +35,7 @@ export const consultantsForAgencyEventTypes = (
 ) =>
   `${mainURL}/service/appointservice/agencies/${agencyId}/eventTypes/${eventTypeId}/`;
 export const consultantsForAgencyEventTypesNew = (agencyId: string) =>
-  `${mainURL}/service/appointservice/agencies/{agencyId}/eventTypes`;
+  `${mainURL}/service/appointservice/agencies/${agencyId}/eventTypes`;
 export const consultingTypeEndpoint = `${mainURL}/service/consultingtypes`;
 export const counselorEndpoint = `${mainURL}/service/useradmin/consultants`;
 export const eventTypeById = `${mainURL}/eventTypes/{eventTypeId}`;

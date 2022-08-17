@@ -6,8 +6,8 @@ import { Button, Modal, Space, Switch, Table } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/lib/table";
+import { useNavigate } from "react-router-dom";
 import { InterestsOutlined } from "@mui/icons-material";
-import AgencyFormModal from "./AgencyFormModal";
 
 import EditButtons from "../EditableTable/EditButtons";
 import getAgencyData from "../../api/agency/getAgencyData";
@@ -23,6 +23,7 @@ import { UserRole } from "../../enums/UserRole";
 import { useUserRoles } from "../../hooks/useUserRoles.hook";
 import { useTenantData } from "../../hooks/useTenantData.hook";
 import { useTenantDataUpdate } from "../../hooks/useTenantDataUpdate.hook";
+import routePathNames from "../../appConfig";
 import { FeatureFlag } from "../../enums/FeatureFlag";
 
 const emptyAgencyModel: AgencyData = {
@@ -36,7 +37,7 @@ const emptyAgencyModel: AgencyData = {
   offline: true,
   online: false,
   postcode: "",
-  teamAgency: "true",
+  teamAgency: true,
   status: undefined,
 };
 
@@ -62,6 +63,8 @@ function AgencyList() {
   const { mutate: updateTenantData } = useTenantDataUpdate();
 
   const { confirm } = Modal;
+
+  const navigate = useNavigate();
 
   function defineTableColumns(): ColumnsType<AgencyData> {
     return [
@@ -177,6 +180,12 @@ function AgencyList() {
                 handleEdit={() => {
                   tableStateHolder = tableState;
                   pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, record);
+                  navigate(
+                    `${routePathNames.agencyEditGeneral.replace(
+                      ":id",
+                      record.id
+                    )}`
+                  );
                 }}
                 handleDelete={() => {
                   tableStateHolder = tableState;
@@ -303,6 +312,7 @@ function AgencyList() {
           icon={<PlusOutlined />}
           onClick={() => {
             tableStateHolder = tableState;
+            navigate(`${routePathNames.agencyAdd}/general`);
             pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, emptyAgencyModel);
           }}
         >
@@ -336,7 +346,6 @@ function AgencyList() {
           },
         }}
       />
-      <AgencyFormModal />
       <AgencyDeletionModal />
     </>
   );

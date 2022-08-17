@@ -20,8 +20,16 @@ interface FeatureProviderProps {
 function FeatureProvider({ children, tenantData }: FeatureProviderProps) {
   const state = useState<IFeature[]>([
     {
+      name: FeatureFlag.Appointments,
+      active: !!tenantData.settings.featureAppointmentsEnabled,
+    },
+    {
       name: FeatureFlag.Developer,
       active: false,
+    },
+    {
+      name: FeatureFlag.Demographics,
+      active: !!tenantData.settings.featureDemographicsEnabled,
     },
     {
       name: FeatureFlag.Topics,
@@ -30,10 +38,6 @@ function FeatureProvider({ children, tenantData }: FeatureProviderProps) {
     {
       name: FeatureFlag.TopicsInRegistration,
       active: !!tenantData.settings.topicsInRegistrationEnabled,
-    },
-    {
-      name: FeatureFlag.Demographics,
-      active: !!tenantData.settings.featureDemographicsEnabled,
     },
   ]);
 

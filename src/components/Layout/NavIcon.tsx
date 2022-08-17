@@ -23,7 +23,7 @@ interface Props {
 
 export function NavIcon({ path }: Props) {
   const currentPath = useLocation().pathname;
-  const currentlySelected = path === currentPath;
+  const currentlySelected = currentPath.includes(path);
   const props = { sx: { fontSize: 32 } };
 
   switch (path) {
@@ -40,6 +40,11 @@ export function NavIcon({ path }: Props) {
         <ManageAccountsOutlined {...props} />
       );
     case routePathNames.agency:
+    case routePathNames.agencyAdd:
+    case routePathNames.agencyAddGeneral:
+    case routePathNames.agencyEdit:
+    case routePathNames.agencyEditGeneral:
+    case routePathNames.agencyEditInitialMeeting:
       return currentlySelected ? (
         <OtherHouses {...props} />
       ) : (

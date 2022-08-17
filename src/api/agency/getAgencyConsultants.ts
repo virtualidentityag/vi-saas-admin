@@ -16,7 +16,7 @@ export const hasAgencyConsultants = (agencyId: string) => {
     skipAuth: false,
     responseHandling: [FETCH_ERRORS.CATCH_ALL],
   }).then((data) => {
-    return data.length > 0;
+    return data.total > 0;
   });
 };
 

@@ -1,4 +1,4 @@
-FROM ghcr.io/caritasdeutschland/caritas-onlineberatung-nginx/caritas-onlineberatung-nginx:dockerimage.v.8.develop
+FROM ghcr.io/onlineberatung/onlineberatung-nginx/onlineberatung-nginx:dockerimage.v.001-main
 COPY favicon.ico /usr/share/nginx/html/admin/
 COPY index.html /usr/share/nginx/html/admin/
 COPY robots.txt /usr/share/nginx/html/admin/

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Layout } from "antd";
-import { NavLink, useSearchParams } from "react-router-dom";
+import { NavLink, useLocation, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import routePathNames from "../../appConfig";
 import SiteFooter from "./SiteFooter";
@@ -23,6 +23,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
   const [, hasRole] = useUserRoles();
   const { data: tenantData } = useTenantData();
   const { t } = useTranslation();
+  const location = useLocation();
   const handleLogout = () => {
     logout(true);
   };
@@ -45,6 +46,10 @@ function ProtectedPageLayoutWrapper({ children }: any) {
       logout(true);
     }
   }, [subdomain, tenantData.subdomain]);
+
+  const checkActive = () => {
+    return location.pathname.includes(routePathNames.agency);
+  };
 
   return (
     <>
@@ -77,7 +82,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                   <li key="4" className="menuItem">
                     <NavLink
                       to={routePathNames.agency}
-                      className={({ isActive }) => (isActive ? "active" : "")}
+                      className={() => (checkActive ? "active" : "")}
                     >
                       <NavIcon path={routePathNames.agency} />
                       <span>{t("agency")}</span>

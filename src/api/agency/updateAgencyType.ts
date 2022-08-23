@@ -11,7 +11,8 @@ export default async function updateAgencyType(
   }
 
   let agencyTypeChangeRequestBody = null;
-  if (formInput.teamAgency === "true") {
+
+  if (formInput.teamAgency === true) {
     agencyTypeChangeRequestBody = { agencyType: "TEAM_AGENCY" };
   } else {
     agencyTypeChangeRequestBody = { agencyType: "DEFAULT_AGENCY" };

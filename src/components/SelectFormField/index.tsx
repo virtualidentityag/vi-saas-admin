@@ -1,4 +1,3 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { Form, Select } from "antd";
 
@@ -17,6 +16,8 @@ export interface SelectFormFieldProps {
   isMulti?: boolean;
   options: Option[];
   allowClear?: boolean;
+  disabled?: boolean;
+  errorMessage?: string;
 }
 
 export function SelectFormField({
@@ -29,20 +30,20 @@ export function SelectFormField({
   required,
   loading,
   placeholder,
+  disabled,
+  errorMessage,
 }: SelectFormFieldProps) {
   const [t] = useTranslation();
+  const message = errorMessage || t("form.errors.required");
   return (
     <Form.Item
       name={name}
       label={t(label)}
-      rules={
-        required
-          ? [{ required: true, message: t("form.errors.required") }]
-          : undefined
-      }
+      rules={required ? [{ required: true, message }] : undefined}
       help={help ? t(help) : undefined}
     >
       <Select
+        disabled={disabled}
         showSearch
         loading={loading}
         allowClear={allowClear}

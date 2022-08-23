@@ -8,14 +8,14 @@ function buildAgencyDataRequestBody(
   formData: Record<string, any>
 ) {
   const topicIds = formData.topicIds
-    .map((topic) => (typeof topic === "string" ? topic : topic?.value))
+    ?.map((topic) => (typeof topic === "string" ? topic : topic?.value))
     .filter(Boolean);
 
   return JSON.stringify({
     // diocese in case of SAAS is not relevant object but enforced by API
     dioceseId: 0,
     name: formData.name,
-    description: formData.description,
+    description: formData.description ? formData.description : "",
     topicIds,
     postcode: formData.postcode,
     city: formData.city,
@@ -60,7 +60,9 @@ async function addAgencyData(agencyData: Record<string, any>) {
 
   // eslint-disable-next-line no-underscore-dangle
   const { id } = agencyCreationResponse._embedded;
-  return updateAgencyPostCodeRange(id, agencyData, "POST");
+  return updateAgencyPostCodeRange(id, agencyData, "POST").then(
+    (agencyId: number) => agencyId
+  );
 }
 
 export default addAgencyData;

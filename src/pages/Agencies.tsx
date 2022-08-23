@@ -1,4 +1,3 @@
-import React from "react";
 import AgencyList from "../components/Agency/AgencyList";
 
 function Agencies() {

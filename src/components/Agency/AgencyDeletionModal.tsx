@@ -47,7 +47,7 @@ export default function AgencyDeletionModal() {
       }}
       cancelText={t("btn.cancel.uppercase")}
       centered
-      okText={t("btn.ok.uppercase")}
+      okText={t("agency.modal.btn.ok.uppercase")}
     >
       <p>{t("agency.modal.text.delete")}</p>
     </Modal>

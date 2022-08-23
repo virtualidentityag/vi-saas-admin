@@ -37,6 +37,7 @@ export const twoFactorAuth = `${mainURL}/service/users/2fa`;
 export const twoFactorAuthApp = `${mainURL}/service/users/2fa/app`;
 export const twoFactorAuthAppEmail = `${mainURL}/service/users/2fa/email`;
 export const usersConsultantsSearchEndpoint = `${mainURL}/service/users/consultants/search`;
+export const registrationDataEndpoint = `${mainURL}/service/users/statistics/registration`;
 export const consultantsForAgencyEndpoint = `${mainURL}/service/useradmin/agencies/{agencyId}/consultants`;
 
 /*
@@ -53,6 +54,7 @@ const routePathNames = {
   agencyEdit: "/admin/agency/edit",
   agencyAdd: "/admin/agency/add",
   topics: "/admin/topics",
+  statistic: "/admin/statistic",
   userProfile: "/admin/profil/",
   termsAndConditions: "/admin/agb",
   imprint: "/impressum",

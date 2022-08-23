@@ -1,0 +1,34 @@
+.box {
+  background: hsla(0, 0%, 100%, 0.7);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  padding: 16px;
+  max-width: 635px;
+
+  &__headline {
+    margin-bottom: 20px;
+    font-family: "Nunito";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  &__download {
+    width: 100%;
+    padding-top: 24px;
+  }
+
+  &__icon,
+  &__text {
+    vertical-align: middle;
+    display: inline-block;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .box {
+    margin-bottom: 16px;
+    padding: 24px;
+  }
+}

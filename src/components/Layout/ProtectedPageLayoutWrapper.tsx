@@ -98,7 +98,17 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                         </NavLink>
                       </li>
                     )}
+                  {/* statistics */}
                   <li key="6" className="menuItem">
+                    <NavLink
+                      to={routePathNames.statistic}
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                      <NavIcon path={routePathNames.statistic} />
+                      <span>{t("statistic.title")}</span>
+                    </NavLink>
+                  </li>
+                  <li key="7" className="menuItem">
                     <NavLink
                       to={routePathNames.userProfile}
                       className={({ isActive }) => (isActive ? "active" : "")}

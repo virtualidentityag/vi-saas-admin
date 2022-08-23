@@ -69,19 +69,23 @@ export function Statistic() {
   return (
     <>
       <Title level={3}>{t("statistic.title")}</Title>
-      <div className="box">
-        <div className="box__headline">{t("statistic.title.text")}</div>
-        <div className="box__download">{t("statistic.download.text")}</div>
-        <div className="box__download">
+      <div className="statistic">
+        <div className="statistic__headline">{t("statistic.title.text")}</div>
+        <div className="statistic__download">
+          {t("statistic.download.text")}
+        </div>
+        <div className="statistic__download">
           <CSVLink
             separator=";"
             data={csvData}
             filename={`${t("statistic.download.filename")}.csv`}
           >
-            <span className="box__icon">
+            <span className="statistic__icon">
               <FileDownloadOutlined />
             </span>
-            <span className="box__text">{t("statistic.download.link")}</span>
+            <span className="statistic__text">
+              {t("statistic.download.link")}
+            </span>
           </CSVLink>{" "}
         </div>
       </div>

@@ -32,12 +32,12 @@ export function Statistic() {
           "relevant",
           "plz",
         ]);
-        response.registrationStatistics.forEach(function (entry) {
+        response.registrationStatistics.forEach(function createCsvLine(entry) {
           const csvLine: string[] = [];
 
           let formattedTopics = "";
           const topics = entry.topicsInternalAttributes;
-          topics.forEach(function (topic) {
+          topics.forEach(function concateTopics(topic) {
             if (formattedTopics !== "") {
               formattedTopics += ", ";
             }
@@ -59,6 +59,7 @@ export function Statistic() {
         setCsvData(data);
       })
       .catch((error) => {
+        // eslint-disable-next-line no-console
         console.log(error);
       })
       .finally(() => {

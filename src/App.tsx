@@ -7,6 +7,7 @@ import routePathNames from "./appConfig";
 import TenantSettings from "./pages/TenantSettings";
 import Counselors from "./pages/Counselors";
 import Topics from "./pages/Topics";
+import Statistic from "./pages/Statistic";
 import UserProfile from "./pages/UserProfile";
 import Tenants from "./pages/Tenants";
 import Initialisation from "./components/Layout/Initialisation";
@@ -52,6 +53,7 @@ function App() {
             element={<AgencieAdd />}
           />
           <Route path={routePathNames.topics} element={<Topics />} />
+          <Route path={routePathNames.statistic} element={<Statistic />} />
           <Route path={routePathNames.userProfile} element={<UserProfile />} />
           <Route path={routePathNames.tenants} element={<Tenants />} />
         </Routes>

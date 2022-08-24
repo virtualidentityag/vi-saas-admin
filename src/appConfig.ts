@@ -51,6 +51,7 @@ export const twoFactorAuthApp = `${mainURL}/service/users/2fa/app`;
 export const twoFactorAuthAppEmail = `${mainURL}/service/users/2fa/email`;
 export const userDataEndpoint = `${mainURL}/service/users/data`;
 export const usersConsultantsSearchEndpoint = `${mainURL}/service/users/consultants/search`;
+export const registrationDataEndpoint = `${mainURL}/service/users/statistics/registration`;
 export const XHRheader = { AcceptLanguage: "de" };
 
 /*
@@ -70,6 +71,7 @@ const routePathNames = {
   agencyAdd: "/admin/agency/add",
   agencyAddGeneral: "/admin/agency/add/general",
   topics: "/admin/topics",
+  statistic: "/admin/statistic",
   userProfile: "/admin/profil/",
   termsAndConditions: "/admin/agb",
   imprint: "/impressum",

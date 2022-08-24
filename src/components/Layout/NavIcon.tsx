@@ -8,6 +8,8 @@ import {
   OtherHousesOutlined,
   Interests,
   InterestsOutlined,
+  Leaderboard,
+  LeaderboardOutlined,
   AccountCircle,
   AccountCircleOutlined,
   Logout,
@@ -55,6 +57,12 @@ export function NavIcon({ path }: Props) {
         <Interests {...props} />
       ) : (
         <InterestsOutlined {...props} />
+      );
+    case routePathNames.statistic:
+      return currentlySelected ? (
+        <Leaderboard {...props} />
+      ) : (
+        <LeaderboardOutlined {...props} />
       );
     case routePathNames.userProfile:
       return currentlySelected ? (

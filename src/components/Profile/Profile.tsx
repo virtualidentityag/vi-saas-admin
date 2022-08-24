@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import Title from "antd/es/typography/Title";
 import { Typography } from "antd";
 import { useTranslation } from "react-i18next";

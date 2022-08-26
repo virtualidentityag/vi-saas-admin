@@ -129,7 +129,7 @@ function Counselor({
   );
 
   return (
-    <Spin spinning={allAgencies.length === 0}>
+    <Spin spinning={isLoading}>
       <Form
         form={modalForm}
         onFinish={onFormSubmit}

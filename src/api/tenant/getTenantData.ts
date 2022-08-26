@@ -1,14 +1,22 @@
 import { fetchData, FETCH_METHODS } from "../fetchData";
-import { tenantEndpoint } from "../../appConfig";
+import { tenantEndpoint, clusterFeatureFlags } from "../../appConfig";
 import { TenantData } from "../../types/tenant";
+import { getValueFromCookie } from "../auth/accessSessionCookie";
+import parseJwt from "../../utils/parseJWT";
 
 /**
  * retrieve all needed tenant data
  * @return data
  */
-const getTenantData = (tenantData: TenantData) =>
-  fetchData({
-    url: `${tenantEndpoint}${tenantData.id}`,
+const getTenantData = (tenantData: TenantData) => {
+  const accessToken = getValueFromCookie("keycloak");
+  let tenantId = tenantData.id;
+  if (clusterFeatureFlags.useMultiTenancyWithSingleDomain && accessToken) {
+    const access = parseJwt(accessToken || "");
+    tenantId = access?.tenantId || tenantId;
+  }
+  return fetchData({
+    url: `${tenantEndpoint}${tenantId}`,
     method: FETCH_METHODS.GET,
     skipAuth: false,
     responseHandling: [],
@@ -22,4 +30,6 @@ const getTenantData = (tenantData: TenantData) =>
       secondaryColor: checkNull(response.secondaryColor),
     };
   });
+};
+
 export default getTenantData;

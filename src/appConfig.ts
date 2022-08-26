@@ -19,6 +19,10 @@ if (process.env.REACT_APP_USE_API_URL === "true") {
 }
 
 export const mainURL = url;
+export const clusterFeatureFlags = {
+  useMultiTenancyWithSingleDomain: true, // Feature flag to enable the multi tenancy with a single domain ex: lands
+  multiTenancyWithSingleDomainSlug: "app",
+};
 
 export const agencyDataAgencyId = (agencyId: string) =>
   `${mainURL}/service/agencyadmin/agencies/${agencyId}`;
@@ -44,7 +48,8 @@ export const eventTypeById = `${mainURL}/eventTypes/{eventTypeId}`;
 export const loginEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/token`;
 export const logoutEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/logout`;
 export const tenantEndpoint = `${mainURL}/service/tenant/`;
-export const tenantPublicEndpoint = `${mainURL}/service/tenant/public/${subdomain}`;
+export const baseTenantPublicEndpoint = `${mainURL}/service/tenant/public`;
+export const tenantPublicEndpoint = `${baseTenantPublicEndpoint}/${subdomain}`;
 export const topicEndpoint = `${mainURL}/service/topic`;
 export const twoFactorAuth = `${mainURL}/service/users/2fa`;
 export const twoFactorAuthApp = `${mainURL}/service/users/2fa/app`;

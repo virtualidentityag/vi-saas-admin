@@ -43,14 +43,8 @@ function App() {
           />
           <Route path={routePathNames.counselors} element={<Counselors />} />
           <Route path={routePathNames.agency} element={<Agencies />} />
-          <Route
-            path={`${routePathNames.agencyEdit}/*`}
-            element={<AgencieEdit />}
-          />
-          <Route
-            path={`${routePathNames.agencyAdd}/*`}
-            element={<AgencieAdd />}
-          />
+          <Route path={routePathNames.agencyEdit} element={<AgencieEdit />} />
+          <Route path={routePathNames.agencyAdd} element={<AgencieAdd />} />
           <Route path={routePathNames.topics} element={<Topics />} />
           <Route path={routePathNames.userProfile} element={<UserProfile />} />
           <Route path={routePathNames.tenants} element={<Tenants />} />

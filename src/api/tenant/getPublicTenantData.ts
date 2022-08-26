@@ -1,5 +1,5 @@
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from "../fetchData";
-import { tenantPublicEndpoint } from "../../appConfig";
+import { clusterFeatureFlags, baseTenantPublicEndpoint } from "../../appConfig";
 import getLocationVariables from "../../utils/getLocationVariables";
 /**
  * retrieve all needed public tenant data
@@ -7,9 +7,12 @@ import getLocationVariables from "../../utils/getLocationVariables";
  */
 const getPublicTenantData = () => {
   const { subdomain } = getLocationVariables();
-  if (subdomain) {
+  const slug = clusterFeatureFlags.useMultiTenancyWithSingleDomain
+    ? clusterFeatureFlags.multiTenancyWithSingleDomainSlug
+    : subdomain;
+  if (slug) {
     return fetchData({
-      url: `${tenantPublicEndpoint}`,
+      url: `${baseTenantPublicEndpoint}/${slug}`,
       method: FETCH_METHODS.GET,
       skipAuth: true,
       responseHandling: [FETCH_ERRORS.CATCH_ALL],

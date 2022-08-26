@@ -3,7 +3,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { Layout } from "antd";
 import { NavLink, useLocation, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import routePathNames from "../../appConfig";
+import routePathNames, { clusterFeatureFlags } from "../../appConfig";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import { handleTokenRefresh } from "../../api/auth/auth";
@@ -42,7 +42,10 @@ function ProtectedPageLayoutWrapper({ children }: any) {
   }, []);
 
   useEffect(() => {
-    if (subdomain !== tenantData.subdomain) {
+    if (
+      subdomain !== tenantData.subdomain &&
+      !clusterFeatureFlags.useMultiTenancyWithSingleDomain
+    ) {
       logout(true);
     }
   }, [subdomain, tenantData.subdomain]);

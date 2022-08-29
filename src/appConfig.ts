@@ -20,7 +20,7 @@ if (process.env.REACT_APP_USE_API_URL === "true") {
 
 export const mainURL = url;
 export const clusterFeatureFlags = {
-  useMultiTenancyWithSingleDomain: true, // Feature flag to enable the multi tenancy with a single domain ex: lands
+  useMultiTenancyWithSingleDomain: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
   multiTenancyWithSingleDomainSlug: "app",
 };
 

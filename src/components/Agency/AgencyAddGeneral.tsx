@@ -348,6 +348,7 @@ export default function AgencieAddGeneral() {
                       label: t(`agency.gender.option.${gender.toLowerCase()}`),
                     }))}
                     defaultValues={Object.values(Gender)}
+                    required
                   />
                 </>
               )}

@@ -76,6 +76,7 @@ export default function AgencieAddGeneral() {
     ? {
         demographics: {
           age: [DEFAULT_MIN_AGE, DEFAULT_MAX_AGE],
+          gender: Object.values(Gender),
         },
       }
     : {};
@@ -347,7 +348,9 @@ export default function AgencieAddGeneral() {
                       value: gender,
                       label: t(`agency.gender.option.${gender.toLowerCase()}`),
                     }))}
-                    defaultValues={Object.values(Gender)}
+                    defaultValues={
+                      demographicsInitialValues.demographics.gender
+                    }
                     required
                   />
                 </>

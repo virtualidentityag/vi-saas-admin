@@ -18,7 +18,6 @@ export interface SelectFormFieldProps {
   allowClear?: boolean;
   disabled?: boolean;
   errorMessage?: string;
-  defaultValues?: string | string[];
 }
 
 export function SelectFormField({
@@ -33,7 +32,6 @@ export function SelectFormField({
   placeholder,
   disabled,
   errorMessage,
-  defaultValues,
 }: SelectFormFieldProps) {
   const [t] = useTranslation();
   const message = errorMessage || t("form.errors.required");
@@ -43,7 +41,6 @@ export function SelectFormField({
       label={t(label)}
       rules={required ? [{ required: true, message }] : undefined}
       help={help ? t(help) : undefined}
-      initialValue={defaultValues}
     >
       <Select
         disabled={disabled}

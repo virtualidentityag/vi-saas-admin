@@ -76,6 +76,7 @@ export default function AgencieAddGeneral() {
     ? {
         demographics: {
           age: [DEFAULT_MIN_AGE, DEFAULT_MAX_AGE],
+          genders: Object.values(Gender),
         },
       }
     : {};

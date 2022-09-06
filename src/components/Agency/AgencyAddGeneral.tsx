@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Col, Form, Input, message, Row, Switch, Typography } from "antd";
 import Title from "antd/es/typography/Title";
 import TextArea from "antd/lib/input/TextArea";
@@ -49,7 +49,7 @@ export default function AgencieAddGeneral() {
     return distance;
   };
 
-  const isElementVisible = (element: HTMLElement) => {
+  const isElementVisible = useCallback((element: HTMLElement) => {
     const rect = element?.getBoundingClientRect();
     const elemTop = rect?.top;
     const elemBottom = rect?.bottom;
@@ -59,18 +59,14 @@ export default function AgencieAddGeneral() {
     } else {
       setStickyActionsPositionBottom(0);
     }
-  };
+  }, []);
 
-  const handleResize = () => {
+  const handleResize = useCallback(() => {
     const contentHeight = document.querySelector(".content")?.clientHeight;
     const headerHeight = document.querySelector(".siteHeader")?.clientHeight;
-    if (window.innerHeight < contentHeight + headerHeight) {
-      setStickyActions(true);
-    } else {
-      setStickyActions(false);
-    }
+    setStickyActions(!!(window.innerHeight < contentHeight + headerHeight));
     isElementVisible(footerElement);
-  };
+  }, []);
 
   const demographicsInitialValues = isEnabled(FeatureFlag.Demographics)
     ? {
@@ -129,7 +125,7 @@ export default function AgencieAddGeneral() {
       window.removeEventListener("scroll", handleResize);
       window.removeEventListener("resize", handleResize);
     };
-  });
+  }, []);
 
   useEffect(() => {
     setIsLoading(true);
@@ -146,7 +142,7 @@ export default function AgencieAddGeneral() {
         setIsLoading(false);
         setAllTopics([]);
       });
-  }, [t, formAgencyAdd]);
+  }, [formAgencyAdd]);
 
   return (
     <div className="addForm">

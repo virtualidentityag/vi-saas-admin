@@ -23,7 +23,7 @@ import { UserRole } from "../../enums/UserRole";
 import { useUserRoles } from "../../hooks/useUserRoles.hook";
 import { useTenantData } from "../../hooks/useTenantData.hook";
 import { useTenantDataUpdate } from "../../hooks/useTenantDataUpdate.hook";
-import routePathNames from "../../appConfig";
+import routePathNames, { clusterFeatureFlags } from "../../appConfig";
 import { FeatureFlag } from "../../enums/FeatureFlag";
 
 const emptyAgencyModel: AgencyData = {
@@ -301,6 +301,14 @@ function AgencyList() {
     });
   }, [isTopicsFeatureActive]);
 
+  // When we've the multi tenancy in single tenant mode we can only show if we've the tenant admin role
+  const canShowTopicSwitch =
+    ((clusterFeatureFlags.useMultiTenancyWithSingleDomain &&
+      hasRole(UserRole.TenantAdmin)) ||
+      !clusterFeatureFlags.useMultiTenancyWithSingleDomain) &&
+    hasRole(UserRole.TopicAdmin) &&
+    isEnabled(FeatureFlag.Topics);
+
   return (
     <>
       <Title level={3}>{t("agency")}</Title>
@@ -318,7 +326,7 @@ function AgencyList() {
         >
           {t("new")}
         </Button>
-        {hasRole(UserRole.TopicAdmin) && isEnabled(FeatureFlag.Topics) && (
+        {canShowTopicSwitch && (
           <>
             <Switch checked={isTopicsFeatureActive} onClick={onTopicsSwitch} />
             {t("topics.featureToggle")}

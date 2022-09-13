@@ -1,5 +1,5 @@
 import "react-app-polyfill/stable";
-import React, { ReactText, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { QueryClientProvider } from "react-query";
 import { render } from "react-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";

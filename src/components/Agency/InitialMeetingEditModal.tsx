@@ -27,7 +27,6 @@ export default function InitialMeetingEditModal(props: {
     formInstance.setFieldsValue({
       name: props?.editableData?.name,
       description: props.editableData?.description,
-      url: props.editableData?.url,
       duration: props.editableData?.duration,
       advisor: props.editableData?.advisor?.map((advisor) => {
         return {
@@ -129,21 +128,6 @@ export default function InitialMeetingEditModal(props: {
             rows={3}
           />
         </Item>
-        <div className="agencieEditInitialMeeting__url">
-          <Item
-            label={t(
-              "agency.edit.initialMeeting.modal_edit_consultation_type.url"
-            )}
-            name="url"
-          >
-            <Input
-              readOnly
-              placeholder={t(
-                "agency.edit.initialMeeting.modal_edit_consultation_type.url.placeholder"
-              )}
-            />
-          </Item>
-        </div>
         <div className="flex agencieEditInitialMeeting__minutes">
           <Item
             label={t(

@@ -1,5 +1,5 @@
 import "react-app-polyfill/stable";
-import React from "react";
+import React, { ReactText, useEffect, useState } from "react";
 import { QueryClientProvider } from "react-query";
 import { render } from "react-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -16,6 +16,12 @@ import ProtectedRoute from "./router/ProtectedRoute";
 import "./i18n";
 import Imprint from "./pages/Imprint";
 import Privacy from "./pages/Privacy";
+import {
+  useAppConfigContext,
+  UseAppConfigProvider,
+} from "./context/useAppConfig";
+import { apiServerSettings } from "./api/settings/apiServerSettings";
+import Initialisation from "./components/Layout/Initialisation";
 
 interface LangMap {
   [key: string]: Locale;
@@ -42,29 +48,52 @@ message.config({
   top: 100,
 });
 
+function AppSettingsWrapper({
+  children,
+}: {
+  children: JSX.Element;
+}): JSX.Element {
+  const [loaded, setLoaded] = useState(false);
+
+  const { settings, setServerSettings } = useAppConfigContext();
+  useEffect(() => {
+    if (settings.useApiClusterSettings) {
+      apiServerSettings()
+        .then(setServerSettings)
+        .finally(() => setLoaded(true));
+    }
+  }, []);
+
+  return loaded ? children : <Initialisation />;
+}
+
 render(
   <QueryClientProvider client={queryClient}>
-    <ConfigProvider locale={myLanguages[languageToUse]}>
-      <Router>
-        <Routes>
-          <Route path={routePathNames.login} element={<Login />} />
-          <Route path="/404" element={<Error404 />} />
+    <UseAppConfigProvider>
+      <AppSettingsWrapper>
+        <ConfigProvider locale={myLanguages[languageToUse]}>
+          <Router>
+            <Routes>
+              <Route path={routePathNames.login} element={<Login />} />
+              <Route path="/404" element={<Error404 />} />
 
-          <Route path={routePathNames.imprint} element={<Imprint />} />
-          <Route path={routePathNames.privacy} element={<Privacy />} />
+              <Route path={routePathNames.imprint} element={<Imprint />} />
+              <Route path={routePathNames.privacy} element={<Privacy />} />
 
-          {/* put protected routes at the end to act as a wildcard route fetcher */}
-          <Route
-            path="*"
-            element={
-              <ProtectedRoute>
-                <App />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </Router>
-    </ConfigProvider>
+              {/* put protected routes at the end to act as a wildcard route fetcher */}
+              <Route
+                path="*"
+                element={
+                  <ProtectedRoute>
+                    <App />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </Router>
+        </ConfigProvider>
+      </AppSettingsWrapper>
+    </UseAppConfigProvider>
   </QueryClientProvider>, // Contextprovider does not work at the moment as they have an error there
   document.getElementById("root")
 );

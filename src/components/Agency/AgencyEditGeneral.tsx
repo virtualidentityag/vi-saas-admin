@@ -74,9 +74,13 @@ export default function AgencieEditGeneral() {
   const demographicsInitialValues = isEnabled(FeatureFlag.Demographics)
     ? {
         demographics: {
-          age: agencyModel?.demographics?.ageFrom
-            ? [agencyModel.demographics.ageFrom, agencyModel.demographics.ageTo]
-            : [DEFAULT_MIN_AGE, DEFAULT_MAX_AGE],
+          age:
+            agencyModel?.demographics?.ageFrom !== undefined
+              ? [
+                  agencyModel.demographics.ageFrom,
+                  agencyModel.demographics.ageTo,
+                ]
+              : [DEFAULT_MIN_AGE, DEFAULT_MAX_AGE],
           genders: agencyModel?.id
             ? agencyModel?.demographics?.genders
             : Object.values(Gender),

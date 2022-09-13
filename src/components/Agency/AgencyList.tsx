@@ -23,8 +23,9 @@ import { UserRole } from "../../enums/UserRole";
 import { useUserRoles } from "../../hooks/useUserRoles.hook";
 import { useTenantData } from "../../hooks/useTenantData.hook";
 import { useTenantDataUpdate } from "../../hooks/useTenantDataUpdate.hook";
-import routePathNames, { clusterFeatureFlags } from "../../appConfig";
+import routePathNames from "../../appConfig";
 import { FeatureFlag } from "../../enums/FeatureFlag";
+import { useAppConfigContext } from "../../context/useAppConfig";
 
 const emptyAgencyModel: AgencyData = {
   id: null,
@@ -45,6 +46,7 @@ let tableStateHolder: TableState;
 
 function AgencyList() {
   const { t } = useTranslation();
+  const { settings } = useAppConfigContext();
   const [agencies, setAgencies] = useState([]);
   const [numberOfAgencies, setNumberOfAgencies] = useState(0);
   const [tableState, setTableState] = useState<TableState>({
@@ -303,9 +305,9 @@ function AgencyList() {
 
   // When we've the multi tenancy in single tenant mode we can only show if we've the tenant admin role
   const canShowTopicSwitch =
-    ((clusterFeatureFlags.useMultiTenancyWithSingleDomain &&
+    ((settings.multiTenancyWithSingleDomainEnabled &&
       hasRole(UserRole.TenantAdmin)) ||
-      !clusterFeatureFlags.useMultiTenancyWithSingleDomain) &&
+      !settings.multiTenancyWithSingleDomainEnabled) &&
     hasRole(UserRole.TopicAdmin) &&
     isEnabled(FeatureFlag.Topics);
 

@@ -1,14 +1,16 @@
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from "../fetchData";
-import { clusterFeatureFlags, baseTenantPublicEndpoint } from "../../appConfig";
+import { baseTenantPublicEndpoint } from "../../appConfig";
 import getLocationVariables from "../../utils/getLocationVariables";
+import { AppConfigInterface } from "../../types/AppConfigInterface";
+
 /**
  * retrieve all needed public tenant data
  * @return data
  */
-const getPublicTenantData = () => {
+const getPublicTenantData = (settings: AppConfigInterface) => {
   const { subdomain } = getLocationVariables();
-  const slug = clusterFeatureFlags.useMultiTenancyWithSingleDomain
-    ? clusterFeatureFlags.multiTenancyWithSingleDomainSlug
+  const slug = settings.multiTenancyWithSingleDomainEnabled
+    ? settings.mainTenantSubdomainForSingleDomainMultitenancy
     : subdomain;
   if (slug) {
     return fetchData({

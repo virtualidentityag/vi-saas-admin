@@ -1,5 +1,5 @@
 import { fetchData, FETCH_METHODS } from "../fetchData";
-import { tenantEndpoint, clusterFeatureFlags } from "../../appConfig";
+import { tenantEndpoint } from "../../appConfig";
 import { TenantData } from "../../types/tenant";
 import { getValueFromCookie } from "../auth/accessSessionCookie";
 import parseJwt from "../../utils/parseJWT";
@@ -8,10 +8,13 @@ import parseJwt from "../../utils/parseJWT";
  * retrieve all needed tenant data
  * @return data
  */
-const getTenantData = (tenantData: TenantData) => {
+const getTenantData = (
+  tenantData: TenantData,
+  useMultiTenancyWithSingleDomain: boolean
+) => {
   const accessToken = getValueFromCookie("keycloak");
   let tenantId = tenantData.id;
-  if (clusterFeatureFlags.useMultiTenancyWithSingleDomain && accessToken) {
+  if (useMultiTenancyWithSingleDomain && accessToken) {
     const access = parseJwt(accessToken || "");
     tenantId = access?.tenantId || tenantId;
   }

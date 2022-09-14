@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
-import { Button, Table } from "antd";
+import { Button, Modal, Space, Switch, Table } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/lib/table";
 import { isDisabled } from "@testing-library/user-event/dist/utils";
+import { InterestsOutlined } from "@mui/icons-material";
 import TopicFormModal from "./TopicFormModal";
 
 import getTopicData from "../../api/topic/getTopicData";
@@ -16,6 +17,13 @@ import StatusIcons from "../EditableTable/StatusIcons";
 import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
 import TopicDeletionModal from "./TopicDeletionModal";
 import EditButtons from "../EditableTable/EditButtons";
+import { useAppConfigContext } from "../../context/useAppConfig";
+import { useUserRoles } from "../../hooks/useUserRoles.hook";
+import { useFeatureContext } from "../../context/FeatureContext";
+import { FeatureFlag } from "../../enums/FeatureFlag";
+import { useTenantData } from "../../hooks/useTenantData.hook";
+import { useTenantDataUpdate } from "../../hooks/useTenantDataUpdate.hook";
+import { UserRole } from "../../enums/UserRole";
 
 const emptyTopicModel: TopicData = {
   id: null,
@@ -29,6 +37,11 @@ let tableStateHolder: TableState;
 
 function TopicList() {
   const { t } = useTranslation();
+  const { settings } = useAppConfigContext();
+  const { isEnabled, toggleFeature } = useFeatureContext();
+  const [, hasRole] = useUserRoles();
+  const { data: tenantData } = useTenantData();
+  const { mutate: updateTenantData } = useTenantDataUpdate();
   const [topics, setTopics] = useState([]);
   const [numberOfTopics, setNumberOfTopics] = useState(0);
   const [tableState, setTableState] = useState<TableState>({
@@ -36,6 +49,38 @@ function TopicList() {
     sortBy: undefined,
     order: undefined,
   });
+
+  const isTopicsFeatureActive = isEnabled(FeatureFlag.TopicsInRegistration);
+  const onTopicsSwitch = useCallback(() => {
+    Modal.confirm({
+      title: t(
+        isTopicsFeatureActive
+          ? "topics.featureToggle.off.title"
+          : "topics.featureToggle.on.title"
+      ),
+      content: t(
+        isTopicsFeatureActive
+          ? "topics.featureToggle.off.description"
+          : "topics.featureToggle.on.description"
+      ),
+      width: "768px",
+      icon: <InterestsOutlined />,
+      onOk() {
+        updateTenantData(
+          {
+            ...tenantData,
+            settings: {
+              ...tenantData.settings,
+              topicsInRegistrationEnabled: !isTopicsFeatureActive,
+            },
+          },
+          {
+            onSuccess: () => toggleFeature(FeatureFlag.TopicsInRegistration),
+          }
+        );
+      },
+    });
+  }, [isTopicsFeatureActive]);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -151,21 +196,38 @@ function TopicList() {
     pageSizeOptions: ["10", "20", "30"],
   };
 
+  // When we've the multi tenancy in single tenant mode we can only show if we've the tenant admin role
+  const canShowTopicSwitch =
+    ((settings.multiTenancyWithSingleDomainEnabled &&
+      hasRole(UserRole.TenantAdmin)) ||
+      !settings.multiTenancyWithSingleDomainEnabled) &&
+    hasRole(UserRole.TopicAdmin) &&
+    isEnabled(FeatureFlag.Topics);
+
   return (
     <>
       <Title level={3}>{t("topics.title")}</Title>
       <p>{t("topics.title.text")}</p>
 
-      <Button
-        className="mb-m mr-sm"
-        type="primary"
-        icon={<PlusOutlined />}
-        onClick={() =>
-          pubsub.publishEvent(PubSubEvents.TOPIC_UPDATE, emptyTopicModel)
-        }
-      >
-        {t("new")}
-      </Button>
+      <Space align="baseline">
+        <Button
+          className="mb-m mr-sm"
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() =>
+            pubsub.publishEvent(PubSubEvents.TOPIC_UPDATE, emptyTopicModel)
+          }
+        >
+          {t("new")}
+        </Button>
+
+        {canShowTopicSwitch && (
+          <>
+            <Switch checked={isTopicsFeatureActive} onClick={onTopicsSwitch} />
+            {t("topics.featureToggle")}
+          </>
+        )}
+      </Space>
 
       <Table
         loading={isLoading}
@@ -180,7 +242,7 @@ function TopicList() {
         tableLayout="fixed"
         onChange={tableChangeHandler}
         pagination={pagination}
-        rowKey="name"
+        rowKey="id"
         style={{
           width: "100%",
         }}

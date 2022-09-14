@@ -56,6 +56,11 @@ function ProtectedPageLayoutWrapper({ children }: any) {
     return location.pathname.includes(routePathNames.agency);
   };
 
+  const canShowThemeSettings =
+    settings.mainTenantSubdomainForSingleDomainMultitenancy
+      ? hasRole(UserRole.TenantAdmin)
+      : hasRole(UserRole.SingleTenantAdmin);
+
   return (
     <>
       <Layout className="protectedLayout">
@@ -63,18 +68,20 @@ function ProtectedPageLayoutWrapper({ children }: any) {
           <div className="logo" />
           <nav className="mainMenu">
             <ul>
-              {!hasRole(UserRole.TenantAdmin) ? (
-                <>
-                  <li key="2" className="menuItem">
-                    <NavLink
-                      to={routePathNames.themeSettings}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                    >
-                      <NavIcon path={routePathNames.themeSettings} />
-                      <span>{t("settings.title")}</span>
-                    </NavLink>
-                  </li>
+              {canShowThemeSettings && (
+                <li key="2" className="menuItem">
+                  <NavLink
+                    to={routePathNames.themeSettings}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    <NavIcon path={routePathNames.themeSettings} />
+                    <span>{t("settings.title")}</span>
+                  </NavLink>
+                </li>
+              )}
 
+              {hasRole(UserRole.SingleTenantAdmin) && (
+                <>
                   <li key="3" className="menuItem">
                     <NavLink
                       to={routePathNames.counselors}
@@ -93,21 +100,23 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                       <span>{t("agency")}</span>
                     </NavLink>
                   </li>
+                </>
+              )}
 
-                  {hasRole(UserRole.TopicAdmin) &&
-                    isEnabled(FeatureFlag.Topics) && (
-                      <li key="5" className="menuItem">
-                        <NavLink
-                          to={routePathNames.topics}
-                          className={({ isActive }) =>
-                            isActive ? "active" : ""
-                          }
-                        >
-                          <NavIcon path={routePathNames.topics} />
-                          <span>{t("topics.title")}</span>
-                        </NavLink>
-                      </li>
-                    )}
+              {hasRole(UserRole.TopicAdmin) && isEnabled(FeatureFlag.Topics) && (
+                <li key="5" className="menuItem">
+                  <NavLink
+                    to={routePathNames.topics}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    <NavIcon path={routePathNames.topics} />
+                    <span>{t("topics.title")}</span>
+                  </NavLink>
+                </li>
+              )}
+
+              {hasRole(UserRole.SingleTenantAdmin) && (
+                <>
                   {/* statistics */}
                   <li key="6" className="menuItem">
                     <NavLink
@@ -128,7 +137,9 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                     </NavLink>
                   </li>
                 </>
-              ) : (
+              )}
+
+              {hasRole(UserRole.TenantAdmin) && (
                 <li key="6" className="menuItem">
                   <NavLink
                     to={routePathNames.tenants}

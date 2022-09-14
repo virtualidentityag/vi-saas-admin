@@ -2,12 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
-import { Button, Modal, Space, Switch, Table } from "antd";
+import { Button, Space, Table } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/lib/table";
 import { useNavigate } from "react-router-dom";
-import { InterestsOutlined } from "@mui/icons-material";
 
 import EditButtons from "../EditableTable/EditButtons";
 import getAgencyData from "../../api/agency/getAgencyData";
@@ -21,11 +20,8 @@ import { useFeatureContext } from "../../context/FeatureContext";
 import { TopicData } from "../../types/topic";
 import { UserRole } from "../../enums/UserRole";
 import { useUserRoles } from "../../hooks/useUserRoles.hook";
-import { useTenantData } from "../../hooks/useTenantData.hook";
-import { useTenantDataUpdate } from "../../hooks/useTenantDataUpdate.hook";
 import routePathNames from "../../appConfig";
 import { FeatureFlag } from "../../enums/FeatureFlag";
-import { useAppConfigContext } from "../../context/useAppConfig";
 
 const emptyAgencyModel: AgencyData = {
   id: null,
@@ -46,7 +42,6 @@ let tableStateHolder: TableState;
 
 function AgencyList() {
   const { t } = useTranslation();
-  const { settings } = useAppConfigContext();
   const [agencies, setAgencies] = useState([]);
   const [numberOfAgencies, setNumberOfAgencies] = useState(0);
   const [tableState, setTableState] = useState<TableState>({
@@ -59,12 +54,8 @@ function AgencyList() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [, hasRole] = useUserRoles();
-  const { isEnabled, toggleFeature } = useFeatureContext();
-  const { data: tenantData } = useTenantData();
+  const { isEnabled } = useFeatureContext();
   const isTopicsFeatureActive = isEnabled(FeatureFlag.TopicsInRegistration);
-  const { mutate: updateTenantData } = useTenantDataUpdate();
-
-  const { confirm } = Modal;
 
   const navigate = useNavigate();
 
@@ -272,45 +263,6 @@ function AgencyList() {
     }),
   }));
 
-  const onTopicsSwitch = useCallback(() => {
-    confirm({
-      title: t(
-        isTopicsFeatureActive
-          ? "topics.featureToggle.off.title"
-          : "topics.featureToggle.on.title"
-      ),
-      content: t(
-        isTopicsFeatureActive
-          ? "topics.featureToggle.off.description"
-          : "topics.featureToggle.on.description"
-      ),
-      width: "768px",
-      icon: <InterestsOutlined />,
-      onOk() {
-        updateTenantData(
-          {
-            ...tenantData,
-            settings: {
-              ...tenantData.settings,
-              topicsInRegistrationEnabled: !isTopicsFeatureActive,
-            },
-          },
-          {
-            onSuccess: () => toggleFeature(FeatureFlag.TopicsInRegistration),
-          }
-        );
-      },
-    });
-  }, [isTopicsFeatureActive]);
-
-  // When we've the multi tenancy in single tenant mode we can only show if we've the tenant admin role
-  const canShowTopicSwitch =
-    ((settings.multiTenancyWithSingleDomainEnabled &&
-      hasRole(UserRole.TenantAdmin)) ||
-      !settings.multiTenancyWithSingleDomainEnabled) &&
-    hasRole(UserRole.TopicAdmin) &&
-    isEnabled(FeatureFlag.Topics);
-
   return (
     <>
       <Title level={3}>{t("agency")}</Title>
@@ -328,12 +280,6 @@ function AgencyList() {
         >
           {t("new")}
         </Button>
-        {canShowTopicSwitch && (
-          <>
-            <Switch checked={isTopicsFeatureActive} onClick={onTopicsSwitch} />
-            {t("topics.featureToggle")}
-          </>
-        )}
       </Space>
       <Table
         loading={isLoading}

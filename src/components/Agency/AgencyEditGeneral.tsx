@@ -19,10 +19,8 @@ import { Button, ButtonItem, BUTTON_TYPES } from "../button/Button";
 import updateAgencyData from "../../api/agency/updateAgencyData";
 import { FeatureFlag } from "../../enums/FeatureFlag";
 import { Gender } from "../../enums/Gender";
-import { UserRole } from "../../enums/UserRole";
 import { SliderFormField } from "../SliderFormField";
 import { useFeatureContext } from "../../context/FeatureContext";
-import { useUserRoles } from "../../hooks/useUserRoles.hook";
 import { hasAgencyConsultants } from "../../api/agency/getAgencyConsultants";
 
 const { Paragraph } = Typography;
@@ -69,7 +67,6 @@ export default function AgencieEditGeneral() {
     useState<boolean>(true);
   const currentPath = useLocation().pathname;
   const [, agencyID] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
-  const [, hasRole] = useUserRoles();
 
   const demographicsInitialValues = isEnabled(FeatureFlag.Demographics)
     ? {
@@ -424,22 +421,20 @@ export default function AgencieEditGeneral() {
                   />
                 </div>
                 <div>
-                  {hasRole(UserRole.TopicAdmin) &&
-                    isEnabled(FeatureFlag.Topics) &&
-                    allTopics?.length > 0 && (
-                      <Item name="topicIds">
-                        <SelectFormField
-                          label="topics.title"
-                          name="topicIds"
-                          isMulti
-                          loading={isLoading}
-                          allowClear
-                          placeholder="plsSelect"
-                          options={convertToOptions(allTopics, "name", "id")}
-                          disabled={readOnlyTopicIds}
-                        />
-                      </Item>
-                    )}
+                  {isEnabled(FeatureFlag.Topics) && allTopics?.length > 0 && (
+                    <Item name="topicIds">
+                      <SelectFormField
+                        label="topics.title"
+                        name="topicIds"
+                        isMulti
+                        loading={isLoading}
+                        allowClear
+                        placeholder="plsSelect"
+                        options={convertToOptions(allTopics, "name", "id")}
+                        disabled={readOnlyTopicIds}
+                      />
+                    </Item>
+                  )}
                   <Row gutter={[20, 10]}>
                     <Col xs={12} lg={6}>
                       <Item

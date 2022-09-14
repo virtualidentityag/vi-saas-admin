@@ -12,6 +12,7 @@ import { getTokenExpiryFromLocalStorage } from "../api/auth/accessSessionLocalSt
 import { useUserRoles } from "../hooks/useUserRoles.hook";
 import { usePublicTenantData } from "../hooks/usePublicTenantData.hook";
 import { UserRole } from "../enums/UserRole";
+import { useAppConfigContext } from "../context/useAppConfig";
 
 /**
  * login component
@@ -19,6 +20,7 @@ import { UserRole } from "../enums/UserRole";
  * @constructor
  */
 function Login() {
+  const { settings } = useAppConfigContext();
   const accessToken = getValueFromCookie("keycloak");
   const currentTime = new Date().getTime();
   const tokenExpiry = getTokenExpiryFromLocalStorage();
@@ -50,7 +52,13 @@ function Login() {
       accessTokenValidInMs > 0 &&
       tenantData
     ) {
-      setRedirectUrl(routePathNames.themeSettings);
+      const redirectPath =
+        (settings.mainTenantSubdomainForSingleDomainMultitenancy &&
+          hasRole(UserRole.TenantAdmin)) ||
+        !settings.mainTenantSubdomainForSingleDomainMultitenancy
+          ? routePathNames.themeSettings
+          : routePathNames.counselors;
+      setRedirectUrl(redirectPath);
     }
   }, [
     accessToken,

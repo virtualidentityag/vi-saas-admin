@@ -21,7 +21,7 @@ import {
   UseAppConfigProvider,
 } from "./context/useAppConfig";
 import { apiServerSettings } from "./api/settings/apiServerSettings";
-import Initialisation from "./components/Layout/Initialisation";
+import Initialization from "./components/Layout/Initialization";
 
 interface LangMap {
   [key: string]: Locale;
@@ -64,7 +64,7 @@ function AppSettingsWrapper({
     }
   }, []);
 
-  return loaded ? children : <Initialisation />;
+  return loaded ? children : <Initialization />;
 }
 
 render(

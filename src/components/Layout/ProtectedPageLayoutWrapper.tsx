@@ -46,7 +46,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
   useEffect(() => {
     if (
       subdomain !== tenantData.subdomain &&
-      !settings.multiTenancyWithSingleDomainEnabled
+      !settings.multitenancyWithSingleDomainEnabled
     ) {
       logout(true);
     }

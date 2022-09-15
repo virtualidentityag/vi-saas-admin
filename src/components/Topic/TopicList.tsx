@@ -198,9 +198,9 @@ function TopicList() {
 
   // When we've the multi tenancy in single tenant mode we can only show if we've the tenant admin role
   const canShowTopicSwitch =
-    ((settings.multiTenancyWithSingleDomainEnabled &&
+    ((settings.multitenancyWithSingleDomainEnabled &&
       hasRole(UserRole.TenantAdmin)) ||
-      !settings.multiTenancyWithSingleDomainEnabled) &&
+      !settings.multitenancyWithSingleDomainEnabled) &&
     hasRole(UserRole.TopicAdmin) &&
     isEnabled(FeatureFlag.Topics);
 

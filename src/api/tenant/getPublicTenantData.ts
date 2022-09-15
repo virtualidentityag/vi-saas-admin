@@ -9,7 +9,7 @@ import { AppConfigInterface } from "../../types/AppConfigInterface";
  */
 const getPublicTenantData = (settings: AppConfigInterface) => {
   const { subdomain } = getLocationVariables();
-  const slug = settings.multiTenancyWithSingleDomainEnabled
+  const slug = settings.multitenancyWithSingleDomainEnabled
     ? settings.mainTenantSubdomainForSingleDomainMultitenancy
     : subdomain;
   if (slug) {

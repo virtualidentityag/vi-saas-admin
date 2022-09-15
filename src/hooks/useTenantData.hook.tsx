@@ -9,7 +9,7 @@ export const useTenantData = () => {
   const { settings } = useAppConfigContext();
   return useQuery<TenantData>(TENANT_DATA_KEY, async () =>
     getPublicTenantData(settings).then((tenant) =>
-      getTenantData(tenant, settings.multiTenancyWithSingleDomainEnabled)
+      getTenantData(tenant, settings.multitenancyWithSingleDomainEnabled)
     )
   );
 };

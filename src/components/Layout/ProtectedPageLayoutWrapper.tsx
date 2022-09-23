@@ -69,7 +69,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
           <nav className="mainMenu">
             <ul>
               {canShowThemeSettings && (
-                <li key="2" className="menuItem">
+                <li key="theme" className="menuItem">
                   <NavLink
                     to={routePathNames.themeSettings}
                     className={({ isActive }) => (isActive ? "active" : "")}
@@ -82,7 +82,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
 
               {hasRole(UserRole.SingleTenantAdmin) && (
                 <>
-                  <li key="3" className="menuItem">
+                  <li key="counselors" className="menuItem">
                     <NavLink
                       to={routePathNames.counselors}
                       className={({ isActive }) => (isActive ? "active" : "")}
@@ -91,7 +91,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                       <span>{t("counselor.title")}</span>
                     </NavLink>
                   </li>
-                  <li key="4" className="menuItem">
+                  <li key="agencies" className="menuItem">
                     <NavLink
                       to={routePathNames.agency}
                       className={() => (checkActive ? "active" : "")}
@@ -104,7 +104,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
               )}
 
               {hasRole(UserRole.TopicAdmin) && isEnabled(FeatureFlag.Topics) && (
-                <li key="5" className="menuItem">
+                <li key="topics" className="menuItem">
                   <NavLink
                     to={routePathNames.topics}
                     className={({ isActive }) => (isActive ? "active" : "")}
@@ -115,32 +115,21 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                 </li>
               )}
 
-              {hasRole(UserRole.SingleTenantAdmin) && (
-                <>
-                  {/* statistics */}
-                  <li key="6" className="menuItem">
-                    <NavLink
-                      to={routePathNames.statistic}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                    >
-                      <NavIcon path={routePathNames.statistic} />
-                      <span>{t("statistic.title")}</span>
-                    </NavLink>
-                  </li>
-                  <li key="7" className="menuItem">
-                    <NavLink
-                      to={routePathNames.userProfile}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                    >
-                      <NavIcon path={routePathNames.userProfile} />
-                      <span>{t("profile.title")}</span>
-                    </NavLink>
-                  </li>
-                </>
+              {(hasRole(UserRole.SingleTenantAdmin) ||
+                hasRole(UserRole.TenantAdmin)) && (
+                <li key="statistics" className="menuItem">
+                  <NavLink
+                    to={routePathNames.statistic}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    <NavIcon path={routePathNames.statistic} />
+                    <span>{t("statistic.title")}</span>
+                  </NavLink>
+                </li>
               )}
 
               {hasRole(UserRole.TenantAdmin) && (
-                <li key="6" className="menuItem">
+                <li key="tenants" className="menuItem">
                   <NavLink
                     to={routePathNames.tenants}
                     className={({ isActive }) => (isActive ? "active" : "")}
@@ -150,6 +139,16 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                   </NavLink>
                 </li>
               )}
+
+              <li key="profile" className="menuItem">
+                <NavLink
+                  to={routePathNames.userProfile}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  <NavIcon path={routePathNames.userProfile} />
+                  <span>{t("profile.title")}</span>
+                </NavLink>
+              </li>
 
               <li key="999" className="menuItem">
                 <button onClick={handleLogout} type="button">

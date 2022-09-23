@@ -36,6 +36,7 @@ const emptyAgencyModel: AgencyData = {
   postcode: "",
   teamAgency: true,
   status: undefined,
+  deleteDate: undefined,
 };
 
 let tableStateHolder: TableState;

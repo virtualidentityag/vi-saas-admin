@@ -6,6 +6,7 @@ import { CounselorData } from "../../types/counselor";
 import { decodeUsername } from "../../utils/encryptionHelpers";
 import getAgencyByTenantData from "../../api/agency/getAgencyByTenantData";
 import removeEmbedded from "../../utils/removeEmbedded";
+import { AgencyData } from "../../types/agency";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -98,7 +99,11 @@ function Counselor({
     getAgencyByTenantData()
       .then((result: any) => {
         // eslint-disable-next-line no-underscore-dangle
-        const resultNormalized = removeEmbedded(result).data;
+        const resultNormalized = removeEmbedded(result).data?.filter(
+          (agency: AgencyData) => {
+            return !(agency.offline || agency.deleteDate);
+          }
+        );
         modalForm.setFieldsValue({ agency: resultNormalized[0].id });
         setAllAgencies(resultNormalized);
         setIsLoading(false);

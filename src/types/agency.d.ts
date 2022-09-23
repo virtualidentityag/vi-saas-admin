@@ -21,4 +21,5 @@ export interface AgencyData {
   teamAgency: boolean;
   consultingType: string;
   status: string | undefined;
+  deleteDate: string | undefined;
 }

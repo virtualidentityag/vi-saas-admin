@@ -100,9 +100,8 @@ function Counselor({
       .then((result: any) => {
         // eslint-disable-next-line no-underscore-dangle
         const resultNormalized = removeEmbedded(result).data?.filter(
-          (agency: AgencyData) => {
-            return !(agency.offline || agency.deleteDate);
-          }
+          (agency: AgencyData) =>
+            !agency.offline || agency.deleteDate !== "null"
         );
         modalForm.setFieldsValue({ agency: resultNormalized[0].id });
         setAllAgencies(resultNormalized);

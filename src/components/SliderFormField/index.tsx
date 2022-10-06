@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Form, Slider } from "antd";
+import "./slideformfield.styles.css";
 
 export interface SliderFormFieldProps {
   label: string;

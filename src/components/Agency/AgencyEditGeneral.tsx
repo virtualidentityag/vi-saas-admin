@@ -116,12 +116,19 @@ export default function AgencieEditGeneral() {
 
   const onFinish = () => {
     formAgencyEdit.validateFields().then((formData) => {
-      updateAgencyData(agencyModel, formData as AgencyData).then(() => {
-        message.success({
-          content: t("message.agency.update"),
-          duration: 3,
+      updateAgencyData(agencyModel, formData as AgencyData)
+        .then((response) => response.json())
+        .then((newAgencyRaw) => {
+          const newAgency = newAgencyRaw?._embedded;
+          setAgencyModel(newAgency);
+          setIsTeamAgency(newAgency.teamAgency);
+          setOnlineSwitchActive(newAgency.offline);
+
+          message.success({
+            content: t("message.agency.update"),
+            duration: 3,
+          });
         });
-      });
     });
   };
 

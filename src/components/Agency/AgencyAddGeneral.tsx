@@ -15,8 +15,6 @@ import { Button, ButtonItem, BUTTON_TYPES } from "../button/Button";
 import addAgencyData from "../../api/agency/addAgencyData";
 import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
 import routePathNames from "../../appConfig";
-import { useUserRoles } from "../../hooks/useUserRoles.hook";
-import { UserRole } from "../../enums/UserRole";
 import { convertToOptions } from "../../utils/convertToOptions";
 import getTopicByTenantData from "../../api/topic/getTopicByTenantData";
 
@@ -34,7 +32,6 @@ export default function AgencieAddGeneral() {
   const [isTeamAgency, setIsTeamAgency] = useState<boolean>();
   const navigate = useNavigate();
   const [stickyActions, setStickyActions] = useState<boolean>();
-  const [, hasRole] = useUserRoles();
   const [stickyActionsPositionBottom, setStickyActionsPositionBottom] =
     useState<number>(0);
   const [allTopics, setAllTopics] = useState<Record<string, any>[]>([]);
@@ -267,21 +264,19 @@ export default function AgencieAddGeneral() {
                 </Title>
               </div>
               <div>
-                {hasRole(UserRole.TopicAdmin) &&
-                  isEnabled(FeatureFlag.Topics) &&
-                  allTopics?.length > 0 && (
-                    <Item name="topicIds">
-                      <SelectFormField
-                        label="topics.title"
-                        name="topicIds"
-                        isMulti
-                        loading={isLoading}
-                        allowClear
-                        placeholder="plsSelect"
-                        options={convertToOptions(allTopics, "name", "id")}
-                      />
-                    </Item>
-                  )}
+                {isEnabled(FeatureFlag.Topics) && allTopics?.length > 0 && (
+                  <Item name="topicIds">
+                    <SelectFormField
+                      label="topics.title"
+                      name="topicIds"
+                      isMulti
+                      loading={isLoading}
+                      allowClear
+                      placeholder="plsSelect"
+                      options={convertToOptions(allTopics, "name", "id")}
+                    />
+                  </Item>
+                )}
                 <Row gutter={[20, 10]}>
                   <Col xs={12} lg={6}>
                     <Item

@@ -40,11 +40,7 @@ export default function PostCodeRanges(props: {
             { min: 5, required: true, message: t("agency.postcode.minimum") },
           ]}
         >
-          <Input
-            maxLength={5}
-            key={`until_from_${index}`}
-            disabled={props.disabled}
-          />
+          <Input maxLength={5} key={`until_from_${index}`} />
         </Item>
         <Item
           key="until"
@@ -56,7 +52,7 @@ export default function PostCodeRanges(props: {
             { min: 5, required: true, message: t("agency.postcode.minimum") },
           ]}
         >
-          <Input maxLength={5} key="input_until" disabled={props.disabled} />
+          <Input maxLength={5} key="input_until" />
         </Item>
         <div
           key="minus_container"

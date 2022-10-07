@@ -450,7 +450,7 @@ function CounselorList() {
 
       <Modal
         title={<Title level={2}>{t("counselor.modal.headline.delete")}</Title>}
-        visible={isModalDeleteVisible}
+        open={isModalDeleteVisible}
         onOk={handleOnDelete}
         onCancel={() => handleDeleteModal(editingCounselor)}
         cancelText={t("btn.cancel.uppercase")}

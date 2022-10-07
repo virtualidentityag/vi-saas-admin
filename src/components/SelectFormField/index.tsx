@@ -18,6 +18,7 @@ export interface SelectFormFieldProps {
   allowClear?: boolean;
   disabled?: boolean;
   errorMessage?: string;
+  labelInValue?: boolean;
 }
 
 export function SelectFormField({
@@ -32,9 +33,11 @@ export function SelectFormField({
   placeholder,
   disabled,
   errorMessage,
+  labelInValue,
 }: SelectFormFieldProps) {
   const [t] = useTranslation();
   const message = errorMessage || t("form.errors.required");
+
   return (
     <Form.Item
       name={name}
@@ -45,27 +48,23 @@ export function SelectFormField({
       <Select
         disabled={disabled}
         showSearch
+        labelInValue={labelInValue}
         loading={loading}
         allowClear={allowClear}
         getPopupContainer={(element: HTMLElement) => element.parentElement}
         mode={isMulti ? "multiple" : undefined}
         placeholder={placeholder ? t(placeholder) : undefined}
         optionFilterProp="children"
-        filterOption={(input, option: { children: string }) =>
-          option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        filterOption={(input, option) =>
+          option.value?.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
         filterSort={(optionA, optionB) =>
-          optionA.children
+          optionA.value
             ?.toLowerCase()
-            .localeCompare(optionB.children?.toLowerCase())
+            .localeCompare(optionB.value?.toLowerCase())
         }
-      >
-        {options.map((option) => (
-          <Select.Option value={option.value} key={option.value}>
-            {option.label}
-          </Select.Option>
-        ))}
-      </Select>
+        options={options}
+      />
     </Form.Item>
   );
 }

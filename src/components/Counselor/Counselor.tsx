@@ -204,6 +204,7 @@ function Counselor({
           >
             <Input placeholder={t("placeholder.email")} />
           </Item>
+
           <Item
             label={t("agency")}
             name="agencyIds"
@@ -245,6 +246,7 @@ function Counselor({
             label={t("counselor.formalLanguage")}
             name="formalLanguage"
             rules={[{ required: true }]}
+            className="formal-language"
           >
             <Select placeholder={t("plsSelect")}>
               <Option key={0} value>

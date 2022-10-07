@@ -56,11 +56,7 @@ function AgencyAddressSettingsLocal({
       />
 
       {postCodeRangesActive && (
-        <PostCodeRanges
-          agencyPostCodeRanges={postCodes}
-          formInputData={form}
-          disabled={false}
-        />
+        <PostCodeRanges agencyPostCodeRanges={postCodes} formInputData={form} />
       )}
     </>
   );

@@ -33,8 +33,10 @@ export function SliderFormField({
         min={min}
         max={max}
         marks={{ [min]: min, [max]: max }}
-        tooltipVisible
-        getTooltipPopupContainer={(triggerNode) => triggerNode.parentElement}
+        tooltip={{
+          open: true,
+          getPopupContainer: (triggerNode) => triggerNode.parentElement,
+        }}
       />
     </Form.Item>
   );

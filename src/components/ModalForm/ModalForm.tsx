@@ -22,7 +22,7 @@ function ModalForm({
     <Modal
       destroyOnClose
       title={<Title level={2}>{title}</Title>}
-      visible={isModalCreateVisible}
+      open={isModalCreateVisible}
       onOk={() => {
         form.validateFields().then((values) => {
           handleOnAddElement(values);

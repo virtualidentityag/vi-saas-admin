@@ -1,7 +1,6 @@
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 import { agencyEndpointBase } from "../../appConfig";
 import { AgencyData } from "../../types/agency";
-import updateAgencyPostCodeRange from "./updateAgencyPostCodeRange";
 import updateAgencyType from "./updateAgencyType";
 import getConsultingType4Tenant from "../consultingtype/getConsultingType4Tenant";
 
@@ -11,7 +10,7 @@ import getConsultingType4Tenant from "../consultingtype/getConsultingType4Tenant
  * @param formInput - input data from form
  * @return data
  */
-const updateAgencyData = async (
+export const updateAgencyData = async (
   agencyModel: AgencyData,
   formInput: AgencyData
 ) => {
@@ -21,7 +20,6 @@ const updateAgencyData = async (
   }
 
   await updateAgencyType(agencyModel, formInput);
-  await updateAgencyPostCodeRange(agencyId, formInput, "PUT");
 
   const consultingTypeId = await getConsultingType4Tenant();
 
@@ -39,11 +37,7 @@ const updateAgencyData = async (
     consultingType: consultingTypeId,
     offline: !formInput.online,
     external: false,
-    demographics: formInput.demographics && {
-      genders: formInput.demographics.genders,
-      ageFrom: formInput.demographics.age[0],
-      ageTo: formInput.demographics.age[1],
-    },
+    demographics: formInput.demographics,
   };
   return fetchData({
     url: `${agencyEndpointBase}/${agencyModel.id}`,
@@ -53,5 +47,3 @@ const updateAgencyData = async (
     bodyData: JSON.stringify(agencyDataRequestBody),
   });
 };
-
-export default updateAgencyData;

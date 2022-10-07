@@ -40,7 +40,7 @@ export default function AgencyDeletionModal() {
   return (
     <Modal
       title={<Title level={2}>{t("agency.modal.headline.delete")}</Title>}
-      visible={isModalVisible}
+      open={isModalVisible}
       onOk={handleOnDelete}
       onCancel={() => {
         setAgencyModel(undefined);

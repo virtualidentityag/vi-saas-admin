@@ -1,6 +1,6 @@
 import { registrationDataEndpoint } from "../../appConfig";
 
-import { FETCH_METHODS, fetchData } from "../fetchData";
+import { FETCH_METHODS, fetchData, FETCH_ERRORS } from "../fetchData";
 
 /**
  * retrieve all registration data for tenant context
@@ -11,7 +11,7 @@ const getRegistrationData = () => {
     url: registrationDataEndpoint,
     method: FETCH_METHODS.GET,
     skipAuth: false,
-    responseHandling: [],
+    responseHandling: [FETCH_ERRORS.CATCH_ALL],
   });
 };
 

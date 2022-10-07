@@ -56,7 +56,7 @@ function EditableTable({
 
       <Modal
         title={<Title level={2}>{handleDeleteModalTitle}</Title>}
-        visible={isDeleteModalVisible}
+        open={isDeleteModalVisible}
         onOk={handleOnDelete}
         onCancel={handleDeleteModalCancel}
         cancelText="ABBRECHEN"

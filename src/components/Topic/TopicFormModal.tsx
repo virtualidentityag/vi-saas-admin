@@ -91,7 +91,7 @@ function TopicFormModal() {
           <small className="requiredFieldsInfo">{t("required.info")}</small>
         </>
       }
-      visible={isModalVisible}
+      open={isModalVisible}
       onOk={() => {
         formInstance.validateFields().then((values) => {
           handleAddAction(values);

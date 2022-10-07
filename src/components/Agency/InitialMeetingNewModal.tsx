@@ -29,7 +29,7 @@ export default function InitialMeetingNewModal(props: {
           {t("agency.edit.initialMeeting.modal_new_consultation_type.title")}
         </Title>
       }
-      visible={props.showEditModal}
+      open={props.showEditModal}
       onOk={() => {
         formInstance.validateFields().then((formData) => {
           const consultants = [];

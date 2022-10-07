@@ -4,7 +4,10 @@ import { useTranslation } from "react-i18next";
 import { FileDownloadOutlined } from "@mui/icons-material";
 import { CSVLink } from "react-csv";
 import getRegistrationData from "../../api/statistic/getRegistrationData";
-import { RegistrationData } from "../../types/registrationData";
+import {
+  RegistrationData,
+  RegistrationStatistics,
+} from "../../types/registrationData";
 
 const isRegistrationDataFetched = false;
 
@@ -55,14 +58,50 @@ export function Statistic() {
 
           data.push(csvLine);
         });
-
-        setCsvData(data);
+        return response.registrationStatistics;
       })
       .catch((error) => {
         // eslint-disable-next-line no-console
         console.log(error);
+        return [] as RegistrationStatistics[];
       })
-      .finally(() => {
+      .then((registrationStatistics: RegistrationStatistics[]) => {
+        const data = [];
+        data.push([
+          "user_id",
+          "datum_registrierung",
+          "alter",
+          "geschl",
+          "betrgru",
+          "Themen in der Registrierung",
+          "relevant",
+          "plz",
+        ]);
+        registrationStatistics.forEach(function createCsvLine(entry) {
+          const csvLine: string[] = [];
+
+          let formattedTopics = "";
+          const topics = entry.topicsInternalAttributes;
+          topics.forEach(function concateTopics(topic) {
+            if (formattedTopics !== "") {
+              formattedTopics += ", ";
+            }
+            formattedTopics += topic;
+          });
+
+          csvLine.push(entry.userId);
+          csvLine.push(entry.registrationDate);
+          csvLine.push(entry.age !== null ? entry.age.toString() : "");
+          csvLine.push(entry.gender || "");
+          csvLine.push(entry.counsellingRelation || "");
+          csvLine.push(formattedTopics);
+          csvLine.push(entry.mainTopicInternalAttribute || "");
+          csvLine.push(entry.postalCode);
+
+          data.push(csvLine);
+        });
+        setCsvData(data);
+
         setIsRequestInProgress(false);
       });
   }, []);

@@ -3,12 +3,12 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router";
 import { ReactComponent as ChevronLeft } from "../resources/img/svg/chevron-left.svg";
-import AgencieEditGeneral from "../components/Agency/AgencyEditGeneral";
 import AgencieEditInitialMeeting from "../components/Agency/AgencyEditInitialMeeting";
 import agencyRoutes from "../components/Agency/Agency.routes";
 import routePathNames from "../appConfig";
 import { useFeatureContext } from "../context/FeatureContext";
 import { FeatureFlag } from "../enums/FeatureFlag";
+import { AgencyEdit } from "../components/Agency/AgencyEdit";
 
 function AgencieEdit() {
   const { t } = useTranslation();
@@ -27,7 +27,7 @@ function AgencieEdit() {
     }
     switch (currentPath.replace(agencyId, ":id")) {
       case routePathNames.agencyEditGeneral:
-        setAgencyEditComponent(<AgencieEditGeneral />);
+        setAgencyEditComponent(<AgencyEdit />);
         break;
 
       case routePathNames.agencyEditInitialMeeting:

@@ -40,7 +40,7 @@ export default function TopicDeletionModal() {
   return (
     <Modal
       title={<Title level={2}>{t("topic.modal.headline.delete")}</Title>}
-      visible={isModalVisible}
+      open={isModalVisible}
       onOk={handleOnDelete}
       onCancel={() => {
         setTopicModel(undefined);

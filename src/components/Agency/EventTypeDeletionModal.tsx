@@ -35,7 +35,7 @@ export default function EventTypeDeletionModal(props: {
           {t("agency.edit.initialMeeting.modal_delete_consultation_type.title")}
         </Title>
       }
-      visible={props.showDeleteModal}
+      open={props.showDeleteModal}
       onOk={handleOnDelete}
       onCancel={() => {
         props.handleCancel(() => {});

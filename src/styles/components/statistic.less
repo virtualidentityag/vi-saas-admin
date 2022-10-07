@@ -1,16 +1,16 @@
 .statistic {
-  background: hsla(0, 0%, 100%, 0.7);
-  border-radius: 8px;
-  margin-bottom: 8px;
-  padding: 16px;
   max-width: 635px;
+  padding: 16px;
+  margin-bottom: 8px;
+  background: hsl(0deg 0% 100% / 70%);
+  border-radius: 8px;
 
   &__headline {
     margin-bottom: 20px;
-    font-family: "Nunito";
+    font-family: Nunito;
+    font-size: 16px;
     font-style: normal;
     font-weight: 700;
-    font-size: 16px;
     line-height: 24px;
   }
 
@@ -21,14 +21,14 @@
 
   &__icon,
   &__text {
-    vertical-align: middle;
     display: inline-block;
+    vertical-align: middle;
   }
 }
 
 @media screen and (min-width: 600px) {
   .box {
-    margin-bottom: 16px;
     padding: 24px;
+    margin-bottom: 16px;
   }
 }

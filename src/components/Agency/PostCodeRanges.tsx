@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import React, { useEffect, useState } from "react";
 import { Form, Input } from "antd";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import DisabledContext from "antd/es/config-provider/DisabledContext";
 import { PostCodeRange } from "../../api/agency/getAgencyPostCodeRange";
 
 const { Item } = Form;
@@ -9,8 +10,9 @@ const { Item } = Form;
 export default function PostCodeRanges(props: {
   agencyPostCodeRanges: PostCodeRange[];
   formInputData: Record<string, any>;
-  disabled?: boolean;
 }) {
+  const contextDisabled = React.useContext(DisabledContext);
+
   const { t } = useTranslation();
 
   const { agencyPostCodeRanges, formInputData } = props;
@@ -60,7 +62,7 @@ export default function PostCodeRanges(props: {
             alignItems: "center",
             display: "flex",
             width: "14px",
-            pointerEvents: props.disabled ? "none" : "auto",
+            pointerEvents: contextDisabled ? "none" : "auto",
           }}
         >
           {postCodeRanges.length - 1 === index && (
@@ -95,7 +97,7 @@ export default function PostCodeRanges(props: {
           label={t("agency.postcode.from")}
           name="postcodeFromAdd"
         >
-          <Input maxLength={5} disabled={props.disabled} />
+          <Input maxLength={5} />
         </Item>
         <Item
           rules={[{ min: 5, message: t("agency.postcode.minimum") }]}
@@ -103,14 +105,14 @@ export default function PostCodeRanges(props: {
           label={t("agency.postcode.until")}
           name="postcodeUntilAdd"
         >
-          <Input maxLength={5} disabled={props.disabled} />
+          <Input maxLength={5} />
         </Item>
         <div
           style={{
             alignItems: "center",
             display: "flex",
             width: "14px",
-            pointerEvents: props.disabled ? "none" : "auto",
+            pointerEvents: contextDisabled ? "none" : "auto",
           }}
         >
           <PlusOutlined onClick={addAction} />

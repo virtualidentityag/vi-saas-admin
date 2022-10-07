@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Form, Slider } from "antd";
+import DisabledContext from "antd/es/config-provider/DisabledContext";
 
 export interface SliderFormFieldProps {
   label: string;
@@ -8,7 +9,6 @@ export interface SliderFormFieldProps {
   help?: string;
   min: number;
   max: number;
-  disabled?: boolean;
 }
 
 export function SliderFormField({
@@ -17,9 +17,10 @@ export function SliderFormField({
   help,
   min,
   max,
-  disabled,
 }: SliderFormFieldProps) {
+  const contextDisabled = React.useContext(DisabledContext);
   const [t] = useTranslation();
+
   return (
     <Form.Item
       label={t(label)}
@@ -28,7 +29,7 @@ export function SliderFormField({
       className="sliderFormField"
     >
       <Slider
-        disabled={disabled}
+        disabled={contextDisabled}
         range
         min={min}
         max={max}

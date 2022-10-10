@@ -37,10 +37,13 @@ export function CardEditable({
     type: BUTTON_TYPES.LINK,
   };
 
-  const onFormSubmit = useCallback((formData) => {
-    onSave(formData);
-    setEditing(false);
-  }, []);
+  const onFormSubmit = useCallback(
+    (formData) => {
+      onSave(formData);
+      setEditing(false);
+    },
+    [onSave]
+  );
   return (
     <Box>
       <div className="agencyEdit__headline">

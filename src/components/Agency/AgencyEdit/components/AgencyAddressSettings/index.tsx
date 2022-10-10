@@ -6,6 +6,8 @@ import { PostCodeRange } from "../../../../../api/agency/getAgencyPostCodeRange"
 import { useAgencyData } from "../../../../../hooks/useAgencyData";
 import { useAgencyPostCodesData } from "../../../../../hooks/useAgencyPostCodesData";
 import { useAgencyPostCodesUpdate } from "../../../../../hooks/useAgencyPostCodesUpdate";
+import { useAgencyUpdate } from "../../../../../hooks/useAgencyUpdate";
+import { AgencyData } from "../../../../../types/agency";
 import { FormInputField } from "../../../../FormInputField";
 import { FormSwitchField } from "../../../../FormSwitchField";
 import PostCodeRanges from "../../../PostCodeRanges";
@@ -64,28 +66,42 @@ function AgencyAddressSettingsLocal({
 
 export function AgencyAddressSettings({ id }: { id: string }) {
   const [t] = useTranslation();
-  const { data, isLoading, refetch } = useAgencyData(id);
+  const { data: agencyData, isLoading, refetch } = useAgencyData(id);
+  const { mutate: updateAgency } = useAgencyUpdate(id);
   const { mutate } = useAgencyPostCodesUpdate(id);
   const { data: postCodes, isLoading: isLoadingPostCodes } =
     useAgencyPostCodesData(id);
 
-  const saveInfo = useCallback((formData) => {
-    mutate(formData, {
-      onSuccess: () => {
-        refetch();
-        message.success({
-          content: t("message.agency.update"),
-          duration: 3,
-        });
-      },
-    });
-  }, []);
+  const saveInfo = useCallback(
+    (formData) => {
+      if (
+        formData.city !== agencyData.city ||
+        formData.postcode !== agencyData.postcode
+      ) {
+        updateAgency({
+          city: formData.city,
+          postcode: formData.postcode,
+        } as Partial<AgencyData>);
+      }
+
+      mutate(formData, {
+        onSuccess: () => {
+          refetch();
+          message.success({
+            content: t("message.agency.update"),
+            duration: 3,
+          });
+        },
+      });
+    },
+    [agencyData]
+  );
 
   return (
     <CardEditable
       isLoading={isLoading || isLoadingPostCodes}
       initialValues={{
-        ...data,
+        ...agencyData,
         postCodeRangesActive: !hasOnlyDefaultRangeDefined(postCodes),
       }}
       titleKey="agency.edit.general.address"

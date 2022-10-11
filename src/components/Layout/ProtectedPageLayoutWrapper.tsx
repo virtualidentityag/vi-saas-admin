@@ -127,7 +127,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                   </NavLink>
                 </li>
               )}
-
+              {/*
               {hasRole(UserRole.TenantAdmin) && (
                 <li key="tenants" className="menuItem">
                   <NavLink
@@ -138,7 +138,7 @@ function ProtectedPageLayoutWrapper({ children }: any) {
                     <span>{t("organisations.title")}</span>
                   </NavLink>
                 </li>
-              )}
+              )} */}
 
               <li key="profile" className="menuItem">
                 <NavLink

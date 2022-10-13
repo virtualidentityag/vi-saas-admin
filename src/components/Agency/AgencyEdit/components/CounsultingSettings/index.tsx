@@ -149,7 +149,7 @@ export function ConsultingSettings({ id }: { id: string }) {
         ...data,
         ...demographicsInitialValues,
         online: !data?.offline,
-        topicIds: convertToOptions(data?.topics, "name", "id"),
+        topicIds: convertToOptions(data?.topics, "name", "id", true),
       }}
       titleKey="agency.edit.general.more_settings"
       onSave={saveInfo}

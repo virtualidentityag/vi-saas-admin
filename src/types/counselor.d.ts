@@ -1,3 +1,4 @@
+import { AgencyData } from "./agency";
 import { Status } from "./status";
 
 export interface CounselorData {
@@ -8,7 +9,7 @@ export interface CounselorData {
   gender: string;
   id: string;
   phone: string;
-  agencies: Record<string, any>[];
+  agencies: Array<Partial<AgencyData>>;
   agencyIds: string[];
   username: string;
   key: string;

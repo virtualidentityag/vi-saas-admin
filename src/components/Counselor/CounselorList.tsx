@@ -95,7 +95,7 @@ function CounselorList() {
         putAgenciesForCounselor(
           // eslint-disable-next-line no-underscore-dangle
           response?._embedded.id,
-          formData.agencyIds
+          formData.agencies?.map(({ value }) => value) || []
         )
       )
       .then(() => getCounselorSearchData(tableState, searchQuery))

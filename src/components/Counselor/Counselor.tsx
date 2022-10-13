@@ -1,7 +1,9 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Form, Input, message, FormInstance, Select, Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
+import { useWatch } from "antd/lib/form/Form";
+import { LabeledValue } from "antd/lib/select";
 import { CounselorData } from "../../types/counselor";
 import { decodeUsername } from "../../utils/encryptionHelpers";
 import getAgencyByTenantData from "../../api/agency/getAgencyByTenantData";
@@ -50,8 +52,12 @@ function Counselor({
 
   const [checkAbsent, setCheckAbsent] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [allAgencies, setAllAgencies] = useState<Record<string, any>[]>([]);
+  const [allAgencies, setAllAgencies] = useState<Array<Partial<AgencyData>>>(
+    []
+  );
   const [editing, setEditing] = useState(isInAddMode);
+  const agenciesSelected =
+    (useWatch("agencies", modalForm) as LabeledValue[]) || [];
 
   const onAbsentChange = (value: boolean) => {
     setCheckAbsent(value);
@@ -121,15 +127,17 @@ function Counselor({
     return 0;
   };
 
-  const renderAgencyOptions = (agencyItem: Record<string, any>) => (
-    <Option key={agencyItem.id} value={agencyItem.id}>
-      <span
-        title={`${agencyItem.postcode} - ${agencyItem.name} (${agencyItem.city})`}
-      >
-        {agencyItem.postcode} - {agencyItem.name} ({agencyItem.city})
-      </span>
-    </Option>
-  );
+  const convertToOption = (agency: Partial<AgencyData>) => ({
+    label: `${agency.postcode} - ${agency.name} (${agency.city})`,
+    value: `${agency.id}`,
+  });
+
+  const agenciesForSelect = allAgencies
+    ?.filter(
+      (agency) => !agenciesSelected.find((a) => a.value === `${agency.id}`)
+    )
+    ?.sort(sortAgenciesByPostcode)
+    .map(convertToOption);
 
   return (
     <Spin spinning={isLoading}>
@@ -145,7 +153,7 @@ function Counselor({
                 "lastname",
                 "email",
                 "username",
-                "agencyIds",
+                "agencies",
               ])
             ).some((field: any) => field.length === 0) ||
               modalForm
@@ -161,7 +169,7 @@ function Counselor({
           firstname,
           lastname,
           agencyIds,
-          agencies,
+          agencies: agencies.map(convertToOption),
           phone,
           email,
           username: decodeUsername(username),
@@ -207,7 +215,7 @@ function Counselor({
 
           <Item
             label={t("agency")}
-            name="agencyIds"
+            name="agencies"
             className="agency-select-container"
             rules={[{ required: true, type: "array" }]}
           >
@@ -215,21 +223,19 @@ function Counselor({
               mode="multiple"
               className="agencies-select"
               disabled={isLoading}
+              labelInValue
               getPopupContainer={(element: HTMLElement) =>
                 element.parentElement
               }
               allowClear
               filterOption={(input, option) =>
-                option?.props.children?.props.title
+                option?.label
                   .toLocaleLowerCase()
                   .indexOf(input.toLocaleLowerCase()) !== -1
               }
               placeholder={t("plsSelect")}
-            >
-              {allAgencies
-                ?.sort(sortAgenciesByPostcode)
-                .map(renderAgencyOptions)}
-            </Select>
+              options={agenciesForSelect}
+            />
           </Item>
           <Item
             label={t("counselor.username")}

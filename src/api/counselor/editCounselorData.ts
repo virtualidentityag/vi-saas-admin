@@ -1,3 +1,4 @@
+import { LabeledValue } from "antd/lib/select";
 import { CounselorData } from "../../types/counselor";
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
 import { counselorEndpoint } from "../../appConfig";
@@ -38,12 +39,11 @@ const editCounselorData = async (
     twoFactorAuth,
   };
 
-  if (
-    counselorData.agencyIds.length > 0 &&
-    formData.agencyIds.length > 0 &&
-    counselorData.agencyIds !== formData.agencyIds
-  ) {
-    await putAgenciesForCounselor(counselorData.id, formData.agencyIds);
+  if (counselorData.agencies.length > 0 && formData.agencies.length > 0) {
+    const ids = ((formData.agencies as LabeledValue[])?.map(
+      ({ value }) => value
+    ) || []) as string[];
+    await putAgenciesForCounselor(counselorData.id, ids);
   }
 
   return fetchData({

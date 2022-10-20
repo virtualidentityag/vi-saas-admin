@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Form, Input, Button, message } from "antd";
 import { useTranslation } from "react-i18next";
 import Title from "antd/es/typography/Title";
@@ -10,11 +10,13 @@ import CustomVerifiedIcon from "../CustomIcons/Verified";
 import { FETCH_ERRORS } from "../../api/fetchData";
 import { useLoginMutation } from "../../hooks/useLoginMutation.hook";
 import { TwoFactorType } from "../../enums/TwoFactorType";
+import { usePublicTenantData } from "../../hooks/usePublicTenantData.hook";
 
 function LoginForm() {
+  const { data: tenantData } = usePublicTenantData();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { mutate: login } = useLoginMutation();
+  const { mutate: login } = useLoginMutation(tenantData?.id);
   const [postLoading, setPostLoading] = useState(false);
   const [otpDisabled, setOtpDisabled] = useState(true);
   const [twoFactorType, setTwoFactorType] = useState(TwoFactorType.None);

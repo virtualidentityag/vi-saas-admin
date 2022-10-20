@@ -61,6 +61,8 @@ function AppSettingsWrapper({
       apiServerSettings()
         .then(setServerSettings)
         .finally(() => setLoaded(true));
+    } else {
+      setLoaded(true);
     }
   }, []);
 

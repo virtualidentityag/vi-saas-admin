@@ -23,48 +23,10 @@ export function Statistic() {
 
     setIsRequestInProgress(true);
     getRegistrationData()
-      .then((response: RegistrationData) => {
-        const data = [];
-        data.push([
-          "user_id",
-          "datum_registrierung",
-          "alter",
-          "geschl",
-          "betrgru",
-          "Themen in der Registrierung",
-          "relevant",
-          "plz",
-        ]);
-        response.registrationStatistics.forEach(function createCsvLine(entry) {
-          const csvLine: string[] = [];
-
-          let formattedTopics = "";
-          const topics = entry.topicsInternalAttributes;
-          topics.forEach(function concateTopics(topic) {
-            if (formattedTopics !== "") {
-              formattedTopics += ", ";
-            }
-            formattedTopics += topic;
-          });
-
-          csvLine.push(entry.userId);
-          csvLine.push(entry.registrationDate);
-          csvLine.push(entry.age !== null ? entry.age.toString() : "");
-          csvLine.push(entry.gender || "");
-          csvLine.push(entry.counsellingRelation || "");
-          csvLine.push(formattedTopics);
-          csvLine.push(entry.mainTopicInternalAttribute || "");
-          csvLine.push(entry.postalCode);
-
-          data.push(csvLine);
-        });
-        return response.registrationStatistics;
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-        return [] as RegistrationStatistics[];
-      })
+      .then(
+        (response: RegistrationData) => response?.registrationStatistics || []
+      )
+      .catch(() => [] as RegistrationStatistics[])
       .then((registrationStatistics: RegistrationStatistics[]) => {
         const data = [];
         data.push([
@@ -76,6 +38,7 @@ export function Statistic() {
           "Themen in der Registrierung",
           "relevant",
           "plz",
+          "betend",
         ]);
         registrationStatistics.forEach(function createCsvLine(entry) {
           const csvLine: string[] = [];
@@ -97,6 +60,7 @@ export function Statistic() {
           csvLine.push(formattedTopics);
           csvLine.push(entry.mainTopicInternalAttribute || "");
           csvLine.push(entry.postalCode);
+          csvLine.push(entry.endDate);
 
           data.push(csvLine);
         });

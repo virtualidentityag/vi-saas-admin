@@ -50,7 +50,7 @@ export function NavIcon({ path }: Props) {
       return currentlySelected ? (
         <OtherHouses {...props} />
       ) : (
-        <OtherHousesOutlined {...props} />
+        <OtherHousesOutlined className="OtherHousesOutlinedIcon" {...props} />
       );
     case routePathNames.topics:
       return currentlySelected ? (

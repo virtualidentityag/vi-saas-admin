@@ -21,7 +21,7 @@ if (process.env.REACT_APP_USE_API_URL === "true") {
 export const mainURL = url;
 
 export const clusterFeatureFlags = {
-  useApiClusterSettings: true, // Feature flag to enable the cluster use the cluster settings instead of the config file
+  useApiClusterSettings: false, // Feature flag to enable the cluster use the cluster settings instead of the config file
 };
 
 export const agencyDataAgencyId = (agencyId: string) =>

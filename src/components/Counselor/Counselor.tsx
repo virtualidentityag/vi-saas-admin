@@ -69,6 +69,7 @@ function Counselor({
 
   useEffect(() => {
     modalForm.resetFields();
+    setCheckAbsent(formData.absent);
   }, [formData, modalForm]);
 
   const {
@@ -285,7 +286,7 @@ function Counselor({
                 name="absenceMessage"
                 rules={[{ required: checkAbsent }]}
               >
-                <TextArea rows={3} />
+                <TextArea rows={3} disabled={!checkAbsent} />
               </Item>
             </>
           ) : (

@@ -1,6 +1,6 @@
-import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
-import { topicEndpoint } from "../../appConfig";
-import { TopicData } from "../../types/topic";
+import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
+import { topicEndpoint } from '../../appConfig';
+import { TopicData } from '../../types/topic';
 
 /**
  * delete topic
@@ -8,14 +8,14 @@ import { TopicData } from "../../types/topic";
  * @return Promise
  */
 const deleteTopicData = (topicData: TopicData) => {
-  const { id } = topicData;
+    const { id } = topicData;
 
-  return fetchData({
-    url: `${topicEndpoint}/${id}`,
-    method: FETCH_METHODS.DELETE,
-    skipAuth: false,
-    responseHandling: [FETCH_ERRORS.CATCH_ALL],
-  });
+    return fetchData({
+        url: `${topicEndpoint}/${id}`,
+        method: FETCH_METHODS.DELETE,
+        skipAuth: false,
+        responseHandling: [FETCH_ERRORS.CATCH_ALL],
+    });
 };
 
 export default deleteTopicData;

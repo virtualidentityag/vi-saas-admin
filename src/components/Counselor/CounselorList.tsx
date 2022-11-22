@@ -247,7 +247,7 @@ function CounselorList() {
       dataIndex: "firstname",
       key: "firstname",
       sorter: (a: CounselorData, b: CounselorData) =>
-        a.firstname.localeCompare(b.firstname),
+        a.firstname?.localeCompare(b.firstname),
       width: 120,
       ellipsis: true,
       fixed: "left",
@@ -259,7 +259,7 @@ function CounselorList() {
       dataIndex: "lastname",
       key: "lastname",
       sorter: (a: CounselorData, b: CounselorData) =>
-        a.lastname.localeCompare(b.lastname),
+        a.lastname?.localeCompare(b.lastname),
       width: 130,
       ellipsis: true,
       fixed: "left",
@@ -274,7 +274,7 @@ function CounselorList() {
       key: "email",
       ellipsis: true,
       sorter: (a: CounselorData, b: CounselorData) =>
-        a.email.localeCompare(b.email),
+        a.email?.localeCompare(b.email),
       className: "counselorList__column",
     },
     {

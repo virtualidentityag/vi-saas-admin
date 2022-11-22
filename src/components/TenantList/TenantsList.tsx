@@ -132,7 +132,7 @@ function TenantsList() {
       title: t("organisation.title"),
       dataIndex: "name",
       key: "name",
-      sorter: (a: TenantData, b: TenantData) => a.name.localeCompare(b.name),
+      sorter: (a: TenantData, b: TenantData) => a.name?.localeCompare(b.name),
       width: 150,
       ellipsis: true,
       fixed: "left",

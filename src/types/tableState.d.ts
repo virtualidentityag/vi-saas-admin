@@ -1,6 +1,6 @@
 interface TableState {
-  current: number;
-  sortBy: string | undefined;
-  order: string | undefined;
-  pageSize?: string | undefined;
+    current: number;
+    sortBy: string | undefined;
+    order: string | undefined;
+    pageSize?: string | undefined;
 }

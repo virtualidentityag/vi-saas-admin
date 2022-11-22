@@ -1,13 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import PublicPageLayoutWrapper from "../components/Layout/PublicPageLayoutWrapper";
+import PublicPageLayoutWrapper from '../components/Layout/PublicPageLayoutWrapper';
 
-function Imprint() {
-  return (
-    <PublicPageLayoutWrapper className="login flex-col flex">
-      <div>Impressum</div>
-    </PublicPageLayoutWrapper>
-  );
-}
-
-export default Imprint;
+export const Imprint = () => {
+    return (
+        <PublicPageLayoutWrapper className="login flex-col flex">
+            <div>Impressum</div>
+        </PublicPageLayoutWrapper>
+    );
+};

@@ -5,7 +5,7 @@ import React from 'react';
 
 const { Title } = Typography;
 
-function ListHeader({ count, addHandler }: { count: number; addHandler: () => void }) {
+export const ListHeader = ({ count, addHandler }: { count: number; addHandler: () => void }) => {
     const { t } = useTranslation();
     return (
         <div className="counselorListHeader">
@@ -19,6 +19,4 @@ function ListHeader({ count, addHandler }: { count: number; addHandler: () => vo
             <Button onClick={addHandler} icon={<UserAddOutlined />} />
         </div>
     );
-}
-
-export default ListHeader;
+};

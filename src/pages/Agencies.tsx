@@ -1,11 +1,9 @@
-import AgencyList from "../components/Agency/AgencyList";
+import AgencyList from '../components/Agency/AgencyList';
 
-function Agencies() {
-  return (
-    <div>
-      <AgencyList />
-    </div>
-  );
-}
-
-export default Agencies;
+export const Agencies = () => {
+    return (
+        <div>
+            <AgencyList />
+        </div>
+    );
+};

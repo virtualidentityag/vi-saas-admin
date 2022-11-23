@@ -1,8 +1,5 @@
-import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
-import {
-  consultantsForAgencyEndpoint,
-  consultantsHasAgencyEndpoint,
-} from "../../appConfig";
+import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
+import { consultantsForAgencyEndpoint, consultantsHasAgencyEndpoint } from '../../appConfig';
 
 /**
  * has agency consultants
@@ -10,14 +7,14 @@ import {
  * @return boolean
  */
 export const hasAgencyConsultants = (agencyId: string) => {
-  return fetchData({
-    url: consultantsHasAgencyEndpoint(agencyId),
-    method: FETCH_METHODS.GET,
-    skipAuth: false,
-    responseHandling: [FETCH_ERRORS.CATCH_ALL],
-  }).then((data) => {
-    return data.total > 0;
-  });
+    return fetchData({
+        url: consultantsHasAgencyEndpoint(agencyId),
+        method: FETCH_METHODS.GET,
+        skipAuth: false,
+        responseHandling: [FETCH_ERRORS.CATCH_ALL],
+    }).then((data) => {
+        return data.total > 0;
+    });
 };
 
 /**
@@ -26,12 +23,12 @@ export const hasAgencyConsultants = (agencyId: string) => {
  * @return boolean
  */
 export const getAgencyConsultants = (agencyId: string) => {
-  return fetchData({
-    url: consultantsForAgencyEndpoint(agencyId),
-    method: FETCH_METHODS.GET,
-    skipAuth: false,
-    responseHandling: [FETCH_ERRORS.CATCH_ALL],
-  }).then((data) => {
-    return data;
-  });
+    return fetchData({
+        url: consultantsForAgencyEndpoint(agencyId),
+        method: FETCH_METHODS.GET,
+        skipAuth: false,
+        responseHandling: [FETCH_ERRORS.CATCH_ALL],
+    }).then((data) => {
+        return data;
+    });
 };

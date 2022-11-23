@@ -1,9 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import { Statistic as StatisticContent } from "../components/Statistic/Statistic";
+import { Statistic as StatisticContent } from '../components/Statistic/Statistic';
 
-function Statistic() {
-  return <StatisticContent />;
-}
-
-export default Statistic;
+export const Statistic = () => {
+    return <StatisticContent />;
+};

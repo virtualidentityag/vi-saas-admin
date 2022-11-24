@@ -13,7 +13,8 @@ function buildAgencyDataRequestBody(
 
   return JSON.stringify({
     // diocese in case of SAAS is not relevant object but enforced by API
-    dioceseId: 0,
+    dioceseId:
+      formData.dioceseId !== null ? parseInt(formData.dioceseId, 10) : 0,
     name: formData.name,
     description: formData.description ? formData.description : "",
     topicIds,

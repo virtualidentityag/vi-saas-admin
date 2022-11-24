@@ -18,6 +18,7 @@ import routePathNames from "../../appConfig";
 import { convertToOptions } from "../../utils/convertToOptions";
 import getTopicByTenantData from "../../api/topic/getTopicByTenantData";
 import getConsultingTypes from "../../api/consultingtype/getConsultingTypes";
+import { getDiocesesData } from "../../api/agency/getDiocesesData";
 
 const { Paragraph } = Typography;
 const { Item } = Form;
@@ -39,6 +40,7 @@ export default function AgencieAddGeneral() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const footerElement = document.querySelector("footer");
   const [consultingTypes, setConsultingTypes] = useState([]);
+  const [diocesesData, setDiocesesData] = useState([]);
 
   const elementPXSeen = (element: HTMLElement) => {
     const viewportHeight = window?.innerHeight;
@@ -121,9 +123,8 @@ export default function AgencieAddGeneral() {
     window.addEventListener("scroll", handleResize, { passive: true });
     window.addEventListener("resize", handleResize, { passive: true });
     if (isEnabled(FeatureFlag.ConsultingTypesForAgencies)) {
-      getConsultingTypes().then((cTypes) => {
-        setConsultingTypes(cTypes);
-      });
+      getConsultingTypes().then((cTypes) => setConsultingTypes(cTypes));
+      getDiocesesData().then((dioceses) => setDiocesesData(dioceses));
     }
     return () => {
       window.removeEventListener("scroll", handleResize);
@@ -285,10 +286,23 @@ export default function AgencieAddGeneral() {
                   </Item>
                 )}
                 {isEnabled(FeatureFlag.ConsultingTypesForAgencies) &&
+                  diocesesData?.length > 0 && (
+                    <Item name="dioceseId">
+                      <SelectFormField
+                        label="diocese.title"
+                        name="dioceseId"
+                        loading={isLoading}
+                        allowClear
+                        placeholder="plsSelect"
+                        options={convertToOptions(diocesesData, "name", "id")}
+                      />
+                    </Item>
+                  )}
+                {isEnabled(FeatureFlag.ConsultingTypesForAgencies) &&
                   consultingTypes?.length > 0 && (
                     <Item name="consultingType">
                       <SelectFormField
-                        label="consultingTypes.title"
+                        label="agency"
                         name="consultingType"
                         loading={isLoading}
                         allowClear

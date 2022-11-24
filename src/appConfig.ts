@@ -48,6 +48,7 @@ export const twoFactorAuth = `${mainURL}/service/users/2fa`;
 export const twoFactorAuthApp = `${mainURL}/service/users/2fa/app`;
 export const twoFactorAuthAppEmail = `${mainURL}/service/users/2fa/email`;
 export const userDataEndpoint = `${mainURL}/service/users/data`;
+export const usersConsultantEndpoint = `${mainURL}/service/users/consultants`;
 export const usersConsultantsSearchEndpoint = `${mainURL}/service/users/consultants/search`;
 export const registrationDataEndpoint = `${mainURL}/service/statistics/registration`;
 export const XHRheader = { AcceptLanguage: 'de' };
@@ -59,9 +60,7 @@ const routePathNames = {
     root: '/admin',
     login: '/admin/login',
     themeSettings: '/admin/theme-settings',
-    counselors: '/admin/counselor/',
-    counselorProfileEdit: '/admin/counselor/edit/',
-    counselorProfileAdd: '/admin/counselor/add/',
+    consultants: '/admin/users/consultants',
     agency: '/admin/agency/',
     agencyEdit: '/admin/agency/edit',
     agencyEditGeneral: '/admin/agency/edit/:id/general',

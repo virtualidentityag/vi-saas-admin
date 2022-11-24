@@ -43,7 +43,7 @@ const CounselorList = () => {
         current: 1,
         sortBy: DEFAULT_SORT,
         order: DEFAULT_ORDER,
-        pageSize: '10',
+        pageSize: 10,
     });
 
     const [isLoading, setIsLoading] = useState(true);

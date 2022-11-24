@@ -44,7 +44,7 @@ export const Login = () => {
                 (settings.mainTenantSubdomainForSingleDomainMultitenancy && hasRole(UserRole.TenantAdmin)) ||
                 !settings.mainTenantSubdomainForSingleDomainMultitenancy
                     ? routePathNames.themeSettings
-                    : routePathNames.counselors;
+                    : routePathNames.consultants;
             setRedirectUrl(redirectPath);
         }
     }, [accessToken, accessTokenValidInMs, refreshTokenValidInMs, tenantData, t, hasRole(UserRole.TenantAdmin)]);

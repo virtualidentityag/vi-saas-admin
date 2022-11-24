@@ -31,7 +31,7 @@ export const NavIcon = ({ path }: Props) => {
     switch (path) {
         case routePathNames.themeSettings:
             return currentlySelected ? <Settings {...props} /> : <SettingsOutlined {...props} />;
-        case routePathNames.counselors:
+        case routePathNames.consultants:
             return currentlySelected ? <ManageAccounts {...props} /> : <ManageAccountsOutlined {...props} />;
         case routePathNames.agency:
         case routePathNames.agencyAdd:

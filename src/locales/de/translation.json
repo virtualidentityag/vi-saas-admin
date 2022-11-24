@@ -189,6 +189,7 @@
     "agency.edit.initialMeeting.modal_delete_consultation_type.btn.ok.uppercase": "Löschen",
     "agency.postcode.minimum": "Die Postleitzahl muss aus 5 Zahlen bestehen.",
     "agency.postcode.empty": "Bitte geben Sie eine Postleitzahl",
+    "users.title": "Nutzer",
     "counselor.new.help": "Sie können nur so viele Berater hinzufügen, wie in Ihrem Vertrag vereinbart sind! In Ihrem Vertrag sind derzeit {{number}} Berater möglich.",
     "counselor.username": "Benutzername",
     "counselor.title": "Berater",

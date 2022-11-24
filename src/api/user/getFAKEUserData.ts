@@ -1,4 +1,4 @@
-import { CancelTokenSource } from "axios";
+import { CancelTokenSource } from 'axios';
 
 /**
  * FAKE all needed user data and store them
@@ -7,23 +7,23 @@ import { CancelTokenSource } from "axios";
  * @param cancelTokenSource {CancelTokenSource}
  */
 const getFAKEUserData = (cancelTokenSource: CancelTokenSource) => {
-  // retrieve customer
-  console.log("getFAKEUserData");
+    // retrieve customer
+    console.log('getFAKEUserData');
 
-  const customerResponse = {
-    firstname: "John",
-    id: 1,
-    tenantId: 10,
-    lastname: "Doe",
-    email: "js@mail.com",
-    gender: "male",
-    salutation: "Herr",
-    phone: "01775593259",
-  };
+    const customerResponse = {
+        firstname: 'John',
+        id: 1,
+        tenantId: 10,
+        lastname: 'Doe',
+        email: 'js@mail.com',
+        gender: 'male',
+        salutation: 'Herr',
+        phone: '01775593259',
+    };
 
-  // eslint-disable-next-line no-console
-  console.log("4 FAKE UserDta", customerResponse, cancelTokenSource);
-  return customerResponse;
+    // eslint-disable-next-line no-console
+    console.log('4 FAKE UserDta', customerResponse, cancelTokenSource);
+    return customerResponse;
 };
 
 export default getFAKEUserData;

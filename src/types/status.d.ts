@@ -1,8 +1,1 @@
-export type Status =
-  | "IN_PROGRESS"
-  | "CREATED"
-  | "ERROR"
-  | "IN_DELETION"
-  | "ACTIVE"
-  | "INACTIVE"
-  | "null";
+export type Status = 'IN_PROGRESS' | 'CREATED' | 'ERROR' | 'IN_DELETION' | 'ACTIVE' | 'INACTIVE' | 'null';

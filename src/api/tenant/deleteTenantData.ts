@@ -1,6 +1,6 @@
-import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
-import { tenantEndpoint } from "../../appConfig";
-import { BasicTenantData } from "../../types/tenant";
+import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
+import { tenantEndpoint } from '../../appConfig';
+import { BasicTenantData } from '../../types/tenant';
 
 /**
  * delete counselor
@@ -8,16 +8,16 @@ import { BasicTenantData } from "../../types/tenant";
  * @return data
  */
 const deleteTenantData = (tenantData: BasicTenantData) => {
-  const { id } = tenantData;
+    const { id } = tenantData;
 
-  const tenant = fetchData({
-    url: `${tenantEndpoint}/${id}`,
-    method: FETCH_METHODS.DELETE,
-    skipAuth: false,
-    responseHandling: [FETCH_ERRORS.CATCH_ALL],
-  });
+    const tenant = fetchData({
+        url: `${tenantEndpoint}/${id}`,
+        method: FETCH_METHODS.DELETE,
+        skipAuth: false,
+        responseHandling: [FETCH_ERRORS.CATCH_ALL],
+    });
 
-  return tenant;
+    return tenant;
 };
 
 export default deleteTenantData;

@@ -1,13 +1,13 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 type BoxProps = {
-  children: ReactNode;
+    children: ReactNode;
 };
 
-export function Box({ children }: BoxProps) {
-  return (
-    <div className="box">
-      <div className="box__content">{children}</div>
-    </div>
-  );
-}
+export const Box = ({ children }: BoxProps) => {
+    return (
+        <div className="box">
+            <div className="box__content">{children}</div>
+        </div>
+    );
+};

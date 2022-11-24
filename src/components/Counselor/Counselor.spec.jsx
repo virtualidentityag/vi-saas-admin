@@ -1,8 +1,8 @@
-import * as React from "react";
-import { mount } from "@cypress/react";
-import Counselor from "./Counselor";
+import * as React from 'react';
+import { mount } from '@cypress/react';
+import Counselor from './Counselor';
 
-it("Counselor", () => {
-  mount(<Counselor />);
-  cy.get("form").contains("phone").click();
+it('Counselor', () => {
+    mount(<Counselor />);
+    cy.get('form').contains('phone').click();
 });

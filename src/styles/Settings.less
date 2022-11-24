@@ -1,4 +1,4 @@
-@import "./Fonts.less";
+@import './Fonts.less';
 
 // FONTS
 @font-family-sans-serif: Nunito;
@@ -105,12 +105,12 @@
 // CHANGE BREAKPOINTS TO LESS WORKAROUNDS
 
 @breakpoints: {
-  xs: null;
-  s: @fromSmall;
-  m: @fromMedium;
-  l: @fromLarge;
-  xl: @fromXLarge;
-  xxl: @fromXXLarge;
+    xs: null;
+    s: @fromSmall;
+    m: @fromMedium;
+    l: @fromLarge;
+    xl: @fromXLarge;
+    xxl: @fromXXLarge;
 };
 
 //biotope breakpoints
@@ -250,24 +250,24 @@
 
 // Mixins
 .rounded-drop-shadow () {
-  border-radius: 4px;
-  box-shadow: 0 3px 0 1px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    box-shadow: 0 3px 0 1px rgba(0, 0, 0, 0.1);
 }
 
 .bp-min(@min) {
-  @media only screen and (min-width: @min) {
-    .bp-min(@min, set);
-  }
+    @media only screen and (min-width: @min) {
+        .bp-min(@min, set);
+    }
 }
 
 .no-sticky-cell-left () {
-  position: relative !important;
-  left: auto !important;
-  overflow: hidden;
+    position: relative !important;
+    left: auto !important;
+    overflow: hidden;
 }
 
 .no-sticky-cell-right () {
-  position: relative !important;
-  right: auto !important;
-  overflow: hidden;
+    position: relative !important;
+    right: auto !important;
+    overflow: hidden;
 }

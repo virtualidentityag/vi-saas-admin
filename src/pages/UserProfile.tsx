@@ -1,12 +1,10 @@
-import React from "react";
-import Profile from "../components/Profile/Profile";
+import React from 'react';
+import Profile from '../components/Profile/Profile';
 
-function UserProfile() {
-  return (
-    <div>
-      <Profile />
-    </div>
-  );
-}
-
-export default UserProfile;
+export const UserProfile = () => {
+    return (
+        <div>
+            <Profile />
+        </div>
+    );
+};

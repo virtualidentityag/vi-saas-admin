@@ -1,38 +1,33 @@
-import { Dispatch, SetStateAction } from "react";
-import { CounselorData } from "./counselor";
-import { BasicTenantData } from "./tenant";
-import { BasicTopicData } from "./topic";
-import { AgencyData } from "./agency";
+import { Dispatch, SetStateAction } from 'react';
+import { CounselorData } from './counselor';
+import { BasicTenantData } from './tenant';
+import { BasicTopicData } from './topic';
+import { AgencyData } from './agency';
 
-export type EditableData =
-  | CounselorData
-  | BasicTenantData
-  | BasicTopicData
-  | AgencyData
-  | undefined;
+export type EditableData = CounselorData | BasicTenantData | BasicTopicData | AgencyData | undefined;
 
 export default interface EditableTableProps {
-  handleBtnAdd: (formData: any) => void;
-  isLoading: boolean;
-  source: any[];
-  columns: any[];
-  isDeleteModalVisible: boolean;
-  handleOnDelete: (formData: any) => void;
-  handleDeleteModalCancel: (formData: any) => void;
-  handleDeleteModalTitle: string;
-  handleDeleteModalText: string;
-  handlePagination: Dispatch<SetStateAction<number>>;
-  page: number;
-  allowedNumberOfUsers: number | false;
-  hasSearch?: boolean;
-  handleOnSearch?: (query: string) => void;
-  handleOnSearchClear?: () => void;
+    handleBtnAdd: (formData: any) => void;
+    isLoading: boolean;
+    source: any[];
+    columns: any[];
+    isDeleteModalVisible: boolean;
+    handleOnDelete: (formData: any) => void;
+    handleDeleteModalCancel: (formData: any) => void;
+    handleDeleteModalTitle: string;
+    handleDeleteModalText: string;
+    handlePagination: Dispatch<SetStateAction<number>>;
+    page: number;
+    allowedNumberOfUsers: number | false;
+    hasSearch?: boolean;
+    handleOnSearch?: (query: string) => void;
+    handleOnSearchClear?: () => void;
 }
 
 export interface EditButtonsProps extends React.HTMLAttributes<HTMLElement> {
-  handleEdit: (formData: EditableData) => void;
-  handleDelete: (formData: EditableData) => void;
-  record: CounselorData | AgencyData | BasicTenantData | BasicTopicData;
-  isDisabled?: boolean;
-  hide?: string[];
+    handleEdit: (formData: EditableData) => void;
+    handleDelete: (formData: EditableData) => void;
+    record: CounselorData | AgencyData | BasicTenantData | BasicTopicData;
+    isDisabled?: boolean;
+    hide?: string[];
 }

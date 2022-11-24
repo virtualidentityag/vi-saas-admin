@@ -1,102 +1,102 @@
 .protectedLayout,
 .ant-modal-root {
-  .ant-form-item-label {
-    padding: 0;
+    .ant-form-item-label {
+        padding: 0;
 
-    > label {
-      display: flex;
-      height: @form-item-label-height;
-      flex-direction: row-reverse;
-      align-items: flex-start;
-      justify-content: flex-end;
+        > label {
+            display: flex;
+            height: @form-item-label-height;
+            flex-direction: row-reverse;
+            align-items: flex-start;
+            justify-content: flex-end;
 
-      &.ant-form-item-required:not(.ant-form-item-required-mark-optional) {
-        &:before {
-          margin: 0 0 0 @spacing-xs;
-          color: @black-60-opacity;
+            &.ant-form-item-required:not(.ant-form-item-required-mark-optional) {
+                &:before {
+                    margin: 0 0 0 @spacing-xs;
+                    color: @black-60-opacity;
+                }
+            }
+
+            .anticon {
+                width: 24px;
+                height: 24px;
+                margin-left: auto;
+
+                svg {
+                    width: inherit;
+                    height: inherit;
+                }
+            }
         }
-      }
+    }
 
-      .anticon {
-        width: 24px;
-        height: 24px;
-        margin-left: auto;
+    input.ant-input {
+        padding: @spacing-xs 0;
+        border: none;
+        border-bottom: 1px solid @input-border-color;
+        border-radius: 0;
+    }
 
-        svg {
-          width: inherit;
-          height: inherit;
+    .desc {
+        color: @label-color;
+        font-size: @fontSize-sm;
+
+        &__toggleText {
+            margin-left: 10px;
+            color: @label-color;
         }
-      }
     }
-  }
-
-  input.ant-input {
-    padding: @spacing-xs 0;
-    border: none;
-    border-bottom: 1px solid @input-border-color;
-    border-radius: 0;
-  }
-
-  .desc {
-    color: @label-color;
-    font-size: @fontSize-sm;
-
-    &__toggleText {
-      margin-left: 10px;
-      color: @label-color;
-    }
-  }
 }
 
 .publicContent,
 .protectedLayout,
 .ant-modal-root {
-  button:not(.ant-btn-link) {
-    font-weight: 700;
-    text-transform: uppercase;
-  }
+    button:not(.ant-btn-link) {
+        font-weight: 700;
+        text-transform: uppercase;
+    }
 }
 
 .ant-btn-primary {
-  &:hover,
-  &:focus {
-    background-color: @primary-color-light;
-  }
+    &:hover,
+    &:focus {
+        background-color: @primary-color-light;
+    }
 
-  &:active {
-    background-color: @primary-color-dark;
-    color: @white-50-opacity;
-  }
+    &:active {
+        background-color: @primary-color-dark;
+        color: @white-50-opacity;
+    }
 
-  &:disabled {
-    background-color: @primary-color;
-    color: @white;
-    opacity: 0.3;
-  }
+    &:disabled {
+        background-color: @primary-color;
+        color: @white;
+        opacity: 0.3;
+    }
 }
 
 .ant-switch-checked {
-  background-color: rgb(13 205 33);
+    background-color: rgb(13 205 33);
 }
 
 .requiredFieldsInfo {
-  color: @black-60-opacity;
-  font-weight: @font-weight-regular;
+    color: @black-60-opacity;
+    font-weight: @font-weight-regular;
 }
 
 .agencies-select .ant-select-selection-placeholder,
 .topics-select .ant-select-selection-placeholder {
-  left: 11px !important;
+    left: 11px !important;
 }
 
 .rc-virtual-list .ant-select-item-option-selected {
-  display: none;
+    display: none;
 }
 
 .sliderFormField .ant-tooltip {
-  z-index: 100;
+    z-index: 100;
 }
 
 .formSwitchField__container {
-  display: flex;
+    display: flex;
 }

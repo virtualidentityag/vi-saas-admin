@@ -1,6 +1,6 @@
-import { CounselorData } from "../../types/counselor";
-import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
-import { counselorEndpoint } from "../../appConfig";
+import { CounselorData } from '../../types/counselor';
+import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
+import { counselorEndpoint } from '../../appConfig';
 
 /**
  * delete counselor
@@ -8,16 +8,16 @@ import { counselorEndpoint } from "../../appConfig";
  * @return data
  */
 const editCounselorData = (counselorData: CounselorData) => {
-  const { id } = counselorData;
+    const { id } = counselorData;
 
-  const counselor = fetchData({
-    url: `${counselorEndpoint}/${id}`,
-    method: FETCH_METHODS.DELETE,
-    skipAuth: false,
-    responseHandling: [FETCH_ERRORS.CATCH_ALL],
-  });
+    const counselor = fetchData({
+        url: `${counselorEndpoint}/${id}`,
+        method: FETCH_METHODS.DELETE,
+        skipAuth: false,
+        responseHandling: [FETCH_ERRORS.CATCH_ALL],
+    });
 
-  return counselor;
+    return counselor;
 };
 
 export default editCounselorData;

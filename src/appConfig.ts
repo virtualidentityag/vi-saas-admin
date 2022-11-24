@@ -24,6 +24,10 @@ export const clusterFeatureFlags = {
   useApiClusterSettings: false, // Feature flag to enable the cluster use the cluster settings instead of the config file
 };
 
+export const featureFlags = {
+  useConsultingTypesForAgencies: true, // Use consulting types for agency creation
+};
+
 export const agencyDataAgencyId = (agencyId: string) =>
   `${mainURL}/service/agencyadmin/agencies/${agencyId}`;
 export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&perPage=100`;

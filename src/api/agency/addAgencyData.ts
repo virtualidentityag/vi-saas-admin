@@ -4,7 +4,7 @@ import updateAgencyPostCodeRange from "./updateAgencyPostCodeRange";
 import getConsultingType4Tenant from "../consultingtype/getConsultingType4Tenant";
 
 function buildAgencyDataRequestBody(
-  consultingTypeResponseId: string,
+  consultingTypeResponseId: string | number,
   formData: Record<string, any>
 ) {
   const topicIds = formData.topicIds
@@ -51,7 +51,11 @@ async function createAgency(agencyDataRequestBody: string) {
  * @return data
  */
 async function addAgencyData(agencyData: Record<string, any>) {
-  const consultingTypeId = await getConsultingType4Tenant();
+  const consultingTypeId =
+    agencyData.consultingType !== null
+      ? parseInt(agencyData.consultingType, 10)
+      : await getConsultingType4Tenant();
+
   const agencyDataRequestBody = buildAgencyDataRequestBody(
     consultingTypeId,
     agencyData

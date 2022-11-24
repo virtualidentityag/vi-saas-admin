@@ -1,5 +1,18 @@
 import { Option } from "../components/SelectFormField";
 
+const getValue = (data, key) => {
+  const nestedKeys = typeof key === "string" && key.split(".");
+
+  if (nestedKeys.length > 0) {
+    let value = data;
+    nestedKeys.forEach((nestedKey) => {
+      value = value[nestedKey];
+    });
+    return value;
+  }
+  return data[key];
+};
+
 export const convertToOptions = <T>(
   data: T[],
   labelKey: keyof T | Array<keyof T>,
@@ -17,11 +30,12 @@ export const convertToOptions = <T>(
     finalData?.map((d) => {
       const label =
         labelKey instanceof Array
-          ? labelKey.map((key) => d[key]).join(" ")
-          : d[labelKey];
+          ? labelKey.map((key) => getValue(d, key)).join(" ")
+          : getValue(d, labelKey);
+
       return {
         label,
-        value: d[valueKey]?.toString() as unknown,
+        value: getValue(d, valueKey)?.toString() as unknown,
       } as Option;
     }) || []
   );

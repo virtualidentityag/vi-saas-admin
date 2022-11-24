@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { clusterFeatureFlags } from "../appConfig";
+import { clusterFeatureFlags, featureFlags } from "../appConfig";
 import { AppConfigInterface } from "../types/AppConfigInterface";
 import { ServerAppConfigInterface } from "../types/ServerAppConfigInterface";
 
@@ -24,6 +24,7 @@ function UseAppConfigProvider({
 }) {
   const state = React.useState<AppConfigInterface>({
     useApiClusterSettings: clusterFeatureFlags.useApiClusterSettings,
+    useConsultingTypesForAgencies: featureFlags.useConsultingTypesForAgencies,
   });
   return (
     <UseAppConfigContext.Provider value={state}>

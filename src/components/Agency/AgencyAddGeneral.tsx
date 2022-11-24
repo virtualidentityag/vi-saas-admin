@@ -17,6 +17,7 @@ import pubsub, { PubSubEvents } from "../../state/pubsub/PubSub";
 import routePathNames from "../../appConfig";
 import { convertToOptions } from "../../utils/convertToOptions";
 import getTopicByTenantData from "../../api/topic/getTopicByTenantData";
+import getConsultingTypes from "../../api/consultingtype/getConsultingTypes";
 
 const { Paragraph } = Typography;
 const { Item } = Form;
@@ -37,6 +38,7 @@ export default function AgencieAddGeneral() {
   const [allTopics, setAllTopics] = useState<Record<string, any>[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const footerElement = document.querySelector("footer");
+  const [consultingTypes, setConsultingTypes] = useState([]);
 
   const elementPXSeen = (element: HTMLElement) => {
     const viewportHeight = window?.innerHeight;
@@ -118,6 +120,11 @@ export default function AgencieAddGeneral() {
     handleResize();
     window.addEventListener("scroll", handleResize, { passive: true });
     window.addEventListener("resize", handleResize, { passive: true });
+    if (isEnabled(FeatureFlag.ConsultingTypesForAgencies)) {
+      getConsultingTypes().then((cTypes) => {
+        setConsultingTypes(cTypes);
+      });
+    }
     return () => {
       window.removeEventListener("scroll", handleResize);
       window.removeEventListener("resize", handleResize);
@@ -277,6 +284,23 @@ export default function AgencieAddGeneral() {
                     />
                   </Item>
                 )}
+                {isEnabled(FeatureFlag.ConsultingTypesForAgencies) &&
+                  consultingTypes?.length > 0 && (
+                    <Item name="consultingType">
+                      <SelectFormField
+                        label="consultingTypes.title"
+                        name="consultingType"
+                        loading={isLoading}
+                        allowClear
+                        placeholder="plsSelect"
+                        options={convertToOptions(
+                          consultingTypes,
+                          "titles.default",
+                          "id"
+                        )}
+                      />
+                    </Item>
+                  )}
                 <Row gutter={[20, 10]}>
                   <Col xs={12} lg={6}>
                     <Item

@@ -17,12 +17,14 @@ import { Status } from '../../../../../types/status';
 import { decodeUsername } from '../../../../../utils/encryptionHelpers';
 import { ResizeTable } from '../../../../../components/ResizableTable';
 import { DEFAULT_ORDER, DEFAULT_SORT } from '../../../../../api/counselor/getCounselorSearchData';
+import { DeleteUserModal } from '../DeleteUser';
 
 export const UsersTableData = () => {
     const navigate = useNavigate();
     const { typeOfUsers } = useParams();
 
     const { t } = useTranslation();
+    const [deleteUserId, setDeleteUserId] = useState<string>(null);
     const [openRows, setOpenedRows] = useState([]);
     const [search, setSearch] = useState('');
 
@@ -37,12 +39,21 @@ export const UsersTableData = () => {
         licensing: { allowedNumberOfUsers },
     } = tenantData;
 
-    const { data: responseList, isLoading } = useConsultantsData({
+    const {
+        data: responseList,
+        isLoading,
+        refetch,
+    } = useConsultantsData({
         search,
         ...tableState,
     });
 
     const setSearchDebounced = useDebouncedCallback(setSearch, 100);
+
+    const onClose = useCallback(() => {
+        setDeleteUserId(null);
+        refetch();
+    }, []);
 
     const handleTableAction = useCallback((pagination: TablePaginationConfig, _: any, sorter: any) => {
         const { current, pageSize } = pagination;
@@ -166,8 +177,8 @@ export const UsersTableData = () => {
                 return (
                     <div className="tableActionWrapper">
                         <EditButtons
-                            handleEdit={() => navigate(`/admin/users/${typeOfUsers}/${record.email}`)}
-                            handleDelete={() => null}
+                            handleEdit={() => navigate(`/admin/users/${typeOfUsers}/${record.id}`)}
+                            handleDelete={() => setDeleteUserId(record.id)}
                             record={record}
                             isDisabled={record.status === 'IN_DELETION'}
                         />
@@ -211,6 +222,7 @@ export const UsersTableData = () => {
                 pagination={pagination}
                 onChange={handleTableAction}
             />
+            {deleteUserId && <DeleteUserModal deleteUserId={deleteUserId} onClose={onClose} />}
         </div>
     );
 };

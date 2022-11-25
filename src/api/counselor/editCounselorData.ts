@@ -11,9 +11,8 @@ import putAgenciesForCounselor from '../agency/putAgenciesForCounselor';
  * @param formData - input data from form
  * @return data
  */
-const editCounselorData = async (counselorData: CounselorData, formData: CounselorData) => {
-    const { firstname, lastname, formalLanguage, email, absent, username, absenceMessage, id, twoFactorAuth } =
-        formData;
+export const editCounselorData = async (id: string, formData: CounselorData): Promise<CounselorData> => {
+    const { firstname, lastname, formalLanguage, email, absent, username, absenceMessage, twoFactorAuth } = formData;
 
     // just use needed data from whole form data
     const strippedCounselor = {
@@ -27,18 +26,26 @@ const editCounselorData = async (counselorData: CounselorData, formData: Counsel
         twoFactorAuth,
     };
 
-    if (counselorData.agencies.length > 0 && formData.agencies.length > 0) {
+    if (formData.agencies.length > 0) {
         const ids = ((formData.agencies as LabeledValue[])?.map(({ value }) => value) || []) as string[];
-        await putAgenciesForCounselor(counselorData.id, ids);
+        await putAgenciesForCounselor(id, ids);
     }
 
-    return fetchData({
-        url: `${counselorEndpoint}/${id}`,
-        method: FETCH_METHODS.PUT,
-        skipAuth: false,
-        responseHandling: [FETCH_ERRORS.CATCH_ALL],
-        bodyData: JSON.stringify(strippedCounselor),
-    });
+    return (
+        fetchData({
+            url: `${counselorEndpoint}/${id}`,
+            method: FETCH_METHODS.PUT,
+            skipAuth: false,
+            responseHandling: [FETCH_ERRORS.CATCH_ALL],
+            bodyData: JSON.stringify(strippedCounselor),
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.json();
+                }
+                return response.json();
+            })
+            // eslint-disable-next-line no-underscore-dangle
+            .then((data: { _embedded: CounselorData }) => data?._embedded)
+    );
 };
-
-export default editCounselorData;

@@ -83,7 +83,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                             to={routePathNames.consultants}
                                             className={({ isActive }) => (isActive ? 'active' : '')}
                                         >
-                                            <NavIcon path={routePathNames.consultants} />
+                                            <NavIcon path="/admin/users" />
                                             <span>{t('users.title')}</span>
                                         </NavLink>
                                     </li>

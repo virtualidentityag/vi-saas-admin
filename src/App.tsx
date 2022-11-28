@@ -5,7 +5,6 @@ import ProtectedPageLayoutWrapper from './components/Layout/ProtectedPageLayoutW
 import routePathNames from './appConfig';
 // import Dashboard from "./pages/Dashboard";
 import { TenantSettings } from './pages/TenantSettings';
-import { Counselors } from './pages/Counselors';
 import { Topics } from './pages/Topics';
 import { Statistic } from './pages/Statistic';
 import { UserProfile } from './pages/UserProfile';
@@ -19,6 +18,8 @@ import { AgencyAdd } from './pages/AgencyAdd';
 import { useAppConfigContext } from './context/useAppConfig';
 import { useUserRoles } from './hooks/useUserRoles.hook';
 import { UserRole } from './enums/UserRole';
+import { UsersList } from './pages/users/List';
+import { UserEditOrAdd } from './pages/users/Edit';
 
 export const App = () => {
     const { settings } = useAppConfigContext();
@@ -33,7 +34,7 @@ export const App = () => {
                 (settings.mainTenantSubdomainForSingleDomainMultitenancy && hasRole(UserRole.TenantAdmin)) ||
                 !settings.mainTenantSubdomainForSingleDomainMultitenancy
                     ? routePathNames.themeSettings
-                    : routePathNames.counselors;
+                    : routePathNames.consultants;
             navigate(redirectPath);
         }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -46,7 +47,6 @@ export const App = () => {
                 <Routes>
                     {/* later <Route path="/" element={<Dashboard />} /> */}
                     <Route path={routePathNames.themeSettings} element={<TenantSettings />} />
-                    <Route path={routePathNames.counselors} element={<Counselors />} />
                     <Route path={routePathNames.agency} element={<Agencies />} />
                     <Route path={`${routePathNames.agencyEdit}/*`} element={<AgencyPageEdit />} />
                     <Route path={`${routePathNames.agencyAdd}/*`} element={<AgencyAdd />} />
@@ -54,6 +54,8 @@ export const App = () => {
                     <Route path={routePathNames.statistic} element={<Statistic />} />
                     <Route path={routePathNames.userProfile} element={<UserProfile />} />
                     <Route path={routePathNames.tenants} element={<Tenants />} />
+                    <Route path="/admin/users/:typeOfUsers" element={<UsersList />} />
+                    <Route path="/admin/users/:typeOfUsers/:id" element={<UserEditOrAdd />} />
                 </Routes>
             </ProtectedPageLayoutWrapper>
         </FeatureProvider>

@@ -15,12 +15,22 @@ interface CardEditableProps {
         | React.ReactElement[]
         | ((form: FormInstance<any>) => React.ReactElement | React.ReactElement[]);
     onSave: <T>(formData: T) => void;
+    formProp?: FormInstance;
+    onAddMode?: boolean;
 }
 
-export const CardEditable = ({ isLoading, initialValues, titleKey, children, onSave }: CardEditableProps) => {
-    const [form] = Form.useForm();
+export const CardEditable = ({
+    isLoading,
+    initialValues,
+    titleKey,
+    children,
+    onAddMode,
+    onSave,
+    formProp,
+}: CardEditableProps) => {
+    const [form] = Form.useForm(formProp);
     const { t } = useTranslation();
-    const [editing, setEditing] = useState(false);
+    const [editing, setEditing] = useState(onAddMode);
     const cancelEditButton: ButtonItem = {
         label: t('agency.edit.general.general_information.cancel'),
         type: BUTTON_TYPES.LINK,
@@ -44,7 +54,7 @@ export const CardEditable = ({ isLoading, initialValues, titleKey, children, onS
                 <Title className="formHeadline mb-m" level={4}>
                     {t(titleKey)}
                 </Title>
-                <Pencil className="agencyEdit__pointer" onClick={() => setEditing(true)} />
+                {!onAddMode && <Pencil className="agencyEdit__pointer" onClick={() => setEditing(true)} />}
             </div>
             {isLoading && <Spin />}
             {!isLoading && (
@@ -64,7 +74,7 @@ export const CardEditable = ({ isLoading, initialValues, titleKey, children, onS
                 </div>
             )}
 
-            {editing && (
+            {editing && !onAddMode && (
                 <div className="agencyEdit__editableButtons">
                     <Button
                         item={cancelEditButton}

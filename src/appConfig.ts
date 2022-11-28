@@ -36,6 +36,7 @@ export const consultantsForAgencyEventTypesNew = (agencyId: string) =>
     `${mainURL}/service/appointservice/agencies/${agencyId}/eventTypes`;
 export const consultingTypeEndpoint = `${mainURL}/service/consultingtypes`;
 export const counselorEndpoint = `${mainURL}/service/useradmin/consultants`;
+export const adminEndpoint = `${mainURL}/service/useradmin/agencyadmins`;
 export const eventTypeById = `${mainURL}/eventTypes/{eventTypeId}`;
 export const loginEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/token`;
 export const logoutEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/logout`;
@@ -48,7 +49,9 @@ export const twoFactorAuth = `${mainURL}/service/users/2fa`;
 export const twoFactorAuthApp = `${mainURL}/service/users/2fa/app`;
 export const twoFactorAuthAppEmail = `${mainURL}/service/users/2fa/email`;
 export const userDataEndpoint = `${mainURL}/service/users/data`;
+export const usersConsultantEndpoint = `${mainURL}/service/users/consultants`;
 export const usersConsultantsSearchEndpoint = `${mainURL}/service/users/consultants/search`;
+export const adminsSearchEndpoint = `${mainURL}/service/useradmin/agencyadmins`;
 export const registrationDataEndpoint = `${mainURL}/service/statistics/registration`;
 export const XHRheader = { AcceptLanguage: 'de' };
 
@@ -59,9 +62,7 @@ const routePathNames = {
     root: '/admin',
     login: '/admin/login',
     themeSettings: '/admin/theme-settings',
-    counselors: '/admin/counselor/',
-    counselorProfileEdit: '/admin/counselor/edit/',
-    counselorProfileAdd: '/admin/counselor/add/',
+    consultants: '/admin/users/consultants',
     agency: '/admin/agency/',
     agencyEdit: '/admin/agency/edit',
     agencyEditGeneral: '/admin/agency/edit/:id/general',

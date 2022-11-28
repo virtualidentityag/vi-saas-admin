@@ -55,9 +55,9 @@ export const SelectFormField = ({
                 mode={isMulti ? 'multiple' : undefined}
                 placeholder={placeholder ? t(placeholder) : undefined}
                 optionFilterProp="children"
-                filterOption={(input, option) => option.value?.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                filterOption={(input, option) => option.label?.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 filterSort={(optionA, optionB) =>
-                    optionA.value?.toLowerCase().localeCompare(optionB.value?.toLowerCase())
+                    optionA.label?.toLowerCase().localeCompare(optionB.label?.toLowerCase())
                 }
                 options={options}
             />

@@ -80,11 +80,11 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 <>
                                     <li key="counselors" className="menuItem">
                                         <NavLink
-                                            to={routePathNames.counselors}
+                                            to={routePathNames.consultants}
                                             className={({ isActive }) => (isActive ? 'active' : '')}
                                         >
-                                            <NavIcon path={routePathNames.counselors} />
-                                            <span>{t('counselor.title')}</span>
+                                            <NavIcon path="/admin/users" />
+                                            <span>{t('users.title')}</span>
                                         </NavLink>
                                     </li>
                                     <li key="agencies" className="menuItem">

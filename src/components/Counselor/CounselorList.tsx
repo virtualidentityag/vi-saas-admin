@@ -5,9 +5,9 @@ import Title from 'antd/es/typography/Title';
 import { message, Modal, Table } from 'antd';
 import getCounselorSearchData, { DEFAULT_ORDER, DEFAULT_SORT } from '../../api/counselor/getCounselorSearchData';
 import { CounselorData } from '../../types/counselor';
-import addCouselorData from '../../api/counselor/addCounselorData';
-import editCouselorData from '../../api/counselor/editCounselorData';
-import deleteCounselorData from '../../api/counselor/deleteCounselorData';
+import { addCounselorData } from '../../api/counselor/addCounselorData';
+import { editCounselorData } from '../../api/counselor/editCounselorData';
+import { deleteCounselorData } from '../../api/counselor/deleteCounselorData';
 import Counselor, { defaultCounselor } from './Counselor';
 import ModalForm from '../ModalForm/ModalForm';
 
@@ -20,7 +20,7 @@ import AddButton from '../EditableTable/AddButton';
 import SearchInput from '../SearchInput/SearchInput';
 import CustomChevronDownIcon from '../CustomIcons/ChevronDown';
 import CustomChevronUpIcon from '../CustomIcons/ChevronUp';
-import putAgenciesForCounselor from '../../api/agency/putAgenciesForCounselor';
+import { putAgenciesForCounselor } from '../../api/agency/putAgenciesForCounselor';
 import { useTenantData } from '../../hooks/useTenantData.hook';
 import ResizableTitle from '../Resizable/Resizable';
 
@@ -43,7 +43,7 @@ const CounselorList = () => {
         current: 1,
         sortBy: DEFAULT_SORT,
         order: DEFAULT_ORDER,
-        pageSize: '10',
+        pageSize: 10,
     });
 
     const [isLoading, setIsLoading] = useState(true);
@@ -80,11 +80,11 @@ const CounselorList = () => {
 
     const handleAddCounselor = (formData: Record<string, any>) => {
         setIsLoading(true);
-        addCouselorData(formData)
+        addCounselorData(formData)
             .then((response) =>
                 putAgenciesForCounselor(
                     // eslint-disable-next-line no-underscore-dangle
-                    response?._embedded.id,
+                    response?.id,
                     formData.agencies?.map(({ value }) => value) || [],
                 ),
             )
@@ -108,7 +108,7 @@ const CounselorList = () => {
 
     const handleEditCounselor = (formData: CounselorData, counselorData: CounselorData) => {
         setIsLoading(true);
-        editCouselorData(counselorData, formData)
+        editCounselorData(counselorData.id, formData)
             .then(() => getCounselorSearchData(tableState, searchQuery))
             .then((result: any) => {
                 updateCounselors(result.data);
@@ -127,7 +127,7 @@ const CounselorList = () => {
 
     const handleDeleteCounselor = (formData: CounselorData) => {
         setIsLoading(true);
-        deleteCounselorData(formData)
+        deleteCounselorData(formData.id)
             .then(() => getCounselorSearchData(tableState, searchQuery))
             .then((result: any) => {
                 updateCounselors(result.data);

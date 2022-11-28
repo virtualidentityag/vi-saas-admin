@@ -49,7 +49,7 @@ const AgencyList = () => {
         current: 1,
         sortBy: undefined,
         order: undefined,
-        pageSize: '10',
+        pageSize: 10,
     });
 
     const [isLoading, setIsLoading] = useState(true);

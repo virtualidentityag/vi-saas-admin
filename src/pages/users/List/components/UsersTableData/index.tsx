@@ -9,7 +9,7 @@ import AddButton from '../../../../../components/EditableTable/AddButton';
 import EditButtons from '../../../../../components/EditableTable/EditButtons';
 import StatusIcons from '../../../../../components/EditableTable/StatusIcons';
 import SearchInput from '../../../../../components/SearchInput/SearchInput';
-import { useConsultantsData } from '../../../../../hooks/useConsultantsData';
+import { useConsultantOrAdminsData } from '../../../../../hooks/useConsultantOrAdminsData';
 import { useTenantData } from '../../../../../hooks/useTenantData.hook';
 import { AgencyData } from '../../../../../types/agency';
 import { CounselorData } from '../../../../../types/counselor';
@@ -43,9 +43,10 @@ export const UsersTableData = () => {
         data: responseList,
         isLoading,
         refetch,
-    } = useConsultantsData({
+    } = useConsultantOrAdminsData({
         search,
         ...tableState,
+        typeOfUser: typeOfUsers as 'consultants' | 'admins',
     });
 
     const setSearchDebounced = useDebouncedCallback(setSearch, 100);
@@ -222,7 +223,13 @@ export const UsersTableData = () => {
                 pagination={pagination}
                 onChange={handleTableAction}
             />
-            {deleteUserId && <DeleteUserModal deleteUserId={deleteUserId} onClose={onClose} />}
+            {deleteUserId && (
+                <DeleteUserModal
+                    deleteUserId={deleteUserId}
+                    onClose={onClose}
+                    typeOfUser={typeOfUsers as 'consultants'}
+                />
+            )}
         </div>
     );
 };

@@ -2,6 +2,7 @@ import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
 import { counselorEndpoint } from '../../appConfig';
 import { encodeUsername } from '../../utils/encryptionHelpers';
 import { CounselorData } from '../../types/counselor';
+import { putAgenciesForCounselor } from '../agency/putAgenciesForCounselor';
 
 /**
  * add new counselor
@@ -38,5 +39,10 @@ export const addCounselorData = (counselorData: Record<string, any>): Promise<Co
             })
             // eslint-disable-next-line no-underscore-dangle
             .then((data: { _embedded: CounselorData }) => data?._embedded)
+            .then((data) => {
+                return putAgenciesForCounselor(data?.id, counselorData.agencies?.map(({ value }) => value) || []).then(
+                    () => data,
+                );
+            })
     );
 };

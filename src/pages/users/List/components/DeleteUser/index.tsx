@@ -1,16 +1,18 @@
 import { message, Modal } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import { useTranslation } from 'react-i18next';
-import { useDeleteConsultant } from '../../../../../hooks/useDeleteConsultant';
+import { useDeleteConsultantOrAdmin } from '../../../../../hooks/useDeleteConsultantOrAdmin';
 
 interface DeleteUserModalProps {
+    typeOfUser: 'consultants' | 'admins';
     deleteUserId: string;
     onClose: () => void;
 }
 
-export const DeleteUserModal = ({ deleteUserId, onClose }: DeleteUserModalProps) => {
+export const DeleteUserModal = ({ typeOfUser, deleteUserId, onClose }: DeleteUserModalProps) => {
     const { t } = useTranslation();
-    const { mutate: deleteConsultant } = useDeleteConsultant({
+    const { mutate: deleteConsultant } = useDeleteConsultantOrAdmin({
+        typeOfUser,
         onSuccess: () => {
             message.success({
                 content: t('message.counselor.delete'),

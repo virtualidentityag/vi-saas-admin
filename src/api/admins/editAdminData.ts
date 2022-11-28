@@ -1,41 +1,35 @@
 import { LabeledValue } from 'antd/lib/select';
 import { CounselorData } from '../../types/counselor';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
-import { counselorEndpoint } from '../../appConfig';
+import { adminEndpoint } from '../../appConfig';
 import { encodeUsername } from '../../utils/encryptionHelpers';
-import { putAgenciesForCounselor } from '../agency/putAgenciesForCounselor';
+import { AdminData } from '../../types/admin';
+import { putAgenciesForAdmin } from '../agency/putAgenciesForAdmin';
 
 /**
- * edit counselor
- * @param counselorData - newly fetched consultant data from backend
+ * edit admin
  * @param formData - input data from form
  * @return data
  */
-export const editCounselorData = async (id: string, formData: CounselorData): Promise<CounselorData> => {
-    const { firstname, lastname, formalLanguage, email, absent, username, absenceMessage, twoFactorAuth } = formData;
-
-    // just use needed data from whole form data
-    const strippedCounselor = {
-        firstname,
-        lastname,
-        formalLanguage,
-        email,
-        absent,
-        username: encodeUsername(username),
-        absenceMessage: absent ? absenceMessage : null,
-        twoFactorAuth,
-    };
+export const editAdminData = async (id: string, formData: AdminData): Promise<AdminData> => {
+    const { firstname, lastname, email, username, twoFactorAuth } = formData;
 
     const ids = ((formData.agencies as LabeledValue[])?.map(({ value }) => value) || []) as string[];
-    await putAgenciesForCounselor(id, ids);
+    await putAgenciesForAdmin(id, ids);
 
     return (
         fetchData({
-            url: `${counselorEndpoint}/${id}`,
+            url: `${adminEndpoint}/${id}`,
             method: FETCH_METHODS.PUT,
             skipAuth: false,
             responseHandling: [FETCH_ERRORS.CATCH_ALL],
-            bodyData: JSON.stringify(strippedCounselor),
+            bodyData: JSON.stringify({
+                firstname,
+                lastname,
+                email,
+                username: encodeUsername(username),
+                twoFactorAuth,
+            }),
         })
             .then((response) => {
                 if (response.status === 200) {

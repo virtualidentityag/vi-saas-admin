@@ -20,7 +20,7 @@ import AddButton from '../EditableTable/AddButton';
 import SearchInput from '../SearchInput/SearchInput';
 import CustomChevronDownIcon from '../CustomIcons/ChevronDown';
 import CustomChevronUpIcon from '../CustomIcons/ChevronUp';
-import putAgenciesForCounselor from '../../api/agency/putAgenciesForCounselor';
+import { putAgenciesForCounselor } from '../../api/agency/putAgenciesForCounselor';
 import { useTenantData } from '../../hooks/useTenantData.hook';
 import ResizableTitle from '../Resizable/Resizable';
 

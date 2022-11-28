@@ -12,9 +12,9 @@ import { FormTextAreaField } from '../../../components/FormTextAreaField';
 import { Page } from '../../../components/Page';
 import { SelectFormField } from '../../../components/SelectFormField';
 import { SwitchFormField } from '../../../components/SwitchFormField';
-import { useAddOrUpdateConsultant } from '../../../hooks/useAddOrUpdateConsultant';
+import { useAddOrUpdateConsultantOrAdmin } from '../../../hooks/useAddOrUpdateConsultantOrAdmin';
 import { useAgenciesData } from '../../../hooks/useAgencysData';
-import { useConsultantsData } from '../../../hooks/useConsultantsData';
+import { useConsultantOrAdminsData } from '../../../hooks/useConsultantOrAdminsData';
 import { convertToOptions } from '../../../utils/convertToOptions';
 import { decodeUsername } from '../../../utils/encryptionHelpers';
 
@@ -24,13 +24,17 @@ export const UserEditOrAdd = () => {
     const { t } = useTranslation();
     const { typeOfUsers, id } = useParams();
     // Todo: Temporary solution
-    const { data: consultantsResponse, isLoading: isLoadingConsultants } = useConsultantsData({ pageSize: 10000 });
+    const { data: consultantsResponse, isLoading: isLoadingConsultants } = useConsultantOrAdminsData({
+        pageSize: 10000,
+        typeOfUser: typeOfUsers as 'consultants',
+    });
     const { data: agenciesData, isLoading } = useAgenciesData({ pageSize: 200 });
     const isEditing = id !== 'add';
     const singleData = consultantsResponse?.data.find((c) => c.id === id);
 
-    const { mutate } = useAddOrUpdateConsultant({
+    const { mutate } = useAddOrUpdateConsultantOrAdmin({
         id: isEditing ? id : null,
+        typeOfUser: typeOfUsers as 'consultants',
         onSuccess: (response) => {
             message.success({
                 content: t('message.counselor.update'),
@@ -42,6 +46,7 @@ export const UserEditOrAdd = () => {
 
     const onSave = useCallback((data) => mutate(data), []);
     const onCancel = useCallback(() => navigate(`/admin/users/${typeOfUsers}`), []);
+    const isAbsentEnabled = useWatch('absent', form);
 
     return (
         <Page isLoading={isLoadingConsultants || isLoading}>
@@ -93,12 +98,17 @@ export const UserEditOrAdd = () => {
                     placeholderKey="placeholder.username"
                     required
                 />
-                <Space align="center">
-                    <SwitchFormField label="counselor.formalLanguage" name="formalLanguage" />
-                    {isEditing && <SwitchFormField label="plsSelect" name="absent" />}
-                </Space>
-                {useWatch('absent', form) && (
-                    <FormTextAreaField labelKey="counselor.absenceMessage" name="absenceMessage" />
+
+                {typeOfUsers === 'consultants' && (
+                    <>
+                        <Space align="center">
+                            <SwitchFormField label="counselor.formalLanguage" name="formalLanguage" />
+                            {isEditing && <SwitchFormField label="plsSelect" name="absent" />}
+                        </Space>
+                        {isAbsentEnabled && (
+                            <FormTextAreaField labelKey="counselor.absenceMessage" name="absenceMessage" />
+                        )}
+                    </>
                 )}
             </CardEditable>
 

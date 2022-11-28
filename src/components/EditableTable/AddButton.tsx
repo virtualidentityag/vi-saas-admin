@@ -2,9 +2,12 @@ import { Button, Popover } from 'antd';
 import React, { useCallback } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router';
 
 const AddButton = ({ allowedNumberOfUsers, sourceLength, handleBtnAdd }: AddButtonProps) => {
+    const { typeOfUsers } = useParams();
     const { t } = useTranslation();
+    const typeOfUserKey = typeOfUsers === 'consultants' ? 'counselor.title' : 'admins.title';
     const StyledButton = useCallback(
         ({ disabled }) => {
             return (
@@ -38,7 +41,7 @@ const AddButton = ({ allowedNumberOfUsers, sourceLength, handleBtnAdd }: AddButt
             )}
             {allowedNumberOfUsers !== false && (
                 <span>
-                    {sourceLength}/{allowedNumberOfUsers} {t('counselor.title')}
+                    {sourceLength}/{allowedNumberOfUsers} {t(typeOfUserKey)}
                 </span>
             )}
         </div>

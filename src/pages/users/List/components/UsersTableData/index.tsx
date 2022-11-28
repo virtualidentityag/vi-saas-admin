@@ -73,7 +73,7 @@ export const UsersTableData = () => {
         }
     }, []);
 
-    const columnsData: Array<ColumnProps<CounselorData>> = [
+    const columnsData = [
         {
             title: '',
             dataIndex: 'openStatus',
@@ -161,7 +161,7 @@ export const UsersTableData = () => {
             },
             className: 'counselorList__column',
         },
-        {
+        typeOfUsers === 'consultants' && {
             width: 60,
             title: t('status'),
             dataIndex: 'status',
@@ -189,7 +189,7 @@ export const UsersTableData = () => {
             className: 'counselorList__column',
             fixed: 'right',
         },
-    ];
+    ].filter(Boolean) as Array<ColumnProps<CounselorData>>;
 
     const pagination = {
         total: responseList?.total,

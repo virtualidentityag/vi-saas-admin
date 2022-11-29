@@ -16,11 +16,15 @@ import { useFeatureContext } from '../../context/FeatureContext';
 import { NavIcon } from './NavIcon';
 import { FeatureFlag } from '../../enums/FeatureFlag';
 import { useAppConfigContext } from '../../context/useAppConfig';
+import { PermissionAction } from '../../enums/PermissionAction';
+import { Resource } from '../../enums/Resource';
+import { useUserPermissions } from '../../hooks/useUserPermission';
 
 const { Content, Sider } = Layout;
 
 const ProtectedPageLayoutWrapper = ({ children }: any) => {
     const { settings } = useAppConfigContext();
+    const { can } = useUserPermissions();
     const { subdomain } = getLocationVariables();
     const [, hasRole] = useUserRoles();
     const { data: tenantData } = useTenantData();
@@ -76,7 +80,8 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 </li>
                             )}
 
-                            {hasRole(UserRole.SingleTenantAdmin) && (
+                            {(can(PermissionAction.Read, Resource.Consultant) ||
+                                can(PermissionAction.Read, Resource.Admin)) && (
                                 <>
                                     <li key="counselors" className="menuItem">
                                         <NavLink
@@ -99,7 +104,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 </>
                             )}
 
-                            {hasRole(UserRole.TopicAdmin) && isEnabled(FeatureFlag.Topics) && (
+                            {can(PermissionAction.Read, Resource.Topic) && isEnabled(FeatureFlag.Topics) && (
                                 <li key="topics" className="menuItem">
                                     <NavLink
                                         to={routePathNames.topics}
@@ -111,7 +116,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 </li>
                             )}
 
-                            {(hasRole(UserRole.SingleTenantAdmin) || hasRole(UserRole.TenantAdmin)) && (
+                            {can(PermissionAction.Read, Resource.Statistic) && (
                                 <li key="statistics" className="menuItem">
                                     <NavLink
                                         to={routePathNames.statistic}
@@ -122,18 +127,20 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                     </NavLink>
                                 </li>
                             )}
+
                             {/*
-              {hasRole(UserRole.TenantAdmin) && (
-                <li key="tenants" className="menuItem">
-                  <NavLink
-                    to={routePathNames.tenants}
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                  >
-                    <NavIcon path={routePathNames.tenants} />
-                    <span>{t("organisations.title")}</span>
-                  </NavLink>
-                </li>
-              )} */}
+                                {hasRole(UserRole.TenantAdmin) && (
+                                    <li key="tenants" className="menuItem">
+                                    <NavLink
+                                        to={routePathNames.tenants}
+                                        className={({ isActive }) => (isActive ? "active" : "")}
+                                    >
+                                        <NavIcon path={routePathNames.tenants} />
+                                        <span>{t("organisations.title")}</span>
+                                    </NavLink>
+                                    </li>
+                                )}
+                            */}
 
                             <li key="profile" className="menuItem">
                                 <NavLink

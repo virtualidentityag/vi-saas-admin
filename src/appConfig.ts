@@ -25,7 +25,6 @@ export const featureFlags = {
 };
 
 export const agencyDataAgencyId = (agencyId: string) => `${mainURL}/service/agencyadmin/agencies/${agencyId}`;
-export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&perPage=100`;
 export const agencyEndpointBase = `${mainURL}/service/agencyadmin/agencies`;
 export const agencyEventTypes = (agencyId: string) =>
     `${mainURL}/service/appointservice/agencies/${agencyId}/eventTypes`;

@@ -10,7 +10,7 @@ import { CardEditable } from '../CardEditable';
 export const AgencyGeneralInformation = ({ id }: { id: string }) => {
     const [t] = useTranslation();
     const { mutate } = useAgencyUpdate(id);
-    const { data, isLoading, refetch } = useAgencyData(id);
+    const { data, isLoading, refetch } = useAgencyData({ id });
 
     const saveInfo = useCallback((formData) => {
         mutate(formData, {

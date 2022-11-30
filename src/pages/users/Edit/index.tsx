@@ -89,7 +89,12 @@ export const UserEditOrAdd = () => {
                     label="agency"
                     labelInValue
                     isMulti
-                    options={convertToOptions(agenciesData?.data || [], 'name', 'id')}
+                    placeholder="plsSelect"
+                    options={convertToOptions(
+                        agenciesData?.data.filter((agency) => !agency.offline) || [],
+                        'name',
+                        'id',
+                    )}
                 />
 
                 <FormInputField

@@ -51,7 +51,7 @@ export const twoFactorAuthAppEmail = `${mainURL}/service/users/2fa/email`;
 export const userDataEndpoint = `${mainURL}/service/users/data`;
 export const usersConsultantEndpoint = `${mainURL}/service/users/consultants`;
 export const usersConsultantsSearchEndpoint = `${mainURL}/service/users/consultants/search`;
-export const adminsSearchEndpoint = `${mainURL}/service/useradmin/agencyadmins`;
+export const adminsSearchEndpoint = `${mainURL}/service/useradmin/agencyadmins/search`;
 export const registrationDataEndpoint = `${mainURL}/service/statistics/registration`;
 export const XHRheader = { AcceptLanguage: 'de' };
 

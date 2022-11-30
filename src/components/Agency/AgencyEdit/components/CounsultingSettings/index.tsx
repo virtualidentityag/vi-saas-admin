@@ -1,5 +1,5 @@
 import { Col, Form, message, Row } from 'antd';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFeatureContext } from '../../../../../context/FeatureContext';
 import { FeatureFlag } from '../../../../../enums/FeatureFlag';
@@ -14,22 +14,31 @@ import { FormSwitchField } from '../../../../FormSwitchField';
 import { Option, SelectFormField } from '../../../../SelectFormField';
 import { SliderFormField } from '../../../../SliderFormField';
 import { CardEditable } from '../CardEditable';
+import getConsultingTypes from '../../../../../api/consultingtype/getConsultingTypes';
+import { getDiocesesData } from '../../../../../api/agency/getDiocesesData';
 
 const DEFAULT_MIN_AGE = 18;
 const DEFAULT_MAX_AGE = 100;
 
 interface ConsultingSettingsContainerProps {
     topics: TopicData[];
+    consultingTypes: any;
+    dioceses: any;
     hasConsultants: boolean;
 }
 
-const ConsultingSettingsContainer = ({ topics, hasConsultants }: ConsultingSettingsContainerProps) => {
+const ConsultingSettingsContainer = ({
+    topics,
+    hasConsultants,
+    consultingTypes,
+    dioceses,
+}: ConsultingSettingsContainerProps) => {
     const [t] = useTranslation();
     const topicIds = Form.useWatch<Option[]>('topicIds') || [];
     const genders = Form.useWatch<Option[]>(['demographics', 'genders']) || [];
 
     const { isEnabled } = useFeatureContext();
-    const topicsForList = topics.filter(({ id }) => !topicIds.find(({ value }) => value === `${id}`));
+    const topicsForList = topics?.filter(({ id }) => !topicIds.find(({ value }) => value === `${id}`));
     const gendersForList = Object.values(Gender).filter((name) => !genders.find(({ value }) => value === `${name}`));
 
     return (
@@ -43,6 +52,22 @@ const ConsultingSettingsContainer = ({ topics, hasConsultants }: ConsultingSetti
                     allowClear
                     placeholder="plsSelect"
                     options={convertToOptions(topicsForList, 'name', 'id')}
+                />
+            )}
+            {isEnabled(FeatureFlag.ConsultingTypesForAgencies) && (
+                <SelectFormField
+                    label="diocese.title"
+                    name="dioceseId"
+                    placeholder="plsSelect"
+                    options={convertToOptions(dioceses, ['id', 'name'], 'id')}
+                />
+            )}
+            {isEnabled(FeatureFlag.ConsultingTypesForAgencies) && (
+                <SelectFormField
+                    label="agency"
+                    name="consultingType"
+                    placeholder="plsSelect"
+                    options={convertToOptions(consultingTypes, ['id', 'titles.default'], 'id')}
                 />
             )}
             <Row gutter={[20, 10]}>
@@ -89,6 +114,8 @@ export const ConsultingSettings = ({ id }: { id: string }) => {
     const { isEnabled } = useFeatureContext();
     const { data, isLoading, refetch } = useAgencyData(id);
     const { data: topics, isLoading: isLoadingTopics } = useTopics(true);
+    const [diocesesData, setDiocesesData] = useState([]);
+    const [consultingTypes, setConsultingTypes] = useState([]);
 
     const demographicsInitialValues = isEnabled(FeatureFlag.Demographics)
         ? {
@@ -113,7 +140,7 @@ export const ConsultingSettings = ({ id }: { id: string }) => {
                 ageTo: formData.demographics.age[1],
                 genders: formData.demographics.genders.map(({ value }) => value),
             },
-            topicIds: formData.topicIds.map(({ value }) => value),
+            topicIds: formData.topicIds?.map(({ value }) => value),
             offline: !formData.online,
         };
         mutate(newFormData, {
@@ -125,6 +152,13 @@ export const ConsultingSettings = ({ id }: { id: string }) => {
                 });
             },
         });
+    }, []);
+
+    useEffect(() => {
+        if (isEnabled(FeatureFlag.ConsultingTypesForAgencies)) {
+            getConsultingTypes().then((cTypes) => setConsultingTypes(cTypes));
+            getDiocesesData().then((dioceses) => setDiocesesData(dioceses));
+        }
     }, []);
 
     return (
@@ -139,7 +173,12 @@ export const ConsultingSettings = ({ id }: { id: string }) => {
             titleKey="agency.edit.general.more_settings"
             onSave={saveInfo}
         >
-            <ConsultingSettingsContainer topics={topics} hasConsultants={hasConsultants} />
+            <ConsultingSettingsContainer
+                topics={topics}
+                hasConsultants={hasConsultants}
+                consultingTypes={consultingTypes}
+                dioceses={diocesesData}
+            />
         </CardEditable>
     );
 };

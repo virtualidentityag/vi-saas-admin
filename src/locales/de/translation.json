@@ -347,5 +347,5 @@
     "topic.modal.headline.delete": "Thema wirklich löschen",
     "topic.modal.text.delete": "Wollen Sie dieses Thema wirklich löschen. Dieser Vorgang kann nicht rückgängig gemacht werden.",
     "required.info": "*Pflichtfelder",
-    "diocese": "Diözese"
+    "diocese.title": "Diözese"
 }

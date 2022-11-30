@@ -18,14 +18,15 @@ export const updateAgencyData = async (agencyModel: AgencyData, formInput: Agenc
 
     await updateAgencyType(agencyModel, formInput);
 
-    const consultingTypeId = await getConsultingType4Tenant();
+    const consultingTypeId =
+        formInput.consultingType !== null ? parseInt(formInput.consultingType, 10) : await getConsultingType4Tenant();
 
     const topicIds = formInput?.topicIds
         ?.map((topic) => (typeof topic === 'string' ? topic : topic?.value))
         .filter(Boolean);
 
     const agencyDataRequestBody = {
-        dioceseId: 0,
+        dioceseId: formInput.dioceseId ? parseInt(formInput.dioceseId, 10) : 0,
         name: formInput.name,
         description: formInput.description,
         topicIds,

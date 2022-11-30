@@ -22,4 +22,5 @@ export interface AgencyData {
     consultingType: string;
     status: string | undefined;
     deleteDate: string | undefined;
+    dioceseId?: string;
 }

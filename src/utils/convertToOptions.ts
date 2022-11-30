@@ -29,6 +29,7 @@ export const convertToOptions = <T>(
                 labelKey instanceof Array ? labelKey.map((key) => getValue(d, key)).join(' ') : getValue(d, labelKey);
 
             return {
+                key: label,
                 label,
                 value: getValue(d, valueKey)?.toString() as unknown,
             } as Option;

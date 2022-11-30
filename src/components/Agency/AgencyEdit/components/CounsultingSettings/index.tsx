@@ -161,15 +161,22 @@ export const ConsultingSettings = ({ id }: { id: string }) => {
         }
     }, []);
 
+    const initialValues = {
+        ...data,
+        ...demographicsInitialValues,
+        online: !data?.offline,
+        topicIds: convertToOptions(data?.topics, 'name', 'id', true),
+    };
+
+    if (isEnabled(FeatureFlag.ConsultingTypesForAgencies)) {
+        initialValues.dioceseId = `${data?.dioceseId}`;
+        initialValues.consultingType = `${data?.consultingType}`;
+    }
+
     return (
         <CardEditable
             isLoading={isLoading || isLoadingTopics || isLoadingConsultants}
-            initialValues={{
-                ...data,
-                ...demographicsInitialValues,
-                online: !data?.offline,
-                topicIds: convertToOptions(data?.topics, 'name', 'id', true),
-            }}
+            initialValues={initialValues}
             titleKey="agency.edit.general.more_settings"
             onSave={saveInfo}
         >

@@ -16,7 +16,7 @@
 
     :global {
         .ant-select-selector {
-            padding: 5px 16px !important;
+            padding: 2px 16px !important;
             background-color: transparent !important;
             border-color: transparent !important;
             padding: 0;
@@ -24,6 +24,13 @@
         }
         .ant-select-selection-placeholder {
             padding: 5px 11px !important;
+        }
+
+        .ant-select-selection-item {
+            height: 32px !important;
+            display: flex;
+            align-items: center;
+            margin-left: 0;
         }
     }
 }

@@ -21,7 +21,7 @@ export const SwitchFormField = ({ label, name, help, errorMessage, required }: S
             help={help ? t(help) : undefined}
             valuePropName="checked"
         >
-            <Switch checkedChildren={t('yes')} unCheckedChildren={t('no')} />
+            <Switch size="default" checkedChildren={t('yes')} unCheckedChildren={t('no')} />
         </Form.Item>
     );
 };

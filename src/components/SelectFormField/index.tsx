@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Form, Select } from 'antd';
+import styles from './styles.module.scss';
 
 export interface Option {
     label: string;
@@ -46,6 +47,7 @@ export const SelectFormField = ({
             help={help ? t(help) : undefined}
         >
             <Select
+                className={styles.select}
                 disabled={disabled}
                 showSearch
                 labelInValue={labelInValue}

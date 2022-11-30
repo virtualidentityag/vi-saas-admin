@@ -1,0 +1,29 @@
+.select {
+    padding: 0;
+    border: none;
+    border: 1px solid var(--input-border-color) !important;
+    border-radius: 0;
+    color: rgba(0, 0, 0, 0.87);
+
+    &:focus {
+        box-shadow: none;
+    }
+
+    &[disabled] {
+        background: none;
+        color: rgba(0, 0, 0, 0.4);
+    }
+
+    :global {
+        .ant-select-selector {
+            padding: 5px 16px !important;
+            background-color: transparent !important;
+            border-color: transparent !important;
+            padding: 0;
+            box-shadow: none !important;
+        }
+        .ant-select-selection-placeholder {
+            padding: 5px 11px !important;
+        }
+    }
+}

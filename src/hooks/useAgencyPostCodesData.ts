@@ -1,6 +1,10 @@
-import { useQuery } from 'react-query';
-import getAgencyPostCodeRange from '../api/agency/getAgencyPostCodeRange';
+import { useQuery, UseQueryOptions } from 'react-query';
+import getAgencyPostCodeRange, { PostCodeRange } from '../api/agency/getAgencyPostCodeRange';
 
-export const useAgencyPostCodesData = (id: string) => {
-    return useQuery(['AGENCY_POST_CODES', id], () => getAgencyPostCodeRange(id));
+interface PostCodeRangeProps extends UseQueryOptions<PostCodeRange[]> {
+    id?: string;
+}
+
+export const useAgencyPostCodesData = ({ id, ...options }: PostCodeRangeProps) => {
+    return useQuery<PostCodeRange[]>(['AGENCY_POST_CODES', id], () => getAgencyPostCodeRange(id), options);
 };

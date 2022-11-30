@@ -84,10 +84,10 @@ const ConsultingSettingsContainer = ({ topics, hasConsultants }: ConsultingSetti
 
 export const ConsultingSettings = ({ id }: { id: string }) => {
     const [t] = useTranslation();
-    const { data: hasConsultants, isLoading: isLoadingConsultants } = useAgencyHasConsultants(id);
+    const { data: hasConsultants, isLoading: isLoadingConsultants } = useAgencyHasConsultants({ id });
     const { mutate } = useAgencyUpdate(id);
     const { isEnabled } = useFeatureContext();
-    const { data, isLoading, refetch } = useAgencyData(id);
+    const { data, isLoading, refetch } = useAgencyData({ id });
     const { data: topics, isLoading: isLoadingTopics } = useTopics(true);
 
     const demographicsInitialValues = isEnabled(FeatureFlag.Demographics)

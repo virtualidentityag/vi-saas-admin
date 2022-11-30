@@ -1,6 +1,10 @@
-import { useQuery } from 'react-query';
+import { useQuery, UseQueryOptions } from 'react-query';
 import { hasAgencyConsultants } from '../api/agency/getAgencyConsultants';
 
-export const useAgencyHasConsultants = (id: string) => {
-    return useQuery<boolean>(['CONSULTANTS', id], () => hasAgencyConsultants(id));
+interface AgencyHasConsultantsProps extends UseQueryOptions<boolean> {
+    id?: string;
+}
+
+export const useAgencyHasConsultants = ({ id, ...options }: AgencyHasConsultantsProps) => {
+    return useQuery<boolean>(['HAS_CONSULTANTS', id], () => hasAgencyConsultants(id), options);
 };

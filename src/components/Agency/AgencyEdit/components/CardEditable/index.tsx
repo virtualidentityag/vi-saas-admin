@@ -7,6 +7,7 @@ import { Button, ButtonItem, BUTTON_TYPES } from '../../../../button/Button';
 import Pencil from '../../../../CustomIcons/Pencil';
 
 interface CardEditableProps {
+    className?: string;
     isLoading?: boolean;
     initialValues: Record<string, unknown>;
     titleKey: string;
@@ -20,6 +21,7 @@ interface CardEditableProps {
 }
 
 export const CardEditable = ({
+    className,
     isLoading,
     initialValues,
     titleKey,
@@ -48,9 +50,10 @@ export const CardEditable = ({
         },
         [onSave],
     );
+
     return (
         <Box>
-            <div className="agencyEdit__headline">
+            <div className={`${className || ''} agencyEdit__headline`}>
                 <Title className="formHeadline mb-m" level={4}>
                     {t(titleKey)}
                 </Title>

@@ -59,10 +59,10 @@ const AgencyAddressSettingsLocal = ({ form, postCodes }: AgencyAddressSettingsLo
 
 export const AgencyAddressSettings = ({ id }: { id: string }) => {
     const [t] = useTranslation();
-    const { data: agencyData, isLoading, refetch } = useAgencyData(id);
+    const { data: agencyData, isLoading, refetch } = useAgencyData({ id });
     const { mutate: updateAgency } = useAgencyUpdate(id);
     const { mutate } = useAgencyPostCodesUpdate(id);
-    const { data: postCodes, isLoading: isLoadingPostCodes } = useAgencyPostCodesData(id);
+    const { data: postCodes, isLoading: isLoadingPostCodes } = useAgencyPostCodesData({ id });
 
     const saveInfo = useCallback(
         (formData) => {

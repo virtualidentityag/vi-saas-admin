@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import './styles/App.less';
+import './app.css';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import ProtectedPageLayoutWrapper from './components/Layout/ProtectedPageLayoutWrapper';
 import routePathNames from './appConfig';

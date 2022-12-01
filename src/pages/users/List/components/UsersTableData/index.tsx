@@ -21,11 +21,12 @@ import { DeleteUserModal } from '../DeleteUser';
 import { useUserPermissions } from '../../../../../hooks/useUserPermission';
 import { Resource } from '../../../../../enums/Resource';
 import { PermissionAction } from '../../../../../enums/PermissionAction';
+import { TypeOfUser } from '../../../../../enums/TypeOfUser';
 
 export const UsersTableData = () => {
     const { can } = useUserPermissions();
     const navigate = useNavigate();
-    const { typeOfUsers } = useParams();
+    const { typeOfUsers } = useParams<{ typeOfUsers: TypeOfUser }>();
     const isConsultantTab = typeOfUsers === 'consultants';
     const { t } = useTranslation();
     const [deleteUserId, setDeleteUserId] = useState<string>(null);
@@ -50,7 +51,7 @@ export const UsersTableData = () => {
     } = useConsultantOrAdminsData({
         search,
         ...tableState,
-        typeOfUser: typeOfUsers as 'consultants' | 'admins',
+        typeOfUser: typeOfUsers,
     });
 
     const setSearchDebounced = useDebouncedCallback(setSearch, 100);
@@ -180,21 +181,6 @@ export const UsersTableData = () => {
             title: '',
             key: 'edit',
             render: (_: unknown, record: CounselorData) => {
-                const hide = [];
-
-                if (
-                    (!can(PermissionAction.Delete, Resource.Admin) && !isConsultantTab) ||
-                    (!can(PermissionAction.Delete, Resource.Consultant) && isConsultantTab)
-                ) {
-                    hide.push('delete');
-                }
-                if (
-                    (!can(PermissionAction.Update, Resource.Admin) && !isConsultantTab) ||
-                    (!can(PermissionAction.Update, Resource.Consultant) && isConsultantTab)
-                ) {
-                    hide.push('edit');
-                }
-
                 return (
                     <div className="tableActionWrapper">
                         <EditButtons
@@ -202,7 +188,7 @@ export const UsersTableData = () => {
                             handleDelete={() => setDeleteUserId(record.id)}
                             record={record}
                             isDisabled={record.status === 'IN_DELETION'}
-                            hide={hide}
+                            resource={typeOfUsers === TypeOfUser.Consultants ? Resource.Consultant : Resource.Admin}
                         />
                     </div>
                 );

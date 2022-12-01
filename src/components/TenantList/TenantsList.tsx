@@ -15,6 +15,7 @@ import Tenant from './Tenant';
 import addTenantData from '../../api/tenant/addTenantData';
 import deleteTenantData from '../../api/tenant/deleteTenantData';
 import editTenantData from '../../api/tenant/editTenantData';
+import { Resource } from '../../enums/Resource';
 
 const TenantsList = () => {
     const { t } = useTranslation();
@@ -168,7 +169,14 @@ const TenantsList = () => {
             title: '',
             key: 'edit',
             render: (_: any, record: TenantData) => {
-                return <EditButtons handleEdit={handleEdit} handleDelete={handleDeleteModal} record={record} />;
+                return (
+                    <EditButtons
+                        resource={Resource.Tenant}
+                        handleEdit={handleEdit}
+                        handleDelete={handleDeleteModal}
+                        record={record}
+                    />
+                );
             },
         },
     ];

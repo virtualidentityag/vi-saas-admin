@@ -12,6 +12,7 @@ import { FormTextAreaField } from '../../../components/FormTextAreaField';
 import { Page } from '../../../components/Page';
 import { SelectFormField } from '../../../components/SelectFormField';
 import { SwitchFormField } from '../../../components/SwitchFormField';
+import { TypeOfUser } from '../../../enums/TypeOfUser';
 import { useAddOrUpdateConsultantOrAdmin } from '../../../hooks/useAddOrUpdateConsultantOrAdmin';
 import { useAgenciesData } from '../../../hooks/useAgencysData';
 import { useConsultantOrAdminsData } from '../../../hooks/useConsultantOrAdminsData';
@@ -22,11 +23,11 @@ export const UserEditOrAdd = () => {
     const navigate = useNavigate();
     const [form] = useForm();
     const { t } = useTranslation();
-    const { typeOfUsers, id } = useParams();
-    // Todo: Temporary solution
+    const { typeOfUsers, id } = useParams<{ id: string; typeOfUsers: TypeOfUser }>();
+    // Todo: Temporary solution(VIC-2135)
     const { data: consultantsResponse, isLoading: isLoadingConsultants } = useConsultantOrAdminsData({
         pageSize: 10000,
-        typeOfUser: typeOfUsers as 'consultants',
+        typeOfUser: typeOfUsers,
     });
     const { data: agenciesData, isLoading } = useAgenciesData({ pageSize: 200 });
     const isEditing = id !== 'add';
@@ -34,7 +35,7 @@ export const UserEditOrAdd = () => {
 
     const { mutate } = useAddOrUpdateConsultantOrAdmin({
         id: isEditing ? id : null,
-        typeOfUser: typeOfUsers as 'consultants',
+        typeOfUser: typeOfUsers,
         onSuccess: (response) => {
             message.success({
                 content: t('message.counselor.update'),
@@ -91,7 +92,7 @@ export const UserEditOrAdd = () => {
                     isMulti
                     placeholder="plsSelect"
                     options={convertToOptions(
-                        agenciesData?.data.filter((agency) => !agency.offline) || [],
+                        agenciesData?.data?.filter((agency) => agency.deleteDate === 'null') || [],
                         'name',
                         'id',
                     )}

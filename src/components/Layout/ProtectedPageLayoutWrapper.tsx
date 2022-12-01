@@ -68,7 +68,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                     <div className="logo" />
                     <nav className="mainMenu">
                         <ul>
-                            {canShowThemeSettings && (
+                            {canShowThemeSettings && can(PermissionAction.Read, Resource.Tenant) && (
                                 <li key="theme" className="menuItem">
                                     <NavLink
                                         to={routePathNames.themeSettings}
@@ -82,26 +82,24 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
 
                             {(can(PermissionAction.Read, Resource.Consultant) ||
                                 can(PermissionAction.Read, Resource.Admin)) && (
-                                <>
-                                    <li key="counselors" className="menuItem">
-                                        <NavLink
-                                            to={routePathNames.consultants}
-                                            className={({ isActive }) => (isActive ? 'active' : '')}
-                                        >
-                                            <NavIcon path="/admin/users" />
-                                            <span>{t('users.title')}</span>
-                                        </NavLink>
-                                    </li>
-                                    <li key="agencies" className="menuItem">
-                                        <NavLink
-                                            to={routePathNames.agency}
-                                            className={() => (checkActive ? 'active' : '')}
-                                        >
-                                            <NavIcon path={routePathNames.agency} />
-                                            <span>{t('agency')}</span>
-                                        </NavLink>
-                                    </li>
-                                </>
+                                <li key="counselors" className="menuItem">
+                                    <NavLink
+                                        to={routePathNames.consultants}
+                                        className={({ isActive }) => (isActive ? 'active' : '')}
+                                    >
+                                        <NavIcon path="/admin/users" />
+                                        <span>{t('users.title')}</span>
+                                    </NavLink>
+                                </li>
+                            )}
+
+                            {can(PermissionAction.Read, Resource.Consultant) && (
+                                <li className="menuItem">
+                                    <NavLink to={routePathNames.agency} className={() => (checkActive ? 'active' : '')}>
+                                        <NavIcon path={routePathNames.agency} />
+                                        <span>{t('agency')}</span>
+                                    </NavLink>
+                                </li>
                             )}
 
                             {can(PermissionAction.Read, Resource.Topic) && isEnabled(FeatureFlag.Topics) && (
@@ -142,7 +140,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 )}
                             */}
 
-                            <li key="profile" className="menuItem">
+                            <li className="menuItem">
                                 <NavLink
                                     to={routePathNames.userProfile}
                                     className={({ isActive }) => (isActive ? 'active' : '')}
@@ -152,7 +150,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 </NavLink>
                             </li>
 
-                            <li key="999" className="menuItem">
+                            <li className="menuItem">
                                 <button onClick={handleLogout} type="button">
                                     <NavIcon path="logout" />
                                     <span className="logout">{t('logout')}</span>

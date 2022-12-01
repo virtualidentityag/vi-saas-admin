@@ -4,4 +4,5 @@ export enum Resource {
     Topic,
     Agency,
     Statistic,
+    Tenant,
 }

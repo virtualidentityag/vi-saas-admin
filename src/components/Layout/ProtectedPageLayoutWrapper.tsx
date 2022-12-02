@@ -16,11 +16,15 @@ import { useFeatureContext } from '../../context/FeatureContext';
 import { NavIcon } from './NavIcon';
 import { FeatureFlag } from '../../enums/FeatureFlag';
 import { useAppConfigContext } from '../../context/useAppConfig';
+import { PermissionAction } from '../../enums/PermissionAction';
+import { Resource } from '../../enums/Resource';
+import { useUserPermissions } from '../../hooks/useUserPermission';
 
 const { Content, Sider } = Layout;
 
 const ProtectedPageLayoutWrapper = ({ children }: any) => {
     const { settings } = useAppConfigContext();
+    const { can } = useUserPermissions();
     const { subdomain } = getLocationVariables();
     const [, hasRole] = useUserRoles();
     const { data: tenantData } = useTenantData();
@@ -64,7 +68,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                     <div className="logo" />
                     <nav className="mainMenu">
                         <ul>
-                            {canShowThemeSettings && (
+                            {canShowThemeSettings && can(PermissionAction.Read, Resource.Tenant) && (
                                 <li key="theme" className="menuItem">
                                     <NavLink
                                         to={routePathNames.themeSettings}
@@ -76,30 +80,29 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 </li>
                             )}
 
-                            {hasRole(UserRole.SingleTenantAdmin) && (
-                                <>
-                                    <li key="counselors" className="menuItem">
-                                        <NavLink
-                                            to={routePathNames.consultants}
-                                            className={({ isActive }) => (isActive ? 'active' : '')}
-                                        >
-                                            <NavIcon path="/admin/users" />
-                                            <span>{t('users.title')}</span>
-                                        </NavLink>
-                                    </li>
-                                    <li key="agencies" className="menuItem">
-                                        <NavLink
-                                            to={routePathNames.agency}
-                                            className={() => (checkActive ? 'active' : '')}
-                                        >
-                                            <NavIcon path={routePathNames.agency} />
-                                            <span>{t('agency')}</span>
-                                        </NavLink>
-                                    </li>
-                                </>
+                            {(can(PermissionAction.Read, Resource.Consultant) ||
+                                can(PermissionAction.Read, Resource.Admin)) && (
+                                <li key="counselors" className="menuItem">
+                                    <NavLink
+                                        to={routePathNames.consultants}
+                                        className={({ isActive }) => (isActive ? 'active' : '')}
+                                    >
+                                        <NavIcon path="/admin/users" />
+                                        <span>{t('users.title')}</span>
+                                    </NavLink>
+                                </li>
                             )}
 
-                            {hasRole(UserRole.TopicAdmin) && isEnabled(FeatureFlag.Topics) && (
+                            {can(PermissionAction.Read, Resource.Consultant) && (
+                                <li className="menuItem">
+                                    <NavLink to={routePathNames.agency} className={() => (checkActive ? 'active' : '')}>
+                                        <NavIcon path={routePathNames.agency} />
+                                        <span>{t('agency')}</span>
+                                    </NavLink>
+                                </li>
+                            )}
+
+                            {can(PermissionAction.Read, Resource.Topic) && isEnabled(FeatureFlag.Topics) && (
                                 <li key="topics" className="menuItem">
                                     <NavLink
                                         to={routePathNames.topics}
@@ -111,7 +114,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 </li>
                             )}
 
-                            {(hasRole(UserRole.SingleTenantAdmin) || hasRole(UserRole.TenantAdmin)) && (
+                            {can(PermissionAction.Read, Resource.Statistic) && (
                                 <li key="statistics" className="menuItem">
                                     <NavLink
                                         to={routePathNames.statistic}
@@ -122,20 +125,22 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                     </NavLink>
                                 </li>
                             )}
-                            {/*
-              {hasRole(UserRole.TenantAdmin) && (
-                <li key="tenants" className="menuItem">
-                  <NavLink
-                    to={routePathNames.tenants}
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                  >
-                    <NavIcon path={routePathNames.tenants} />
-                    <span>{t("organisations.title")}</span>
-                  </NavLink>
-                </li>
-              )} */}
 
-                            <li key="profile" className="menuItem">
+                            {/*
+                                {hasRole(UserRole.TenantAdmin) && (
+                                    <li key="tenants" className="menuItem">
+                                    <NavLink
+                                        to={routePathNames.tenants}
+                                        className={({ isActive }) => (isActive ? "active" : "")}
+                                    >
+                                        <NavIcon path={routePathNames.tenants} />
+                                        <span>{t("organisations.title")}</span>
+                                    </NavLink>
+                                    </li>
+                                )}
+                            */}
+
+                            <li className="menuItem">
                                 <NavLink
                                     to={routePathNames.userProfile}
                                     className={({ isActive }) => (isActive ? 'active' : '')}
@@ -145,7 +150,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 </NavLink>
                             </li>
 
-                            <li key="999" className="menuItem">
+                            <li className="menuItem">
                                 <button onClick={handleLogout} type="button">
                                     <NavIcon path="logout" />
                                     <span className="logout">{t('logout')}</span>

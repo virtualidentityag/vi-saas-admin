@@ -15,6 +15,7 @@ import getAgencyEventTypeById from '../../api/agency/getAgencyEventTypeById';
 import { EventTypeDeletionModal } from './EventTypeDeletionModal';
 import { getAgencyConsultants } from '../../api/agency/getAgencyConsultants';
 import routePathNames from '../../appConfig';
+import { Resource } from '../../enums/Resource';
 
 const { Paragraph } = Typography;
 
@@ -153,6 +154,7 @@ export const AgencyEditInitialMeeting = () => {
                                 handleEdit={handleEditTable}
                                 handleDelete={handleDeleteTable}
                                 record={record}
+                                resource={Resource.Agency}
                             />
                         </div>
                     );

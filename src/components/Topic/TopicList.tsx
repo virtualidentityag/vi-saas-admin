@@ -24,6 +24,9 @@ import { FeatureFlag } from '../../enums/FeatureFlag';
 import { useTenantData } from '../../hooks/useTenantData.hook';
 import { useTenantDataUpdate } from '../../hooks/useTenantDataUpdate.hook';
 import { UserRole } from '../../enums/UserRole';
+import { Resource } from '../../enums/Resource';
+import { useUserPermissions } from '../../hooks/useUserPermission';
+import { PermissionAction } from '../../enums/PermissionAction';
 
 const emptyTopicModel: TopicData = {
     id: null,
@@ -37,6 +40,7 @@ let tableStateHolder: TableState;
 
 const TopicList = () => {
     const { t } = useTranslation();
+    const { can } = useUserPermissions();
     const { settings } = useAppConfigContext();
     const { isEnabled, toggleFeature } = useFeatureContext();
     const [, hasRole] = useUserRoles();
@@ -134,6 +138,7 @@ const TopicList = () => {
                                 handleDelete={isDisabled}
                                 record={record}
                                 hide={['delete']}
+                                resource={Resource.Topic}
                             />
                         </div>
                     );
@@ -185,7 +190,7 @@ const TopicList = () => {
     const canShowTopicSwitch =
         ((settings.multitenancyWithSingleDomainEnabled && hasRole(UserRole.TenantAdmin)) ||
             !settings.multitenancyWithSingleDomainEnabled) &&
-        hasRole(UserRole.TopicAdmin) &&
+        can(PermissionAction.Create, Resource.Topic) &&
         isEnabled(FeatureFlag.Topics);
 
     return (
@@ -194,14 +199,16 @@ const TopicList = () => {
             <p>{t('topics.title.text')}</p>
 
             <Space align="baseline">
-                <Button
-                    className="mb-m mr-sm"
-                    type="primary"
-                    icon={<PlusOutlined />}
-                    onClick={() => pubsub.publishEvent(PubSubEvents.TOPIC_UPDATE, emptyTopicModel)}
-                >
-                    {t('new')}
-                </Button>
+                {can(PermissionAction.Create, Resource.Topic) && (
+                    <Button
+                        className="mb-m mr-sm"
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        onClick={() => pubsub.publishEvent(PubSubEvents.TOPIC_UPDATE, emptyTopicModel)}
+                    >
+                        {t('new')}
+                    </Button>
+                )}
 
                 {canShowTopicSwitch && (
                     <>

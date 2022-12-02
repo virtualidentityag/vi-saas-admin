@@ -18,10 +18,11 @@ import { AgencyDeletionModal } from './AgencyDeletionModal';
 import ResizableTitle from '../Resizable/Resizable';
 import { useFeatureContext } from '../../context/FeatureContext';
 import { TopicData } from '../../types/topic';
-import { UserRole } from '../../enums/UserRole';
-import { useUserRoles } from '../../hooks/useUserRoles.hook';
 import routePathNames from '../../appConfig';
 import { FeatureFlag } from '../../enums/FeatureFlag';
+import { useUserPermissions } from '../../hooks/useUserPermission';
+import { PermissionAction } from '../../enums/PermissionAction';
+import { Resource } from '../../enums/Resource';
 
 const emptyAgencyModel: AgencyData = {
     id: null,
@@ -54,7 +55,7 @@ const AgencyList = () => {
 
     const [isLoading, setIsLoading] = useState(true);
 
-    const [, hasRole] = useUserRoles();
+    const { can } = useUserPermissions();
     const { isEnabled } = useFeatureContext();
     const isTopicsFeatureActive = isEnabled(FeatureFlag.TopicsInRegistration);
 
@@ -99,7 +100,7 @@ const AgencyList = () => {
                 ellipsis: true,
                 className: 'agencyList__column',
             },
-            ...(hasRole(UserRole.TopicAdmin)
+            ...(can(PermissionAction.Read, Resource.Topic)
                 ? [
                       {
                           title: t('topics.title'),
@@ -178,6 +179,7 @@ const AgencyList = () => {
                                     pubsub.publishEvent(PubSubEvents.AGENCY_DELETE, record);
                                 }}
                                 record={record}
+                                resource={Resource.Agency}
                             />
                         </div>
                     );
@@ -252,20 +254,22 @@ const AgencyList = () => {
         <>
             <Title level={3}>{t('agency')}</Title>
             <p>{t('agency.title.text')}</p>
-            <Space align="baseline">
-                <Button
-                    className="mb-m mr-sm"
-                    type="primary"
-                    icon={<PlusOutlined />}
-                    onClick={() => {
-                        tableStateHolder = tableState;
-                        navigate(`${routePathNames.agencyAdd}/general`);
-                        pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, emptyAgencyModel);
-                    }}
-                >
-                    {t('new')}
-                </Button>
-            </Space>
+            {can(PermissionAction.Create, Resource.Agency) && (
+                <Space align="baseline">
+                    <Button
+                        className="mb-m mr-sm"
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        onClick={() => {
+                            tableStateHolder = tableState;
+                            navigate(`${routePathNames.agencyAdd}/general`);
+                            pubsub.publishEvent(PubSubEvents.AGENCY_UPDATE, emptyAgencyModel);
+                        }}
+                    >
+                        {t('new')}
+                    </Button>
+                </Space>
+            )}
             <Table
                 loading={isLoading}
                 className="agencyList editableTable"

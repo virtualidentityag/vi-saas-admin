@@ -1,6 +1,7 @@
 import { QueryOptions, useQuery, UseQueryOptions } from 'react-query';
 import { fetchData, FETCH_METHODS } from '../api/fetchData';
 import { adminsSearchEndpoint, usersConsultantsSearchEndpoint } from '../appConfig';
+import { TypeOfUser } from '../enums/TypeOfUser';
 import { CounselorData } from '../types/counselor';
 import { HalResponseList, ResponseList } from '../types/ResponseList';
 import removeEmbedded from '../utils/removeEmbedded';
@@ -11,7 +12,7 @@ interface ConsultantsDataProps extends UseQueryOptions<ResponseList<CounselorDat
     sortBy?: string;
     order?: string;
     pageSize?: number;
-    typeOfUser: 'consultants' | 'admins';
+    typeOfUser: TypeOfUser;
 }
 
 const DEFAULT_SORT = 'FIRSTNAME';
@@ -19,10 +20,10 @@ const DEFAULT_ORDER = 'ASC';
 
 export const useConsultantOrAdminsData = (
     { search, current, sortBy, order, pageSize, typeOfUser, ...options }: ConsultantsDataProps = {
-        typeOfUser: 'consultants',
+        typeOfUser: TypeOfUser.Consultants,
     },
 ) => {
-    const baseUrl = typeOfUser === 'consultants' ? usersConsultantsSearchEndpoint : adminsSearchEndpoint;
+    const baseUrl = typeOfUser === TypeOfUser.Consultants ? usersConsultantsSearchEndpoint : adminsSearchEndpoint;
     return useQuery(
         [typeOfUser.toUpperCase(), search, current, sortBy, order, pageSize],
         () => {

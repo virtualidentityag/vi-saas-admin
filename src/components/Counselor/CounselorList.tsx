@@ -23,6 +23,7 @@ import CustomChevronUpIcon from '../CustomIcons/ChevronUp';
 import { putAgenciesForCounselor } from '../../api/agency/putAgenciesForCounselor';
 import { useTenantData } from '../../hooks/useTenantData.hook';
 import ResizableTitle from '../Resizable/Resizable';
+import { Resource } from '../../enums/Resource';
 
 enum OpenStatus {
     OPEN,
@@ -314,6 +315,7 @@ const CounselorList = () => {
                 return (
                     <div className="tableActionWrapper">
                         <EditButtons
+                            resource={Resource.Consultant}
                             handleEdit={handleEdit}
                             handleDelete={(data) => handleDeleteModal(data as CounselorData)}
                             record={record}

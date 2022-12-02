@@ -18,11 +18,16 @@ import { decodeUsername } from '../../../../../utils/encryptionHelpers';
 import { ResizeTable } from '../../../../../components/ResizableTable';
 import { DEFAULT_ORDER, DEFAULT_SORT } from '../../../../../api/counselor/getCounselorSearchData';
 import { DeleteUserModal } from '../DeleteUser';
+import { useUserPermissions } from '../../../../../hooks/useUserPermission';
+import { Resource } from '../../../../../enums/Resource';
+import { PermissionAction } from '../../../../../enums/PermissionAction';
+import { TypeOfUser } from '../../../../../enums/TypeOfUser';
 
 export const UsersTableData = () => {
+    const { can } = useUserPermissions();
     const navigate = useNavigate();
-    const { typeOfUsers } = useParams();
-
+    const { typeOfUsers } = useParams<{ typeOfUsers: TypeOfUser }>();
+    const isConsultantTab = typeOfUsers === 'consultants';
     const { t } = useTranslation();
     const [deleteUserId, setDeleteUserId] = useState<string>(null);
     const [openRows, setOpenedRows] = useState([]);
@@ -46,7 +51,7 @@ export const UsersTableData = () => {
     } = useConsultantOrAdminsData({
         search,
         ...tableState,
-        typeOfUser: typeOfUsers as 'consultants' | 'admins',
+        typeOfUser: typeOfUsers,
     });
 
     const setSearchDebounced = useDebouncedCallback(setSearch, 100);
@@ -161,7 +166,7 @@ export const UsersTableData = () => {
             },
             className: 'counselorList__column',
         },
-        typeOfUsers === 'consultants' && {
+        isConsultantTab && {
             width: 60,
             title: t('status'),
             dataIndex: 'status',
@@ -170,7 +175,8 @@ export const UsersTableData = () => {
             render: (status: Status) => <StatusIcons status={status} />,
             className: 'counselorList__column',
         },
-        {
+        ((can([PermissionAction.Update, PermissionAction.Delete], Resource.Consultant) && isConsultantTab) ||
+            (can([PermissionAction.Update, PermissionAction.Delete], Resource.Admin) && !isConsultantTab)) && {
             width: 80,
             title: '',
             key: 'edit',
@@ -182,6 +188,7 @@ export const UsersTableData = () => {
                             handleDelete={() => setDeleteUserId(record.id)}
                             record={record}
                             isDisabled={record.status === 'IN_DELETION'}
+                            resource={typeOfUsers === TypeOfUser.Consultants ? Resource.Consultant : Resource.Admin}
                         />
                     </div>
                 );
@@ -201,11 +208,14 @@ export const UsersTableData = () => {
     return (
         <div>
             <div className="lg-flex justify-between">
-                <AddButton
-                    allowedNumberOfUsers={allowedNumberOfUsers}
-                    sourceLength={responseList?.total}
-                    handleBtnAdd={() => navigate(`/admin/users/${typeOfUsers}/add`)}
-                />
+                {((can(PermissionAction.Create, Resource.Consultant) && isConsultantTab) ||
+                    (can(PermissionAction.Create, Resource.Admin) && !isConsultantTab)) && (
+                    <AddButton
+                        allowedNumberOfUsers={allowedNumberOfUsers}
+                        sourceLength={responseList?.total}
+                        handleBtnAdd={() => navigate(`/admin/users/${typeOfUsers}/add`)}
+                    />
+                )}
 
                 <div className="counselerSearch">
                     <SearchInput
@@ -223,13 +233,15 @@ export const UsersTableData = () => {
                 pagination={pagination}
                 onChange={handleTableAction}
             />
-            {deleteUserId && (
-                <DeleteUserModal
-                    deleteUserId={deleteUserId}
-                    onClose={onClose}
-                    typeOfUser={typeOfUsers as 'consultants'}
-                />
-            )}
+            {deleteUserId &&
+                ((can(PermissionAction.Create, Resource.Consultant) && isConsultantTab) ||
+                    (can(PermissionAction.Create, Resource.Admin) && !isConsultantTab)) && (
+                    <DeleteUserModal
+                        deleteUserId={deleteUserId}
+                        onClose={onClose}
+                        typeOfUser={typeOfUsers as 'consultants'}
+                    />
+                )}
         </div>
     );
 };

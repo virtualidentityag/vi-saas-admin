@@ -23,11 +23,3 @@ export default interface EditableTableProps {
     handleOnSearch?: (query: string) => void;
     handleOnSearchClear?: () => void;
 }
-
-export interface EditButtonsProps extends React.HTMLAttributes<HTMLElement> {
-    handleEdit: (formData: EditableData) => void;
-    handleDelete: (formData: EditableData) => void;
-    record: CounselorData | AgencyData | BasicTenantData | BasicTopicData;
-    isDisabled?: boolean;
-    hide?: string[];
-}

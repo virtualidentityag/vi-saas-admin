@@ -17,6 +17,7 @@ export const userRolesToPermission = (userRoles: UserRole[]) => {
             Consultant: { delete: false },
             Statistic: { read: false },
             Agency: { read: true, create: false, update: true, delete: false },
+            Admin: { read: false, create: false, update: false, delete: false },
         },
         [UserRole.AgencyAdmin]: {
             Agency: { read: true, create: true, update: true, delete: true },
@@ -35,6 +36,7 @@ export const userRolesToPermission = (userRoles: UserRole[]) => {
         },
         [UserRole.UserAdmin]: {
             Consultant: { read: true, create: true, update: true, delete: true },
+            Admin: { read: true, create: true, update: true, delete: true },
         },
     };
 

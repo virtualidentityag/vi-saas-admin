@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
+import { FETCH_ERRORS, X_REASON } from '../../../api/fetchData';
 import { CardEditable } from '../../../components/Agency/AgencyEdit/components/CardEditable';
 import { Button, BUTTON_TYPES } from '../../../components/button/Button';
 import { FormInputField } from '../../../components/FormInputField';
@@ -12,16 +13,20 @@ import { FormTextAreaField } from '../../../components/FormTextAreaField';
 import { Page } from '../../../components/Page';
 import { SelectFormField } from '../../../components/SelectFormField';
 import { SwitchFormField } from '../../../components/SwitchFormField';
+import { PermissionAction } from '../../../enums/PermissionAction';
+import { Resource } from '../../../enums/Resource';
 import { TypeOfUser } from '../../../enums/TypeOfUser';
 import { useAddOrUpdateConsultantOrAdmin } from '../../../hooks/useAddOrUpdateConsultantOrAdmin';
 import { useAgenciesData } from '../../../hooks/useAgencysData';
 import { useConsultantOrAdminsData } from '../../../hooks/useConsultantOrAdminsData';
+import { useUserPermissions } from '../../../hooks/useUserPermission';
 import { convertToOptions } from '../../../utils/convertToOptions';
 import { decodeUsername } from '../../../utils/encryptionHelpers';
 
 export const UserEditOrAdd = () => {
     const navigate = useNavigate();
     const [form] = useForm();
+    const { can } = useUserPermissions();
     const { t } = useTranslation();
     const { typeOfUsers, id } = useParams<{ id: string; typeOfUsers: TypeOfUser }>();
     // Todo: Temporary solution(VIC-2135)
@@ -42,6 +47,23 @@ export const UserEditOrAdd = () => {
                 duration: 3,
             });
             navigate(`/admin/users/${typeOfUsers}/${response.id}`);
+        },
+        onError: (error: Error | Response) => {
+            if (
+                error instanceof Response &&
+                error.status === 409 &&
+                error.headers.get(FETCH_ERRORS.X_REASON) === X_REASON.EMAIL_NOT_AVAILABLE
+            ) {
+                const isAllowed =
+                    can(PermissionAction.Delete, Resource.Consultant) && typeOfUsers === TypeOfUser.Consultants;
+
+                message.error({
+                    content: t(
+                        `${isAllowed ? '' : 'notAllowed.'}message.error.${error.headers.get(FETCH_ERRORS.X_REASON)}`,
+                    ),
+                    duration: 3,
+                });
+            }
         },
     });
 

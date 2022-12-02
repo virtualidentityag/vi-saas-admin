@@ -8,18 +8,19 @@ export interface Option {
 }
 
 export interface SelectFormFieldProps {
-    label: string;
+    label?: string;
     name: string | string[];
     placeholder?: string;
     help?: string;
     loading?: boolean;
     required?: boolean;
     isMulti?: boolean;
-    options: Option[];
+    options?: Option[];
     allowClear?: boolean;
     disabled?: boolean;
     errorMessage?: string;
     labelInValue?: boolean;
+    children?: React.ReactElement[];
 }
 
 export const SelectFormField = ({
@@ -35,6 +36,7 @@ export const SelectFormField = ({
     disabled,
     errorMessage,
     labelInValue,
+    children,
 }: SelectFormFieldProps) => {
     const [t] = useTranslation();
     const message = errorMessage || t('form.errors.required');
@@ -62,7 +64,9 @@ export const SelectFormField = ({
                     optionA.label?.toLowerCase().localeCompare(optionB.label?.toLowerCase())
                 }
                 options={options}
-            />
+            >
+                {children}
+            </Select>
         </Form.Item>
     );
 };

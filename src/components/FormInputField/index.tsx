@@ -7,7 +7,10 @@ interface FormInputFieldProps extends InputProps {
     labelKey: string;
     placeholderKey?: string;
     required?: boolean;
-    name: string;
+    /**
+     * Only optional when used with TranslatableFormField
+     */
+    name?: string;
     rules?: Rule[];
 }
 

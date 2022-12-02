@@ -8,7 +8,7 @@ import { AdminData } from '../types/admin';
 import { CounselorData } from '../types/counselor';
 
 interface AddOrUpdateConsultantOptions
-    extends UseMutationOptions<CounselorData | AdminData, Error, CounselorData | AdminData> {
+    extends UseMutationOptions<CounselorData | AdminData, Error, CounselorData | AdminData, Error | Response> {
     id?: string;
     typeOfUser: TypeOfUser;
 }

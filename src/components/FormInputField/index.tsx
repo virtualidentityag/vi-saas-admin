@@ -3,14 +3,14 @@ import { Rule } from 'antd/lib/form';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
-interface FormInputFieldProps extends InputProps {
+interface FormInputFieldProps extends Omit<InputProps, 'name'> {
     labelKey: string;
     placeholderKey?: string;
     required?: boolean;
     /**
      * Only optional when used with TranslatableFormField
      */
-    name?: string;
+    name?: string | string[];
     rules?: Rule[];
 }
 

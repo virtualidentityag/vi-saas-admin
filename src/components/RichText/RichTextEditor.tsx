@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import RichTextEditor, { EditorValue, ToolbarConfig } from 'react-rte';
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 
 interface OnChangeHandler {
     (e: any): void;
@@ -10,9 +11,11 @@ type RichTextEditorProps = {
     value: any;
     onChange: OnChangeHandler;
     placeholder: string;
+    disabled?: boolean;
+    className?: string;
 };
 
-const RTE = ({ value, onChange, placeholder }: RichTextEditorProps) => {
+const RTE = ({ value, onChange, placeholder, disabled, className }: RichTextEditorProps) => {
     const { t } = useTranslation();
     const [editorState, setEditorState] = useState(() => RichTextEditor.createValueFromString(value, 'html'));
 
@@ -44,10 +47,11 @@ const RTE = ({ value, onChange, placeholder }: RichTextEditorProps) => {
 
     return (
         <RichTextEditor
+            disabled={disabled}
             value={editorState}
             onChange={handleChange}
             toolbarConfig={toolbarConfig}
-            className="rte"
+            className={classNames('rte', className)}
             placeholder={placeholder}
         />
     );

@@ -24,7 +24,6 @@ export const userRolesToPermission = (userRoles: UserRole[]) => {
         },
         [UserRole.TenantAdmin]: {
             Tenant: { read: true, update: true },
-            Admin: { read: true, create: false, update: true, delete: true },
             Statistic: { read: true },
         },
         [UserRole.TopicAdmin]: {

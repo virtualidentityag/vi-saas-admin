@@ -1,7 +1,7 @@
 import { Form } from 'antd';
 import DisabledContext from 'antd/es/config-provider/DisabledContext';
 import classNames from 'classnames';
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import RichTextEditor from '../RichText/RichTextEditor';
 import styles from './styles.module.scss';
@@ -24,10 +24,17 @@ const FormRichTextEditor = ({ onChange, value, placeholderKey }: FormRichTextEdi
     const { t } = useTranslation();
     const contextDisabled = useContext(DisabledContext);
 
+    const onChangeLocal = useCallback((ev) => {
+        const html = ev.toString('html');
+        // Rich editor when we click even if it's empty it creates the content
+        //  '<p><br></p>' so when that happens we still want to validate as empty
+        onChange(html === '<p><br></p>' ? '' : html);
+    }, []);
+
     return (
         <RichTextEditor
             className={classNames({ [styles.disabled]: contextDisabled })}
-            onChange={(text) => onChange(text.toString('html'))}
+            onChange={onChangeLocal}
             value={value || ''}
             disabled={contextDisabled}
             placeholder={placeholderKey ? t(placeholderKey) : undefined}

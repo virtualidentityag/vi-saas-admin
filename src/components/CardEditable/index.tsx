@@ -1,16 +1,21 @@
 import { Form, FormInstance, Spin } from 'antd';
 import Title from 'antd/lib/typography/Title';
+import classNames from 'classnames';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box } from '../../../../box/Box';
-import { Button, ButtonItem, BUTTON_TYPES } from '../../../../button/Button';
-import Pencil from '../../../../CustomIcons/Pencil';
+import { Box } from '../box/Box';
+import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
+import Pencil from '../CustomIcons/Pencil';
+import { Tooltip } from '../tooltip/Tooltip';
+import styles from './styles.module.scss';
+import { ReactComponent as InfoIcon } from '../../resources/img/svg/i.svg';
 
 interface CardEditableProps {
     className?: string;
     isLoading?: boolean;
     initialValues: Record<string, unknown>;
     titleKey: string;
+    subTitle?: React.ReactChild;
     children:
         | React.ReactElement
         | React.ReactElement[]
@@ -18,6 +23,7 @@ interface CardEditableProps {
     onSave: <T>(formData: T) => void;
     formProp?: FormInstance;
     onAddMode?: boolean;
+    tooltip?: React.ReactChild;
 }
 
 export const CardEditable = ({
@@ -25,10 +31,12 @@ export const CardEditable = ({
     isLoading,
     initialValues,
     titleKey,
+    subTitle,
     children,
     onAddMode,
     onSave,
     formProp,
+    tooltip,
 }: CardEditableProps) => {
     const [form] = Form.useForm(formProp);
     const { t } = useTranslation();
@@ -52,16 +60,25 @@ export const CardEditable = ({
     );
 
     return (
-        <Box>
-            <div className={`${className || ''} agencyEdit__headline`}>
-                <Title className="formHeadline mb-m" level={4}>
-                    {t(titleKey)}
-                </Title>
-                {!onAddMode && <Pencil className="agencyEdit__pointer" onClick={() => setEditing(true)} />}
+        <Box className={styles.card} contentClassName={styles.contentClassName}>
+            <div className={classNames(styles.cardTitle, className)}>
+                <div className={styles.titleContainer}>
+                    <Title className={classNames(styles.title)} level={5}>
+                        {t(titleKey)}
+                    </Title>
+
+                    {tooltip && (
+                        <Tooltip className={styles.tooltip} trigger={<InfoIcon fill="var(--primary)" />}>
+                            {tooltip}
+                        </Tooltip>
+                    )}
+                </div>
+                {!onAddMode && <Pencil className={styles.pencil} onClick={() => setEditing(true)} />}
             </div>
-            {isLoading && <Spin />}
-            {!isLoading && (
-                <div>
+            {subTitle && <div className={classNames(styles.cardSubTitle)}>{subTitle}</div>}
+            <div className={classNames(styles.container, { [styles.isLoading]: isLoading })}>
+                {isLoading && <Spin />}
+                {!isLoading && (
                     <Form
                         size="small"
                         labelAlign="left"
@@ -74,11 +91,11 @@ export const CardEditable = ({
                     >
                         {typeof children === 'function' ? children(form) : children}
                     </Form>
-                </div>
-            )}
+                )}
+            </div>
 
             {editing && !onAddMode && (
-                <div className="agencyEdit__editableButtons">
+                <div className={styles.footerActions}>
                     <Button
                         item={cancelEditButton}
                         buttonHandle={() => {

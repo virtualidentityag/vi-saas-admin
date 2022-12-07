@@ -7,9 +7,12 @@ import { TenantData } from '../types/tenant';
 export const TENANT_DATA_KEY = 'tenant-data';
 export const useTenantData = () => {
     const { settings } = useAppConfigContext();
-    return useQuery<TenantData>(TENANT_DATA_KEY, async () =>
-        getPublicTenantData(settings).then((tenant) =>
-            getTenantData(tenant, settings.multitenancyWithSingleDomainEnabled),
-        ),
+    return useQuery<TenantData>(
+        TENANT_DATA_KEY,
+        async () =>
+            getPublicTenantData(settings).then((tenant) =>
+                getTenantData(tenant, settings.multitenancyWithSingleDomainEnabled),
+            ),
+        { staleTime: 60_000 },
     );
 };

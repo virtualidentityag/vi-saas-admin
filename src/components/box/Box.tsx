@@ -1,13 +1,17 @@
+import classNames from 'classnames';
 import { ReactNode } from 'react';
+import styles from './styles.module.scss';
 
 type BoxProps = {
+    className?: string;
+    contentClassName?: string;
     children: ReactNode;
 };
 
-export const Box = ({ children }: BoxProps) => {
+export const Box = ({ className, contentClassName, children }: BoxProps) => {
     return (
-        <div className="box">
-            <div className="box__content">{children}</div>
+        <div className={classNames(className, styles.box)}>
+            <div className={classNames(contentClassName, styles.content)}>{children}</div>
         </div>
     );
 };

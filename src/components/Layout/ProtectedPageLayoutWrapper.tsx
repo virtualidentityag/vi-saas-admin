@@ -68,7 +68,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                     <div className="logo" />
                     <nav className="mainMenu">
                         <ul>
-                            {canShowThemeSettings && can(PermissionAction.Read, Resource.Tenant) && (
+                            {canShowThemeSettings && can(PermissionAction.Update, Resource.Tenant) && (
                                 <li key="theme" className="menuItem">
                                     <NavLink
                                         to={routePathNames.themeSettings}

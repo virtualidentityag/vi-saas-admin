@@ -25,6 +25,12 @@ export const LegalSettings = () => {
                         </>
                     }
                     placeHolderKey="settings.privacy.placeholder"
+                    showConfirmationModal={{
+                        titleKey: 'privacy.confirmation.title',
+                        contentKey: 'privacy.confirmation.content',
+                        cancelLabelKey: 'privacy.confirmation.cancel',
+                        okLabelKey: 'privacy.confirmation.confirm',
+                    }}
                 />
             </Col>
             <Col span={12} sm={6}>
@@ -33,6 +39,12 @@ export const LegalSettings = () => {
                     titleKey="termsAndConditions.title"
                     subTitle={t('termsAndConditions.subTitle')}
                     placeHolderKey="settings.termsAndConditions.placeholder"
+                    showConfirmationModal={{
+                        titleKey: 'termsAndConditions.confirmation.title',
+                        contentKey: 'termsAndConditions.confirmation.content',
+                        cancelLabelKey: 'termsAndConditions.confirmation.cancel',
+                        okLabelKey: 'termsAndConditions.confirmation.confirm',
+                    }}
                 />
             </Col>
         </Row>

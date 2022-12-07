@@ -9,6 +9,7 @@ import Pencil from '../CustomIcons/Pencil';
 import { Tooltip } from '../tooltip/Tooltip';
 import styles from './styles.module.scss';
 import { ReactComponent as InfoIcon } from '../../resources/img/svg/i.svg';
+import { UnsavedChangesModal } from './components/UnsavedChanges';
 
 interface CardEditableProps {
     className?: string;
@@ -24,9 +25,11 @@ interface CardEditableProps {
     formProp?: FormInstance;
     onAddMode?: boolean;
     tooltip?: React.ReactChild;
+    allowUnsavedChanges?: boolean;
 }
 
 export const CardEditable = ({
+    allowUnsavedChanges,
     className,
     isLoading,
     initialValues,
@@ -41,6 +44,9 @@ export const CardEditable = ({
     const [form] = Form.useForm(formProp);
     const { t } = useTranslation();
     const [editing, setEditing] = useState(onAddMode);
+    const [hasChanges, setHasChanges] = useState(false);
+    const [showUnsavedChangesModal, setShowUnsavedChangesModal] = useState(false);
+
     const cancelEditButton: ButtonItem = {
         label: t('agency.edit.general.general_information.cancel'),
         type: BUTTON_TYPES.LINK,
@@ -55,6 +61,7 @@ export const CardEditable = ({
         (formData) => {
             onSave(formData);
             setEditing(false);
+            setHasChanges(false);
         },
         [onSave],
     );
@@ -85,6 +92,7 @@ export const CardEditable = ({
                         labelWrap
                         layout="vertical"
                         form={form}
+                        onValuesChange={() => setHasChanges(true)}
                         onFinish={onFormSubmit}
                         disabled={!editing}
                         initialValues={initialValues}
@@ -99,12 +107,26 @@ export const CardEditable = ({
                     <Button
                         item={cancelEditButton}
                         buttonHandle={() => {
-                            form.resetFields();
-                            setEditing(false);
+                            if (allowUnsavedChanges && hasChanges) {
+                                setShowUnsavedChangesModal(true);
+                            } else {
+                                form.resetFields();
+                                setEditing(false);
+                            }
                         }}
                     />
                     <Button item={saveEditButton} buttonHandle={() => form.submit()} />
                 </div>
+            )}
+            {allowUnsavedChanges && showUnsavedChangesModal && (
+                <UnsavedChangesModal
+                    onConfirm={() => setShowUnsavedChangesModal(false)}
+                    onClose={() => {
+                        form.resetFields();
+                        setEditing(false);
+                        setShowUnsavedChangesModal(false);
+                    }}
+                />
             )}
         </Box>
     );

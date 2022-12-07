@@ -29,6 +29,7 @@ export const LegalText = ({ fieldName, titleKey, subTitle, placeHolderKey, showC
     return (
         <>
             <CardEditable
+                allowUnsavedChanges
                 isLoading={isLoading}
                 initialValues={{ ...data }}
                 titleKey={titleKey}

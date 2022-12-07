@@ -30,6 +30,7 @@ export const LegalSettings = () => {
                         contentKey: 'privacy.confirmation.content',
                         cancelLabelKey: 'privacy.confirmation.cancel',
                         okLabelKey: 'privacy.confirmation.confirm',
+                        field: ['content', 'confirmPrivacy'],
                     }}
                 />
             </Col>
@@ -44,6 +45,7 @@ export const LegalSettings = () => {
                         contentKey: 'termsAndConditions.confirmation.content',
                         cancelLabelKey: 'termsAndConditions.confirmation.cancel',
                         okLabelKey: 'termsAndConditions.confirmation.confirm',
+                        field: ['content', 'confirmTermsAndConditions'],
                     }}
                 />
             </Col>

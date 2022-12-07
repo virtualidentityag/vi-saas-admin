@@ -1,3 +1,4 @@
+import set from 'lodash.set';
 import { useCallback, useState } from 'react';
 import { CardEditable } from '../../../../../components/CardEditable';
 import { FormRichTextEditorField } from '../../../../../components/FormRichTextEditorField';
@@ -11,18 +12,22 @@ interface LegalTextProps {
     titleKey: string;
     subTitle: string | React.ReactChild;
     placeHolderKey: string;
-    showConfirmationModal?: Omit<AskUserPermissionProps, 'onClose' | 'onConfirm'>;
+    showConfirmationModal?: Omit<AskUserPermissionProps, 'onClose' | 'onConfirm'> & { field: string[] };
 }
 
 export const LegalText = ({ fieldName, titleKey, subTitle, placeHolderKey, showConfirmationModal }: LegalTextProps) => {
     const { data, isLoading } = useTenantAdminData();
     const { mutate: updateTenant } = useTenantAdminDataMutation();
-    const [formDataContent, setFormData] = useState<unknown>();
+    const [formDataContent, setFormData] = useState<Record<string, unknown>>();
     const [modalVisible, setModalVisible] = useState(false);
 
-    const onConfirm = useCallback(() => updateTenant(formDataContent), [formDataContent]);
+    const onConfirm = useCallback(() => {
+        updateTenant(set(formDataContent, showConfirmationModal.field, true));
+        setModalVisible(false);
+    }, [formDataContent]);
+
     const onCancel = useCallback(() => {
-        updateTenant(formDataContent);
+        updateTenant(set(formDataContent, showConfirmationModal.field, false));
         setModalVisible(false);
     }, [formDataContent]);
 
@@ -36,7 +41,7 @@ export const LegalText = ({ fieldName, titleKey, subTitle, placeHolderKey, showC
                 subTitle={subTitle}
                 onSave={(formData) => {
                     if (showConfirmationModal) {
-                        setFormData(formData);
+                        setFormData(formData as Record<string, unknown>);
                         setModalVisible(true);
                     } else {
                         updateTenant(formData);

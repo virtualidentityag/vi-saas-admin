@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import { Form, Select } from 'antd';
-import { Rule } from 'rc-field-form/es/interface';
 import { ValidateStatus } from 'antd/es/form/FormItem';
 import styles from './styles.module.scss';
 

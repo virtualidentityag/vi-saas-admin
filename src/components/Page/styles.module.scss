@@ -17,7 +17,8 @@
     color: rgba(0, 0, 0, 0.6);
 
     :global {
-        .active, a:hover {
+        .active,
+        a:hover {
             border-color: var(--primary);
             color: var(--primary);
         }

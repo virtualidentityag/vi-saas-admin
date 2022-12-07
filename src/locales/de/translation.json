@@ -369,6 +369,7 @@
     "topic.modal.text.delete": "Wollen Sie dieses Thema wirklich löschen. Dieser Vorgang kann nicht rückgängig gemacht werden.",
     "required.info": "*Pflichtfelder",
     "form.errors.required": "Pflichtfelder",
+    "form.errors.fillAllLanguages": "Bitte Angaben in allen Sprachen ausfüllen.",
     "language.en": "English",
     "language.de": "German"
 }

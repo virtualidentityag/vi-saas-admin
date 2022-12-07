@@ -4,9 +4,9 @@ import classNames from 'classnames';
 import { cloneElement, useContext, useMemo } from 'react';
 import { CheckCircleTwoTone, WarningTwoTone } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
-import styles from './styles.module.scss';
 import { SelectFormField } from '../SelectFormField';
 import { useTenantAdminData } from '../../hooks/useTenantAdminData.hook';
+import styles from './styles.module.scss';
 
 export interface TranslatableFormFieldProps {
     name: string | string[];
@@ -34,10 +34,18 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
             };
         }, {});
 
+    const hasErrors = useMemo(() => Object.values(errors).some((e) => e), [errors]);
+
     return (
         <>
             {languages.length > 1 && (
-                <SelectFormField name={[...namePath, 'translate']}>
+                <SelectFormField
+                    name={[...namePath, 'translate']}
+                    required
+                    validateStatus={hasErrors && 'error'}
+                    help={hasErrors && t('form.errors.fillAllLanguages')}
+                    className={styles.translateField}
+                >
                     {languages.map((language) => (
                         <Select.Option value={language} key={language}>
                             <div className={styles.containerLabel}>

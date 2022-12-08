@@ -5,7 +5,7 @@ import { useAgencyData } from '../../../../../hooks/useAgencyData';
 import { useAgencyUpdate } from '../../../../../hooks/useAgencyUpdate';
 import { FormInputField } from '../../../../FormInputField';
 import { FormTextAreaField } from '../../../../FormTextAreaField';
-import { CardEditable } from '../CardEditable';
+import { CardEditable } from '../../../../CardEditable';
 
 export const AgencyGeneralInformation = ({ id }: { id: string }) => {
     const [t] = useTranslation();

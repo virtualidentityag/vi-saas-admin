@@ -11,7 +11,7 @@ import { AgencyData } from '../../../../../types/agency';
 import { FormInputField } from '../../../../FormInputField';
 import { FormSwitchField } from '../../../../FormSwitchField';
 import { PostCodeRanges } from '../../../PostCodeRanges';
-import { CardEditable } from '../CardEditable';
+import { CardEditable } from '../../../../CardEditable';
 
 function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
     return data?.length === 1 && data[0].from === '00000' && data[0].until === '99999';

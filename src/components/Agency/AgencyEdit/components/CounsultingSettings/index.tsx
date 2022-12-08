@@ -13,7 +13,7 @@ import { convertToOptions } from '../../../../../utils/convertToOptions';
 import { FormSwitchField } from '../../../../FormSwitchField';
 import { Option, SelectFormField } from '../../../../SelectFormField';
 import { SliderFormField } from '../../../../SliderFormField';
-import { CardEditable } from '../CardEditable';
+import { CardEditable } from '../../../../CardEditable';
 
 const DEFAULT_MIN_AGE = 18;
 const DEFAULT_MAX_AGE = 100;

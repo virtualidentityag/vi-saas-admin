@@ -20,6 +20,8 @@ export const clusterFeatureFlags = {
     useApiClusterSettings: true, // Feature flag to enable the cluster use the cluster settings instead of the config file
 };
 
+export const supportedLanguages = ['de', 'en'];
+
 export const agencyDataAgencyId = (agencyId: string) => `${mainURL}/service/agencyadmin/agencies/${agencyId}`;
 export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&perPage=100`;
 export const agencyEndpointBase = `${mainURL}/service/agencyadmin/agencies`;
@@ -41,6 +43,7 @@ export const eventTypeById = `${mainURL}/eventTypes/{eventTypeId}`;
 export const loginEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/token`;
 export const logoutEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/logout`;
 export const tenantEndpoint = `${mainURL}/service/tenant/`;
+export const tenantAdminEndpoint = `${mainURL}/service/tenantadmin/`;
 export const serverSettingsEndpoint = `${mainURL}/service/settings`;
 export const baseTenantPublicEndpoint = `${mainURL}/service/tenant/public`;
 export const tenantPublicEndpoint = `${baseTenantPublicEndpoint}/${subdomain}`;

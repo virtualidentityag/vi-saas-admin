@@ -36,4 +36,54 @@
     --form-item-label-font-size: var(--fontSize-s);
     --form-item-label-height: auto;
     --form-item-margin-bottom: var(--spacing-sm);
+
+    /* Colors */
+    --white: #fff;
+    --white-50-opacity: rgba(255, 255, 255, 0.5);
+    --black: #000;
+    --black-25-opacity: rgba(0, 0, 0, 0.25);
+    --black-10-opacity: rgba(0, 0, 0, 0.1);
+    --primary: #273270;
+    --secondary: #3f373f;
+    --tertiary: rgba(var(--black), 0.6);
+    --background-accent: #f8dedd;
+
+    --hover-primary: #525b8d;
+    --hover-select: #f4d2d1;
+
+    --background-light: #f4f0ee;
+    --background-lighter: #faf6f3;
+    --background-grey: #677391;
+
+    --form-primary: #8c878c;
+    --form-secondary: #3f373f;
+    --form-success: #0dcd21;
+    --form-medium: #ff9f00;
+    --form-error: #f00;
+    --form-disabled: #c4bfc4;
+    --form-active: #3f373f;
+
+    --light-grey: #787378;
+    --light-grey-hover: #655f65;
+    --light-red: #e07876;
+    --line-grey: #c4bfc4;
+    --line-ochre: #cebfaa;
+    --dark-brown: #432000;
+    --light-brown: #b5906e;
+    --dark-grey: #e7e3e1;
+
+    /* YELLOW THEME */
+    --yellow-1: #ffeed2;
+    --yellow-2: #ffe7bf;
+    --yellow-3: #ffdca3;
+    --yellow-4: #febd50;
+    --yellow-5: #ff9f00;
+    --yellow-6: #de8a00;
+
+    /* breakpoints */
+    --from-small: 520px;
+    --from-medium: 600px;
+    --from-large: 900px;
+    --from-xl-large: 1200px;
+    --from-xx-large: 1600px;
 }

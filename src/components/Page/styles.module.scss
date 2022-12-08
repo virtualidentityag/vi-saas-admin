@@ -6,3 +6,55 @@
 .content {
     width: 100%;
 }
+
+.tabsContainer {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 0;
+    padding-right: 25%;
+    color: rgba(0, 0, 0, 0.6);
+
+    :global {
+        .active,
+        a:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+        padding-right: 0;
+        padding-bottom: 20px;
+    }
+}
+
+.tab {
+    border-bottom: 4px solid transparent;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.titleContainer {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+
+    @media screen and (max-width: 770px) {
+        width: 100%;
+    }
+
+    @media screen and (max-width: 800px) {
+        padding-right: 0;
+    }
+}
+
+.title {
+    text-align: left;
+}
+
+.pageTitleContainer {
+    display: flex;
+    flex-wrap: wrap;
+}

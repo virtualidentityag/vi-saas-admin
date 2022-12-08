@@ -27,7 +27,7 @@ const FormColorSelectorLocal = ({ labelKey, onChange, value }: FormColorSelector
             isLoading={contextDisabled}
             label={t(labelKey)}
             tenantColor={value}
-            setColorValue={onChange}
+            setColorValue={(_, color: string) => onChange(color)}
             field="primaryColor"
         />
     );

@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import './styles/App.less';
 import './app.css';
-import { Route, Routes, useLocation, useNavigate } from 'react-router';
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router';
 import ProtectedPageLayoutWrapper from './components/Layout/ProtectedPageLayoutWrapper';
 import routePathNames from './appConfig';
 // import Dashboard from "./pages/Dashboard";
-import { TenantSettings } from './pages/TenantSettings';
+import { TenantSettingsLayout } from './pages/TenantSettings';
 import { Topics } from './pages/Topics';
 import { Statistic } from './pages/Statistic';
 import { UserProfile } from './pages/UserProfile';
@@ -21,6 +21,11 @@ import { useUserRoles } from './hooks/useUserRoles.hook';
 import { UserRole } from './enums/UserRole';
 import { UsersList } from './pages/users/List';
 import { UserEditOrAdd } from './pages/users/Edit';
+import { GeneralSettings } from './pages/TenantSettings/GeneralSettings';
+import { LegalSettings } from './pages/TenantSettings/LegalSettings';
+import { useUserPermissions } from './hooks/useUserPermission';
+import { PermissionAction } from './enums/PermissionAction';
+import { Resource } from './enums/Resource';
 
 export const App = () => {
     const { settings } = useAppConfigContext();
@@ -28,6 +33,7 @@ export const App = () => {
     const { isLoading, data } = useTenantData();
     const navigate = useNavigate();
     const location = useLocation();
+    const { can } = useUserPermissions();
 
     useEffect(() => {
         if (location.pathname === routePathNames.root || location.pathname === `${routePathNames.root}/`) {
@@ -40,6 +46,10 @@ export const App = () => {
         }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+    const canShowThemeSettings = settings.mainTenantSubdomainForSingleDomainMultitenancy
+        ? hasRole(UserRole.TenantAdmin)
+        : hasRole(UserRole.SingleTenantAdmin);
+
     return isLoading ? (
         <Initialization />
     ) : (
@@ -47,7 +57,14 @@ export const App = () => {
             <ProtectedPageLayoutWrapper>
                 <Routes>
                     {/* later <Route path="/" element={<Dashboard />} /> */}
-                    <Route path={routePathNames.themeSettings} element={<TenantSettings />} />
+                    {can(PermissionAction.Update, Resource.Tenant) && canShowThemeSettings && (
+                        <Route path={routePathNames.themeSettings} element={<TenantSettingsLayout />}>
+                            <Route index element={<Navigate to={`${routePathNames.themeSettings}/general`} />} />
+                            <Route path={`${routePathNames.themeSettings}/general`} element={<GeneralSettings />} />
+                            <Route path={`${routePathNames.themeSettings}/legal`} element={<LegalSettings />} />
+                            <Route path="*" element={<Navigate to={routePathNames.themeSettings} />} />
+                        </Route>
+                    )}
                     <Route path={routePathNames.agency} element={<Agencies />} />
                     <Route path={`${routePathNames.agencyEdit}/*`} element={<AgencyPageEdit />} />
                     <Route path={`${routePathNames.agencyAdd}/*`} element={<AgencyAdd />} />

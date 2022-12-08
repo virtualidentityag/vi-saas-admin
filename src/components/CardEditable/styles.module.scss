@@ -1,0 +1,65 @@
+.cardTitle {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cardSubTitle {
+    min-height: 32px;
+    margin-bottom: 10px;
+    color: var(--label-color);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.card {
+    height: 100%;
+}
+
+.title {
+    text-transform: capitalize;
+    margin-bottom: var(--spacing-m);
+}
+
+.contentClassName {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex-grow: 1;
+}
+
+.tooltip {
+    :global {
+        svg {
+            width: 20px;
+        }
+    }
+}
+
+.titleContainer {
+    display: flex;
+    gap: 18px;
+}
+
+.footerActions {
+    display: flex;
+    justify-content: flex-end;
+
+    :global {
+        .button__link {
+            width: auto;
+            min-width: unset;
+            padding: 0;
+            margin: 0 0 0 24px;
+        }
+    }
+}
+
+.isLoading {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}

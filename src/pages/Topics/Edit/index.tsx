@@ -57,11 +57,9 @@ export const TopicEditOrAdd = () => {
                     status: topic?.status === 'ACTIVE',
                     name: {
                         ...(topic?.name || {}),
-                        translate: 'de',
                     },
                     description: {
                         ...(topic?.description || {}),
-                        translate: 'de',
                     },
                 }}
                 titleKey="topics.settings"

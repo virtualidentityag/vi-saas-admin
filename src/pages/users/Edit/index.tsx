@@ -12,7 +12,6 @@ import { FormInputField } from '../../../components/FormInputField';
 import { FormTextAreaField } from '../../../components/FormTextAreaField';
 import { Page } from '../../../components/Page';
 import { SelectFormField } from '../../../components/SelectFormField';
-import { SwitchFormField } from '../../../components/SwitchFormField';
 import { PermissionAction } from '../../../enums/PermissionAction';
 import { Resource } from '../../../enums/Resource';
 import { TypeOfUser } from '../../../enums/TypeOfUser';
@@ -22,6 +21,7 @@ import { useConsultantOrAdminsData } from '../../../hooks/useConsultantOrAdminsD
 import { useUserPermissions } from '../../../hooks/useUserPermission';
 import { convertToOptions } from '../../../utils/convertToOptions';
 import { decodeUsername } from '../../../utils/encryptionHelpers';
+import { FormSwitchField } from '../../../components/FormSwitchField';
 
 export const UserEditOrAdd = () => {
     const navigate = useNavigate();
@@ -130,8 +130,8 @@ export const UserEditOrAdd = () => {
                 {typeOfUsers === 'consultants' && (
                     <>
                         <Space align="center">
-                            <SwitchFormField label="counselor.formalLanguage" name="formalLanguage" />
-                            {isEditing && <SwitchFormField label="plsSelect" name="absent" />}
+                            <FormSwitchField labelKey="counselor.formalLanguage" name="formalLanguage" />
+                            {isEditing && <FormSwitchField labelKey="plsSelect" name="absent" />}
                         </Space>
                         {isAbsentEnabled && (
                             <FormTextAreaField labelKey="counselor.absenceMessage" name="absenceMessage" />

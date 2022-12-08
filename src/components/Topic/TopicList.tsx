@@ -8,13 +8,11 @@ import { PlusOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/lib/table';
 import { isDisabled } from '@testing-library/user-event/dist/utils';
 import { InterestsOutlined } from '@mui/icons-material';
-import TopicFormModal from './TopicFormModal';
-
+import { useNavigate } from 'react-router';
 import getTopicData from '../../api/topic/getTopicData';
 import { TopicData } from '../../types/topic';
 import { Status } from '../../types/status';
 import StatusIcons from '../EditableTable/StatusIcons';
-import pubsub, { PubSubEvents } from '../../state/pubsub/PubSub';
 import { TopicDeletionModal } from './TopicDeletionModal';
 import EditButtons from '../EditableTable/EditButtons';
 import { useAppConfigContext } from '../../context/useAppConfig';
@@ -27,18 +25,10 @@ import { UserRole } from '../../enums/UserRole';
 import { Resource } from '../../enums/Resource';
 import { useUserPermissions } from '../../hooks/useUserPermission';
 import { PermissionAction } from '../../enums/PermissionAction';
+import routePathNames from '../../appConfig';
 
-const emptyTopicModel: TopicData = {
-    id: null,
-    name: '',
-    description: '',
-    internalIdentifier: null,
-    status: undefined,
-};
-
-let tableStateHolder: TableState;
-
-const TopicList = () => {
+export const TopicList = () => {
+    const navigate = useNavigate();
     const { t } = useTranslation();
     const { can } = useUserPermissions();
     const { settings } = useAppConfigContext();
@@ -131,10 +121,7 @@ const TopicList = () => {
                         <div className="tableActionWrapper">
                             <EditButtons
                                 isDisabled={record.status === 'IN_DELETION'}
-                                handleEdit={() => {
-                                    tableStateHolder = tableState;
-                                    pubsub.publishEvent(PubSubEvents.TOPIC_UPDATE, record);
-                                }}
+                                handleEdit={() => navigate(`/admin/topics/${record.id}`)}
                                 handleDelete={isDisabled}
                                 record={record}
                                 hide={['delete']}
@@ -156,8 +143,6 @@ const TopicList = () => {
             setIsLoading(false);
         });
     };
-
-    useEffect(() => pubsub.subscribe(PubSubEvents.TOPICLIST_UPDATE, () => setTableState({ ...tableStateHolder })), []);
 
     useEffect(() => {
         reloadTopicList();
@@ -204,7 +189,7 @@ const TopicList = () => {
                         className="mb-m mr-sm"
                         type="primary"
                         icon={<PlusOutlined />}
-                        onClick={() => pubsub.publishEvent(PubSubEvents.TOPIC_UPDATE, emptyTopicModel)}
+                        onClick={() => navigate(`${routePathNames.topics}/add`)}
                     >
                         {t('new')}
                     </Button>
@@ -237,10 +222,7 @@ const TopicList = () => {
                 }}
             />
 
-            <TopicFormModal />
             <TopicDeletionModal />
         </>
     );
 };
-
-export default TopicList;

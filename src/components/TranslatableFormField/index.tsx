@@ -20,7 +20,7 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
     const formContext = useContext(FieldContext);
     const fieldData = Form.useWatch([...namePath]);
     const languages = useMemo(
-        () => tenantData.settings.activeLanguages || ['de'],
+        () => tenantData?.settings?.activeLanguages || ['de'],
         [tenantData?.settings?.activeLanguages],
     );
 
@@ -40,6 +40,7 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
         <>
             {languages.length > 1 && (
                 <SelectFormField
+                    label="languages"
                     name={[...namePath, 'translate']}
                     required
                     validateStatus={hasErrors && 'error'}

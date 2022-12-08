@@ -358,6 +358,8 @@
     "overlay.unsaved.confirm": "Verwerfen",
     "topic": "Thema",
     "topics.title": "Themen",
+    "topics.settings": "Einstellungen",
+    "topics.nameAndDescription": "Name und Beschreibung",
     "topics.title.text": "Erstellen und bearbeiten Sie Themen",
     "topics.featureToggle": "Themen übergreifend in der Anwendung aktivieren",
     "topics.featureToggle.on.title": "Themen aktivieren",
@@ -374,6 +376,7 @@
     "required.info": "*Pflichtfelder",
     "form.errors.required": "Pflichtfelder",
     "form.errors.fillAllLanguages": "Bitte Angaben in allen Sprachen ausfüllen.",
+    "languages": "Sprachen",
     "language.en": "English",
     "language.de": "German"
 }

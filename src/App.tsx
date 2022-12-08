@@ -26,6 +26,7 @@ import { LegalSettings } from './pages/TenantSettings/LegalSettings';
 import { useUserPermissions } from './hooks/useUserPermission';
 import { PermissionAction } from './enums/PermissionAction';
 import { Resource } from './enums/Resource';
+import { TopicEditOrAdd } from './pages/Topics/Edit';
 
 export const App = () => {
     const { settings } = useAppConfigContext();
@@ -69,6 +70,7 @@ export const App = () => {
                     <Route path={`${routePathNames.agencyEdit}/*`} element={<AgencyPageEdit />} />
                     <Route path={`${routePathNames.agencyAdd}/*`} element={<AgencyAdd />} />
                     <Route path={routePathNames.topics} element={<Topics />} />
+                    <Route path={`${routePathNames.topics}/:id`} element={<TopicEditOrAdd />} />
                     <Route path={routePathNames.statistic} element={<Statistic />} />
                     <Route path={routePathNames.userProfile} element={<UserProfile />} />
                     <Route path={routePathNames.tenants} element={<Tenants />} />

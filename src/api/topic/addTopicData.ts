@@ -8,7 +8,7 @@ function buildTopicDataRequestBody(formData: Record<string, any>) {
         name: formData.name,
         description: formData.description,
         internalIdentifier: formData.internalIdentifier,
-        status: formData.status,
+        status: formData.status ? 'ACTIVE' : 'INACTIVE',
         // enforced by admin API, without business value for SAAS
         external: false,
     });

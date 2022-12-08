@@ -8,8 +8,7 @@ import { TopicData } from '../../types/topic';
  * @param formInput - input data from form
  * @return data
  */
-const updateTopicData = async (topicModel: TopicData, formInput: TopicData) => {
-    const topicId = topicModel.id;
+const updateTopicData = async (topicId: string, formInput: TopicData) => {
     if (topicId == null) {
         throw Error('topic id must be set');
     }
@@ -19,11 +18,11 @@ const updateTopicData = async (topicModel: TopicData, formInput: TopicData) => {
         name: formInput.name,
         description: formInput.description,
         internalIdentifier: formInput.internalIdentifier,
-        status: formInput.status,
+        status: formInput.status ? 'ACTIVE' : 'INACTIVE',
         external: false,
     };
     return fetchData({
-        url: `${topicEndpoint}/${topicModel.id}`,
+        url: `${topicEndpoint}/${topicId}`,
         method: FETCH_METHODS.PUT,
         skipAuth: false,
         responseHandling: [FETCH_ERRORS.CATCH_ALL],

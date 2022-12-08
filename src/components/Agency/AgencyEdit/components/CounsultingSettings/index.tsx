@@ -50,7 +50,6 @@ const ConsultingSettingsContainer = ({ topics, hasConsultants }: ConsultingSetti
                     <FormSwitchField
                         labelKey="agency.edit.general.more_settings.team_advice_center"
                         name="teamAgency"
-                        paragraphKey="yes"
                     />
                 </Col>
                 <Col xs={12} lg={6}>
@@ -58,7 +57,6 @@ const ConsultingSettingsContainer = ({ topics, hasConsultants }: ConsultingSetti
                         labelKey="agency.edit.general.more_settings.online"
                         name="online"
                         disabled={!hasConsultants}
-                        paragraphKey="yes"
                     />
                 </Col>
             </Row>

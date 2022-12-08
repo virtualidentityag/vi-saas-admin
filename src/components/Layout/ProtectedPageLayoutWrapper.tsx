@@ -3,6 +3,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { Layout } from 'antd';
 import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 import routePathNames from '../../appConfig';
 import SiteFooter from './SiteFooter';
 import SiteHeader from './SiteHeader';
@@ -159,7 +160,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                         </ul>
                     </nav>
                 </Sider>
-                <Layout className="mainContent">
+                <Layout className={classNames('mainContent', { 'with-footer': !hasRole(UserRole.TenantAdmin) })}>
                     <SiteHeader />
                     <Content className="content">
                         <div className="contentInner">{children}</div>

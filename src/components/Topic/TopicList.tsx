@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import Title from 'antd/es/typography/Title';
@@ -19,13 +19,12 @@ import { useAppConfigContext } from '../../context/useAppConfig';
 import { useUserRoles } from '../../hooks/useUserRoles.hook';
 import { useFeatureContext } from '../../context/FeatureContext';
 import { FeatureFlag } from '../../enums/FeatureFlag';
-import { useTenantData } from '../../hooks/useTenantData.hook';
-import { useTenantDataUpdate } from '../../hooks/useTenantDataUpdate.hook';
 import { UserRole } from '../../enums/UserRole';
 import { Resource } from '../../enums/Resource';
 import { useUserPermissions } from '../../hooks/useUserPermission';
 import { PermissionAction } from '../../enums/PermissionAction';
 import routePathNames from '../../appConfig';
+import { useTenantAdminDataMutation } from '../../hooks/useTenantAdminDataMutation.hook';
 
 export const TopicList = () => {
     const navigate = useNavigate();
@@ -34,8 +33,7 @@ export const TopicList = () => {
     const { settings } = useAppConfigContext();
     const { isEnabled, toggleFeature } = useFeatureContext();
     const [, hasRole] = useUserRoles();
-    const { data: tenantData } = useTenantData();
-    const { mutate: updateTenantData } = useTenantDataUpdate();
+    const { mutate: updateTenantData } = useTenantAdminDataMutation();
     const [topics, setTopics] = useState([]);
     const [numberOfTopics, setNumberOfTopics] = useState(0);
     const [tableState, setTableState] = useState<TableState>({
@@ -56,9 +54,7 @@ export const TopicList = () => {
             onOk() {
                 updateTenantData(
                     {
-                        ...tenantData,
                         settings: {
-                            ...tenantData.settings,
                             topicsInRegistrationEnabled: !isTopicsFeatureActive,
                         },
                     },

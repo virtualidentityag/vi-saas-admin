@@ -131,7 +131,7 @@ export const UserEditOrAdd = () => {
                     <>
                         <Space align="center">
                             <FormSwitchField labelKey="counselor.formalLanguage" name="formalLanguage" />
-                            {isEditing && <FormSwitchField labelKey="plsSelect" name="absent" />}
+                            {isEditing && <FormSwitchField labelKey="counselor.absent" name="absent" />}
                         </Space>
                         {isAbsentEnabled && (
                             <FormTextAreaField labelKey="counselor.absenceMessage" name="absenceMessage" />

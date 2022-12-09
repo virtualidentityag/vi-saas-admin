@@ -94,7 +94,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 </li>
                             )}
 
-                            {can(PermissionAction.Read, Resource.Consultant) && (
+                            {can(PermissionAction.Read, Resource.Agency) && (
                                 <li className="menuItem">
                                     <NavLink to={routePathNames.agency} className={() => (checkActive ? 'active' : '')}>
                                         <NavIcon path={routePathNames.agency} />

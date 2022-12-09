@@ -7,9 +7,11 @@ interface TopicAdminOptions extends UseQueryOptions<TopicAdminData> {
     id: string;
 }
 
+export const TOPIC_ADMIN_KEY = 'TOPIC_ADMIN';
+
 export const useTopicAdmin = ({ id, ...options }: TopicAdminOptions) => {
     return useQuery<TopicAdminData>(
-        ['TOPIC_ADMIN', id],
+        [TOPIC_ADMIN_KEY, id],
         () =>
             fetchData({
                 url: `${topicAdminEndpoint}/${id}`,

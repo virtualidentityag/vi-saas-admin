@@ -16,7 +16,7 @@ interface FormSwitchFieldProps {
 
 interface FormSwitchFieldLocalProps {
     onChange?: (value: boolean) => void;
-    value?: boolean;
+    checked?: boolean;
     disabled?: boolean;
     paragraphKey?: string;
     checkedKey: string;
@@ -25,7 +25,7 @@ interface FormSwitchFieldLocalProps {
 
 const FormSwitchFieldLocal = ({
     onChange,
-    value,
+    checked,
     paragraphKey,
     checkedKey,
     disabled,
@@ -39,7 +39,7 @@ const FormSwitchFieldLocal = ({
                 disabled={disabled}
                 size="default"
                 onChange={onChange}
-                checked={value}
+                checked={checked}
                 checkedChildren={t(checkedKey)}
                 unCheckedChildren={t(unCheckedKey)}
             />

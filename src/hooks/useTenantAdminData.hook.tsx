@@ -9,7 +9,7 @@ export const useTenantAdminData = () => {
     const { data } = useTenantData();
 
     return useQuery<TenantAdminData>(
-        TENANT_ADMIN_DATA_KEY,
+        [TENANT_ADMIN_DATA_KEY, data.id],
         async () =>
             fetchData({
                 url: `${tenantAdminEndpoint}${data.id}`,

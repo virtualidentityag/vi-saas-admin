@@ -29,7 +29,7 @@ export const TopicEditOrAdd = () => {
         id: isEditing ? id : null,
         onSuccess: (response) => {
             message.success({
-                content: t('message.counselor.update'),
+                content: t(`message.topic.${isEditing ? 'update' : 'add'}`),
                 duration: 3,
             });
             navigate(`/admin/topics/${response?.id || id}`);

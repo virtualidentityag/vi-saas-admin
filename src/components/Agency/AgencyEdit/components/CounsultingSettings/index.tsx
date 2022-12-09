@@ -13,7 +13,7 @@ import { convertToOptions } from '../../../../../utils/convertToOptions';
 import { FormSwitchField } from '../../../../FormSwitchField';
 import { Option, SelectFormField } from '../../../../SelectFormField';
 import { SliderFormField } from '../../../../SliderFormField';
-import { CardEditable } from '../CardEditable';
+import { CardEditable } from '../../../../CardEditable';
 import getConsultingTypes from '../../../../../api/consultingtype/getConsultingTypes';
 import { getDiocesesData } from '../../../../../api/agency/getDiocesesData';
 

@@ -6,6 +6,18 @@ import { TenantAdminData } from '../types/TenantAdminData';
 import { TENANT_ADMIN_DATA_KEY, useTenantAdminData } from './useTenantAdminData.hook';
 import { useTenantData } from './useTenantData.hook';
 
+const mergeData = (currentTenantData, formData) => {
+    const finalData = mergeWith(currentTenantData, formData, (objValue, srcValue) => {
+        return objValue instanceof Array ? srcValue : undefined;
+    }) as TenantAdminData;
+
+    Object.keys(finalData.content).forEach((key) => {
+        delete finalData.content[key]?.translate;
+    });
+
+    return finalData;
+};
+
 export const useTenantAdminDataMutation = () => {
     const queryClient = useQueryClient();
     const { data: tenantData } = useTenantData();
@@ -17,22 +29,13 @@ export const useTenantAdminDataMutation = () => {
                 url: `${tenantAdminEndpoint}${tenantData.id}`,
                 method: FETCH_METHODS.PUT,
                 skipAuth: false,
-                bodyData: JSON.stringify(
-                    mergeWith(tenantAdminData, data, (objValue, srcValue) => {
-                        return objValue instanceof Array ? srcValue : undefined;
-                    }),
-                ),
+                bodyData: JSON.stringify(mergeData(tenantAdminData, data)),
                 responseHandling: [],
             });
         },
         {
             onSuccess: (_, updatedData) => {
-                queryClient.setQueryData(
-                    TENANT_ADMIN_DATA_KEY,
-                    mergeWith(tenantAdminData, updatedData, (objValue, srcValue) => {
-                        return objValue instanceof Array ? srcValue : undefined;
-                    }),
-                );
+                queryClient.setQueryData(TENANT_ADMIN_DATA_KEY, mergeData(tenantAdminData, updatedData));
             },
         },
     );

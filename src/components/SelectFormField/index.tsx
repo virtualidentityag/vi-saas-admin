@@ -24,6 +24,7 @@ export interface SelectFormFieldProps {
     labelInValue?: boolean;
     children?: React.ReactElement[];
     validateStatus?: ValidateStatus;
+    initialValue?: string;
 }
 
 export const SelectFormField = ({
@@ -42,6 +43,7 @@ export const SelectFormField = ({
     labelInValue,
     children,
     validateStatus,
+    initialValue,
 }: SelectFormFieldProps) => {
     const [t] = useTranslation();
     const message = errorMessage || t('form.errors.required');
@@ -54,6 +56,7 @@ export const SelectFormField = ({
             help={help ? t(help) : undefined}
             validateStatus={validateStatus}
             className={className}
+            initialValue={initialValue}
         >
             <Select
                 className={styles.select}

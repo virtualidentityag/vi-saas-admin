@@ -12,6 +12,14 @@ export const useAddOrUpdateTopicAdmin = ({ id, ...options }: UseAddOrUpdateTopic
     return useMutation((formData) => {
         const bodyData = JSON.stringify({
             ...formData,
+            name: {
+                ...(formData?.name || {}),
+                translate: undefined,
+            },
+            description: {
+                ...(formData?.description || {}),
+                translate: undefined,
+            },
             external: false,
             dioceseId: 0,
             status: formData.status ? 'ACTIVE' : 'INACTIVE',

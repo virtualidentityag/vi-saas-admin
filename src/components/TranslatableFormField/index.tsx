@@ -40,6 +40,7 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
         <>
             {languages.length > 1 && (
                 <SelectFormField
+                    initialValue="de"
                     label="languages"
                     name={[...namePath, 'translate']}
                     required

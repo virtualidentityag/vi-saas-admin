@@ -1,8 +1,17 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import updateAgencyPostCodeRange from '../api/agency/updateAgencyPostCodeRange';
 
 export const useAgencyPostCodesUpdate = (id: string) => {
-    return useMutation(['AGENCY_POST_CODES', id], (data: { postcodeRanges: string }) => {
-        return updateAgencyPostCodeRange(id, data, '');
-    });
+    const queryClient = useQueryClient();
+
+    return useMutation(
+        (data: { postcodeRanges: string }) => {
+            return updateAgencyPostCodeRange(id, data, '');
+        },
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(['AGENCY', 'AGENCY_POST_CODES']);
+            },
+        },
+    );
 };

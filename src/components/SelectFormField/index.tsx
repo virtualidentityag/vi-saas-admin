@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Form, Select } from 'antd';
+import { ValidateStatus } from 'antd/es/form/FormItem';
+import styles from './styles.module.scss';
 
 export interface Option {
     label: string;
@@ -7,21 +9,25 @@ export interface Option {
 }
 
 export interface SelectFormFieldProps {
-    label: string;
+    className?: string;
+    label?: string;
     name: string | string[];
     placeholder?: string;
     help?: string;
     loading?: boolean;
     required?: boolean;
     isMulti?: boolean;
-    options: Option[];
+    options?: Option[];
     allowClear?: boolean;
     disabled?: boolean;
     errorMessage?: string;
     labelInValue?: boolean;
+    children?: React.ReactElement[];
+    validateStatus?: ValidateStatus;
 }
 
 export const SelectFormField = ({
+    className,
     label,
     options,
     name,
@@ -34,6 +40,8 @@ export const SelectFormField = ({
     disabled,
     errorMessage,
     labelInValue,
+    children,
+    validateStatus,
 }: SelectFormFieldProps) => {
     const [t] = useTranslation();
     const message = errorMessage || t('form.errors.required');
@@ -44,8 +52,11 @@ export const SelectFormField = ({
             label={t(label)}
             rules={required ? [{ required: true, message }] : undefined}
             help={help ? t(help) : undefined}
+            validateStatus={validateStatus}
+            className={className}
         >
             <Select
+                className={styles.select}
                 disabled={disabled}
                 showSearch
                 labelInValue={labelInValue}
@@ -55,12 +66,14 @@ export const SelectFormField = ({
                 mode={isMulti ? 'multiple' : undefined}
                 placeholder={placeholder ? t(placeholder) : undefined}
                 optionFilterProp="children"
-                filterOption={(input, option) => option.value?.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                filterOption={(input, option) => option.label?.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 filterSort={(optionA, optionB) =>
-                    optionA.value?.toLowerCase().localeCompare(optionB.value?.toLowerCase())
+                    optionA.label?.toLowerCase().localeCompare(optionB.label?.toLowerCase())
                 }
                 options={options}
-            />
+            >
+                {children}
+            </Select>
         </Form.Item>
     );
 };

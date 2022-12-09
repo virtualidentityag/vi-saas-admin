@@ -1,7 +1,14 @@
-import { useQuery } from 'react-query';
+import { useQuery, UseQueryOptions } from 'react-query';
 import getAgencyDataById from '../api/agency/getAgencyById';
 import { AgencyData } from '../types/agency';
 
-export const useAgencyData = (id: string) => {
-    return useQuery<AgencyData>(['AGENCY', id], () => getAgencyDataById(id).then(({ _embedded }) => _embedded));
+interface AgencyProps extends UseQueryOptions<AgencyData> {
+    id?: string;
+}
+export const useAgencyData = ({ id, ...options }: AgencyProps) => {
+    return useQuery<AgencyData>(
+        ['AGENCY', id],
+        () => getAgencyDataById(id).then(({ _embedded }) => _embedded),
+        options,
+    );
 };

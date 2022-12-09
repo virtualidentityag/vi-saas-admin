@@ -75,7 +75,6 @@ const ConsultingSettingsContainer = ({
                     <FormSwitchField
                         labelKey="agency.edit.general.more_settings.team_advice_center"
                         name="teamAgency"
-                        paragraphKey="yes"
                     />
                 </Col>
                 <Col xs={12} lg={6}>
@@ -83,7 +82,6 @@ const ConsultingSettingsContainer = ({
                         labelKey="agency.edit.general.more_settings.online"
                         name="online"
                         disabled={!hasConsultants}
-                        paragraphKey="yes"
                     />
                 </Col>
             </Row>
@@ -109,10 +107,10 @@ const ConsultingSettingsContainer = ({
 
 export const ConsultingSettings = ({ id }: { id: string }) => {
     const [t] = useTranslation();
-    const { data: hasConsultants, isLoading: isLoadingConsultants } = useAgencyHasConsultants(id);
+    const { data: hasConsultants, isLoading: isLoadingConsultants } = useAgencyHasConsultants({ id });
     const { mutate } = useAgencyUpdate(id);
     const { isEnabled } = useFeatureContext();
-    const { data, isLoading, refetch } = useAgencyData(id);
+    const { data, isLoading, refetch } = useAgencyData({ id });
     const { data: topics, isLoading: isLoadingTopics } = useTopics(true);
     const [diocesesData, setDiocesesData] = useState([]);
     const [consultingTypes, setConsultingTypes] = useState([]);

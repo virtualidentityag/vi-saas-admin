@@ -26,12 +26,13 @@ interface Props {
 export const NavIcon = ({ path }: Props) => {
     const currentPath = useLocation().pathname;
     const currentlySelected = currentPath.includes(path);
+
     const props = { sx: { fontSize: 32 } };
 
     switch (path) {
         case routePathNames.themeSettings:
             return currentlySelected ? <Settings {...props} /> : <SettingsOutlined {...props} />;
-        case routePathNames.counselors:
+        case '/admin/users':
             return currentlySelected ? <ManageAccounts {...props} /> : <ManageAccountsOutlined {...props} />;
         case routePathNames.agency:
         case routePathNames.agencyAdd:

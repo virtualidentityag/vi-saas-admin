@@ -1,19 +1,30 @@
 import { Form, Input } from 'antd';
+import { Rule } from 'rc-field-form/es/interface';
 import { useTranslation } from 'react-i18next';
+import styles from './styles.module.scss';
 
 interface FormTextAreaFieldProps {
     labelKey: string;
+    className?: string;
     placeholderKey?: string;
     required?: boolean;
-    name: string;
+    name?: string;
+    rules?: Rule[];
 }
 
-export const FormTextAreaField = ({ name, labelKey, required, placeholderKey }: FormTextAreaFieldProps) => {
+export const FormTextAreaField = ({
+    className,
+    name,
+    labelKey,
+    required,
+    placeholderKey,
+    rules = [],
+}: FormTextAreaFieldProps) => {
     const { t } = useTranslation();
 
     return (
-        <Form.Item label={t(labelKey)} name={name} rules={[{ required }]}>
-            <Input.TextArea placeholder={placeholderKey && t(placeholderKey)} rows={3} />
+        <Form.Item label={t(labelKey)} name={name} rules={[{ required }, ...rules]} className={className}>
+            <Input.TextArea className={styles.textarea} placeholder={placeholderKey && t(placeholderKey)} rows={3} />
         </Form.Item>
     );
 };

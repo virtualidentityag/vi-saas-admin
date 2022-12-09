@@ -8,7 +8,7 @@ export const DEFAULT_ROLE = 'CONSULTANT_DEFAULT';
  * retrieve all needed agency data
  * @return {Promise}
  */
-const putAgenciesForCounselor = (counselorId: string, agencyIds: string[]) => {
+export const putAgenciesForCounselor = (counselorId: string, agencyIds: string[]) => {
     const agencies = agencyIds.map((agencyId) => ({
         agencyId,
         role: DEFAULT_ROLE,
@@ -22,5 +22,3 @@ const putAgenciesForCounselor = (counselorId: string, agencyIds: string[]) => {
         bodyData: JSON.stringify(agencies),
     });
 };
-
-export default putAgenciesForCounselor;

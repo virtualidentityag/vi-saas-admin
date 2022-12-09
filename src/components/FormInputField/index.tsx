@@ -1,23 +1,33 @@
 import { Form, Input, InputProps } from 'antd';
+import { Rule } from 'antd/lib/form';
 import { useTranslation } from 'react-i18next';
+import styles from './styles.module.scss';
 
-interface FormInputFieldProps extends InputProps {
+interface FormInputFieldProps extends Omit<InputProps, 'name'> {
     labelKey: string;
     placeholderKey?: string;
     required?: boolean;
-    name: string;
+    /**
+     * Only optional when used with TranslatableFormField
+     */
+    name?: string | string[];
+    rules?: Rule[];
 }
 
-export const FormInputField = ({ name, labelKey, required, placeholderKey, ...inputProps }: FormInputFieldProps) => {
+export const FormInputField = ({
+    className,
+    name,
+    labelKey,
+    required,
+    placeholderKey,
+    rules,
+    ...inputProps
+}: FormInputFieldProps) => {
     const { t } = useTranslation();
 
     return (
-        <Form.Item label={t(labelKey)} name={name} rules={[{ required }]}>
-            <Input
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...inputProps}
-                placeholder={placeholderKey && t(placeholderKey)}
-            />
+        <Form.Item className={className} label={t(labelKey)} name={name} rules={[{ required }, ...(rules || [])]}>
+            <Input {...inputProps} className={styles.input} placeholder={placeholderKey && t(placeholderKey)} />
         </Form.Item>
     );
 };

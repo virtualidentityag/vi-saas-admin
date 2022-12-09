@@ -1,4 +1,3 @@
-import { CounselorData } from '../../types/counselor';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
 import { counselorEndpoint } from '../../appConfig';
 
@@ -7,11 +6,9 @@ import { counselorEndpoint } from '../../appConfig';
  * @param counselorData
  * @return data
  */
-const editCounselorData = (counselorData: CounselorData) => {
-    const { id } = counselorData;
-
+export const deleteCounselorData = (counselorDataId: string) => {
     const counselor = fetchData({
-        url: `${counselorEndpoint}/${id}`,
+        url: `${counselorEndpoint}/${counselorDataId}`,
         method: FETCH_METHODS.DELETE,
         skipAuth: false,
         responseHandling: [FETCH_ERRORS.CATCH_ALL],
@@ -19,5 +16,3 @@ const editCounselorData = (counselorData: CounselorData) => {
 
     return counselor;
 };
-
-export default editCounselorData;

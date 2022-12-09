@@ -8,13 +8,11 @@ import { PlusOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/lib/table';
 import { isDisabled } from '@testing-library/user-event/dist/utils';
 import { InterestsOutlined } from '@mui/icons-material';
-import TopicFormModal from './TopicFormModal';
-
+import { useNavigate } from 'react-router';
 import getTopicData from '../../api/topic/getTopicData';
 import { TopicData } from '../../types/topic';
 import { Status } from '../../types/status';
 import StatusIcons from '../EditableTable/StatusIcons';
-import pubsub, { PubSubEvents } from '../../state/pubsub/PubSub';
 import { TopicDeletionModal } from './TopicDeletionModal';
 import EditButtons from '../EditableTable/EditButtons';
 import { useAppConfigContext } from '../../context/useAppConfig';
@@ -24,19 +22,15 @@ import { FeatureFlag } from '../../enums/FeatureFlag';
 import { useTenantData } from '../../hooks/useTenantData.hook';
 import { useTenantDataUpdate } from '../../hooks/useTenantDataUpdate.hook';
 import { UserRole } from '../../enums/UserRole';
+import { Resource } from '../../enums/Resource';
+import { useUserPermissions } from '../../hooks/useUserPermission';
+import { PermissionAction } from '../../enums/PermissionAction';
+import routePathNames from '../../appConfig';
 
-const emptyTopicModel: TopicData = {
-    id: null,
-    name: '',
-    description: '',
-    internalIdentifier: null,
-    status: undefined,
-};
-
-let tableStateHolder: TableState;
-
-const TopicList = () => {
+export const TopicList = () => {
+    const navigate = useNavigate();
     const { t } = useTranslation();
+    const { can } = useUserPermissions();
     const { settings } = useAppConfigContext();
     const { isEnabled, toggleFeature } = useFeatureContext();
     const [, hasRole] = useUserRoles();
@@ -127,13 +121,11 @@ const TopicList = () => {
                         <div className="tableActionWrapper">
                             <EditButtons
                                 isDisabled={record.status === 'IN_DELETION'}
-                                handleEdit={() => {
-                                    tableStateHolder = tableState;
-                                    pubsub.publishEvent(PubSubEvents.TOPIC_UPDATE, record);
-                                }}
+                                handleEdit={() => navigate(`/admin/topics/${record.id}`)}
                                 handleDelete={isDisabled}
                                 record={record}
                                 hide={['delete']}
+                                resource={Resource.Topic}
                             />
                         </div>
                     );
@@ -151,8 +143,6 @@ const TopicList = () => {
             setIsLoading(false);
         });
     };
-
-    useEffect(() => pubsub.subscribe(PubSubEvents.TOPICLIST_UPDATE, () => setTableState({ ...tableStateHolder })), []);
 
     useEffect(() => {
         reloadTopicList();
@@ -185,7 +175,7 @@ const TopicList = () => {
     const canShowTopicSwitch =
         ((settings.multitenancyWithSingleDomainEnabled && hasRole(UserRole.TenantAdmin)) ||
             !settings.multitenancyWithSingleDomainEnabled) &&
-        hasRole(UserRole.TopicAdmin) &&
+        can(PermissionAction.Create, Resource.Topic) &&
         isEnabled(FeatureFlag.Topics);
 
     return (
@@ -194,14 +184,16 @@ const TopicList = () => {
             <p>{t('topics.title.text')}</p>
 
             <Space align="baseline">
-                <Button
-                    className="mb-m mr-sm"
-                    type="primary"
-                    icon={<PlusOutlined />}
-                    onClick={() => pubsub.publishEvent(PubSubEvents.TOPIC_UPDATE, emptyTopicModel)}
-                >
-                    {t('new')}
-                </Button>
+                {can(PermissionAction.Create, Resource.Topic) && (
+                    <Button
+                        className="mb-m mr-sm"
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        onClick={() => navigate(`${routePathNames.topics}/add`)}
+                    >
+                        {t('new')}
+                    </Button>
+                )}
 
                 {canShowTopicSwitch && (
                     <>
@@ -230,10 +222,7 @@ const TopicList = () => {
                 }}
             />
 
-            <TopicFormModal />
             <TopicDeletionModal />
         </>
     );
 };
-
-export default TopicList;

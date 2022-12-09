@@ -2,7 +2,7 @@ import { getValueFromCookie } from '../api/auth/accessSessionCookie';
 import { UserRole } from '../enums/UserRole';
 import parseJwt from '../utils/parseJWT';
 
-export const useUserRoles = (): [UserRole[], (role: UserRole) => boolean] => {
+export const useUserRoles = (): [UserRole[], (role: UserRole | UserRole[]) => boolean] => {
     const accessToken = getValueFromCookie('keycloak');
     let roles: UserRole[] = [];
     if (accessToken) {
@@ -10,5 +10,11 @@ export const useUserRoles = (): [UserRole[], (role: UserRole) => boolean] => {
         roles = access?.realm_access.roles || [];
     }
 
-    return [roles, (userRole: UserRole) => roles.some((role: UserRole) => role === userRole)];
+    return [
+        roles,
+        (userRole: UserRole | UserRole[]) => {
+            const userRoles = userRole instanceof Array ? userRole : [userRole];
+            return roles.some((role: UserRole) => userRoles.includes(role));
+        },
+    ];
 };

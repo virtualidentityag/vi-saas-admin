@@ -1,5 +1,6 @@
 import { Spin } from 'antd';
 import Title from 'antd/es/typography/Title';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import styles from './styles.module.scss';
@@ -23,17 +24,20 @@ const PageTabs = ({ tabs }: { tabs: Array<{ to: string; titleKey }> }) => {
     const { t } = useTranslation();
     return (
         <div className={styles.tabsContainer}>
-            {tabs.map((tab) => (
-                <NavLink className={styles.tab} to={tab.to} key={tab.titleKey}>
-                    {t(tab.titleKey)}
-                </NavLink>
-            ))}
+            {tabs
+                ?.filter((tab) => tab.to)
+                .map((tab) => (
+                    <NavLink className={styles.tab} to={tab.to} key={tab.titleKey}>
+                        {t(tab.titleKey)}
+                    </NavLink>
+                ))}
         </div>
     );
 };
 
 export const PageTitle = ({ titleKey, subTitleKey, tabs }: PageTitleProps) => {
     const { t } = useTranslation();
+    const finalTabs = useMemo(() => tabs?.filter(Boolean) || [], [tabs]);
 
     return (
         <div className={styles.pageTitleContainer}>
@@ -43,7 +47,7 @@ export const PageTitle = ({ titleKey, subTitleKey, tabs }: PageTitleProps) => {
                 </Title>
                 {subTitleKey && <p>{t(subTitleKey)}</p>}
             </div>
-            {tabs && <PageTabs tabs={tabs} />}
+            {finalTabs?.length && <PageTabs tabs={finalTabs} />}
         </div>
     );
 };

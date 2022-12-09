@@ -28,7 +28,7 @@ export const TwoFactorAuthAppActivate = ({ userData }: TwoFactorAuthAppActivateP
                             ? encode(userData.twoFactorAuth.secret).replace(/={1,8}$/, '')
                             : ''
                     }
-                    type="standard"
+                    type="wrapped"
                 />
             </div>
         </div>

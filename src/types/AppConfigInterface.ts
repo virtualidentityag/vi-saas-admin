@@ -15,4 +15,6 @@ export interface AppConfigInterface {
     useApiClusterSettings?: boolean;
     /** When the Feature flag multitenancyWithSingleDomainEnabled is used we need to know the main subdomain */
     mainTenantSubdomainForSingleDomainMultitenancy?: string;
+    /** Feature Flag for using consultingTypes when creating new / editing agencies  */
+    useConsultingTypesForAgencies?: boolean;
 }

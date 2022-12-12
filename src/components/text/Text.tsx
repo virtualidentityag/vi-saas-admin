@@ -1,4 +1,10 @@
-export type TextTypeOptions = 'standard' | 'infoLargeStandard' | 'infoLargeAlternative' | 'infoSmall' | 'divider';
+export type TextTypeOptions =
+    | 'standard'
+    | 'infoLargeStandard'
+    | 'infoLargeAlternative'
+    | 'infoSmall'
+    | 'divider'
+    | 'wrapped';
 
 export interface TextProps {
     text: string | JSX.Element;

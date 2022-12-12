@@ -93,7 +93,7 @@ const Counselor = ({ formData, isInAddMode = false, modalForm, handleEditCounsel
 
     useEffect(() => {
         setIsLoading(true);
-        getAgencyByTenantData()
+        getAgencyByTenantData(9999)
             .then((result: any) => {
                 // eslint-disable-next-line no-underscore-dangle
                 const resultNormalized = removeEmbedded(result).data?.filter(

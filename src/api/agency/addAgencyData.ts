@@ -3,14 +3,14 @@ import { agencyEndpointBase } from '../../appConfig';
 import updateAgencyPostCodeRange from './updateAgencyPostCodeRange';
 import getConsultingType4Tenant from '../consultingtype/getConsultingType4Tenant';
 
-function buildAgencyDataRequestBody(consultingTypeResponseId: string, formData: Record<string, any>) {
+function buildAgencyDataRequestBody(consultingTypeResponseId: string | number, formData: Record<string, any>) {
     const topicIds = formData.topicIds
         ?.map((topic) => (typeof topic === 'string' ? topic : topic?.value))
         .filter(Boolean);
 
     return JSON.stringify({
         // diocese in case of SAAS is not relevant object but enforced by API
-        dioceseId: 0,
+        dioceseId: formData.dioceseId !== null ? parseInt(formData.dioceseId, 10) : 0,
         name: formData.name,
         description: formData.description ? formData.description : '',
         topicIds,
@@ -48,7 +48,9 @@ async function createAgency(agencyDataRequestBody: string) {
  * @return data
  */
 async function addAgencyData(agencyData: Record<string, any>) {
-    const consultingTypeId = await getConsultingType4Tenant();
+    const consultingTypeId =
+        agencyData.consultingType !== null ? parseInt(agencyData.consultingType, 10) : await getConsultingType4Tenant();
+
     const agencyDataRequestBody = buildAgencyDataRequestBody(consultingTypeId, agencyData);
     const agencyCreationResponse = await createAgency(agencyDataRequestBody);
 

@@ -17,13 +17,16 @@ if (process.env.REACT_APP_USE_API_URL === 'true') {
 export const mainURL = url;
 
 export const clusterFeatureFlags = {
-    useApiClusterSettings: true, // Feature flag to enable the cluster use the cluster settings instead of the config file
+    useApiClusterSettings: false, // Feature flag to enable the cluster use the cluster settings instead of the config file
+};
+
+export const featureFlags = {
+    useConsultingTypesForAgencies: true, // Use consulting types for agency creation
 };
 
 export const supportedLanguages = ['de', 'en'];
 
 export const agencyDataAgencyId = (agencyId: string) => `${mainURL}/service/agencyadmin/agencies/${agencyId}`;
-export const agencyEndpoint = `${mainURL}/service/agencyadmin/agencies?page=1&perPage=100`;
 export const agencyEndpointBase = `${mainURL}/service/agencyadmin/agencies`;
 export const agencyEventTypes = (agencyId: string) =>
     `${mainURL}/service/appointservice/agencies/${agencyId}/eventTypes`;
@@ -38,6 +41,7 @@ export const consultantsForAgencyEventTypesNew = (agencyId: string) =>
     `${mainURL}/service/appointservice/agencies/${agencyId}/eventTypes`;
 export const consultingTypeEndpoint = `${mainURL}/service/consultingtypes`;
 export const counselorEndpoint = `${mainURL}/service/useradmin/consultants`;
+export const diocesesEndpoint = `${mainURL}/service/agencyadmin/dioceses`;
 export const adminEndpoint = `${mainURL}/service/useradmin/agencyadmins`;
 export const eventTypeById = `${mainURL}/eventTypes/{eventTypeId}`;
 export const loginEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/token`;

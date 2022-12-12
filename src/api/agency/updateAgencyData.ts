@@ -21,9 +21,9 @@ export const updateAgencyData = async (agencyModel: AgencyData, formInput: Agenc
     const consultingTypeId =
         formInput.consultingType !== null ? parseInt(formInput.consultingType, 10) : await getConsultingType4Tenant();
 
-    const topicIds = formInput?.topicIds
-        ?.map((topic) => (typeof topic === 'string' ? topic : topic?.value))
-        .filter(Boolean);
+    const topics = formInput?.topicIds || formInput?.topics;
+
+    const topicIds = topics?.map((topic) => (typeof topic === 'string' ? topic : topic?.id)).filter(Boolean);
 
     const agencyDataRequestBody = {
         dioceseId: formInput.dioceseId ? parseInt(formInput.dioceseId, 10) : 0,
@@ -33,7 +33,7 @@ export const updateAgencyData = async (agencyModel: AgencyData, formInput: Agenc
         postcode: formInput.postcode,
         city: formInput.city,
         consultingType: consultingTypeId,
-        offline: !formInput.online,
+        offline: formInput.offline,
         external: false,
         demographics: formInput.demographics,
     };

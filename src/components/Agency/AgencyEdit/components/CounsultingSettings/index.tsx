@@ -56,7 +56,7 @@ const ConsultingSettingsContainer = ({
             )}
             {isEnabled(FeatureFlag.ConsultingTypesForAgencies) && (
                 <SelectFormField
-                    label="diocese.title"
+                    label="agency.edit.general.more_settings.diocese.title"
                     name="dioceseId"
                     placeholder="plsSelect"
                     options={convertToOptions(dioceses, ['id', 'name'], 'id')}

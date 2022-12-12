@@ -10,7 +10,8 @@ function buildAgencyDataRequestBody(consultingTypeResponseId: string | number, f
 
     return JSON.stringify({
         // diocese in case of SAAS is not relevant object but enforced by API
-        dioceseId: formData.dioceseId !== null ? parseInt(formData.dioceseId, 10) : 0,
+        dioceseId:
+            formData.dioceseId !== null && formData.dioceseId !== undefined ? parseInt(formData.dioceseId, 10) : 0,
         name: formData.name,
         description: formData.description ? formData.description : '',
         topicIds,
@@ -49,7 +50,9 @@ async function createAgency(agencyDataRequestBody: string) {
  */
 async function addAgencyData(agencyData: Record<string, any>) {
     const consultingTypeId =
-        agencyData.consultingType !== null ? parseInt(agencyData.consultingType, 10) : await getConsultingType4Tenant();
+        agencyData.consultingType !== null && agencyData.consultingType !== undefined
+            ? parseInt(agencyData.consultingType, 10)
+            : await getConsultingType4Tenant();
 
     const agencyDataRequestBody = buildAgencyDataRequestBody(consultingTypeId, agencyData);
     const agencyCreationResponse = await createAgency(agencyDataRequestBody);

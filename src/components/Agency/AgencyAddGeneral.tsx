@@ -260,9 +260,9 @@ export const AgencyAddGeneral = () => {
                                     </Item>
                                 )}
                                 {isEnabled(FeatureFlag.ConsultingTypesForAgencies) && diocesesData?.length > 0 && (
-                                    <Item name="dioceseId">
+                                    <Item name="dioceseId" className="agencyEdit__selectFormField">
                                         <SelectFormField
-                                            label="diocese.title"
+                                            label="agency.add.general.more_settings.diocese.title"
                                             name="dioceseId"
                                             loading={isLoading}
                                             allowClear
@@ -272,7 +272,7 @@ export const AgencyAddGeneral = () => {
                                     </Item>
                                 )}
                                 {isEnabled(FeatureFlag.ConsultingTypesForAgencies) && consultingTypes?.length > 0 && (
-                                    <Item name="consultingType">
+                                    <Item name="consultingType" className="agencyEdit__selectFormField">
                                         <SelectFormField
                                             label="agency"
                                             name="consultingType"

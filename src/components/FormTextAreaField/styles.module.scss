@@ -3,7 +3,7 @@
     border: none;
     border: 1px solid var(--input-border-color) !important;
     border-radius: 0;
-    color: rgba(0, 0, 0, 0.87);
+    color: rgb(0 0 0 / 87%);
 
     &:focus {
         box-shadow: none;
@@ -11,6 +11,6 @@
 
     &[disabled] {
         background: none;
-        color: rgba(0, 0, 0, 0.4);
+        color: rgb(0 0 0 / 40%);
     }
 }

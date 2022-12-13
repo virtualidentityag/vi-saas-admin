@@ -6,8 +6,16 @@ import { TenantAdminData } from '../types/TenantAdminData';
 import { TENANT_ADMIN_DATA_KEY, useTenantAdminData } from './useTenantAdminData.hook';
 import { useTenantData } from './useTenantData.hook';
 
-const mergeData = (currentTenantData, formData) => {
-    const finalData = mergeWith(currentTenantData, formData, (objValue, srcValue) => {
+const mergeData = (currentTenantData: TenantAdminData, formData) => {
+    const tmp = Object.assign(currentTenantData);
+    // Remove the triggers of the booleans (confirmTermsAndConditions, confirmPrivacy)
+    Object.keys(tmp.content).forEach((key) => {
+        if (typeof tmp.content[key] === 'boolean') {
+            delete tmp.content[key];
+        }
+    });
+
+    const finalData = mergeWith(tmp, formData, (objValue, srcValue) => {
         return objValue instanceof Array ? srcValue : undefined;
     }) as TenantAdminData;
 

@@ -1,5 +1,6 @@
 import { Form, Input, InputProps } from 'antd';
 import { Rule } from 'antd/lib/form';
+import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
@@ -26,7 +27,12 @@ export const FormInputField = ({
     const { t } = useTranslation();
 
     return (
-        <Form.Item className={className} label={t(labelKey)} name={name} rules={[{ required }, ...(rules || [])]}>
+        <Form.Item
+            className={classNames(className, styles.item)}
+            label={t(labelKey)}
+            name={name}
+            rules={[{ required }, ...(rules || [])]}
+        >
             <Input {...inputProps} className={styles.input} placeholder={placeholderKey && t(placeholderKey)} />
         </Form.Item>
     );

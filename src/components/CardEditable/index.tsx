@@ -70,10 +70,10 @@ export const CardEditable = ({
 
     return (
         <Box
-            className={classNames(styles.card, { [styles.fullHeight]: fullHeight })}
+            className={classNames(styles.card, className, { [styles.fullHeight]: fullHeight })}
             contentClassName={styles.contentClassName}
         >
-            <div className={classNames(styles.cardTitle, className)}>
+            <div className={classNames(styles.cardTitle)}>
                 <div className={styles.titleContainer}>
                     <Title className={classNames(styles.title)} level={5}>
                         {t(titleKey)}

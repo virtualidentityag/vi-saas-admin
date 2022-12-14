@@ -209,6 +209,7 @@
     "counselor.modal.headline.add": "Berater hinzufügen",
     "counselor.modal.text.delete": "Wollen Sie diesen Berater wirklich löschen. Dieser Vorgang kann nicht rückgängig gemacht werden.",
     "organisations.nameAndSlugTitle": "Benennung und Slogan",
+    "organisations.nameAndSlugTitleSubtitle": "Personalisieren Sie den Namen und Ihren Slogan der Anwendung.",
     "organisations.language": "Sprachen",
     "organisations.languageSubtitle": "Die mehrsprachige Unterstützung ermöglicht es Beratern und Ratsuchenden, in der App in ihrer bevorzugten Sprache zu navigieren. Legen Sie die verfügbaren Sprachen fest. Deutsch ist als Standardsprache vorausgewählt und kann nicht entfernt werden.",
     "organisations.title": "Organisationen",

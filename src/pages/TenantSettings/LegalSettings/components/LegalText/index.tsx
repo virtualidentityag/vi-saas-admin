@@ -6,6 +6,7 @@ import { TranslatableFormField } from '../../../../../components/TranslatableFor
 import { useTenantAdminData } from '../../../../../hooks/useTenantAdminData.hook';
 import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
 import { AskUserPermissionModal, AskUserPermissionProps } from '../AskUserConfirmation';
+import styles from './styles.module.scss';
 
 interface LegalTextProps {
     fieldName: string[];
@@ -39,6 +40,7 @@ export const LegalText = ({ fieldName, titleKey, subTitle, placeHolderKey, showC
                 initialValues={{ ...data }}
                 titleKey={titleKey}
                 subTitle={subTitle}
+                className={styles.card}
                 onSave={(formData) => {
                     if (showConfirmationModal) {
                         setFormData(formData as Record<string, unknown>);

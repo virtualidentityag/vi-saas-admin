@@ -50,7 +50,7 @@ export const TopicEditOrAdd = () => {
                         isLoading={isLoading}
                         initialValues={{
                             ...(topic || {}),
-                            status: topic?.status === 'ACTIVE',
+                            status: topic?.status === 'ACTIVE' || !topic,
                             name: {
                                 ...(topic?.name || {}),
                             },

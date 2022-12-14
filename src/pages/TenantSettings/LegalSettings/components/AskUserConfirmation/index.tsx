@@ -25,11 +25,11 @@ export const AskUserPermissionModal = ({
         <Modal
             title={<Title level={2}>{t(titleKey)}</Title>}
             open
-            onOk={onConfirm}
             onCancel={onClose}
-            cancelText={t(cancelLabelKey)}
+            onOk={onConfirm}
+            cancelText={t(okLabelKey)}
             centered
-            okText={t(okLabelKey)}
+            okText={t(cancelLabelKey)}
         >
             {t(contentKey)}
         </Modal>

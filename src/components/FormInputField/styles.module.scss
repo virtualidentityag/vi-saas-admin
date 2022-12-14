@@ -6,7 +6,7 @@
     color: rgb(0 0 0 / 87%);
 
     &:focus {
-        box-shadow: none!important;
+        box-shadow: none !important;
     }
 
     &:active {
@@ -25,17 +25,16 @@
             border-top: 0 !important;
         }
     }
-
 }
 
 .item {
     :global {
         label {
-            height: initial!important;
+            height: initial !important;
 
             &.ant-form-item-required {
                 &:before {
-                    display: none!important;
+                    display: none !important;
                 }
 
                 &:after {

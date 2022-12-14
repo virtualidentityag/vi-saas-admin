@@ -21,7 +21,7 @@
             padding: 4px 8px !important;
             background-color: transparent !important;
             box-shadow: none !important;
-            border-radius: 0!important;
+            border-radius: 0 !important;
         }
 
         .ant-select-selection-placeholder {
@@ -45,8 +45,8 @@
         }
 
         .ant-select-selection-item {
-            height: 30px!important;
-            line-height: 27px!important;
+            height: 30px !important;
+            line-height: 27px !important;
         }
     }
 }
@@ -54,11 +54,11 @@
 .item {
     :global {
         label {
-            height: initial!important;
+            height: initial !important;
 
             &.ant-form-item-required {
                 &:before {
-                    display: none!important;
+                    display: none !important;
                 }
 
                 &:after {

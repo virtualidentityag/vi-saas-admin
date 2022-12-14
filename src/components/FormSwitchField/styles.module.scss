@@ -1,11 +1,11 @@
 .item {
     :global {
         label {
-            height: initial!important;
+            height: initial !important;
 
             &.ant-form-item-required {
                 &:before {
-                    display: none!important;
+                    display: none !important;
                 }
 
                 &:after {

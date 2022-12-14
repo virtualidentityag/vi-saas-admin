@@ -84,6 +84,7 @@
     "status.IN_DELETION.tooltip": "Zum Löschen vorgemerkt. Der Löschvorgang ist in spätestens 48h beendet.",
     "status.IN_PROGRESS.tooltip": "In Bearbeitung. Möglichweise werden noch nicht alle Daten angezeigt",
     "status.CREATED.tooltip": "Erfolgreich angelegt",
+    "status.CREATED.advisor.tooltip": "Berateraccount aktiv",
     "status.ACTIVE.tooltip": "Aktiv",
     "status.INACTIVE.tooltip": "Inaktiv",
     "plsSelect": "Bitte wählen",

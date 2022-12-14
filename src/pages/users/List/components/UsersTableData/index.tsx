@@ -172,7 +172,9 @@ export const UsersTableData = () => {
             dataIndex: 'status',
             key: 'status',
             ellipsis: true,
-            render: (status: Status) => <StatusIcons status={status} />,
+            render: (status: Status) => (
+                <StatusIcons status={status} createdCustomLabel={t('status.CREATED.advisor.tooltip')} />
+            ),
             className: 'counselorList__column',
         },
         ((can([PermissionAction.Update, PermissionAction.Delete], Resource.Consultant) && isConsultantTab) ||

@@ -1,6 +1,8 @@
 import { Form, Switch } from 'antd';
 import Paragraph from 'antd/lib/typography/Paragraph';
+import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
+import styles from './styles.module.scss';
 
 interface FormSwitchFieldProps {
     labelKey: string;
@@ -69,6 +71,7 @@ export const FormSwitchField = ({
             rules={required ? [{ required: true, message }] : undefined}
             help={help ? t(help) : undefined}
             valuePropName="checked"
+            className={classNames(styles.item)}
         >
             <FormSwitchFieldLocal
                 paragraphKey={paragraphKey}

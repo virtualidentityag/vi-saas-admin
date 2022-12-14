@@ -1,10 +1,8 @@
-import { ChevronLeft } from '@mui/icons-material';
 import { message, Space } from 'antd';
 import { useForm, useWatch } from 'antd/lib/form/Form';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
-import { NavLink } from 'react-router-dom';
 import { FETCH_ERRORS, X_REASON } from '../../../api/fetchData';
 import { CardEditable } from '../../../components/CardEditable';
 import { Button, BUTTON_TYPES } from '../../../components/button/Button';
@@ -73,12 +71,7 @@ export const UserEditOrAdd = () => {
 
     return (
         <Page isLoading={isLoadingConsultants || isLoading}>
-            <div className="agencyEdit__headerBack">
-                <NavLink to={`/admin/users/${typeOfUsers}`}>
-                    <ChevronLeft />
-                    <h3 className="agencyEdit__header--headline">{t('agency.add.general.headline')}</h3>
-                </NavLink>
-            </div>
+            <Page.Back path={`/admin/users/${typeOfUsers}`} titleKey="agency.add.general.headline" />
 
             <CardEditable
                 isLoading={isLoading}

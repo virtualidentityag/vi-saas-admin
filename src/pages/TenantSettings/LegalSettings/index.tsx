@@ -6,7 +6,7 @@ export const LegalSettings = () => {
     const { t } = useTranslation();
 
     return (
-        <Row gutter={[20, 10]}>
+        <Row gutter={[24, 24]}>
             <Col span={12} sm={6}>
                 <LegalText
                     fieldName={['content', 'impressum']}

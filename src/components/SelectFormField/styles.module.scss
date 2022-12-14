@@ -1,7 +1,7 @@
 .select {
     padding: 0;
     border: none;
-    border: 1px solid var(--input-border-color) !important;
+    background: white;
     background-color: white;
     border-radius: 0;
     color: rgb(0 0 0 / 87%);
@@ -11,14 +11,13 @@
     }
 
     &[disabled] {
-        background: none;
         color: rgb(0 0 0 / 40%);
     }
 
     :global {
         .ant-select-selector {
-            padding: 2px 16px !important;
-            padding: 0;
+            padding: 4px 8px !important;
+            border: 1px solid var(--input-border-color) !important;
             border-color: transparent !important;
             background-color: transparent !important;
             box-shadow: none !important;
@@ -30,9 +29,41 @@
 
         .ant-select-selection-item {
             display: flex;
-            height: 32px !important;
+            height: 30px !important;
             align-items: center;
             margin-left: 0;
+        }
+
+    }
+}
+
+.item {
+    :global {
+        label {
+            height: initial!important;
+
+            &.ant-form-item-required {
+                &:before {
+                    display: none!important;
+                }
+
+                &:after {
+                    display: inline-block;
+                    margin-right: 4px;
+                    color: inherit;
+                    content: '*';
+                    font-family: SimSun, sans-serif;
+                    font-size: 12px;
+                    line-height: 1;
+                }
+            }
+        }
+
+        .ant-form-item-label {
+            padding-bottom: 4px;
+            color: rgb(0 0 0 / 60%);
+            font-size: 12px;
+            line-height: 16px;
         }
     }
 }

@@ -7,13 +7,14 @@ import { Box } from '../box/Box';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import Pencil from '../CustomIcons/Pencil';
 import { Tooltip } from '../tooltip/Tooltip';
-import styles from './styles.module.scss';
 import { ReactComponent as InfoIcon } from '../../resources/img/svg/i.svg';
 import { UnsavedChangesModal } from './components/UnsavedChanges';
+import styles from './styles.module.scss';
 
 interface CardEditableProps {
     className?: string;
     isLoading?: boolean;
+    fullHeight?: boolean;
     initialValues: Record<string, unknown>;
     titleKey: string;
     subTitle?: React.ReactChild;
@@ -40,6 +41,7 @@ export const CardEditable = ({
     onSave,
     formProp,
     tooltip,
+    fullHeight,
 }: CardEditableProps) => {
     const [form] = Form.useForm(formProp);
     const { t } = useTranslation();
@@ -67,7 +69,10 @@ export const CardEditable = ({
     );
 
     return (
-        <Box className={styles.card} contentClassName={styles.contentClassName}>
+        <Box
+            className={classNames(styles.card, { [styles.fullHeight]: fullHeight })}
+            contentClassName={styles.contentClassName}
+        >
             <div className={classNames(styles.cardTitle, className)}>
                 <div className={styles.titleContainer}>
                     <Title className={classNames(styles.title)} level={5}>
@@ -80,7 +85,7 @@ export const CardEditable = ({
                         </Tooltip>
                     )}
                 </div>
-                {!onAddMode && <Pencil className={styles.pencil} onClick={() => setEditing(true)} />}
+                {!onAddMode && !editing && <Pencil className={styles.pencil} onClick={() => setEditing(true)} />}
             </div>
             {subTitle && <div className={classNames(styles.cardSubTitle)}>{subTitle}</div>}
             <div className={classNames(styles.container, { [styles.isLoading]: isLoading })}>

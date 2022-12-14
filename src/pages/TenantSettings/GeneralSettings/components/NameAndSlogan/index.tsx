@@ -18,10 +18,10 @@ export const NameAndSlogan = () => {
             onSave={mutate}
             tooltip={t('settings.name.help')}
         >
-            <FormInputField name="name" labelKey="organisation.name" placeholderKey="slogan" />
+            <FormInputField name="name" labelKey="organisation.name" placeholderKey="slogan" required />
 
             <TranslatableFormField name={['content', 'claim']}>
-                <FormInputField labelKey="organisation.claim" placeholderKey="subSlogan" />
+                <FormInputField labelKey="organisation.claim" placeholderKey="subSlogan" required />
             </TranslatableFormField>
         </CardEditable>
     );

@@ -1,3 +1,4 @@
+import { ChevronLeft } from '@mui/icons-material';
 import { Spin } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { useMemo } from 'react';
@@ -14,6 +15,11 @@ interface PageTitleProps {
     titleKey: string;
     subTitleKey?: string;
     tabs?: Array<{ to: string; titleKey }>;
+}
+
+interface PageBackProps {
+    titleKey: string;
+    path: string;
 }
 
 export const Page = ({ children, isLoading }: PageProps) => {
@@ -52,4 +58,18 @@ export const PageTitle = ({ titleKey, subTitleKey, tabs }: PageTitleProps) => {
     );
 };
 
+export const PageBack = ({ path, titleKey }: PageBackProps) => {
+    const { t } = useTranslation();
+
+    return (
+        <div className={styles.back}>
+            <NavLink to={path} className={styles.backLink}>
+                <ChevronLeft />
+                <h3 className={styles.backHeadline}>{t(titleKey)}</h3>
+            </NavLink>
+        </div>
+    );
+};
+
 Page.Title = PageTitle;
+Page.Back = PageBack;

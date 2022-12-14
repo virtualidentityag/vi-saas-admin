@@ -3,7 +3,6 @@ import { useForm } from 'antd/lib/form/Form';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
-import Title from 'antd/es/typography/Title';
 import { CardEditable } from '../../../components/CardEditable';
 import { Button, BUTTON_TYPES } from '../../../components/button/Button';
 import { FormInputField } from '../../../components/FormInputField';
@@ -50,7 +49,7 @@ export const TopicEditOrAdd = () => {
                         isLoading={isLoading}
                         initialValues={{
                             ...(topic || {}),
-                            status: topic?.status === 'ACTIVE',
+                            status: topic?.status === 'ACTIVE' || !topic,
                             name: {
                                 ...(topic?.name || {}),
                             },
@@ -58,12 +57,11 @@ export const TopicEditOrAdd = () => {
                                 ...(topic?.description || {}),
                             },
                         }}
-                        titleKey="topics.settings"
+                        titleKey="topics.nameAndDescription"
                         onSave={onSave}
                         onAddMode={!isEditing}
                         formProp={form}
                     >
-                        <Title level={5}>{t('topics.nameAndDescription')}</Title>
                         <TranslatableFormField name="name">
                             <FormInputField
                                 labelKey="topic.name"

@@ -14,6 +14,19 @@ export const LegalSettings = () => {
                     subTitle={t('imprint.subTitle')}
                     placeHolderKey="settings.imprint.placeholder"
                 />
+                <LegalText
+                    fieldName={['content', 'termsAndConditions']}
+                    titleKey="termsAndConditions.title"
+                    subTitle={t('termsAndConditions.subTitle')}
+                    placeHolderKey="settings.termsAndConditions.placeholder"
+                    showConfirmationModal={{
+                        titleKey: 'termsAndConditions.confirmation.title',
+                        contentKey: 'termsAndConditions.confirmation.content',
+                        cancelLabelKey: 'termsAndConditions.confirmation.cancel',
+                        okLabelKey: 'termsAndConditions.confirmation.confirm',
+                        field: ['content', 'confirmTermsAndConditions'],
+                    }}
+                />
             </Col>
             <Col span={12} sm={6}>
                 <LegalText
@@ -31,21 +44,6 @@ export const LegalSettings = () => {
                         cancelLabelKey: 'privacy.confirmation.cancel',
                         okLabelKey: 'privacy.confirmation.confirm',
                         field: ['content', 'confirmPrivacy'],
-                    }}
-                />
-            </Col>
-            <Col span={12} sm={6}>
-                <LegalText
-                    fieldName={['content', 'termsAndConditions']}
-                    titleKey="termsAndConditions.title"
-                    subTitle={t('termsAndConditions.subTitle')}
-                    placeHolderKey="settings.termsAndConditions.placeholder"
-                    showConfirmationModal={{
-                        titleKey: 'termsAndConditions.confirmation.title',
-                        contentKey: 'termsAndConditions.confirmation.content',
-                        cancelLabelKey: 'termsAndConditions.confirmation.cancel',
-                        okLabelKey: 'termsAndConditions.confirmation.confirm',
-                        field: ['content', 'confirmTermsAndConditions'],
                     }}
                 />
             </Col>

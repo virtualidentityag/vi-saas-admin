@@ -1,4 +1,6 @@
+import { message } from 'antd';
 import mergeWith from 'lodash.mergewith';
+import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient } from 'react-query';
 import { fetchData, FETCH_METHODS } from '../api/fetchData';
 import { tenantAdminEndpoint } from '../appConfig';
@@ -27,6 +29,7 @@ const mergeData = (currentTenantData: TenantAdminData, formData) => {
 };
 
 export const useTenantAdminDataMutation = () => {
+    const { t } = useTranslation();
     const queryClient = useQueryClient();
     const { data: tenantData } = useTenantData();
     const { data: tenantAdminData } = useTenantAdminData();
@@ -44,6 +47,10 @@ export const useTenantAdminDataMutation = () => {
         {
             onSuccess: (_, updatedData) => {
                 queryClient.setQueryData(TENANT_ADMIN_DATA_KEY, mergeData(tenantAdminData, updatedData));
+                message.success({
+                    content: t('message.success.setting.update'),
+                    duration: 3,
+                });
             },
         },
     );

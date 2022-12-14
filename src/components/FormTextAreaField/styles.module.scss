@@ -1,7 +1,7 @@
 .textarea {
     padding: 12px 16px;
     border: none;
-    border: 1px solid rgb(0 0 0 / 87%)!important;
+    border: 1px solid rgb(0 0 0 / 87%) !important;
     border-radius: 0;
     color: rgb(0 0 0 / 87%);
 
@@ -15,7 +15,7 @@
     }
 
     &[disabled] {
-        border: 1px solid rgb(0 0 0 / 20%)!important;
+        border: 1px solid rgb(0 0 0 / 20%) !important;
         background: none;
         color: rgb(0 0 0 / 40%);
     }
@@ -24,11 +24,11 @@
 .item {
     :global {
         label {
-            height: initial!important;
+            height: initial !important;
 
             &.ant-form-item-required {
                 &:before {
-                    display: none!important;
+                    display: none !important;
                 }
 
                 &:after {

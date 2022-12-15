@@ -22,8 +22,8 @@ export const LegalSettings = () => {
                     showConfirmationModal={{
                         titleKey: 'termsAndConditions.confirmation.title',
                         contentKey: 'termsAndConditions.confirmation.content',
-                        cancelLabelKey: 'termsAndConditions.confirmation.cancel',
-                        okLabelKey: 'termsAndConditions.confirmation.confirm',
+                        cancelLabelKey: 'termsAndConditions.confirmation.confirm',
+                        okLabelKey: 'termsAndConditions.confirmation.cancel',
                         field: ['content', 'confirmTermsAndConditions'],
                     }}
                 />
@@ -41,8 +41,8 @@ export const LegalSettings = () => {
                     showConfirmationModal={{
                         titleKey: 'privacy.confirmation.title',
                         contentKey: 'privacy.confirmation.content',
-                        cancelLabelKey: 'privacy.confirmation.cancel',
-                        okLabelKey: 'privacy.confirmation.confirm',
+                        cancelLabelKey: 'privacy.confirmation.confirm',
+                        okLabelKey: 'privacy.confirmation.cancel',
                         field: ['content', 'confirmPrivacy'],
                     }}
                 />

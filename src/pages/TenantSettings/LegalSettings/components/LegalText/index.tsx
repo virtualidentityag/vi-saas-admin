@@ -2,10 +2,10 @@ import set from 'lodash.set';
 import { useCallback, useState } from 'react';
 import { CardEditable } from '../../../../../components/CardEditable';
 import { FormRichTextEditorField } from '../../../../../components/FormRichTextEditorField';
+import { Modal, ModalProps } from '../../../../../components/Modal';
 import { TranslatableFormField } from '../../../../../components/TranslatableFormField';
 import { useTenantAdminData } from '../../../../../hooks/useTenantAdminData.hook';
 import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
-import { AskUserPermissionModal, AskUserPermissionProps } from '../AskUserConfirmation';
 import styles from './styles.module.scss';
 
 interface LegalTextProps {
@@ -13,7 +13,7 @@ interface LegalTextProps {
     titleKey: string;
     subTitle: string | React.ReactChild;
     placeHolderKey: string;
-    showConfirmationModal?: Omit<AskUserPermissionProps, 'onClose' | 'onConfirm'> & { field: string[] };
+    showConfirmationModal?: Omit<ModalProps, 'onClose' | 'onConfirm'> & { field: string[] };
 }
 
 export const LegalText = ({ fieldName, titleKey, subTitle, placeHolderKey, showConfirmationModal }: LegalTextProps) => {
@@ -23,12 +23,12 @@ export const LegalText = ({ fieldName, titleKey, subTitle, placeHolderKey, showC
     const [modalVisible, setModalVisible] = useState(false);
 
     const onConfirm = useCallback(() => {
-        updateTenant(set(formDataContent, showConfirmationModal.field, true));
+        updateTenant(set(formDataContent, showConfirmationModal.field, false));
         setModalVisible(false);
     }, [formDataContent]);
 
     const onCancel = useCallback(() => {
-        updateTenant(set(formDataContent, showConfirmationModal.field, false));
+        updateTenant(set(formDataContent, showConfirmationModal.field, true));
         setModalVisible(false);
     }, [formDataContent]);
 
@@ -55,7 +55,7 @@ export const LegalText = ({ fieldName, titleKey, subTitle, placeHolderKey, showC
                 </TranslatableFormField>
             </CardEditable>
             {showConfirmationModal && modalVisible && (
-                <AskUserPermissionModal {...showConfirmationModal} onConfirm={onConfirm} onClose={onCancel} />
+                <Modal {...showConfirmationModal} onConfirm={onConfirm} onClose={onCancel} />
             )}
         </>
     );

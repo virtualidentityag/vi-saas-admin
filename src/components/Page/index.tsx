@@ -31,7 +31,7 @@ const PageTabs = ({ tabs }: { tabs: Array<{ to: string; titleKey }> }) => {
     return (
         <div className={styles.tabsContainer}>
             {tabs
-                ?.filter((tab) => tab.to)
+                ?.filter((tab) => tab && tab.to)
                 .map((tab) => (
                     <NavLink className={styles.tab} to={tab.to} key={tab.titleKey}>
                         {t(tab.titleKey)}

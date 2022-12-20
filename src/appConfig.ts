@@ -70,6 +70,7 @@ const routePathNames = {
     root: '/admin',
     login: '/admin/login',
     themeSettings: '/admin/theme-settings',
+    users: '/admin/users',
     consultants: '/admin/users/consultants',
     agency: '/admin/agency/',
     agencyEdit: '/admin/agency/edit',

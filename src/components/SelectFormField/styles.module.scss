@@ -43,11 +43,6 @@
             font-size: 12px;
             line-height: 16px;
         }
-
-        .ant-select-selection-item {
-            height: 30px !important;
-            line-height: 27px !important;
-        }
     }
 }
 
@@ -78,6 +73,11 @@
             color: rgb(0 0 0 / 60%);
             font-size: 12px;
             line-height: 16px;
+        }
+
+        .ant-select-multiple .ant-select-selection-item {
+            height: 30px !important;
+            line-height: 27px !important;
         }
     }
 }

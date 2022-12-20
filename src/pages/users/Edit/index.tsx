@@ -118,6 +118,7 @@ export const UserEditOrAdd = () => {
                     labelKey="counselor.username"
                     placeholderKey="placeholder.username"
                     required
+                    disabled={isEditing}
                 />
 
                 {typeOfUsers === 'consultants' && (

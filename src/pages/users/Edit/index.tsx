@@ -32,7 +32,7 @@ export const UserEditOrAdd = () => {
         pageSize: 10000,
         typeOfUser: typeOfUsers,
     });
-    const { data: agenciesData, isLoading } = useAgenciesData({ pageSize: 200 });
+    const { data: agenciesData, isLoading } = useAgenciesData({ pageSize: 10000 });
     const isEditing = id !== 'add';
     const singleData = consultantsResponse?.data.find((c) => c.id === id);
 
@@ -108,7 +108,7 @@ export const UserEditOrAdd = () => {
                     placeholder="plsSelect"
                     options={convertToOptions(
                         agenciesData?.data?.filter((agency) => agency.deleteDate === 'null') || [],
-                        'name',
+                        ['postcode', 'name', 'city'],
                         'id',
                     )}
                 />

@@ -1,5 +1,7 @@
 import merge from 'lodash.merge';
+import { useAppConfigContext } from '../context/useAppConfig';
 import { UserRole } from '../enums/UserRole';
+import { useUserRoles } from '../hooks/useUserRoles.hook';
 import { UserPermissions } from '../types/UserPermission';
 
 const rolesPriority: UserRole[] = [
@@ -11,7 +13,12 @@ const rolesPriority: UserRole[] = [
     UserRole.TenantAdmin,
 ];
 
-export const userRolesToPermission = (userRoles: UserRole[]) => {
+export const useUserRolesToPermission = () => {
+    const [userRoles] = useUserRoles();
+    const { settings } = useAppConfigContext();
+    const singleCanEditLegalText =
+        !settings.multitenancyWithSingleDomainEnabled || settings.legalContentChangesBySingleTenantAdminsAllowed;
+
     const permissions: Record<Partial<UserRole>, UserPermissions> = {
         [UserRole.RestrictedAgencyAdmin]: {
             Consultant: { delete: false },
@@ -24,6 +31,7 @@ export const userRolesToPermission = (userRoles: UserRole[]) => {
         },
         [UserRole.TenantAdmin]: {
             Tenant: { read: true, update: true },
+            LegalText: { read: true, update: true },
             Statistic: { read: true },
         },
         [UserRole.TopicAdmin]: {
@@ -31,6 +39,10 @@ export const userRolesToPermission = (userRoles: UserRole[]) => {
         },
         [UserRole.SingleTenantAdmin]: {
             Tenant: { read: true, update: true },
+            LegalText: {
+                read: singleCanEditLegalText,
+                update: singleCanEditLegalText,
+            },
             Statistic: { read: true },
         },
         [UserRole.UserAdmin]: {

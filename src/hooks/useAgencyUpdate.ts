@@ -1,3 +1,4 @@
+import mergeWith from 'lodash.mergewith';
 import { useMutation, useQueryClient } from 'react-query';
 import { updateAgencyData } from '../api/agency/updateAgencyData';
 import { AgencyData } from '../types/agency';
@@ -9,7 +10,7 @@ export const useAgencyUpdate = (id: string) => {
 
     return useMutation(
         (data: Partial<AgencyData>) => {
-            return updateAgencyData(agencyData, { ...agencyData, ...data });
+            return updateAgencyData(agencyData, mergeWith(agencyData, data));
         },
         {
             onSuccess: () => {

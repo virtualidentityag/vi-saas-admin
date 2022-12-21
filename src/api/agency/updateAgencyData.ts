@@ -23,7 +23,9 @@ export const updateAgencyData = async (agencyModel: AgencyData, formInput: Agenc
 
     const topics = formInput?.topicIds || formInput?.topics;
 
-    const topicIds = topics?.map((topic) => (typeof topic === 'string' ? topic : topic?.id)).filter(Boolean);
+    const topicIds = topics
+        ?.map((topic) => (typeof topic === 'string' ? topic : topic?.id))
+        .filter((id) => !Number.isNaN(Number(id)));
 
     const agencyDataRequestBody = {
         dioceseId: formInput.dioceseId ? parseInt(formInput.dioceseId, 10) : 0,

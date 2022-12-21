@@ -58,10 +58,6 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
         return location.pathname.includes(routePathNames.agency);
     };
 
-    const canShowThemeSettings = settings.mainTenantSubdomainForSingleDomainMultitenancy
-        ? hasRole(UserRole.TenantAdmin)
-        : hasRole(UserRole.SingleTenantAdmin);
-
     return (
         <>
             <Layout className="protectedLayout">
@@ -69,7 +65,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                     <div className="logo" />
                     <nav className="mainMenu">
                         <ul>
-                            {canShowThemeSettings && can(PermissionAction.Update, Resource.Tenant) && (
+                            {can(PermissionAction.Update, Resource.Tenant) && (
                                 <li key="theme" className="menuItem">
                                     <NavLink
                                         to={routePathNames.themeSettings}

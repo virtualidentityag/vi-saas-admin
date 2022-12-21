@@ -16,7 +16,7 @@ const successColor = '#4FCC5C';
 const attentionColor = '#FF9F00';
 const errorColor = '#FF0000';
 
-const StatusIcons = ({ status }: { status: Status }) => {
+const StatusIcons = ({ status, createdCustomLabel }: { status: Status; createdCustomLabel?: string }) => {
     const { t } = useTranslation();
     return (
         <div className={clsx('statusIconWrapper', status)}>
@@ -36,7 +36,7 @@ const StatusIcons = ({ status }: { status: Status }) => {
                 </Tooltip>
             )}
             {status === 'CREATED' && (
-                <Tooltip color={successColor} title={t('status.CREATED.tooltip')}>
+                <Tooltip color={successColor} title={createdCustomLabel || t('status.CREATED.tooltip')}>
                     <CheckCircleOutlined style={{ color: successColor }} />
                 </Tooltip>
             )}

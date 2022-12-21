@@ -17,4 +17,6 @@ export interface AppConfigInterface {
     mainTenantSubdomainForSingleDomainMultitenancy?: string;
     /** Feature Flag for using consultingTypes when creating new / editing agencies  */
     useConsultingTypesForAgencies?: boolean;
+    /** Feature Flag to allow or not the single tenant admins to edit legal texts */
+    legalContentChangesBySingleTenantAdminsAllowed?: boolean;
 }

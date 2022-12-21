@@ -1,4 +1,5 @@
 import { Form, Input } from 'antd';
+import classNames from 'classnames';
 import { Rule } from 'rc-field-form/es/interface';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -23,7 +24,12 @@ export const FormTextAreaField = ({
     const { t } = useTranslation();
 
     return (
-        <Form.Item label={t(labelKey)} name={name} rules={[{ required }, ...rules]} className={className}>
+        <Form.Item
+            label={t(labelKey)}
+            name={name}
+            rules={[{ required }, ...rules]}
+            className={classNames(className, styles.item)}
+        >
             <Input.TextArea className={styles.textarea} placeholder={placeholderKey && t(placeholderKey)} rows={3} />
         </Form.Item>
     );

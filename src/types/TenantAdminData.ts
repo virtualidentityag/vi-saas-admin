@@ -12,5 +12,7 @@ export interface TenantAdminData extends BasicTenantData {
         privacy: Record<string, string>;
         termsAndConditions: Record<string, string>;
         claim: Record<string, string>;
+        confirmTermsAndConditions: boolean;
+        confirmPrivacy: boolean;
     };
 }

@@ -1,37 +1,83 @@
 .select {
     padding: 0;
     border: none;
-    border: 1px solid var(--input-border-color) !important;
-    border-radius: 0;
-    color: rgba(0, 0, 0, 0.87);
+    background: white;
     background-color: white;
+    border-radius: 0;
+    color: rgb(0 0 0 / 87%);
 
     &:focus {
         box-shadow: none;
     }
 
     &[disabled] {
-        background: none;
-        color: rgba(0, 0, 0, 0.4);
+        color: rgb(0 0 0 / 40%);
     }
 
     :global {
         .ant-select-selector {
-            padding: 2px 16px !important;
+            min-height: 48px !important;
+            border: 1px solid var(--input-border-color) !important;
+            padding: 4px 8px !important;
             background-color: transparent !important;
-            border-color: transparent !important;
-            padding: 0;
             box-shadow: none !important;
+            border-radius: 0 !important;
         }
+
         .ant-select-selection-placeholder {
             padding: 5px 11px !important;
         }
 
         .ant-select-selection-item {
-            height: 32px !important;
             display: flex;
             align-items: center;
             margin-left: 0;
+        }
+
+        .ant-select-selection-search-input {
+            height: 100% !important;
+        }
+
+        .ant-form-item-explain-error {
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 16px;
+        }
+    }
+}
+
+.item {
+    :global {
+        label {
+            height: initial !important;
+
+            &.ant-form-item-required {
+                &:before {
+                    display: none !important;
+                }
+
+                &:after {
+                    display: inline-block;
+                    margin-right: 4px;
+                    color: inherit;
+                    content: '*';
+                    font-family: SimSun, sans-serif;
+                    font-size: 12px;
+                    line-height: 1;
+                }
+            }
+        }
+
+        .ant-form-item-label {
+            padding-bottom: 4px;
+            color: rgb(0 0 0 / 60%);
+            font-size: 12px;
+            line-height: 16px;
+        }
+
+        .ant-select-multiple .ant-select-selection-item {
+            height: 30px !important;
+            line-height: 27px !important;
         }
     }
 }

@@ -1,9 +1,7 @@
-import { useMemo } from 'react';
 import { PermissionAction } from '../enums/PermissionAction';
 import { Resource } from '../enums/Resource';
 import { UserPermissions } from '../types/UserPermission';
-import { useUserRoles } from './useUserRoles.hook';
-import { userRolesToPermission } from '../constants/userRolesToPermissions';
+import { useUserRolesToPermission } from '../constants/userRolesToPermissions';
 
 interface UserPermissionsReturn {
     permissions: UserPermissions;
@@ -11,8 +9,7 @@ interface UserPermissionsReturn {
 }
 
 export const useUserPermissions = (): UserPermissionsReturn => {
-    const [roles] = useUserRoles();
-    const userPermissions = useMemo(() => userRolesToPermission(roles), [roles]);
+    const userPermissions = useUserRolesToPermission();
 
     return {
         permissions: userPermissions,

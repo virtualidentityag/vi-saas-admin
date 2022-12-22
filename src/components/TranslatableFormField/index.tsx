@@ -24,6 +24,12 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
         [tenantData?.settings?.activeLanguages],
     );
 
+    const isTouched =
+        [
+            formContext.isFieldTouched([...namePath, 'translate']),
+            ...languages.map((language) => formContext.isFieldTouched([...namePath, language])),
+        ].filter(Boolean).length > 0;
+
     const errors = formContext
         .getFieldsError(languages.map((language) => [...namePath, language]))
         .reduce((c, data) => {
@@ -44,8 +50,8 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
                     label="languages"
                     name={[...namePath, 'translate']}
                     required
-                    validateStatus={hasErrors && 'error'}
-                    help={hasErrors && t('form.errors.fillAllLanguages')}
+                    validateStatus={hasErrors && isTouched && 'error'}
+                    help={hasErrors && isTouched && t('form.errors.fillAllLanguages')}
                     className={styles.translateField}
                 >
                     {languages.map((language) => (

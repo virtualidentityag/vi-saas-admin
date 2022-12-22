@@ -14,11 +14,11 @@ export const UnsavedChangesModal = ({ onConfirm, onClose }: UnsavedChangesProps)
         <Modal
             title={<Title level={2}>{t('overlay.unsaved.title')}</Title>}
             open
-            onOk={onConfirm}
-            onCancel={onClose}
-            cancelText={t('overlay.unsaved.cancel')}
+            onOk={onClose}
+            onCancel={onConfirm}
+            cancelText={t('overlay.unsaved.confirm')}
             centered
-            okText={t('overlay.unsaved.confirm')}
+            okText={t('overlay.unsaved.cancel')}
         >
             {t('overlay.unsaved.text')}
         </Modal>

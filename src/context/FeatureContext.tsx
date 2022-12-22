@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useState, useContext, useCallback } from 'react';
+import { featureFlags } from '../appConfig';
 import { FeatureFlag } from '../enums/FeatureFlag';
 import { IFeature } from '../types/feature';
 import { TenantData } from '../types/tenant';
@@ -31,6 +32,10 @@ const FeatureProvider = ({ children, tenantData }: FeatureProviderProps) => {
         {
             name: FeatureFlag.TopicsInRegistration,
             active: !!tenantData.settings.topicsInRegistrationEnabled,
+        },
+        {
+            name: FeatureFlag.ConsultingTypesForAgencies,
+            active: !!featureFlags.useConsultingTypesForAgencies,
         },
     ]);
 

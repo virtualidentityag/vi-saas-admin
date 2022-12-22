@@ -18,21 +18,24 @@ export const updateAgencyData = async (agencyModel: AgencyData, formInput: Agenc
 
     await updateAgencyType(agencyModel, formInput);
 
-    const consultingTypeId = await getConsultingType4Tenant();
+    const consultingTypeId =
+        formInput.consultingType !== null ? parseInt(formInput.consultingType, 10) : await getConsultingType4Tenant();
 
-    const topicIds = formInput?.topicIds
-        ?.map((topic) => (typeof topic === 'string' ? topic : topic?.value))
-        .filter(Boolean);
+    const topics = formInput?.topicIds || formInput?.topics;
+
+    const topicIds = topics
+        ?.map((topic) => (typeof topic === 'string' ? topic : topic?.id))
+        .filter((id) => !Number.isNaN(Number(id)));
 
     const agencyDataRequestBody = {
-        dioceseId: 0,
+        dioceseId: formInput.dioceseId ? parseInt(formInput.dioceseId, 10) : 0,
         name: formInput.name,
         description: formInput.description,
         topicIds,
         postcode: formInput.postcode,
         city: formInput.city,
         consultingType: consultingTypeId,
-        offline: !formInput.online,
+        offline: formInput.offline,
         external: false,
         demographics: formInput.demographics,
     };

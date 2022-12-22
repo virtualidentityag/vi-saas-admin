@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { encode } from 'hi-base32';
 import { UserData } from '../../types/user';
 import { Text } from '../text/Text';
 
@@ -21,7 +22,14 @@ export const TwoFactorAuthAppActivate = ({ userData }: TwoFactorAuthAppActivateP
             <Text text={t('twoFactorAuth.activate.app.step3.connect.divider')} type="divider" />
             <div className="twoFactorAuth__key">
                 <Text text={t('twoFactorAuth.activate.app.step3.connect.key')} type="standard" />
-                <Text text={userData?.twoFactorAuth.secret} type="standard" />
+                <Text
+                    text={
+                        userData.twoFactorAuth.secret
+                            ? encode(userData.twoFactorAuth.secret).replace(/={1,8}$/, '')
+                            : ''
+                    }
+                    type="wrapped"
+                />
             </div>
         </div>
     );

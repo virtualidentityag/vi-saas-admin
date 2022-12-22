@@ -1,11 +1,8 @@
-import { ChevronLeft } from '@mui/icons-material';
-import { Divider, message } from 'antd';
+import { Col, message, Row } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
-import { NavLink } from 'react-router-dom';
-import Title from 'antd/es/typography/Title';
 import { CardEditable } from '../../../components/CardEditable';
 import { Button, BUTTON_TYPES } from '../../../components/button/Button';
 import { FormInputField } from '../../../components/FormInputField';
@@ -41,70 +38,86 @@ export const TopicEditOrAdd = () => {
 
     return (
         <Page isLoading={isLoading}>
-            <div className="agencyEdit__headerBack">
-                <NavLink to="/admin/topics">
-                    <ChevronLeft />
-                    <h3 className="agencyEdit__header--headline">
-                        {t(isEditing ? 'topic.modal.headline.edit' : 'topic.modal.headline.add')}
-                    </h3>
-                </NavLink>
-            </div>
+            <Page.Back
+                path="/admin/topics"
+                titleKey={isEditing ? 'topic.modal.headline.edit' : 'topic.modal.headline.add'}
+            />
 
-            <CardEditable
-                isLoading={isLoading}
-                initialValues={{
-                    ...(topic || {}),
-                    status: topic?.status === 'ACTIVE',
-                    name: {
-                        ...(topic?.name || {}),
-                    },
-                    description: {
-                        ...(topic?.description || {}),
-                    },
-                }}
-                titleKey="topics.settings"
-                onSave={onSave}
-                onAddMode={!isEditing}
-                formProp={form}
-            >
-                <FormInputField
-                    name="internalIdentifier"
-                    labelKey="topic.internalIdentifier"
-                    placeholderKey="placeholder.topic.internalIdentifier"
-                    required
-                    rules={[{ max: 50 }]}
-                />
+            <Row gutter={[24, 24]}>
+                <Col span={12} sm={6}>
+                    <CardEditable
+                        isLoading={isLoading}
+                        initialValues={{
+                            ...(topic || {}),
+                            status: topic?.status === 'ACTIVE' || !topic,
+                            name: {
+                                ...(topic?.name || {}),
+                            },
+                            description: {
+                                ...(topic?.description || {}),
+                            },
+                        }}
+                        titleKey="topics.nameAndDescription"
+                        onSave={onSave}
+                        onAddMode={!isEditing}
+                        formProp={form}
+                    >
+                        <TranslatableFormField name="name">
+                            <FormInputField
+                                labelKey="topic.name"
+                                placeholderKey="placeholder.topic.name"
+                                required
+                                rules={[{ max: 100 }]}
+                            />
+                        </TranslatableFormField>
 
-                <FormSwitchField
-                    name="status"
-                    labelKey="status"
-                    checkedKey="status.ACTIVE.tooltip"
-                    unCheckedKey="status.INACTIVE.tooltip"
-                    required
-                />
+                        <TranslatableFormField name="description">
+                            <FormTextAreaField
+                                labelKey="topic.description"
+                                placeholderKey="placeholder.topic.description"
+                                required
+                                rules={[{ max: 200 }]}
+                            />
+                        </TranslatableFormField>
+                    </CardEditable>
+                </Col>
 
-                <Divider />
+                <Col span={12} sm={6}>
+                    <CardEditable
+                        isLoading={isLoading}
+                        initialValues={{
+                            ...(topic || {}),
+                            status: topic?.status === 'ACTIVE',
+                            name: {
+                                ...(topic?.name || {}),
+                            },
+                            description: {
+                                ...(topic?.description || {}),
+                            },
+                        }}
+                        titleKey="topics.settings"
+                        onSave={onSave}
+                        onAddMode={!isEditing}
+                        formProp={form}
+                    >
+                        <FormInputField
+                            name="internalIdentifier"
+                            labelKey="topic.internalIdentifier"
+                            placeholderKey="placeholder.topic.internalIdentifier"
+                            required
+                            rules={[{ max: 50 }]}
+                        />
 
-                <Title level={5}>{t('topics.nameAndDescription')}</Title>
-                <TranslatableFormField name="name">
-                    <FormInputField
-                        labelKey="topic.name"
-                        placeholderKey="placeholder.topic.name"
-                        required
-                        rules={[{ max: 100 }]}
-                    />
-                </TranslatableFormField>
-
-                <TranslatableFormField name="description">
-                    <FormTextAreaField
-                        labelKey="topic.description"
-                        placeholderKey="placeholder.topic.description"
-                        required
-                        rules={[{ max: 200 }]}
-                    />
-                </TranslatableFormField>
-            </CardEditable>
-
+                        <FormSwitchField
+                            name="status"
+                            labelKey="status"
+                            checkedKey="status.ACTIVE.tooltip"
+                            unCheckedKey="status.INACTIVE.tooltip"
+                            required
+                        />
+                    </CardEditable>
+                </Col>
+            </Row>
             {!isEditing && (
                 <div className="agencyAdd_actions agencyAdd_actions--sticky">
                     <Button

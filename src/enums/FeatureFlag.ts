@@ -4,4 +4,5 @@ export enum FeatureFlag {
     Demographics = 'demographics',
     Topics = 'topics',
     TopicsInRegistration = 'topicsInRegistration',
+    ConsultingTypesForAgencies = 'consultingTypesForAgencies',
 }

@@ -5,4 +5,5 @@ export enum Resource {
     Agency,
     Statistic,
     Tenant,
+    LegalText,
 }

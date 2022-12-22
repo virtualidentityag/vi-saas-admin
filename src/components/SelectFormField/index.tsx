@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Form, Select } from 'antd';
 import { ValidateStatus } from 'antd/es/form/FormItem';
+import classNames from 'classnames';
 import styles from './styles.module.scss';
 
 export interface Option {
@@ -55,7 +56,7 @@ export const SelectFormField = ({
             rules={required ? [{ required: true, message }] : undefined}
             help={help ? t(help) : undefined}
             validateStatus={validateStatus}
-            className={className}
+            className={classNames(className, styles.item)}
             initialValue={initialValue}
         >
             <Select

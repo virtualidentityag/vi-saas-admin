@@ -6,13 +6,26 @@ export const LegalSettings = () => {
     const { t } = useTranslation();
 
     return (
-        <Row gutter={[20, 10]}>
+        <Row gutter={[24, 24]}>
             <Col span={12} sm={6}>
                 <LegalText
                     fieldName={['content', 'impressum']}
                     titleKey="imprint.title"
                     subTitle={t('imprint.subTitle')}
                     placeHolderKey="settings.imprint.placeholder"
+                />
+                <LegalText
+                    fieldName={['content', 'termsAndConditions']}
+                    titleKey="termsAndConditions.title"
+                    subTitle={t('termsAndConditions.subTitle')}
+                    placeHolderKey="settings.termsAndConditions.placeholder"
+                    showConfirmationModal={{
+                        titleKey: 'termsAndConditions.confirmation.title',
+                        contentKey: 'termsAndConditions.confirmation.content',
+                        cancelLabelKey: 'termsAndConditions.confirmation.confirm',
+                        okLabelKey: 'termsAndConditions.confirmation.cancel',
+                        field: ['content', 'confirmTermsAndConditions'],
+                    }}
                 />
             </Col>
             <Col span={12} sm={6}>
@@ -28,24 +41,9 @@ export const LegalSettings = () => {
                     showConfirmationModal={{
                         titleKey: 'privacy.confirmation.title',
                         contentKey: 'privacy.confirmation.content',
-                        cancelLabelKey: 'privacy.confirmation.cancel',
-                        okLabelKey: 'privacy.confirmation.confirm',
+                        cancelLabelKey: 'privacy.confirmation.confirm',
+                        okLabelKey: 'privacy.confirmation.cancel',
                         field: ['content', 'confirmPrivacy'],
-                    }}
-                />
-            </Col>
-            <Col span={12} sm={6}>
-                <LegalText
-                    fieldName={['content', 'termsAndConditions']}
-                    titleKey="termsAndConditions.title"
-                    subTitle={t('termsAndConditions.subTitle')}
-                    placeHolderKey="settings.termsAndConditions.placeholder"
-                    showConfirmationModal={{
-                        titleKey: 'termsAndConditions.confirmation.title',
-                        contentKey: 'termsAndConditions.confirmation.content',
-                        cancelLabelKey: 'termsAndConditions.confirmation.cancel',
-                        okLabelKey: 'termsAndConditions.confirmation.confirm',
-                        field: ['content', 'confirmTermsAndConditions'],
                     }}
                 />
             </Col>

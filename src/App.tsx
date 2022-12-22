@@ -16,9 +16,6 @@ import { useTenantData } from './hooks/useTenantData.hook';
 import { FeatureProvider } from './context/FeatureContext';
 import { AgencyPageEdit } from './pages/AgencyEdit';
 import { AgencyAdd } from './pages/AgencyAdd';
-import { useAppConfigContext } from './context/useAppConfig';
-import { useUserRoles } from './hooks/useUserRoles.hook';
-import { UserRole } from './enums/UserRole';
 import { UsersList } from './pages/users/List';
 import { UserEditOrAdd } from './pages/users/Edit';
 import { GeneralSettings } from './pages/TenantSettings/GeneralSettings';
@@ -29,8 +26,6 @@ import { Resource } from './enums/Resource';
 import { TopicEditOrAdd } from './pages/Topics/Edit';
 
 export const App = () => {
-    const { settings } = useAppConfigContext();
-    const [, hasRole] = useUserRoles();
     const { isLoading, data } = useTenantData();
     const navigate = useNavigate();
     const location = useLocation();
@@ -38,18 +33,18 @@ export const App = () => {
 
     useEffect(() => {
         if (location.pathname === routePathNames.root || location.pathname === `${routePathNames.root}/`) {
+            if (can(PermissionAction.Read, Resource.Tenant)) {
+                navigate(routePathNames.themeSettings);
+                return;
+            }
+
             const redirectPath =
-                (settings.mainTenantSubdomainForSingleDomainMultitenancy && hasRole(UserRole.TenantAdmin)) ||
-                !settings.mainTenantSubdomainForSingleDomainMultitenancy
-                    ? routePathNames.themeSettings
-                    : routePathNames.consultants;
+                can(PermissionAction.Read, Resource.Consultant) || can(PermissionAction.Read, Resource.Admin)
+                    ? routePathNames.users
+                    : routePathNames.userProfile;
             navigate(redirectPath);
         }
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-    const canShowThemeSettings = settings.mainTenantSubdomainForSingleDomainMultitenancy
-        ? hasRole(UserRole.TenantAdmin)
-        : hasRole(UserRole.SingleTenantAdmin);
+    }, []);
 
     return isLoading ? (
         <Initialization />
@@ -58,7 +53,8 @@ export const App = () => {
             <ProtectedPageLayoutWrapper>
                 <Routes>
                     {/* later <Route path="/" element={<Dashboard />} /> */}
-                    {can(PermissionAction.Update, Resource.Tenant) && canShowThemeSettings && (
+                    {(can(PermissionAction.Read, Resource.Tenant) ||
+                        can(PermissionAction.Read, Resource.LegalText)) && (
                         <Route path={routePathNames.themeSettings} element={<TenantSettingsLayout />}>
                             <Route index element={<Navigate to={`${routePathNames.themeSettings}/general`} />} />
                             <Route path={`${routePathNames.themeSettings}/general`} element={<GeneralSettings />} />

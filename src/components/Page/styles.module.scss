@@ -9,12 +9,12 @@
 
 .tabsContainer {
     display: flex;
-    gap: 32px;
-    align-items: center;
-    justify-content: center;
     flex: 1 1 0;
+    align-items: flex-start;
+    justify-content: center;
     padding-right: 25%;
-    color: rgba(0, 0, 0, 0.6);
+    color: rgb(0 0 0 / 60%);
+    gap: 32px;
 
     :global {
         .active,
@@ -25,8 +25,7 @@
     }
 
     @media screen and (max-width: 800px) {
-        padding-right: 0;
-        padding-bottom: 20px;
+        padding: 20px 0;
     }
 }
 
@@ -38,8 +37,8 @@
 
 .titleContainer {
     display: flex;
-    flex-direction: column;
     width: 25%;
+    flex-direction: column;
 
     @media screen and (max-width: 770px) {
         width: 100%;
@@ -47,6 +46,12 @@
 
     @media screen and (max-width: 800px) {
         padding-right: 0;
+    }
+
+    :global {
+        p {
+            margin-bottom: 0;
+        }
     }
 }
 
@@ -57,4 +62,20 @@
 .pageTitleContainer {
     display: flex;
     flex-wrap: wrap;
+    padding-bottom: 32px;
+}
+
+.back {
+    display: flex;
+    padding-bottom: 32px;
+}
+
+.backLink {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.backHeadline {
+    margin-bottom: 0;
 }

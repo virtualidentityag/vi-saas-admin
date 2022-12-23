@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 interface FormSwitchFieldProps {
-    labelKey: string;
+    labelKey?: string;
+    label?: React.ReactChild;
     name: string | string[];
     help?: string;
     disabled?: boolean;
@@ -52,6 +53,7 @@ const FormSwitchFieldLocal = ({
 
 export const FormSwitchField = ({
     name,
+    label,
     labelKey,
     required,
     help,
@@ -67,7 +69,7 @@ export const FormSwitchField = ({
     return (
         <Form.Item
             name={name}
-            label={t(labelKey)}
+            label={label || t(labelKey)}
             rules={required ? [{ required: true, message }] : undefined}
             help={help ? t(help) : undefined}
             valuePropName="checked"

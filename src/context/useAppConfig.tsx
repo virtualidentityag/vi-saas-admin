@@ -28,7 +28,7 @@ const useAppConfigContext = (): AppConfigContextInterface => {
             const finalServerSettings = Object.keys(serverSettings).reduce(
                 (current, key) => ({
                     ...current,
-                    [key]: serverSettings[key].value,
+                    [key]: serverSettings[key]?.value,
                 }),
                 {} as Record<string, boolean>,
             );

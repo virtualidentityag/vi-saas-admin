@@ -90,9 +90,11 @@ export const UserEditOrAdd = () => {
             <CardEditable
                 isLoading={isLoading}
                 initialValues={{
-                    ...(singleData || {}),
+                    ...(singleData || {
+                        formalLanguage: true,
+                    }),
                     username: decodeUsername(singleData?.username || ''),
-                    agencies: convertToOptions(singleData?.agencies || [], 'name', 'id'),
+                    agencies: convertToOptions(singleData?.agencies || [], ['postcode', 'name', 'city'], 'id'),
                 }}
                 titleKey="agency.edit.general.general_information"
                 onSave={onSave}

@@ -95,7 +95,7 @@ const AgencyList = () => {
                 title: t('agency.city'),
                 dataIndex: 'city',
                 key: 'city',
-                sorter: (a, b) => a.city.localeCompare(b.city),
+                sorter: (a, b) => (a.city ?? '').localeCompare(b.city ?? ''),
                 width: 100,
                 ellipsis: true,
                 className: 'agencyList__column',

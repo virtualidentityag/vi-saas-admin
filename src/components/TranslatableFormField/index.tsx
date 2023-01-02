@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { cloneElement, useContext, useMemo } from 'react';
 import { CheckCircleTwoTone, WarningTwoTone } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
+import DisabledContext from 'antd/es/config-provider/DisabledContext';
 import { SelectFormField } from '../SelectFormField';
 import { useTenantAdminData } from '../../hooks/useTenantAdminData.hook';
 import styles from './styles.module.scss';
@@ -17,18 +18,13 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
     const { t } = useTranslation();
     const { data: tenantData } = useTenantAdminData();
     const namePath = name instanceof Array ? name : [name];
+    const isDisabled = useContext(DisabledContext);
     const formContext = useContext(FieldContext);
     const fieldData = Form.useWatch([...namePath]);
     const languages = useMemo(
         () => tenantData?.settings?.activeLanguages || ['de'],
         [tenantData?.settings?.activeLanguages],
     );
-
-    const isTouched =
-        [
-            formContext.isFieldTouched([...namePath, 'translate']),
-            ...languages.map((language) => formContext.isFieldTouched([...namePath, language])),
-        ].filter(Boolean).length > 0;
 
     const errors = formContext
         .getFieldsError(languages.map((language) => [...namePath, language]))
@@ -50,8 +46,8 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
                     label="languages"
                     name={[...namePath, 'translate']}
                     required
-                    validateStatus={hasErrors && isTouched && 'error'}
-                    help={hasErrors && isTouched && t('form.errors.fillAllLanguages')}
+                    validateStatus={hasErrors && !isDisabled && 'error'}
+                    help={hasErrors && !isDisabled && t('form.errors.fillAllLanguages')}
                     className={styles.translateField}
                 >
                     {languages.map((language) => (

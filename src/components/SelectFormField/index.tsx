@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Form, Select } from 'antd';
 import { ValidateStatus } from 'antd/es/form/FormItem';
 import classNames from 'classnames';
+import { Rule } from 'rc-field-form/lib/interface';
 import styles from './styles.module.scss';
 
 export interface Option {
@@ -26,6 +27,7 @@ export interface SelectFormFieldProps {
     children?: React.ReactElement[];
     validateStatus?: ValidateStatus;
     initialValue?: string;
+    rules?: Rule[];
 }
 
 export const SelectFormField = ({
@@ -45,6 +47,7 @@ export const SelectFormField = ({
     children,
     validateStatus,
     initialValue,
+    rules = [],
 }: SelectFormFieldProps) => {
     const [t] = useTranslation();
     const message = errorMessage || t('form.errors.required');
@@ -53,7 +56,7 @@ export const SelectFormField = ({
         <Form.Item
             name={name}
             label={t(label)}
-            rules={required ? [{ required: true, message }] : undefined}
+            rules={[...rules, ...(required ? [{ required: true, message }] : [])]}
             help={help ? t(help) : undefined}
             validateStatus={validateStatus}
             className={classNames(className, styles.item)}

@@ -54,6 +54,7 @@
     "message.error.CONSULTANT_IS_THE_LAST_OF_AGENCY_AND_AGENCY_IS_STILL_ACTIVE": "Der Berater ist der Letzte in der Beratungsstelle und kann daher nicht entfernt werden.",
     "message.error.USERNAME_NOT_AVAILABLE": "Der Benutzername ist bereits vergeben.",
     "message.error.EMAIL_NOT_AVAILABLE": "Die E-Mail-Adresse ist bereits vergeben.",
+    "message.error.NUMBER_OF_LICENSES_EXCEEDED": "Sie haben die maximale Anzahl an Berater_innen erreicht. Bitte kontaktieren Sie ihren System Administrator um weitere Nutzer hinzuzufügen oder löschen Sie inaktive Berater_innen.",
     "notAllowed.message.error.EMAIL_NOT_AVAILABLE": "Diesen Benutzer gibt es bereits. Bitte Kontaktieren Sie ihren Organisations Admin um diesen zu ihrer Beratungsstelle hinzuzufügen.",
     "message.error.email.incorrect": "Die E-Mail-Adresse ist nicht gültig.",
     "message.eventType.add": "TerminTypen wurde hinzugefügt.",

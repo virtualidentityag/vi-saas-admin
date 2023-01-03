@@ -213,7 +213,7 @@ export const UsersTableData = () => {
                 {((can(PermissionAction.Create, Resource.Consultant) && isConsultantTab) ||
                     (can(PermissionAction.Create, Resource.Admin) && !isConsultantTab)) && (
                     <AddButton
-                        allowedNumberOfUsers={allowedNumberOfUsers}
+                        allowedNumberOfUsers={isConsultantTab ? allowedNumberOfUsers : false}
                         sourceLength={responseList?.total}
                         handleBtnAdd={() => navigate(`/admin/users/${typeOfUsers}/add`)}
                     />

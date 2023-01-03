@@ -31,6 +31,7 @@ export const useUserRolesToPermission = () => {
         },
         [UserRole.TenantAdmin]: {
             Tenant: { read: true, update: true },
+            Language: { update: true },
             LegalText: { read: true, update: true },
             Statistic: { read: true },
         },
@@ -39,6 +40,7 @@ export const useUserRolesToPermission = () => {
         },
         [UserRole.SingleTenantAdmin]: {
             Tenant: { read: true, update: true },
+            Language: { update: !settings.multitenancyWithSingleDomainEnabled },
             LegalText: {
                 read: singleCanEditLegalText,
                 update: singleCanEditLegalText,

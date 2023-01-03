@@ -54,8 +54,8 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
         }
     }, [subdomain, tenantData.subdomain]);
 
-    const checkActive = () => {
-        return location.pathname.includes(routePathNames.agency);
+    const checkActive = (path: string) => {
+        return location.pathname.includes(path);
     };
 
     return (
@@ -82,7 +82,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 <li key="counselors" className="menuItem">
                                     <NavLink
                                         to={routePathNames.consultants}
-                                        className={({ isActive }) => (isActive ? 'active' : '')}
+                                        className={classNames({ active: checkActive('/admin/users') })}
                                     >
                                         <NavIcon path="/admin/users" />
                                         <span>{t('users.title')}</span>
@@ -92,7 +92,10 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
 
                             {can(PermissionAction.Read, Resource.Agency) && (
                                 <li className="menuItem">
-                                    <NavLink to={routePathNames.agency} className={() => (checkActive ? 'active' : '')}>
+                                    <NavLink
+                                        to={routePathNames.agency}
+                                        className={classNames({ active: checkActive(routePathNames.agency) })}
+                                    >
                                         <NavIcon path={routePathNames.agency} />
                                         <span>{t('agency')}</span>
                                     </NavLink>

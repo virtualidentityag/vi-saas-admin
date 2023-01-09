@@ -18,6 +18,7 @@ export const useUserRolesToPermission = () => {
     const { settings } = useAppConfigContext();
     const singleCanEditLegalText =
         !settings.multitenancyWithSingleDomainEnabled || settings.legalContentChangesBySingleTenantAdminsAllowed;
+    const isMultiTenancyWithSingleDomain = settings.multitenancyWithSingleDomainEnabled;
 
     const permissions: Record<Partial<UserRole>, UserPermissions> = {
         [UserRole.RestrictedAgencyAdmin]: {
@@ -39,7 +40,7 @@ export const useUserRolesToPermission = () => {
             Topic: { read: true, create: true, update: true, delete: true },
         },
         [UserRole.SingleTenantAdmin]: {
-            Tenant: { read: true, update: true },
+            Tenant: { read: !isMultiTenancyWithSingleDomain, update: !isMultiTenancyWithSingleDomain },
             Language: { update: !settings.multitenancyWithSingleDomainEnabled },
             LegalText: {
                 read: singleCanEditLegalText,

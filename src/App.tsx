@@ -40,7 +40,7 @@ export const App = () => {
 
             const redirectPath =
                 can(PermissionAction.Read, Resource.Consultant) || can(PermissionAction.Read, Resource.Admin)
-                    ? routePathNames.users
+                    ? routePathNames.consultants
                     : routePathNames.userProfile;
             navigate(redirectPath);
         }
@@ -52,14 +52,25 @@ export const App = () => {
         <FeatureProvider tenantData={data}>
             <ProtectedPageLayoutWrapper>
                 <Routes>
-                    {/* later <Route path="/" element={<Dashboard />} /> */}
                     {(can(PermissionAction.Read, Resource.Tenant) ||
                         can(PermissionAction.Read, Resource.LegalText)) && (
                         <Route path={routePathNames.themeSettings} element={<TenantSettingsLayout />}>
-                            <Route index element={<Navigate to={`${routePathNames.themeSettings}/general`} />} />
-                            <Route path={`${routePathNames.themeSettings}/general`} element={<GeneralSettings />} />
-                            <Route path={`${routePathNames.themeSettings}/legal`} element={<LegalSettings />} />
-                            <Route path="*" element={<Navigate to={routePathNames.themeSettings} />} />
+                            {can(PermissionAction.Read, Resource.Tenant) && (
+                                <Route path={`${routePathNames.themeSettings}/general`} element={<GeneralSettings />} />
+                            )}
+                            {can(PermissionAction.Read, Resource.LegalText) && (
+                                <Route path={`${routePathNames.themeSettings}/legal`} element={<LegalSettings />} />
+                            )}
+                            <Route
+                                index
+                                element={
+                                    <Navigate
+                                        to={`${routePathNames.themeSettings}/${
+                                            can(PermissionAction.Update, Resource.Tenant) ? 'general' : 'legal'
+                                        }`}
+                                    />
+                                }
+                            />
                         </Route>
                     )}
                     <Route path={routePathNames.agency} element={<Agencies />} />

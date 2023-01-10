@@ -84,7 +84,7 @@ const routePathNames = {
     termsAndConditions: '/admin/agb',
     imprint: '/impressum',
     privacy: '/datenschutz',
-    tenants: '/admin/organisationen',
+    tenants: '/admin/tenants',
     loginResetPasswordLink: '/auth/realms/online-beratung/login-actions/reset-credentials?client_id=account',
     appointmentServiceDevServer: 'https://calcom-develop.suchtberatung.digital',
 };

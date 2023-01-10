@@ -1,0 +1,24 @@
+.mainTenant {
+    background-color: #0a882f;
+    height: 16px;
+    line-height: 15px;
+    margin-left: 8px;
+    color: white;
+    font-weight: 700;
+    font-size: 12px;
+    border-radius: 30px;
+}
+
+.searchContainer {
+    display: flex;
+    gap: 24px
+}
+
+.subdomain {
+    text-decoration: underline;
+}
+
+.emailsContainer {
+    display: flex;
+    flex-direction: column;
+}

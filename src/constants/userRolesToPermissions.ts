@@ -31,7 +31,7 @@ export const useUserRolesToPermission = () => {
             Agency: { read: true, create: true, update: true, delete: true },
         },
         [UserRole.TenantAdmin]: {
-            Tenant: { read: true, update: true },
+            Tenant: { read: true, update: true, create: true, delete: true },
             Language: { update: true },
             LegalText: { read: true, update: true },
             Statistic: { read: true },

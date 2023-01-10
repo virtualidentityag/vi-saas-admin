@@ -4,12 +4,10 @@ import './app.css';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router';
 import ProtectedPageLayoutWrapper from './components/Layout/ProtectedPageLayoutWrapper';
 import routePathNames from './appConfig';
-// import Dashboard from "./pages/Dashboard";
 import { TenantSettingsLayout } from './pages/TenantSettings';
 import { Topics } from './pages/Topics';
 import { Statistic } from './pages/Statistic';
 import { UserProfile } from './pages/UserProfile';
-import { Tenants } from './pages/Tenants';
 import { Initialization } from './components/Layout/Initialization';
 import { Agencies } from './pages/Agencies';
 import { useTenantData } from './hooks/useTenantData.hook';
@@ -24,6 +22,7 @@ import { useUserPermissions } from './hooks/useUserPermission';
 import { PermissionAction } from './enums/PermissionAction';
 import { Resource } from './enums/Resource';
 import { TopicEditOrAdd } from './pages/Topics/Edit';
+import { TenantsList } from './pages/Tenants/List';
 
 export const App = () => {
     const { isLoading, data } = useTenantData();
@@ -80,7 +79,10 @@ export const App = () => {
                     <Route path={`${routePathNames.topics}/:id`} element={<TopicEditOrAdd />} />
                     <Route path={routePathNames.statistic} element={<Statistic />} />
                     <Route path={routePathNames.userProfile} element={<UserProfile />} />
-                    <Route path={routePathNames.tenants} element={<Tenants />} />
+                    {can(PermissionAction.Create, Resource.Tenant) && (
+                        <Route path={routePathNames.tenants} element={<TenantsList />} />
+                    )}
+
                     <Route path="/admin/users/:typeOfUsers" element={<UsersList />} />
                     <Route path="/admin/users/:typeOfUsers/:id" element={<UserEditOrAdd />} />
                 </Routes>

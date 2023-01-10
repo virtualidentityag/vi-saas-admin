@@ -18,6 +18,8 @@ import {
 } from '@mui/icons-material/';
 import { useLocation } from 'react-router';
 import routePathNames from '../../appConfig';
+import { ReactComponent as ActiveTenantIcon } from '../../resources/img/svg/ActiveTenantIcon.svg';
+import { ReactComponent as TenantIcon } from '../../resources/img/svg/TenantIcon.svg';
 
 interface Props {
     path: string;
@@ -34,6 +36,8 @@ export const NavIcon = ({ path }: Props) => {
             return currentlySelected ? <Settings {...props} /> : <SettingsOutlined {...props} />;
         case '/admin/users':
             return currentlySelected ? <ManageAccounts {...props} /> : <ManageAccountsOutlined {...props} />;
+        case '/admin/tenants':
+            return currentlySelected ? <ActiveTenantIcon /> : <TenantIcon />;
         case routePathNames.agency:
         case routePathNames.agencyAdd:
         case routePathNames.agencyAddGeneral:

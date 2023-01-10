@@ -28,6 +28,7 @@ export const FETCH_ERRORS = {
     TIMEOUT: 'TIMEOUT',
     UNAUTHORIZED: 'UNAUTHORIZED',
     PRECONDITION_FAILED: 'PRECONDITION FAILED',
+    NOT_ALLOWED: 'NOT_ALLOWED',
     X_REASON: 'X-Reason',
 };
 
@@ -134,6 +135,8 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
                         reject(new Error(FETCH_ERRORS.BAD_REQUEST));
                     } else if (response.status === 404 && props.responseHandling.includes(FETCH_ERRORS.NO_MATCH)) {
                         reject(new Error(FETCH_ERRORS.NO_MATCH));
+                    } else if (response.status === 405 && props.responseHandling.includes(FETCH_ERRORS.NOT_ALLOWED)) {
+                        reject(new Error(FETCH_ERRORS.NOT_ALLOWED));
                     } else if (
                         response.status === 409 &&
                         (props.responseHandling.includes(FETCH_ERRORS.CONFLICT) ||

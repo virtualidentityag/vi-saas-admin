@@ -13,7 +13,10 @@ export const TenantSettingsLayout = () => {
                 titleKey="settings.title"
                 subTitleKey="settings.title.text"
                 tabs={[
-                    { to: '/admin/theme-settings/general', titleKey: 'settings.subhead.view' },
+                    can(PermissionAction.Update, Resource.Tenant) && {
+                        to: '/admin/theme-settings/general',
+                        titleKey: 'settings.subhead.view',
+                    },
                     can(PermissionAction.Update, Resource.LegalText) && {
                         to: '/admin/theme-settings/legal',
                         titleKey: 'settings.subhead.legal',

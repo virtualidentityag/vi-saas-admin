@@ -13,12 +13,10 @@ export const AgencyEdit = () => {
             <Row gutter={[20, 10]}>
                 <Col xs={12} lg={6}>
                     <AgencyGeneralInformation id={agencyID} />
+                    <AgencyAddressSettings id={agencyID} />
                 </Col>
                 <Col xs={12} lg={6}>
                     <ConsultingSettings id={agencyID} />
-                </Col>
-                <Col xs={12} lg={6}>
-                    <AgencyAddressSettings id={agencyID} />
                 </Col>
             </Row>
         </div>

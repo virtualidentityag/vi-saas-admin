@@ -7,10 +7,14 @@ import { useAgencyData } from './useAgencyData';
 export const useAgencyUpdate = (id: string) => {
     const queryClient = useQueryClient();
     const { data: agencyData } = useAgencyData({ id, enabled: id !== 'add' });
-
     return useMutation(
         (data: Partial<AgencyData>) => {
-            return updateAgencyData(agencyData, mergeWith(agencyData, data));
+            return updateAgencyData(
+                agencyData,
+                mergeWith({ ...agencyData }, data, (objValue, srcValue) => {
+                    return objValue instanceof Array ? srcValue : undefined;
+                }),
+            );
         },
         {
             onSuccess: () => {

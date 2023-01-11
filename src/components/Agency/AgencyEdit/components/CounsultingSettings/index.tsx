@@ -15,7 +15,10 @@ import { Option, SelectFormField } from '../../../../SelectFormField';
 import { SliderFormField } from '../../../../SliderFormField';
 import { CardEditable } from '../../../../CardEditable';
 import getConsultingTypes from '../../../../../api/consultingtype/getConsultingTypes';
+import { ReactComponent as InfoIcon } from '../../../../../resources/img/svg/i.svg';
 import { getDiocesesData } from '../../../../../api/agency/getDiocesesData';
+import { Tooltip } from '../../../../tooltip/Tooltip';
+import styles from './styles.module.scss';
 
 const DEFAULT_MIN_AGE = 18;
 const DEFAULT_MAX_AGE = 100;
@@ -79,7 +82,16 @@ const ConsultingSettingsContainer = ({
                 </Col>
                 <Col xs={12} lg={6}>
                     <FormSwitchField
-                        labelKey="agency.edit.general.more_settings.online"
+                        label={
+                            <>
+                                {t('agency.edit.general.more_settings.online')}
+                                {!hasConsultants && (
+                                    <Tooltip className={styles.tooltip} trigger={<InfoIcon fill="var(--primary)" />}>
+                                        {t('agency.online.tooltip')}
+                                    </Tooltip>
+                                )}
+                            </>
+                        }
                         name="online"
                         disabled={!hasConsultants}
                     />

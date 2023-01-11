@@ -47,20 +47,34 @@ export const UserEditOrAdd = () => {
             navigate(`/admin/users/${typeOfUsers}/${response.id}`);
         },
         onError: (error: Error | Response) => {
-            if (
-                error instanceof Response &&
-                error.status === 409 &&
-                error.headers.get(FETCH_ERRORS.X_REASON) === X_REASON.EMAIL_NOT_AVAILABLE
-            ) {
-                const isAllowed =
-                    can(PermissionAction.Delete, Resource.Consultant) && typeOfUsers === TypeOfUser.Consultants;
-
-                message.error({
-                    content: t(
-                        `${isAllowed ? '' : 'notAllowed.'}message.error.${error.headers.get(FETCH_ERRORS.X_REASON)}`,
-                    ),
-                    duration: 3,
-                });
+            if (error instanceof Response) {
+                switch (error.headers.get(FETCH_ERRORS.X_REASON)) {
+                    case X_REASON.EMAIL_NOT_AVAILABLE: {
+                        const isAllowed =
+                            can(PermissionAction.Delete, Resource.Consultant) && typeOfUsers === TypeOfUser.Consultants;
+                        message.error({
+                            content: t(
+                                `${isAllowed ? '' : 'notAllowed.'}message.error.${error.headers.get(
+                                    FETCH_ERRORS.X_REASON,
+                                )}`,
+                            ),
+                            duration: 3,
+                        });
+                        break;
+                    }
+                    case X_REASON.NUMBER_OF_LICENSES_EXCEEDED:
+                        message.error({
+                            content: t('message.error.NUMBER_OF_LICENSES_EXCEEDED'),
+                            duration: 3,
+                        });
+                        break;
+                    default:
+                        message.error({
+                            content: t('message.error.default'),
+                            duration: 3,
+                        });
+                        break;
+                }
             }
         },
     });

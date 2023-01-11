@@ -18,7 +18,9 @@ import routePathNames from '../../appConfig';
 import { convertToOptions } from '../../utils/convertToOptions';
 import getTopicByTenantData from '../../api/topic/getTopicByTenantData';
 import getConsultingTypes from '../../api/consultingtype/getConsultingTypes';
+import { ReactComponent as InfoIcon } from '../../resources/img/svg/i.svg';
 import { getDiocesesData } from '../../api/agency/getDiocesesData';
+import { Tooltip } from '../tooltip/Tooltip';
 
 const { Paragraph } = Typography;
 const { Item } = Form;
@@ -306,7 +308,17 @@ export const AgencyAddGeneral = () => {
                                         </Item>
                                     </Col>
                                     <Col xs={12} lg={6}>
-                                        <Item label={t('agency.add.general.more_settings.online')} name="online">
+                                        <Item
+                                            label={
+                                                <div className="online__title">
+                                                    {t('agency.edit.general.more_settings.online')}
+                                                    <Tooltip trigger={<InfoIcon fill="var(--primary)" />}>
+                                                        {t('agency.online.tooltip')}
+                                                    </Tooltip>
+                                                </div>
+                                            }
+                                            name="online"
+                                        >
                                             <div className="flex">
                                                 <Switch size="default" defaultChecked={false} disabled />
                                                 <Paragraph className="desc__toggleText">{t('yes')}</Paragraph>

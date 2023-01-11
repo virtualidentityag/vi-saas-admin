@@ -92,6 +92,7 @@ export const CardEditable = ({
                 {isLoading && <Spin />}
                 {!isLoading && (
                     <Form
+                        validateTrigger={['onSubmit', 'onChange']}
                         size="small"
                         labelAlign="left"
                         labelWrap

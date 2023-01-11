@@ -6,4 +6,5 @@ export enum Resource {
     Statistic,
     Tenant,
     LegalText,
+    Language,
 }

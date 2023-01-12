@@ -17,11 +17,11 @@
     :global {
         .ant-select-selector {
             min-height: 48px !important;
-            border: 1px solid var(--input-border-color) !important;
             padding: 4px 8px !important;
+            border: 1px solid var(--input-border-color) !important;
             background-color: transparent !important;
-            box-shadow: none !important;
             border-radius: 0 !important;
+            box-shadow: none !important;
         }
 
         .ant-select-selection-placeholder {
@@ -39,8 +39,8 @@
         }
 
         .ant-form-item-explain-error {
-            font-weight: 400;
             font-size: 12px;
+            font-weight: 400;
             line-height: 16px;
         }
     }

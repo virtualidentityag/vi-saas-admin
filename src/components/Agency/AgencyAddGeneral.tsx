@@ -4,7 +4,7 @@ import Title from 'antd/es/typography/Title';
 import TextArea from 'antd/lib/input/TextArea';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { Box } from '../box/Box';
+import { Box } from '../Box';
 import { SelectFormField } from '../SelectFormField';
 import { PostCodeRanges } from './PostCodeRanges';
 import { FeatureFlag } from '../../enums/FeatureFlag';

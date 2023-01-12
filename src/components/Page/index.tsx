@@ -23,6 +23,7 @@ interface PageTitleProps {
 interface PageBackProps {
     titleKey: string;
     path: string;
+    children?: React.ReactChild | React.ReactChild[];
 }
 
 export const Page = ({ children, isLoading }: PageProps) => {
@@ -63,7 +64,7 @@ export const PageTitle = ({ titleKey, subTitleKey, subTitle, tabs, children }: P
     );
 };
 
-export const PageBack = ({ path, titleKey }: PageBackProps) => {
+export const PageBack = ({ path, titleKey, children }: PageBackProps) => {
     const { t } = useTranslation();
 
     return (
@@ -72,9 +73,17 @@ export const PageBack = ({ path, titleKey }: PageBackProps) => {
                 <ChevronLeft />
                 <h3 className={styles.backHeadline}>{t(titleKey)}</h3>
             </NavLink>
+            {children}
         </div>
     );
 };
 
+export const PageBackWithActions = (props: PageBackProps) => (
+    <PageBack {...props}>
+        <div className={styles.actions}>{props.children}</div>
+    </PageBack>
+);
+
 Page.Title = PageTitle;
 Page.Back = PageBack;
+Page.BackWithActions = PageBackWithActions;

@@ -16,7 +16,7 @@ import { useAppConfigContext } from '../../../context/useAppConfig';
 import { PermissionAction } from '../../../enums/PermissionAction';
 import { Resource } from '../../../enums/Resource';
 import { useDeleteTenant } from '../../../hooks/useDeleteTenant';
-import { useTenantsData } from '../../../hooks/useTenantData';
+import { useTenantsData } from '../../../hooks/useTenantsData';
 import { useUserPermissions } from '../../../hooks/useUserPermission';
 import { TenantData } from '../../../types/tenant';
 import styles from './styles.module.scss';

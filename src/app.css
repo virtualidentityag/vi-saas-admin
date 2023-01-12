@@ -29,9 +29,15 @@
     --lineHeight-xl: calc(var(--fontSize-xl) * 1.8);
     --lineHeight-2xl: calc(var(--fontSize-2xl) * 1.8);
 
-    /* Ant defaults */
+    /* FormFields */
+    --input-padding: 0 12px 0 16px;
+    --input-border-radius: 4px;
     --input-border-color: rgb(0 0 0 / 20%);
-    --input-bg: transparent;
+    --input-active-border-color: rgb(0 0 0 / 90%);
+    --input-disabled-border-color: transparent;
+    --input-bg: white;
+    --input-disabled-bg: rgb(0 0 0 / 5%);
+    --input-disabled-color: rgb(0 0 0 / 40%);
     --label-color: rgb(0 0 0 / 60%);
     --form-item-label-font-size: var(--fontSize-s);
     --form-item-label-height: auto;
@@ -56,7 +62,7 @@
     --form-secondary: #3f373f;
     --form-success: #0dcd21;
     --form-medium: #ff9f00;
-    --form-error: #ff0000;
+    --form-error: #cc0000;
     --form-disabled: #c4bfc4;
     --form-active: #3f373f;
     --light-grey: #787378;
@@ -67,6 +73,7 @@
     --dark-brown: #432000;
     --light-brown: #b5906e;
     --dark-grey: #e7e3e1;
+    --text-color: rgb(0 0 0 / 90%);
 
     /* YELLOW THEME */
     --yellow-1: #ffeed2;
@@ -82,4 +89,8 @@
     --from-large: 900px;
     --from-xl-large: 1200px;
     --from-xx-large: 1600px;
+}
+
+body {
+    background: #f2efea;
 }

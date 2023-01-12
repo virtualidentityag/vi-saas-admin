@@ -1,0 +1,18 @@
+.input {
+    composes: input from '../FormFields/styles.module.scss';
+
+    :global(.ant-input-number-input) {
+        padding-left: 0;
+    }
+
+    &:global(.ant-input-number-focused) {
+        border-width: 2px;
+        border-color: var(--input-active-border-color);
+        box-shadow: none;
+        outline: none;
+    }
+}
+
+.item {
+    composes: item from '../FormFields/styles.module.scss';
+}

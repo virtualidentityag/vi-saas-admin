@@ -1,17 +1,17 @@
 .mainTenant {
-    background-color: #0a882f;
     height: 16px;
-    line-height: 15px;
     margin-left: 8px;
-    color: white;
-    font-weight: 700;
-    font-size: 12px;
+    background-color: #0a882f;
     border-radius: 30px;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 15px;
 }
 
 .searchContainer {
     display: flex;
-    gap: 24px
+    gap: 24px;
 }
 
 .subdomain {

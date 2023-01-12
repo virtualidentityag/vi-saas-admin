@@ -123,7 +123,6 @@ jobs:
                   push: true
                   tags: ${{ steps.meta.outputs.tags }}
                   labels: ${{ steps.meta.outputs.labels }}
-                  build-args: DOCKER_MATRIX=${{ env.MATRIX_REGISTRY }}
             - name: Hint about the Docker Image Tag if successfull
               if: ${{ success() }}
               run: |

@@ -37,7 +37,6 @@
 
 .titleContainer {
     display: flex;
-    width: 25%;
     flex-direction: column;
 
     @media screen and (max-width: 770px) {
@@ -55,6 +54,10 @@
     }
 }
 
+.titleWidthTabs {
+    width: 25%;
+}
+
 .title {
     text-align: left;
 }
@@ -63,6 +66,7 @@
     display: flex;
     flex-wrap: wrap;
     padding-bottom: 32px;
+    justify-content: space-between;
 }
 
 .back {

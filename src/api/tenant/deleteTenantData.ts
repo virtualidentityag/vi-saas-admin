@@ -1,23 +1,18 @@
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
 import { tenantEndpoint } from '../../appConfig';
-import { BasicTenantData } from '../../types/tenant';
 
 /**
- * delete counselor
- * @param tenantData
+ * delete tenant
+ * @param string
  * @return data
  */
-const deleteTenantData = (tenantData: BasicTenantData) => {
-    const { id } = tenantData;
-
+export const deleteTenantData = (id: number) => {
     const tenant = fetchData({
         url: `${tenantEndpoint}/${id}`,
         method: FETCH_METHODS.DELETE,
         skipAuth: false,
-        responseHandling: [FETCH_ERRORS.CATCH_ALL],
+        responseHandling: [FETCH_ERRORS.NOT_ALLOWED],
     });
 
     return tenant;
 };
-
-export default deleteTenantData;

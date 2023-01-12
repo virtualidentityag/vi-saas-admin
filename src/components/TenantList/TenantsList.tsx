@@ -4,7 +4,7 @@ import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import Title from 'antd/es/typography/Title';
 import { TenantData } from '../../types/tenant';
-import getMultipleTenants from '../../api/tenant/getMultipleTenants';
+import { getTenantList } from '../../api/tenant/getTenantListData';
 import EditableTable from '../EditableTable/EditableTable';
 import ModalForm from '../ModalForm/ModalForm';
 import { defaultCounselor } from '../Counselor/Counselor';
@@ -13,7 +13,7 @@ import { EditableData } from '../../types/editabletable';
 import { RenderFormProps } from '../../types/modalForm';
 import Tenant from './Tenant';
 import addTenantData from '../../api/tenant/addTenantData';
-import deleteTenantData from '../../api/tenant/deleteTenantData';
+import { deleteTenantData } from '../../api/tenant/deleteTenantData';
 import editTenantData from '../../api/tenant/editTenantData';
 import { Resource } from '../../enums/Resource';
 
@@ -37,7 +37,7 @@ const TenantsList = () => {
     const handleAddTenant = (formData: Record<string, any>) => {
         setIsLoading(true);
         addTenantData(formData)
-            .then(() => getMultipleTenants(page.toString()))
+            .then(() => getTenantList(page.toString()))
             .then((result: any) => {
                 setTenants(result);
                 resetStatesAfterLoad();
@@ -54,7 +54,7 @@ const TenantsList = () => {
         setIsLoading(true);
         // PUT request method must be allowed in the API
         editTenantData(formData)
-            .then(() => getMultipleTenants(page.toString()))
+            .then(() => getTenantList(page.toString()))
             .then((result: any) => {
                 setTenants(result);
                 resetStatesAfterLoad();
@@ -73,8 +73,8 @@ const TenantsList = () => {
     const handleDeleteTenant = (formData: TenantData) => {
         setIsLoading(true);
         // DELETE request method must be allowed in the API
-        deleteTenantData(formData)
-            .then(() => getMultipleTenants(page.toString()))
+        deleteTenantData(formData.id)
+            .then(() => getTenantList(page.toString()))
             .then((result: any) => {
                 setTenants(result);
                 resetStatesAfterLoad();
@@ -116,7 +116,7 @@ const TenantsList = () => {
     useEffect(() => {
         setIsLoading(true);
         // getFakeMultipleTenants()
-        getMultipleTenants(page.toString())
+        getTenantList(page.toString())
             .then((result: any) => {
                 setIsLoading(false);
                 setTenants(result);

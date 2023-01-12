@@ -1,6 +1,7 @@
 import { ChevronLeft } from '@mui/icons-material';
 import { Spin } from 'antd';
 import Title from 'antd/es/typography/Title';
+import classNames from 'classnames';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
@@ -14,6 +15,8 @@ interface PageProps {
 interface PageTitleProps {
     titleKey: string;
     subTitleKey?: string;
+    subTitle?: React.ReactChild;
+    children?: React.ReactChild | React.ReactChild[];
     tabs?: Array<{ to: string; titleKey }>;
 }
 
@@ -41,19 +44,21 @@ const PageTabs = ({ tabs }: { tabs: Array<{ to: string; titleKey }> }) => {
     );
 };
 
-export const PageTitle = ({ titleKey, subTitleKey, tabs }: PageTitleProps) => {
+export const PageTitle = ({ titleKey, subTitleKey, subTitle, tabs, children }: PageTitleProps) => {
     const { t } = useTranslation();
     const finalTabs = useMemo(() => tabs?.filter(Boolean) || [], [tabs]);
 
     return (
         <div className={styles.pageTitleContainer}>
-            <div className={styles.titleContainer}>
+            <div className={classNames(styles.titleContainer, { [styles.titleWidthTabs]: !!finalTabs?.length })}>
                 <Title level={3} className={styles.title}>
                     {t(titleKey)}
                 </Title>
                 {subTitleKey && <p>{t(subTitleKey)}</p>}
+                {subTitle}
             </div>
-            {finalTabs?.length && <PageTabs tabs={finalTabs} />}
+            {children}
+            {!!finalTabs?.length && <PageTabs tabs={finalTabs} />}
         </div>
     );
 };

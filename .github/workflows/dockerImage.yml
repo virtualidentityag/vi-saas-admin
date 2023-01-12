@@ -82,6 +82,7 @@ jobs:
                   raw=$(git branch -r --contains ${{ github.ref }})
                   branch=${raw##*/}
                   echo BRANCH_NAME=$(echo -n "${branch}") >> $GITHUB_ENV
+                  echo "MATRIX_REGISTRY=$(echo "${{ matrix.registry }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
                   echo "DOCKER_REGISTRY=$(echo "${{ matrix.registry }}/${{ github.repository }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
                   echo "DOCKER_IMAGE=$(echo "${{ github.repository }}" | awk -F / '{print tolower($2)}')" >> $GITHUB_ENV
                   echo "REPO_NAME_WITHOUT_PREFIX"=$(echo "${{ github.repository }}" | sed "s/.*\///" | awk -F / '{print tolower($0)}') >> $GITHUB_ENV
@@ -122,6 +123,7 @@ jobs:
                   push: true
                   tags: ${{ steps.meta.outputs.tags }}
                   labels: ${{ steps.meta.outputs.labels }}
+                  build_args: DOCKER_MATRIX=${{ env.MATRIX_REGISTRY }}
             - name: Hint about the Docker Image Tag if successfull
               if: ${{ success() }}
               run: |

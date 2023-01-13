@@ -16,3 +16,7 @@
 .item {
     composes: item from '../FormFields/styles.module.scss';
 }
+
+.disabled {
+    composes: disabled from '../FormFields/styles.module.scss';
+}

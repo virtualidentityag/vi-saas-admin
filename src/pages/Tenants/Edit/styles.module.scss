@@ -15,6 +15,9 @@
     font-weight: 400;
     gap: 10px;
     line-height: 16px;
+    background: var(--warning-light);
+    border: 1px solid var(--warning-dark);
+    padding: 14px 16px;
 }
 
 .fieldGroup {
@@ -28,4 +31,29 @@
 .buttons {
     display: flex;
     gap: 16px;
+}
+
+.emptyAdminsContainer {
+    margin-top: 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.emptyAdminsIcon {
+    font-size: 70px!important;
+    color: rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;
+}
+
+.emptyAdminsText {
+    max-width: 335px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.6);
 }

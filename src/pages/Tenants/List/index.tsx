@@ -154,7 +154,6 @@ export const TenantsList = () => {
                     </Button>
                 </div>
             </Page.Title>
-
             <ResizeTable
                 loading={isLoading}
                 columns={columnsData}

@@ -27,7 +27,11 @@ interface PageBackProps {
 }
 
 export const Page = ({ children, isLoading }: PageProps) => {
-    return <div className={styles.page}>{isLoading ? <Spin /> : <div className={styles.content}>{children}</div>}</div>;
+    return (
+        <div className={classNames(styles.page, { [styles.loading]: isLoading })}>
+            {isLoading ? <Spin /> : <div className={styles.content}>{children}</div>}
+        </div>
+    );
 };
 
 const PageTabs = ({ tabs }: { tabs: Array<{ to: string; titleKey }> }) => {

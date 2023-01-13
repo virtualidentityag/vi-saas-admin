@@ -1,7 +1,9 @@
 import { Form, Input, InputProps } from 'antd';
 import { Rule } from 'antd/lib/form';
+import DisabledContext from 'antd/es/config-provider/DisabledContext';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { useContext } from 'react';
 import styles from './styles.module.scss';
 
 interface FormInputFieldProps extends Omit<InputProps, 'name'> {
@@ -24,11 +26,15 @@ export const FormInputField = ({
     rules,
     ...inputProps
 }: FormInputFieldProps) => {
+    const contextDisabled = useContext(DisabledContext);
     const { t } = useTranslation();
 
     return (
         <Form.Item
-            className={classNames(className, styles.item)}
+            className={classNames(className, styles.item, {
+                [styles.disabled]: contextDisabled,
+                [styles.withAddon]: !!inputProps.addonAfter,
+            })}
             label={t(labelKey)}
             name={name}
             rules={[{ required }, ...(rules || [])]}

@@ -9,7 +9,7 @@ interface UseAddOrUpdateTenantOptions extends UseMutationOptions<SimpleTenant, E
 }
 
 export const useAddOrUpdateTenant = ({ id, ...options }: UseAddOrUpdateTenantOptions) => {
-    const { data } = useTenantFor({ id, enabled: id !== 'add' });
+    const { data } = useTenantFor({ id, enabled: !!id });
     return useMutation((formData) => {
         const bodyData = JSON.stringify({
             ...data,

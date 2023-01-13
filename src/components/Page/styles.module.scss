@@ -65,13 +65,18 @@
 .pageTitleContainer {
     display: flex;
     flex-wrap: wrap;
-    padding-bottom: 32px;
     justify-content: space-between;
+    padding-bottom: 32px;
 }
 
 .back {
     display: flex;
+    justify-content: space-between;
     padding-bottom: 32px;
+
+    @media (max-width: 650px) {
+        flex-direction: column;
+    }
 }
 
 .backLink {
@@ -82,4 +87,16 @@
 
 .backHeadline {
     margin-bottom: 0;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

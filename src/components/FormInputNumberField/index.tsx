@@ -1,12 +1,12 @@
-import { Form, Input, InputProps } from 'antd';
-import { Rule } from 'antd/lib/form';
+import { Form, InputNumber, InputNumberProps } from 'antd';
 import DisabledContext from 'antd/es/config-provider/DisabledContext';
+import { Rule } from 'antd/lib/form';
 import classNames from 'classnames';
-import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
-interface FormInputFieldProps extends Omit<InputProps, 'name'> {
+interface FormInputFieldProps extends Omit<InputNumberProps, 'name'> {
     labelKey?: string;
     placeholderKey?: string;
     required?: boolean;
@@ -17,7 +17,7 @@ interface FormInputFieldProps extends Omit<InputProps, 'name'> {
     rules?: Rule[];
 }
 
-export const FormInputField = ({
+export const FormInputNumberField = ({
     className,
     name,
     labelKey,
@@ -31,15 +31,12 @@ export const FormInputField = ({
 
     return (
         <Form.Item
-            className={classNames(className, styles.item, {
-                [styles.disabled]: contextDisabled,
-                [styles.withAddon]: !!inputProps.addonAfter,
-            })}
+            className={classNames(className, styles.item, { [styles.disabled]: contextDisabled })}
             label={t(labelKey)}
             name={name}
             rules={[{ required }, ...(rules || [])]}
         >
-            <Input {...inputProps} className={styles.input} placeholder={placeholderKey && t(placeholderKey)} />
+            <InputNumber {...inputProps} className={styles.input} placeholder={placeholderKey && t(placeholderKey)} />
         </Form.Item>
     );
 };

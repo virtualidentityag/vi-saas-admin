@@ -6,6 +6,7 @@ interface TenantsProps extends UseQueryOptions<SimpleTenant[]> {
     search?: string;
     page?: number;
 }
+
 export const useTenantsData = ({ page, search, ...options }: TenantsProps) => {
     return useQuery<SimpleTenant[]>(['TENANTS', page, search], () => getTenantList(page, search), options);
 };

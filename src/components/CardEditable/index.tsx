@@ -3,7 +3,7 @@ import Title from 'antd/lib/typography/Title';
 import classNames from 'classnames';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box } from '../box/Box';
+import { Box } from '../Box';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import Pencil from '../CustomIcons/Pencil';
 import { Tooltip } from '../tooltip/Tooltip';

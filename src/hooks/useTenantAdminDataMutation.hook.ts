@@ -39,7 +39,7 @@ export const useTenantAdminDataMutation = (
     return useMutation(
         (data: Partial<TenantAdminData>) => {
             return fetchData({
-                url: `${tenantAdminEndpoint}${tenantData.id}`,
+                url: `${tenantAdminEndpoint}/${tenantData.id}`,
                 method: FETCH_METHODS.PUT,
                 skipAuth: false,
                 bodyData: JSON.stringify(mergeData(tenantAdminData, data)),

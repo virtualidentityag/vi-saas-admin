@@ -23,6 +23,7 @@ import { PermissionAction } from './enums/PermissionAction';
 import { Resource } from './enums/Resource';
 import { TopicEditOrAdd } from './pages/Topics/Edit';
 import { TenantsList } from './pages/Tenants/List';
+import { TenantEditOrAdd } from './pages/Tenants/Edit';
 
 export const App = () => {
     const { isLoading, data } = useTenantData();
@@ -80,7 +81,10 @@ export const App = () => {
                     <Route path={routePathNames.statistic} element={<Statistic />} />
                     <Route path={routePathNames.userProfile} element={<UserProfile />} />
                     {can(PermissionAction.Create, Resource.Tenant) && (
-                        <Route path={routePathNames.tenants} element={<TenantsList />} />
+                        <>
+                            <Route path={routePathNames.tenants} element={<TenantsList />} />
+                            <Route path={`${routePathNames.tenants}/:id`} element={<TenantEditOrAdd />} />
+                        </>
                     )}
 
                     <Route path="/admin/users/:typeOfUsers" element={<UsersList />} />

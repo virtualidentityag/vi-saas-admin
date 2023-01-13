@@ -1,59 +1,21 @@
 .input {
-    padding: 0 0 4px;
-    border: 0;
-    border-bottom: 1px solid rgb(0 0 0 / 87%);
-    border-radius: 0;
-    color: rgb(0 0 0 / 87%);
-
-    &:focus {
-        box-shadow: none !important;
-    }
-
-    &:active {
-        border-color: rgb(0 0 0 / 87%);
-        color: rgb(0 0 0 / 87%);
-    }
-
-    &[disabled] {
-        border-color: rgb(0 0 0 / 20%);
-        background: none;
-        color: rgb(0 0 0 / 40%);
-    }
-
-    & :global {
-        .ant-input-status-error {
-            border-top: 0 !important;
-        }
-    }
+    composes: input from '../FormFields/styles.module.scss';
 }
 
 .item {
-    :global {
-        label {
-            height: initial !important;
+    composes: item from '../FormFields/styles.module.scss';
+}
 
-            &.ant-form-item-required {
-                &:before {
-                    display: none !important;
-                }
+.disabled {
+    composes: disabled from '../FormFields/styles.module.scss';
+}
 
-                &:after {
-                    display: inline-block;
-                    margin-right: 4px;
-                    color: inherit;
-                    content: '*';
-                    font-family: SimSun, sans-serif;
-                    font-size: 12px;
-                    line-height: 1;
-                }
-            }
-        }
-
-        .ant-form-item-label {
-            padding-bottom: 4px;
-            color: rgb(0 0 0 / 60%);
-            font-size: 12px;
-            line-height: 16px;
+.withAddon {
+    &.disabled {
+        .input {
+            border-color: var(--input-disabled-border-color);
+            background: var(--input-disabled-bg);
+            color: var(--input-disabled-color);
         }
     }
 }

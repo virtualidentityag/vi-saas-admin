@@ -12,7 +12,7 @@ export const useTenantAdminData = () => {
         [TENANT_ADMIN_DATA_KEY, data.id],
         async () =>
             fetchData({
-                url: `${tenantAdminEndpoint}${data.id}`,
+                url: `${tenantAdminEndpoint}/${data.id}`,
                 method: FETCH_METHODS.GET,
                 skipAuth: false,
                 responseHandling: [],

@@ -1,11 +1,11 @@
 import { useMutation } from 'react-query';
 import { setTokens } from '../api/auth/auth';
 import getAccessToken from '../api/auth/getAccessToken';
-import { FETCH_ERRORS } from '../api/fetchData';
+import { fetchData, FETCH_ERRORS, FETCH_METHODS } from '../api/fetchData';
+import { tenantAccessEndpoint } from '../appConfig';
 import { useAppConfigContext } from '../context/useAppConfig';
 import { TwoFactorType } from '../enums/TwoFactorType';
 import { LoginData } from '../types/loginData';
-import parseJwt from '../utils/parseJWT';
 
 interface LoginParams {
     username: string;
@@ -30,8 +30,16 @@ export const useLoginMutation = (tenantId: string) => {
                     return data;
                 }
 
-                const { tenantId: userTenantId } = parseJwt(data.access_token);
-                return userTenantId === tenantId ? data : Promise.reject(new Error(FETCH_ERRORS.UNAUTHORIZED));
+                // We'll check in the server if we're allowed to access the app
+                return fetchData({
+                    url: tenantAccessEndpoint,
+                    method: FETCH_METHODS.GET,
+                    headersData: {
+                        Authorization: `Bearer ${data.access_token}`,
+                    },
+                })
+                    .then(() => data)
+                    .catch(() => Promise.reject(new Error(FETCH_ERRORS.UNAUTHORIZED)));
             });
         },
         {

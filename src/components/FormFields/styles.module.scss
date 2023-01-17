@@ -39,7 +39,6 @@
         }
 
         .ant-input-group {
-
             .ant-input-status-error {
                 border-top: 0;
             }
@@ -47,9 +46,9 @@
             .ant-input {
                 padding-left: 0;
                 border: 0;
+                background-color: transparent;
                 box-shadow: none;
                 outline: 0;
-                background-color: transparent;
             }
 
             .ant-input-group-addon {
@@ -63,10 +62,12 @@
 }
 
 .disabled {
-    :global(.ant-input), :global(.ant-input-number) {
-        border-color: var(--input-disabled-border-color);
-        background: var(--input-disabled-bg);
-        color: var(--input-disabled-color);
+    :global(.ant-input),
+    :global(.ant-input-number),
+    :global(.ant-select-disabled .ant-select-selector) {
+        border-color: var(--input-disabled-border-color) !important;
+        background: var(--input-disabled-bg) !important;
+        color: var(--input-disabled-color) !important;
     }
 }
 
@@ -91,7 +92,19 @@
         }
     }
 
-    .disabled {
+    :global(label.ant-form-item-required:not(.ant-form-item-required-mark-optional)) {
+        &:before {
+            content: '';
+        }
 
+        &:after {
+            display: inline-block;
+            margin-right: 4px;
+            color: var(--form-error);
+            content: '*';
+            font-family: SimSun, sans-serif;
+            font-size: 12px;
+            line-height: 1;
+        }
     }
 }

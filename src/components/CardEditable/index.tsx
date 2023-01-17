@@ -93,7 +93,6 @@ export const CardEditable = ({
                 {!isLoading && (
                     <Form
                         validateTrigger={['onSubmit', 'onChange']}
-                        size="small"
                         labelAlign="left"
                         labelWrap
                         layout="vertical"

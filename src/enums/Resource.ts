@@ -1,6 +1,7 @@
 export enum Resource {
     Consultant,
-    Admin,
+    AgencyAdminUser,
+    TenantAdminUser,
     Topic,
     Agency,
     Statistic,

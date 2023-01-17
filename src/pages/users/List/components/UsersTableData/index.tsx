@@ -178,7 +178,8 @@ export const UsersTableData = () => {
             className: 'counselorList__column',
         },
         ((can([PermissionAction.Update, PermissionAction.Delete], Resource.Consultant) && isConsultantTab) ||
-            (can([PermissionAction.Update, PermissionAction.Delete], Resource.Admin) && !isConsultantTab)) && {
+            (can([PermissionAction.Update, PermissionAction.Delete], Resource.AgencyAdminUser) &&
+                !isConsultantTab)) && {
             width: 80,
             title: '',
             key: 'edit',
@@ -190,7 +191,9 @@ export const UsersTableData = () => {
                             handleDelete={() => setDeleteUserId(record.id)}
                             record={record}
                             isDisabled={record.status === 'IN_DELETION'}
-                            resource={typeOfUsers === TypeOfUser.Consultants ? Resource.Consultant : Resource.Admin}
+                            resource={
+                                typeOfUsers === TypeOfUser.Consultants ? Resource.Consultant : Resource.AgencyAdminUser
+                            }
                         />
                     </div>
                 );
@@ -211,7 +214,7 @@ export const UsersTableData = () => {
         <div>
             <div className="lg-flex justify-between">
                 {((can(PermissionAction.Create, Resource.Consultant) && isConsultantTab) ||
-                    (can(PermissionAction.Create, Resource.Admin) && !isConsultantTab)) && (
+                    (can(PermissionAction.Create, Resource.AgencyAdminUser) && !isConsultantTab)) && (
                     <AddButton
                         allowedNumberOfUsers={isConsultantTab ? allowedNumberOfUsers : false}
                         sourceLength={responseList?.total}
@@ -237,7 +240,7 @@ export const UsersTableData = () => {
             />
             {deleteUserId &&
                 ((can(PermissionAction.Create, Resource.Consultant) && isConsultantTab) ||
-                    (can(PermissionAction.Create, Resource.Admin) && !isConsultantTab)) && (
+                    (can(PermissionAction.Create, Resource.AgencyAdminUser) && !isConsultantTab)) && (
                     <DeleteUserModal
                         deleteUserId={deleteUserId}
                         onClose={onClose}

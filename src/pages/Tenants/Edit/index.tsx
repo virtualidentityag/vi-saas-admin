@@ -21,21 +21,21 @@ export const TenantEditOrAdd = () => {
     const isEditing = id !== 'add';
     const [isReadOnly, setReadOnly] = useState(isEditing);
     const navigate = useNavigate();
-    const [showNewModal, setShowNewModal] = useState(false);
+    const [newTenantId, setNewTenantId] = useState<number>(null);
     const [form] = useForm();
     const { settings } = useAppConfigContext();
     const { t } = useTranslation();
     const { data, isLoading } = useTenantFor({ id, enabled: isEditing });
     const { mutate: update } = useAddOrUpdateTenant({
         id: id !== 'add' ? id : null,
-        onSuccess: () => {
+        onSuccess: (rData) => {
             if (!isEditing) {
-                setShowNewModal(true);
+                setNewTenantId(rData.id);
             }
         },
     });
 
-    const isMainTenant = main || settings.mainTenantSubdomainForSingleDomainMultitenancy === data?.subdomain;
+    const isMainTenant = !!main || settings.mainTenantSubdomainForSingleDomainMultitenancy === data?.subdomain;
     // Removes the main subdomain
     const mainDomain = window.location.host.replace(
         new RegExp(`^${settings.mainTenantSubdomainForSingleDomainMultitenancy}.`, 'i'),
@@ -44,13 +44,16 @@ export const TenantEditOrAdd = () => {
 
     return (
         <Page isLoading={isLoading}>
-            {showNewModal && (
+            {newTenantId && (
                 <ModalSuccess
                     titleKey="tenants.created.modal.title"
                     onClose={() => navigate(routePathNames.tenants)}
                     contentKey="tenants.created.modal.description"
                     footer={
-                        <Button type="primary" onClick={() => navigate(routePathNames.consultants)}>
+                        <Button
+                            type="primary"
+                            onClick={() => navigate(`${routePathNames.tenantAdmins}/add?tenantId=${newTenantId}`)}
+                        >
                             {t('tenants.created.modal.link')}
                         </Button>
                     }
@@ -62,7 +65,7 @@ export const TenantEditOrAdd = () => {
             >
                 {isReadOnly && (
                     <Button type="primary" onClick={() => setReadOnly(false)}>
-                        {t('tenants.edit.editForm')}
+                        {t('edit')}
                     </Button>
                 )}
                 {!isReadOnly && (
@@ -71,10 +74,10 @@ export const TenantEditOrAdd = () => {
                             type="default"
                             onClick={() => (isEditing ? setReadOnly(true) : navigate(routePathNames.tenants))}
                         >
-                            {t('tenants.edit.cancel')}
+                            {t('cancel')}
                         </Button>
                         <Button type="primary" onClick={() => form.submit()}>
-                            {t('tenants.edit.save')}
+                            {t('save')}
                         </Button>
                     </>
                 )}
@@ -111,6 +114,7 @@ export const TenantEditOrAdd = () => {
                                     placeholderKey="tenants.add.form.subdomain.placeholder"
                                     required
                                     addonAfter={mainDomain}
+                                    disabled={isReadOnly || isMainTenant}
                                 />
                             </div>
                             <div className={styles.fieldGroup}>

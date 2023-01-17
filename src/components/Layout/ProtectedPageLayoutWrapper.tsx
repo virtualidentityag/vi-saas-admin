@@ -90,7 +90,8 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 </li>
                             )}
                             {(can(PermissionAction.Read, Resource.Consultant) ||
-                                can(PermissionAction.Read, Resource.Admin)) && (
+                                can(PermissionAction.Read, Resource.AgencyAdminUser) ||
+                                can(PermissionAction.Read, Resource.TenantAdminUser)) && (
                                 <li key="counselors" className="menuItem">
                                     <NavLink
                                         to={routePathNames.consultants}

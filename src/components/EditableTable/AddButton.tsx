@@ -7,7 +7,7 @@ import { useParams } from 'react-router';
 const AddButton = ({ allowedNumberOfUsers, sourceLength, handleBtnAdd }: AddButtonProps) => {
     const { typeOfUsers } = useParams();
     const { t } = useTranslation();
-    const typeOfUserKey = typeOfUsers === 'consultants' ? 'counselor.title' : 'admins.title';
+    const typeOfUserKey = typeOfUsers === 'consultants' ? 'counselor.title' : 'agencyAdmins.title';
     const StyledButton = useCallback(
         ({ disabled }) => {
             return (

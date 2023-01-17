@@ -125,7 +125,6 @@ const Settings = () => {
                 name="tenantSettings"
                 onFinish={onFormSubmit}
                 onFinishFailed={onFinishFailed}
-                size="small"
                 labelAlign="left"
                 labelWrap
                 layout="vertical"

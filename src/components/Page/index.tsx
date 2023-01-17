@@ -21,7 +21,8 @@ interface PageTitleProps {
 }
 
 interface PageBackProps {
-    titleKey: string;
+    title?: React.ReactChild;
+    titleKey?: string;
     path: string;
     children?: React.ReactChild | React.ReactChild[];
 }
@@ -68,14 +69,14 @@ export const PageTitle = ({ titleKey, subTitleKey, subTitle, tabs, children }: P
     );
 };
 
-export const PageBack = ({ path, titleKey, children }: PageBackProps) => {
+export const PageBack = ({ path, title, titleKey, children }: PageBackProps) => {
     const { t } = useTranslation();
 
     return (
         <div className={styles.back}>
             <NavLink to={path} className={styles.backLink}>
                 <ChevronLeft />
-                <h3 className={styles.backHeadline}>{t(titleKey)}</h3>
+                <h3 className={styles.backHeadline}>{title || t(titleKey)}</h3>
             </NavLink>
             {children}
         </div>

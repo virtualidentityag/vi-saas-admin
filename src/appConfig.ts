@@ -53,6 +53,8 @@ export const baseTenantPublicEndpoint = `${mainURL}/service/tenant/public`;
 export const tenantPublicEndpoint = `${baseTenantPublicEndpoint}/${subdomain}`;
 export const topicEndpoint = `${mainURL}/service/topic`;
 export const topicAdminEndpoint = `${mainURL}/service/topicadmin`;
+export const tenantAdminsEndpoint = `${mainURL}/service/useradmin/tenantadmins`;
+export const tenantAdminsSearchEndpoint = `${mainURL}/service/useradmin/tenantadmins/search`;
 export const twoFactorAuth = `${mainURL}/service/users/2fa`;
 export const twoFactorAuthApp = `${mainURL}/service/users/2fa/app`;
 export const twoFactorAuthAppEmail = `${mainURL}/service/users/2fa/email`;
@@ -85,6 +87,7 @@ const routePathNames = {
     imprint: '/impressum',
     privacy: '/datenschutz',
     tenants: '/admin/tenants',
+    tenantAdmins: '/admin/users/tenant-admins',
     loginResetPasswordLink: '/auth/realms/online-beratung/login-actions/reset-credentials?client_id=account',
     appointmentServiceDevServer: 'https://calcom-develop.suchtberatung.digital',
 };

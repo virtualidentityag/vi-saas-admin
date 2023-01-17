@@ -68,7 +68,6 @@ const Tenant = ({ formData, isInAddMode = false, modalForm, handleEditTenant, se
                         ) || modalForm.getFieldsError().some((field: any) => field.errors.length > 0),
                     );
                 }}
-                size="small"
                 labelAlign="left"
                 labelWrap
                 layout="vertical"

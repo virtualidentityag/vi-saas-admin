@@ -25,7 +25,7 @@ export const useUserRolesToPermission = () => {
             Consultant: { delete: false },
             Statistic: { read: false },
             Agency: { read: true, create: false, update: true, delete: false },
-            Admin: { read: false, create: false, update: false, delete: false },
+            AgencyAdminUser: { read: false, create: false, update: false, delete: false },
         },
         [UserRole.AgencyAdmin]: {
             Agency: { read: true, create: true, update: true, delete: true },
@@ -35,6 +35,7 @@ export const useUserRolesToPermission = () => {
             Language: { update: true },
             LegalText: { read: true, update: true },
             Statistic: { read: true },
+            TenantAdminUser: { read: true, create: true, update: true, delete: true },
         },
         [UserRole.TopicAdmin]: {
             Topic: { read: true, create: true, update: true, delete: true },
@@ -50,7 +51,7 @@ export const useUserRolesToPermission = () => {
         },
         [UserRole.UserAdmin]: {
             Consultant: { read: true, create: true, update: true, delete: true },
-            Admin: { read: true, create: true, update: true, delete: true },
+            AgencyAdminUser: { read: true, create: true, update: true, delete: true },
         },
     };
 

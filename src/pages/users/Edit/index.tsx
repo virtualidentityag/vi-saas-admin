@@ -41,7 +41,7 @@ export const UserEditOrAdd = () => {
         typeOfUser: typeOfUsers,
         onSuccess: (response) => {
             message.success({
-                content: t('message.counselor.update'),
+                content: t(`message.counselor.${isEditing ? 'update' : 'add'}`),
                 duration: 3,
             });
             navigate(`/admin/users/${typeOfUsers}/${response.id}`);

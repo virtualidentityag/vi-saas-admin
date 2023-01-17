@@ -8,7 +8,7 @@ export interface ResizeTableProps<T> extends TableProps<T> {
 }
 
 export const ResizeTable = ({ columns, ...defaultOptions }: ResizeTableProps<any>) => {
-    const [columnsWidth, setColumnsWidth] = useState(columns.map(({ width }) => width));
+    const [columnsWidth, setColumnsWidth] = useState(columns.filter(Boolean).map(({ width }) => width));
 
     const handleResize = useCallback(
         (index) =>
@@ -20,7 +20,7 @@ export const ResizeTable = ({ columns, ...defaultOptions }: ResizeTableProps<any
         [columnsWidth],
     );
 
-    const mergeColumns = columns.map((col, index) => ({
+    const mergeColumns = columns.filter(Boolean).map((col, index) => ({
         ...col,
         width: columnsWidth[index],
         onHeaderCell: (column) => ({

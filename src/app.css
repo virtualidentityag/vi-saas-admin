@@ -44,8 +44,8 @@
     --form-item-margin-bottom: var(--spacing-sm);
 
     /* Colors */
-    --warning-dark: #FF9F00;
-    --warning-light: #FFF3E0;
+    --warning-dark: #ff9f00;
+    --warning-light: #fff3e0;
     --white: #ffffff;
     --white-50-opacity: rgb(255 255 255 / 50%);
     --black: #000000;

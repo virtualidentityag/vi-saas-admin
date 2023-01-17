@@ -4,9 +4,14 @@ import { SimpleTenant } from '../types/SimpleTenant';
 
 interface TenantsProps extends UseQueryOptions<SimpleTenant[]> {
     search?: string;
+    perPage?: number;
     page?: number;
 }
 
-export const useTenantsData = ({ page, search, ...options }: TenantsProps) => {
-    return useQuery<SimpleTenant[]>(['TENANTS', page, search], () => getTenantList(page, search), options);
+export const useTenantsData = ({ page, search, perPage, ...options }: TenantsProps) => {
+    return useQuery<SimpleTenant[]>(
+        ['TENANTS', page, perPage, search],
+        () => getTenantList(page, perPage, search),
+        options,
+    );
 };

@@ -24,6 +24,7 @@ import { Resource } from './enums/Resource';
 import { TopicEditOrAdd } from './pages/Topics/Edit';
 import { TenantsList } from './pages/Tenants/List';
 import { TenantEditOrAdd } from './pages/Tenants/Edit';
+import { TenantAdminEditOrAdd } from './pages/users/TenantAdminEdit';
 
 export const App = () => {
     const { isLoading, data } = useTenantData();
@@ -39,7 +40,7 @@ export const App = () => {
             }
 
             const redirectPath =
-                can(PermissionAction.Read, Resource.Consultant) || can(PermissionAction.Read, Resource.Admin)
+                can(PermissionAction.Read, Resource.Consultant) || can(PermissionAction.Read, Resource.AgencyAdminUser)
                     ? routePathNames.consultants
                     : routePathNames.userProfile;
             navigate(redirectPath);
@@ -88,6 +89,7 @@ export const App = () => {
                     )}
 
                     <Route path="/admin/users/:typeOfUsers" element={<UsersList />} />
+                    <Route path="/admin/users/tenant-admins/:id" element={<TenantAdminEditOrAdd />} />
                     <Route path="/admin/users/:typeOfUsers/:id" element={<UserEditOrAdd />} />
                 </Routes>
             </ProtectedPageLayoutWrapper>

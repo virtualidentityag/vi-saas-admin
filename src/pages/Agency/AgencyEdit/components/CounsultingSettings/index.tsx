@@ -7,17 +7,17 @@ import { Gender } from '../../../../../enums/Gender';
 import { useAgencyData } from '../../../../../hooks/useAgencyData';
 import { useAgencyUpdate } from '../../../../../hooks/useAgencyUpdate';
 import { useAgencyHasConsultants } from '../../../../../hooks/useAgencyHasConsultants';
-import { useTopics } from '../../../../../hooks/useTopics';
+import { useTenantTopics } from '../../../../../hooks/useTenantTopics';
 import { TopicData } from '../../../../../types/topic';
 import { convertToOptions } from '../../../../../utils/convertToOptions';
-import { FormSwitchField } from '../../../../FormSwitchField';
-import { Option, SelectFormField } from '../../../../SelectFormField';
-import { SliderFormField } from '../../../../SliderFormField';
-import { CardEditable } from '../../../../CardEditable';
+import { FormSwitchField } from '../../../../../components/FormSwitchField';
+import { Option, SelectFormField } from '../../../../../components/SelectFormField';
+import { SliderFormField } from '../../../../../components/SliderFormField';
+import { CardEditable } from '../../../../../components/CardEditable';
 import getConsultingTypes from '../../../../../api/consultingtype/getConsultingTypes';
 import { ReactComponent as InfoIcon } from '../../../../../resources/img/svg/i.svg';
 import { getDiocesesData } from '../../../../../api/agency/getDiocesesData';
-import { Tooltip } from '../../../../tooltip/Tooltip';
+import { Tooltip } from '../../../../../components/tooltip/Tooltip';
 import styles from './styles.module.scss';
 
 const DEFAULT_MIN_AGE = 18;
@@ -123,7 +123,7 @@ export const ConsultingSettings = ({ id }: { id: string }) => {
     const { mutate } = useAgencyUpdate(id);
     const { isEnabled } = useFeatureContext();
     const { data, isLoading, refetch } = useAgencyData({ id });
-    const { data: topics, isLoading: isLoadingTopics } = useTopics(true);
+    const { data: topics, isLoading: isLoadingTopics } = useTenantTopics(true);
     const [diocesesData, setDiocesesData] = useState([]);
     const [consultingTypes, setConsultingTypes] = useState([]);
 

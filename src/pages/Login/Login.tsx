@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
 import { Col, Row } from 'antd';
 import { useTranslation } from 'react-i18next';
-import Stage from '../components/Login/Stage';
-import PublicPageLayoutWrapper from '../components/Layout/PublicPageLayoutWrapper';
-import LoginForm from '../components/Login/LoginForm';
-import routePathNames from '../appConfig';
-import { getValueFromCookie } from '../api/auth/accessSessionCookie';
-import { getTokenExpiryFromLocalStorage } from '../api/auth/accessSessionLocalStorage';
-import { useUserRoles } from '../hooks/useUserRoles.hook';
-import { usePublicTenantData } from '../hooks/usePublicTenantData.hook';
-import { UserRole } from '../enums/UserRole';
-import { useAppConfigContext } from '../context/useAppConfig';
+import Stage from './Stage';
+import PublicPageLayoutWrapper from '../../components/Layout/PublicPageLayoutWrapper';
+import LoginForm from './LoginForm';
+import routePathNames from '../../appConfig';
+import { getValueFromCookie } from '../../api/auth/accessSessionCookie';
+import { getTokenExpiryFromLocalStorage } from '../../api/auth/accessSessionLocalStorage';
+import { useUserRoles } from '../../hooks/useUserRoles.hook';
+import { usePublicTenantData } from '../../hooks/usePublicTenantData.hook';
+import { UserRole } from '../../enums/UserRole';
+import { useAppConfigContext } from '../../context/useAppConfig';
 
 /**
  * login component

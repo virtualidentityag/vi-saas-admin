@@ -132,7 +132,7 @@ export const TenantsList = () => {
             className: 'counselorList__column',
             fixed: 'right',
         },
-    ].filter(Boolean) as Array<ColumnProps<TenantData>>;
+    ] as Array<ColumnProps<TenantData>>;
 
     return (
         <Page>

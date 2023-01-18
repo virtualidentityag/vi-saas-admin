@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Title from 'antd/es/typography/Title';
 import TextArea from 'antd/lib/input/TextArea';
 import { useLocation } from 'react-router';
-import { SelectFormField } from '../SelectFormField';
+import { SelectFormField } from '../../components/SelectFormField';
 import postConsultantForAgencyEventTypes from '../../api/agency/postConsultantForAgencyEventTypes';
 import { ConsultantInterface } from '../../types/agencyEdit';
 

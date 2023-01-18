@@ -426,6 +426,7 @@
     "topics.featureToggle.on.description": "Wenn Sie das Feature \"Themen\" aktivieren, sind fortan ausschließlich Beratungsstellen über die Registrierung auffindbar, welche mindestens ein Thema zugeordnet haben.",
     "topics.featureToggle.off.title": "Themen deaktivieren",
     "topics.featureToggle.off.description": "Wenn Sie das Feature \"Themen\" deaktivieren, wird fortan bei der Registrierung kein Thema mehr vom Ratsuchenden abgefragt. Bereits bestehende Chats mit einem zugeordneten Thema bleiben davon unberührt und sind weiterhin für Berater sichtbar.",
+    "topics.list.empty": "Keine Daten vorhanden",
     "topic.name": "Name",
     "topic.description": "Beschreibung",
     "topic.internalIdentifier": "Variablenname",

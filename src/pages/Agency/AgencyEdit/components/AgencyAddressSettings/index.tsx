@@ -8,10 +8,10 @@ import { useAgencyPostCodesData } from '../../../../../hooks/useAgencyPostCodesD
 import { useAgencyPostCodesUpdate } from '../../../../../hooks/useAgencyPostCodesUpdate';
 import { useAgencyUpdate } from '../../../../../hooks/useAgencyUpdate';
 import { AgencyData } from '../../../../../types/agency';
-import { FormInputField } from '../../../../FormInputField';
-import { FormSwitchField } from '../../../../FormSwitchField';
+import { FormInputField } from '../../../../../components/FormInputField';
+import { FormSwitchField } from '../../../../../components/FormSwitchField';
 import { PostCodeRanges } from '../../../PostCodeRanges';
-import { CardEditable } from '../../../../CardEditable';
+import { CardEditable } from '../../../../../components/CardEditable';
 
 function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
     return data?.length === 1 && data[0].from === '00000' && data[0].until === '99999';

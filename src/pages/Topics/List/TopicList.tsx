@@ -1,30 +1,28 @@
 import { useCallback, useEffect, useState } from 'react';
-
 import { useTranslation } from 'react-i18next';
-import Title from 'antd/es/typography/Title';
 import { Button, Modal, Space, Switch, Table } from 'antd';
-
 import { PlusOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/lib/table';
 import { isDisabled } from '@testing-library/user-event/dist/utils';
 import { InterestsOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router';
-import getTopicData from '../../api/topic/getTopicData';
-import { TopicData } from '../../types/topic';
-import { Status } from '../../types/status';
-import StatusIcons from '../EditableTable/StatusIcons';
+import getTopicData from '../../../api/topic/getTopicData';
+import { TopicData } from '../../../types/topic';
+import { Status } from '../../../types/status';
 import { TopicDeletionModal } from './TopicDeletionModal';
-import EditButtons from '../EditableTable/EditButtons';
-import { useAppConfigContext } from '../../context/useAppConfig';
-import { useUserRoles } from '../../hooks/useUserRoles.hook';
-import { useFeatureContext } from '../../context/FeatureContext';
-import { FeatureFlag } from '../../enums/FeatureFlag';
-import { UserRole } from '../../enums/UserRole';
-import { Resource } from '../../enums/Resource';
-import { useUserPermissions } from '../../hooks/useUserPermission';
-import { PermissionAction } from '../../enums/PermissionAction';
-import routePathNames from '../../appConfig';
-import { useTenantAdminDataMutation } from '../../hooks/useTenantAdminDataMutation.hook';
+import { useAppConfigContext } from '../../../context/useAppConfig';
+import { useUserRoles } from '../../../hooks/useUserRoles.hook';
+import { useFeatureContext } from '../../../context/FeatureContext';
+import { FeatureFlag } from '../../../enums/FeatureFlag';
+import { UserRole } from '../../../enums/UserRole';
+import { Resource } from '../../../enums/Resource';
+import { useUserPermissions } from '../../../hooks/useUserPermission';
+import { PermissionAction } from '../../../enums/PermissionAction';
+import routePathNames from '../../../appConfig';
+import { useTenantAdminDataMutation } from '../../../hooks/useTenantAdminDataMutation.hook';
+import StatusIcons from '../../../components/EditableTable/StatusIcons';
+import EditButtons from '../../../components/EditableTable/EditButtons';
+import { Page } from '../../../components/Page';
 
 export const TopicList = () => {
     const navigate = useNavigate();
@@ -175,9 +173,8 @@ export const TopicList = () => {
         isEnabled(FeatureFlag.Topics);
 
     return (
-        <>
-            <Title level={3}>{t('topics.title')}</Title>
-            <p>{t('topics.title.text')}</p>
+        <Page isLoading={isLoading}>
+            <Page.Title titleKey="topics.title" subTitleKey="topics.title.text" />
 
             <Space align="baseline">
                 {can(PermissionAction.Create, Resource.Topic) && (
@@ -219,6 +216,6 @@ export const TopicList = () => {
             />
 
             <TopicDeletionModal />
-        </>
+        </Page>
     );
 };

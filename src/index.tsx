@@ -10,7 +10,7 @@ import en_GB from 'antd/es/locale/en_GB';
 import { App } from './App';
 import routePathNames from './appConfig';
 import { queryClient } from './constants/client';
-import { Login } from './pages/Login';
+import { Login } from './pages/Login/Login';
 import { Error404 } from './pages/Error404';
 import { ProtectedRoute } from './router/ProtectedRoute';
 import './i18n';

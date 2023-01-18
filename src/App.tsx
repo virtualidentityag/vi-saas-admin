@@ -5,15 +5,15 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router'
 import ProtectedPageLayoutWrapper from './components/Layout/ProtectedPageLayoutWrapper';
 import routePathNames from './appConfig';
 import { TenantSettingsLayout } from './pages/TenantSettings';
-import { Topics } from './pages/Topics';
+import { Topics } from './pages/Topics/List/Topics';
 import { Statistic } from './pages/Statistic';
 import { UserProfile } from './pages/UserProfile';
 import { Initialization } from './components/Layout/Initialization';
-import { Agencies } from './pages/Agencies';
+import { AgencyList } from './pages/Agency/AgencyList';
 import { useTenantData } from './hooks/useTenantData.hook';
 import { FeatureProvider } from './context/FeatureContext';
-import { AgencyPageEdit } from './pages/AgencyEdit';
-import { AgencyAdd } from './pages/AgencyAdd';
+import { AgencyPageEdit } from './pages/Agency/AgencyEdit';
+import { AgencyAdd } from './pages/Agency/AgencyAdd';
 import { UsersList } from './pages/users/List';
 import { UserEditOrAdd } from './pages/users/Edit';
 import { GeneralSettings } from './pages/TenantSettings/GeneralSettings';
@@ -74,7 +74,7 @@ export const App = () => {
                             />
                         </Route>
                     )}
-                    <Route path={routePathNames.agency} element={<Agencies />} />
+                    <Route path={routePathNames.agency} element={<AgencyList />} />
                     <Route path={`${routePathNames.agencyEdit}/*`} element={<AgencyPageEdit />} />
                     <Route path={`${routePathNames.agencyAdd}/*`} element={<AgencyAdd />} />
                     <Route path={routePathNames.topics} element={<Topics />} />

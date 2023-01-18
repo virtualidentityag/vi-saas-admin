@@ -8,14 +8,14 @@ import { PlusOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/lib/table';
 import { useNavigate } from 'react-router-dom';
 
-import EditButtons from '../EditableTable/EditButtons';
+import EditButtons from '../../components/EditableTable/EditButtons';
 import getAgencyData from '../../api/agency/getAgencyData';
 import { AgencyData } from '../../types/agency';
 import { Status } from '../../types/status';
-import StatusIcons from '../EditableTable/StatusIcons';
+import StatusIcons from '../../components/EditableTable/StatusIcons';
 import pubsub, { PubSubEvents } from '../../state/pubsub/PubSub';
 import { AgencyDeletionModal } from './AgencyDeletionModal';
-import ResizableTitle from '../Resizable/Resizable';
+import ResizableTitle from '../../components/Resizable/Resizable';
 import { useFeatureContext } from '../../context/FeatureContext';
 import { TopicData } from '../../types/topic';
 import routePathNames from '../../appConfig';
@@ -42,7 +42,7 @@ const emptyAgencyModel: AgencyData = {
 
 let tableStateHolder: TableState;
 
-const AgencyList = () => {
+export const AgencyList = () => {
     const { t } = useTranslation();
     const [agencies, setAgencies] = useState([]);
     const [numberOfAgencies, setNumberOfAgencies] = useState(0);
@@ -295,5 +295,3 @@ const AgencyList = () => {
         </>
     );
 };
-
-export default AgencyList;

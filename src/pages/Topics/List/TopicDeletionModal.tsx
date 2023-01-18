@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { message, Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import Title from 'antd/lib/typography/Title';
-import pubsub, { PubSubEvents } from '../../state/pubsub/PubSub';
-import deleteTopicData from '../../api/topic/deleteTopicData';
-import { TopicData } from '../../types/topic';
+import pubsub, { PubSubEvents } from '../../../state/pubsub/PubSub';
+import deleteTopicData from '../../../api/topic/deleteTopicData';
+import { TopicData } from '../../../types/topic';
 
 export const TopicDeletionModal = () => {
     const { t } = useTranslation();

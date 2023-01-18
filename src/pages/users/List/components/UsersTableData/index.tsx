@@ -9,7 +9,7 @@ import AddButton from '../../../../../components/EditableTable/AddButton';
 import EditButtons from '../../../../../components/EditableTable/EditButtons';
 import StatusIcons from '../../../../../components/EditableTable/StatusIcons';
 import SearchInput from '../../../../../components/SearchInput/SearchInput';
-import { useConsultantOrAdminsData } from '../../../../../hooks/useConsultantOrAdminsData';
+import { useConsultantOrAgencyAdminsData } from '../../../../../hooks/useConsultantOrAdminsData';
 import { useTenantData } from '../../../../../hooks/useTenantData.hook';
 import { AgencyData } from '../../../../../types/agency';
 import { CounselorData } from '../../../../../types/counselor';
@@ -48,7 +48,7 @@ export const UsersTableData = () => {
         data: responseList,
         isLoading,
         refetch,
-    } = useConsultantOrAdminsData({
+    } = useConsultantOrAgencyAdminsData({
         search,
         ...tableState,
         typeOfUser: typeOfUsers,

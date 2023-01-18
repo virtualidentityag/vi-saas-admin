@@ -13,9 +13,9 @@ import { SelectFormField } from '../../../components/SelectFormField';
 import { PermissionAction } from '../../../enums/PermissionAction';
 import { Resource } from '../../../enums/Resource';
 import { TypeOfUser } from '../../../enums/TypeOfUser';
-import { useAddOrUpdateConsultantOrAdmin } from '../../../hooks/useAddOrUpdateConsultantOrAdmin';
+import { useAddOrUpdateConsultantOrAdmin } from '../../../hooks/useAddOrUpdateConsultantOrAgencyAdmin';
 import { useAgenciesData } from '../../../hooks/useAgencysData';
-import { useConsultantOrAdminsData } from '../../../hooks/useConsultantOrAdminsData';
+import { useConsultantOrAgencyAdminsData } from '../../../hooks/useConsultantOrAdminsData';
 import { useUserPermissions } from '../../../hooks/useUserPermission';
 import { convertToOptions } from '../../../utils/convertToOptions';
 import { decodeUsername } from '../../../utils/encryptionHelpers';
@@ -28,7 +28,7 @@ export const UserEditOrAdd = () => {
     const { t } = useTranslation();
     const { typeOfUsers, id } = useParams<{ id: string; typeOfUsers: TypeOfUser }>();
     // Todo: Temporary solution(VIC-2135)
-    const { data: consultantsResponse, isLoading: isLoadingConsultants } = useConsultantOrAdminsData({
+    const { data: consultantsResponse, isLoading: isLoadingConsultants } = useConsultantOrAgencyAdminsData({
         pageSize: 10000,
         typeOfUser: typeOfUsers,
     });

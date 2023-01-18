@@ -1,6 +1,6 @@
 import { QueryOptions, useQuery, UseQueryOptions } from 'react-query';
 import { fetchData, FETCH_METHODS } from '../api/fetchData';
-import { adminsSearchEndpoint, usersConsultantsSearchEndpoint } from '../appConfig';
+import { agencyAdminsSearchEndpoint, usersConsultantsSearchEndpoint } from '../appConfig';
 import { TypeOfUser } from '../enums/TypeOfUser';
 import { CounselorData } from '../types/counselor';
 import { HalResponseList, ResponseList } from '../types/ResponseList';
@@ -18,12 +18,12 @@ interface ConsultantsDataProps extends UseQueryOptions<ResponseList<CounselorDat
 const DEFAULT_SORT = 'FIRSTNAME';
 const DEFAULT_ORDER = 'ASC';
 
-export const useConsultantOrAdminsData = (
+export const useConsultantOrAgencyAdminsData = (
     { search, current, sortBy, order, pageSize, typeOfUser, ...options }: ConsultantsDataProps = {
         typeOfUser: TypeOfUser.Consultants,
     },
 ) => {
-    const baseUrl = typeOfUser === TypeOfUser.Consultants ? usersConsultantsSearchEndpoint : adminsSearchEndpoint;
+    const baseUrl = typeOfUser === TypeOfUser.Consultants ? usersConsultantsSearchEndpoint : agencyAdminsSearchEndpoint;
     return useQuery(
         [typeOfUser.toUpperCase(), search, current, sortBy, order, pageSize],
         () => {

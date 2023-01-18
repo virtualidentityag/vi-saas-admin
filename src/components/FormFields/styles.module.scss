@@ -59,6 +59,11 @@
             }
         }
     }
+
+    &:global(.ant-input-group-wrapper .ant-input ) {
+        border: none;
+        background-color: transparent!important;
+    }
 }
 
 .disabled {

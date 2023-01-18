@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row } from 'antd';
+import { Button, Col, Form, notification, Row } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
@@ -11,10 +11,11 @@ import routePathNames from '../../../appConfig';
 import { Card } from '../../../components/Card';
 import { useAppConfigContext } from '../../../context/useAppConfig';
 import { FormInputNumberField } from '../../../components/FormInputNumberField';
-import styles from './styles.module.scss';
 import { useAddOrUpdateTenant } from '../../../hooks/useAddOrUpdateTenant.hook';
-import { useTenantFor } from '../../../hooks/useTenantFor';
+import { useSingleTenantData } from '../../../hooks/useSingleTenantData';
 import { SelectFormField } from '../../../components/SelectFormField';
+import { getDomainWithoutMainTenant } from '../../../utils/getDomain';
+import styles from './styles.module.scss';
 
 export const TenantEditOrAdd = () => {
     const { id, main } = useParams<{ id: string; main?: string }>();
@@ -25,22 +26,39 @@ export const TenantEditOrAdd = () => {
     const [form] = useForm();
     const { settings } = useAppConfigContext();
     const { t } = useTranslation();
-    const { data, isLoading } = useTenantFor({ id, enabled: isEditing });
+    const { data, isLoading } = useSingleTenantData({ id, enabled: isEditing });
     const { mutate: update } = useAddOrUpdateTenant({
         id: id !== 'add' ? id : null,
         onSuccess: (rData) => {
             if (!isEditing) {
                 setNewTenantId(rData.id);
+                return;
+            }
+
+            if (data?.licensing?.allowedNumberOfUsers !== rData?.licensing?.allowedNumberOfUsers) {
+                notification.success({ message: t('tenants.message.consultantsChangedSuccess') });
+            } else {
+                notification.success({ message: t('tenants.message.update') });
+            }
+            navigate(routePathNames.tenants);
+        },
+        onError: (error: Response | Error) => {
+            if (error instanceof Response && true) {
+                form.setFields([
+                    {
+                        name: 'subdomain',
+                        errors: [t('tenants.message.subdomainInUse')],
+                    },
+                ]);
+            } else {
+                notification.error({ message: t('message.error.default') });
             }
         },
     });
 
     const isMainTenant = !!main || settings.mainTenantSubdomainForSingleDomainMultitenancy === data?.subdomain;
     // Removes the main subdomain
-    const mainDomain = window.location.host.replace(
-        new RegExp(`^${settings.mainTenantSubdomainForSingleDomainMultitenancy}.`, 'i'),
-        '',
-    );
+    const mainDomain = getDomainWithoutMainTenant(settings.mainTenantSubdomainForSingleDomainMultitenancy);
 
     return (
         <Page isLoading={isLoading}>

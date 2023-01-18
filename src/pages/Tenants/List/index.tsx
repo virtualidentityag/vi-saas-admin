@@ -19,6 +19,7 @@ import { useDeleteTenant } from '../../../hooks/useDeleteTenant';
 import { useTenantsData } from '../../../hooks/useTenantsData';
 import { useUserPermissions } from '../../../hooks/useUserPermission';
 import { TenantData } from '../../../types/tenant';
+import { getDomainWithoutMainTenant } from '../../../utils/getDomain';
 import styles from './styles.module.scss';
 
 export const TenantsList = () => {
@@ -52,10 +53,7 @@ export const TenantsList = () => {
     }, []);
 
     // Removes the main subdomain
-    const mainDomain = window.location.host.replace(
-        new RegExp(`^${settings.mainTenantSubdomainForSingleDomainMultitenancy}.`, 'i'),
-        '',
-    );
+    const mainDomain = getDomainWithoutMainTenant(settings.mainTenantSubdomainForSingleDomainMultitenancy);
 
     const columnsData = [
         {
@@ -108,7 +106,7 @@ export const TenantsList = () => {
         },
         {
             width: 80,
-            title: t('tenants.list.consultantsCount'),
+            title: t('tenants.list.maxConsultants'),
             ellipsis: true,
         },
         can([PermissionAction.Update, PermissionAction.Delete], Resource.Tenant) && {

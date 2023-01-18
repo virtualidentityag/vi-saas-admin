@@ -1,21 +1,26 @@
+import { LabeledValue } from 'antd/lib/select';
+import { CounselorData } from '../../types/counselor';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
-import { adminEndpoint } from '../../appConfig';
+import { agencyAdminEndpoint } from '../../appConfig';
 import { encodeUsername } from '../../utils/encryptionHelpers';
 import { AdminData } from '../../types/admin';
-import { putAgenciesForAdmin } from '../agency/putAgenciesForAdmin';
+import { putAgenciesForAgencyAdmin } from '../agency/putAgenciesForAdmin';
 
 /**
- * add new admin
- * @param adminData
+ * edit admin
+ * @param formData - input data from form
  * @return data
  */
-export const addAdminData = (adminData: Record<string, any>): Promise<AdminData> => {
-    const { firstname, lastname, email, username, twoFactorAuth } = adminData;
+export const editAgencyAdminData = async (id: string, formData: AdminData): Promise<AdminData> => {
+    const { firstname, lastname, email, username, twoFactorAuth } = formData;
+
+    const ids = ((formData.agencies as LabeledValue[])?.map(({ value }) => value) || []) as string[];
+    await putAgenciesForAgencyAdmin(id, ids);
 
     return (
         fetchData({
-            url: adminEndpoint,
-            method: FETCH_METHODS.POST,
+            url: `${agencyAdminEndpoint}/${id}`,
+            method: FETCH_METHODS.PUT,
             skipAuth: false,
             responseHandling: [FETCH_ERRORS.CATCH_ALL],
             bodyData: JSON.stringify({
@@ -33,11 +38,6 @@ export const addAdminData = (adminData: Record<string, any>): Promise<AdminData>
                 return response.json();
             })
             // eslint-disable-next-line no-underscore-dangle
-            .then((data: { _embedded: AdminData }) => data?._embedded)
-            .then((data) => {
-                return putAgenciesForAdmin(data?.id, adminData.agencies?.map(({ value }) => value) || []).then(
-                    () => data,
-                );
-            })
+            .then((data: { _embedded: CounselorData }) => data?._embedded)
     );
 };

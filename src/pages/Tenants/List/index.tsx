@@ -59,7 +59,7 @@ export const TenantsList = () => {
         {
             title: t('tenants.list.name'),
             dataIndex: 'name',
-            width: 120,
+            width: 100,
             ellipsis: true,
             render: (name: string, record: TenantData) => (
                 <>
@@ -105,8 +105,9 @@ export const TenantsList = () => {
             ellipsis: true,
         },
         {
-            width: 80,
+            width: 130,
             title: t('tenants.list.maxConsultants'),
+            dataIndex: 'beraterCount',
             ellipsis: true,
         },
         can([PermissionAction.Update, PermissionAction.Delete], Resource.Tenant) && {
@@ -120,6 +121,7 @@ export const TenantsList = () => {
                             handleEdit={() => navigate(`${routePathNames.tenants}/${record.id}`)}
                             handleDelete={() => setShowDeleteModal(record.id)}
                             record={record}
+                            hide={['delete']}
                             disabled={{
                                 edit: false,
                                 delete: settings.mainTenantSubdomainForSingleDomainMultitenancy === record.subdomain,
@@ -136,7 +138,7 @@ export const TenantsList = () => {
 
     return (
         <Page>
-            <Page.Title titleKey="tenants.title" subTitle={t('tenants.subTitle', { count: data?.length || 0 })}>
+            <Page.Title titleKey="tenants.title" subTitle={t('tenants.subTitle', { count: data?.total || 0 })}>
                 <div className={styles.searchContainer}>
                     <SearchInput
                         placeholder={t('tenants.searchPlaceholder')}
@@ -155,7 +157,7 @@ export const TenantsList = () => {
             <ResizeTable
                 loading={isLoading}
                 columns={columnsData}
-                dataSource={data}
+                dataSource={data?.data || []}
                 rowKey="id"
                 locale={{ emptyText: t('tenants.list.empty') }}
             />

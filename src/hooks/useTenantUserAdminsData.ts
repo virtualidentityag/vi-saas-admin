@@ -5,7 +5,7 @@ import { CounselorData } from '../types/counselor';
 import { HalResponseList, ResponseList } from '../types/ResponseList';
 import removeEmbedded from '../utils/removeEmbedded';
 
-interface ConsultantsDataProps extends UseQueryOptions<ResponseList<CounselorData>> {
+interface TenantUserAdminDataProps extends UseQueryOptions<ResponseList<CounselorData>> {
     search?: string;
     current?: number;
     sortBy?: string;
@@ -23,7 +23,7 @@ export const useTenantAdminsData = ({
     order,
     pageSize,
     ...options
-}: ConsultantsDataProps = {}) => {
+}: TenantUserAdminDataProps = {}) => {
     return useQuery(
         ['TENANT_ADMINS', search, current, sortBy, order, pageSize],
         () => {

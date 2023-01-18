@@ -11,7 +11,7 @@ export const TENANT_ADMIN_QUERY_KEY = 'TENANT_ADMIN';
 
 export const useTenantUserAdminData = ({ id, ...options }: ConsultantsDataProps) => {
     return useQuery(
-        [TENANT_ADMIN_QUERY_KEY, Number(id)],
+        [TENANT_ADMIN_QUERY_KEY, id],
         () => {
             return fetchData({
                 url: `${tenantAdminsEndpoint}/${id}`,

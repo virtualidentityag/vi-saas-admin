@@ -23,7 +23,7 @@ export const UsersList = () => {
                 subTitle={
                     isTenantAdmins
                         ? t('tenantAdmins.title.text', { count: data?.total })
-                        : t(`${typeOfUsers}.title.text`)
+                        : t(`${typeOfUsers === 'consultants' ? typeOfUsers : 'agencyAdmins'}.title.text`)
                 }
                 tabs={[
                     can(PermissionAction.Read, Resource.Consultant) && {

@@ -19,7 +19,7 @@ import { useDeleteTenant } from '../../../hooks/useDeleteTenant';
 import { useTenantsData } from '../../../hooks/useTenantsData';
 import { useUserPermissions } from '../../../hooks/useUserPermission';
 import { TenantData } from '../../../types/tenant';
-import { getDomainWithoutMainTenant } from '../../../utils/getDomain';
+import { getDomain } from '../../../utils/getDomain';
 import styles from './styles.module.scss';
 
 export const TenantsList = () => {
@@ -51,9 +51,6 @@ export const TenantsList = () => {
         setShowDeleteModal(null);
         deleteTenant(id);
     }, []);
-
-    // Removes the main subdomain
-    const mainDomain = getDomainWithoutMainTenant(settings.mainTenantSubdomainForSingleDomainMultitenancy);
 
     const columnsData = [
         {
@@ -91,11 +88,9 @@ export const TenantsList = () => {
             dataIndex: 'subdomain',
             ellipsis: true,
             render: (subdomain: string) => (
-                <Link
-                    target="_blank"
-                    to={`//${subdomain}.${mainDomain}`}
-                    className={styles.subdomain}
-                >{`${subdomain}.${mainDomain}`}</Link>
+                <Link target="_blank" to={`//${getDomain(subdomain)}`} className={styles.subdomain}>{`${getDomain(
+                    subdomain,
+                )}`}</Link>
             ),
         },
         {

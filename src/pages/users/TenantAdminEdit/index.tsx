@@ -5,12 +5,13 @@ import { Button, Col, Row, Form, notification } from 'antd';
 import { FormInputField } from '../../../components/FormInputField';
 import { Page } from '../../../components/Page';
 import { SelectFormField } from '../../../components/SelectFormField';
-import { convertToOptions } from '../../../utils/convertToOptions';
 import { useTenantUserAdminData } from '../../../hooks/useTenantUserAdminData';
 import { Card } from '../../../components/Card';
 import { useTenantsData } from '../../../hooks/useTenantsData';
 import routePathNames from '../../../appConfig';
 import { useAddOrUpdateTenantAdmin } from '../../../hooks/useAddOrUpdateTenantAdmin.hook';
+import styles from './styles.module.scss';
+import { getDomain } from '../../../utils/getDomain';
 
 export const TenantAdminEditOrAdd = () => {
     const { search } = useLocation();
@@ -44,6 +45,7 @@ export const TenantAdminEditOrAdd = () => {
     }, [isEditing]);
 
     const title = isEditing ? `${data?.firstname} ${data?.lastname}` : t('tenantAdmins.edit.back');
+
     return (
         <Page isLoading={isLoadingConsultants || isLoading}>
             <Page.BackWithActions path="/admin/users/tenant-admins" title={title}>
@@ -107,10 +109,26 @@ export const TenantAdminEditOrAdd = () => {
                             <SelectFormField
                                 name="tenantId"
                                 placeholder="plsSelect"
-                                options={convertToOptions(tenants?.data || [], 'name', 'id')}
                                 required
                                 disabled={isReadOnly || isEditing}
-                            />
+                                className={styles.select}
+                            >
+                                {tenants?.data.map((option) => (
+                                    <SelectFormField.Option
+                                        key={option.id}
+                                        className={styles.option}
+                                        value={String(option.id)}
+                                        label={option.name}
+                                    >
+                                        <div className={styles.optionName}>{option.name}</div>
+                                        <div className={styles.optionGroup}>
+                                            <div className={styles.optionTenantId}>{option.id}</div>
+                                            {' | '}
+                                            <div className={styles.optionTenantSubdomain}>{getDomain()}</div>
+                                        </div>
+                                    </SelectFormField.Option>
+                                ))}
+                            </SelectFormField>
                         </Card>
                     </Col>
                 </Row>

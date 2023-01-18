@@ -88,3 +88,5 @@ export const SelectFormField = ({
         </Form.Item>
     );
 };
+
+SelectFormField.Option = Select.Option;

@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { ReactComponent as ChevronLeft } from '../../resources/img/svg/chevron-left.svg';
 import { AgencyEditInitialMeeting } from './AgencyEditInitialMeeting';
 import agencyRoutes from './Agency.routes';
 import routePathNames from '../../appConfig';
 import { useFeatureContext } from '../../context/FeatureContext';
 import { FeatureFlag } from '../../enums/FeatureFlag';
 import { AgencyEdit } from './AgencyEdit/index';
+import { Page } from '../../components/Page';
 
 export const AgencyPageEdit = () => {
-    const { t } = useTranslation();
     const currentPath = useLocation().pathname;
     const [agencyEditComponent, setAgencyEditComponent] = useState(null);
     const [, agencyId] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
@@ -37,34 +34,18 @@ export const AgencyPageEdit = () => {
     }, [currentPath]);
 
     return (
-        <React.Fragment>
-            <div className="agencyEdit__header">
-                <div className="agencyEdit__headerBack">
-                    <NavLink to="/admin/agency/">
-                        <ChevronLeft />
-                        <h3 className="agencyEdit__header--headline">{t('agency.edit.general.headline')}</h3>
-                    </NavLink>
-                </div>
-                <div className="agencyEdit__nav">
-                    {agencyRoutes
-                        ?.filter(
-                            (route: any) => !route.condition || route.condition(isEnabled(FeatureFlag.Appointments)),
-                        )
-                        .map((tab) => (
-                            <div key={tab.url} className="agencyEdit__navItem">
-                                <NavLink
-                                    to={`/admin/agency/edit/${agencyId}${tab.url}`}
-                                    className={({ isActive }) => {
-                                        return isActive ? 'active' : '';
-                                    }}
-                                >
-                                    {tab.title}
-                                </NavLink>
-                            </div>
-                        ))}
-                </div>
-            </div>
+        <Page>
+            <Page.Back
+                titleKey="agency.edit.general.headline"
+                path="/admin/agency"
+                tabs={agencyRoutes
+                    ?.filter((route: any) => !route.condition || route.condition(isEnabled(FeatureFlag.Appointments)))
+                    .map((tab) => ({
+                        to: `/admin/agency/edit/${agencyId}${tab.url}`,
+                        titleKey: tab.title,
+                    }))}
+            />
             <div className="agencyEdit__innerWrapper">{agencyEditComponent}</div>
-        </React.Fragment>
+        </Page>
     );
 };

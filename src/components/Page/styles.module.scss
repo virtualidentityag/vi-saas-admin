@@ -1,11 +1,12 @@
 .page {
     display: flex;
+    height: calc(100vh - 148px);
 }
 
-.page,
 .content {
+    overflow: auto;
+    padding: 25px;
     width: 100%;
-    height: 100%;
 }
 
 .tabsContainer {
@@ -55,7 +56,8 @@
     }
 }
 
-.titleWidthTabs {
+.titleWithTabs,
+.backWithTabs {
     width: 25%;
 
     @media screen and (max-width: 770px) {

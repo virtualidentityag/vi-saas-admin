@@ -58,6 +58,16 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
         return location.pathname.includes(path);
     };
 
+    const usersPage = () => {
+        if (can(PermissionAction.Read, Resource.Consultant)) {
+            return routePathNames.consultants;
+        }
+        if (can(PermissionAction.Read, Resource.AgencyAdminUser)) {
+            return routePathNames.agencyAdmins;
+        }
+        return routePathNames.tenantAdmins;
+    };
+
     return (
         <>
             <Layout className="protectedLayout">
@@ -94,7 +104,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 can(PermissionAction.Read, Resource.TenantAdminUser)) && (
                                 <li key="counselors" className="menuItem">
                                     <NavLink
-                                        to={routePathNames.consultants}
+                                        to={usersPage()}
                                         className={classNames({ active: checkActive('/admin/users') })}
                                     >
                                         <NavIcon path="/admin/users" />

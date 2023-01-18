@@ -76,6 +76,7 @@ const routePathNames = {
     users: '/admin/users',
     consultants: '/admin/users/consultants',
     agency: '/admin/agency/',
+    agencyAdmins: '/admin/users/agency-admins',
     agencyEdit: '/admin/agency/edit',
     agencyEditGeneral: '/admin/agency/edit/:id/general',
     agencyEditInitialMeeting: '/admin/agency/edit/:id/initial-meeting',

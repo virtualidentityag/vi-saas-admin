@@ -12,7 +12,7 @@ interface UseAddOrUpdateTenantAdminOptions
 
 export const useAddOrUpdateTenantAdmin = ({ id, ...options }: UseAddOrUpdateTenantAdminOptions) => {
     const queryClient = useQueryClient();
-    const { data } = useTenantUserAdminData({ id, enabled: !!id });
+    const { data } = useTenantUserAdminData({ id, enabled: !!id && id !== 'add' });
     return useMutation(
         (formData) => {
             const bodyData = JSON.stringify({

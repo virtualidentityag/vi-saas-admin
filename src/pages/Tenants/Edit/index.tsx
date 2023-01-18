@@ -59,6 +59,8 @@ export const TenantEditOrAdd = () => {
     const isMainTenant = !!main || settings.mainTenantSubdomainForSingleDomainMultitenancy === data?.subdomain;
     // Removes the main subdomain
     const mainDomain = getDomainWithoutMainTenant(settings.mainTenantSubdomainForSingleDomainMultitenancy);
+    const newTitle = main ? 'tenants.add.mainTenant.headline' : 'tenants.add.headline';
+    const title = isEditing ? data?.name : newTitle;
 
     return (
         <Page isLoading={isLoading}>
@@ -77,10 +79,7 @@ export const TenantEditOrAdd = () => {
                     }
                 />
             )}
-            <Page.BackWithActions
-                path={routePathNames.tenants}
-                titleKey={main ? 'tenants.edit.mainTenant.headline' : 'tenants.edit.headline'}
-            >
+            <Page.BackWithActions path={routePathNames.tenants} titleKey={title}>
                 {isReadOnly && (
                     <Button type="primary" onClick={() => setReadOnly(false)}>
                         {t('edit')}
@@ -154,7 +153,9 @@ export const TenantEditOrAdd = () => {
                                 titleKey="tenants.edit.adminEmailsCardTitle"
                                 tooltip={t('tenants.edit.adminEmailsCardTooltip')}
                             >
-                                {data?.adminEmails?.length && <SelectFormField name="adminEmails" required disabled />}
+                                {data?.adminEmails?.length && (
+                                    <SelectFormField name="adminEmails" required disabled isMulti />
+                                )}
                                 {!data?.adminEmails?.length && (
                                     <div className={styles.emptyAdminsContainer}>
                                         <PersonSearchIcon className={styles.emptyAdminsIcon} />

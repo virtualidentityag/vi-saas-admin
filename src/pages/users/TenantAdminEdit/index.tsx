@@ -42,8 +42,8 @@ export const TenantAdminEditOrAdd = () => {
             navigate(routePathNames.tenantAdmins);
         }
     }, [isEditing]);
-    const mainTenant = tenantId && tenants?.find((tenant) => `${tenant.id}` === tenantId);
-    const title = !isEditing && mainTenant ? mainTenant.name : t('tenantAdmins.edit.back');
+
+    const title = isEditing ? `${data?.firstname} ${data?.lastname}` : t('tenantAdmins.edit.back');
     return (
         <Page isLoading={isLoadingConsultants || isLoading}>
             <Page.BackWithActions path="/admin/users/tenant-admins" title={title}>
@@ -107,7 +107,7 @@ export const TenantAdminEditOrAdd = () => {
                             <SelectFormField
                                 name="tenantId"
                                 placeholder="plsSelect"
-                                options={convertToOptions(tenants, 'name', 'id')}
+                                options={convertToOptions(tenants?.data || [], 'name', 'id')}
                                 required
                                 disabled={isReadOnly || isEditing}
                             />

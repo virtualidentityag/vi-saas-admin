@@ -1,26 +1,21 @@
-import { LabeledValue } from 'antd/lib/select';
-import { CounselorData } from '../../types/counselor';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
-import { adminEndpoint } from '../../appConfig';
+import { agencyAdminEndpoint } from '../../appConfig';
 import { encodeUsername } from '../../utils/encryptionHelpers';
 import { AdminData } from '../../types/admin';
-import { putAgenciesForAdmin } from '../agency/putAgenciesForAdmin';
+import { putAgenciesForAgencyAdmin } from '../agency/putAgenciesForAdmin';
 
 /**
- * edit admin
- * @param formData - input data from form
+ * add new admin
+ * @param adminData
  * @return data
  */
-export const editAdminData = async (id: string, formData: AdminData): Promise<AdminData> => {
-    const { firstname, lastname, email, username, twoFactorAuth } = formData;
-
-    const ids = ((formData.agencies as LabeledValue[])?.map(({ value }) => value) || []) as string[];
-    await putAgenciesForAdmin(id, ids);
+export const addAgencyAdminData = (adminData: Record<string, any>): Promise<AdminData> => {
+    const { firstname, lastname, email, username, twoFactorAuth } = adminData;
 
     return (
         fetchData({
-            url: `${adminEndpoint}/${id}`,
-            method: FETCH_METHODS.PUT,
+            url: agencyAdminEndpoint,
+            method: FETCH_METHODS.POST,
             skipAuth: false,
             responseHandling: [FETCH_ERRORS.CATCH_ALL],
             bodyData: JSON.stringify({
@@ -38,6 +33,11 @@ export const editAdminData = async (id: string, formData: AdminData): Promise<Ad
                 return response.json();
             })
             // eslint-disable-next-line no-underscore-dangle
-            .then((data: { _embedded: CounselorData }) => data?._embedded)
+            .then((data: { _embedded: AdminData }) => data?._embedded)
+            .then((data) => {
+                return putAgenciesForAgencyAdmin(data?.id, adminData.agencies?.map(({ value }) => value) || []).then(
+                    () => data,
+                );
+            })
     );
 };

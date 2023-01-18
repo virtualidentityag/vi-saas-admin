@@ -1,33 +1,20 @@
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { Page } from '../../../components/Page';
 import { PermissionAction } from '../../../enums/PermissionAction';
 import { Resource } from '../../../enums/Resource';
 import { useTenantAdminsData } from '../../../hooks/useTenantUserAdminsData';
 import { useUserPermissions } from '../../../hooks/useUserPermission';
-import { TenantsTableData } from './components/TenantsTableData';
+import { TenantsTableData } from './components/TenantAdminsTableData';
 import { UsersTableData } from './components/UsersTableData';
 
 export const UsersList = () => {
     const { t } = useTranslation();
-    const location = useLocation();
-    const navigate = useNavigate();
     const { can } = useUserPermissions();
     const { typeOfUsers } = useParams();
     const isTenantAdmins = typeOfUsers === 'tenant-admins';
 
     const { data } = useTenantAdminsData({ current: 1, enabled: isTenantAdmins });
-
-    useEffect(() => {
-        if (!can(PermissionAction.Read, Resource.Consultant) && !!location.pathname.match('/admin/users/consultants')) {
-            if (can(PermissionAction.Read, Resource.AgencyAdminUser)) {
-                navigate('/admin/users/agency-admins');
-            } else {
-                navigate('/admin/users/tenant-admins');
-            }
-        }
-    }, [location.pathname]);
 
     return (
         <Page>

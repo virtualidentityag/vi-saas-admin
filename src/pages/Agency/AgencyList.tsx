@@ -1,13 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
-
 import { useTranslation } from 'react-i18next';
-import Title from 'antd/es/typography/Title';
 import { Button, Space, Table } from 'antd';
-
 import { PlusOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/lib/table';
 import { useNavigate } from 'react-router-dom';
-
 import EditButtons from '../../components/EditableTable/EditButtons';
 import getAgencyData from '../../api/agency/getAgencyData';
 import { AgencyData } from '../../types/agency';
@@ -23,6 +19,7 @@ import { FeatureFlag } from '../../enums/FeatureFlag';
 import { useUserPermissions } from '../../hooks/useUserPermission';
 import { PermissionAction } from '../../enums/PermissionAction';
 import { Resource } from '../../enums/Resource';
+import { Page } from '../../components/Page';
 
 const emptyAgencyModel: AgencyData = {
     id: null,
@@ -251,9 +248,8 @@ export const AgencyList = () => {
     }));
 
     return (
-        <>
-            <Title level={3}>{t('agency')}</Title>
-            <p>{t('agency.title.text')}</p>
+        <Page>
+            <Page.Title titleKey="agency" subTitleKey="agency.title.text" />
             {can(PermissionAction.Create, Resource.Agency) && (
                 <Space align="baseline">
                     <Button
@@ -292,6 +288,6 @@ export const AgencyList = () => {
                 }}
             />
             <AgencyDeletionModal />
-        </>
+        </Page>
     );
 };

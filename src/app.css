@@ -49,6 +49,9 @@
     --white: #ffffff;
     --white-50-opacity: rgb(255 255 255 / 50%);
     --black: #000000;
+    --black-87-opacity: rgb(0 0 0 / 87%);
+    --black-90-opacity: rgb(0 0 0 / 90%);
+    --black-60-opacity: rgb(0 0 0 / 60%);
     --black-25-opacity: rgb(0 0 0 / 25%);
     --black-10-opacity: rgb(0 0 0 / 10%);
     --primary: #273270;

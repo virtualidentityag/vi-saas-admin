@@ -2,7 +2,7 @@ import { ChevronLeft } from '@mui/icons-material';
 import { Spin } from 'antd';
 import Title from 'antd/es/typography/Title';
 import classNames from 'classnames';
-import { useMemo } from 'react';
+import React, { forwardRef, LegacyRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import styles from './styles.module.scss';
@@ -25,6 +25,7 @@ interface PageBackProps {
     titleKey?: string;
     path: string;
     children?: React.ReactChild | React.ReactChild[];
+    tabs?: Array<{ to: string; titleKey }>;
 }
 
 export const Page = ({ children, isLoading }: PageProps) => {
@@ -37,6 +38,7 @@ export const Page = ({ children, isLoading }: PageProps) => {
 
 const PageTabs = ({ tabs }: { tabs: Array<{ to: string; titleKey }> }) => {
     const { t } = useTranslation();
+
     return (
         <div className={styles.tabsContainer}>
             {tabs
@@ -50,13 +52,13 @@ const PageTabs = ({ tabs }: { tabs: Array<{ to: string; titleKey }> }) => {
     );
 };
 
-export const PageTitle = ({ titleKey, subTitleKey, subTitle, tabs, children }: PageTitleProps) => {
+export const PageTitle = forwardRef(({ titleKey, subTitleKey, subTitle, tabs, children }: PageTitleProps, ref) => {
     const { t } = useTranslation();
     const finalTabs = useMemo(() => tabs?.filter(Boolean) || [], [tabs]);
 
     return (
-        <div className={styles.pageTitleContainer}>
-            <div className={classNames(styles.titleContainer, { [styles.titleWidthTabs]: !!finalTabs?.length })}>
+        <div className={styles.pageTitleContainer} ref={ref as LegacyRef<HTMLDivElement>}>
+            <div className={classNames(styles.titleContainer, { [styles.titleWithTabs]: !!finalTabs?.length })}>
                 <Title level={3} className={styles.title}>
                     {t(titleKey)}
                 </Title>
@@ -64,31 +66,36 @@ export const PageTitle = ({ titleKey, subTitleKey, subTitle, tabs, children }: P
                 {subTitle}
             </div>
             {children}
-            {!!finalTabs?.length && <PageTabs tabs={finalTabs} />}
+            {!!finalTabs?.length && finalTabs.length > 1 && <PageTabs tabs={finalTabs} />}
         </div>
     );
-};
+});
 
-export const PageBack = ({ path, title, titleKey, children }: PageBackProps) => {
+export const PageBack = forwardRef(({ path, title, titleKey, tabs, children }: PageBackProps, ref) => {
     const { t } = useTranslation();
+    const finalTabs = useMemo(() => tabs?.filter(Boolean) || [], [tabs]);
 
     return (
-        <div className={styles.back}>
-            <NavLink to={path} className={styles.backLink}>
+        <div className={styles.back} ref={ref as LegacyRef<HTMLDivElement>}>
+            <NavLink to={path} className={classNames(styles.backLink, { [styles.backWithTabs]: !!finalTabs?.length })}>
                 <ChevronLeft />
                 <h3 className={styles.backHeadline}>{title || t(titleKey)}</h3>
             </NavLink>
             {children}
+            {!!finalTabs?.length && finalTabs.length > 1 && <PageTabs tabs={finalTabs} />}
         </div>
     );
-};
+});
 
-export const PageBackWithActions = (props: PageBackProps) => (
-    <PageBack {...props}>
+export const PageBackWithActions = forwardRef((props: PageBackProps, ref) => (
+    <PageBack {...props} ref={ref}>
         <div className={styles.actions}>{props.children}</div>
     </PageBack>
-);
+));
 
 Page.Title = PageTitle;
 Page.Back = PageBack;
+Page.Back.displayName = 'PageBack';
+Page.Title.displayName = 'PageTitle';
 Page.BackWithActions = PageBackWithActions;
+Page.BackWithActions.displayName = 'PageBackWithActions';

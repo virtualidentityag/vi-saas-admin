@@ -14,7 +14,7 @@ import { FormInputNumberField } from '../../../components/FormInputNumberField';
 import { useAddOrUpdateTenant } from '../../../hooks/useAddOrUpdateTenant.hook';
 import { useSingleTenantData } from '../../../hooks/useSingleTenantData';
 import { SelectFormField } from '../../../components/SelectFormField';
-import { getDomainWithoutMainTenant } from '../../../utils/getDomain';
+import { getDomain } from '../../../utils/getDomain';
 import styles from './styles.module.scss';
 
 export const TenantEditOrAdd = () => {
@@ -57,8 +57,6 @@ export const TenantEditOrAdd = () => {
     });
 
     const isMainTenant = !!main || settings.mainTenantSubdomainForSingleDomainMultitenancy === data?.subdomain;
-    // Removes the main subdomain
-    const mainDomain = getDomainWithoutMainTenant(settings.mainTenantSubdomainForSingleDomainMultitenancy);
     const newTitle = main ? 'tenants.add.mainTenant.headline' : 'tenants.add.headline';
     const title = isEditing ? data?.name : newTitle;
 
@@ -130,7 +128,7 @@ export const TenantEditOrAdd = () => {
                                     name="subdomain"
                                     placeholderKey="tenants.add.form.subdomain.placeholder"
                                     required
-                                    addonAfter={mainDomain}
+                                    addonAfter={getDomain()}
                                     disabled={isReadOnly || isMainTenant}
                                 />
                             </div>

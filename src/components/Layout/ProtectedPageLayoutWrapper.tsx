@@ -170,9 +170,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                 </Sider>
                 <Layout className={classNames('mainContent', { 'with-footer': !hasRole(UserRole.TenantAdmin) })}>
                     <SiteHeader />
-                    <Content className="content">
-                        <div className="contentInner">{children}</div>
-                    </Content>
+                    <Content className="content">{children}</Content>
                     {!hasRole(UserRole.TenantAdmin) && <SiteFooter />}
                 </Layout>
             </Layout>

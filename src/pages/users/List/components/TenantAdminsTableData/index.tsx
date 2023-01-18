@@ -14,13 +14,11 @@ import { useUserPermissions } from '../../../../../hooks/useUserPermission';
 import { Resource } from '../../../../../enums/Resource';
 import { PermissionAction } from '../../../../../enums/PermissionAction';
 import { useTenantAdminsData } from '../../../../../hooks/useTenantUserAdminsData';
-import { useAppConfigContext } from '../../../../../context/useAppConfig';
 import { DeleteTenantAdminModal } from '../DeleteTenantAdmin';
-import { getDomainWithoutMainTenant } from '../../../../../utils/getDomain';
+import { getDomain } from '../../../../../utils/getDomain';
 import styles from './styles.module.scss';
 
 export const TenantsTableData = () => {
-    const { settings } = useAppConfigContext();
     const { can } = useUserPermissions();
     const navigate = useNavigate();
     const { t } = useTranslation();
@@ -42,8 +40,6 @@ export const TenantsTableData = () => {
         ...tableState,
     });
 
-    // Removes the main subdomain
-    const mainDomain = getDomainWithoutMainTenant(settings.mainTenantSubdomainForSingleDomainMultitenancy);
     const setSearchDebounced = useDebouncedCallback(setSearch, 100);
 
     const onClose = useCallback(() => {
@@ -94,7 +90,7 @@ export const TenantsTableData = () => {
             title: t('tenantAdmins.form.subdomain'),
             dataIndex: 'tenantSubdomain',
             ellipsis: true,
-            render: (subdomain: string) => `${subdomain}.${mainDomain}`,
+            render: (subdomain: string) => getDomain(subdomain),
         },
         {
             width: 100,

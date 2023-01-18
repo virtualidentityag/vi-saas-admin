@@ -149,20 +149,6 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 </li>
                             )}
 
-                            {/*
-                                {hasRole(UserRole.TenantAdmin) && (
-                                    <li key="tenants" className="menuItem">
-                                    <NavLink
-                                        to={routePathNames.tenants}
-                                        className={({ isActive }) => (isActive ? "active" : "")}
-                                    >
-                                        <NavIcon path={routePathNames.tenants} />
-                                        <span>{t("organisations.title")}</span>
-                                    </NavLink>
-                                    </li>
-                                )}
-                            */}
-
                             <li className="menuItem">
                                 <NavLink
                                     to={routePathNames.userProfile}

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import { ReactComponent as ChevronLeft } from '../resources/img/svg/chevron-left.svg';
-import { AgencyAddGeneral } from '../components/Agency/AgencyAddGeneral';
-import routePathNames from '../appConfig';
+import { ReactComponent as ChevronLeft } from '../../resources/img/svg/chevron-left.svg';
+import { AgencyAddGeneral } from './AgencyAddGeneral';
+import routePathNames from '../../appConfig';
 
 export const AgencyAdd = () => {
     const { t } = useTranslation();

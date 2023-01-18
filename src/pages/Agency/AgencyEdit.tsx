@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router';
-import { ReactComponent as ChevronLeft } from '../resources/img/svg/chevron-left.svg';
-import { AgencyEditInitialMeeting } from '../components/Agency/AgencyEditInitialMeeting';
-import agencyRoutes from '../components/Agency/Agency.routes';
-import routePathNames from '../appConfig';
-import { useFeatureContext } from '../context/FeatureContext';
-import { FeatureFlag } from '../enums/FeatureFlag';
-import { AgencyEdit } from '../components/Agency/AgencyEdit';
+import { ReactComponent as ChevronLeft } from '../../resources/img/svg/chevron-left.svg';
+import { AgencyEditInitialMeeting } from './AgencyEditInitialMeeting';
+import agencyRoutes from './Agency.routes';
+import routePathNames from '../../appConfig';
+import { useFeatureContext } from '../../context/FeatureContext';
+import { FeatureFlag } from '../../enums/FeatureFlag';
+import { AgencyEdit } from './AgencyEdit/index';
 
 export const AgencyPageEdit = () => {
     const { t } = useTranslation();

@@ -3,9 +3,9 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAgencyData } from '../../../../../hooks/useAgencyData';
 import { useAgencyUpdate } from '../../../../../hooks/useAgencyUpdate';
-import { FormInputField } from '../../../../FormInputField';
-import { FormTextAreaField } from '../../../../FormTextAreaField';
-import { CardEditable } from '../../../../CardEditable';
+import { FormInputField } from '../../../../../components/FormInputField';
+import { FormTextAreaField } from '../../../../../components/FormTextAreaField';
+import { CardEditable } from '../../../../../components/CardEditable';
 
 export const AgencyGeneralInformation = ({ id }: { id: string }) => {
     const [t] = useTranslation();

@@ -2,8 +2,8 @@ import React from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import Title from 'antd/es/typography/Title';
-import Spinner from '../Spinner/Spinner';
 import Logo from '../../resources/img/Logo-Connecta.png';
+import Spinner from '../../components/Spinner/Spinner';
 
 export interface StageProps {
     className?: string;

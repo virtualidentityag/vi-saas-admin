@@ -11,15 +11,20 @@
 .cardTitle {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 24px;
+
+    &.hasSubtitle {
+        margin-bottom: 0;
+    }
 }
 
 .titleContainer {
     display: flex;
     gap: 8px;
-}
 
-.title {
-    margin-bottom: var(--spacing-m);
+    .title {
+        margin-bottom: 0;
+    }
 }
 
 .cardSubTitle {
@@ -28,6 +33,7 @@
     font-size: 14px;
     font-weight: 400;
     line-height: 16px;
+    margin-top: 5px;
 }
 
 .container {

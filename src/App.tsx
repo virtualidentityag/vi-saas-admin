@@ -7,7 +7,7 @@ import routePathNames from './appConfig';
 import { TenantSettingsLayout } from './pages/TenantSettings';
 import { Topics } from './pages/Topics/List/Topics';
 import { Statistic } from './pages/Statistic';
-import { UserProfile } from './pages/UserProfile';
+import { UserProfile } from './pages/Profile/UserProfile';
 import { Initialization } from './components/Layout/Initialization';
 import { AgencyList } from './pages/Agency/AgencyList';
 import { useTenantData } from './hooks/useTenantData.hook';

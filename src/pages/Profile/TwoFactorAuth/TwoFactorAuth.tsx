@@ -1,28 +1,27 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import Title from 'antd/es/typography/Title';
-import { Col, Row, Typography, Switch } from 'antd';
+import { Typography, Switch } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { FETCH_ERRORS } from '../../api/fetchData';
-import { OVERLAY_FUNCTIONS, OverlayItem, OverlayWrapper, Overlay } from '../overlay/Overlay';
-import { BUTTON_TYPES } from '../button/Button';
-import { InputField, InputFieldItem, InputFieldLabelState } from '../inputField/InputField';
-import { ReactComponent as LockIcon } from '../../resources/img/svg/lock.svg';
-import { ReactComponent as AddIcon } from '../../resources/img/svg/add.svg';
-import { ReactComponent as UrlIcon } from '../../resources/img/svg/url.svg';
-import { ReactComponent as CheckIcon } from '../../resources/img/svg/checkmark.svg';
-import { ReactComponent as PenIcon } from '../../resources/img/svg/pen.svg';
-import { useUserData } from '../../hooks/useUserData.hook';
-import { TwoFactorType } from '../../enums/TwoFactorType';
+import { FETCH_ERRORS } from '../../../api/fetchData';
+import { OVERLAY_FUNCTIONS, OverlayItem, OverlayWrapper, Overlay } from '../../../components/overlay/Overlay';
+import { BUTTON_TYPES } from '../../../components/button/Button';
+import { InputField, InputFieldItem, InputFieldLabelState } from '../../../components/inputField/InputField';
+import { ReactComponent as LockIcon } from '../../../resources/img/svg/lock.svg';
+import { ReactComponent as AddIcon } from '../../../resources/img/svg/add.svg';
+import { ReactComponent as UrlIcon } from '../../../resources/img/svg/url.svg';
+import { ReactComponent as CheckIcon } from '../../../resources/img/svg/checkmark.svg';
+import { ReactComponent as PenIcon } from '../../../resources/img/svg/pen.svg';
+import { useUserData } from '../../../hooks/useUserData.hook';
+import { TwoFactorType } from '../../../enums/TwoFactorType';
 import {
     useUserTwoFactorAuth,
     useUserTwoFactorDelete,
     useUserTwoFactorSendEmailCode,
-} from '../../hooks/useUserTwoFactorAuth.hook';
+} from '../../../hooks/useUserTwoFactorAuth.hook';
 import { TwoFactorAuthTypeButtons } from './TwoFactorAuthTypeButtons';
 import { AuthenticatorTools } from './TwoFactorAuthTools';
 import { TwoFactorAuthAppActivate } from './TwoFactorAuthAppActivate';
 import { TwoFactorAuthEmailSelection } from './TwoFactorAuthEmailSelection';
-import { isStringValidEmail } from '../../utils/validateEmailString';
+import { isStringValidEmail } from '../../../utils/validateEmailString';
 import { TwoFactorAuthEmailCodeInput } from './TwoFactorAuthEmailCodeInput';
 import { TwoFactorAuthEmailConfirmation } from './TwoFactorAuthEmailConfirmation';
 
@@ -413,44 +412,36 @@ const TwoFactorAuth = () => {
     }, [defaultOtpLabel, userData]);
 
     return (
-        <div className="twoFactorAuth">
-            <Row gutter={40}>
-                <Col xs={12} lg={6}>
-                    <Title className="formHeadline mb-m" level={4}>
-                        {t('twoFactorAuth.title')}
-                    </Title>
-                    <Paragraph className="mb-l desc">{t('twoFactorAuth.subtitle')}</Paragraph>
-                    <div className="twoFactorAuth__switch mb-m">
-                        <Switch
-                            size="default"
-                            onChange={handleSwitchChange}
-                            checked={userData?.twoFactorAuth.isActive || false}
-                        />
-                        <Paragraph className="text desc">
-                            {userData?.twoFactorAuth.isActive
-                                ? t('twoFactorAuth.switch.active.label')
-                                : t('twoFactorAuth.switch.deactive.label')}
-                        </Paragraph>
-                    </div>
-                    {userData?.twoFactorAuth.isActive && userData.twoFactorAuth.type && (
-                        <p className="desc">
-                            <strong>{t('twoFactorAuth.switch.type.label')}</strong>{' '}
-                            {t(`twoFactorAuth.switch.type.${userData.twoFactorAuth.type}`)}{' '}
-                            {userData.twoFactorAuth.type === TwoFactorType.Email ? `(${userData.email})` : ''}
-                        </p>
-                    )}
-                    {overlayActive ? (
-                        <OverlayWrapper>
-                            <Overlay
-                                className="twoFactorAuth__overlay"
-                                items={overlayItems}
-                                handleOverlayClose={handleOverlayClose}
-                            />
-                        </OverlayWrapper>
-                    ) : null}
-                </Col>
-            </Row>
-        </div>
+        <>
+            <div className="twoFactorAuth__switch mb-m">
+                <Switch
+                    size="default"
+                    onChange={handleSwitchChange}
+                    checked={userData?.twoFactorAuth.isActive || false}
+                />
+                <Paragraph className="text desc">
+                    {userData?.twoFactorAuth.isActive
+                        ? t('twoFactorAuth.switch.active.label')
+                        : t('twoFactorAuth.switch.deactive.label')}
+                </Paragraph>
+            </div>
+            {userData?.twoFactorAuth.isActive && userData.twoFactorAuth.type && (
+                <p className="desc">
+                    <strong>{t('twoFactorAuth.switch.type.label')}</strong>{' '}
+                    {t(`twoFactorAuth.switch.type.${userData.twoFactorAuth.type}`)}{' '}
+                    {userData.twoFactorAuth.type === TwoFactorType.Email ? `(${userData.email})` : ''}
+                </p>
+            )}
+            {overlayActive ? (
+                <OverlayWrapper>
+                    <Overlay
+                        className="twoFactorAuth__overlay"
+                        items={overlayItems}
+                        handleOverlayClose={handleOverlayClose}
+                    />
+                </OverlayWrapper>
+            ) : null}
+        </>
     );
 };
 

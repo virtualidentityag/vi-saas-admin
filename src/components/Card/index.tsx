@@ -13,11 +13,23 @@ interface CardProps {
     fullHeight?: boolean;
     titleKey: string;
     subTitle?: React.ReactChild;
+    subTitleKey?: string;
     tooltip?: string;
     children: React.ReactChild | React.ReactChild[];
+    cardTitleChildren?: React.ReactChild | React.ReactChild[];
 }
 
-export const Card = ({ className, isLoading, titleKey, subTitle, fullHeight, tooltip, children }: CardProps) => {
+export const Card = ({
+    className,
+    isLoading,
+    titleKey,
+    subTitle,
+    subTitleKey,
+    fullHeight,
+    tooltip,
+    cardTitleChildren,
+    children,
+}: CardProps) => {
     const { t } = useTranslation();
 
     return (
@@ -25,7 +37,7 @@ export const Card = ({ className, isLoading, titleKey, subTitle, fullHeight, too
             className={classNames(styles.card, className, { [styles.fullHeight]: fullHeight })}
             contentClassName={styles.contentClassName}
         >
-            <div className={classNames(styles.cardTitle)}>
+            <div className={classNames(styles.cardTitle, { [styles.hasSubtitle]: subTitle || subTitleKey })}>
                 <div className={styles.titleContainer}>
                     <Title className={classNames(styles.title)} level={5}>
                         {t(titleKey)}
@@ -37,8 +49,11 @@ export const Card = ({ className, isLoading, titleKey, subTitle, fullHeight, too
                         </Tooltip>
                     )}
                 </div>
+                {cardTitleChildren}
             </div>
-            {subTitle && <div className={classNames(styles.cardSubTitle)}>{subTitle}</div>}
+            {(subTitle || subTitleKey) && (
+                <div className={classNames(styles.cardSubTitle)}>{subTitle || t(subTitleKey)}</div>
+            )}
             <div className={classNames(styles.container, { [styles.isLoading]: isLoading })}>
                 {isLoading && <Spin />}
                 {!isLoading && children}

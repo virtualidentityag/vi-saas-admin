@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { encode } from 'hi-base32';
-import { UserData } from '../../types/user';
-import { Text } from '../text/Text';
+import { UserData } from '../../../types/user';
+import { Text } from '../../../components/text/Text';
 
 interface TwoFactorAuthAppActivateProps {
     userData: UserData;

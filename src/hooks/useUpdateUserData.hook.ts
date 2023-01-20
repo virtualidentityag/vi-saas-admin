@@ -16,7 +16,7 @@ export const useUpdateUserData = (
 
             return fetchData({
                 url: `${mainURL}/service/users/data`,
-                method: FETCH_METHODS.PATCH,
+                method: FETCH_METHODS.PUT,
                 responseHandling: [FETCH_SUCCESS.CONTENT, FETCH_ERRORS.CONFLICT_WITH_RESPONSE],
                 bodyData,
             });

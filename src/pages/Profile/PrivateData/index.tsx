@@ -11,11 +11,11 @@ export const PrivateData = () => {
         <CardEditable
             isLoading={isLoading}
             titleKey="profile.privateData.title"
-            initialValues={{ ...data }}
-            onSave={updateData as any}
+            initialValues={{ ...data, firstname: data?.firstName, lastname: data?.lastName }}
+            onSave={updateData}
         >
-            <FormInputField name="firstName" labelKey="firstname" placeholderKey="placeholder.firstname" required />
-            <FormInputField name="lastName" labelKey="lastname" placeholderKey="placeholder.lastname" required />
+            <FormInputField name="firstname" labelKey="firstname" placeholderKey="placeholder.firstname" required />
+            <FormInputField name="lastname" labelKey="lastname" placeholderKey="placeholder.lastname" required />
             <FormInputField name="email" labelKey="email" placeholderKey="placeholder.lastname" required />
         </CardEditable>
     );

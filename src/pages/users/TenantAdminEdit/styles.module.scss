@@ -9,7 +9,7 @@
     line-height: 24px;
     display: flex;
     align-items: center;
-    color: var(--black-87-opacity);
+    color: var(--black-87);
 }
 
 .optionGroup {
@@ -17,7 +17,7 @@
     font-size: 12px;
     line-height: 16px;
     align-items: center;
-    color: var(--black-60-opacity);
+    color: var(--black-60);
     gap: 5px;
 }
 
@@ -27,7 +27,7 @@
             display: none;
         }
         .optionName {
-            color: var(--black-80-opacity);
+            color: var(--black-80);
         }
     }
 }

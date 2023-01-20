@@ -96,7 +96,7 @@ export const AgencyAddressSettings = ({ id }: { id: string }) => {
             titleKey="agency.edit.general.address"
             onSave={saveInfo}
         >
-            {(form) => <AgencyAddressSettingsLocal postCodes={postCodes} form={form} />}
+            {({ form }) => <AgencyAddressSettingsLocal postCodes={postCodes} form={form} />}
         </CardEditable>
     );
 };

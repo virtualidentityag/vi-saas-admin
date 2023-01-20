@@ -1,32 +1,33 @@
-import { Form, FormInstance, Spin } from 'antd';
-import Title from 'antd/lib/typography/Title';
+import { Form, FormInstance } from 'antd';
 import classNames from 'classnames';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box } from '../Box';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import Pencil from '../CustomIcons/Pencil';
-import { Tooltip } from '../tooltip/Tooltip';
-import { ReactComponent as InfoIcon } from '../../resources/img/svg/i.svg';
 import { UnsavedChangesModal } from './components/UnsavedChanges';
 import styles from './styles.module.scss';
+import { Card } from '../Card';
 
 interface CardEditableProps {
     className?: string;
     isLoading?: boolean;
     fullHeight?: boolean;
-    initialValues: Record<string, unknown>;
+    initialValues?: Record<string, unknown>;
     titleKey: string;
     subTitle?: React.ReactChild;
+    subTitleKey?: string;
+    saveKey?: string;
+    cancelKey?: string;
     children:
         | React.ReactElement
         | React.ReactElement[]
-        | ((form: FormInstance<any>) => React.ReactElement | React.ReactElement[]);
+        | ((data: { form: FormInstance<any>; editing: boolean }) => React.ReactElement | React.ReactElement[]);
     onSave: <T>(formData: T) => void;
     formProp?: FormInstance;
     onAddMode?: boolean;
-    tooltip?: React.ReactChild;
+    tooltip?: string;
     allowUnsavedChanges?: boolean;
+    editButton?: React.ReactChild;
 }
 
 export const CardEditable = ({
@@ -36,12 +37,16 @@ export const CardEditable = ({
     initialValues,
     titleKey,
     subTitle,
+    subTitleKey,
+    cancelKey = 'card.edit.cancel',
+    saveKey = 'card.edit.save',
     children,
     onAddMode,
     onSave,
     formProp,
     tooltip,
     fullHeight,
+    editButton = <Pencil className={styles.pencil} />,
 }: CardEditableProps) => {
     const [form] = Form.useForm(formProp);
     const { t } = useTranslation();
@@ -50,12 +55,12 @@ export const CardEditable = ({
     const [showUnsavedChangesModal, setShowUnsavedChangesModal] = useState(false);
 
     const cancelEditButton: ButtonItem = {
-        label: t('agency.edit.general.general_information.cancel'),
+        label: t(cancelKey),
         type: BUTTON_TYPES.LINK,
     };
 
     const saveEditButton: ButtonItem = {
-        label: t('agency.edit.general.general_information.save'),
+        label: t(saveKey),
         type: BUTTON_TYPES.LINK,
     };
 
@@ -69,43 +74,35 @@ export const CardEditable = ({
     );
 
     return (
-        <Box
+        <Card
             className={classNames(styles.card, className, { [styles.fullHeight]: fullHeight })}
-            contentClassName={styles.contentClassName}
+            titleKey={titleKey}
+            subTitle={subTitle}
+            subTitleKey={subTitleKey}
+            tooltip={tooltip}
+            isLoading={isLoading}
+            cardTitleChildren={
+                !onAddMode &&
+                !editing && (
+                    <button className={styles.editCard} type="button" onClick={() => setEditing(true)}>
+                        {editButton}
+                    </button>
+                )
+            }
         >
-            <div className={classNames(styles.cardTitle)}>
-                <div className={styles.titleContainer}>
-                    <Title className={classNames(styles.title)} level={5}>
-                        {t(titleKey)}
-                    </Title>
-
-                    {tooltip && (
-                        <Tooltip className={styles.tooltip} trigger={<InfoIcon fill="var(--primary)" />}>
-                            {tooltip}
-                        </Tooltip>
-                    )}
-                </div>
-                {!onAddMode && !editing && <Pencil className={styles.pencil} onClick={() => setEditing(true)} />}
-            </div>
-            {subTitle && <div className={classNames(styles.cardSubTitle)}>{subTitle}</div>}
-            <div className={classNames(styles.container, { [styles.isLoading]: isLoading })}>
-                {isLoading && <Spin />}
-                {!isLoading && (
-                    <Form
-                        validateTrigger={['onSubmit', 'onChange']}
-                        labelAlign="left"
-                        labelWrap
-                        layout="vertical"
-                        form={form}
-                        onValuesChange={() => setHasChanges(true)}
-                        onFinish={onFormSubmit}
-                        disabled={!editing}
-                        initialValues={initialValues}
-                    >
-                        {typeof children === 'function' ? children(form) : children}
-                    </Form>
-                )}
-            </div>
+            <Form
+                validateTrigger={['onSubmit', 'onChange']}
+                labelAlign="left"
+                labelWrap
+                layout="vertical"
+                form={form}
+                onValuesChange={() => setHasChanges(true)}
+                onFinish={onFormSubmit}
+                disabled={!editing}
+                initialValues={initialValues}
+            >
+                {typeof children === 'function' ? children({ form, editing }) : children}
+            </Form>
 
             {editing && !onAddMode && (
                 <div className={styles.footerActions}>
@@ -133,6 +130,6 @@ export const CardEditable = ({
                     }}
                 />
             )}
-        </Box>
+        </Card>
     );
 };

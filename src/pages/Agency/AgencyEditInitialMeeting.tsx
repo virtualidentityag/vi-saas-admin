@@ -205,7 +205,7 @@ export const AgencyEditInitialMeeting = () => {
                 columns={mergeColumns}
                 scroll={{
                     x: 'max-content',
-                    y: '100%',
+                    y: 'auto',
                 }}
                 rowKey="id"
                 style={{

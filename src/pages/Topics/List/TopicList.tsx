@@ -203,16 +203,13 @@ export const TopicList = () => {
                 columns={defineTableColumns()}
                 scroll={{
                     x: 'max-content',
-                    y: '100%',
+                    y: 'auto',
                 }}
                 sticky
                 tableLayout="fixed"
                 onChange={tableChangeHandler}
                 pagination={pagination}
                 rowKey="id"
-                style={{
-                    width: '100%',
-                }}
             />
 
             <TopicDeletionModal />

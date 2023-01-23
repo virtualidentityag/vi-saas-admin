@@ -140,7 +140,7 @@ export const TenantEditOrAdd = () => {
                                     name={['licensing', 'allowedNumberOfUsers']}
                                     placeholderKey="tenants.add.form.allowedConsultantsLicense.placeholder"
                                     required
-                                    min={0}
+                                    min={1}
                                 />
                             </div>
                         </Card>

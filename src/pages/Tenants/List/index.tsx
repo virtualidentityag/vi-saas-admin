@@ -19,6 +19,7 @@ import { useDeleteTenant } from '../../../hooks/useDeleteTenant';
 import { useTenantsData } from '../../../hooks/useTenantsData';
 import { useUserPermissions } from '../../../hooks/useUserPermission';
 import { TenantData } from '../../../types/tenant';
+import decodeHTML from '../../../utils/decodeHTML';
 import { getDomain } from '../../../utils/getDomain';
 import styles from './styles.module.scss';
 
@@ -60,7 +61,7 @@ export const TenantsList = () => {
             ellipsis: true,
             render: (name: string, record: TenantData) => (
                 <>
-                    {name}
+                    {decodeHTML(name)}
                     {settings.mainTenantSubdomainForSingleDomainMultitenancy === record.subdomain && (
                         <Tag className={styles.mainTenant}>{t('tenants.list.mainTenantTag')}</Tag>
                     )}

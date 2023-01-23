@@ -143,7 +143,9 @@ export const TenantsList = () => {
                     <Button
                         type="primary"
                         icon={<PlusOutlined />}
-                        onClick={() => navigate(`${routePathNames.tenants}/add`)}
+                        onClick={() =>
+                            navigate(`${routePathNames.tenants}/add${data?.total === 0 ? '?main=true' : ''}`)
+                        }
                     >
                         {t('tenants.list.new')}
                     </Button>

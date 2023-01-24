@@ -3,7 +3,6 @@ import { setTokens } from '../api/auth/auth';
 import getAccessToken from '../api/auth/getAccessToken';
 import { fetchData, FETCH_ERRORS, FETCH_METHODS } from '../api/fetchData';
 import { tenantAccessEndpoint } from '../appConfig';
-import { useAppConfigContext } from '../context/useAppConfig';
 import { TwoFactorType } from '../enums/TwoFactorType';
 import { LoginData } from '../types/loginData';
 
@@ -21,15 +20,10 @@ interface ErrorLogin {
 }
 
 export const useLoginMutation = (tenantId: string) => {
-    const { settings } = useAppConfigContext();
     return useMutation<LoginData, ErrorLogin, LoginParams>(
         ['login', 'user-data', tenantId],
         async ({ username, password, otp }: any) => {
             return getAccessToken({ username, password, otp }).then((data) => {
-                if (settings?.multitenancyWithSingleDomainEnabled) {
-                    return data;
-                }
-
                 // We'll check in the server if we're allowed to access the app
                 return fetchData({
                     url: tenantAccessEndpoint,

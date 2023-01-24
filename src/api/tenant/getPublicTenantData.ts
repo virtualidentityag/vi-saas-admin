@@ -17,7 +17,7 @@ const getPublicTenantData = (settings: AppConfigInterface) => {
             url: `${baseTenantPublicEndpoint}/${slug}`,
             method: FETCH_METHODS.GET,
             skipAuth: true,
-            responseHandling: [FETCH_ERRORS.CATCH_ALL],
+            responseHandling: [FETCH_ERRORS.NO_MATCH],
         });
     }
     return new Promise<any>(() => {});

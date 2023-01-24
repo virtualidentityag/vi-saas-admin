@@ -273,14 +273,11 @@ export const AgencyList = () => {
                 columns={mergeColumns}
                 scroll={{
                     x: 'max-content',
-                    y: '100%',
+                    y: 'auto',
                 }}
                 onChange={tableChangeHandler}
                 pagination={pagination}
                 rowKey="id"
-                style={{
-                    width: '100%',
-                }}
                 components={{
                     header: {
                         cell: ResizableTitle,

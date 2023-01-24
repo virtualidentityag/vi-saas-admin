@@ -32,7 +32,7 @@ export const useAddOrUpdateTenant = ({ id, ...options }: UseAddOrUpdateTenantOpt
         {
             ...options,
             onSuccess: (responseData, variables) => {
-                queryClient.setQueryData(['TENANT', responseData.id], responseData);
+                queryClient.setQueryData(['TENANT', responseData.id], { ...responseData, ...variables });
                 options?.onSuccess?.(responseData, variables, null);
             },
         },

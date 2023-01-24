@@ -20,6 +20,7 @@ import { useAppConfigContext } from '../../context/useAppConfig';
 import { PermissionAction } from '../../enums/PermissionAction';
 import { Resource } from '../../enums/Resource';
 import { useUserPermissions } from '../../hooks/useUserPermission';
+import styles from './styles.module.scss';
 
 const { Content, Sider } = Layout;
 
@@ -168,10 +169,13 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                         </ul>
                     </nav>
                 </Sider>
-                <Layout className={classNames('mainContent', { 'with-footer': !hasRole(UserRole.TenantAdmin) })}>
+
+                <Layout className={classNames(styles.mainContent)}>
                     <SiteHeader />
-                    <Content className="content">{children}</Content>
-                    {!hasRole(UserRole.TenantAdmin) && <SiteFooter />}
+                    <Content className={styles.content}>
+                        {children}
+                        {!hasRole(UserRole.TenantAdmin) && <SiteFooter />}
+                    </Content>
                 </Layout>
             </Layout>
             {isEnabled(FeatureFlag.Developer) && <ReactQueryDevtools />}

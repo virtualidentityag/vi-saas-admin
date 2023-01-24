@@ -15,7 +15,7 @@ const FeatureProvider = ({ children, tenantData }: FeatureProviderProps) => {
     const state = useState<IFeature[]>([
         {
             name: FeatureFlag.Appointments,
-            active: !!tenantData.settings.featureAppointmentsEnabled,
+            active: !!tenantData?.settings.featureAppointmentsEnabled,
         },
         {
             name: FeatureFlag.Developer,
@@ -23,15 +23,15 @@ const FeatureProvider = ({ children, tenantData }: FeatureProviderProps) => {
         },
         {
             name: FeatureFlag.Demographics,
-            active: !!tenantData.settings.featureDemographicsEnabled,
+            active: !!tenantData?.settings.featureDemographicsEnabled,
         },
         {
             name: FeatureFlag.Topics,
-            active: !!tenantData.settings.featureTopicsEnabled,
+            active: !!tenantData?.settings.featureTopicsEnabled,
         },
         {
             name: FeatureFlag.TopicsInRegistration,
-            active: !!tenantData.settings.topicsInRegistrationEnabled,
+            active: !!tenantData?.settings.topicsInRegistrationEnabled,
         },
         {
             name: FeatureFlag.ConsultingTypesForAgencies,

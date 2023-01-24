@@ -79,6 +79,10 @@
     --light-brown: #b5906e;
     --dark-grey: #e7e3e1;
     --text-color: rgb(0 0 0 / 90%);
+    --skin-main-background: #f2efea;
+    --success-color: #0dcd21;
+    --info-color: #273270;
+    --lightest-grey: #fafafa;
 
     /* YELLOW THEME */
     --yellow-1: #ffeed2;
@@ -98,4 +102,8 @@
 
 body {
     background: #f2efea;
+}
+
+.ant-layout {
+    height: 100%;
 }

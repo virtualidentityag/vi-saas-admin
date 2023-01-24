@@ -51,7 +51,7 @@ export const EditButtons = ({
         <div className="editBtnWrapper">
             {!hiddenElements.includes('edit') && (
                 <button
-                    className={classNames('editIcon saveIcon', { [styles.disabled]: disabledButtons?.edit })}
+                    className={classNames({ [styles.disabled]: disabledButtons?.edit }, styles.iconButton)}
                     type="button"
                     disabled={disabledButtons?.edit}
                     onClick={() => handleEditAction(record)}
@@ -61,7 +61,7 @@ export const EditButtons = ({
             )}
             {!hiddenElements.includes('delete') && (
                 <button
-                    className={classNames('editIcon deleteIcon', { [styles.disabled]: disabledButtons?.delete })}
+                    className={classNames({ [styles.disabled]: disabledButtons?.delete }, styles.iconButton)}
                     type="button"
                     disabled={disabledButtons?.delete}
                     onClick={() => {

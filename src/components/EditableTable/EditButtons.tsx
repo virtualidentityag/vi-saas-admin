@@ -5,8 +5,8 @@ import { CounselorData } from '../../types/counselor';
 import { EditableData } from '../../types/editabletable';
 import { TopicData } from '../../types/topic';
 import { BasicTenantData } from '../../types/tenant';
-import CustomPencilIcon from '../CustomIcons/Pencil';
-import CustomRecycleIcon from '../CustomIcons/RecycleBin';
+import { ReactComponent as EditIcon } from '../../resources/img/svg/pen.svg';
+import { ReactComponent as DeleteIcon } from '../../resources/img/svg/delete.svg';
 import { Resource } from '../../enums/Resource';
 import { useUserPermissions } from '../../hooks/useUserPermission';
 import { PermissionAction } from '../../enums/PermissionAction';
@@ -39,7 +39,6 @@ export const EditButtons = ({
 
     const handleEditAction = disabledButtons.edit ? () => {} : handleEdit;
     const handleDeleteAction = disabledButtons.delete ? () => {} : handleDelete;
-    const errorColor = '#FF0000';
     const hiddenElements = hide || [];
     if (!can(PermissionAction.Delete, resource)) {
         hide.push('delete');
@@ -57,7 +56,7 @@ export const EditButtons = ({
                     disabled={disabledButtons?.edit}
                     onClick={() => handleEditAction(record)}
                 >
-                    <CustomPencilIcon color={errorColor} />
+                    <EditIcon />
                 </button>
             )}
             {!hiddenElements.includes('delete') && (
@@ -69,7 +68,7 @@ export const EditButtons = ({
                         handleDeleteAction(record);
                     }}
                 >
-                    <CustomRecycleIcon style={{ color: errorColor }} />
+                    <DeleteIcon />
                 </button>
             )}
         </div>

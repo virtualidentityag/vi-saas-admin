@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import Pencil from '../CustomIcons/Pencil';
+import { ReactComponent as PenIcon } from '../../resources/img/svg/pen.svg';
 import { UnsavedChangesModal } from './components/UnsavedChanges';
 import styles from './styles.module.scss';
 import { Card } from '../Card';
@@ -46,7 +46,7 @@ export const CardEditable = ({
     formProp,
     tooltip,
     fullHeight,
-    editButton = <Pencil className={styles.pencil} />,
+    editButton = <PenIcon className={styles.pencil} />,
 }: CardEditableProps) => {
     const [form] = Form.useForm(formProp);
     const { t } = useTranslation();

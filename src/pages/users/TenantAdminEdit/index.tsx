@@ -12,10 +12,14 @@ import routePathNames from '../../../appConfig';
 import { useAddOrUpdateTenantAdmin } from '../../../hooks/useAddOrUpdateTenantAdmin.hook';
 import styles from './styles.module.scss';
 import { getDomain } from '../../../utils/getDomain';
+import { useUserPermissions } from '../../../hooks/useUserPermission';
+import { PermissionAction } from '../../../enums/PermissionAction';
+import { Resource } from '../../../enums/Resource';
 
 export const TenantAdminEditOrAdd = () => {
     const { search } = useLocation();
     const tenantId = new URLSearchParams(search).get('tenantId');
+    const { can } = useUserPermissions();
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const { t } = useTranslation();
@@ -94,9 +98,9 @@ export const TenantAdminEditOrAdd = () => {
                                 name="email"
                                 labelKey="email"
                                 placeholderKey="placeholder.email"
+                                required
                                 rules={[
                                     {
-                                        required: true,
                                         type: 'email',
                                         message: t('message.error.email.incorrect'),
                                     },
@@ -108,9 +112,9 @@ export const TenantAdminEditOrAdd = () => {
                         <Card titleKey="tenantAdmins.card.tenantTitle">
                             <SelectFormField
                                 name="tenantId"
-                                placeholder="plsSelect"
+                                placeholder="tenantAdmins.form.tenant"
                                 required
-                                disabled={isReadOnly || isEditing}
+                                disabled={isReadOnly || !can(PermissionAction.Update, Resource.TenantAdminUser)}
                                 className={styles.select}
                             >
                                 {tenants?.data.map((option) => (

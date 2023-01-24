@@ -3,6 +3,7 @@ import { fetchData, FETCH_ERRORS, FETCH_METHODS, FETCH_SUCCESS } from '../api/fe
 import { tenantAdminsEndpoint } from '../appConfig';
 import { CounselorData } from '../types/counselor';
 import { encodeUsername } from '../utils/encryptionHelpers';
+import { TENANT_QUERY_KEY } from './useSingleTenantData';
 import { TENANT_ADMIN_QUERY_KEY, useTenantUserAdminData } from './useTenantUserAdminData';
 
 interface UseAddOrUpdateTenantAdminOptions
@@ -31,6 +32,7 @@ export const useAddOrUpdateTenantAdmin = ({ id, ...options }: UseAddOrUpdateTena
             ...options,
             onSuccess: (responseData, variables) => {
                 queryClient.setQueryData([TENANT_ADMIN_QUERY_KEY, responseData.id], responseData);
+                queryClient.removeQueries([TENANT_QUERY_KEY]);
                 options?.onSuccess?.(responseData, variables, null);
             },
         },

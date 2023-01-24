@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { useDebouncedCallback } from 'use-debounce';
 import { Col, Row } from 'antd';
+import { Link } from 'react-router-dom';
 import AddButton from '../../../../../components/EditableTable/AddButton';
 import EditButtons from '../../../../../components/EditableTable/EditButtons';
 import SearchInput from '../../../../../components/SearchInput/SearchInput';
@@ -17,12 +18,13 @@ import { useTenantAdminsData } from '../../../../../hooks/useTenantUserAdminsDat
 import { DeleteTenantAdminModal } from '../DeleteTenantAdmin';
 import { getDomain } from '../../../../../utils/getDomain';
 import styles from './styles.module.scss';
+import { CopyToClipboard } from '../../../../../components/CopyToClipboard';
 
 export const TenantsTableData = () => {
     const { can } = useUserPermissions();
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const [deleteUserId, setDeleteUserId] = useState<string>(null);
+    const [deleteUser, setDeleteUser] = useState<CounselorData>(null);
     const [search, setSearch] = useState('');
 
     const [tableState, setTableState] = useState<TableState>({
@@ -43,7 +45,7 @@ export const TenantsTableData = () => {
     const setSearchDebounced = useDebouncedCallback(setSearch, 100);
 
     const onClose = useCallback(() => {
-        setDeleteUserId(null);
+        setDeleteUser(null);
         refetch();
     }, []);
 
@@ -84,13 +86,22 @@ export const TenantsTableData = () => {
             title: t('tenantAdmins.list.email'),
             dataIndex: 'email',
             ellipsis: true,
+            render: (email) => (
+                <CopyToClipboard className={styles.email} key={email}>
+                    {email}
+                </CopyToClipboard>
+            ),
         },
         {
             width: 200,
             title: t('tenantAdmins.form.subdomain'),
             dataIndex: 'tenantSubdomain',
             ellipsis: true,
-            render: (subdomain: string) => getDomain(subdomain),
+            render: (subdomain: string) => (
+                <Link target="_blank" to={`//${getDomain(subdomain)}`} className={styles.subdomain}>{`${getDomain(
+                    subdomain,
+                )}`}</Link>
+            ),
         },
         {
             width: 100,
@@ -106,7 +117,7 @@ export const TenantsTableData = () => {
                     <div className="tableActionWrapper">
                         <EditButtons
                             handleEdit={() => navigate(`/admin/users/tenant-admins/${record.id}`)}
-                            handleDelete={() => setDeleteUserId(record.id)}
+                            handleDelete={() => setDeleteUser(record)}
                             record={record}
                             resource={Resource.TenantAdminUser}
                         />
@@ -150,8 +161,8 @@ export const TenantsTableData = () => {
                 pagination={pagination}
                 onChange={handleTableAction}
             />
-            {deleteUserId && can(PermissionAction.Delete, Resource.TenantAdminUser) && (
-                <DeleteTenantAdminModal id={deleteUserId} onClose={onClose} />
+            {deleteUser && can(PermissionAction.Delete, Resource.TenantAdminUser) && (
+                <DeleteTenantAdminModal user={deleteUser} onClose={onClose} />
             )}
         </div>
     );

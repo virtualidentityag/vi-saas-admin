@@ -42,7 +42,7 @@ export const FormBaseInputField = ({
             })}
             label={t(labelKey)}
             name={name}
-            rules={[{ required }, ...(rules || [])]}
+            rules={[{ required, message: t('form.errors.required') }, ...(rules || [])]}
             dependencies={dependencies}
         >
             <Children {...inputProps} className={styles.input} placeholder={placeholderKey && t(placeholderKey)} />

@@ -2,13 +2,14 @@ import { Button, Modal, notification } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import { useTranslation } from 'react-i18next';
 import { useDeleteTenantAdmin } from '../../../../../hooks/useDeleteTenantAdmin';
+import { CounselorData } from '../../../../../types/counselor';
 
 interface DeleteTenantAdminModalProps {
-    id: string;
+    user: CounselorData;
     onClose: () => void;
 }
 
-export const DeleteTenantAdminModal = ({ id, onClose }: DeleteTenantAdminModalProps) => {
+export const DeleteTenantAdminModal = ({ user, onClose }: DeleteTenantAdminModalProps) => {
     const { t } = useTranslation();
     const { mutate: deleteAdmin } = useDeleteTenantAdmin({
         onSuccess: () => {
@@ -21,13 +22,17 @@ export const DeleteTenantAdminModal = ({ id, onClose }: DeleteTenantAdminModalPr
 
     return (
         <Modal
-            title={<Title level={2}>{t('tenantAdmins.delete.description')}</Title>}
+            title={
+                <Title level={2}>
+                    {t('tenantAdmins.delete.description', { name: `${user.firstname} ${user.lastname}`.trim() })}
+                </Title>
+            }
             open
             onCancel={onClose}
             centered
             footer={
                 <>
-                    <Button type="default" onClick={() => deleteAdmin(id)}>
+                    <Button type="default" onClick={() => deleteAdmin(user.id)}>
                         {t('delete')}
                     </Button>
                     <Button type="primary" onClick={onClose}>

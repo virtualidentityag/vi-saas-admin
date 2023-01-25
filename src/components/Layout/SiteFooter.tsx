@@ -22,7 +22,7 @@ const SiteFooter = () => {
         {
             label: (
                 <a href={routePathNames.imprint} target="_blank" rel="noopener noreferrer">
-                    <span>{t('imprint')}</span>
+                    <span>{t('footer.label.imprint')}</span>
                 </a>
             ),
             key: 'item-1',
@@ -31,7 +31,7 @@ const SiteFooter = () => {
         {
             label: (
                 <a href={routePathNames.privacy} target="_blank" rel="noopener noreferrer">
-                    <span>{t('privacy')}</span>
+                    <span>{t('footer.label.privacy')}</span>
                 </a>
             ),
             key: 'submenu',

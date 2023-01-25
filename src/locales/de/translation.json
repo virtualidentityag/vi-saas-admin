@@ -459,5 +459,7 @@
     "form.errors.fillAllLanguages": "Bitte Angaben in allen Sprachen ausfüllen.",
     "languages": "Sprachen",
     "language.en": "English",
-    "language.de": "German"
+    "language.de": "German",
+    "footer.label.privacy": "Datenschutz",
+    "footer.label.imprint": "Impressum"
 }

@@ -1,16 +1,16 @@
+import { Button } from 'antd';
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import { useDebouncedCallback } from 'use-debounce';
+import { PlusOutlined } from '@ant-design/icons';
 import CustomChevronDownIcon from '../../../../../components/CustomIcons/ChevronDown';
 import CustomChevronUpIcon from '../../../../../components/CustomIcons/ChevronUp';
-import AddButton from '../../../../../components/EditableTable/AddButton';
 import EditButtons from '../../../../../components/EditableTable/EditButtons';
 import StatusIcons from '../../../../../components/EditableTable/StatusIcons';
 import SearchInput from '../../../../../components/SearchInput/SearchInput';
 import { useConsultantOrAgencyAdminsData } from '../../../../../hooks/useConsultantOrAdminsData';
-import { useTenantData } from '../../../../../hooks/useTenantData.hook';
 import { AgencyData } from '../../../../../types/agency';
 import { CounselorData } from '../../../../../types/counselor';
 import { Status } from '../../../../../types/status';
@@ -22,6 +22,7 @@ import { useUserPermissions } from '../../../../../hooks/useUserPermission';
 import { Resource } from '../../../../../enums/Resource';
 import { PermissionAction } from '../../../../../enums/PermissionAction';
 import { TypeOfUser } from '../../../../../enums/TypeOfUser';
+import styles from './styles.module.scss';
 
 export const UsersTableData = () => {
     const { can } = useUserPermissions();
@@ -39,10 +40,6 @@ export const UsersTableData = () => {
         order: DEFAULT_ORDER,
         pageSize: 10,
     });
-    const { data: tenantData } = useTenantData();
-    const {
-        licensing: { allowedNumberOfUsers },
-    } = tenantData;
 
     const {
         data: responseList,
@@ -212,22 +209,24 @@ export const UsersTableData = () => {
 
     return (
         <div>
-            <div className="lg-flex justify-between">
-                {((can(PermissionAction.Create, Resource.Consultant) && isConsultantTab) ||
-                    (can(PermissionAction.Create, Resource.AgencyAdminUser) && !isConsultantTab)) && (
-                    <AddButton
-                        allowedNumberOfUsers={isConsultantTab ? allowedNumberOfUsers : false}
-                        sourceLength={responseList?.total}
-                        handleBtnAdd={() => navigate(`/admin/users/${typeOfUsers}/add`)}
-                    />
-                )}
-
-                <div className="counselerSearch">
+            <div className={styles.searchContainer}>
+                <div className={styles.searchWithButton}>
                     <SearchInput
                         placeholder={t('consultant-search-placeholder')}
                         handleOnSearch={setSearchDebounced}
                         handleOnSearchClear={() => setSearch('')}
                     />
+
+                    {((can(PermissionAction.Create, Resource.Consultant) && isConsultantTab) ||
+                        (can(PermissionAction.Create, Resource.AgencyAdminUser) && !isConsultantTab)) && (
+                        <Button
+                            type="primary"
+                            icon={<PlusOutlined />}
+                            onClick={() => navigate(`/admin/users/${typeOfUsers}/add`)}
+                        >
+                            {t('tenants.list.new')}
+                        </Button>
+                    )}
                 </div>
             </div>
             <ResizeTable

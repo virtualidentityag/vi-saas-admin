@@ -2,8 +2,8 @@ import { Button, Col, Form, notification, Row } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
-import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import { useState } from 'react';
+import { ReactComponent as PersonSearchIcon } from '../../../resources/img/svg/person_search_filled.svg';
 import { FormInputField } from '../../../components/FormInputField';
 import { Page } from '../../../components/Page';
 import { ModalSuccess } from '../../../components/ModalSuccess';
@@ -57,6 +57,8 @@ export const TenantEditOrAdd = () => {
     });
 
     const isMainTenant = !!main || settings.mainTenantSubdomainForSingleDomainMultitenancy === data?.subdomain;
+    const canShowSubdomain =
+        !settings.multitenancyWithSingleDomainEnabled || (settings.multitenancyWithSingleDomainEnabled && isMainTenant);
     const newTitle = main ? 'tenants.add.mainTenant.headline' : 'tenants.add.headline';
     const title = isEditing ? data?.name : newTitle;
 
@@ -118,20 +120,22 @@ export const TenantEditOrAdd = () => {
                                     required
                                 />
                             </div>
-                            <div className={styles.fieldGroup}>
-                                <div className={styles.description}>{t('tenants.add.form.subdomain.label')}</div>
-                                {isMainTenant && (
-                                    <div className={styles.warning}>{t('tenants.add.form.subdomain.warning')}</div>
-                                )}
+                            {canShowSubdomain && (
+                                <div className={styles.fieldGroup}>
+                                    <div className={styles.description}>{t('tenants.add.form.subdomain.label')}</div>
+                                    {isMainTenant && (
+                                        <div className={styles.warning}>{t('tenants.add.form.subdomain.warning')}</div>
+                                    )}
 
-                                <FormInputField
-                                    name="subdomain"
-                                    placeholderKey="tenants.add.form.subdomain.placeholder"
-                                    required
-                                    addonAfter={getDomain()}
-                                    disabled={isReadOnly || isMainTenant}
-                                />
-                            </div>
+                                    <FormInputField
+                                        name="subdomain"
+                                        placeholderKey="tenants.add.form.subdomain.placeholder"
+                                        required
+                                        addonAfter={getDomain()}
+                                        disabled={isReadOnly || isMainTenant}
+                                    />
+                                </div>
+                            )}
                             <div className={styles.fieldGroup}>
                                 <div className={styles.description}>
                                     {t('tenants.add.form.allowedConsultantsLicense.label')}

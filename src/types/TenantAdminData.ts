@@ -1,6 +1,7 @@
 import { BasicTenantData } from './tenant';
 
 export interface TenantAdminData extends BasicTenantData {
+    adminEmails: string[];
     theming: {
         logo: string;
         favicon: string;

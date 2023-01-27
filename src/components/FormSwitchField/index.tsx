@@ -15,6 +15,8 @@ interface FormSwitchFieldProps {
     checkedKey?: string;
     unCheckedKey?: string;
     paragraphKey?: string;
+    inline?: boolean;
+    disableLabels?: boolean;
 }
 
 interface FormSwitchFieldLocalProps {
@@ -24,6 +26,7 @@ interface FormSwitchFieldLocalProps {
     paragraphKey?: string;
     checkedKey: string;
     unCheckedKey: string;
+    disableLabels?: boolean;
 }
 
 const FormSwitchFieldLocal = ({
@@ -32,6 +35,7 @@ const FormSwitchFieldLocal = ({
     paragraphKey,
     checkedKey,
     disabled,
+    disableLabels,
     unCheckedKey,
 }: FormSwitchFieldLocalProps) => {
     const { t } = useTranslation();
@@ -43,8 +47,8 @@ const FormSwitchFieldLocal = ({
                 size="default"
                 onChange={onChange}
                 checked={checked}
-                checkedChildren={t(checkedKey)}
-                unCheckedChildren={t(unCheckedKey)}
+                checkedChildren={!disableLabels && t(checkedKey)}
+                unCheckedChildren={!disableLabels && t(unCheckedKey)}
             />
             {paragraphKey && <Paragraph className="desc__toggleText">{t(paragraphKey)}</Paragraph>}
         </div>
@@ -60,6 +64,8 @@ export const FormSwitchField = ({
     disabled,
     errorMessage,
     paragraphKey,
+    inline,
+    disableLabels,
     checkedKey = 'yes',
     unCheckedKey = 'no',
 }: FormSwitchFieldProps) => {
@@ -73,13 +79,14 @@ export const FormSwitchField = ({
             rules={required ? [{ required: true, message }] : undefined}
             help={help ? t(help) : undefined}
             valuePropName="checked"
-            className={classNames(styles.item)}
+            className={classNames(styles.item, { [styles.inline]: inline })}
         >
             <FormSwitchFieldLocal
                 paragraphKey={paragraphKey}
                 checkedKey={checkedKey}
                 unCheckedKey={unCheckedKey}
                 disabled={disabled}
+                disableLabels={disableLabels}
             />
         </Form.Item>
     );

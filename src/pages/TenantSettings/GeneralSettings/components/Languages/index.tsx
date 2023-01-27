@@ -5,16 +5,17 @@ import { supportedLanguages } from '../../../../../appConfig';
 import { CardEditable } from '../../../../../components/CardEditable';
 import { Modal } from '../../../../../components/Modal';
 import { SelectFormField } from '../../../../../components/SelectFormField';
-import { useTenantAdminData } from '../../../../../hooks/useTenantAdminData.hook';
+import { useSingleTenantData } from '../../../../../hooks/useSingleTenantData';
 import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
 
-export const Languages = () => {
+export const Languages = ({ tenantId }: { tenantId: string }) => {
     const { t } = useTranslation();
     const [form] = Form.useForm();
     const [modal, setModal] = useState(false);
-    const { data, isLoading } = useTenantAdminData();
+    const { data, isLoading } = useSingleTenantData({ id: tenantId });
 
     const { mutate } = useTenantAdminDataMutation({
+        id: tenantId,
         onSuccess: () => setModal(true),
     });
     const options = supportedLanguages.map((language) => ({ value: language, label: t(`language.${language}`) }));

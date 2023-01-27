@@ -23,15 +23,17 @@ import { useTenantAdminDataMutation } from '../../../hooks/useTenantAdminDataMut
 import StatusIcons from '../../../components/EditableTable/StatusIcons';
 import EditButtons from '../../../components/EditableTable/EditButtons';
 import { Page } from '../../../components/Page';
+import { useTenantData } from '../../../hooks/useTenantData.hook';
 
 export const TopicList = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { can } = useUserPermissions();
+    const { data } = useTenantData();
     const { settings } = useAppConfigContext();
     const { isEnabled, toggleFeature } = useFeatureContext();
     const [, hasRole] = useUserRoles();
-    const { mutate: updateTenantData } = useTenantAdminDataMutation();
+    const { mutate: updateTenantData } = useTenantAdminDataMutation({ id: `${data.id}` });
     const [topics, setTopics] = useState([]);
     const [numberOfTopics, setNumberOfTopics] = useState(0);
     const [tableState, setTableState] = useState<TableState>({

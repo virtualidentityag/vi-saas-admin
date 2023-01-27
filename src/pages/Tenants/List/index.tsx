@@ -8,12 +8,14 @@ import { Link } from 'react-router-dom';
 import routePathNames from '../../../appConfig';
 import { CopyToClipboard } from '../../../components/CopyToClipboard';
 import { EditButtons } from '../../../components/EditableTable/EditButtons';
+import { FeatureEnabled } from '../../../components/FeatureEnabled';
 import { Modal } from '../../../components/Modal';
 import { Page } from '../../../components/Page';
 import { ResizeTable } from '../../../components/ResizableTable';
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
 import { useAppConfigContext } from '../../../context/useAppConfig';
 import { PermissionAction } from '../../../enums/PermissionAction';
+import { ReleaseToggle } from '../../../enums/ReleaseToggle';
 import { Resource } from '../../../enums/Resource';
 import { useDeleteTenant } from '../../../hooks/useDeleteTenant';
 import { useTenantsData } from '../../../hooks/useTenantsData';
@@ -141,15 +143,20 @@ export const TenantsList = () => {
                         handleOnSearch={(a) => setSearch(a)}
                         handleOnSearchClear={() => setSearch('')}
                     />
-                    <Button
-                        type="primary"
-                        icon={<PlusOutlined />}
-                        onClick={() =>
-                            navigate(`${routePathNames.tenants}/add${data?.total === 0 ? '?main=true' : ''}`)
-                        }
-                    >
-                        {t('tenants.list.new')}
-                    </Button>
+
+                    <FeatureEnabled feature={ReleaseToggle.TENANT_ADMIN_CREATING}>
+                        <Button
+                            type="primary"
+                            icon={<PlusOutlined />}
+                            onClick={() =>
+                                navigate(
+                                    `${routePathNames.tenants}/add/general${data?.total === 0 ? '?main=true' : ''}`,
+                                )
+                            }
+                        >
+                            {t('tenants.list.new')}
+                        </Button>
+                    </FeatureEnabled>
                 </div>
             </Page.Title>
             <ResizeTable

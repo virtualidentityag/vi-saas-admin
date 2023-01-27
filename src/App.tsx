@@ -25,6 +25,10 @@ import { TopicEditOrAdd } from './pages/Topics/Edit';
 import { TenantsList } from './pages/Tenants/List';
 import { TenantEditOrAdd } from './pages/Tenants/Edit';
 import { TenantAdminEditOrAdd } from './pages/users/TenantAdminEdit';
+import { GeneralTenantSettings } from './pages/Tenants/Edit/General';
+import { TenantThemeSettings } from './pages/Tenants/Edit/ThemeSettings';
+import { TenantAppSettings } from './pages/Tenants/Edit/AppSettings';
+import { SingleLegalSettings } from './pages/Tenants/Edit/LegalSettings';
 
 export const App = () => {
     const { isLoading, data } = useTenantData();
@@ -84,10 +88,27 @@ export const App = () => {
                     {can(PermissionAction.Create, Resource.Tenant) && (
                         <>
                             <Route path={routePathNames.tenants} element={<TenantsList />} />
-                            <Route path={`${routePathNames.tenants}/:id`} element={<TenantEditOrAdd />} />
+                            <Route path={`${routePathNames.tenants}/:id`} element={<TenantEditOrAdd />}>
+                                <Route index element={<Navigate to="./general" />} />
+                                <Route
+                                    path={`${routePathNames.tenants}/:id/general`}
+                                    element={<GeneralTenantSettings />}
+                                />
+                                <Route
+                                    path={`${routePathNames.tenants}/:id/theme-settings`}
+                                    element={<TenantThemeSettings />}
+                                />
+                                <Route
+                                    path={`${routePathNames.tenants}/:id/legal-settings`}
+                                    element={<SingleLegalSettings />}
+                                />
+                                <Route
+                                    path={`${routePathNames.tenants}/:id/app-settings`}
+                                    element={<TenantAppSettings />}
+                                />
+                            </Route>
                         </>
                     )}
-
                     <Route path="/admin/users/:typeOfUsers" element={<UsersList />} />
                     <Route path="/admin/users/tenant-admins/:id" element={<TenantAdminEditOrAdd />} />
                     <Route path="/admin/users/:typeOfUsers/:id" element={<UserEditOrAdd />} />

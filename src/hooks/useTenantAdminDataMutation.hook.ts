@@ -5,8 +5,8 @@ import { useMutation, useQueryClient, UseMutationOptions } from 'react-query';
 import { fetchData, FETCH_METHODS } from '../api/fetchData';
 import { tenantAdminEndpoint } from '../appConfig';
 import { TenantAdminData } from '../types/TenantAdminData';
-import { TENANT_ADMIN_DATA_KEY, useTenantAdminData } from './useTenantAdminData.hook';
-import { useTenantData } from './useTenantData.hook';
+import { useSingleTenantData } from './useSingleTenantData';
+import { TENANT_ADMIN_DATA_KEY } from './useTenantAdminData.hook';
 
 const mergeData = (currentTenantData: TenantAdminData, formData) => {
     const tmp = Object.assign(currentTenantData);
@@ -28,18 +28,20 @@ const mergeData = (currentTenantData: TenantAdminData, formData) => {
     return finalData;
 };
 
-export const useTenantAdminDataMutation = (
-    options?: UseMutationOptions<Partial<TenantAdminData>, unknown, Partial<TenantAdminData>>,
-) => {
+interface TenantAdminDataOptions
+    extends UseMutationOptions<Partial<TenantAdminData>, unknown, Partial<TenantAdminData>> {
+    id: string;
+}
+
+export const useTenantAdminDataMutation = ({ id, ...options }: TenantAdminDataOptions) => {
     const { t } = useTranslation();
     const queryClient = useQueryClient();
-    const { data: tenantData } = useTenantData();
-    const { data: tenantAdminData } = useTenantAdminData();
+    const { data: tenantAdminData } = useSingleTenantData({ id });
 
     return useMutation(
         (data: Partial<TenantAdminData>) => {
             return fetchData({
-                url: `${tenantAdminEndpoint}/${tenantData.id}`,
+                url: `${tenantAdminEndpoint}/${id}`,
                 method: FETCH_METHODS.PUT,
                 skipAuth: false,
                 bodyData: JSON.stringify(mergeData(tenantAdminData, data)),

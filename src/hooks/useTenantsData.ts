@@ -2,10 +2,10 @@ import { useQuery, UseQueryOptions } from 'react-query';
 import { fetchData, FETCH_ERRORS, FETCH_METHODS } from '../api/fetchData';
 import { tenantAdminEndpoint } from '../appConfig';
 import { HalResponse, ResponseList } from '../types/ResponseList';
-import { SimpleTenant } from '../types/SimpleTenant';
+import { TenantAdminData } from '../types/TenantAdminData';
 import removeEmbedded from '../utils/removeEmbedded';
 
-interface TenantsProps extends UseQueryOptions<ResponseList<SimpleTenant>> {
+interface TenantsProps extends UseQueryOptions<ResponseList<TenantAdminData>> {
     search?: string;
     perPage?: number;
     page?: number;
@@ -21,7 +21,7 @@ export const useTenantsData = ({
     dir = 'ASC',
     ...options
 }: TenantsProps) => {
-    return useQuery<ResponseList<SimpleTenant>>(
+    return useQuery<ResponseList<TenantAdminData>>(
         ['TENANTS', page, perPage, search, sort, dir],
         () => {
             return fetchData({
@@ -31,7 +31,7 @@ export const useTenantsData = ({
                 method: FETCH_METHODS.GET,
                 skipAuth: false,
                 responseHandling: [FETCH_ERRORS.CATCH_ALL],
-            }).then((v: HalResponse<SimpleTenant>) => removeEmbedded(v) as ResponseList<SimpleTenant>);
+            }).then((v: HalResponse<TenantAdminData>) => removeEmbedded(v) as ResponseList<TenantAdminData>);
         },
         options,
     );

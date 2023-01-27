@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { CardEditable } from '../../../../../components/CardEditable';
 import { FormColorSelectorField } from '../../../../../components/FormColorSelectorField';
-import { useTenantAdminData } from '../../../../../hooks/useTenantAdminData.hook';
+import { useSingleTenantData } from '../../../../../hooks/useSingleTenantData';
 import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
 
-export const TenantColor = () => {
+export const TenantColor = ({ tenantId }: { tenantId: string }) => {
     const { t } = useTranslation();
-    const { data, isLoading } = useTenantAdminData();
-    const { mutate } = useTenantAdminDataMutation();
+    const { data, isLoading } = useSingleTenantData({ id: tenantId });
+    const { mutate } = useTenantAdminDataMutation({ id: tenantId });
 
     return (
         <CardEditable

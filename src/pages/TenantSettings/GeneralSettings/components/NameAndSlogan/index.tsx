@@ -2,13 +2,13 @@ import { useTranslation } from 'react-i18next';
 import { CardEditable } from '../../../../../components/CardEditable';
 import { FormInputField } from '../../../../../components/FormInputField';
 import { TranslatableFormField } from '../../../../../components/TranslatableFormField';
-import { useTenantAdminData } from '../../../../../hooks/useTenantAdminData.hook';
+import { useSingleTenantData } from '../../../../../hooks/useSingleTenantData';
 import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
 
-export const NameAndSlogan = () => {
+export const NameAndSlogan = ({ tenantId }: { tenantId: string }) => {
     const { t } = useTranslation();
-    const { data, isLoading } = useTenantAdminData();
-    const { mutate } = useTenantAdminDataMutation();
+    const { data, isLoading } = useSingleTenantData({ id: tenantId });
+    const { mutate } = useTenantAdminDataMutation({ id: tenantId });
 
     return (
         <CardEditable

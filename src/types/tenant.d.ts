@@ -16,11 +16,13 @@ export interface BasicTenantData {
     twoFactorAuth?: boolean; // to-do: toggeable for different usertypes (consultants and advice seekers)
     formalLanguage?: boolean;
     settings: {
+        releaseToggles?: Record<string, boolean>;
         activeLanguages?: string[];
         featureAppointmentsEnabled?: boolean | null;
         featureDemographicsEnabled?: boolean | null;
         featureTopicsEnabled?: boolean | null;
         topicsInRegistrationEnabled?: boolean | null;
+        featureStatisticsEnabled?: boolean;
     };
 }
 

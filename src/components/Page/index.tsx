@@ -25,7 +25,7 @@ interface PageBackProps {
     titleKey?: string;
     path: string;
     children?: React.ReactChild | React.ReactChild[];
-    tabs?: Array<{ to: string; titleKey }>;
+    tabs?: Array<{ to: string; titleKey: string }>;
 }
 
 export const Page = ({ children, isLoading }: PageProps) => {
@@ -54,7 +54,7 @@ const PageTabs = ({ tabs }: { tabs: Array<{ to: string; titleKey }> }) => {
 
 export const PageTitle = forwardRef(({ titleKey, subTitleKey, subTitle, tabs, children }: PageTitleProps, ref) => {
     const { t } = useTranslation();
-    const finalTabs = useMemo(() => tabs?.filter(Boolean) || [], [tabs]);
+    const finalTabs = useMemo(() => tabs?.filter?.(Boolean) || [], [tabs]);
 
     return (
         <div className={styles.pageTitleContainer} ref={ref as LegacyRef<HTMLDivElement>}>
@@ -73,7 +73,7 @@ export const PageTitle = forwardRef(({ titleKey, subTitleKey, subTitle, tabs, ch
 
 export const PageBack = forwardRef(({ path, title, titleKey, tabs, children }: PageBackProps, ref) => {
     const { t } = useTranslation();
-    const finalTabs = useMemo(() => tabs?.filter(Boolean) || [], [tabs]);
+    const finalTabs = useMemo(() => tabs?.filter?.(Boolean) || [], [tabs]);
 
     return (
         <div className={styles.back} ref={ref as LegacyRef<HTMLDivElement>}>

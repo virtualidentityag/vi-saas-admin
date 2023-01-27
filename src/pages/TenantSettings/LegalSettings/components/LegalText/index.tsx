@@ -4,11 +4,12 @@ import { CardEditable } from '../../../../../components/CardEditable';
 import { FormRichTextEditorField } from '../../../../../components/FormRichTextEditorField';
 import { Modal, ModalProps } from '../../../../../components/Modal';
 import { TranslatableFormField } from '../../../../../components/TranslatableFormField';
-import { useTenantAdminData } from '../../../../../hooks/useTenantAdminData.hook';
+import { useSingleTenantData } from '../../../../../hooks/useSingleTenantData';
 import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
 import styles from './styles.module.scss';
 
 interface LegalTextProps {
+    tenantId: string;
     fieldName: string[];
     titleKey: string;
     subTitle: string | React.ReactChild;
@@ -16,9 +17,16 @@ interface LegalTextProps {
     showConfirmationModal?: Omit<ModalProps, 'onClose' | 'onConfirm'> & { field: string[] };
 }
 
-export const LegalText = ({ fieldName, titleKey, subTitle, placeHolderKey, showConfirmationModal }: LegalTextProps) => {
-    const { data, isLoading } = useTenantAdminData();
-    const { mutate: updateTenant } = useTenantAdminDataMutation();
+export const LegalText = ({
+    tenantId,
+    fieldName,
+    titleKey,
+    subTitle,
+    placeHolderKey,
+    showConfirmationModal,
+}: LegalTextProps) => {
+    const { data, isLoading } = useSingleTenantData({ id: tenantId });
+    const { mutate: updateTenant } = useTenantAdminDataMutation({ id: tenantId });
     const [formDataContent, setFormData] = useState<Record<string, unknown>>();
     const [modalVisible, setModalVisible] = useState(false);
 

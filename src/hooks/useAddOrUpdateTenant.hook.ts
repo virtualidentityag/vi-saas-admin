@@ -1,10 +1,11 @@
 import { useMutation, UseMutationOptions, useQueryClient } from 'react-query';
 import { fetchData, FETCH_ERRORS, FETCH_METHODS, FETCH_SUCCESS } from '../api/fetchData';
 import { tenantAdminEndpoint } from '../appConfig';
-import { SimpleTenant } from '../types/SimpleTenant';
+import { TenantAdminData } from '../types/TenantAdminData';
 import { useSingleTenantData } from './useSingleTenantData';
 
-interface UseAddOrUpdateTenantOptions extends UseMutationOptions<SimpleTenant, Error, SimpleTenant, Error | Response> {
+interface UseAddOrUpdateTenantOptions
+    extends UseMutationOptions<TenantAdminData, Error, TenantAdminData, Error | Response> {
     id?: string;
 }
 

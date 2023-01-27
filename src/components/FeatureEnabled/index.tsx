@@ -1,13 +1,13 @@
-import { useFeatureContext } from '../../context/FeatureContext';
-import { FeatureFlag } from '../../enums/FeatureFlag';
+import { ReleaseToggle } from '../../enums/ReleaseToggle';
+import { useTenantAdminData } from '../../hooks/useTenantAdminData.hook';
 
 interface FeatureFlagProps {
-    children: JSX.Element | JSX.Element[];
-    feature: FeatureFlag;
+    children: JSX.Element;
+    feature: ReleaseToggle;
 }
 
-export const FeatureEnabled = ({ children, feature }: FeatureFlagProps) => {
-    const { isEnabled } = useFeatureContext();
+export const FeatureEnabled = ({ children, feature }: FeatureFlagProps): JSX.Element => {
+    const { data } = useTenantAdminData();
 
-    return isEnabled(feature) ? children : null;
+    return data?.settings?.releaseToggles?.[feature] ? children : null;
 };

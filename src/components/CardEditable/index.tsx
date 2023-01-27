@@ -96,6 +96,7 @@ export const CardEditable = ({
                 labelWrap
                 layout="vertical"
                 form={form}
+                size="large"
                 onValuesChange={() => setHasChanges(true)}
                 onFinish={onFormSubmit}
                 disabled={!editing}

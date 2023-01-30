@@ -15,11 +15,11 @@ import { useTopicAdmin } from '../../../hooks/useTopicAdmin';
 
 export const TopicEditOrAdd = () => {
     const navigate = useNavigate();
-    const [form] = useForm();
-    const { t } = useTranslation();
     const { id } = useParams<{ id: string }>();
-
     const isEditing = id !== 'add';
+    const [form] = useForm();
+    const [formSettings] = useForm(isEditing ? undefined : form);
+    const { t } = useTranslation();
     const { data: topic, isLoading } = useTopicAdmin({ id, enabled: isEditing });
 
     const { mutate } = useAddOrUpdateTopicAdmin({
@@ -98,7 +98,7 @@ export const TopicEditOrAdd = () => {
                         titleKey="topics.settings"
                         onSave={onSave}
                         onAddMode={!isEditing}
-                        formProp={form}
+                        formProp={formSettings}
                     >
                         <FormInputField
                             name="internalIdentifier"

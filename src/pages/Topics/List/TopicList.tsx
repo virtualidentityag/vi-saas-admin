@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Button, Modal, Space, Switch, Table } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/lib/table';
-import { isDisabled } from '@testing-library/user-event/dist/utils';
 import { InterestsOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router';
 import getTopicData from '../../../api/topic/getTopicData';
@@ -34,8 +33,10 @@ export const TopicList = () => {
     const { isEnabled, toggleFeature } = useFeatureContext();
     const [, hasRole] = useUserRoles();
     const { mutate: updateTenantData } = useTenantAdminDataMutation({ id: `${data.id}` });
+    const [topicIdForDelete, setTopicIdForDelete] = useState<number>(null);
     const [topics, setTopics] = useState([]);
     const [numberOfTopics, setNumberOfTopics] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
     const [tableState, setTableState] = useState<TableState>({
         current: 1,
         sortBy: undefined,
@@ -66,7 +67,19 @@ export const TopicList = () => {
         });
     }, [isTopicsFeatureActive]);
 
-    const [isLoading, setIsLoading] = useState(true);
+    const reloadTopicList = () => {
+        setIsLoading(true);
+        getTopicData(tableState).then((result) => {
+            setTopics(result.data);
+            setNumberOfTopics(result.total);
+            setIsLoading(false);
+        });
+    };
+
+    const onCloseDeleteModal = useCallback(() => {
+        setTopicIdForDelete(null);
+        reloadTopicList();
+    }, []);
 
     function defineTableColumns(): ColumnsType<TopicData> {
         return [
@@ -118,7 +131,7 @@ export const TopicList = () => {
                             <EditButtons
                                 isDisabled={record.status === 'IN_DELETION'}
                                 handleEdit={() => navigate(`/admin/topics/${record.id}`)}
-                                handleDelete={isDisabled}
+                                handleDelete={() => setTopicIdForDelete(record.id)}
                                 record={record}
                                 hide={['delete']}
                                 resource={Resource.Topic}
@@ -130,15 +143,6 @@ export const TopicList = () => {
             },
         ];
     }
-
-    const reloadTopicList = () => {
-        setIsLoading(true);
-        getTopicData(tableState).then((result) => {
-            setTopics(result.data);
-            setNumberOfTopics(result.total);
-            setIsLoading(false);
-        });
-    };
 
     useEffect(() => {
         reloadTopicList();
@@ -214,7 +218,7 @@ export const TopicList = () => {
                 rowKey="id"
             />
 
-            <TopicDeletionModal />
+            {topicIdForDelete && <TopicDeletionModal id={topicIdForDelete} onClose={onCloseDeleteModal} />}
         </Page>
     );
 };

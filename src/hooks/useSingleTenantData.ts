@@ -10,6 +10,6 @@ export const TENANT_QUERY_KEY = 'TENANT';
 export const useSingleTenantData = ({ id, ...options }: TenantsProps) => {
     return useQuery<TenantAdminData>([TENANT_QUERY_KEY, Number(id)], () => getSingleTenantData(id), {
         ...options,
-        enabled: !!(id || options.enabled),
+        enabled: (id && id !== 'add') || options.enabled,
     });
 };

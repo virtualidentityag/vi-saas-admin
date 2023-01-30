@@ -1,8 +1,9 @@
-import { Col, notification, Row } from 'antd';
+import { Button, Col, notification, Row } from 'antd';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'antd/lib/form/Form';
+import { useState } from 'react';
 import { FormInputField } from '../../../../components/FormInputField';
 import { FormInputNumberField } from '../../../../components/FormInputNumberField';
 import { SelectFormField } from '../../../../components/SelectFormField';
@@ -14,6 +15,7 @@ import { useAddOrUpdateTenant } from '../../../../hooks/useAddOrUpdateTenant.hoo
 import routePathNames from '../../../../appConfig';
 import styles from './styles.module.scss';
 import { TenantAdminData } from '../../../../types/TenantAdminData';
+import { ModalSuccess } from '../../../../components/ModalSuccess';
 
 export const GeneralTenantSettings = () => {
     const { search } = useLocation();
@@ -21,6 +23,7 @@ export const GeneralTenantSettings = () => {
     const { id } = useParams<{ id: string }>();
     const isEditing = id !== 'add';
     const navigate = useNavigate();
+    const [newTenantId, setNewTenantId] = useState<number>(null);
     const [form] = useForm();
     const { settings } = useAppConfigContext();
     const { t } = useTranslation();
@@ -28,6 +31,11 @@ export const GeneralTenantSettings = () => {
     const { mutate: update } = useAddOrUpdateTenant({
         id: isEditing ? id : null,
         onSuccess: (rData) => {
+            if (!isEditing) {
+                setNewTenantId(rData.id);
+                return;
+            }
+
             if (data?.licensing?.allowedNumberOfUsers !== rData?.licensing?.allowedNumberOfUsers) {
                 notification.success({ message: t('tenants.message.consultantsChangedSuccess') });
             } else {
@@ -51,64 +59,86 @@ export const GeneralTenantSettings = () => {
     const isMainTenant = !!main || settings.mainTenantSubdomainForSingleDomainMultitenancy === data?.subdomain;
 
     return (
-        <Row gutter={[24, 24]}>
-            <Col span={12} md={6}>
-                <CardEditable
-                    isLoading={isLoading}
-                    titleKey="tenants.add.mainTenantTitle"
-                    initialValues={{ ...data }}
-                    onSave={(formData) => update(formData as unknown as TenantAdminData)}
-                >
-                    <div className={styles.fieldGroup}>
-                        <div className={styles.description}>{t('tenants.add.form.name.label')}</div>
-                        <FormInputField name="name" placeholderKey="tenants.add.form.name.placeholder" required />
-                    </div>
-                    <div className={styles.fieldGroup}>
-                        <div className={styles.description}>{t('tenants.add.form.subdomain.label')}</div>
-                        {isMainTenant && (
-                            <div className={styles.warning}>{t('tenants.add.form.subdomain.warning')}</div>
-                        )}
-
-                        <FormInputField
-                            name="subdomain"
-                            placeholderKey="tenants.add.form.subdomain.placeholder"
-                            required
-                            addonAfter={getDomain()}
-                            disabled={isMainTenant}
-                        />
-                    </div>
-                    <div className={styles.fieldGroup}>
-                        <div className={styles.description}>
-                            {t('tenants.add.form.allowedConsultantsLicense.label')}
+        <>
+            {newTenantId && (
+                <ModalSuccess
+                    titleKey="tenants.created.modal.title"
+                    onClose={() => navigate(routePathNames.tenants)}
+                    contentKey="tenants.created.modal.description"
+                    footer={
+                        <Button
+                            type="primary"
+                            onClick={() => navigate(`${routePathNames.tenantAdmins}/add?tenantId=${newTenantId}`)}
+                        >
+                            {t('tenants.created.modal.link')}
+                        </Button>
+                    }
+                />
+            )}
+            <Row gutter={[24, 24]}>
+                <Col span={12} md={6}>
+                    <CardEditable
+                        isLoading={isLoading}
+                        titleKey="tenants.add.mainTenantTitle"
+                        initialValues={{ ...data }}
+                        onSave={(formData) => update(formData as unknown as TenantAdminData)}
+                    >
+                        <div className={styles.fieldGroup}>
+                            <div className={styles.description}>{t('tenants.add.form.name.label')}</div>
+                            <FormInputField name="name" placeholderKey="tenants.add.form.name.placeholder" required />
                         </div>
-                        <FormInputNumberField
-                            name={['licensing', 'allowedNumberOfUsers']}
-                            placeholderKey="tenants.add.form.allowedConsultantsLicense.placeholder"
-                            required
-                            min={1}
-                        />
-                    </div>
-                </CardEditable>
-            </Col>
+                        <div className={styles.fieldGroup}>
+                            <div className={styles.description}>{t('tenants.add.form.subdomain.label')}</div>
+                            {isMainTenant && (
+                                <div className={styles.warning}>{t('tenants.add.form.subdomain.warning')}</div>
+                            )}
 
-            <Col span={12} md={6}>
-                <CardEditable
-                    isLoading={isLoading}
-                    titleKey="tenants.edit.adminEmailsCardTitle"
-                    tooltip={t('tenants.edit.adminEmailsCardTooltip')}
-                    initialValues={{ ...data }}
-                    onSave={(formData) => update(formData as unknown as TenantAdminData)}
-                >
-                    {data?.adminEmails?.length && <SelectFormField name="adminEmails" required disabled isMulti />}
-                    {!data?.adminEmails?.length && (
-                        <div className={styles.emptyAdminsContainer}>
-                            <PersonSearchIcon className={styles.emptyAdminsIcon} />
-
-                            <div className={styles.emptyAdminsText}>{t('tenants.edit.adminEmailsCardEmpty')}</div>
+                            <FormInputField
+                                name="subdomain"
+                                placeholderKey="tenants.add.form.subdomain.placeholder"
+                                required
+                                addonAfter={getDomain()}
+                                disabled={isMainTenant}
+                            />
                         </div>
-                    )}
-                </CardEditable>
-            </Col>
-        </Row>
+                        <div className={styles.fieldGroup}>
+                            <div className={styles.description}>
+                                {t('tenants.add.form.allowedConsultantsLicense.label')}
+                            </div>
+                            <FormInputNumberField
+                                name={['licensing', 'allowedNumberOfUsers']}
+                                placeholderKey="tenants.add.form.allowedConsultantsLicense.placeholder"
+                                required
+                                min={1}
+                            />
+                        </div>
+                    </CardEditable>
+                </Col>
+                {isEditing && (
+                    <Col span={12} md={6}>
+                        <CardEditable
+                            isLoading={isLoading}
+                            titleKey="tenants.edit.adminEmailsCardTitle"
+                            tooltip={t('tenants.edit.adminEmailsCardTooltip')}
+                            initialValues={{ ...data }}
+                            onSave={(formData) => update(formData as unknown as TenantAdminData)}
+                        >
+                            {data?.adminEmails?.length && (
+                                <SelectFormField name="adminEmails" required disabled isMulti />
+                            )}
+                            {!data?.adminEmails?.length && (
+                                <div className={styles.emptyAdminsContainer}>
+                                    <PersonSearchIcon className={styles.emptyAdminsIcon} />
+
+                                    <div className={styles.emptyAdminsText}>
+                                        {t('tenants.edit.adminEmailsCardEmpty')}
+                                    </div>
+                                </div>
+                            )}
+                        </CardEditable>
+                    </Col>
+                )}
+            </Row>
+        </>
     );
 };

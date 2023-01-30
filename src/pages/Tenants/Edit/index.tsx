@@ -15,6 +15,7 @@ export const TenantEditOrAdd = () => {
     const main = new URLSearchParams(search).get('main');
     const { id } = useParams<{ id: string }>();
     const isEditing = id !== 'add';
+
     const { data, isLoading } = useSingleTenantData({ id, enabled: isEditing });
 
     const newTitle = main ? 'tenants.add.mainTenant.headline' : 'tenants.add.headline';

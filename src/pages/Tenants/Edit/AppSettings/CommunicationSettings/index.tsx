@@ -1,23 +1,26 @@
 import { useTranslation } from 'react-i18next';
 import { CardEditable } from '../../../../../components/CardEditable';
 import { FormSwitchField } from '../../../../../components/FormSwitchField';
+import { useSingleTenantData } from '../../../../../hooks/useSingleTenantData';
+import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
 import styles from './styles.module.scss';
 
-export const CommunicationSettings = () => {
+export const CommunicationSettings = ({ tenantId }: { tenantId: string }) => {
     const { t } = useTranslation();
-    const isLoading = false;
+    const { data, isLoading } = useSingleTenantData({ id: tenantId });
+    const { mutate } = useTenantAdminDataMutation({ id: tenantId });
 
     return (
         <CardEditable
             isLoading={isLoading}
-            initialValues={{}}
+            initialValues={{ ...data }}
             titleKey="tenants.appSettings.communications.title"
-            onSave={null}
+            onSave={mutate}
         >
             <div className={styles.checkGroup}>
                 <FormSwitchField
                     labelKey="tenants.appSettings.communications.video.title"
-                    name="a"
+                    name={['settings', 'extendedSettings', 'isVideoCallAllowed']}
                     inline
                     disableLabels
                 />
@@ -26,7 +29,8 @@ export const CommunicationSettings = () => {
             <div className={styles.checkGroup}>
                 <FormSwitchField
                     labelKey="tenants.appSettings.communications.allowAttachments.title"
-                    name="b"
+                    name={['settings', 'featureAttachmentUploadDisabled']}
+                    inverseValue
                     inline
                     disableLabels
                 />

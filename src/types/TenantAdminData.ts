@@ -16,4 +16,25 @@ export interface TenantAdminData extends BasicTenantData {
         confirmTermsAndConditions: boolean;
         confirmPrivacy: boolean;
     };
+    settings: BasicTenantData['settings'] & {
+        extendedSettings?: TenantAdminSettings;
+    };
+}
+
+interface TenantAdminSettings {
+    isVideoCallAllowed: boolean;
+    languageFormal: boolean;
+    sendFurtherStepsMessage: boolean;
+    sendSaveSessionDataMessage: boolean;
+    notifications: {
+        teamSessions: {
+            newMessage: {
+                allTeamConsultants: boolean;
+            };
+        };
+    };
+    welcomeMessage: {
+        sendWelcomeMessage: boolean;
+        welcomeMessageText: string;
+    };
 }

@@ -1,5 +1,5 @@
+import { useAppConfigContext } from '../../context/useAppConfig';
 import { ReleaseToggle } from '../../enums/ReleaseToggle';
-import { useTenantAdminData } from '../../hooks/useTenantAdminData.hook';
 
 interface FeatureFlagProps {
     children: JSX.Element;
@@ -7,7 +7,7 @@ interface FeatureFlagProps {
 }
 
 export const FeatureEnabled = ({ children, feature }: FeatureFlagProps): JSX.Element => {
-    const { data } = useTenantAdminData();
+    const { settings } = useAppConfigContext();
 
-    return data?.settings?.releaseToggles?.[feature] ? children : null;
+    return settings?.releaseToggles?.[feature] ? children : null;
 };

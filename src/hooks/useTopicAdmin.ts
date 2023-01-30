@@ -4,7 +4,7 @@ import { topicAdminEndpoint } from '../appConfig';
 import { TopicAdminData } from '../types/TopicAdmin';
 
 interface TopicAdminOptions extends UseQueryOptions<TopicAdminData> {
-    id: string;
+    id: string | number;
 }
 
 export const TOPIC_ADMIN_KEY = 'TOPIC_ADMIN';

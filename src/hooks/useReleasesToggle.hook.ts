@@ -1,15 +1,15 @@
 import { useCallback } from 'react';
+import { useAppConfigContext } from '../context/useAppConfig';
 import { ReleaseToggle } from '../enums/ReleaseToggle';
-import { useTenantAdminData } from './useTenantAdminData.hook';
 
 export const useReleasesToggle = () => {
-    const { data } = useTenantAdminData();
+    const { settings } = useAppConfigContext();
 
     const isEnabled = useCallback(
         (toggle: ReleaseToggle) => {
-            return !!data?.settings?.releaseToggles?.[toggle];
+            return !!settings?.releaseToggles?.[toggle];
         },
-        [data?.settings?.releaseToggles],
+        [settings?.releaseToggles],
     );
 
     return { isEnabled };

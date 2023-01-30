@@ -35,6 +35,7 @@ const useAppConfigContext = (): AppConfigContextInterface => {
             setNewSettings({
                 ...settings,
                 ...(finalServerSettings as unknown as AppConfigInterface),
+                releaseToggles: serverSettings.releaseToggles,
             });
         },
         [setNewSettings, settings],

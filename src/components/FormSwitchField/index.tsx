@@ -17,6 +17,7 @@ interface FormSwitchFieldProps {
     paragraphKey?: string;
     inline?: boolean;
     disableLabels?: boolean;
+    inverseValue?: boolean;
 }
 
 interface FormSwitchFieldLocalProps {
@@ -27,6 +28,7 @@ interface FormSwitchFieldLocalProps {
     checkedKey: string;
     unCheckedKey: string;
     disableLabels?: boolean;
+    inverseValue?: boolean;
 }
 
 const FormSwitchFieldLocal = ({
@@ -37,6 +39,7 @@ const FormSwitchFieldLocal = ({
     disabled,
     disableLabels,
     unCheckedKey,
+    inverseValue,
 }: FormSwitchFieldLocalProps) => {
     const { t } = useTranslation();
 
@@ -45,8 +48,8 @@ const FormSwitchFieldLocal = ({
             <Switch
                 disabled={disabled}
                 size="default"
-                onChange={onChange}
-                checked={checked}
+                onChange={(value) => onChange(inverseValue ? !value : value)}
+                checked={inverseValue ? !checked : checked}
                 checkedChildren={!disableLabels && t(checkedKey)}
                 unCheckedChildren={!disableLabels && t(unCheckedKey)}
             />
@@ -65,6 +68,7 @@ export const FormSwitchField = ({
     errorMessage,
     paragraphKey,
     inline,
+    inverseValue,
     disableLabels,
     checkedKey = 'yes',
     unCheckedKey = 'no',
@@ -87,6 +91,7 @@ export const FormSwitchField = ({
                 unCheckedKey={unCheckedKey}
                 disabled={disabled}
                 disableLabels={disableLabels}
+                inverseValue={inverseValue}
             />
         </Form.Item>
     );

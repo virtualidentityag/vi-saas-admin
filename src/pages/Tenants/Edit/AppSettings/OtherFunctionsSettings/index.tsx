@@ -1,23 +1,26 @@
 import { useTranslation } from 'react-i18next';
 import { CardEditable } from '../../../../../components/CardEditable';
 import { FormSwitchField } from '../../../../../components/FormSwitchField';
+import { useSingleTenantData } from '../../../../../hooks/useSingleTenantData';
+import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
 import styles from './styles.module.scss';
 
-export const OtherFunctionsSettings = () => {
+export const OtherFunctionsSettings = ({ tenantId }: { tenantId: string }) => {
     const { t } = useTranslation();
-    const isLoading = false;
+    const { data, isLoading } = useSingleTenantData({ id: tenantId });
+    const { mutate } = useTenantAdminDataMutation({ id: tenantId });
 
     return (
         <CardEditable
             isLoading={isLoading}
-            initialValues={{}}
+            initialValues={{ ...data }}
             titleKey="tenants.appSettings.otherFunctions.title"
-            onSave={null}
+            onSave={mutate}
         >
             <div className={styles.checkGroup}>
                 <FormSwitchField
                     labelKey="tenants.appSettings.otherFunctions.allowTopicCreation.title"
-                    name="a"
+                    name={['settings', 'featureTopicsEnabled']}
                     inline
                     disableLabels
                 />
@@ -28,7 +31,7 @@ export const OtherFunctionsSettings = () => {
             <div className={styles.checkGroup}>
                 <FormSwitchField
                     labelKey="tenants.appSettings.otherFunctions.statistics.title"
-                    name="b"
+                    name={['settings', 'featureStatisticsEnabled']}
                     inline
                     disableLabels
                 />

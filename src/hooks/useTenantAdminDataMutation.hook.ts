@@ -36,7 +36,7 @@ interface TenantAdminDataOptions
 export const useTenantAdminDataMutation = ({ id, ...options }: TenantAdminDataOptions) => {
     const { t } = useTranslation();
     const queryClient = useQueryClient();
-    const { data: tenantAdminData } = useSingleTenantData({ id });
+    const { data: tenantAdminData } = useSingleTenantData({ id, enabled: !!id && id !== 'add' });
 
     return useMutation(
         (data: Partial<TenantAdminData>) => {

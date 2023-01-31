@@ -1,4 +1,4 @@
-import { Form, Radio, RadioGroupProps } from 'antd';
+import { Form, Radio, RadioGroupProps, Space } from 'antd';
 import { Rule } from 'antd/lib/form';
 import DisabledContext from 'antd/es/config-provider/DisabledContext';
 import classNames from 'classnames';
@@ -13,6 +13,7 @@ export interface FormRadioGroupFieldProps extends Omit<RadioGroupProps, 'name'> 
     name?: string | string[];
     rules?: Rule[];
     dependencies?: string[];
+    vertical?: boolean;
 }
 
 export const FormRadioGroupField = ({
@@ -23,6 +24,8 @@ export const FormRadioGroupField = ({
     placeholderKey,
     rules,
     dependencies,
+    vertical,
+    children,
     ...groupProps
 }: FormRadioGroupFieldProps) => {
     const contextDisabled = useContext(DisabledContext);
@@ -32,13 +35,16 @@ export const FormRadioGroupField = ({
         <Form.Item
             className={classNames(className, {
                 [styles.disabled]: contextDisabled,
+                [styles.vertical]: vertical,
             })}
             label={t(labelKey)}
             name={name}
             rules={[{ required, message: t('form.errors.required') }, ...(rules || [])]}
             dependencies={dependencies}
         >
-            <Radio.Group {...groupProps} />
+            <Radio.Group {...groupProps}>
+                {vertical ? <Space direction="vertical">{children}</Space> : children}
+            </Radio.Group>
         </Form.Item>
     );
 };

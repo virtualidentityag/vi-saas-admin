@@ -1,4 +1,4 @@
-import { Divider, Space } from 'antd';
+import { Divider } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { CardEditable } from '../../../../../components/CardEditable';
 import { FormRadioGroupField } from '../../../../../components/FormRadioGroupField';
@@ -48,6 +48,7 @@ export const NotificationsSettings = ({ tenantId }: { tenantId: string }) => {
             <Divider />
             <div className={styles.radioGroup}>
                 <FormRadioGroupField
+                    vertical
                     labelKey="tenants.appSettings.notifications.info"
                     name={[
                         'settings',
@@ -59,14 +60,12 @@ export const NotificationsSettings = ({ tenantId }: { tenantId: string }) => {
                     ]}
                     className={styles.notifications}
                 >
-                    <Space direction="vertical">
-                        <FormRadioGroupField.Radio value={false}>
-                            {t('tenants.appSettings.notifications.option.onlyConsultant')}
-                        </FormRadioGroupField.Radio>
-                        <FormRadioGroupField.Radio value>
-                            {t('tenants.appSettings.notifications.option.allTeamConsultants')}
-                        </FormRadioGroupField.Radio>
-                    </Space>
+                    <FormRadioGroupField.Radio value={false}>
+                        {t('tenants.appSettings.notifications.option.onlyConsultant')}
+                    </FormRadioGroupField.Radio>
+                    <FormRadioGroupField.Radio value>
+                        {t('tenants.appSettings.notifications.option.allTeamConsultants')}
+                    </FormRadioGroupField.Radio>
                 </FormRadioGroupField>
             </div>
         </CardEditable>

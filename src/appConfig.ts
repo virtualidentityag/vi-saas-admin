@@ -50,6 +50,7 @@ export const tenantEndpoint = `${mainURL}/service/tenant/`;
 export const tenantAccessEndpoint = `${mainURL}/service/tenant/access`;
 export const tenantAdminEndpoint = `${mainURL}/service/tenantadmin`;
 export const serverSettingsEndpoint = `${mainURL}/service/settings`;
+export const serverSettingsAdminEndpoint = `${mainURL}/service/settingsadmin`;
 export const baseTenantPublicEndpoint = `${mainURL}/service/tenant/public`;
 export const tenantPublicEndpoint = `${baseTenantPublicEndpoint}/${subdomain}`;
 export const topicEndpoint = `${mainURL}/service/topic`;

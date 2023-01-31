@@ -1,2 +1,5 @@
-.disabled {
+.vertical {
+    :global(.ant-form-item-control) {
+        margin-top: 25px;
+    }
 }

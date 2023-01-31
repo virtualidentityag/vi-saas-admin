@@ -7,6 +7,7 @@ import { Languages } from './components/Languages';
 import { LogoAndFavicon } from './components/LogoAndFavicon';
 import { NameAndSlogan } from './components/NameAndSlogan';
 import { TenantColor } from './components/TenantColor';
+import { TypeOfLanguage } from './components/TypeOfLanguage';
 
 interface GeneralSettingsProps {
     tenantId?: string;
@@ -21,7 +22,12 @@ export const GeneralSettings = ({ tenantId }: GeneralSettingsProps) => {
         <Row gutter={[24, 24]}>
             <Col span={12} sm={6}>
                 <NameAndSlogan tenantId={finalTenantId} />
-                {can(PermissionAction.Update, Resource.Language) && <Languages tenantId={finalTenantId} />}
+                {can(PermissionAction.Update, Resource.Language) && (
+                    <>
+                        <Languages tenantId={finalTenantId} />
+                        <TypeOfLanguage tenantId={finalTenantId} />
+                    </>
+                )}
             </Col>
             <Col span={12} sm={6}>
                 <LogoAndFavicon tenantId={finalTenantId} />

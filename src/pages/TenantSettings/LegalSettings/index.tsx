@@ -1,20 +1,47 @@
 import { Col, Row } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { CardEditable } from '../../../components/CardEditable';
+import { FormSwitchField } from '../../../components/FormSwitchField';
+import { useAppConfigContext } from '../../../context/useAppConfig';
+import { useSettingsAdminMutation } from '../../../hooks/useSettingsAdminMutation.hook';
 import { useTenantData } from '../../../hooks/useTenantData.hook';
 import { LegalText } from './components/LegalText';
+import styles from './styles.module.scss';
 
 interface LegalSettingsProps {
     tenantId?: string;
+    disableManageToggle?: boolean;
 }
 
-export const LegalSettings = ({ tenantId }: LegalSettingsProps) => {
+export const LegalSettings = ({ tenantId, disableManageToggle }: LegalSettingsProps) => {
     const { data } = useTenantData();
     const { t } = useTranslation();
     const finalTenantId = tenantId || `${data.id}`;
+    const { settings } = useAppConfigContext();
+    const { mutate } = useSettingsAdminMutation();
 
     return (
         <Row gutter={[24, 24]}>
             <Col span={12} sm={6}>
+                {!disableManageToggle && settings?.multitenancyWithSingleDomainEnabled && (
+                    <CardEditable
+                        initialValues={{ ...settings }}
+                        titleKey="tenants.legal.singleTenantsManageLegal.title"
+                        onSave={mutate}
+                    >
+                        <div className={styles.checkGroup}>
+                            <FormSwitchField
+                                labelKey="tenants.legal.singleTenantsManageLegal.setting.title"
+                                name={['legalContentChangesBySingleTenantAdminsAllowed']}
+                                inline
+                                disableLabels
+                            />
+                            <p className={styles.checkInfo}>
+                                {t('tenants.legal.singleTenantsManageLegal.setting.description')}
+                            </p>
+                        </div>
+                    </CardEditable>
+                )}
                 <LegalText
                     tenantId={finalTenantId}
                     fieldName={['content', 'impressum']}

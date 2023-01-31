@@ -31,19 +31,19 @@ export const TenantEditOrAdd = () => {
                     isEnabled(ReleaseToggle.TENANT_ADMIN_SETTINGS_EDIT) && [
                         {
                             to: `/admin/tenants/${id}/general`,
-                            titleKey: 'Allgemein',
+                            titleKey: 'tenants.edit.tabs.general',
                         },
                         {
                             to: `/admin/tenants/${id}/theme-settings`,
-                            titleKey: 'Erscheinungsbild',
+                            titleKey: 'tenants.edit.tabs.themeSettings',
                         },
                         can(PermissionAction.Update, Resource.LegalText) && {
                             to: `/admin/tenants/${id}/legal-settings`,
-                            titleKey: 'Legal',
+                            titleKey: 'tenants.edit.tabs.legal',
                         },
                         {
                             to: `/admin/tenants/${id}/app-settings`,
-                            titleKey: 'Funktionalitäten',
+                            titleKey: 'tenants.edit.tabs.appSettings',
                         },
                     ]
                 }

@@ -1,15 +1,15 @@
 import set from 'lodash.set';
 import { useCallback, useState } from 'react';
-import { CardEditable } from '../../../../../components/CardEditable';
-import { FormRichTextEditorField } from '../../../../../components/FormRichTextEditorField';
-import { Modal, ModalProps } from '../../../../../components/Modal';
-import { TranslatableFormField } from '../../../../../components/TranslatableFormField';
+import { CardEditable } from '../../../../CardEditable';
+import { FormRichTextEditorField } from '../../../../FormRichTextEditorField';
+import { Modal, ModalProps } from '../../../../Modal';
+import { TranslatableFormField } from '../../../../TranslatableFormField';
 import { useSingleTenantData } from '../../../../../hooks/useSingleTenantData';
 import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
 import styles from './styles.module.scss';
 
 interface LegalTextProps {
-    tenantId: string;
+    tenantId: string | number;
     fieldName: string[];
     titleKey: string;
     subTitle: string | React.ReactChild;

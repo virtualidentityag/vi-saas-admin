@@ -3,9 +3,9 @@ import { useParams } from 'react-router';
 import { useAppConfigContext } from '../../../../context/useAppConfig';
 import { UserRole } from '../../../../enums/UserRole';
 import { useUserRoles } from '../../../../hooks/useUserRoles.hook';
-import { CommunicationSettings } from './CommunicationSettings';
-import { NotificationsSettings } from './NotificationsSettings';
-import { OtherFunctionsSettings } from './OtherFunctionsSettings';
+import { CommunicationSettings } from '../../../../components/Tenants/AppSettings/CommunicationSettings';
+import { NotificationsSettings } from '../../../../components/Tenants/AppSettings/NotificationsSettings';
+import { OtherFunctionsSettings } from '../../../../components/Tenants/AppSettings/OtherFunctionsSettings';
 
 export const TenantAppSettings = () => {
     const { id } = useParams<{ id: string }>();

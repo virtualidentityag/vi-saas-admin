@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { CardEditable } from '../../../../../components/CardEditable';
-import { FormRadioGroupField } from '../../../../../components/FormRadioGroupField';
+import { CardEditable } from '../../../../CardEditable';
+import { FormRadioGroupField } from '../../../../FormRadioGroupField';
 import { useSingleTenantData } from '../../../../../hooks/useSingleTenantData';
 import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
 import styles from './styles.module.scss';

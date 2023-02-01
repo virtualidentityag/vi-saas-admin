@@ -30,7 +30,7 @@ const mergeData = (currentTenantData: TenantAdminData, formData) => {
 
 interface TenantAdminDataOptions
     extends UseMutationOptions<Partial<TenantAdminData>, unknown, Partial<TenantAdminData>> {
-    id: string;
+    id: string | number;
 }
 
 export const useTenantAdminDataMutation = ({ id, ...options }: TenantAdminDataOptions) => {

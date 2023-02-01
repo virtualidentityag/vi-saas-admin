@@ -16,8 +16,8 @@ import { AgencyPageEdit } from './pages/Agency/AgencyEdit';
 import { AgencyAdd } from './pages/Agency/AgencyAdd';
 import { UsersList } from './pages/users/List';
 import { UserEditOrAdd } from './pages/users/Edit';
-import { GeneralSettings } from './pages/TenantSettings/GeneralSettings';
-import { LegalSettings } from './pages/TenantSettings/LegalSettings';
+import { GeneralSettingsPage } from './pages/TenantSettings/GeneralSettings';
+import { LegalSettingsPage } from './pages/TenantSettings/LegalSettings';
 import { useUserPermissions } from './hooks/useUserPermission';
 import { PermissionAction } from './enums/PermissionAction';
 import { Resource } from './enums/Resource';
@@ -29,6 +29,7 @@ import { GeneralTenantSettings } from './pages/Tenants/Edit/General';
 import { TenantThemeSettings } from './pages/Tenants/Edit/ThemeSettings';
 import { TenantAppSettings } from './pages/Tenants/Edit/AppSettings';
 import { SingleLegalSettings } from './pages/Tenants/Edit/LegalSettings';
+import { AppSettingsPage } from './pages/TenantSettings/AppSettings';
 
 export const App = () => {
     const { isLoading, data } = useTenantData();
@@ -61,10 +62,19 @@ export const App = () => {
                         can(PermissionAction.Read, Resource.LegalText)) && (
                         <Route path={routePathNames.themeSettings} element={<TenantSettingsLayout />}>
                             {can(PermissionAction.Read, Resource.Tenant) && (
-                                <Route path={`${routePathNames.themeSettings}/general`} element={<GeneralSettings />} />
+                                <Route
+                                    path={`${routePathNames.themeSettings}/general`}
+                                    element={<GeneralSettingsPage />}
+                                />
                             )}
                             {can(PermissionAction.Read, Resource.LegalText) && (
-                                <Route path={`${routePathNames.themeSettings}/legal`} element={<LegalSettings />} />
+                                <Route path={`${routePathNames.themeSettings}/legal`} element={<LegalSettingsPage />} />
+                            )}
+                            {can(PermissionAction.Read, Resource.Tenant) && (
+                                <Route
+                                    path={`${routePathNames.themeSettings}/app-settings`}
+                                    element={<AppSettingsPage />}
+                                />
                             )}
                             <Route
                                 index

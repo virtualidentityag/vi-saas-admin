@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { CardEditable } from '../../../../../components/CardEditable';
-import { FormSwitchField } from '../../../../../components/FormSwitchField';
-import { useSingleTenantData } from '../../../../../hooks/useSingleTenantData';
-import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
+import { CardEditable } from '../../../CardEditable';
+import { FormSwitchField } from '../../../FormSwitchField';
+import { useSingleTenantData } from '../../../../hooks/useSingleTenantData';
+import { useTenantAdminDataMutation } from '../../../../hooks/useTenantAdminDataMutation.hook';
 import styles from './styles.module.scss';
 
 export const CommunicationSettings = ({ tenantId }: { tenantId: string }) => {

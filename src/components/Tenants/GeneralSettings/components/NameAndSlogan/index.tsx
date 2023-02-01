@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { CardEditable } from '../../../../../components/CardEditable';
-import { FormInputField } from '../../../../../components/FormInputField';
-import { TranslatableFormField } from '../../../../../components/TranslatableFormField';
+import { CardEditable } from '../../../../CardEditable';
+import { FormInputField } from '../../../../FormInputField';
+import { TranslatableFormField } from '../../../../TranslatableFormField';
 import { useSingleTenantData } from '../../../../../hooks/useSingleTenantData';
 import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
 

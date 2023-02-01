@@ -3,7 +3,7 @@ import { getSingleTenantData } from '../api/tenant/getSingleTenantData';
 import { TenantAdminData } from '../types/TenantAdminData';
 
 interface TenantsProps extends UseQueryOptions<TenantAdminData> {
-    id: string;
+    id: string | number;
 }
 
 export const TENANT_QUERY_KEY = 'TENANT';

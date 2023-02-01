@@ -240,6 +240,7 @@
     "tenants.edit.tabs.themeSettings": "Erscheinungsbild",
     "tenants.edit.tabs.legal": "Rechtliches",
     "tenants.edit.tabs.appSettings": "Funktionalitäten",
+    "tenants.edit.tabs.globalSettings": "Globale Einstellungen",
     "tenants.legal.singleTenantsManageLegal.title": "Einstellungen Rechtstexte",
     "tenants.legal.singleTenantsManageLegal.setting.title": "Mandanten-Admins dürfen für ihren Mandanten eigenen Rechtstext erstellen",
     "tenants.legal.singleTenantsManageLegal.setting.description": "Andernfalls werden Ihre Rechtstexte allen Benutzer angezeigt.",

@@ -2,9 +2,9 @@ import { Button, Form } from 'antd';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { supportedLanguages } from '../../../../../appConfig';
-import { CardEditable } from '../../../../../components/CardEditable';
-import { Modal } from '../../../../../components/Modal';
-import { SelectFormField } from '../../../../../components/SelectFormField';
+import { CardEditable } from '../../../../CardEditable';
+import { Modal } from '../../../../Modal';
+import { SelectFormField } from '../../../../SelectFormField';
 import { useSingleTenantData } from '../../../../../hooks/useSingleTenantData';
 import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
 

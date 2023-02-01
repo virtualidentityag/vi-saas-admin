@@ -1,7 +1,7 @@
 import { Col, Row } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { CardEditable } from '../../../../../components/CardEditable';
-import { FormFileUploaderField } from '../../../../../components/FormFileUploaderField';
+import { CardEditable } from '../../../../CardEditable';
+import { FormFileUploaderField } from '../../../../FormFileUploaderField';
 import { useSingleTenantData } from '../../../../../hooks/useSingleTenantData';
 import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
 

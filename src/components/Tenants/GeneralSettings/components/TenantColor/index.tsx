@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { CardEditable } from '../../../../../components/CardEditable';
-import { FormColorSelectorField } from '../../../../../components/FormColorSelectorField';
+import { CardEditable } from '../../../../CardEditable';
+import { FormColorSelectorField } from '../../../../FormColorSelectorField';
 import { useSingleTenantData } from '../../../../../hooks/useSingleTenantData';
 import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
 

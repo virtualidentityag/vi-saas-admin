@@ -85,7 +85,7 @@ export const TenantsList = () => {
                 </div>
             ),
         },
-        {
+        !settings.multitenancyWithSingleDomainEnabled && {
             width: 150,
             title: t('tenants.list.subdomain'),
             dataIndex: 'subdomain',

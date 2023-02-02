@@ -47,7 +47,7 @@ export const PasswordChange = () => {
                         <Row gutter={[16, 16]}>
                             <Col span={12} sm={6}>
                                 <FormInputPasswordField
-                                    name="currentPassword"
+                                    name="oldPassword"
                                     placeholderKey="profile.passwordChange.form.currentPassword"
                                     required
                                 />

@@ -5,7 +5,7 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router'
 import ProtectedPageLayoutWrapper from './components/Layout/ProtectedPageLayoutWrapper';
 import routePathNames from './appConfig';
 import { TenantSettingsLayout } from './pages/TenantSettings';
-import { Topics } from './pages/Topics/List/Topics';
+import { TopicList } from './pages/Topics/List/TopicList';
 import { Statistic } from './pages/Statistic';
 import { UserProfile } from './pages/Profile/UserProfile';
 import { Initialization } from './components/Layout/Initialization';
@@ -91,8 +91,12 @@ export const App = () => {
                     <Route path={routePathNames.agency} element={<AgencyList />} />
                     <Route path={`${routePathNames.agencyEdit}/*`} element={<AgencyPageEdit />} />
                     <Route path={`${routePathNames.agencyAdd}/*`} element={<AgencyAdd />} />
-                    <Route path={routePathNames.topics} element={<Topics />} />
-                    <Route path={`${routePathNames.topics}/:id`} element={<TopicEditOrAdd />} />
+                    {can(PermissionAction.Read, Resource.Topic) && (
+                        <Route path={routePathNames.topics} element={<TopicList />} />
+                    )}
+                    {can([PermissionAction.Update, PermissionAction.Create], Resource.Topic) && (
+                        <Route path={`${routePathNames.topics}/:id`} element={<TopicEditOrAdd />} />
+                    )}
                     <Route path={routePathNames.statistic} element={<Statistic />} />
                     <Route path={routePathNames.userProfile} element={<UserProfile />} />
                     {can(PermissionAction.Create, Resource.Tenant) && (

@@ -235,6 +235,7 @@
     "tenants.message.consultantsChangedSuccess": "Ihre Änderungen wurden gespeichert. Die geänderte Anzahl der Berater ist spätestens 24 Stunden nach dem Bearbeiten im System sichtbar. ",
     "tenants.message.subdomainInUse": "Diese Subdomain ist bereits vergeben.",
     "tenants.message.update": "Der Mandant wurde aktualisiert.",
+    "tenants.message.settingsUpdate": "Die Einstellungen wurden aktualisiert.",
     "tenants.add.headline": "Neuen Mandant anlegen",
     "tenants.edit.tabs.general": "Allgemein",
     "tenants.edit.tabs.themeSettings": "Erscheinungsbild",

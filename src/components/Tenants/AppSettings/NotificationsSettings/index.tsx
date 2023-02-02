@@ -10,7 +10,10 @@ import styles from './styles.module.scss';
 export const NotificationsSettings = ({ tenantId }: { tenantId: string }) => {
     const { t } = useTranslation();
     const { data, isLoading } = useSingleTenantData({ id: tenantId });
-    const { mutate } = useTenantAdminDataMutation({ id: tenantId });
+    const { mutate } = useTenantAdminDataMutation({
+        id: tenantId,
+        successMessageKey: 'tenants.message.settingsUpdate',
+    });
 
     return (
         <CardEditable

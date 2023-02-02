@@ -18,6 +18,7 @@ interface FormSwitchFieldProps {
     inline?: boolean;
     disableLabels?: boolean;
     inverseValue?: boolean;
+    className?: string;
 }
 
 interface FormSwitchFieldLocalProps {
@@ -65,6 +66,7 @@ export const FormSwitchField = ({
     required,
     help,
     disabled,
+    className,
     errorMessage,
     paragraphKey,
     inline,
@@ -83,7 +85,7 @@ export const FormSwitchField = ({
             rules={required ? [{ required: true, message }] : undefined}
             help={help ? t(help) : undefined}
             valuePropName="checked"
-            className={classNames(styles.item, { [styles.inline]: inline })}
+            className={classNames(className, styles.item, { [styles.inline]: inline })}
         >
             <FormSwitchFieldLocal
                 paragraphKey={paragraphKey}

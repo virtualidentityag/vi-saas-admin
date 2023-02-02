@@ -15,8 +15,8 @@ export const useUpdateUserData = (
             });
 
             return fetchData({
-                url: `${mainURL}/service/users/data`,
-                method: FETCH_METHODS.PUT,
+                url: `${mainURL}/service/useradmin/data`,
+                method: FETCH_METHODS.PATCH,
                 responseHandling: [FETCH_SUCCESS.CONTENT, FETCH_ERRORS.CONFLICT_WITH_RESPONSE],
                 bodyData,
             });

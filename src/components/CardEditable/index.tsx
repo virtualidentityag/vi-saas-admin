@@ -81,6 +81,7 @@ export const CardEditable = ({
             subTitleKey={subTitleKey}
             tooltip={tooltip}
             isLoading={isLoading}
+            cardTitleClassName={styles.cardTitleClassName}
             cardTitleChildren={
                 !onAddMode &&
                 !editing && (

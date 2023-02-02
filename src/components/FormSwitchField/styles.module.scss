@@ -31,6 +31,8 @@
 }
 
 .inline {
+    margin-bottom: 4px;
+
     :global(.ant-form-item-row) {
         display: flex;
         flex-direction: row;

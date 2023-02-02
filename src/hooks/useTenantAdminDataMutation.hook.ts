@@ -31,9 +31,14 @@ const mergeData = (currentTenantData: TenantAdminData, formData) => {
 interface TenantAdminDataOptions
     extends UseMutationOptions<Partial<TenantAdminData>, unknown, Partial<TenantAdminData>> {
     id: string | number;
+    successMessageKey?: string;
 }
 
-export const useTenantAdminDataMutation = ({ id, ...options }: TenantAdminDataOptions) => {
+export const useTenantAdminDataMutation = ({
+    id,
+    successMessageKey = 'message.success.setting.update',
+    ...options
+}: TenantAdminDataOptions) => {
     const { t } = useTranslation();
     const queryClient = useQueryClient();
     const { data: tenantAdminData } = useSingleTenantData({ id, enabled: !!id && id !== 'add' });
@@ -53,7 +58,7 @@ export const useTenantAdminDataMutation = ({ id, ...options }: TenantAdminDataOp
             onSuccess: (responseData, updatedData) => {
                 queryClient.setQueryData(TENANT_ADMIN_DATA_KEY, mergeData(tenantAdminData, updatedData));
                 message.success({
-                    content: t('message.success.setting.update'),
+                    content: t(successMessageKey),
                     duration: 3,
                 });
                 options?.onSuccess?.(responseData, updatedData, null);

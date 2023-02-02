@@ -14,6 +14,7 @@ interface CardProps {
     titleKey: string;
     subTitle?: React.ReactChild;
     subTitleKey?: string;
+    cardTitleClassName?: string;
     tooltip?: string;
     children: React.ReactChild | React.ReactChild[];
     cardTitleChildren?: React.ReactChild | React.ReactChild[];
@@ -28,6 +29,7 @@ export const Card = ({
     fullHeight,
     tooltip,
     cardTitleChildren,
+    cardTitleClassName,
     children,
 }: CardProps) => {
     const { t } = useTranslation();
@@ -37,7 +39,11 @@ export const Card = ({
             className={classNames(styles.card, className, { [styles.fullHeight]: fullHeight })}
             contentClassName={styles.contentClassName}
         >
-            <div className={classNames(styles.cardTitle, { [styles.hasSubtitle]: subTitle || subTitleKey })}>
+            <div
+                className={classNames(styles.cardTitle, cardTitleClassName, {
+                    [styles.hasSubtitle]: subTitle || subTitleKey,
+                })}
+            >
                 <div className={styles.titleContainer}>
                     <Title className={classNames(styles.title)} level={5}>
                         {t(titleKey)}

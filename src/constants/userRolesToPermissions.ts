@@ -21,6 +21,8 @@ export const useUserRolesToPermission = () => {
     const singleCanEditLegalText =
         !settings.multitenancyWithSingleDomainEnabled || settings.legalContentChangesBySingleTenantAdminsAllowed;
     const isMultiTenancyWithSingleDomain = settings.multitenancyWithSingleDomainEnabled;
+    const isTopicsEnabled = data?.settings?.featureTopicsEnabled;
+    const isStatisticsEnabled = data?.settings?.featureStatisticsEnabled;
 
     const permissions: Record<Partial<UserRole>, UserPermissions> = {
         [UserRole.RestrictedAgencyAdmin]: {
@@ -36,11 +38,11 @@ export const useUserRolesToPermission = () => {
             Tenant: { read: true, update: true, create: true, delete: true },
             Language: { update: true },
             LegalText: { read: true, update: true },
-            Statistic: { read: data?.settings?.featureStatisticsEnabled },
+            Statistic: { read: isStatisticsEnabled },
             TenantAdminUser: { read: true, create: true, update: true, delete: true },
         },
         [UserRole.TopicAdmin]: {
-            Topic: { read: true, create: true, update: true, delete: true },
+            Topic: { read: isTopicsEnabled, create: isTopicsEnabled, update: isTopicsEnabled, delete: isTopicsEnabled },
         },
         [UserRole.SingleTenantAdmin]: {
             Tenant: { read: !isMultiTenancyWithSingleDomain, update: !isMultiTenancyWithSingleDomain },
@@ -49,7 +51,7 @@ export const useUserRolesToPermission = () => {
                 read: singleCanEditLegalText,
                 update: singleCanEditLegalText,
             },
-            Statistic: { read: data?.settings?.featureStatisticsEnabled },
+            Statistic: { read: isStatisticsEnabled },
         },
         [UserRole.UserAdmin]: {
             Consultant: { read: true, create: true, update: true, delete: true },

@@ -148,7 +148,9 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
                                 ? response
                                 : new Error(FETCH_ERRORS.CONFLICT),
                         );
-                    } else if (response.status === 401 || response.status === 403) {
+                    } else if (response.status === 403) {
+                        window.location.href = '/admin/access-denied';
+                    } else if (response.status === 401) {
                         logout(true, routePathNames.login);
                     }
                 } else {

@@ -7,6 +7,7 @@
     "search-placeholder": "Suchbegriff eingeben",
     "consultant-search-placeholder": "Suche nach E-Mail-Adresse, Vor- oder Nachname",
     "password": "Passwort",
+    "toHomePage": "Zur Startseite",
     "otp": "Einmal-Code",
     "password.forgot": "Passwort vergessen?",
     "username.or.email": "Benutzername/E-Mail",
@@ -493,5 +494,7 @@
     "language.en": "English",
     "language.de": "German",
     "footer.label.privacy": "Datenschutz",
-    "footer.label.imprint": "Impressum"
+    "footer.label.imprint": "Impressum",
+    "errorPages.accessDenied.title": "Schade!",
+    "errorPages.accessDenied.description": "Leider sind Sie nicht berechtigt diese Seite einzusehen. Für mehr Informationen kontaktieren Sie bitte Ihren System Administrator."
 }

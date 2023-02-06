@@ -10,9 +10,10 @@ const { Content } = Layout;
 export interface PublicPageLayoutWrapperTypes {
     className?: string;
     children: React.ReactNode;
+    hideFooter?: boolean;
 }
 
-const PublicPageLayoutWrapper = ({ children, className = '' }: PublicPageLayoutWrapperTypes) => {
+const PublicPageLayoutWrapper = ({ children, className = '', hideFooter }: PublicPageLayoutWrapperTypes) => {
     const { settings } = useAppConfigContext();
 
     useEffect(() => {
@@ -22,7 +23,7 @@ const PublicPageLayoutWrapper = ({ children, className = '' }: PublicPageLayoutW
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Content className={clsx('publicContent', className)}>{children}</Content>
-            <SiteFooter />
+            {!hideFooter && <SiteFooter />}
         </Layout>
     );
 };

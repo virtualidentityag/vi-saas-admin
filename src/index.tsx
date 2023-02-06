@@ -19,6 +19,7 @@ import { Privacy } from './pages/Privacy';
 import { useAppConfigContext, UseAppConfigProvider } from './context/useAppConfig';
 import { apiServerSettings } from './api/settings/apiServerSettings';
 import { Initialization } from './components/Layout/Initialization';
+import { AccessDenied } from './pages/ErrorPages/AccessDenied';
 
 interface LangMap {
     [key: string]: Locale;
@@ -70,7 +71,8 @@ render(
                     <Router>
                         <Routes>
                             <Route path={routePathNames.login} element={<Login />} />
-                            <Route path="/404" element={<Error404 />} />
+                            <Route path="/admin/404" element={<Error404 />} />
+                            <Route path="/admin/access-denied" element={<AccessDenied />} />
 
                             <Route path={routePathNames.imprint} element={<Imprint />} />
                             <Route path={routePathNames.privacy} element={<Privacy />} />

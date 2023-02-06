@@ -23,7 +23,7 @@ export const PrivateData = () => {
         >
             <FormInputField name="firstname" labelKey="firstname" placeholderKey="placeholder.firstname" required />
             <FormInputField name="lastname" labelKey="lastname" placeholderKey="placeholder.lastname" required />
-            <FormInputField name="email" labelKey="email" placeholderKey="placeholder.lastname" required />
+            <FormInputField name="email" labelKey="email" placeholderKey="placeholder.email" required />
         </CardEditable>
     );
 };

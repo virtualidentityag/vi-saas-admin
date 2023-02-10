@@ -1,4 +1,4 @@
-import { Button, Col, notification, Row } from 'antd';
+import { Button, Col, Form, notification, Row } from 'antd';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,7 @@ import routePathNames from '../../../../appConfig';
 import styles from './styles.module.scss';
 import { TenantAdminData } from '../../../../types/TenantAdminData';
 import { ModalSuccess } from '../../../../components/ModalSuccess';
+import { Card } from '../../../../components/Card';
 
 export const GeneralTenantSettings = () => {
     const { search } = useLocation();
@@ -87,20 +88,23 @@ export const GeneralTenantSettings = () => {
                             <div className={styles.description}>{t('tenants.add.form.name.label')}</div>
                             <FormInputField name="name" placeholderKey="tenants.add.form.name.placeholder" required />
                         </div>
-                        <div className={styles.fieldGroup}>
-                            <div className={styles.description}>{t('tenants.add.form.subdomain.label')}</div>
-                            {isMainTenant && (
-                                <div className={styles.warning}>{t('tenants.add.form.subdomain.warning')}</div>
-                            )}
+                        {(!settings.multitenancyWithSingleDomainEnabled ||
+                            (settings.multitenancyWithSingleDomainEnabled && isMainTenant)) && (
+                            <div className={styles.fieldGroup}>
+                                <div className={styles.description}>{t('tenants.add.form.subdomain.label')}</div>
+                                {isMainTenant && (
+                                    <div className={styles.warning}>{t('tenants.add.form.subdomain.warning')}</div>
+                                )}
 
-                            <FormInputField
-                                name="subdomain"
-                                placeholderKey="tenants.add.form.subdomain.placeholder"
-                                required
-                                addonAfter={getDomain()}
-                                disabled={isMainTenant}
-                            />
-                        </div>
+                                <FormInputField
+                                    name="subdomain"
+                                    placeholderKey="tenants.add.form.subdomain.placeholder"
+                                    required
+                                    addonAfter={getDomain()}
+                                    disabled={isMainTenant && isEditing}
+                                />
+                            </div>
+                        )}
                         <div className={styles.fieldGroup}>
                             <div className={styles.description}>
                                 {t('tenants.add.form.allowedConsultantsLicense.label')}
@@ -116,26 +120,26 @@ export const GeneralTenantSettings = () => {
                 </Col>
                 {isEditing && (
                     <Col span={12} md={6}>
-                        <CardEditable
+                        <Card
                             isLoading={isLoading}
                             titleKey="tenants.edit.adminEmailsCardTitle"
                             tooltip={t('tenants.edit.adminEmailsCardTooltip')}
-                            initialValues={{ ...data }}
-                            onSave={(formData) => update(formData as unknown as TenantAdminData)}
                         >
-                            {data?.adminEmails?.length && (
-                                <SelectFormField name="adminEmails" required disabled isMulti />
-                            )}
-                            {!data?.adminEmails?.length && (
-                                <div className={styles.emptyAdminsContainer}>
-                                    <PersonSearchIcon className={styles.emptyAdminsIcon} />
+                            <Form disabled initialValues={{ ...data }}>
+                                {data?.adminEmails?.length && (
+                                    <SelectFormField name="adminEmails" required disabled isMulti />
+                                )}
+                                {!data?.adminEmails?.length && (
+                                    <div className={styles.emptyAdminsContainer}>
+                                        <PersonSearchIcon className={styles.emptyAdminsIcon} />
 
-                                    <div className={styles.emptyAdminsText}>
-                                        {t('tenants.edit.adminEmailsCardEmpty')}
+                                        <div className={styles.emptyAdminsText}>
+                                            {t('tenants.edit.adminEmailsCardEmpty')}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
-                        </CardEditable>
+                                )}
+                            </Form>
+                        </Card>
                     </Col>
                 )}
             </Row>

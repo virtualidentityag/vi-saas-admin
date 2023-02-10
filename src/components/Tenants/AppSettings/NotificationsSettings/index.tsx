@@ -12,7 +12,7 @@ export const NotificationsSettings = ({ tenantId }: { tenantId: string }) => {
     const { data, isLoading } = useSingleTenantData({ id: tenantId });
     const { mutate } = useTenantAdminDataMutation({
         id: tenantId,
-        successMessageKey: 'tenants.message.settingsUpdate',
+        successMessageKey: 'tenants.message.settingsUpdate24Hours',
     });
 
     return (

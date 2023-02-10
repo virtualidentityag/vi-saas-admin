@@ -237,6 +237,7 @@
     "tenants.message.subdomainInUse": "Diese Subdomain ist bereits vergeben.",
     "tenants.message.update": "Der Mandant wurde aktualisiert.",
     "tenants.message.settingsUpdate": "Die Einstellungen wurden aktualisiert.",
+    "tenants.message.settingsUpdate24Hours": "Ihre Änderungen wurden gespeichert. Sie werden spätestens in 24 Stunden im System sichtbar.",
     "tenants.add.headline": "Neuen Mandant anlegen",
     "tenants.edit.tabs.general": "Allgemein",
     "tenants.edit.tabs.themeSettings": "Erscheinungsbild",

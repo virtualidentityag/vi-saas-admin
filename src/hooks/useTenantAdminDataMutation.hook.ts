@@ -1,4 +1,4 @@
-import { message } from 'antd';
+import { notification } from 'antd';
 import mergeWith from 'lodash.mergewith';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient, UseMutationOptions } from 'react-query';
@@ -57,8 +57,8 @@ export const useTenantAdminDataMutation = ({
             ...options,
             onSuccess: (responseData, updatedData) => {
                 queryClient.setQueryData(TENANT_ADMIN_DATA_KEY, mergeData(tenantAdminData, updatedData));
-                message.success({
-                    content: t(successMessageKey),
+                notification.success({
+                    message: t(successMessageKey),
                     duration: 3,
                 });
                 options?.onSuccess?.(responseData, updatedData, null);

@@ -1,9 +1,9 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, notification, Tag } from 'antd';
-import { ColumnProps } from 'antd/lib/table';
+import { ColumnProps, TablePaginationConfig } from 'antd/lib/table';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import routePathNames from '../../../appConfig';
 import { CopyToClipboard } from '../../../components/CopyToClipboard';
@@ -27,15 +27,18 @@ import styles from './styles.module.scss';
 
 export const TenantsList = () => {
     const navigate = useNavigate();
-    const { page } = useParams();
     const { t } = useTranslation();
+    const [tableState, setTableState] = useState<TableState>({
+        current: 1,
+        pageSize: 10,
+    });
 
     const { settings } = useAppConfigContext();
     const [search, setSearch] = useState('');
     const [showDeleteModal, setShowDeleteModal] = useState<number>(null);
     const { can } = useUserPermissions();
 
-    const { data, isLoading } = useTenantsData({ page: Number(page || 1), search });
+    const { data, isLoading } = useTenantsData({ page: tableState.current, perPage: tableState.pageSize, search });
     const { mutate: deleteTenant } = useDeleteTenant({
         onSuccess: () => {
             notification.success({ message: t('tenants.list.deleteMessage.success') });
@@ -54,6 +57,30 @@ export const TenantsList = () => {
         setShowDeleteModal(null);
         deleteTenant(id);
     }, []);
+
+    const handleTableAction = useCallback((pagination: TablePaginationConfig, _: any, sorter: any) => {
+        const { current, pageSize } = pagination;
+        if (sorter.field) {
+            const sortBy = sorter.field.toUpperCase();
+            const order = sorter.order === 'descend' ? 'DESC' : 'ASC';
+            setTableState({
+                ...tableState,
+                current,
+                pageSize,
+                sortBy,
+                order,
+            });
+        } else {
+            setTableState({ ...tableState, current, pageSize });
+        }
+    }, []);
+
+    const pagination = {
+        total: data?.total,
+        current: tableState.current,
+        showSizeChanger: true,
+        pageSizeOptions: ['10', '20', '30'],
+    };
 
     const columnsData = [
         {
@@ -77,7 +104,7 @@ export const TenantsList = () => {
             ellipsis: true,
             render: (emails: string[]) => (
                 <div className={styles.emailsContainer}>
-                    {emails?.map((email) => (
+                    {emails?.filter(Boolean)?.map((email) => (
                         <CopyToClipboard className={styles.email} key={email}>
                             {email}
                         </CopyToClipboard>
@@ -163,6 +190,8 @@ export const TenantsList = () => {
                 loading={isLoading}
                 columns={columnsData}
                 dataSource={data?.data || []}
+                pagination={pagination}
+                onChange={handleTableAction}
                 rowKey="id"
                 locale={{ emptyText: t('tenants.list.empty') }}
             />

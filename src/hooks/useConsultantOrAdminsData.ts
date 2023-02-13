@@ -29,7 +29,7 @@ export const useConsultantOrAgencyAdminsData = (
         () => {
             return fetchData({
                 url: `${baseUrl}?query=${encodeURIComponent(search || '*')}&page=${current || 1}&perPage=${
-                    pageSize || 15
+                    pageSize || 10
                 }&order=${order || DEFAULT_ORDER}&field=${sortBy || DEFAULT_SORT}`,
                 method: FETCH_METHODS.GET,
                 skipAuth: false,

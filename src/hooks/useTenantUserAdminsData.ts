@@ -30,7 +30,7 @@ export const useTenantAdminsData = ({
             return fetchData({
                 url: `${tenantAdminsSearchEndpoint}?query=${encodeURIComponent(search || '*')}&page=${
                     current || 1
-                }&perPage=${pageSize || 15}&order=${order || DEFAULT_ORDER}&field=${sortBy || DEFAULT_SORT}`,
+                }&perPage=${pageSize || 10}&order=${order || DEFAULT_ORDER}&field=${sortBy || DEFAULT_SORT}`,
                 method: FETCH_METHODS.GET,
                 skipAuth: false,
                 responseHandling: [],

@@ -64,7 +64,7 @@ export const AgencyList = () => {
                 title: t('agency.name'),
                 dataIndex: 'name',
                 key: 'name',
-                sorter: (a, b) => a.name.localeCompare(b.name),
+                sorter: (a, b) => a.name?.toLowerCase().localeCompare(b.name?.toLowerCase()),
                 width: 100,
                 ellipsis: true,
                 className: 'agencyList__column',

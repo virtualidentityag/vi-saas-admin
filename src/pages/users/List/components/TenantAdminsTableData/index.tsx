@@ -19,8 +19,10 @@ import { DeleteTenantAdminModal } from '../DeleteTenantAdmin';
 import { getDomain } from '../../../../../utils/getDomain';
 import styles from './styles.module.scss';
 import { CopyToClipboard } from '../../../../../components/CopyToClipboard';
+import { useAppConfigContext } from '../../../../../context/useAppConfig';
 
 export const TenantsTableData = () => {
+    const { settings } = useAppConfigContext();
     const { can } = useUserPermissions();
     const navigate = useNavigate();
     const { t } = useTranslation();
@@ -92,7 +94,7 @@ export const TenantsTableData = () => {
                 </CopyToClipboard>
             ),
         },
-        {
+        !settings.multitenancyWithSingleDomainEnabled && {
             width: 200,
             title: t('tenantAdmins.form.subdomain'),
             dataIndex: 'tenantSubdomain',

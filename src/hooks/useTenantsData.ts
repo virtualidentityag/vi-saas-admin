@@ -16,7 +16,7 @@ interface TenantsProps extends UseQueryOptions<ResponseList<TenantAdminData>> {
 export const useTenantsData = ({
     page,
     search,
-    perPage = 20,
+    perPage = 10,
     sort = 'NAME',
     dir = 'ASC',
     ...options

@@ -1,4 +1,4 @@
 export interface UploadFileProps {
-  size: number;
-  type: string;
+    size: number;
+    type: string;
 }

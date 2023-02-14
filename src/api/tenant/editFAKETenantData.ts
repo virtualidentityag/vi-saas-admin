@@ -1,4 +1,4 @@
-import { TenantData } from "../../types/tenant";
+import { TenantData } from '../../types/tenant';
 
 /**
  * retrieve all needed tenant data
@@ -6,16 +6,16 @@ import { TenantData } from "../../types/tenant";
  * @return data
  */
 const editFAKETenantData = (tenantData: TenantData) => {
-  const tenantResponse = tenantData;
+    const tenantResponse = tenantData;
 
-  // eslint-disable-next-line no-console
-  console.log("FAKE edit TenantData", tenantResponse);
+    // eslint-disable-next-line no-console
+    console.log('FAKE edit TenantData', tenantResponse);
 
-  return new Promise((resolve) => {
-    window.setTimeout(() => {
-      resolve(tenantResponse);
-    }, 1000);
-  });
+    return new Promise((resolve) => {
+        window.setTimeout(() => {
+            resolve(tenantResponse);
+        }, 1000);
+    });
 };
 
 export default editFAKETenantData;

@@ -1,42 +1,17 @@
-import { customerEndpoint } from "../../appConfig";
-
-import storeDispatch from "../../state/actions/storeDispatch";
-import { FETCH_ERRORS, FETCH_METHODS, fetchData } from "../fetchData";
+import { userDataEndpoint } from '../../appConfig';
+import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
 
 /**
  * retrieve all needed user data and store them
  * this function mimics a default response to fail gracefully
  * and do not hinder the user
  */
-const getUserData = () => {
-  // retrieve customer
-  const customerResponse = fetchData({
-    url: customerEndpoint,
-    method: FETCH_METHODS.GET,
-    skipAuth: false,
-    responseHandling: [FETCH_ERRORS.CATCH_ALL],
-  });
-
-  customerResponse.then((response: any) => {
-    const { firstname, id, lastname, email, gender, salutation, phone } =
-      response.data;
-
-    if (response?.status !== 200) {
-      return Promise.reject();
-    }
-
-    storeDispatch("user/set-data", {
-      firstname,
-      id,
-      lastname,
-      email,
-      gender,
-      salutation,
-      phone,
+export const getUserData = () => {
+    // retrieve customer
+    return fetchData({
+        url: userDataEndpoint,
+        method: FETCH_METHODS.GET,
+        skipAuth: false,
+        responseHandling: [FETCH_ERRORS.CATCH_ALL],
     });
-
-    return customerResponse;
-  });
 };
-
-export default getUserData;

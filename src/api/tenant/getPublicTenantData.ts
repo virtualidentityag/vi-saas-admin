@@ -1,28 +1,26 @@
-import { fetchData, FETCH_METHODS, FETCH_ERRORS } from "../fetchData";
-import { tenantPublicEndpoint } from "../../appConfig";
-import storeDispatch from "../../state/actions/storeDispatch";
-import getLocationVariables from "../../utils/getLocationVariables";
+import { fetchData, FETCH_METHODS, FETCH_ERRORS } from '../fetchData';
+import { baseTenantPublicEndpoint } from '../../appConfig';
+import getLocationVariables from '../../utils/getLocationVariables';
+import { AppConfigInterface } from '../../types/AppConfigInterface';
+
 /**
  * retrieve all needed public tenant data
  * @return data
  */
-const getPublicTenantData = () => {
-  const { subdomain } = getLocationVariables();
-  if (subdomain) {
-    const tenantResponse = fetchData({
-      url: `${tenantPublicEndpoint}`,
-      method: FETCH_METHODS.GET,
-      skipAuth: true,
-      responseHandling: [FETCH_ERRORS.CATCH_ALL],
-    });
-    tenantResponse.then((response: any) => {
-      storeDispatch("tenant/set-data", {
-        ...response,
-      });
-    });
-    return tenantResponse;
-  }
-  return new Promise<any>(() => {});
+const getPublicTenantData = (settings: AppConfigInterface) => {
+    const { subdomain } = getLocationVariables();
+    const slug = settings.multitenancyWithSingleDomainEnabled
+        ? settings.mainTenantSubdomainForSingleDomainMultitenancy
+        : subdomain;
+    if (slug) {
+        return fetchData({
+            url: `${baseTenantPublicEndpoint}/${slug}`,
+            method: FETCH_METHODS.GET,
+            skipAuth: true,
+            responseHandling: [FETCH_ERRORS.NO_MATCH],
+        });
+    }
+    return new Promise<any>(() => {});
 };
 
 export default getPublicTenantData;

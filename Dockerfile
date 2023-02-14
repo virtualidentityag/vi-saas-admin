@@ -1,4 +1,5 @@
-FROM docker.pkg.github.com/caritasdeutschland/caritas-onlineberatung-nginx/nginx-image:dockerimage.v.1
+ARG DOCKER_MATRIX=ghcr.io
+FROM $DOCKER_MATRIX/onlineberatung/onlineberatung-nginx/onlineberatung-nginx:dockerimage.v.002-main
 COPY favicon.ico /usr/share/nginx/html/admin/
 COPY index.html /usr/share/nginx/html/admin/
 COPY robots.txt /usr/share/nginx/html/admin/

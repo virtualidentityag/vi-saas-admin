@@ -40,14 +40,14 @@ export const NotificationsSettings = ({ tenantId }: { tenantId: string }) => {
                 />
                 <p className={styles.checkInfo}>{t('tenants.appSettings.nextSteps.description')}</p>
             </div>
-            <div className={styles.checkGroup}>
+            {/* <div className={styles.checkGroup}>
                 <FormSwitchField
                     labelKey="tenants.appSettings.sessionData.label"
                     name={['settings', 'extendedSettings', 'sendSaveSessionDataMessage']}
                     inline
                     disableLabels
                 />
-            </div>
+            </div> */}
             <Divider />
             <div className={styles.radioGroup}>
                 <FormRadioGroupField

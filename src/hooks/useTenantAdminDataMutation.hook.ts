@@ -49,7 +49,21 @@ export const useTenantAdminDataMutation = ({
                 url: `${tenantAdminEndpoint}/${id}`,
                 method: FETCH_METHODS.PUT,
                 skipAuth: false,
-                bodyData: JSON.stringify(mergeData(tenantAdminData, data)),
+                bodyData: JSON.stringify(
+                    mergeData(
+                        mergeWith(tenantAdminData, {
+                            // Temporary fix
+                            settings: {
+                                extendedSettings: {
+                                    welcomeMessage: {
+                                        welcomeMessageText: 'Herzlich Willkommen in der Onlineberatung!',
+                                    },
+                                },
+                            },
+                        }),
+                        data,
+                    ),
+                ),
                 responseHandling: [],
             });
         },

@@ -29,7 +29,7 @@ export const CommunicationSettings = ({ tenantId }: { tenantId: string }) => {
                 />
                 <p className={styles.checkInfo}>{t('tenants.appSettings.communications.video.description')}</p>
             </div>
-            <div className={styles.checkGroup}>
+            {/* <div className={styles.checkGroup}>
                 <FormSwitchField
                     labelKey="tenants.appSettings.communications.allowAttachments.title"
                     name={['settings', 'featureAttachmentUploadDisabled']}
@@ -37,7 +37,7 @@ export const CommunicationSettings = ({ tenantId }: { tenantId: string }) => {
                     inline
                     disableLabels
                 />
-            </div>
+            </div> */}
         </CardEditable>
     );
 };

@@ -1,6 +1,6 @@
-import { topicEndpoint } from '../../appConfig';
+import { topicAdminEndpoint } from '../../appConfig';
 
-import { FETCH_METHODS, fetchData } from '../fetchData';
+import { FETCH_METHODS, fetchData, FETCH_SUCCESS } from '../fetchData';
 // import removeEmbedded from "../../utils/removeEmbedded";
 
 export const DEFAULT_SORT = 'NAME';
@@ -20,10 +20,10 @@ const getTopicData = (params: TableState) => {
     order = order.toUpperCase();
 
     return fetchData({
-        url: `${topicEndpoint}/?page=${params.current}&perPage=10&order=${order}&field=${sortBy}`,
+        url: `${topicAdminEndpoint}/?page=${params.current}&perPage=10&order=${order}&field=${sortBy}`,
         method: FETCH_METHODS.GET,
         skipAuth: false,
-        responseHandling: [],
+        responseHandling: [FETCH_SUCCESS.CONTENT],
     }).then((result) => {
         const resultArray = result instanceof Array ? result : [];
         return {

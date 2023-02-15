@@ -19,4 +19,6 @@ export interface AppConfigInterface {
     useConsultingTypesForAgencies?: boolean;
     /** Feature Flag to allow or not the single tenant admins to edit legal texts */
     legalContentChangesBySingleTenantAdminsAllowed?: boolean;
+    /** Release toggles */
+    releaseToggles?: Record<string, boolean>;
 }

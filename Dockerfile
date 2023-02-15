@@ -1,4 +1,5 @@
-FROM ghcr.io/onlineberatung/onlineberatung-nginx/onlineberatung-nginx:dockerimage.v.002-main
+ARG DOCKER_MATRIX=ghcr.io
+FROM $DOCKER_MATRIX/onlineberatung/onlineberatung-nginx/onlineberatung-nginx:dockerimage.v.002-main
 COPY favicon.ico /usr/share/nginx/html/admin/
 COPY index.html /usr/share/nginx/html/admin/
 COPY robots.txt /usr/share/nginx/html/admin/

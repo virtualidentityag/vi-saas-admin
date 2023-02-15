@@ -1,11 +1,16 @@
 import { Outlet } from 'react-router';
 import { Page } from '../../components/Page';
+import { useAppConfigContext } from '../../context/useAppConfig';
 import { PermissionAction } from '../../enums/PermissionAction';
+import { ReleaseToggle } from '../../enums/ReleaseToggle';
 import { Resource } from '../../enums/Resource';
+import { useReleasesToggle } from '../../hooks/useReleasesToggle.hook';
 import { useUserPermissions } from '../../hooks/useUserPermission';
 
 export const TenantSettingsLayout = () => {
+    const { settings } = useAppConfigContext();
     const { can } = useUserPermissions();
+    const { isEnabled } = useReleasesToggle();
 
     return (
         <Page>
@@ -21,6 +26,13 @@ export const TenantSettingsLayout = () => {
                         to: '/admin/theme-settings/legal',
                         titleKey: 'settings.subhead.legal',
                     },
+                    can(PermissionAction.Update, Resource.Tenant) &&
+                        isEnabled(ReleaseToggle.TENANT_ADMIN_SETTINGS_EDIT) && {
+                            to: '/admin/theme-settings/app-settings',
+                            titleKey: `tenants.edit.tabs.${
+                                settings.multitenancyWithSingleDomainEnabled ? 'globalSettings' : 'appSettings'
+                            }`,
+                        },
                 ]}
             />
             <Outlet />

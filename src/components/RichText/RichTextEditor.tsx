@@ -13,9 +13,11 @@ type RichTextEditorProps = {
     placeholder: string;
     disabled?: boolean;
     className?: string;
+    onFocus?: () => void;
+    onBlur?: () => void;
 };
 
-const RTE = ({ value, onChange, placeholder, disabled, className }: RichTextEditorProps) => {
+const RTE = ({ value, onChange, placeholder, disabled, className, onBlur, onFocus }: RichTextEditorProps) => {
     const { t } = useTranslation();
     const [editorState, setEditorState] = useState(() => RichTextEditor.createValueFromString(value, 'html'));
 
@@ -45,6 +47,9 @@ const RTE = ({ value, onChange, placeholder, disabled, className }: RichTextEdit
         ],
     };
 
+    // Just because the library isn't properly typed
+    const extraProps = { onBlur, onFocus };
+
     return (
         <RichTextEditor
             disabled={disabled}
@@ -53,6 +58,7 @@ const RTE = ({ value, onChange, placeholder, disabled, className }: RichTextEdit
             toolbarConfig={toolbarConfig}
             className={classNames('rte', className)}
             placeholder={placeholder}
+            {...extraProps}
         />
     );
 };

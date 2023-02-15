@@ -28,12 +28,14 @@ export const FETCH_ERRORS = {
     TIMEOUT: 'TIMEOUT',
     UNAUTHORIZED: 'UNAUTHORIZED',
     PRECONDITION_FAILED: 'PRECONDITION FAILED',
+    NOT_ALLOWED: 'NOT_ALLOWED',
     X_REASON: 'X-Reason',
 };
 
 export const X_REASON = {
     EMAIL_NOT_AVAILABLE: 'EMAIL_NOT_AVAILABLE',
     NUMBER_OF_LICENSES_EXCEEDED: 'NUMBER_OF_LICENSES_EXCEEDED',
+    SUBDOMAIN_NOT_UNIQUE: 'SUBDOMAIN_NOT_UNIQUE',
 };
 
 export const FETCH_SUCCESS = {
@@ -134,6 +136,8 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
                         reject(new Error(FETCH_ERRORS.BAD_REQUEST));
                     } else if (response.status === 404 && props.responseHandling.includes(FETCH_ERRORS.NO_MATCH)) {
                         reject(new Error(FETCH_ERRORS.NO_MATCH));
+                    } else if (response.status === 405 && props.responseHandling.includes(FETCH_ERRORS.NOT_ALLOWED)) {
+                        reject(new Error(FETCH_ERRORS.NOT_ALLOWED));
                     } else if (
                         response.status === 409 &&
                         (props.responseHandling.includes(FETCH_ERRORS.CONFLICT) ||
@@ -144,7 +148,9 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
                                 ? response
                                 : new Error(FETCH_ERRORS.CONFLICT),
                         );
-                    } else if (response.status === 401 || response.status === 403) {
+                    } else if (response.status === 403) {
+                        window.location.href = '/admin/access-denied';
+                    } else if (response.status === 401) {
                         logout(true, routePathNames.login);
                     }
                 } else {

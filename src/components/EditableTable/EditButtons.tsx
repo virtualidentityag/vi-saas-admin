@@ -1,14 +1,16 @@
 import React from 'react';
+import classNames from 'classnames';
 import { AgencyData } from '../../types/agency';
 import { CounselorData } from '../../types/counselor';
 import { EditableData } from '../../types/editabletable';
 import { TopicData } from '../../types/topic';
 import { BasicTenantData } from '../../types/tenant';
-import CustomPencilIcon from '../CustomIcons/Pencil';
-import CustomRecycleIcon from '../CustomIcons/RecycleBin';
+import { ReactComponent as EditIcon } from '../../resources/img/svg/pen.svg';
+import { ReactComponent as DeleteIcon } from '../../resources/img/svg/delete.svg';
 import { Resource } from '../../enums/Resource';
 import { useUserPermissions } from '../../hooks/useUserPermission';
 import { PermissionAction } from '../../enums/PermissionAction';
+import styles from './styles.module.scss';
 
 export interface EditButtonsProps extends Omit<React.HTMLAttributes<HTMLElement>, 'resource'> {
     handleEdit: (formData: EditableData) => void;
@@ -17,14 +19,26 @@ export interface EditButtonsProps extends Omit<React.HTMLAttributes<HTMLElement>
     isDisabled?: boolean;
     hide?: string[];
     resource: Resource;
+    disabled?: { edit: boolean; delete: boolean };
 }
 
-const EditButtons = ({ handleEdit, handleDelete, record, isDisabled, hide = [], resource }: EditButtonsProps) => {
+export const EditButtons = ({
+    handleEdit,
+    handleDelete,
+    record,
+    isDisabled,
+    hide = [],
+    resource,
+    disabled,
+}: EditButtonsProps) => {
     const { can } = useUserPermissions();
-    const disabled = isDisabled ? 'disabled' : '';
-    const handleEditAction = isDisabled ? () => {} : handleEdit;
-    const handleDeleteAction = isDisabled ? () => {} : handleDelete;
-    const errorColor = '#FF0000';
+    const disabledButtons = {
+        edit: isDisabled || disabled?.edit,
+        delete: isDisabled || disabled?.delete,
+    };
+
+    const handleEditAction = disabledButtons.edit ? () => {} : handleEdit;
+    const handleDeleteAction = disabledButtons.delete ? () => {} : handleDelete;
     const hiddenElements = hide || [];
     if (!can(PermissionAction.Delete, resource)) {
         hide.push('delete');
@@ -37,22 +51,24 @@ const EditButtons = ({ handleEdit, handleDelete, record, isDisabled, hide = [], 
         <div className="editBtnWrapper">
             {!hiddenElements.includes('edit') && (
                 <button
-                    className={`editIcon saveIcon ${disabled}`}
+                    className={classNames({ [styles.disabled]: disabledButtons?.edit }, styles.iconButton)}
                     type="button"
+                    disabled={disabledButtons?.edit}
                     onClick={() => handleEditAction(record)}
                 >
-                    <CustomPencilIcon color={errorColor} />
+                    <EditIcon />
                 </button>
             )}
             {!hiddenElements.includes('delete') && (
                 <button
-                    className={`editIcon deleteIcon ${disabled}`}
+                    className={classNames({ [styles.disabled]: disabledButtons?.delete }, styles.iconButton)}
                     type="button"
+                    disabled={disabledButtons?.delete}
                     onClick={() => {
                         handleDeleteAction(record);
                     }}
                 >
-                    <CustomRecycleIcon style={{ color: errorColor }} />
+                    <DeleteIcon />
                 </button>
             )}
         </div>

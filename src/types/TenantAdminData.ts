@@ -1,6 +1,7 @@
 import { BasicTenantData } from './tenant';
 
 export interface TenantAdminData extends BasicTenantData {
+    adminEmails: string[];
     theming: {
         logo: string;
         favicon: string;
@@ -14,5 +15,26 @@ export interface TenantAdminData extends BasicTenantData {
         claim: Record<string, string>;
         confirmTermsAndConditions: boolean;
         confirmPrivacy: boolean;
+    };
+    settings: BasicTenantData['settings'] & {
+        extendedSettings?: TenantAdminSettings;
+    };
+}
+
+interface TenantAdminSettings {
+    isVideoCallAllowed: boolean;
+    languageFormal: boolean;
+    sendFurtherStepsMessage: boolean;
+    sendSaveSessionDataMessage: boolean;
+    notifications: {
+        teamSessions: {
+            newMessage: {
+                allTeamConsultants: boolean;
+            };
+        };
+    };
+    welcomeMessage: {
+        sendWelcomeMessage: boolean;
+        welcomeMessageText: string;
     };
 }

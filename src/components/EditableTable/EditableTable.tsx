@@ -43,10 +43,7 @@ const EditableTable = ({
                 className="editableTable"
                 dataSource={source}
                 columns={columns}
-                scroll={{
-                    x: 'max-content',
-                    y: '100%',
-                }}
+                scroll={{ x: 'max-content', y: 'auto' }}
                 sticky
                 tableLayout="fixed"
             />

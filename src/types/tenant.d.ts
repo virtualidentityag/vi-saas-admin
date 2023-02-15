@@ -21,6 +21,7 @@ export interface BasicTenantData {
         featureDemographicsEnabled?: boolean | null;
         featureTopicsEnabled?: boolean | null;
         topicsInRegistrationEnabled?: boolean | null;
+        featureStatisticsEnabled?: boolean;
     };
 }
 

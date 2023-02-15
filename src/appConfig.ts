@@ -42,24 +42,28 @@ export const consultantsForAgencyEventTypesNew = (agencyId: string) =>
 export const consultingTypeEndpoint = `${mainURL}/service/consultingtypes`;
 export const counselorEndpoint = `${mainURL}/service/useradmin/consultants`;
 export const diocesesEndpoint = `${mainURL}/service/agencyadmin/dioceses`;
-export const adminEndpoint = `${mainURL}/service/useradmin/agencyadmins`;
+export const agencyAdminEndpoint = `${mainURL}/service/useradmin/agencyadmins`;
 export const eventTypeById = `${mainURL}/eventTypes/{eventTypeId}`;
 export const loginEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/token`;
 export const logoutEndpoint = `${mainURL}/auth/realms/online-beratung/protocol/openid-connect/logout`;
 export const tenantEndpoint = `${mainURL}/service/tenant/`;
-export const tenantAdminEndpoint = `${mainURL}/service/tenantadmin/`;
+export const tenantAccessEndpoint = `${mainURL}/service/tenant/access`;
+export const tenantAdminEndpoint = `${mainURL}/service/tenantadmin`;
 export const serverSettingsEndpoint = `${mainURL}/service/settings`;
+export const serverSettingsAdminEndpoint = `${mainURL}/service/settingsadmin`;
 export const baseTenantPublicEndpoint = `${mainURL}/service/tenant/public`;
 export const tenantPublicEndpoint = `${baseTenantPublicEndpoint}/${subdomain}`;
 export const topicEndpoint = `${mainURL}/service/topic`;
 export const topicAdminEndpoint = `${mainURL}/service/topicadmin`;
+export const tenantAdminsEndpoint = `${mainURL}/service/useradmin/tenantadmins`;
+export const tenantAdminsSearchEndpoint = `${mainURL}/service/useradmin/tenantadmins/search`;
 export const twoFactorAuth = `${mainURL}/service/users/2fa`;
 export const twoFactorAuthApp = `${mainURL}/service/users/2fa/app`;
 export const twoFactorAuthAppEmail = `${mainURL}/service/users/2fa/email`;
 export const userDataEndpoint = `${mainURL}/service/users/data`;
 export const usersConsultantEndpoint = `${mainURL}/service/users/consultants`;
 export const usersConsultantsSearchEndpoint = `${mainURL}/service/users/consultants/search`;
-export const adminsSearchEndpoint = `${mainURL}/service/useradmin/agencyadmins/search`;
+export const agencyAdminsSearchEndpoint = `${mainURL}/service/useradmin/agencyadmins/search`;
 export const registrationDataEndpoint = `${mainURL}/service/statistics/registration`;
 export const XHRheader = { AcceptLanguage: 'de' };
 
@@ -73,6 +77,7 @@ const routePathNames = {
     users: '/admin/users',
     consultants: '/admin/users/consultants',
     agency: '/admin/agency/',
+    agencyAdmins: '/admin/users/agency-admins',
     agencyEdit: '/admin/agency/edit',
     agencyEditGeneral: '/admin/agency/edit/:id/general',
     agencyEditInitialMeeting: '/admin/agency/edit/:id/initial-meeting',
@@ -84,7 +89,8 @@ const routePathNames = {
     termsAndConditions: '/admin/agb',
     imprint: '/impressum',
     privacy: '/datenschutz',
-    tenants: '/admin/organisationen',
+    tenants: '/admin/tenants',
+    tenantAdmins: '/admin/users/tenant-admins',
     loginResetPasswordLink: '/auth/realms/online-beratung/login-actions/reset-credentials?client_id=account',
     appointmentServiceDevServer: 'https://calcom-develop.suchtberatung.digital',
 };

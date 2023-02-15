@@ -1,12 +1,12 @@
 import { useMutation, UseMutationOptions } from 'react-query';
-import { deleteAdminData } from '../api/admins/deleteAdminData';
+import { deleteAgencyAdminData } from '../api/admins/deleteAgencyAdminData';
 import { deleteCounselorData } from '../api/counselor/deleteCounselorData';
 
 interface DeleteConsultantOrAdminProps extends UseMutationOptions<void, Error, string> {
     typeOfUser: 'consultants' | 'admins';
 }
-export const useDeleteConsultantOrAdmin = ({ typeOfUser, ...options }: DeleteConsultantOrAdminProps) => {
+export const useDeleteConsultantOrAgencyAdmin = ({ typeOfUser, ...options }: DeleteConsultantOrAdminProps) => {
     return useMutation<void, Error, string>((id) => {
-        return typeOfUser === 'consultants' ? deleteCounselorData(id) : deleteAdminData(id);
+        return typeOfUser === 'consultants' ? deleteCounselorData(id) : deleteAgencyAdminData(id);
     }, options);
 };

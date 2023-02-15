@@ -1,9 +1,10 @@
 .page {
     display: flex;
+    min-height: calc(100% - 49px);
 }
 
-.page,
 .content {
+    padding: 25px;
     width: 100%;
 }
 
@@ -37,7 +38,6 @@
 
 .titleContainer {
     display: flex;
-    width: 25%;
     flex-direction: column;
 
     @media screen and (max-width: 770px) {
@@ -55,6 +55,19 @@
     }
 }
 
+.titleWithTabs,
+.backWithTabs {
+    width: 25%;
+
+    @media screen and (max-width: 770px) {
+        width: 100%;
+    }
+
+    @media screen and (max-width: 800px) {
+        padding-right: 0;
+    }
+}
+
 .title {
     text-align: left;
 }
@@ -62,12 +75,18 @@
 .pageTitleContainer {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
     padding-bottom: 32px;
 }
 
 .back {
     display: flex;
+    justify-content: space-between;
     padding-bottom: 32px;
+
+    @media (max-width: 650px) {
+        flex-direction: column;
+    }
 }
 
 .backLink {
@@ -78,4 +97,16 @@
 
 .backHeadline {
     margin-bottom: 0;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

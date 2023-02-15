@@ -10,7 +10,7 @@ import en_GB from 'antd/es/locale/en_GB';
 import { App } from './App';
 import routePathNames from './appConfig';
 import { queryClient } from './constants/client';
-import { Login } from './pages/Login';
+import { Login } from './pages/Login/Login';
 import { Error404 } from './pages/Error404';
 import { ProtectedRoute } from './router/ProtectedRoute';
 import './i18n';
@@ -19,6 +19,7 @@ import { Privacy } from './pages/Privacy';
 import { useAppConfigContext, UseAppConfigProvider } from './context/useAppConfig';
 import { apiServerSettings } from './api/settings/apiServerSettings';
 import { Initialization } from './components/Layout/Initialization';
+import { AccessDenied } from './pages/ErrorPages/AccessDenied';
 
 interface LangMap {
     [key: string]: Locale;
@@ -70,7 +71,8 @@ render(
                     <Router>
                         <Routes>
                             <Route path={routePathNames.login} element={<Login />} />
-                            <Route path="/404" element={<Error404 />} />
+                            <Route path="/admin/404" element={<Error404 />} />
+                            <Route path="/admin/access-denied" element={<AccessDenied />} />
 
                             <Route path={routePathNames.imprint} element={<Imprint />} />
                             <Route path={routePathNames.privacy} element={<Privacy />} />

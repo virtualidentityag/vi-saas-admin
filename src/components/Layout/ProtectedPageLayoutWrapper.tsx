@@ -20,6 +20,7 @@ import { useAppConfigContext } from '../../context/useAppConfig';
 import { PermissionAction } from '../../enums/PermissionAction';
 import { Resource } from '../../enums/Resource';
 import { useUserPermissions } from '../../hooks/useUserPermission';
+import styles from './styles.module.scss';
 
 const { Content, Sider } = Layout;
 
@@ -58,6 +59,16 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
         return location.pathname.includes(path);
     };
 
+    const usersPage = () => {
+        if (can(PermissionAction.Read, Resource.Consultant)) {
+            return routePathNames.consultants;
+        }
+        if (can(PermissionAction.Read, Resource.AgencyAdminUser)) {
+            return routePathNames.agencyAdmins;
+        }
+        return routePathNames.tenantAdmins;
+    };
+
     return (
         <>
             <Layout className="protectedLayout">
@@ -78,11 +89,23 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 </li>
                             )}
 
+                            {can(PermissionAction.Create, Resource.Tenant) && (
+                                <li key="tenants" className="menuItem">
+                                    <NavLink
+                                        to={routePathNames.tenants}
+                                        className={classNames({ active: checkActive(routePathNames.tenants) })}
+                                    >
+                                        <NavIcon path={routePathNames.tenants} />
+                                        <span>{t('tenants.navTitle')}</span>
+                                    </NavLink>
+                                </li>
+                            )}
                             {(can(PermissionAction.Read, Resource.Consultant) ||
-                                can(PermissionAction.Read, Resource.Admin)) && (
+                                can(PermissionAction.Read, Resource.AgencyAdminUser) ||
+                                can(PermissionAction.Read, Resource.TenantAdminUser)) && (
                                 <li key="counselors" className="menuItem">
                                     <NavLink
-                                        to={routePathNames.consultants}
+                                        to={usersPage()}
                                         className={classNames({ active: checkActive('/admin/users') })}
                                     >
                                         <NavIcon path="/admin/users" />
@@ -127,20 +150,6 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 </li>
                             )}
 
-                            {/*
-                                {hasRole(UserRole.TenantAdmin) && (
-                                    <li key="tenants" className="menuItem">
-                                    <NavLink
-                                        to={routePathNames.tenants}
-                                        className={({ isActive }) => (isActive ? "active" : "")}
-                                    >
-                                        <NavIcon path={routePathNames.tenants} />
-                                        <span>{t("organisations.title")}</span>
-                                    </NavLink>
-                                    </li>
-                                )}
-                            */}
-
                             <li className="menuItem">
                                 <NavLink
                                     to={routePathNames.userProfile}
@@ -160,12 +169,13 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                         </ul>
                     </nav>
                 </Sider>
-                <Layout className={classNames('mainContent', { 'with-footer': !hasRole(UserRole.TenantAdmin) })}>
+
+                <Layout className={classNames(styles.mainContent)}>
                     <SiteHeader />
-                    <Content className="content">
-                        <div className="contentInner">{children}</div>
+                    <Content className={styles.content}>
+                        {children}
+                        {!hasRole(UserRole.TenantAdmin) && <SiteFooter />}
                     </Content>
-                    {!hasRole(UserRole.TenantAdmin) && <SiteFooter />}
                 </Layout>
             </Layout>
             {isEnabled(FeatureFlag.Developer) && <ReactQueryDevtools />}

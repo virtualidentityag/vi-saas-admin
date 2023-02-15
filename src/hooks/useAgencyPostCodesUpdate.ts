@@ -10,7 +10,7 @@ export const useAgencyPostCodesUpdate = (id: string) => {
         },
         {
             onSuccess: () => {
-                queryClient.invalidateQueries(['AGENCY', 'AGENCY_POST_CODES']);
+                queryClient.removeQueries(['AGENCY_POST_CODES']);
             },
         },
     );

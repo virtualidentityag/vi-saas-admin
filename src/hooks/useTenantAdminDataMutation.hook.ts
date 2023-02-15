@@ -1,12 +1,12 @@
-import { message } from 'antd';
+import { notification } from 'antd';
 import mergeWith from 'lodash.mergewith';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient, UseMutationOptions } from 'react-query';
 import { fetchData, FETCH_METHODS } from '../api/fetchData';
 import { tenantAdminEndpoint } from '../appConfig';
 import { TenantAdminData } from '../types/TenantAdminData';
-import { TENANT_ADMIN_DATA_KEY, useTenantAdminData } from './useTenantAdminData.hook';
-import { useTenantData } from './useTenantData.hook';
+import { useSingleTenantData } from './useSingleTenantData';
+import { TENANT_ADMIN_DATA_KEY } from './useTenantAdminData.hook';
 
 const mergeData = (currentTenantData: TenantAdminData, formData) => {
     const tmp = Object.assign(currentTenantData);
@@ -28,21 +28,42 @@ const mergeData = (currentTenantData: TenantAdminData, formData) => {
     return finalData;
 };
 
-export const useTenantAdminDataMutation = (
-    options?: UseMutationOptions<Partial<TenantAdminData>, unknown, Partial<TenantAdminData>>,
-) => {
+interface TenantAdminDataOptions
+    extends UseMutationOptions<Partial<TenantAdminData>, unknown, Partial<TenantAdminData>> {
+    id: string | number;
+    successMessageKey?: string;
+}
+
+export const useTenantAdminDataMutation = ({
+    id,
+    successMessageKey = 'message.success.setting.update',
+    ...options
+}: TenantAdminDataOptions) => {
     const { t } = useTranslation();
     const queryClient = useQueryClient();
-    const { data: tenantData } = useTenantData();
-    const { data: tenantAdminData } = useTenantAdminData();
+    const { data: tenantAdminData } = useSingleTenantData({ id, enabled: !!id && id !== 'add' });
 
     return useMutation(
         (data: Partial<TenantAdminData>) => {
             return fetchData({
-                url: `${tenantAdminEndpoint}${tenantData.id}`,
+                url: `${tenantAdminEndpoint}/${id}`,
                 method: FETCH_METHODS.PUT,
                 skipAuth: false,
-                bodyData: JSON.stringify(mergeData(tenantAdminData, data)),
+                bodyData: JSON.stringify(
+                    mergeData(
+                        mergeWith(tenantAdminData, {
+                            // Temporary fix
+                            settings: {
+                                extendedSettings: {
+                                    welcomeMessage: {
+                                        welcomeMessageText: 'Herzlich Willkommen in der Onlineberatung!',
+                                    },
+                                },
+                            },
+                        }),
+                        data,
+                    ),
+                ),
                 responseHandling: [],
             });
         },
@@ -50,8 +71,8 @@ export const useTenantAdminDataMutation = (
             ...options,
             onSuccess: (responseData, updatedData) => {
                 queryClient.setQueryData(TENANT_ADMIN_DATA_KEY, mergeData(tenantAdminData, updatedData));
-                message.success({
-                    content: t('message.success.setting.update'),
+                notification.success({
+                    message: t(successMessageKey),
                     duration: 3,
                 });
                 options?.onSuccess?.(responseData, updatedData, null);

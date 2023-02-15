@@ -3,6 +3,8 @@ import { Form, Select } from 'antd';
 import { ValidateStatus } from 'antd/es/form/FormItem';
 import classNames from 'classnames';
 import { Rule } from 'rc-field-form/lib/interface';
+import DisabledContext from 'antd/es/config-provider/DisabledContext';
+import { useContext } from 'react';
 import styles from './styles.module.scss';
 
 export interface Option {
@@ -51,6 +53,7 @@ export const SelectFormField = ({
 }: SelectFormFieldProps) => {
     const [t] = useTranslation();
     const message = errorMessage || t('form.errors.required');
+    const contextDisabled = useContext(DisabledContext);
 
     return (
         <Form.Item
@@ -59,13 +62,14 @@ export const SelectFormField = ({
             rules={[...rules, ...(required ? [{ required: true, message }] : [])]}
             help={help ? t(help) : undefined}
             validateStatus={validateStatus}
-            className={classNames(className, styles.item)}
+            className={classNames(className, styles.item, { [styles.disabled]: contextDisabled || disabled })}
             initialValue={initialValue}
         >
             <Select
                 className={styles.select}
                 disabled={disabled}
                 showSearch
+                size="large"
                 labelInValue={labelInValue}
                 loading={loading}
                 allowClear={allowClear}
@@ -84,3 +88,5 @@ export const SelectFormField = ({
         </Form.Item>
     );
 };
+
+SelectFormField.Option = Select.Option;

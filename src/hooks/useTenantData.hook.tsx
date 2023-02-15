@@ -10,9 +10,9 @@ export const useTenantData = () => {
     return useQuery<TenantData>(
         TENANT_DATA_KEY,
         async () =>
-            getPublicTenantData(settings).then((tenant) =>
-                getTenantData(tenant, settings.multitenancyWithSingleDomainEnabled),
-            ),
+            getPublicTenantData(settings)
+                .then((tenant) => getTenantData(tenant, settings.multitenancyWithSingleDomainEnabled))
+                .catch(() => ({ settings: {}, licensing: {} })),
         { staleTime: 60_000 },
     );
 };

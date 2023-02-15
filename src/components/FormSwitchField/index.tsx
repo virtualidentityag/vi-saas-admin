@@ -15,6 +15,10 @@ interface FormSwitchFieldProps {
     checkedKey?: string;
     unCheckedKey?: string;
     paragraphKey?: string;
+    inline?: boolean;
+    disableLabels?: boolean;
+    inverseValue?: boolean;
+    className?: string;
 }
 
 interface FormSwitchFieldLocalProps {
@@ -24,6 +28,8 @@ interface FormSwitchFieldLocalProps {
     paragraphKey?: string;
     checkedKey: string;
     unCheckedKey: string;
+    disableLabels?: boolean;
+    inverseValue?: boolean;
 }
 
 const FormSwitchFieldLocal = ({
@@ -32,7 +38,9 @@ const FormSwitchFieldLocal = ({
     paragraphKey,
     checkedKey,
     disabled,
+    disableLabels,
     unCheckedKey,
+    inverseValue,
 }: FormSwitchFieldLocalProps) => {
     const { t } = useTranslation();
 
@@ -41,10 +49,10 @@ const FormSwitchFieldLocal = ({
             <Switch
                 disabled={disabled}
                 size="default"
-                onChange={onChange}
-                checked={checked}
-                checkedChildren={t(checkedKey)}
-                unCheckedChildren={t(unCheckedKey)}
+                onChange={(value) => onChange(inverseValue ? !value : value)}
+                checked={inverseValue ? !checked : checked}
+                checkedChildren={!disableLabels && t(checkedKey)}
+                unCheckedChildren={!disableLabels && t(unCheckedKey)}
             />
             {paragraphKey && <Paragraph className="desc__toggleText">{t(paragraphKey)}</Paragraph>}
         </div>
@@ -58,8 +66,12 @@ export const FormSwitchField = ({
     required,
     help,
     disabled,
+    className,
     errorMessage,
     paragraphKey,
+    inline,
+    inverseValue,
+    disableLabels,
     checkedKey = 'yes',
     unCheckedKey = 'no',
 }: FormSwitchFieldProps) => {
@@ -73,13 +85,15 @@ export const FormSwitchField = ({
             rules={required ? [{ required: true, message }] : undefined}
             help={help ? t(help) : undefined}
             valuePropName="checked"
-            className={classNames(styles.item)}
+            className={classNames(className, styles.item, { [styles.inline]: inline })}
         >
             <FormSwitchFieldLocal
                 paragraphKey={paragraphKey}
                 checkedKey={checkedKey}
                 unCheckedKey={unCheckedKey}
                 disabled={disabled}
+                disableLabels={disableLabels}
+                inverseValue={inverseValue}
             />
         </Form.Item>
     );

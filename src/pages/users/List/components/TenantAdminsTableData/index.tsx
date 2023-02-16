@@ -44,7 +44,10 @@ export const TenantsTableData = () => {
         ...tableState,
     });
 
-    const setSearchDebounced = useDebouncedCallback(setSearch, 100);
+    const setSearchDebounced = useDebouncedCallback((value) => {
+        setTableState((data) => ({ ...data, current: 1 }));
+        setSearch(value);
+    }, 100);
 
     const onClose = useCallback(() => {
         setDeleteUser(null);

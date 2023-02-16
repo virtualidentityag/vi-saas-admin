@@ -37,7 +37,10 @@ export const TenantsList = () => {
     const [search, setSearch] = useState('');
     const [showDeleteModal, setShowDeleteModal] = useState<number>(null);
     const { can } = useUserPermissions();
-
+    const handleSearch = useCallback((value) => {
+        setSearch(value);
+        setTableState((data) => ({ ...data, current: 1 }));
+    }, []);
     const { data, isLoading } = useTenantsData({ page: tableState.current, perPage: tableState.pageSize, search });
     const { mutate: deleteTenant } = useDeleteTenant({
         onSuccess: () => {
@@ -167,8 +170,8 @@ export const TenantsList = () => {
                 <div className={styles.searchContainer}>
                     <SearchInput
                         placeholder={t('tenants.searchPlaceholder')}
-                        handleOnSearch={(a) => setSearch(a)}
-                        handleOnSearchClear={() => setSearch('')}
+                        handleOnSearch={(a) => handleSearch(a)}
+                        handleOnSearchClear={() => handleSearch('')}
                     />
 
                     <FeatureEnabled feature={ReleaseToggle.TENANT_ADMIN_CREATING}>

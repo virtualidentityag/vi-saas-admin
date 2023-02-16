@@ -199,7 +199,7 @@
     "agency.edit.initialMeeting.modal_delete_consultation_type.btn.ok.uppercase": "Löschen",
     "agency.postcode.minimum": "Die Postleitzahl muss aus 5 Zahlen bestehen.",
     "agency.postcode.empty": "Bitte geben Sie eine Postleitzahl",
-    "tenants.searchPlaceholder": "Suche nach Name, E-Mail oder ID",
+    "tenants.searchPlaceholder": "Suche nach Name oder ID",
     "tenants.title": "Mandanten Liste",
     "tenants.subTitle": "{{count}} Mandanten",
     "tenants.navTitle": "Mandanten",

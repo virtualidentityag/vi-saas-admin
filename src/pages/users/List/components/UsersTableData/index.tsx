@@ -51,7 +51,10 @@ export const UsersTableData = () => {
         typeOfUser: typeOfUsers,
     });
 
-    const setSearchDebounced = useDebouncedCallback(setSearch, 100);
+    const setSearchDebounced = useDebouncedCallback((value) => {
+        setTableState((data) => ({ ...data, current: 1 }));
+        setSearch(value);
+    }, 100);
 
     const onClose = useCallback(() => {
         setDeleteUserId(null);

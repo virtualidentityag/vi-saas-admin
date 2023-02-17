@@ -16,7 +16,7 @@ export const AppSettingsPage = () => {
         return (
             <Row gutter={[24, 24]}>
                 <Col span={12} sm={6}>
-                    <OtherFunctionsSettings tenantId={`${data.id}`} />
+                    <OtherFunctionsSettings tenantId={`${data.id}`} hideStatistics />
                 </Col>
             </Row>
         );

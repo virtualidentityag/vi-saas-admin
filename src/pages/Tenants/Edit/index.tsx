@@ -22,9 +22,11 @@ export const TenantEditOrAdd = () => {
 
     const newTitle = main ? 'tenants.add.mainTenant.headline' : 'tenants.add.headline';
     const title = isEditing ? data?.name : newTitle;
+
     const shouldAppearLegalTextTab =
         can(PermissionAction.Update, Resource.LegalText) &&
         (settings.legalContentChangesBySingleTenantAdminsAllowed || !settings.multitenancyWithSingleDomainEnabled);
+
     return (
         <Page isLoading={isLoading}>
             <Page.BackWithActions

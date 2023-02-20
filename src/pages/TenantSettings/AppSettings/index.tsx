@@ -9,7 +9,7 @@ import { useUserRoles } from '../../../hooks/useUserRoles.hook';
 
 export const AppSettingsPage = () => {
     const { data } = useTenantData();
-    const [, hasRole] = useUserRoles();
+    const { hasRole } = useUserRoles();
     const { settings } = useAppConfigContext();
 
     if (settings.multitenancyWithSingleDomainEnabled && hasRole(UserRole.TenantAdmin)) {

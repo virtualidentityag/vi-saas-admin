@@ -31,13 +31,22 @@ import { TenantAppSettings } from './pages/Tenants/Edit/AppSettings';
 import { SingleLegalSettings } from './pages/Tenants/Edit/LegalSettings';
 import { AppSettingsPage } from './pages/TenantSettings/AppSettings';
 import { usePublicTenantData } from './hooks/usePublicTenantData.hook';
+import { useUserRoles } from './hooks/useUserRoles.hook';
+import { UserRole } from './enums/UserRole';
+import { useAppConfigContext } from './context/useAppConfig';
 
 export const App = () => {
     const { data: publicTenantData } = usePublicTenantData();
     const { isLoading, data } = useTenantData();
+    const { settings } = useAppConfigContext();
     const navigate = useNavigate();
     const location = useLocation();
+    const { hasRole } = useUserRoles();
     const { can } = useUserPermissions();
+
+    const shouldShowThemeSettings =
+        (settings.multitenancyWithSingleDomainEnabled && hasRole(UserRole.TenantAdmin)) ||
+        (!settings.multitenancyWithSingleDomainEnabled && hasRole(UserRole.SingleTenantAdmin));
 
     useEffect(() => {
         if (location.pathname === routePathNames.root || location.pathname === `${routePathNames.root}/`) {
@@ -83,7 +92,9 @@ export const App = () => {
                                 element={
                                     <Navigate
                                         to={`${routePathNames.themeSettings}/${
-                                            can(PermissionAction.Update, Resource.Tenant) ? 'general' : 'legal'
+                                            can(PermissionAction.Update, Resource.Tenant) && shouldShowThemeSettings
+                                                ? 'general'
+                                                : 'legal'
                                         }`}
                                     />
                                 }

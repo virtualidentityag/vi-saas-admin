@@ -8,7 +8,7 @@ import { PrivateData } from './PrivateData';
 import TwoFactorAuth from './TwoFactorAuth/TwoFactorAuth';
 
 export const UserProfile = () => {
-    const [, hasRole] = useUserRoles();
+    const { hasRole } = useUserRoles();
 
     return (
         <Page>

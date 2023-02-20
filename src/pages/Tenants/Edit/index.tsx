@@ -34,12 +34,13 @@ export const TenantEditOrAdd = () => {
                 titleKey={title}
                 tabs={
                     isEditing &&
+                    can(PermissionAction.Update, Resource.Tenant) &&
                     isEnabled(ReleaseToggle.TENANT_ADMIN_SETTINGS_EDIT) && [
                         {
                             to: `/admin/tenants/${id}/general`,
                             titleKey: 'tenants.edit.tabs.general',
                         },
-                        {
+                        !settings.multitenancyWithSingleDomainEnabled && {
                             to: `/admin/tenants/${id}/theme-settings`,
                             titleKey: 'tenants.edit.tabs.themeSettings',
                         },

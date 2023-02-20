@@ -15,7 +15,7 @@ const rolesPriority: UserRole[] = [
 ];
 
 export const useUserRolesToPermission = () => {
-    const [userRoles] = useUserRoles();
+    const { roles } = useUserRoles();
     const { data } = useTenantData();
     const { settings } = useAppConfigContext();
     const singleCanEditLegalText =
@@ -60,6 +60,6 @@ export const useUserRolesToPermission = () => {
     };
 
     return rolesPriority
-        .filter((role) => userRoles.includes(role))
+        .filter((role) => roles.includes(role))
         .reduce((current, role) => merge(current, permissions[role] || {}), {} as UserPermissions);
 };

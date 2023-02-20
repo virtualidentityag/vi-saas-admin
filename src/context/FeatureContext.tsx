@@ -9,9 +9,10 @@ const FeatureContext = createContext<[IFeature[], (features: IFeature[]) => void
 interface FeatureProviderProps {
     children: ReactNode;
     tenantData: TenantData;
+    publicTenantData: TenantData;
 }
 
-const FeatureProvider = ({ children, tenantData }: FeatureProviderProps) => {
+const FeatureProvider = ({ children, tenantData, publicTenantData }: FeatureProviderProps) => {
     const state = useState<IFeature[]>([
         {
             name: FeatureFlag.Appointments,
@@ -27,7 +28,7 @@ const FeatureProvider = ({ children, tenantData }: FeatureProviderProps) => {
         },
         {
             name: FeatureFlag.Topics,
-            active: !!tenantData?.settings.featureTopicsEnabled,
+            active: !!publicTenantData.settings?.featureTopicsEnabled || !!tenantData?.settings.featureTopicsEnabled,
         },
         {
             name: FeatureFlag.TopicsInRegistration,

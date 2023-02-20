@@ -30,8 +30,10 @@ import { TenantThemeSettings } from './pages/Tenants/Edit/ThemeSettings';
 import { TenantAppSettings } from './pages/Tenants/Edit/AppSettings';
 import { SingleLegalSettings } from './pages/Tenants/Edit/LegalSettings';
 import { AppSettingsPage } from './pages/TenantSettings/AppSettings';
+import { usePublicTenantData } from './hooks/usePublicTenantData.hook';
 
 export const App = () => {
+    const { data: publicTenantData } = usePublicTenantData();
     const { isLoading, data } = useTenantData();
     const navigate = useNavigate();
     const location = useLocation();
@@ -55,7 +57,7 @@ export const App = () => {
     return isLoading ? (
         <Initialization />
     ) : (
-        <FeatureProvider tenantData={data}>
+        <FeatureProvider tenantData={data} publicTenantData={publicTenantData}>
             <ProtectedPageLayoutWrapper>
                 <Routes>
                     {(can(PermissionAction.Read, Resource.Tenant) ||

@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import { CardEditable } from '../../../CardEditable';
 import { FormSwitchField } from '../../../FormSwitchField';
 import { useSingleTenantData } from '../../../../hooks/useSingleTenantData';
@@ -6,7 +5,6 @@ import { useTenantAdminDataMutation } from '../../../../hooks/useTenantAdminData
 import styles from './styles.module.scss';
 
 export const CommunicationSettings = ({ tenantId }: { tenantId: string }) => {
-    const { t } = useTranslation();
     const { data, isLoading } = useSingleTenantData({ id: tenantId });
     const { mutate } = useTenantAdminDataMutation({
         id: tenantId,
@@ -27,7 +25,6 @@ export const CommunicationSettings = ({ tenantId }: { tenantId: string }) => {
                     inline
                     disableLabels
                 />
-                <p className={styles.checkInfo}>{t('tenants.appSettings.communications.video.description')}</p>
             </div>
             {/* <div className={styles.checkGroup}>
                 <FormSwitchField

@@ -8,7 +8,7 @@ import styles from './styles.module.scss';
 
 export const AccessDenied = () => {
     const { t } = useTranslation();
-    const [, hasRole] = useUserRoles();
+    const { hasRole } = useUserRoles();
     const redirectPath = hasRole([UserRole.SingleTenantAdmin, UserRole.TenantAdmin]) ? '/admin' : '/app';
 
     return (

@@ -31,7 +31,7 @@ export const TopicList = () => {
     const { data } = useTenantData();
     const { settings } = useAppConfigContext();
     const { isEnabled, toggleFeature } = useFeatureContext();
-    const [, hasRole] = useUserRoles();
+    const { hasRole } = useUserRoles();
     const { mutate: updateTenantData } = useTenantAdminDataMutation({ id: `${data.id}` });
     const [topicIdForDelete, setTopicIdForDelete] = useState<number>(null);
     const [topics, setTopics] = useState([]);

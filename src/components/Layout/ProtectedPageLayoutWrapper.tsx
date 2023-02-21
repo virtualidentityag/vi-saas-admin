@@ -28,7 +28,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
     const { settings } = useAppConfigContext();
     const { can } = useUserPermissions();
     const { subdomain } = getLocationVariables();
-    const [, hasRole] = useUserRoles();
+    const { hasRole } = useUserRoles();
     const { data: tenantData } = useTenantData();
     const { t } = useTranslation();
     const location = useLocation();

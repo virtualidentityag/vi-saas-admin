@@ -12,7 +12,7 @@ export const DEFAULT_ORDER = 'ASC';
  * retrieve all agencies for tenant context
  * @return {Promise}
  */
-const getAgencyData = (params: TableState) => {
+const getAgencyData = (params: TableState & { search?: string }) => {
     // retrieve Agencies
 
     let sortBy = params.sortBy || DEFAULT_SORT;
@@ -28,8 +28,10 @@ const getAgencyData = (params: TableState) => {
         return 'CREATED';
     };
 
+    const searchQuery = params.search || '*';
+
     return fetchData({
-        url: `${agencyEndpointBase}/?page=${params.current || 1}&perPage=${
+        url: `${agencyEndpointBase}/?q=${encodeURIComponent(searchQuery)}&page=${params.current || 1}&perPage=${
             params?.pageSize || 10
         }&order=${order}&field=${sortBy}`,
         method: FETCH_METHODS.GET,

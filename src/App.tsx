@@ -9,7 +9,7 @@ import { TopicList } from './pages/Topics/List/TopicList';
 import { Statistic } from './pages/Statistic';
 import { UserProfile } from './pages/Profile/UserProfile';
 import { Initialization } from './components/Layout/Initialization';
-import { AgencyList } from './pages/Agency/AgencyList';
+import { AgencyList } from './pages/Agency/List';
 import { useTenantData } from './hooks/useTenantData.hook';
 import { FeatureProvider } from './context/FeatureContext';
 import { AgencyPageEdit } from './pages/Agency/AgencyEdit';

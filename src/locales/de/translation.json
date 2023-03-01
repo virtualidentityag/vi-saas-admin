@@ -372,6 +372,7 @@
     "profile.passwordChange.error.passwordInsecure": "Ihr Passwort ist nicht sicher.",
     "profile.passwordChange.error.passwordsNotMatch": "Ihr Passwort ist nicht identisch.",
     "profile.passwordChange.success": "Neues Passwort wurde erfolgreich gespeichert.",
+    "profile.passwordChange.error": "Ihr Passwort ist nicht korrekt.",
     "profile.passwordChange.editButton": "Ändern",
     "profile.passwordChange.save": "Passwort ändern",
     "placeholder.firstname": "Maxime",

@@ -1,5 +1,5 @@
 import { useMutation, UseMutationOptions } from 'react-query';
-import { fetchData, FETCH_METHODS } from '../api/fetchData';
+import { fetchData, FETCH_ERRORS, FETCH_METHODS } from '../api/fetchData';
 import { mainURL } from '../appConfig';
 
 export const useUpdateUserPassword = (
@@ -9,7 +9,7 @@ export const useUpdateUserPassword = (
         return fetchData({
             url: `${mainURL}/service/users/password/change`,
             method: FETCH_METHODS.PUT,
-            responseHandling: [],
+            responseHandling: [FETCH_ERRORS.BAD_REQUEST],
             bodyData: JSON.stringify({ newPassword, oldPassword }),
         });
     }, options);

@@ -22,7 +22,7 @@ interface CardEditableProps {
         | React.ReactElement
         | React.ReactElement[]
         | ((data: { form: FormInstance<any>; editing: boolean }) => React.ReactElement | React.ReactElement[]);
-    onSave: <T>(formData: T) => void;
+    onSave: <T>(formData: T, options?: { onError?: () => void }) => void;
     formProp?: FormInstance;
     onAddMode?: boolean;
     tooltip?: string;
@@ -66,7 +66,7 @@ export const CardEditable = ({
 
     const onFormSubmit = useCallback(
         (formData) => {
-            onSave(formData);
+            onSave(formData, { onError: () => setEditing(true) });
             setEditing(false);
             setHasChanges(false);
         },

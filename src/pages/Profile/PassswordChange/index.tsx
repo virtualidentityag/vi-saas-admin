@@ -13,6 +13,9 @@ export const PasswordChange = () => {
         onSuccess: () => {
             notification.success({ message: t('profile.passwordChange.success') });
         },
+        onError: () => {
+            notification.error({ message: t('profile.passwordChange.error') });
+        },
     });
 
     const requiredPasswordChars: RuleRender = () => ({
@@ -38,7 +41,7 @@ export const PasswordChange = () => {
             titleKey="profile.passwordChange.title"
             subTitleKey="profile.passwordChange.info"
             saveKey="profile.passwordChange.save"
-            onSave={(data) => updateData(data as any)}
+            onSave={(data, opts) => updateData(data as any, opts)}
             editButton={<span className={styles.editButton}>{t('profile.passwordChange.editButton')}</span>}
         >
             {({ editing }) =>

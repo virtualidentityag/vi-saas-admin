@@ -127,7 +127,7 @@ export const AgencyPageEdit = () => {
                     ...agencyData,
                     postCodes: postCodes?.length > 0 ? postCodes : [{ from: '00000', until: '99999' }],
                     ...demographicsInitialValues,
-                    postCodeRangesActive: !hasOnlyDefaultRangeDefined(postCodes),
+                    postCodeRangesActive: !hasOnlyDefaultRangeDefined(postCodes || []),
                     online: agencyData?.id ? !agencyData?.offline : false,
                     topicIds: convertToOptions(agencyData?.topics, 'name', 'id', true),
                 }}

@@ -3,17 +3,19 @@ import { useTranslation } from 'react-i18next';
 import Title from 'antd/es/typography/Title';
 import TextArea from 'antd/lib/input/TextArea';
 import { useLocation } from 'react-router';
-import { SelectFormField } from '../../components/SelectFormField';
-import postConsultantForAgencyEventTypes from '../../api/agency/postConsultantForAgencyEventTypes';
-import { ConsultantInterface } from '../../types/agencyEdit';
+import { useEffect } from 'react';
+import { SelectFormField } from '../../../../components/SelectFormField';
+import { AgencyEditData, ConsultantInterface } from '../../../../types/agencyEdit';
+import putConsultantForAgencyEventTypes from '../../../../api/agency/putConsultantForAgencyEventTypes';
 
 const { Paragraph } = Typography;
 const { Item } = Form;
 
-export const InitialMeetingNewModal = (props: {
+export const InitialMeetingEditModal = (props: {
     showEditModal: boolean;
     handleCancel?: (callback: Function) => void;
     handleSave?: (callback: Function) => void;
+    editableData: AgencyEditData;
     allAgencyConsultants: ConsultantInterface[];
 }) => {
     const { t } = useTranslation();
@@ -21,17 +23,32 @@ export const InitialMeetingNewModal = (props: {
     const currentPath = useLocation().pathname;
     const [, agencyId] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
 
+    useEffect(() => {
+        formInstance.setFieldsValue({
+            name: props?.editableData?.name,
+            description: props.editableData?.description,
+            duration: props.editableData?.duration,
+            advisor: props.editableData?.advisor?.map((advisor) => {
+                return {
+                    label: advisor.name,
+                    value: advisor.id,
+                };
+            }),
+            location: props.editableData?.location,
+        });
+    }, [props.editableData]);
+
     return (
         <Modal
             closable
-            title={<Title level={4}>{t('agency.edit.initialMeeting.modal_new_consultation_type.title')}</Title>}
+            title={<Title level={4}>{t('agency.edit.initialMeeting.modal_edit_consultation_type.title')}</Title>}
             open={props.showEditModal}
             onOk={() => {
                 formInstance.validateFields().then((formData) => {
                     const consultants = [];
-                    formData?.advisor?.forEach((advisor) => {
+                    formData.advisor.forEach((advisor) => {
                         let consultant;
-                        if (advisor?.label) {
+                        if (advisor.label) {
                             consultant = { consultantId: advisor.value };
                         } else {
                             consultant = {
@@ -46,63 +63,52 @@ export const InitialMeetingNewModal = (props: {
                         length: parseInt(formData.duration, 10),
                         consultants,
                     };
-                    postConsultantForAgencyEventTypes(agencyId, updateData)
+                    putConsultantForAgencyEventTypes(agencyId, props.editableData.id, updateData)
                         .then(() => {
                             message.success({
-                                content: t('message.agency.add'),
+                                content: t('message.eventType.update'),
                                 duration: 3,
                             });
                             props.handleSave(() => {});
                         })
                         .catch((error) => {
-                            props.handleSave(() => {});
                             // eslint-disable-next-line no-console
                             console.error(error);
+                            props.handleSave(() => {});
                         });
                 });
             }}
-            onCancel={() => {
-                formInstance.resetFields();
-                props.handleCancel(() => {});
-            }}
+            onCancel={() => props.handleCancel(() => {})}
             destroyOnClose
-            cancelText={t('agency.edit.initialMeeting.modal_new_consultation_type.cancel')}
+            cancelText={t('agency.edit.initialMeeting.modal_edit_consultation_type.cancel')}
             centered
-            okText={t('agency.edit.initialMeeting.modal_new_consultation_type.ok')}
+            okText={t('agency.edit.initialMeeting.modal_edit_consultation_type.ok')}
             className="agencieEditInitialMeeting"
         >
-            <p>{t('agency.edit.initialMeeting.modal_new_consultation_type.intro')}</p>
-            <Form
-                form={formInstance}
-                size="small"
-                labelAlign="left"
-                labelWrap
-                layout="vertical"
-                initialValues={{
-                    location: 'Videoberatung',
-                }}
-            >
+            <Form form={formInstance} size="small" labelAlign="left" labelWrap layout="vertical">
                 <Item
-                    label={t('agency.edit.initialMeeting.modal_new_consultation_type.name')}
+                    label={t('agency.edit.initialMeeting.modal_edit_consultation_type.name')}
                     name="name"
                     rules={[{ required: true }]}
                 >
-                    <Input placeholder={t('agency.edit.initialMeeting.modal_new_consultation_type.name.placeholder')} />
+                    <Input
+                        placeholder={t('agency.edit.initialMeeting.modal_edit_consultation_type.name.placeholder')}
+                    />
                 </Item>
                 <Item
-                    label={t('agency.edit.initialMeeting.modal_new_consultation_type.description')}
+                    label={t('agency.edit.initialMeeting.modal_edit_consultation_type.description')}
                     name="description"
                 >
                     <TextArea
                         placeholder={t(
-                            'agency.edit.initialMeeting.modal_new_consultation_type.description.placeholder',
+                            'agency.edit.initialMeeting.modal_edit_consultation_type.description.placeholder',
                         )}
                         rows={3}
                     />
                 </Item>
                 <div className="flex agencieEditInitialMeeting__minutes">
                     <Item
-                        label={t('agency.edit.initialMeeting.modal_new_consultation_type.duration')}
+                        label={t('agency.edit.initialMeeting.modal_edit_consultation_type.duration')}
                         name="duration"
                         rules={[{ required: true }]}
                     >
@@ -136,7 +142,6 @@ export const InitialMeetingNewModal = (props: {
                     name="location"
                     isMulti
                     allowClear
-                    required
                     placeholder="agency.edit.initialMeeting.modal_new_consultation_type.location"
                     options={[
                         {

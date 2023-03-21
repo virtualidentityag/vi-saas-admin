@@ -1,26 +1,27 @@
-import { Button, Space, Table, Typography } from 'antd';
+import { Button, Table, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { PlusOutlined } from '@ant-design/icons';
 import { useCallback, useEffect, useState } from 'react';
 import { ColumnsType } from 'antd/lib/table';
-import Title from 'antd/es/typography/Title';
-import { useLocation } from 'react-router';
-import EditButtons from '../../components/EditableTable/EditButtons';
-import { ConsultantInterface, AgencyEditData, AgencyEventTypes } from '../../types/agencyEdit';
-import ResizableTitle from '../../components/Resizable/Resizable';
+import { useParams } from 'react-router';
+import EditButtons from '../../../components/EditableTable/EditButtons';
+import { ConsultantInterface, AgencyEditData, AgencyEventTypes } from '../../../types/agencyEdit';
+import ResizableTitle from '../../../components/Resizable/Resizable';
 import { InitialMeetingNewModal } from './InitialMeetingNewModal';
 import { InitialMeetingEditModal } from './InitialMeetingEditModal';
-import getAgencyEventTypes from '../../api/agency/getAgencyEventTypes';
-import getAgencyEventTypeById from '../../api/agency/getAgencyEventTypeById';
+import getAgencyEventTypes from '../../../api/agency/getAgencyEventTypes';
+import getAgencyEventTypeById from '../../../api/agency/getAgencyEventTypeById';
 import { EventTypeDeletionModal } from './EventTypeDeletionModal';
-import { getAgencyConsultants } from '../../api/agency/getAgencyConsultants';
-import routePathNames from '../../appConfig';
-import { Resource } from '../../enums/Resource';
+import { getAgencyConsultants } from '../../../api/agency/getAgencyConsultants';
+import routePathNames from '../../../appConfig';
+import { Resource } from '../../../enums/Resource';
+import { Page } from '../../../components/Page';
 
 const { Paragraph } = Typography;
 
 export const AgencyEditInitialMeeting = () => {
     const { t } = useTranslation();
+    const { id: agencyId } = useParams();
     const [topics, setTopics] = useState([]);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -34,8 +35,6 @@ export const AgencyEditInitialMeeting = () => {
         sortBy: undefined,
         order: undefined,
     });
-    const currentPath = useLocation().pathname;
-    const [, agencyId] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
 
     const transformData = (eventTypes: AgencyEventTypes[]) => {
         const agencyEventTypes = [];
@@ -190,14 +189,27 @@ export const AgencyEditInitialMeeting = () => {
     }, [tableState, agencyId]);
 
     return (
-        <>
-            <Title level={3}>{t('agency.edit.initialMeeting.title')}</Title>
-            <Paragraph>{t('agency.edit.initialMeeting.description')}</Paragraph>
-            <Space align="baseline">
+        <Page>
+            <Page.BackWithActions
+                path={routePathNames.agency}
+                titleKey="agency.edit.initialMeeting.title"
+                tabs={[
+                    {
+                        titleKey: 'agency.edit.tab.general',
+                        to: `${routePathNames.agency}/${agencyId}/general`,
+                    },
+                    {
+                        titleKey: 'agency.edit.tab.initialEnquiry',
+                        to: `${routePathNames.agency}/${agencyId}/initial-meeting`,
+                    },
+                ]}
+            >
                 <Button className="mb-m mr-sm" type="primary" icon={<PlusOutlined />} onClick={handleConsultantTypeNew}>
                     {t('agency.edit.initialMeeting.button_label')}
                 </Button>
-            </Space>
+            </Page.BackWithActions>
+            <Paragraph>{t('agency.edit.initialMeeting.description')}</Paragraph>
+
             <Table
                 loading={isLoading}
                 className="agencyList editableTable"
@@ -236,6 +248,6 @@ export const AgencyEditInitialMeeting = () => {
                 handleSave={handleSaveDelete}
                 eventType={eventTypeDelete}
             />
-        </>
+        </Page>
     );
 };

@@ -13,7 +13,7 @@ export interface FormBaseInputFieldProps extends Omit<InputProps, 'name'> {
     /**
      * Only optional when used with TranslatableFormField
      */
-    name?: string | string[];
+    name?: string | Array<string | number>;
     rules?: Rule[];
     component: any;
     dependencies?: string[];

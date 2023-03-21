@@ -9,7 +9,7 @@ import EditButtons from '../../../components/EditableTable/EditButtons';
 import { AgencyData } from '../../../types/agency';
 import { Status } from '../../../types/status';
 import StatusIcons from '../../../components/EditableTable/StatusIcons';
-import { AgencyDeletionModal } from '../AgencyDeletionModal';
+import { AgencyDeletionModal } from './AgencyDeletionModal';
 import { useFeatureContext } from '../../../context/FeatureContext';
 import { TopicData } from '../../../types/topic';
 import routePathNames from '../../../appConfig';
@@ -155,7 +155,7 @@ export const AgencyList = () => {
                         <EditButtons
                             isDisabled={record.status === 'IN_DELETION'}
                             handleEdit={() => {
-                                navigate(`${routePathNames.agencyEditGeneral.replace(':id', record.id)}`);
+                                navigate(`${routePathNames.agencyEditGeneral}/${record.id}`);
                             }}
                             handleDelete={() => setAgencyToDelete(record)}
                             record={record}
@@ -207,7 +207,7 @@ export const AgencyList = () => {
                             className="mb-m mr-sm"
                             type="primary"
                             icon={<PlusOutlined />}
-                            onClick={() => navigate(`${routePathNames.agencyAdd}/general`)}
+                            onClick={() => navigate(`${routePathNames.agencyAdd}`)}
                         >
                             {t('new')}
                         </Button>

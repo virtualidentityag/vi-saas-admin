@@ -1,8 +1,9 @@
-import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
+import { FETCH_ERRORS, FETCH_METHODS, fetchData, FETCH_SUCCESS } from '../fetchData';
 import { agencyEndpointBase } from '../../appConfig';
 import { AgencyData } from '../../types/agency';
 import updateAgencyType from './updateAgencyType';
 import getConsultingType4Tenant from '../consultingtype/getConsultingType4Tenant';
+import updateAgencyPostCodeRange from './updateAgencyPostCodeRange';
 
 /**
  * update agency
@@ -35,6 +36,7 @@ export const updateAgencyData = async (agencyModel: AgencyData, formInput: Agenc
         postcode: formInput.postcode,
         city: formInput.city,
         consultingType: consultingTypeId,
+        teamAgency: formInput.teamAgency,
         offline: formInput.offline,
         external: false,
         demographics: formInput.demographics,
@@ -43,7 +45,11 @@ export const updateAgencyData = async (agencyModel: AgencyData, formInput: Agenc
         url: `${agencyEndpointBase}/${agencyModel.id}`,
         method: FETCH_METHODS.PUT,
         skipAuth: false,
-        responseHandling: [FETCH_ERRORS.CATCH_ALL],
+        responseHandling: [FETCH_ERRORS.CATCH_ALL, FETCH_SUCCESS.CONTENT],
         bodyData: JSON.stringify(agencyDataRequestBody),
+    }).then(async (response) => {
+        await updateAgencyPostCodeRange(agencyId, formInput.postCodes, '');
+        // eslint-disable-next-line no-underscore-dangle
+        return response?._embedded;
     });
 };

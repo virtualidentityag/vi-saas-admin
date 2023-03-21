@@ -1,8 +1,8 @@
 import { message, Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import Title from 'antd/lib/typography/Title';
-import deleteAgencyData from '../../api/agency/deleteAgencyData';
-import { AgencyData } from '../../types/agency';
+import deleteAgencyData from '../../../../api/agency/deleteAgencyData';
+import { AgencyData } from '../../../../types/agency';
 
 export const AgencyDeletionModal = ({ agencyModel, onClose }: { agencyModel: AgencyData; onClose: () => void }) => {
     const { t } = useTranslation();

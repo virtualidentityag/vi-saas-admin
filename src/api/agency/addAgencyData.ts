@@ -4,14 +4,13 @@ import updateAgencyPostCodeRange from './updateAgencyPostCodeRange';
 import getConsultingType4Tenant from '../consultingtype/getConsultingType4Tenant';
 
 function buildAgencyDataRequestBody(consultingTypeResponseId: string | number, formData: Record<string, any>) {
-    const topicIds = formData.topicIds
-        ?.map((topic) => (typeof topic === 'string' ? topic : topic?.value))
-        .filter(Boolean);
-
+    const topics = formData?.topicIds || formData?.topics;
+    const topicIds = topics
+        ?.map((topic) => (typeof topic === 'string' ? topic : topic?.id))
+        .filter((id) => !Number.isNaN(Number(id)));
     return JSON.stringify({
         // diocese in case of SAAS is not relevant object but enforced by API
-        dioceseId:
-            formData.dioceseId !== null && formData.dioceseId !== undefined ? parseInt(formData.dioceseId, 10) : 0,
+        dioceseId: formData.dioceseId ? parseInt(formData.dioceseId, 10) : 0,
         name: formData.name,
         description: formData.description ? formData.description : '',
         topicIds,
@@ -22,12 +21,7 @@ function buildAgencyDataRequestBody(consultingTypeResponseId: string | number, f
         // enforced by admin API, without business value for SAAS
         external: false,
         offline: formData.offline,
-
-        demographics: formData.demographics && {
-            genders: formData.demographics.genders,
-            ageFrom: formData.demographics.age[0],
-            ageTo: formData.demographics.age[1],
-        },
+        demographics: formData.demographics,
     });
 }
 
@@ -59,7 +53,12 @@ async function addAgencyData(agencyData: Record<string, any>) {
 
     // eslint-disable-next-line no-underscore-dangle
     const { id } = agencyCreationResponse._embedded;
-    return updateAgencyPostCodeRange(id, agencyData, 'POST').then((agencyId: number) => agencyId);
+    return (
+        updateAgencyPostCodeRange(id, [], 'POST')
+            .then((agencyId: number) => agencyId)
+            // eslint-disable-next-line no-underscore-dangle
+            .then(() => agencyCreationResponse._embedded)
+    );
 }
 
 export default addAgencyData;

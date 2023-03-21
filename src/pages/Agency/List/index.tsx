@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button } from 'antd';
+import { Button, Tag } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { ColumnProps } from 'antd/lib/table';
 import { useNavigate } from 'react-router-dom';
@@ -130,7 +130,11 @@ export const AgencyList = () => {
             width: 100,
             ellipsis: true,
             render: (offline: Boolean) => {
-                return offline ? 'NEIN' : 'JA';
+                return offline ? (
+                    <Tag className={styles.tagOffline}>{t('agency.status.offline')}</Tag>
+                ) : (
+                    <Tag className={styles.tagOnline}>{t('agency.status.online')}</Tag>
+                );
             },
             className: 'agencyListOnline__column',
         },

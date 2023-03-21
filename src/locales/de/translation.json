@@ -110,6 +110,8 @@
     "agency.teamAgency": "Teamberatungsstelle",
     "agency.online": "Beratungsstelle sichtbar machen",
     "agency.online.title": "Sichtbar in Registrierung",
+    "agency.status.online": "Sichtbar",
+    "agency.status.offline": "Unsichtbar",
     "agency.online.tooltip": "Eine Beratungsstelle kann nur online gestellt werden, wenn ihr mindestens 1 Berater zugewiesen wurde.",
     "agency.description": "Beschreibung",
     "agency.postCodeRanges": "Umkreis für Beratungsstelle einstellen",

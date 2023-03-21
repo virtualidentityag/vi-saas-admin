@@ -2,3 +2,24 @@
     display: flex;
     gap: 24px;
 }
+
+.tag {
+    height: 16px;
+    margin-left: 8px;
+    border-radius: 30px;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 15px;
+    border: none;
+}
+
+.tagOnline {
+    @extend .tag;
+    background-color: var(--tag-success);
+}
+
+.tagOffline {
+    @extend .tag;
+    background-color: var(--form-error);
+}

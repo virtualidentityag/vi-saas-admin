@@ -41,7 +41,7 @@
     "message.counselor.update": "Berater wurde aktualisiert.",
     "message.counselor.delete": "Berater wurde gelöscht.",
     "message.agency.add": "Die Beratungsstelle wurde erfolgreich angelegt.",
-    "message.agency.update": "Die Beratungsstelle wurde erfolgreich aktualisiert.",
+    "message.agency.updated": "Die Beratungsstelle wurde erfolgreich aktualisiert.",
     "message.agency.delete": "Beratungsstelle wurde gelöscht.",
     "message.organisation.add": "Organisation wurde hinzugefügt.",
     "message.organisation.update": "Organisation wurde aktualisiert.",

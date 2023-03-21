@@ -50,15 +50,11 @@ async function addAgencyData(agencyData: Record<string, any>) {
 
     const agencyDataRequestBody = buildAgencyDataRequestBody(consultingTypeId, agencyData);
     const agencyCreationResponse = await createAgency(agencyDataRequestBody);
-
     // eslint-disable-next-line no-underscore-dangle
-    const { id } = agencyCreationResponse._embedded;
-    return (
-        updateAgencyPostCodeRange(id, [], 'POST')
-            .then((agencyId: number) => agencyId)
-            // eslint-disable-next-line no-underscore-dangle
-            .then(() => agencyCreationResponse._embedded)
-    );
+    const agencyResponseData = agencyCreationResponse._embedded;
+    await updateAgencyPostCodeRange(agencyResponseData.id, agencyData.postCodes || [], 'POST');
+
+    return agencyResponseData;
 }
 
 export default addAgencyData;

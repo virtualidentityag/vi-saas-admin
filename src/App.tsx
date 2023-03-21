@@ -12,8 +12,7 @@ import { Initialization } from './components/Layout/Initialization';
 import { AgencyList } from './pages/Agency/List';
 import { useTenantData } from './hooks/useTenantData.hook';
 import { FeatureProvider } from './context/FeatureContext';
-import { AgencyPageEdit } from './pages/Agency/AgencyEdit';
-import { AgencyAdd } from './pages/Agency/AgencyAdd';
+import { AgencyPageEdit } from './pages/Agency/Edit';
 import { UsersList } from './pages/users/List';
 import { UserEditOrAdd } from './pages/users/Edit';
 import { GeneralSettingsPage } from './pages/TenantSettings/GeneralSettings';
@@ -34,6 +33,7 @@ import { usePublicTenantData } from './hooks/usePublicTenantData.hook';
 import { useUserRoles } from './hooks/useUserRoles.hook';
 import { UserRole } from './enums/UserRole';
 import { useAppConfigContext } from './context/useAppConfig';
+import { AgencyEditInitialMeeting } from './pages/Agency/EditInitialMeeting';
 
 export const App = () => {
     const { data: publicTenantData } = usePublicTenantData();
@@ -102,8 +102,12 @@ export const App = () => {
                         </Route>
                     )}
                     <Route path={routePathNames.agency} element={<AgencyList />} />
-                    <Route path={`${routePathNames.agencyEdit}/*`} element={<AgencyPageEdit />} />
-                    <Route path={`${routePathNames.agencyAdd}/*`} element={<AgencyAdd />} />
+                    <Route path={`${routePathNames.agency}/:id`} element={<AgencyPageEdit />} />
+                    <Route path={`${routePathNames.agency}/:id/general`} element={<AgencyPageEdit />} />
+                    <Route
+                        path={`${routePathNames.agency}/:id/initial-meeting`}
+                        element={<AgencyEditInitialMeeting />}
+                    />
                     {can(PermissionAction.Read, Resource.Topic) && (
                         <Route path={routePathNames.topics} element={<TopicList />} />
                     )}

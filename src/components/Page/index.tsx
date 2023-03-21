@@ -81,8 +81,8 @@ export const PageBack = forwardRef(({ path, title, titleKey, tabs, children }: P
                 <ChevronLeft />
                 <h3 className={styles.backHeadline}>{title || t(titleKey)}</h3>
             </NavLink>
-            {children}
             {!!finalTabs?.length && finalTabs.length > 1 && <PageTabs tabs={finalTabs} />}
+            {children}
         </div>
     );
 });

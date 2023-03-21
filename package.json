@@ -54,6 +54,7 @@
     "lint": "npm run lint:css && npm run lint:js && npm run lint:formatting",
     "lint:css": "stylelint --fix \"src/**/*.(s(c|a)ss|css|less)\"",
     "lint:js": "eslint",
+    "prettier:css": "prettier **/*.scss --write ",
     "lint:formatting": "prettier . --write --ignore-unknown --check",
     "test:integration": "cypress open",
     "test:integration:cli": "concurrently --kill-others --success first \"cross-env BROWSER=none API_URL_FOR_LOCAL_DEVELOPMENT=test PORT=3000 npm start\" \"wait-on http://localhost:3000 && cypress run\""

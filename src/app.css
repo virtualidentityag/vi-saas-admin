@@ -54,6 +54,8 @@
     --black-60: rgb(0 0 0 / 60%);
     --black-25: rgb(0 0 0 / 25%);
     --black-10: rgb(0 0 0 / 10%);
+    --black-5: rgb(0 0 0 / 5%);
+    --black-3: rgb(0 0 0 / 3%);
     --primary: #273270;
     --secondary: #3f373f;
     --tertiary: rgb(var(--black) 0.6);
@@ -83,6 +85,7 @@
     --success-color: #0dcd21;
     --info-color: #273270;
     --lightest-grey: #fafafa;
+    --tag-success: #0a882f;
 
     /* YELLOW THEME */
     --yellow-1: #ffeed2;

@@ -6,7 +6,7 @@ export const useAgencyPostCodesUpdate = (id: string) => {
 
     return useMutation(
         (data: { postcodeRanges: string }) => {
-            return updateAgencyPostCodeRange(id, data, '');
+            return updateAgencyPostCodeRange(id, [], '');
         },
         {
             onSuccess: () => {

@@ -37,7 +37,6 @@ const Icon = ({ path, hover }: { path: string; hover: boolean }) => {
         case routePathNames.agencyAdd:
         case routePathNames.agencyAddGeneral:
         case routePathNames.agencyEdit:
-        case routePathNames.agencyEditGeneral:
         case routePathNames.agencyEditInitialMeeting:
             return currentlySelected ? <CounselingActiveIcon /> : <CounselingInactiveIcon />;
         case routePathNames.topics:

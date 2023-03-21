@@ -159,7 +159,7 @@ export const AgencyList = () => {
                         <EditButtons
                             isDisabled={record.status === 'IN_DELETION'}
                             handleEdit={() => {
-                                navigate(`${routePathNames.agencyEditGeneral}/${record.id}`);
+                                navigate(`${routePathNames.agency}/${record.id}`);
                             }}
                             handleDelete={() => setAgencyToDelete(record)}
                             record={record}

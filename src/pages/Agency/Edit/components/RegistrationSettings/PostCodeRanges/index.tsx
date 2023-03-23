@@ -13,7 +13,7 @@ export const PostCodeRanges = () => {
                 {(fields, { add, remove }) => {
                     const elements = fields.map((field) => (
                         <div key={field.key}>
-                            <Space size="small" align="center" className={styles.space}>
+                            <Space size="small" align="baseline" className={styles.space}>
                                 <FormInputField
                                     className={styles.input}
                                     name={[field.name, 'from']}
@@ -30,7 +30,7 @@ export const PostCodeRanges = () => {
                                     maxLength={5}
                                     rules={[{ min: 5, required: true, message: t('agency.postcode.minimum') }]}
                                 />
-                                <MinusOutlined className={styles.remove} onClick={() => remove(field.key)} />
+                                <MinusOutlined className={styles.remove} onClick={() => remove(field.name)} />
                             </Space>
                         </div>
                     ));

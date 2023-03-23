@@ -17,7 +17,11 @@ export const RegistrationSettings = () => {
     return (
         <Card titleKey="agency.form.registrationSettings.title" isLoading={isLoading}>
             {!hasConsultants && (
-                <Alert type="warning" description={t('agency.form.registrationSettings.onlineWarning')} />
+                <Alert
+                    className={styles.warning}
+                    type="warning"
+                    description={t('agency.form.registrationSettings.onlineWarning')}
+                />
             )}
             <FormSwitchField
                 inline

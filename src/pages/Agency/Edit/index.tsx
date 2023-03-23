@@ -82,6 +82,7 @@ export const AgencyPageEdit = () => {
 
     const onCancel = useCallback(() => {
         if (isEditing) {
+            form.resetFields();
             setReadOnly(true);
         } else {
             navigate(routePathNames.agency);

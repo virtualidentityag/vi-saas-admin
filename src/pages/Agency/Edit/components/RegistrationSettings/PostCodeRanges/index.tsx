@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
+import DisabledContext from 'antd/es/config-provider/DisabledContext';
 import { Button, Form, Space, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { FormInputField } from '../../../../../../components/FormInputField';
@@ -6,6 +8,7 @@ import styles from './styles.module.scss';
 
 export const PostCodeRanges = () => {
     const { t } = useTranslation();
+    const contextDisabled = useContext(DisabledContext);
 
     return (
         <div className={styles.postCodeRangesContainer}>
@@ -30,7 +33,10 @@ export const PostCodeRanges = () => {
                                     maxLength={5}
                                     rules={[{ min: 5, required: true, message: t('agency.postcode.minimum') }]}
                                 />
-                                <MinusOutlined className={styles.remove} onClick={() => remove(field.name)} />
+                                <MinusOutlined
+                                    className={styles.remove}
+                                    onClick={() => !contextDisabled && remove(field.name)}
+                                />
                             </Space>
                         </div>
                     ));

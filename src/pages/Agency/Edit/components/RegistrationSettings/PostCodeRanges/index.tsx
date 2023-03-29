@@ -1,8 +1,10 @@
 import { useContext } from 'react';
-import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import DisabledContext from 'antd/es/config-provider/DisabledContext';
 import { Button, Form, Space, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { ReactComponent as MinusIcon } from '../../../../../../resources/img/svg/minus.svg';
+import { ReactComponent as XIcon } from '../../../../../../resources/img/svg/x-v2.svg';
 import { FormInputField } from '../../../../../../components/FormInputField';
 import styles from './styles.module.scss';
 
@@ -16,27 +18,38 @@ export const PostCodeRanges = () => {
                 {(fields, { add, remove }) => {
                     const elements = fields.map((field) => (
                         <div key={field.key}>
-                            <Space size="small" align="baseline" className={styles.space}>
-                                <FormInputField
-                                    className={styles.input}
-                                    name={[field.name, 'from']}
-                                    placeholderKey="agency.form.registrationSettings.fromPostCode"
-                                    required
-                                    maxLength={5}
-                                    rules={[{ min: 5, required: true, message: t('agency.postcode.minimum') }]}
-                                />
-                                <FormInputField
-                                    className={styles.input}
-                                    name={[field.name, 'until']}
-                                    placeholderKey="agency.form.registrationSettings.toPostCode"
-                                    required
-                                    maxLength={5}
-                                    rules={[{ min: 5, required: true, message: t('agency.postcode.minimum') }]}
-                                />
-                                <MinusOutlined
+                            <Space size="small" align="start" className={styles.space}>
+                                <div className={styles.fieldsContainer}>
+                                    <FormInputField
+                                        labelKey="agency.form.registrationSettings.fromPostCode"
+                                        className={styles.input}
+                                        name={[field.name, 'from']}
+                                        placeholderKey="agency.form.registrationSettings.fromPostCode"
+                                        required
+                                        maxLength={5}
+                                        rules={[{ min: 5, required: true, message: t('agency.postcode.minimum') }]}
+                                    />
+                                    <div className={styles.minusContainer}>
+                                        <MinusIcon />
+                                    </div>
+                                    <FormInputField
+                                        labelKey="agency.form.registrationSettings.toPostCode"
+                                        className={styles.input}
+                                        name={[field.name, 'until']}
+                                        placeholderKey="agency.form.registrationSettings.toPostCode"
+                                        required
+                                        maxLength={5}
+                                        rules={[{ min: 5, required: true, message: t('agency.postcode.minimum') }]}
+                                    />
+                                </div>
+                                <Button
+                                    disabled={contextDisabled}
+                                    type="primary"
                                     className={styles.remove}
-                                    onClick={() => !contextDisabled && remove(field.name)}
-                                />
+                                    onClick={() => remove(field.name)}
+                                >
+                                    <XIcon />
+                                </Button>
                             </Space>
                         </div>
                     ));
@@ -49,8 +62,8 @@ export const PostCodeRanges = () => {
                             {elements}
                             <Button
                                 size="small"
-                                className="mb-m mr-sm"
-                                type="default"
+                                className={styles.addButton}
+                                type="ghost"
                                 icon={<PlusOutlined />}
                                 onClick={() => add({ from: '', until: '' })}
                             >

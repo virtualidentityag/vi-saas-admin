@@ -11,3 +11,14 @@
 .disabled {
     composes: disabled from '../FormFields/styles.module.scss';
 }
+
+
+:global(.ant-form-vertical) :local(.item) {
+    :global(.ant-form-item-label) {
+        padding-bottom: 4px;
+    }
+
+    :global(label) {
+        height: initial;
+    }
+}

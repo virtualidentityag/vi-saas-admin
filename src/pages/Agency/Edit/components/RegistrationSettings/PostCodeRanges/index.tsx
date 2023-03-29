@@ -3,6 +3,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import DisabledContext from 'antd/es/config-provider/DisabledContext';
 import { Button, Form, Space, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 import { ReactComponent as MinusIcon } from '../../../../../../resources/img/svg/minus.svg';
 import { ReactComponent as XIcon } from '../../../../../../resources/img/svg/x-v2.svg';
 import { FormInputField } from '../../../../../../components/FormInputField';
@@ -44,8 +45,8 @@ export const PostCodeRanges = () => {
                                 </div>
                                 <Button
                                     disabled={contextDisabled}
-                                    type="primary"
-                                    className={styles.remove}
+                                    type={contextDisabled ? 'default' : 'primary'}
+                                    className={classNames(styles.remove, { [styles.disabled]: contextDisabled })}
                                     onClick={() => remove(field.name)}
                                 >
                                     <XIcon />
@@ -60,15 +61,17 @@ export const PostCodeRanges = () => {
                                 {t('agency.form.registrationSettings.newPostCodeLabel')}
                             </Typography.Paragraph>
                             {elements}
-                            <Button
-                                size="small"
-                                className={styles.addButton}
-                                type="ghost"
-                                icon={<PlusOutlined />}
-                                onClick={() => add({ from: '', until: '' })}
-                            >
-                                {t('agency.form.registrationSettings.addNewPostCode')}
-                            </Button>
+                            {!contextDisabled && (
+                                <Button
+                                    size="small"
+                                    className={styles.addButton}
+                                    type="ghost"
+                                    icon={<PlusOutlined />}
+                                    onClick={() => add({ from: '', until: '' })}
+                                >
+                                    {t('agency.form.registrationSettings.addNewPostCode')}
+                                </Button>
+                            )}
                         </>
                     );
                 }}

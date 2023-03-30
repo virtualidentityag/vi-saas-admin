@@ -90,7 +90,7 @@ export const AgencyPageEdit = () => {
     }, [isEditing]);
 
     return (
-        <Page isLoading={isLoading || isLoadingPostCodes}>
+        <Page isLoading={isLoading || isLoadingPostCodes} stickyHeader>
             <Page.BackWithActions
                 path={routePathNames.agency}
                 titleKey="agency.edit.general.headline"
@@ -122,7 +122,6 @@ export const AgencyPageEdit = () => {
                     </>
                 )}
             </Page.BackWithActions>
-
             <Form
                 initialValues={{
                     ...agencyData,

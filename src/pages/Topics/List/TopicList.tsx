@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Modal, Space, Switch, Table } from 'antd';
+import { Button, Modal, Space, Switch } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { ColumnsType } from 'antd/lib/table';
+import { ColumnProps } from 'antd/lib/table';
 import { InterestsOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router';
-import getTopicData from '../../../api/topic/getTopicData';
 import { TopicData } from '../../../types/topic';
 import { Status } from '../../../types/status';
 import { TopicDeletionModal } from './TopicDeletionModal';
@@ -23,6 +22,8 @@ import StatusIcons from '../../../components/EditableTable/StatusIcons';
 import EditButtons from '../../../components/EditableTable/EditButtons';
 import { Page } from '../../../components/Page';
 import { useTenantData } from '../../../hooks/useTenantData.hook';
+import { ResizeTable } from '../../../components/ResizableTable';
+import { useTopicList } from '../../../hooks/useTopicList';
 
 export const TopicList = () => {
     const navigate = useNavigate();
@@ -34,16 +35,15 @@ export const TopicList = () => {
     const { hasRole } = useUserRoles();
     const { mutate: updateTenantData } = useTenantAdminDataMutation({ id: `${data.id}` });
     const [topicIdForDelete, setTopicIdForDelete] = useState<number>(null);
-    const [topics, setTopics] = useState([]);
-    const [numberOfTopics, setNumberOfTopics] = useState(0);
-    const [isLoading, setIsLoading] = useState(true);
     const [tableState, setTableState] = useState<TableState>({
         current: 1,
         sortBy: undefined,
         order: undefined,
+        pageSize: 10,
     });
-
+    const { data: topicsData, isLoading, refetch } = useTopicList({ ...tableState });
     const isTopicsFeatureActive = isEnabled(FeatureFlag.TopicsInRegistration);
+
     const onTopicsSwitch = useCallback(() => {
         Modal.confirm({
             title: t(isTopicsFeatureActive ? 'topics.featureToggle.off.title' : 'topics.featureToggle.on.title'),
@@ -67,88 +67,76 @@ export const TopicList = () => {
         });
     }, [isTopicsFeatureActive]);
 
-    const reloadTopicList = () => {
-        setIsLoading(true);
-        getTopicData(tableState).then((result) => {
-            setTopics(result.data);
-            setNumberOfTopics(result.total);
-            setIsLoading(false);
-        });
-    };
-
     const onCloseDeleteModal = useCallback(() => {
         setTopicIdForDelete(null);
-        reloadTopicList();
+        refetch();
     }, []);
 
-    function defineTableColumns(): ColumnsType<TopicData> {
-        return [
-            {
-                title: t('topic.name'),
-                dataIndex: 'name',
-                key: 'name',
-                sorter: (a, b) => a.name.localeCompare(b.name),
-                width: 150,
-                ellipsis: true,
-                fixed: 'left',
-                className: 'topicList__column',
-            },
-            {
-                title: t('topic.description'),
-                dataIndex: 'description',
-                key: 'description',
-                sorter: (a, b) => a.description.localeCompare(b.description),
-                width: 350,
-                ellipsis: true,
-                className: 'topicList__column',
-            },
-            {
-                title: t('topic.internalIdentifier'),
-                dataIndex: 'internalIdentifier',
-                key: 'internalIdentifier',
-                sorter: (a, b) => (a.internalIdentifier || 'a').localeCompare(b.internalIdentifier || 'b'),
-                width: 150,
-                ellipsis: true,
-            },
-            {
-                width: 80,
-                title: t('status'),
-                dataIndex: 'status',
-                key: 'status',
-                sorter: (a, b) => (a.status > b.status ? 1 : -1),
-                ellipsis: true,
-                render: (status: Status) => {
-                    return <StatusIcons status={status} />;
+    const columns = useMemo(
+        () =>
+            [
+                {
+                    title: t('topic.name'),
+                    dataIndex: 'name',
+                    key: 'name',
+                    sorter: true,
+                    width: 150,
+                    ellipsis: true,
+                    fixed: 'left',
+                    className: 'topicList__column',
                 },
-            },
-            {
-                width: 88,
-                title: '',
-                key: 'edit',
-                render: (_: any, record: TopicData) => {
-                    return (
-                        <div className="tableActionWrapper">
-                            <EditButtons
-                                isDisabled={record.status === 'IN_DELETION'}
-                                handleEdit={() => navigate(`/admin/topics/${record.id}`)}
-                                handleDelete={() => setTopicIdForDelete(record.id)}
-                                record={record}
-                                hide={['delete']}
-                                resource={Resource.Topic}
-                            />
-                        </div>
-                    );
+                {
+                    title: t('topic.description'),
+                    dataIndex: 'description',
+                    key: 'description',
+                    width: 350,
+                    ellipsis: true,
+                    className: 'topicList__column',
                 },
-                fixed: 'right',
-            },
-        ];
-    }
+                {
+                    title: t('topic.internalIdentifier'),
+                    dataIndex: 'internalIdentifier',
+                    key: 'internalIdentifier',
+                    sorter: true,
+                    width: 150,
+                    ellipsis: true,
+                },
+                {
+                    width: 80,
+                    title: t('status'),
+                    dataIndex: 'status',
+                    key: 'status',
+                    sorter: true,
+                    ellipsis: true,
+                    render: (status: Status) => {
+                        return <StatusIcons status={status} />;
+                    },
+                },
+                {
+                    width: 88,
+                    title: '',
+                    key: 'edit',
+                    render: (_: any, record: TopicData) => {
+                        return (
+                            <div className="tableActionWrapper">
+                                <EditButtons
+                                    isDisabled={record.status === 'IN_DELETION'}
+                                    handleEdit={() => navigate(`/admin/topics/${record.id}`)}
+                                    handleDelete={() => setTopicIdForDelete(record.id)}
+                                    record={record}
+                                    hide={['delete']}
+                                    resource={Resource.Topic}
+                                />
+                            </div>
+                        );
+                    },
+                    fixed: 'right',
+                },
+            ] as Array<ColumnProps<TopicData>>,
+        [],
+    );
 
-    useEffect(() => {
-        reloadTopicList();
-    }, [tableState]);
-
-    const tableChangeHandler = (pagination: any, filters: any, sorter: any) => {
+    const tableChangeHandler = useCallback((pagination: any, filters: any, sorter: any) => {
         if (sorter.field) {
             const sortBy = sorter.field.toUpperCase();
             const order = sorter.order === 'descend' ? 'DESC' : 'ASC';
@@ -159,14 +147,14 @@ export const TopicList = () => {
                 order,
             });
         } else {
-            setTableState({ ...tableState, current: pagination.current });
+            setTableState({ ...tableState, current: pagination.current, pageSize: pagination.pageSize });
         }
-    };
+    }, []);
 
     const pagination = {
-        total: numberOfTopics,
+        total: topicsData?.total,
         current: tableState.current,
-        defaultPageSize: 10,
+        pageSize: tableState.pageSize,
         showSizeChanger: true,
         pageSizeOptions: ['10', '20', '30'],
     };
@@ -202,20 +190,14 @@ export const TopicList = () => {
                 )}
             </Space>
 
-            <Table
-                loading={isLoading}
-                className="topicList editableTable"
-                dataSource={topics}
-                columns={defineTableColumns()}
-                scroll={{
-                    x: 'max-content',
-                    y: 'auto',
-                }}
-                sticky
-                tableLayout="fixed"
+            <ResizeTable
+                rowKey="id"
+                columns={columns}
+                dataSource={topicsData?.data || []}
                 onChange={tableChangeHandler}
                 pagination={pagination}
-                rowKey="id"
+                locale={{ emptyText: t('topics.list.empty') }}
+                loading={isLoading}
             />
 
             {topicIdForDelete && <TopicDeletionModal id={topicIdForDelete} onClose={onCloseDeleteModal} />}

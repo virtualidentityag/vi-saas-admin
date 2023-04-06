@@ -6,9 +6,9 @@ import { useAppConfigContext } from '../../../context/useAppConfig';
 import { useSettingsAdminMutation } from '../../../hooks/useSettingsAdminMutation.hook';
 import { useTenantData } from '../../../hooks/useTenantData.hook';
 import { LegalText } from './components/LegalText';
-import styles from './styles.module.scss';
 import { useUserRoles } from '../../../hooks/useUserRoles.hook';
 import { UserRole } from '../../../enums/UserRole';
+import styles from './styles.module.scss';
 
 interface LegalSettingsProps {
     tenantId?: string | number;
@@ -22,6 +22,40 @@ export const LegalSettings = ({ tenantId, disableManageToggle }: LegalSettingsPr
     const finalTenantId = tenantId || `${data.id}`;
     const { settings } = useAppConfigContext();
     const { mutate } = useSettingsAdminMutation();
+    const canShowExtraTexts =
+        (settings?.multitenancyWithSingleDomainEnabled && hasRole(UserRole.TenantAdmin) && !disableManageToggle) ||
+        !settings?.multitenancyWithSingleDomainEnabled;
+
+    const LegalTextElement = (
+        <LegalText
+            tenantId={finalTenantId}
+            fieldName={['content', 'privacy']}
+            titleKey="privacy.title"
+            subTitle={
+                <>
+                    {t('privacy.subTitle')} <a href="/">{t('privacy.subTitleLinkLabel')}</a>
+                </>
+            }
+            placeHolderKey="settings.privacy.placeholder"
+            showConfirmationModal={{
+                titleKey: 'privacy.confirmation.title',
+                contentKey: 'privacy.confirmation.content',
+                cancelLabelKey: 'privacy.confirmation.confirm',
+                okLabelKey: 'privacy.confirmation.cancel',
+                field: ['content', 'confirmPrivacy'],
+            }}
+        />
+    );
+
+    if (!canShowExtraTexts) {
+        return (
+            <Row gutter={[24, 24]}>
+                <Col span={12} sm={6}>
+                    {LegalTextElement}
+                </Col>
+            </Row>
+        );
+    }
 
     return (
         <Row gutter={[24, 24]}>
@@ -70,24 +104,7 @@ export const LegalSettings = ({ tenantId, disableManageToggle }: LegalSettingsPr
                 />
             </Col>
             <Col span={12} sm={6}>
-                <LegalText
-                    tenantId={finalTenantId}
-                    fieldName={['content', 'privacy']}
-                    titleKey="privacy.title"
-                    subTitle={
-                        <>
-                            {t('privacy.subTitle')} <a href="/">{t('privacy.subTitleLinkLabel')}</a>
-                        </>
-                    }
-                    placeHolderKey="settings.privacy.placeholder"
-                    showConfirmationModal={{
-                        titleKey: 'privacy.confirmation.title',
-                        contentKey: 'privacy.confirmation.content',
-                        cancelLabelKey: 'privacy.confirmation.confirm',
-                        okLabelKey: 'privacy.confirmation.cancel',
-                        field: ['content', 'confirmPrivacy'],
-                    }}
-                />
+                {LegalTextElement}
             </Col>
         </Row>
     );

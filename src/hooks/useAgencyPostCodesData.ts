@@ -6,5 +6,8 @@ interface PostCodeRangeProps extends UseQueryOptions<PostCodeRange[]> {
 }
 
 export const useAgencyPostCodesData = ({ id, ...options }: PostCodeRangeProps) => {
-    return useQuery<PostCodeRange[]>(['AGENCY_POST_CODES', id], () => getAgencyPostCodeRange(id), options);
+    return useQuery<PostCodeRange[]>(['AGENCY_POST_CODES', id], () => getAgencyPostCodeRange(id), {
+        enabled: id !== 'add',
+        ...options,
+    });
 };

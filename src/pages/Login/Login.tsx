@@ -25,7 +25,7 @@ export const Login = () => {
     const currentTime = new Date().getTime();
     const tokenExpiry = getTokenExpiryFromLocalStorage();
     const { data: tenantData } = usePublicTenantData();
-    const [, hasRole] = useUserRoles();
+    const { hasRole } = useUserRoles();
     const accessTokenValidInMs = tokenExpiry.accessTokenValidUntilTime - currentTime;
 
     const refreshTokenValidInMs = tokenExpiry.refreshTokenValidUntilTime - currentTime;

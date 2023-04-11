@@ -9,11 +9,10 @@ import { TopicList } from './pages/Topics/List/TopicList';
 import { Statistic } from './pages/Statistic';
 import { UserProfile } from './pages/Profile/UserProfile';
 import { Initialization } from './components/Layout/Initialization';
-import { AgencyList } from './pages/Agency/AgencyList';
+import { AgencyList } from './pages/Agency/List';
 import { useTenantData } from './hooks/useTenantData.hook';
 import { FeatureProvider } from './context/FeatureContext';
-import { AgencyPageEdit } from './pages/Agency/AgencyEdit';
-import { AgencyAdd } from './pages/Agency/AgencyAdd';
+import { AgencyPageEdit } from './pages/Agency/Edit';
 import { UsersList } from './pages/users/List';
 import { UserEditOrAdd } from './pages/users/Edit';
 import { GeneralSettingsPage } from './pages/TenantSettings/GeneralSettings';
@@ -31,13 +30,23 @@ import { TenantAppSettings } from './pages/Tenants/Edit/AppSettings';
 import { SingleLegalSettings } from './pages/Tenants/Edit/LegalSettings';
 import { AppSettingsPage } from './pages/TenantSettings/AppSettings';
 import { usePublicTenantData } from './hooks/usePublicTenantData.hook';
+import { useUserRoles } from './hooks/useUserRoles.hook';
+import { UserRole } from './enums/UserRole';
+import { useAppConfigContext } from './context/useAppConfig';
+import { AgencyEditInitialMeeting } from './pages/Agency/EditInitialMeeting';
 
 export const App = () => {
     const { data: publicTenantData } = usePublicTenantData();
     const { isLoading, data } = useTenantData();
+    const { settings } = useAppConfigContext();
     const navigate = useNavigate();
     const location = useLocation();
+    const { hasRole } = useUserRoles();
     const { can } = useUserPermissions();
+
+    const shouldShowThemeSettings =
+        (settings.multitenancyWithSingleDomainEnabled && hasRole(UserRole.TenantAdmin)) ||
+        (!settings.multitenancyWithSingleDomainEnabled && hasRole(UserRole.SingleTenantAdmin));
 
     useEffect(() => {
         if (location.pathname === routePathNames.root || location.pathname === `${routePathNames.root}/`) {
@@ -83,7 +92,9 @@ export const App = () => {
                                 element={
                                     <Navigate
                                         to={`${routePathNames.themeSettings}/${
-                                            can(PermissionAction.Update, Resource.Tenant) ? 'general' : 'legal'
+                                            can(PermissionAction.Update, Resource.Tenant) && shouldShowThemeSettings
+                                                ? 'general'
+                                                : 'legal'
                                         }`}
                                     />
                                 }
@@ -91,8 +102,12 @@ export const App = () => {
                         </Route>
                     )}
                     <Route path={routePathNames.agency} element={<AgencyList />} />
-                    <Route path={`${routePathNames.agencyEdit}/*`} element={<AgencyPageEdit />} />
-                    <Route path={`${routePathNames.agencyAdd}/*`} element={<AgencyAdd />} />
+                    <Route path={`${routePathNames.agency}/:id`} element={<AgencyPageEdit />} />
+                    <Route path={`${routePathNames.agency}/:id/general`} element={<AgencyPageEdit />} />
+                    <Route
+                        path={`${routePathNames.agency}/:id/initial-meeting`}
+                        element={<AgencyEditInitialMeeting />}
+                    />
                     {can(PermissionAction.Read, Resource.Topic) && (
                         <Route path={routePathNames.topics} element={<TopicList />} />
                     )}

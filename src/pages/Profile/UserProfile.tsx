@@ -1,14 +1,17 @@
 import { Col, Row } from 'antd';
 import { Card } from '../../components/Card';
 import { Page } from '../../components/Page';
+import { useAppConfigContext } from '../../context/useAppConfig';
 import { UserRole } from '../../enums/UserRole';
 import { useUserRoles } from '../../hooks/useUserRoles.hook';
+import { Documentation } from './Documentation';
 import { PasswordChange } from './PassswordChange';
 import { PrivateData } from './PrivateData';
 import TwoFactorAuth from './TwoFactorAuth/TwoFactorAuth';
 
 export const UserProfile = () => {
-    const [, hasRole] = useUserRoles();
+    const { settings } = useAppConfigContext();
+    const { hasRole } = useUserRoles();
 
     return (
         <Page>
@@ -25,6 +28,7 @@ export const UserProfile = () => {
 
                 <Col span={12} md={6}>
                     <PasswordChange />
+                    {settings.documentationEnabled && <Documentation />}
                 </Col>
             </Row>
         </Page>

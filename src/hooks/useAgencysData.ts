@@ -8,12 +8,13 @@ interface AgenciesDataProps extends QueryOptions<ResponseList<AgencyData>> {
     sortBy?: string;
     order?: string;
     pageSize?: number;
+    search?: string;
 }
 
-export const useAgenciesData = ({ current, sortBy, order, pageSize, ...options }: AgenciesDataProps) => {
+export const useAgenciesData = ({ current, sortBy, order, pageSize, search, ...options }: AgenciesDataProps) => {
     return useQuery(
-        ['AGENCIES', current, sortBy, order, pageSize],
-        () => getAgencyData({ current, sortBy, order, pageSize }),
+        ['AGENCIES', current, sortBy, order, pageSize, search],
+        () => getAgencyData({ current, sortBy, order, pageSize, search }),
         options,
     );
 };

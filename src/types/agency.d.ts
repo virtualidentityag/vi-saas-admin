@@ -1,3 +1,4 @@
+import { PostCodeRange } from '../api/agency/getAgencyPostCodeRange';
 import { TopicData } from './topic';
 
 export interface AgencyDemographicsData {
@@ -23,4 +24,5 @@ export interface AgencyData {
     status: string | undefined;
     deleteDate: string | undefined;
     dioceseId?: string;
+    postCodes?: PostCodeRange[];
 }

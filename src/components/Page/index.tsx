@@ -9,6 +9,7 @@ import styles from './styles.module.scss';
 
 interface PageProps {
     isLoading?: boolean;
+    stickyHeader?: boolean;
     children?: React.ReactChild | React.ReactChild[];
 }
 
@@ -28,9 +29,14 @@ interface PageBackProps {
     tabs?: Array<{ to: string; titleKey: string }>;
 }
 
-export const Page = ({ children, isLoading }: PageProps) => {
+export const Page = ({ children, stickyHeader, isLoading }: PageProps) => {
     return (
-        <div className={classNames(styles.page, { [styles.loading]: isLoading })}>
+        <div
+            className={classNames(styles.page, {
+                [styles.loading]: isLoading,
+                [styles.stickyHeaderPage]: stickyHeader,
+            })}
+        >
             {isLoading ? <Spin /> : <div className={styles.content}>{children}</div>}
         </div>
     );
@@ -81,8 +87,8 @@ export const PageBack = forwardRef(({ path, title, titleKey, tabs, children }: P
                 <ChevronLeft />
                 <h3 className={styles.backHeadline}>{title || t(titleKey)}</h3>
             </NavLink>
-            {children}
             {!!finalTabs?.length && finalTabs.length > 1 && <PageTabs tabs={finalTabs} />}
+            {children}
         </div>
     );
 });

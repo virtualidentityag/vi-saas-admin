@@ -6,5 +6,8 @@ interface AgencyHasConsultantsProps extends UseQueryOptions<boolean> {
 }
 
 export const useAgencyHasConsultants = ({ id, ...options }: AgencyHasConsultantsProps) => {
-    return useQuery<boolean>(['HAS_CONSULTANTS', id], () => hasAgencyConsultants(id), options);
+    return useQuery<boolean>(['HAS_CONSULTANTS', id], () => hasAgencyConsultants(id), {
+        enabled: id !== 'add',
+        ...options,
+    });
 };

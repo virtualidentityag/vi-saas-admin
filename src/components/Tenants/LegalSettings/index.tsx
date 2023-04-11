@@ -18,7 +18,7 @@ interface LegalSettingsProps {
 export const LegalSettings = ({ tenantId, disableManageToggle }: LegalSettingsProps) => {
     const { data } = useTenantData();
     const { t } = useTranslation();
-    const [, hasRole] = useUserRoles();
+    const { hasRole } = useUserRoles();
     const finalTenantId = tenantId || `${data.id}`;
     const { settings } = useAppConfigContext();
     const { mutate } = useSettingsAdminMutation();

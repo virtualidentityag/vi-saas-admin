@@ -3,6 +3,28 @@
     min-height: calc(100% - 49px);
 }
 
+.stickyHeaderPage {
+    .content {
+        padding-top: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .back + *,
+    .pageTitleContainer + * {
+        padding: 0 25px;
+    }
+
+    .back,
+    .pageTitleContainer {
+        position: sticky;
+        background: #f2efea;
+        z-index: 900;
+        padding: 25px;
+        top: 0;
+    }
+}
+
 .content {
     padding: 25px;
     width: 100%;

@@ -9,7 +9,7 @@ import { OtherFunctionsSettings } from '../../../../components/Tenants/AppSettin
 
 export const TenantAppSettings = () => {
     const { id } = useParams<{ id: string }>();
-    const [, hasRole] = useUserRoles();
+    const { hasRole } = useUserRoles();
     const { settings } = useAppConfigContext();
 
     return (

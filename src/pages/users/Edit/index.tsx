@@ -32,7 +32,7 @@ export const UserEditOrAdd = () => {
         pageSize: 10000,
         typeOfUser: typeOfUsers,
     });
-    const { data: agenciesData, isLoading } = useAgenciesData({ pageSize: 10_000 });
+    const { data: agenciesData, isLoading } = useAgenciesData({ pageSize: 10000 });
     const isEditing = id !== 'add';
     const singleData = consultantsResponse?.data.find((c) => c.id === id);
 
@@ -90,9 +90,11 @@ export const UserEditOrAdd = () => {
             <CardEditable
                 isLoading={isLoading}
                 initialValues={{
-                    ...(singleData || {}),
+                    ...(singleData || {
+                        formalLanguage: true,
+                    }),
                     username: decodeUsername(singleData?.username || ''),
-                    agencies: convertToOptions(singleData?.agencies || [], 'name', 'id'),
+                    agencies: convertToOptions(singleData?.agencies || [], ['postcode', 'name', 'city'], 'id'),
                 }}
                 titleKey="agency.edit.general.general_information"
                 onSave={onSave}
@@ -122,7 +124,7 @@ export const UserEditOrAdd = () => {
                     placeholder="plsSelect"
                     options={convertToOptions(
                         agenciesData?.data?.filter((agency) => agency.deleteDate === 'null') || [],
-                        'name',
+                        ['postcode', 'name', 'city'],
                         'id',
                     )}
                 />

@@ -71,7 +71,7 @@ export const PasswordChange = () => {
                             <Col span={12} sm={6}>
                                 <FormInputPasswordField
                                     name="newPassword"
-                                    placeholderKey="profile.passwordChange.form.currentPassword"
+                                    placeholderKey="profile.passwordChange.form.newPassword"
                                     required
                                     rules={[requiredPasswordChars]}
                                 />

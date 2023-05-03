@@ -98,6 +98,7 @@
     "createDate": "Hinzugefügt am",
     "agency": "Beratungsstelle",
     "agency.title.text": "Erstellen und bearbeiten Sie Daten Ihrer Beratungsstellen",
+    "agency.title.text.self": "Bearbeiten Sie die Daten Ihrer Beratungsstelle",
     "agency.modal.headline.edit": "Beratungsstelle bearbeiten",
     "agency.modal.headline.add": "Beratungsstelle hinzufügen",
     "agency.modal.btn.ok.uppercase": "Löschen",

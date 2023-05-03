@@ -1,9 +1,6 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
 /* eslint-disable func-names */
 
-const USERONEEMAIL = Cypress.env('userOne');
-const USERONEPASSWORD = Cypress.env('passwordOne');
-
 describe('Basic Test', function () {
     it('Checks the Title', function () {
         cy.visit('/');

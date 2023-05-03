@@ -32,6 +32,7 @@ export const SearchInput = ({ handleOnSearch, handleOnSearchClear, placeholder }
             className={styles.search}
             allowClear
             placeholder={placeholder || defaultPlaceholder}
+            autoComplete="off"
             onChange={onSearchChange}
             onSearch={handleOnSearch}
         />

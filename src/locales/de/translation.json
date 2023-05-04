@@ -128,7 +128,7 @@
     "agency.edit.tab.initialEnquiry": "Erstberatung",
     "agency.form.settings.headline": "Einstellungen zum Beratungsangebot",
     "agency.form.settings.teamAdviceCenter.tittle": "Teamberatung anbieten",
-    "agency.form.settings.teamAdviceCenter.description": "Ratsuchende werden von mehreren Berater zu ihren Anliegen unterstützt.",
+    "agency.form.settings.teamAdviceCenter.description": "Berater können Ratsuchende einem anderen Berater zuweisen, der besser in der Lage ist, dem Ratsuchenden zu helfen. Beide Berater können die Nachrichten des Ratsuchenden einsehen und sich daran beteiligen.",
     "agency.form.registrationSettings.title": "Sichtbarkeit in der Registrierung",
     "agency.form.registrationSettings.onlineWarning": "Damit die Beratungsstelle in der Registrierung sichtbar gestellt werden kann, weisen Sie dieser eine:n Berater:in zu. Diese Funktion finden Sie unter dem Menüpunkt \"Nutzer\".",
     "agency.form.registrationSettings.onlineDescription": "Die Beratungsstelle in der Registrierung als sichtbar stellen",

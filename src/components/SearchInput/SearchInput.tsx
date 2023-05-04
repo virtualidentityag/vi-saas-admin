@@ -30,9 +30,10 @@ export const SearchInput = ({ handleOnSearch, handleOnSearchClear, placeholder }
     return (
         <Search
             className={styles.search}
+            name="search"
             allowClear
             placeholder={placeholder || defaultPlaceholder}
-            autoComplete="off"
+            autoComplete="search"
             onChange={onSearchChange}
             onSearch={handleOnSearch}
         />

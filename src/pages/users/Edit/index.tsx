@@ -121,7 +121,6 @@ export const UserEditOrAdd = () => {
                     label="agency"
                     labelInValue
                     isMulti
-                    required
                     placeholder="plsSelect"
                     options={convertToOptions(
                         agenciesData?.data?.filter((agency) => agency.deleteDate === 'null') || [],

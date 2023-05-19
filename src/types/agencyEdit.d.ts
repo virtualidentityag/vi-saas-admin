@@ -5,7 +5,7 @@ export interface AgencyEditData {
     url: string;
     duration: number;
     advisor: AdvisorInterface[];
-    location: string;
+    locations: Array<{ type: string }>;
     status?: string | undefined;
 }
 

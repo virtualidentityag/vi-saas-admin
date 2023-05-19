@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { SelectFormField } from '../../../../components/SelectFormField';
 import { AgencyEditData, ConsultantInterface } from '../../../../types/agencyEdit';
 import putConsultantForAgencyEventTypes from '../../../../api/agency/putConsultantForAgencyEventTypes';
+import { useBookingLocations } from '../useBookingLocations';
 
 const { Paragraph } = Typography;
 const { Item } = Form;
@@ -22,6 +23,7 @@ export const InitialMeetingEditModal = (props: {
     const [formInstance] = Form.useForm();
     const currentPath = useLocation().pathname;
     const [, agencyId] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
+    const Locations = useBookingLocations();
 
     useEffect(() => {
         formInstance.setFieldsValue({
@@ -34,7 +36,7 @@ export const InitialMeetingEditModal = (props: {
                     value: advisor.id,
                 };
             }),
-            location: props.editableData?.location,
+            locations: props.editableData?.locations?.map(({ type }) => type),
         });
     }, [props.editableData]);
 
@@ -62,6 +64,7 @@ export const InitialMeetingEditModal = (props: {
                         description: formData.description,
                         length: parseInt(formData.duration, 10),
                         consultants,
+                        locations: formData.locations,
                     };
                     putConsultantForAgencyEventTypes(agencyId, props.editableData.id, updateData)
                         .then(() => {
@@ -137,18 +140,13 @@ export const InitialMeetingEditModal = (props: {
                     })}
                 />
                 <SelectFormField
-                    disabled
                     label="agency.edit.initialMeeting.modal_new_consultation_type.location"
-                    name="location"
+                    name="locations"
                     isMulti
                     allowClear
+                    required
                     placeholder="agency.edit.initialMeeting.modal_new_consultation_type.location"
-                    options={[
-                        {
-                            label: 'Videoberatung',
-                            value: 'Videoberatung',
-                        },
-                    ]}
+                    options={Locations}
                 />
             </Form>
         </Modal>

@@ -201,7 +201,7 @@
     "agency.edit.initialMeeting.modal_new_consultation_type.duration.placeholder": "Dauer",
     "agency.edit.initialMeeting.modal_new_consultation_type.duration.minutes": "Minuten",
     "agency.edit.initialMeeting.modal_new_consultation_type.advisor": "Berater",
-    "agency.edit.initialMeeting.modal_new_consultation_type.location": "Ort",
+    "agency.edit.initialMeeting.modal_new_consultation_type.location": "Gewünschte Terminart",
     "agency.edit.initialMeeting.modal_edit_consultation_type.title": "Erstberatungstyp bearbeiten",
     "agency.edit.initialMeeting.modal_edit_consultation_type.cancel": "Abbrechen",
     "agency.edit.initialMeeting.modal_edit_consultation_type.ok": "Speichern",

@@ -353,7 +353,7 @@
     "imprint.title": "Impressum",
     "imprint.subTitle": "Fügen Sie hier das Impressum ein.",
     "privacy.title": "Datenschutz",
-    "privacy.subTitle": "Sie müssen ein teil ihrer Datenschutzerklärung ergänzen. Den bestehenden Teil der Erklärung finden Sie",
+    "privacy.subTitle": "Fügen Sie hier die Datenschutzerklärung ein. Die Datenschutzerklärungen können Sie <a>hier</a> einsehen.",
     "privacy.subTitleLinkLabel": "Hier",
     "privacy.confirmation.title": "Nutzer informieren?",
     "privacy.confirmation.content": "Sollten die Nutzer über die neue Datenschutzerklärung informiert werden? Wenn Sie Tippfehler im Text korrigiert haben, müssen die Nutzer über die Änderungen nicht informiert werden.",

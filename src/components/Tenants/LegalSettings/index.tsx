@@ -1,5 +1,6 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
 import { Col, Row } from 'antd';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { CardEditable } from '../../CardEditable';
 import { FormSwitchField } from '../../FormSwitchField';
 import { useAppConfigContext } from '../../../context/useAppConfig';
@@ -32,9 +33,7 @@ export const LegalSettings = ({ tenantId, disableManageToggle }: LegalSettingsPr
             fieldName={['content', 'privacy']}
             titleKey="privacy.title"
             subTitle={
-                <>
-                    {t('privacy.subTitle')} <a href="/">{t('privacy.subTitleLinkLabel')}</a>
-                </>
+                <Trans i18nKey="privacy.subTitle" components={{ a: <a href="/datenschutz" target="_blank" /> }} />
             }
             placeHolderKey="settings.privacy.placeholder"
             showConfirmationModal={{

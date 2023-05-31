@@ -49,6 +49,7 @@ export const AgencyEditInitialMeeting = () => {
                 duration: event.length,
                 advisor: null,
                 locations: event.locations,
+                isDefaultEvent: JSON.parse(event.metadata || '{}')?.defaultEventType,
             });
         });
         return agencyEventTypes;
@@ -119,7 +120,7 @@ export const AgencyEditInitialMeeting = () => {
         setEventTypeDelete(data);
     };
 
-    function defineTableColumns(): ColumnsType<AgencyEditData> {
+    function defineTableColumns(): ColumnsType<AgencyEventTypes> {
         return [
             {
                 title: t('agency.edit.initialMeeting.table.appointment_label'),
@@ -149,15 +150,15 @@ export const AgencyEditInitialMeeting = () => {
                 width: 88,
                 title: '',
                 key: 'edit',
-                render: (_: any, record: AgencyEditData) => {
+                render: (_: any, record: AgencyEventTypes) => {
                     return (
                         <div className="tableActionWrapper">
                             <EditButtons
-                                isDisabled={record.status === 'IN_DELETION'}
                                 handleEdit={handleEditTable}
                                 handleDelete={handleDeleteTable}
                                 record={record}
                                 resource={Resource.Agency}
+                                disabled={{ edit: false, delete: record.isDefaultEvent }}
                             />
                         </div>
                     );

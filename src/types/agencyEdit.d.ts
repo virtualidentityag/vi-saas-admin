@@ -53,6 +53,7 @@ export interface AgencyEventTypes {
     type?: any;
     consultantIds?: any;
     consultants?: ConsultantInterface[];
+    isDefaultEvent?: boolean;
 }
 
 export interface AgencyEventTypeUpdate {

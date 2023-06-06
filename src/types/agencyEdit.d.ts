@@ -5,7 +5,7 @@ export interface AgencyEditData {
     url: string;
     duration: number;
     advisor: AdvisorInterface[];
-    location: string;
+    locations: Array<{ type: string }>;
     status?: string | undefined;
 }
 
@@ -53,6 +53,7 @@ export interface AgencyEventTypes {
     type?: any;
     consultantIds?: any;
     consultants?: ConsultantInterface[];
+    isDefaultEvent?: boolean;
 }
 
 export interface AgencyEventTypeUpdate {

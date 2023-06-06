@@ -3,6 +3,8 @@ export interface RegistrationData {
 }
 
 export interface RegistrationStatistics {
+    tenantName: string;
+    agencyName: string;
     userId: string;
     registrationDate: string;
     age: number | null;

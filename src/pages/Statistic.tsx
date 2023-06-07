@@ -25,6 +25,8 @@ export const Statistic = () => {
             .then((registrationStatistics: RegistrationStatistics[]) => {
                 const data = [];
                 data.push([
+                    'tenant',
+                    'agency',
                     'user_id',
                     'datum_registrierung',
                     'alter',
@@ -47,6 +49,8 @@ export const Statistic = () => {
                         formattedTopics += topic;
                     });
 
+                    csvLine.push(entry.tenantName);
+                    csvLine.push(entry.agencyName);
                     csvLine.push(entry.userId);
                     csvLine.push(entry.registrationDate);
                     csvLine.push(entry.age !== null ? entry.age.toString() : '');

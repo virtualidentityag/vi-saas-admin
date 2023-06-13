@@ -28,7 +28,7 @@ export const addCounselorData = (counselorData: Record<string, any>): Promise<Co
             url: counselorEndpoint,
             method: FETCH_METHODS.POST,
             skipAuth: false,
-            responseHandling: [FETCH_ERRORS.CONFLICT, FETCH_ERRORS.CONFLICT_WITH_RESPONSE],
+            responseHandling: [FETCH_ERRORS.CONFLICT, FETCH_ERRORS.CONFLICT_WITH_RESPONSE, FETCH_ERRORS.CATCH_ALL],
             bodyData: JSON.stringify(strippedCounselor),
         })
             .then((response) => {

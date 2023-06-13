@@ -317,6 +317,7 @@
     "counselor.formalLanguage": "Formale Sprache",
     "counselor.absent": "Abwesend",
     "counselor.absenceMessage": "Abwesenheitsnotiz",
+    "counselor.isGroupChatConsultant": "Dem Benutzer erlauben, Gruppenchats zu erstellen",
     "counselor.title.text": "Erstellen und bearbeiten Sie Daten Ihrer Berater",
     "counselor.modal.headline.delete": "Nutzer wirklich löschen",
     "counselor.modal.headline.edit": "Berater bearbeiten",

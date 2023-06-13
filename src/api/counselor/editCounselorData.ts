@@ -12,7 +12,17 @@ import { putAgenciesForCounselor } from '../agency/putAgenciesForCounselor';
  * @return data
  */
 export const editCounselorData = async (id: string, formData: CounselorData): Promise<CounselorData> => {
-    const { firstname, lastname, formalLanguage, email, absent, username, absenceMessage, twoFactorAuth } = formData;
+    const {
+        firstname,
+        lastname,
+        formalLanguage,
+        email,
+        absent,
+        username,
+        absenceMessage,
+        twoFactorAuth,
+        isGroupchatConsultant,
+    } = formData;
 
     // just use needed data from whole form data
     const strippedCounselor = {
@@ -24,6 +34,7 @@ export const editCounselorData = async (id: string, formData: CounselorData): Pr
         username: encodeUsername(username),
         absenceMessage: absent ? absenceMessage : null,
         twoFactorAuth,
+        isGroupchatConsultant,
     };
 
     const ids = ((formData.agencies as LabeledValue[])?.map(({ value }) => value) || []) as string[];

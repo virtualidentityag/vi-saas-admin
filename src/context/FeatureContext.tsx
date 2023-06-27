@@ -40,7 +40,7 @@ const FeatureProvider = ({ children, tenantData, publicTenantData }: FeatureProv
         },
         {
             name: FeatureFlag.GroupChatV2,
-            active: !!tenantData?.settings.featureGroupChatV2Enabled,
+            active: !!publicTenantData?.settings.featureGroupChatV2Enabled,
         },
     ]);
 

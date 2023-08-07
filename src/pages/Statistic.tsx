@@ -36,6 +36,7 @@ export const Statistic = () => {
                     'relevant',
                     'plz',
                     'betend',
+                    'referer',
                 ]);
                 registrationStatistics.forEach(function createCsvLine(entry) {
                     const csvLine: string[] = [];
@@ -60,6 +61,7 @@ export const Statistic = () => {
                     csvLine.push(entry.mainTopicInternalAttribute || '');
                     csvLine.push(entry.postalCode);
                     csvLine.push(entry.endDate);
+                    csvLine.push(entry.referer || '');
 
                     data.push(csvLine);
                 });

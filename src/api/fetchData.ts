@@ -6,8 +6,7 @@ import generateCsrfToken from '../utils/generateCsrfToken';
 import logout from './auth/logout';
 import routePathNames, { CSRF_WHITELIST_HEADER } from '../appConfig';
 
-const nodeEnv: string = process.env.NODE_ENV as string;
-const isLocalDevelopment = nodeEnv === 'development';
+const isLocalDevelopment = import.meta.env.DEV;
 
 export const FETCH_METHODS = {
     DELETE: 'DELETE',

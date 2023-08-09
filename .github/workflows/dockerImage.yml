@@ -29,12 +29,12 @@ jobs:
             - uses: actions/setup-node@v3
               with:
                   node-version: 14
-                  cache: 'npm'
-            - run: npm i
+                  cache: 'yarn'
+            - run: yarn install --frozen-lockfile
               env:
                   GITHUB_TOKEN: ${{ secrets.github_token }}
             - name: build
-              run: npm run build
+              run: yarn run build
               env:
                   GITHUB_TOKEN: ${{ secrets.github_token }}
             - uses: actions/upload-artifact@v2

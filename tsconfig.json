@@ -21,19 +21,20 @@
     "noEmit": true,
     "jsx": "react-jsx",
 		"noImplicitAny": false,
-		"suppressImplicitAnyIndexErrors": true,
 		"downlevelIteration": true,
     "types": ["vite/client", "vite-plugin-svgr/client", "cypress"]
   },
   "include": [
     "src",
-    "cypress"
+    "cypress",
+    "src/setupTests.ts"
   ],
   "exclude": [
     "*.test",
     "*.spec.js"
   ],
   "files": [
-    "index.d.ts"
+    "index.d.ts",
+    "vite-env.d.ts"
   ]
 }

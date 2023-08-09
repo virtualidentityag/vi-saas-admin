@@ -22,7 +22,7 @@ export const TenantColor = ({ tenantId }: { tenantId: string }) => {
             isLoading={isLoading}
             initialValues={{ ...data }}
             titleKey="settings.colors"
-            subTitle={t('settings.colors.howto')}
+            subTitle={t<string>('settings.colors.howto')}
             onSave={onSubmit}
         >
             <FormColorSelectorField labelKey="organisation.primaryColor" name={['theming', 'primaryColor']} />

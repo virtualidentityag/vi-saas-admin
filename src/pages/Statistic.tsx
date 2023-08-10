@@ -57,7 +57,7 @@ export const Statistic = () => {
                     csvLine.push(entry.mainTopicInternalAttribute || '');
                     csvLine.push(entry.postalCode);
                     csvLine.push(entry.endDate);
-                    csvLine.push(entry.referer || '');
+                    csvLine.push(entry.referer ? decodeURI(entry.referer) : '');
 
                     data.push(csvLine);
                 });

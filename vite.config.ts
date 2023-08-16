@@ -9,7 +9,7 @@ export default ({ mode }) => {
     process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
     return defineConfig({
-        base: '',
+        base: process.env.BASE || '/',
         plugins: [
             react(),
             viteTsconfigPaths(),

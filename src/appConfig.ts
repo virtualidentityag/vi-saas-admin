@@ -1,17 +1,17 @@
 import getLocationVariables from './utils/getLocationVariables';
 
-const REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY = process.env.REACT_APP_CSRF_WHITELIST_HEADER_FOR_LOCAL_DEVELOPMENT;
+const VITE_CSRF_WHITELIST_HEADER_PROPERTY = import.meta.env.VITE_CSRF_WHITELIST_HEADER_FOR_LOCAL_DEVELOPMENT;
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-export const CSRF_WHITELIST_HEADER: string = REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
+export const CSRF_WHITELIST_HEADER: string = VITE_CSRF_WHITELIST_HEADER_PROPERTY;
 const { subdomain, origin } = getLocationVariables();
 
 let url = origin;
 
-if (process.env.REACT_APP_USE_API_URL === 'true') {
-    url = `https://${process.env.REACT_APP_API_URL}`;
+if (import.meta.env.VITE_USE_API_URL === 'true') {
+    url = `https://${import.meta.env.VITE_API_URL}`;
 } else if (origin.includes('localhost')) {
-    url = `https://${subdomain && `${subdomain}.`}${process.env.REACT_APP_API_URL}`;
+    url = `https://${subdomain && `${subdomain}.`}${import.meta.env.VITE_API_URL}`;
 }
 
 export const mainURL = url;

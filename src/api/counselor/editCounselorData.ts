@@ -7,7 +7,7 @@ import { putAgenciesForCounselor } from '../agency/putAgenciesForCounselor';
 
 /**
  * edit counselor
- * @param counselorData - newly fetched consultant data from backend
+ * @param id - id of counselor to save
  * @param formData - input data from form
  * @return data
  */
@@ -20,9 +20,9 @@ export const editCounselorData = async (id: string, formData: CounselorData): Pr
         lastname,
         formalLanguage,
         email,
-        absent,
+        absent: !!absent,
         username: encodeUsername(username),
-        absenceMessage: absent ? absenceMessage : null,
+        ...(absent ? { absenceMessage } : {}),
         twoFactorAuth,
     };
 

@@ -27,7 +27,7 @@ export const getValueFromCookie = (targetValue: string) => {
 export const removeAllCookies = () => {
     document.cookie.split(';').forEach((c) => {
         const name = c.trim().split('=')[0];
-        if ((process.env.REACT_APP_COOKIES_ALLOWEDLIST ?? '').split(',').includes(name)) {
+        if ((import.meta.env.VITE_COOKIES_ALLOWEDLIST ?? '').split(',').includes(name)) {
             return;
         }
 

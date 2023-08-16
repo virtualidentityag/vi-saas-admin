@@ -15,7 +15,7 @@ import { Resource } from '../../../enums/Resource';
 import { TypeOfUser } from '../../../enums/TypeOfUser';
 import { useAddOrUpdateConsultantOrAdmin } from '../../../hooks/useAddOrUpdateConsultantOrAgencyAdmin';
 import { useAgenciesData } from '../../../hooks/useAgencysData';
-import { useConsultantOrAgencyAdminsData } from '../../../hooks/useConsultantOrAdminsData';
+import { useConsultantsOrAdminsData } from '../../../hooks/useConsultantsOrAdminsData';
 import { useUserPermissions } from '../../../hooks/useUserPermission';
 import { convertToOptions } from '../../../utils/convertToOptions';
 import { decodeUsername } from '../../../utils/encryptionHelpers';
@@ -27,10 +27,10 @@ export const UserEditOrAdd = () => {
     const { can } = useUserPermissions();
     const { t } = useTranslation();
     const { typeOfUsers, id } = useParams<{ id: string; typeOfUsers: TypeOfUser }>();
-    // Todo: Temporary solution(VIC-2135)
-    const { data: consultantsResponse, isLoading: isLoadingConsultants } = useConsultantOrAgencyAdminsData({
-        pageSize: 10000,
+    const { data: consultantsResponse, isLoading: isLoadingConsultants } = useConsultantsOrAdminsData({
+        search: id,
         typeOfUser: typeOfUsers,
+        enabled: !!id,
     });
     const { data: agenciesData, isLoading } = useAgenciesData({ pageSize: 10000 });
     const isEditing = id !== 'add';

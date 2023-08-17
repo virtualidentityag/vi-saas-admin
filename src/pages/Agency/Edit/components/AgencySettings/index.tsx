@@ -14,6 +14,8 @@ import { getDiocesesData } from '../../../../../api/agency/getDiocesesData';
 import getConsultingTypes from '../../../../../api/consultingtype/getConsultingTypes';
 import styles from './styles.module.scss';
 import { CounsellingRelation } from '../../../../../enums/CounsellingRelation';
+import { ReleaseToggle } from '../../../../../enums/ReleaseToggle';
+import { useReleasesToggle } from '../../../../../hooks/useReleasesToggle.hook';
 
 export const AgencySettings = () => {
     const [t] = useTranslation();
@@ -26,6 +28,7 @@ export const AgencySettings = () => {
     const [consultingTypes, setConsultingTypes] = useState([]);
 
     const { isEnabled } = useFeatureContext();
+    const { isEnabled: isReleaseToggleEnabled } = useReleasesToggle();
     const { data: topics, isLoading: isLoadingTopics } = useTenantTopics(true);
     const topicsForList = topics?.filter(({ id }) => !topicIds.find(({ value }) => value === `${id}`));
     const gendersForList = Object.values(Gender).filter((name) => !genders.find(({ value }) => value === `${name}`));
@@ -90,19 +93,22 @@ export const AgencySettings = () => {
                             label: t(`agency.gender.option.${gender.toLowerCase()}`),
                         }))}
                     />
-                    <SelectFormField
-                        required
-                        placeholder={t('select.placeholder')}
-                        labelInValue
-                        label="agency.relation"
-                        name="counsellingRelations"
-                        isMulti
-                        options={counsellingRelationsForList.map((relation) => ({
-                            value: relation,
-                            label: t(`agency.relation.option.${relation.replace('_COUNSELLING', '').toLowerCase()}`),
-                        }))}
-                    />
                 </>
+            )}
+
+            {isReleaseToggleEnabled(ReleaseToggle.COUNSELLING_RELATIONS) && (
+                <SelectFormField
+                    required
+                    placeholder={t('select.placeholder')}
+                    labelInValue
+                    label="agency.relation"
+                    name="counsellingRelations"
+                    isMulti
+                    options={counsellingRelationsForList.map((relation) => ({
+                        value: relation,
+                        label: t(`agency.relation.option.${relation.replace('_COUNSELLING', '').toLowerCase()}`),
+                    }))}
+                />
             )}
 
             <FormSwitchField

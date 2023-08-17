@@ -16,6 +16,8 @@ import { AgencySettings } from './components/AgencySettings';
 import { AgencyGeneralInformation } from './components/GeneralInformation';
 import { RegistrationSettings } from './components/RegistrationSettings';
 import { CounsellingRelation } from '../../../enums/CounsellingRelation';
+import { ReleaseToggle } from '../../../enums/ReleaseToggle';
+import { useReleasesToggle } from '../../../hooks/useReleasesToggle.hook';
 
 function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
     return data?.length === 0 || (data?.length === 1 && data[0].from === '00000' && data[0].until === '99999');
@@ -34,6 +36,7 @@ export const AgencyPageEdit = () => {
     const { data: agencyData, isLoading } = useAgencyData({ id });
     const { data: postCodes, isLoading: isLoadingPostCodes } = useAgencyPostCodesData({ id });
     const { isEnabled } = useFeatureContext();
+    const { isEnabled: isReleaseToggleEnabled } = useReleasesToggle();
     const [form] = Form.useForm();
     const { mutate } = useAgencyUpdate(id);
 
@@ -52,7 +55,7 @@ export const AgencyPageEdit = () => {
           }
         : {};
 
-    const counsellingRelationsInitialValues = isEnabled(FeatureFlag.Demographics)
+    const counsellingRelationsInitialValues = isReleaseToggleEnabled(ReleaseToggle.COUNSELLING_RELATIONS)
         ? {
               counsellingRelations: (agencyData?.counsellingRelations || Object.values(CounsellingRelation)).map(
                   (relation) => ({

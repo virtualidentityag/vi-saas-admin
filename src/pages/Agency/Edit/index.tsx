@@ -15,6 +15,7 @@ import { convertToOptions } from '../../../utils/convertToOptions';
 import { AgencySettings } from './components/AgencySettings';
 import { AgencyGeneralInformation } from './components/GeneralInformation';
 import { RegistrationSettings } from './components/RegistrationSettings';
+import { CounsellingRelation } from '../../../enums/CounsellingRelation';
 
 function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
     return data?.length === 0 || (data?.length === 1 && data[0].from === '00000' && data[0].until === '99999');
@@ -51,6 +52,17 @@ export const AgencyPageEdit = () => {
           }
         : {};
 
+    const counsellingRelationsInitialValues = isEnabled(FeatureFlag.Demographics)
+        ? {
+              counsellingRelations: (agencyData?.counsellingRelations || Object.values(CounsellingRelation)).map(
+                  (relation) => ({
+                      value: relation,
+                      label: t(`agency.relation.option.${relation.replace('_COUNSELLING', '').toLowerCase()}`),
+                  }),
+              ),
+          }
+        : {};
+
     const onSubmit = useCallback((formData) => {
         setSubmitted(true);
         const newFormData = {
@@ -62,6 +74,7 @@ export const AgencyPageEdit = () => {
             },
             topicIds: formData.topicIds?.map(({ value }) => value),
             offline: !formData.online,
+            counsellingRelations: formData.counsellingRelations?.map(({ value }) => value),
         };
         mutate(newFormData, {
             onError: () => {
@@ -127,6 +140,7 @@ export const AgencyPageEdit = () => {
                     ...agencyData,
                     postCodes: postCodes?.length > 0 ? postCodes : [{ from: '00000', until: '99999' }],
                     ...demographicsInitialValues,
+                    ...counsellingRelationsInitialValues,
                     postCodeRangesActive: !hasOnlyDefaultRangeDefined(postCodes || []),
                     online: agencyData?.id ? !agencyData?.offline : false,
                     topicIds: convertToOptions(agencyData?.topics, 'name', 'id', true),

@@ -22,6 +22,7 @@ function buildAgencyDataRequestBody(consultingTypeResponseId: string | number, f
         external: false,
         offline: formData.offline,
         demographics: formData.demographics,
+        counsellingRelations: formData.counsellingRelations,
     });
 }
 

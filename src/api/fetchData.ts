@@ -19,6 +19,7 @@ export const FETCH_METHODS = {
 export const FETCH_ERRORS = {
     ABORT: 'ABORT',
     BAD_REQUEST: 'BAD_REQUEST',
+    BAD_REQUEST_WITH_RESPONSE: 'BAD_REQUEST_WITH_RESPONSE',
     CATCH_ALL: 'CATCH_ALL',
     CONFLICT: 'CONFLICT',
     CONFLICT_WITH_RESPONSE: 'CONFLICT_WITH_RESPONSE',
@@ -35,6 +36,7 @@ export const X_REASON = {
     EMAIL_NOT_AVAILABLE: 'EMAIL_NOT_AVAILABLE',
     NUMBER_OF_LICENSES_EXCEEDED: 'NUMBER_OF_LICENSES_EXCEEDED',
     SUBDOMAIN_NOT_UNIQUE: 'SUBDOMAIN_NOT_UNIQUE',
+    CONSULTANT_HAS_ACTIVE_OR_ARCHIVE_SESSIONS: 'CONSULTANT_HAS_ACTIVE_OR_ARCHIVE_SESSIONS',
 };
 
 export const FETCH_SUCCESS = {
@@ -121,18 +123,16 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
                             : response;
                     resolve(data);
                 } else if (props.responseHandling) {
-                    if (props.responseHandling.includes(FETCH_ERRORS.CATCH_ALL)) {
-                        message.error({
-                            content: i18next.t([
-                                `message.error.${response.headers.get('x-reason')}`,
-                                'message.error.default',
-                            ]),
-                            duration: 3,
-                        });
-
-                        reject(new Error(FETCH_ERRORS.CATCH_ALL));
-                    } else if (response.status === 400 && props.responseHandling.includes(FETCH_ERRORS.BAD_REQUEST)) {
-                        reject(new Error(FETCH_ERRORS.BAD_REQUEST));
+                    if (
+                        response.status === 400 &&
+                        (props.responseHandling.includes(FETCH_ERRORS.BAD_REQUEST) ||
+                            props.responseHandling.includes(FETCH_ERRORS.BAD_REQUEST_WITH_RESPONSE))
+                    ) {
+                        reject(
+                            props.responseHandling.includes(FETCH_ERRORS.BAD_REQUEST_WITH_RESPONSE)
+                                ? response
+                                : new Error(FETCH_ERRORS.BAD_REQUEST),
+                        );
                     } else if (response.status === 404 && props.responseHandling.includes(FETCH_ERRORS.NO_MATCH)) {
                         reject(new Error(FETCH_ERRORS.NO_MATCH));
                     } else if (response.status === 405 && props.responseHandling.includes(FETCH_ERRORS.NOT_ALLOWED)) {
@@ -151,6 +151,16 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
                         window.location.href = '/admin/access-denied';
                     } else if (response.status === 401) {
                         logout(true, routePathNames.login);
+                    } else if (props.responseHandling.includes(FETCH_ERRORS.CATCH_ALL)) {
+                        message.error({
+                            content: i18next.t([
+                                `message.error.${response.headers.get(FETCH_ERRORS.X_REASON)}`,
+                                'message.error.default',
+                            ]),
+                            duration: 3,
+                        });
+
+                        reject(new Error(FETCH_ERRORS.CATCH_ALL));
                     }
                 } else {
                     // logout(true, routePathNames.login);

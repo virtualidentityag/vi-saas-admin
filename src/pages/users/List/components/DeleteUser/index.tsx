@@ -17,6 +17,7 @@ interface DeleteUserModalProps {
 export const DeleteUserModal = ({ typeOfUser, deleteUserId, onClose }: DeleteUserModalProps) => {
     const { t } = useTranslation();
     const [hasSessions, setHasSessions] = useState(false);
+    const [lastConsultantOfAgency, setLastConsultantOfAgency] = useState(false);
     const [force, setForce] = useState(false);
     const { mutate: deleteConsultant } = useDeleteConsultantOrAgencyAdmin({
         typeOfUser,
@@ -29,19 +30,27 @@ export const DeleteUserModal = ({ typeOfUser, deleteUserId, onClose }: DeleteUse
         },
         onError: (error: Error | Response) => {
             if (error instanceof Response) {
-                if (error.headers.get(FETCH_ERRORS.X_REASON) === X_REASON.CONSULTANT_HAS_ACTIVE_OR_ARCHIVE_SESSIONS) {
-                    notification.error({
-                        message: t('message.counselor.delete.error.hasSessions'),
-                    });
-                    setHasSessions(true);
-                } else {
-                    message.error({
-                        content: i18next.t([
-                            `message.error.${error.headers.get(FETCH_ERRORS.X_REASON)}`,
-                            'message.error.default',
-                        ]),
-                        duration: 3,
-                    });
+                switch (error.headers.get(FETCH_ERRORS.X_REASON)) {
+                    case X_REASON.CONSULTANT_HAS_ACTIVE_OR_ARCHIVE_SESSIONS:
+                        notification.error({
+                            message: t('message.counselor.delete.error.hasSessions'),
+                        });
+                        setHasSessions(true);
+                        break;
+                    case X_REASON.CONSULTANT_IS_THE_LAST_OF_AGENCY_AND_AGENCY_IS_STILL_ACTIVE:
+                        notification.error({
+                            message: t('message.counselor.delete.error.lastConsultantOfAgency'),
+                        });
+                        setLastConsultantOfAgency(true);
+                        break;
+                    default:
+                        message.error({
+                            content: i18next.t([
+                                `message.error.${error.headers.get(FETCH_ERRORS.X_REASON)}`,
+                                'message.error.default',
+                            ]),
+                            duration: 3,
+                        });
                 }
             }
         },
@@ -61,14 +70,18 @@ export const DeleteUserModal = ({ typeOfUser, deleteUserId, onClose }: DeleteUse
             closable={false}
             centered
             okText={t(hasSessions ? 'forceDelete' : 'delete')}
-            okButtonProps={{ disabled: hasSessions && !force }}
+            okButtonProps={{ disabled: hasSessions && !force, hidden: lastConsultantOfAgency }}
         >
             <p>{t('counselor.modal.text.delete.text')}</p>
 
-            {hasSessions && (
+            {hasSessions && !lastConsultantOfAgency && (
                 <Checkbox onChange={onChange} checked={force}>
                     <Text text={t('counselor.modal.text.delete.error.hasSessions')} type="error" />
                 </Checkbox>
+            )}
+
+            {lastConsultantOfAgency && (
+                <Text text={t('counselor.modal.text.delete.error.lastConsultantOfAgency')} type="error" />
             )}
         </Modal>
     );

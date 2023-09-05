@@ -8,6 +8,9 @@ export interface RegistrationStatistics {
     userId: string;
     registrationDate: string;
     age: number | null;
+    appointmentsBookedCount: number | null;
+    attendedVideoCallsCount: number | null;
+    consultantMessagesCount: number | null;
     gender: string | null;
     counsellingRelation: string | null;
     topicsInternalAttributes: string[];

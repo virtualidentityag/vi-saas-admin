@@ -37,6 +37,9 @@ export const Statistic = () => {
                     'plz',
                     'betend',
                     'referer',
+                    'termine_rat',
+                    'videoberatung_rat',
+                    'nachrichten_rat',
                 ]);
                 registrationStatistics.forEach(function createCsvLine(entry) {
                     const csvLine: string[] = [];
@@ -62,6 +65,15 @@ export const Statistic = () => {
                     csvLine.push(entry.postalCode);
                     csvLine.push(entry.endDate);
                     csvLine.push(entry.referer ? decodeURI(entry.referer) : '');
+                    csvLine.push(
+                        entry.appointmentsBookedCount !== null ? entry.appointmentsBookedCount.toString() : '',
+                    );
+                    csvLine.push(
+                        entry.attendedVideoCallsCount !== null ? entry.attendedVideoCallsCount.toString() : '',
+                    );
+                    csvLine.push(
+                        entry.consultantMessagesCount !== null ? entry.consultantMessagesCount.toString() : '',
+                    );
 
                     data.push(csvLine);
                 });

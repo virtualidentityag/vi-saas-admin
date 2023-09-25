@@ -1,5 +1,6 @@
 export type TextTypeOptions =
     | 'standard'
+    | 'error'
     | 'infoLargeStandard'
     | 'infoLargeAlternative'
     | 'infoSmall'

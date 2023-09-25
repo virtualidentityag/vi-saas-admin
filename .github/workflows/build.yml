@@ -19,7 +19,7 @@ jobs:
             - uses: actions/setup-node@v2
               with:
                   node-version: 14.18.3
-            - run: npm i
+            - run: yarn install --frozen-lockfile
               env:
                   GITHUB_TOKEN: ${{ secrets.github_token }}
             - name: Run linters
@@ -34,8 +34,8 @@ jobs:
               run: |
                   echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
                   echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
-                  # need to change tests to mocked data: npm run test:integration:cli
-                  npm run build
+                  # need to change tests to mocked data: yarn run test:integration:cli
+                  yarn run build
               env:
                   GITHUB_TOKEN: ${{ secrets.github_token }}
             - name: Bump version
@@ -43,7 +43,7 @@ jobs:
               run: |
                   git config --local user.email "action@github.com"
                   git config --local user.name "GitHub Action"
-                  npm run release
+                  yarn run release
               env:
                   GITHUB_TOKEN: ${{ secrets.github_token }}
             - name: Push changes

@@ -84,14 +84,14 @@ export const LegalSettings = ({ tenantId, disableManageToggle }: LegalSettingsPr
                     tenantId={finalTenantId}
                     fieldName={['content', 'impressum']}
                     titleKey="imprint.title"
-                    subTitle={t('imprint.subTitle')}
+                    subTitle={t<string>('imprint.subTitle')}
                     placeHolderKey="settings.imprint.placeholder"
                 />
                 <LegalText
                     tenantId={finalTenantId}
                     fieldName={['content', 'termsAndConditions']}
                     titleKey="termsAndConditions.title"
-                    subTitle={t('termsAndConditions.subTitle')}
+                    subTitle={t<string>('termsAndConditions.subTitle')}
                     placeHolderKey="settings.termsAndConditions.placeholder"
                     showConfirmationModal={{
                         titleKey: 'termsAndConditions.confirmation.title',

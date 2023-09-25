@@ -26,6 +26,7 @@ export const SliderFormField = ({ className, label, name, help, min, max }: Slid
             className={classNames(styles.sliderContainer, className)}
         >
             <Slider
+                trackStyle={[{ backgroundColor: 'var(--primary)' }]}
                 disabled={contextDisabled}
                 range
                 min={min}

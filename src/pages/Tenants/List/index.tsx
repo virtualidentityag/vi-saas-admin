@@ -166,7 +166,7 @@ export const TenantsList = () => {
 
     return (
         <Page>
-            <Page.Title titleKey="tenants.title" subTitle={t('tenants.subTitle', { count: data?.total || 0 })}>
+            <Page.Title titleKey="tenants.title" subTitle={t<string>('tenants.subTitle', { count: data?.total || 0 })}>
                 <div className={styles.searchContainer}>
                     <SearchInput
                         placeholder={t('tenants.searchPlaceholder')}

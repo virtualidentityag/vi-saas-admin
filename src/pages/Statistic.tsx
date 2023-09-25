@@ -25,6 +25,8 @@ export const Statistic = () => {
             .then((registrationStatistics: RegistrationStatistics[]) => {
                 const data = [];
                 data.push([
+                    'tenant',
+                    'agency',
                     'user_id',
                     'datum_registrierung',
                     'alter',
@@ -34,6 +36,10 @@ export const Statistic = () => {
                     'relevant',
                     'plz',
                     'betend',
+                    'referer',
+                    'termine_rat',
+                    'videoberatung_rat',
+                    'nachrichten_rat',
                 ]);
                 registrationStatistics.forEach(function createCsvLine(entry) {
                     const csvLine: string[] = [];
@@ -47,6 +53,8 @@ export const Statistic = () => {
                         formattedTopics += topic;
                     });
 
+                    csvLine.push(entry.tenantName);
+                    csvLine.push(entry.agencyName);
                     csvLine.push(entry.userId);
                     csvLine.push(entry.registrationDate);
                     csvLine.push(entry.age !== null ? entry.age.toString() : '');
@@ -56,6 +64,16 @@ export const Statistic = () => {
                     csvLine.push(entry.mainTopicInternalAttribute || '');
                     csvLine.push(entry.postalCode);
                     csvLine.push(entry.endDate);
+                    csvLine.push(entry.referer ? decodeURI(entry.referer) : '');
+                    csvLine.push(
+                        entry.appointmentsBookedCount !== null ? entry.appointmentsBookedCount.toString() : '',
+                    );
+                    csvLine.push(
+                        entry.attendedVideoCallsCount !== null ? entry.attendedVideoCallsCount.toString() : '',
+                    );
+                    csvLine.push(
+                        entry.consultantMessagesCount !== null ? entry.consultantMessagesCount.toString() : '',
+                    );
 
                     data.push(csvLine);
                 });

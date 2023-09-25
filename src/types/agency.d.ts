@@ -1,4 +1,5 @@
 import { PostCodeRange } from '../api/agency/getAgencyPostCodeRange';
+import { CounsellingRelation } from '../enums/CounsellingRelation';
 import { TopicData } from './topic';
 
 export interface AgencyDemographicsData {
@@ -12,6 +13,7 @@ export interface AgencyData {
     id: string | null;
     name: string;
     city: string;
+    counsellingRelations: CounsellingRelation[];
     topics: TopicData[];
     topicIds: Array<{ value: string; label: string }> | string[];
     demographics?: AgencyDemographicsData;

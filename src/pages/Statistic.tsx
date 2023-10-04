@@ -1,5 +1,5 @@
 import { FileDownloadOutlined } from '@mui/icons-material';
-import { Col, Row } from 'antd';
+import { Col, Row, Spin } from 'antd';
 import { useEffect, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import { useTranslation } from 'react-i18next';
@@ -39,7 +39,7 @@ export const Statistic = () => {
                     'referer',
                     'termine_rat',
                     'videoberatung_rat',
-                    'nachrichten_rat',
+                    'nachrichten_ber',
                 ]);
                 registrationStatistics.forEach(function createCsvLine(entry) {
                     const csvLine: string[] = [];
@@ -93,12 +93,20 @@ export const Statistic = () => {
                         <div className="statistic__headline">{t('statistic.title.text')}</div>
                         <div className="statistic__download">{t('statistic.download.text')}</div>
                         <div className="statistic__download">
-                            <CSVLink separator=";" data={csvData} filename={`${t('statistic.download.filename')}.csv`}>
-                                <span className="statistic__icon">
-                                    <FileDownloadOutlined />
-                                </span>
-                                <span className="statistic__text">{t('statistic.download.link')}</span>
-                            </CSVLink>{' '}
+                            {isRequestInProgress ? (
+                                <Spin />
+                            ) : (
+                                <CSVLink
+                                    separator=";"
+                                    data={csvData}
+                                    filename={`${t('statistic.download.filename')}.csv`}
+                                >
+                                    <span className="statistic__icon">
+                                        <FileDownloadOutlined />
+                                    </span>
+                                    <span className="statistic__text">{t('statistic.download.link')}</span>
+                                </CSVLink>
+                            )}
                         </div>
                     </div>
                 </Col>

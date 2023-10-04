@@ -20,12 +20,15 @@ import { useUserPermissions } from '../../../hooks/useUserPermission';
 import { convertToOptions } from '../../../utils/convertToOptions';
 import { decodeUsername } from '../../../utils/encryptionHelpers';
 import { FormSwitchField } from '../../../components/FormSwitchField';
+import { useFeatureContext } from '../../../context/FeatureContext';
+import { FeatureFlag } from '../../../enums/FeatureFlag';
 
 export const UserEditOrAdd = () => {
     const navigate = useNavigate();
     const [form] = useForm();
     const { can } = useUserPermissions();
     const { t } = useTranslation();
+    const { isEnabled } = useFeatureContext();
     const { typeOfUsers, id } = useParams<{ id: string; typeOfUsers: TypeOfUser }>();
     const { data: consultantsResponse, isLoading: isLoadingConsultants } = useConsultantsOrAdminsData({
         search: id,
@@ -92,6 +95,7 @@ export const UserEditOrAdd = () => {
                 initialValues={{
                     ...(singleData || {
                         formalLanguage: true,
+                        isGroupchatConsultant: isEnabled(FeatureFlag.GroupChatV2),
                     }),
                     username: decodeUsername(singleData?.username || ''),
                     agencies: convertToOptions(singleData?.agencies || [], ['postcode', 'name', 'city'], 'id'),
@@ -142,6 +146,12 @@ export const UserEditOrAdd = () => {
                         <Space align="center">
                             <FormSwitchField labelKey="counselor.formalLanguage" name="formalLanguage" />
                             {isEditing && <FormSwitchField labelKey="counselor.absent" name="absent" />}
+                            {isEnabled(FeatureFlag.GroupChatV2) && (
+                                <FormSwitchField
+                                    labelKey="counselor.isGroupChatConsultant"
+                                    name="isGroupchatConsultant"
+                                />
+                            )}
                         </Space>
                         {isAbsentEnabled && (
                             <FormTextAreaField labelKey="counselor.absenceMessage" name="absenceMessage" />

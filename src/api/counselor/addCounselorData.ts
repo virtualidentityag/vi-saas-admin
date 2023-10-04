@@ -10,7 +10,8 @@ import { putAgenciesForCounselor } from '../agency/putAgenciesForCounselor';
  * @return data
  */
 export const addCounselorData = (counselorData: Record<string, any>): Promise<CounselorData> => {
-    const { firstname, lastname, formalLanguage, email, absent, username, twoFactorAuth } = counselorData;
+    const { firstname, lastname, formalLanguage, email, absent, username, twoFactorAuth, isGroupchatConsultant } =
+        counselorData;
 
     // just use needed data from whole form data
     const strippedCounselor = {
@@ -21,6 +22,7 @@ export const addCounselorData = (counselorData: Record<string, any>): Promise<Co
         absent: !!absent,
         username: encodeUsername(username),
         twoFactorAuth,
+        isGroupchatConsultant,
     };
 
     return (
@@ -28,7 +30,7 @@ export const addCounselorData = (counselorData: Record<string, any>): Promise<Co
             url: counselorEndpoint,
             method: FETCH_METHODS.POST,
             skipAuth: false,
-            responseHandling: [FETCH_ERRORS.CONFLICT, FETCH_ERRORS.CONFLICT_WITH_RESPONSE],
+            responseHandling: [FETCH_ERRORS.CONFLICT, FETCH_ERRORS.CONFLICT_WITH_RESPONSE, FETCH_ERRORS.CATCH_ALL],
             bodyData: JSON.stringify(strippedCounselor),
         })
             .then((response) => {

@@ -19,4 +19,5 @@ export interface CounselorData {
     deleteDate?: string;
     status: Status;
     twoFactorAuth?: boolean;
+    isGroupchatConsultant?: boolean;
 }

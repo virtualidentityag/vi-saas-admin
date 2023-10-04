@@ -39,7 +39,7 @@ export const Statistic = () => {
                     'referer',
                     'termine_rat',
                     'videoberatung_rat',
-                    'nachrichten_rat',
+                    'nachrichten_ber',
                 ]);
                 registrationStatistics.forEach(function createCsvLine(entry) {
                     const csvLine: string[] = [];

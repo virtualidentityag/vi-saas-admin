@@ -10,12 +10,14 @@ import { Card } from '../../../../../components/Card';
 import { SliderFormField } from '../../../../../components/SliderFormField';
 import { FormSwitchField } from '../../../../../components/FormSwitchField';
 import { useTenantTopics } from '../../../../../hooks/useTenantTopics';
+import { useTenantsData } from '../../../../../hooks/useTenantsData';
 import { getDiocesesData } from '../../../../../api/agency/getDiocesesData';
 import getConsultingTypes from '../../../../../api/consultingtype/getConsultingTypes';
 import styles from './styles.module.scss';
 import { CounsellingRelation } from '../../../../../enums/CounsellingRelation';
 import { ReleaseToggle } from '../../../../../enums/ReleaseToggle';
 import { useReleasesToggle } from '../../../../../hooks/useReleasesToggle.hook';
+import { getDomain } from '../../../../../utils/getDomain';
 
 export const AgencySettings = () => {
     const [t] = useTranslation();
@@ -36,6 +38,8 @@ export const AgencySettings = () => {
         (relation) => !counsellingRelations.find(({ value }) => value === `${relation}`),
     );
 
+    const { data: tenantsData, isLoading: isLoadingTenants } = useTenantsData({ perPage: 1000 });
+
     useEffect(() => {
         if (isEnabled(FeatureFlag.ConsultingTypesForAgencies)) {
             getConsultingTypes().then((cTypes) => setConsultingTypes(cTypes));
@@ -44,7 +48,30 @@ export const AgencySettings = () => {
     }, []);
 
     return (
-        <Card isLoading={isLoadingTopics} titleKey="agency.edit.settings.title">
+        <Card isLoading={isLoadingTopics || isLoadingTenants} titleKey="agency.edit.settings.title">
+            <SelectFormField
+                name="tenantId"
+                placeholder="tenantAdmins.form.tenant"
+                required
+                className={styles.select}
+                label="tenantAdmins.form.tenantAssignment"
+            >
+                {tenantsData?.data.map((option) => (
+                    <SelectFormField.Option
+                        key={option.id}
+                        className={styles.option}
+                        value={String(option.id)}
+                        label={option.name}
+                    >
+                        <div className={styles.optionName}>{option.name}</div>
+                        <div className={styles.optionGroup}>
+                            <div className={styles.optionTenantId}>{option.id}</div>
+                            {' | '}
+                            <div className={styles.optionTenantSubdomain}>{getDomain()}</div>
+                        </div>
+                    </SelectFormField.Option>
+                ))}
+            </SelectFormField>
             {isEnabled(FeatureFlag.Topics) && topics?.length > 0 && (
                 <SelectFormField
                     label="topics.title"

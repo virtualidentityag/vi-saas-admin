@@ -311,6 +311,7 @@
     "tenantAdmins.form.subdomain": "Mandanten Subdomain",
     "tenantAdmins.form.domainId": "Mandanten ID",
     "tenantAdmins.form.tenant": "Mandant auswählen",
+    "tenantAdmins.form.tenantAssignment": "Mandantenzuordung",
     "tenantAdmins.card.personalDataTitle": "Persönliche Daten des Mandanten Admins",
     "tenantAdmins.card.tenantTitle": "Mandantenzuordnung",
     "tenantAdmins.edit.back": "Neuen Admin anlegen",

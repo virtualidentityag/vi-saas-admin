@@ -5,15 +5,20 @@ import getConsultingType4Tenant from '../consultingtype/getConsultingType4Tenant
 
 function buildAgencyDataRequestBody(consultingTypeResponseId: string | number, formData: Record<string, any>) {
     const topics = formData?.topicIds || formData?.topics;
+
     const topicIds = topics
         ?.map((topic) => (typeof topic === 'string' ? topic : topic?.id))
         .filter((id) => !Number.isNaN(Number(id)));
+
+    const { tenantId } = formData;
+
     return JSON.stringify({
         // diocese in case of SAAS is not relevant object but enforced by API
         dioceseId: formData.dioceseId ? parseInt(formData.dioceseId, 10) : 0,
         name: formData.name,
         description: formData.description ? formData.description : '',
         topicIds,
+        tenantId,
         postcode: formData.postcode,
         city: formData.city,
         consultingType: consultingTypeResponseId,

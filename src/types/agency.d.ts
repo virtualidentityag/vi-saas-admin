@@ -16,6 +16,7 @@ export interface AgencyData {
     counsellingRelations: CounsellingRelation[];
     topics: TopicData[];
     topicIds: Array<{ value: string; label: string }> | string[];
+    tenantId: string;
     demographics?: AgencyDemographicsData;
     description: string;
     offline: boolean;

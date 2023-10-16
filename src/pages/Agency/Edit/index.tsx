@@ -147,6 +147,7 @@ export const AgencyPageEdit = () => {
                     postCodeRangesActive: !hasOnlyDefaultRangeDefined(postCodes || []),
                     online: agencyData?.id ? !agencyData?.offline : false,
                     topicIds: convertToOptions(agencyData?.topics, 'name', 'id', true),
+                    tenantId: agencyData?.tenantId,
                 }}
                 labelAlign="left"
                 labelWrap

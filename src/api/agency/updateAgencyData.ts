@@ -28,11 +28,14 @@ export const updateAgencyData = async (agencyModel: AgencyData, formInput: Agenc
         ?.map((topic) => (typeof topic === 'string' ? topic : topic?.id))
         .filter((id) => !Number.isNaN(Number(id)));
 
+    const tenantId = formInput?.tenantId;
+
     const agencyDataRequestBody = {
         dioceseId: formInput.dioceseId ? parseInt(formInput.dioceseId, 10) : 0,
         name: formInput.name,
         description: formInput.description,
         topicIds,
+        tenantId,
         postcode: formInput.postcode,
         city: formInput.city,
         consultingType: consultingTypeId,

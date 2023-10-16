@@ -52,7 +52,6 @@ export const AgencySettings = () => {
             <SelectFormField
                 name="tenantId"
                 placeholder="tenantAdmins.form.tenant"
-                required
                 className={styles.select}
                 label="tenantAdmins.form.tenantAssignment"
             >

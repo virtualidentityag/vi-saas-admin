@@ -28,7 +28,7 @@ export interface SelectFormFieldProps {
     labelInValue?: boolean;
     children?: React.ReactElement[];
     validateStatus?: ValidateStatus;
-    initialValue?: string;
+    initialValue?: string | string[];
     rules?: Rule[];
 }
 
@@ -52,7 +52,7 @@ export const SelectFormField = ({
     rules = [],
 }: SelectFormFieldProps) => {
     const [t] = useTranslation();
-    const message = errorMessage || t('form.errors.required');
+    const message = errorMessage || t(`form.errors.required${isMulti ? '.multiSelect' : ''}`);
     const contextDisabled = useContext(DisabledContext);
 
     return (

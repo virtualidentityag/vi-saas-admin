@@ -15,7 +15,7 @@ export const LogoAndFavicon = ({ tenantId }: { tenantId: string }) => {
             isLoading={isLoading}
             initialValues={{ ...data }}
             titleKey="settings.logoAndFavicon"
-            subTitle={t('settings.images.howto')}
+            subTitle={t<string>('settings.images.howto')}
             onSave={mutate}
             tooltip={t('settings.images.help')}
         >

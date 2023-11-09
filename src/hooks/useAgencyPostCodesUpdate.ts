@@ -4,14 +4,9 @@ import updateAgencyPostCodeRange from '../api/agency/updateAgencyPostCodeRange';
 export const useAgencyPostCodesUpdate = (id: string) => {
     const queryClient = useQueryClient();
 
-    return useMutation(
-        (data: { postcodeRanges: string }) => {
-            return updateAgencyPostCodeRange(id, [], '');
+    return useMutation(() => updateAgencyPostCodeRange(id, [], ''), {
+        onSuccess: () => {
+            queryClient.removeQueries(['AGENCY_POST_CODES']);
         },
-        {
-            onSuccess: () => {
-                queryClient.removeQueries(['AGENCY_POST_CODES']);
-            },
-        },
-    );
+    });
 };

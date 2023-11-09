@@ -13,20 +13,28 @@ import { useTenantTopics } from '../../../../../hooks/useTenantTopics';
 import { getDiocesesData } from '../../../../../api/agency/getDiocesesData';
 import getConsultingTypes from '../../../../../api/consultingtype/getConsultingTypes';
 import styles from './styles.module.scss';
+import { CounsellingRelation } from '../../../../../enums/CounsellingRelation';
+import { ReleaseToggle } from '../../../../../enums/ReleaseToggle';
+import { useReleasesToggle } from '../../../../../hooks/useReleasesToggle.hook';
 
 export const AgencySettings = () => {
     const [t] = useTranslation();
 
     const topicIds = Form.useWatch<Option[]>('topicIds') || [];
     const genders = Form.useWatch<Option[]>(['demographics', 'genders']) || [];
+    const counsellingRelations = Form.useWatch<Option[]>('counsellingRelations') || [];
 
     const [diocesesData, setDiocesesData] = useState([]);
     const [consultingTypes, setConsultingTypes] = useState([]);
 
     const { isEnabled } = useFeatureContext();
+    const { isEnabled: isReleaseToggleEnabled } = useReleasesToggle();
     const { data: topics, isLoading: isLoadingTopics } = useTenantTopics(true);
     const topicsForList = topics?.filter(({ id }) => !topicIds.find(({ value }) => value === `${id}`));
     const gendersForList = Object.values(Gender).filter((name) => !genders.find(({ value }) => value === `${name}`));
+    const counsellingRelationsForList = Object.values(CounsellingRelation).filter(
+        (relation) => !counsellingRelations.find(({ value }) => value === `${relation}`),
+    );
 
     useEffect(() => {
         if (isEnabled(FeatureFlag.ConsultingTypesForAgencies)) {
@@ -74,6 +82,8 @@ export const AgencySettings = () => {
                         max={100}
                     />
                     <SelectFormField
+                        required
+                        placeholder={t('select.placeholder')}
                         labelInValue
                         label="agency.gender"
                         name={['demographics', 'genders']}
@@ -86,10 +96,25 @@ export const AgencySettings = () => {
                 </>
             )}
 
+            {isReleaseToggleEnabled(ReleaseToggle.COUNSELLING_RELATIONS) && (
+                <SelectFormField
+                    required
+                    placeholder={t('select.placeholder')}
+                    labelInValue
+                    label="agency.relation"
+                    name="counsellingRelations"
+                    isMulti
+                    options={counsellingRelationsForList.map((relation) => ({
+                        value: relation,
+                        label: t(`agency.relation.option.${relation.replace('_COUNSELLING', '').toLowerCase()}`),
+                    }))}
+                />
+            )}
+
             <FormSwitchField
                 inline
                 disableLabels
-                labelKey="agency.form.settings.teamAdviceCenter.tittle"
+                labelKey="agency.form.settings.teamAdviceCenter.title"
                 name="teamAgency"
             />
 

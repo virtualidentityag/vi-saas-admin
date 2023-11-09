@@ -79,7 +79,7 @@ export const TopicList = () => {
                     title: t('topic.name'),
                     dataIndex: 'name',
                     key: 'name',
-                    sorter: true,
+                    sorter: false,
                     width: 150,
                     ellipsis: true,
                     fixed: 'left',
@@ -97,7 +97,7 @@ export const TopicList = () => {
                     title: t('topic.internalIdentifier'),
                     dataIndex: 'internalIdentifier',
                     key: 'internalIdentifier',
-                    sorter: true,
+                    sorter: false,
                     width: 150,
                     ellipsis: true,
                 },
@@ -106,7 +106,7 @@ export const TopicList = () => {
                     title: t('status'),
                     dataIndex: 'status',
                     key: 'status',
-                    sorter: true,
+                    sorter: false,
                     ellipsis: true,
                     render: (status: Status) => {
                         return <StatusIcons status={status} />;

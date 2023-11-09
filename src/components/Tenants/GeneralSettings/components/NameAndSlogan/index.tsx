@@ -17,7 +17,7 @@ export const NameAndSlogan = ({ tenantId }: { tenantId: string }) => {
             titleKey="organisations.nameAndSlugTitle"
             onSave={mutate}
             tooltip={t('settings.name.help')}
-            subTitle={t('organisations.nameAndSlugTitleSubtitle')}
+            subTitle={t<string>('organisations.nameAndSlugTitleSubtitle')}
         >
             <FormInputField name="name" labelKey="organisation.name" placeholderKey="slogan" required />
 

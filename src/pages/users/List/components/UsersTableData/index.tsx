@@ -10,7 +10,7 @@ import CustomChevronUpIcon from '../../../../../components/CustomIcons/ChevronUp
 import EditButtons from '../../../../../components/EditableTable/EditButtons';
 import StatusIcons from '../../../../../components/EditableTable/StatusIcons';
 import SearchInput from '../../../../../components/SearchInput/SearchInput';
-import { useConsultantOrAgencyAdminsData } from '../../../../../hooks/useConsultantOrAdminsData';
+import { useConsultantsOrAdminsData } from '../../../../../hooks/useConsultantsOrAdminsData';
 import { AgencyData } from '../../../../../types/agency';
 import { CounselorData } from '../../../../../types/counselor';
 import { Status } from '../../../../../types/status';
@@ -45,7 +45,7 @@ export const UsersTableData = () => {
         data: responseList,
         isLoading,
         refetch,
-    } = useConsultantOrAgencyAdminsData({
+    } = useConsultantsOrAdminsData({
         search,
         ...tableState,
         typeOfUser: typeOfUsers,

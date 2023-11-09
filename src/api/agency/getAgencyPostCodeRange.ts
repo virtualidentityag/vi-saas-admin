@@ -27,7 +27,7 @@ const getAgencyPostCodeRange = (id: string) => {
             const items = el.split('-');
             result.push({
                 from: items[0],
-                until: items[1],
+                until: items[1] || items[0],
             });
         });
 

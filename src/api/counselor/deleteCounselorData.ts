@@ -3,16 +3,14 @@ import { counselorEndpoint } from '../../appConfig';
 
 /**
  * delete counselor
- * @param counselorData
+ * @param counselorDataId
+ * @param forceDelete
  * @return data
  */
-export const deleteCounselorData = (counselorDataId: string) => {
-    const counselor = fetchData({
-        url: `${counselorEndpoint}/${counselorDataId}`,
+export const deleteCounselorData = (counselorDataId: string, forceDelete = false) =>
+    fetchData({
+        url: `${counselorEndpoint}/${counselorDataId}?forceDeleteSessions=${forceDelete ? 'true' : 'false'}`,
         method: FETCH_METHODS.DELETE,
         skipAuth: false,
-        responseHandling: [FETCH_ERRORS.CATCH_ALL],
+        responseHandling: [FETCH_ERRORS.BAD_REQUEST_WITH_RESPONSE, FETCH_ERRORS.CATCH_ALL],
     });
-
-    return counselor;
-};

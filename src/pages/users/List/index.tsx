@@ -4,7 +4,7 @@ import { Page } from '../../../components/Page';
 import { PermissionAction } from '../../../enums/PermissionAction';
 import { Resource } from '../../../enums/Resource';
 import { TypeOfUser } from '../../../enums/TypeOfUser';
-import { useConsultantOrAgencyAdminsData } from '../../../hooks/useConsultantOrAdminsData';
+import { useConsultantsOrAdminsData } from '../../../hooks/useConsultantsOrAdminsData';
 import { useTenantData } from '../../../hooks/useTenantData.hook';
 import { useTenantAdminsData } from '../../../hooks/useTenantUserAdminsData';
 import { useUserPermissions } from '../../../hooks/useUserPermission';
@@ -22,7 +22,7 @@ export const UsersList = () => {
     const isTenantAdmins = typeOfUsers === TypeOfUser.TenantAdmins;
 
     const { data } = useTenantAdminsData({ current: 1, enabled: isTenantAdmins });
-    const { data: responseList } = useConsultantOrAgencyAdminsData({
+    const { data: responseList } = useConsultantsOrAdminsData({
         typeOfUser: typeOfUsers,
         enabled:
             typeOfUsers === TypeOfUser.Consultants

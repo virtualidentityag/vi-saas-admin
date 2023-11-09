@@ -27,7 +27,7 @@ const AddButton = ({ allowedNumberOfUsers, sourceLength, handleBtnAdd }: AddButt
 
     return (
         <div>
-            {sourceLength >= allowedNumberOfUsers && allowedNumberOfUsers !== false ? (
+            {allowedNumberOfUsers !== false && sourceLength >= allowedNumberOfUsers ? (
                 <Popover
                     placement="bottomRight"
                     content={t('counselor.new.help', { number: allowedNumberOfUsers })}

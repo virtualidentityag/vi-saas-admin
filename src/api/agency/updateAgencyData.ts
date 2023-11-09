@@ -40,6 +40,7 @@ export const updateAgencyData = async (agencyModel: AgencyData, formInput: Agenc
         offline: formInput.offline,
         external: false,
         demographics: formInput.demographics,
+        counsellingRelations: formInput.counsellingRelations,
     };
     return fetchData({
         url: `${agencyEndpointBase}/${agencyModel.id}`,

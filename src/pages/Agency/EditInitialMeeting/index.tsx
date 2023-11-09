@@ -16,6 +16,7 @@ import { getAgencyConsultants } from '../../../api/agency/getAgencyConsultants';
 import routePathNames from '../../../appConfig';
 import { Resource } from '../../../enums/Resource';
 import { Page } from '../../../components/Page';
+import { useBookingLocations } from './useBookingLocations';
 
 const { Paragraph } = Typography;
 
@@ -30,6 +31,7 @@ export const AgencyEditInitialMeeting = () => {
     const [eventTypeDelete, setEventTypeDelete] = useState(undefined);
     const [allAgencyConsultants, setAllAgencyConsultants] = useState<ConsultantInterface[]>(undefined);
     const [isLoading, setIsLoading] = useState(true);
+    const Locations = useBookingLocations();
     const [tableState] = useState<TableState>({
         current: 1,
         sortBy: undefined,
@@ -46,7 +48,8 @@ export const AgencyEditInitialMeeting = () => {
                 url: `${routePathNames.appointmentServiceDevServer}/team/${event.slug}`,
                 duration: event.length,
                 advisor: null,
-                location: 'Videoberatung',
+                locations: event.locations,
+                isDefaultEvent: JSON.parse(event.metadata || '{}')?.defaultEventType,
             });
         });
         return agencyEventTypes;
@@ -117,7 +120,7 @@ export const AgencyEditInitialMeeting = () => {
         setEventTypeDelete(data);
     };
 
-    function defineTableColumns(): ColumnsType<AgencyEditData> {
+    function defineTableColumns(): ColumnsType<AgencyEventTypes> {
         return [
             {
                 title: t('agency.edit.initialMeeting.table.appointment_label'),
@@ -129,10 +132,12 @@ export const AgencyEditInitialMeeting = () => {
             },
             {
                 title: t('agency.edit.initialMeeting.table.location'),
-                dataIndex: 'location',
+                dataIndex: 'locations',
                 key: 'location',
                 width: 150,
                 ellipsis: true,
+                render: (locations: Array<{ type: string }>) =>
+                    locations.map(({ type }) => Locations.find((location) => location.value === type).label).join(', '),
             },
             {
                 title: t('agency.edit.initialMeeting.table.duration'),
@@ -145,15 +150,15 @@ export const AgencyEditInitialMeeting = () => {
                 width: 88,
                 title: '',
                 key: 'edit',
-                render: (_: any, record: AgencyEditData) => {
+                render: (_: any, record: AgencyEventTypes) => {
                     return (
                         <div className="tableActionWrapper">
                             <EditButtons
-                                isDisabled={record.status === 'IN_DELETION'}
                                 handleEdit={handleEditTable}
                                 handleDelete={handleDeleteTable}
                                 record={record}
                                 resource={Resource.Agency}
+                                disabled={{ edit: false, delete: record.isDefaultEvent }}
                             />
                         </div>
                     );

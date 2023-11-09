@@ -6,10 +6,12 @@ import { useLocation } from 'react-router';
 import { SelectFormField } from '../../../../components/SelectFormField';
 import postConsultantForAgencyEventTypes from '../../../../api/agency/postConsultantForAgencyEventTypes';
 import { ConsultantInterface } from '../../../../types/agencyEdit';
+import { useBookingLocations } from '../useBookingLocations';
 
 const { Paragraph } = Typography;
 const { Item } = Form;
 
+const initialLocations = ['integrations:daily', 'inPerson', 'link', 'userPhone'];
 export const InitialMeetingNewModal = (props: {
     showEditModal: boolean;
     handleCancel?: (callback: Function) => void;
@@ -20,6 +22,7 @@ export const InitialMeetingNewModal = (props: {
     const [formInstance] = Form.useForm();
     const currentPath = useLocation().pathname;
     const [, agencyId] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
+    const Locations = useBookingLocations();
 
     return (
         <Modal
@@ -45,6 +48,7 @@ export const InitialMeetingNewModal = (props: {
                         description: formData.description,
                         length: parseInt(formData.duration, 10),
                         consultants,
+                        locations: formData.locations,
                     };
                     postConsultantForAgencyEventTypes(agencyId, updateData)
                         .then(() => {
@@ -79,7 +83,7 @@ export const InitialMeetingNewModal = (props: {
                 labelWrap
                 layout="vertical"
                 initialValues={{
-                    location: 'Videoberatung',
+                    locations: initialLocations,
                 }}
             >
                 <Item
@@ -131,19 +135,13 @@ export const InitialMeetingNewModal = (props: {
                     })}
                 />
                 <SelectFormField
-                    disabled
                     label="agency.edit.initialMeeting.modal_new_consultation_type.location"
-                    name="location"
+                    name="locations"
                     isMulti
                     allowClear
                     required
                     placeholder="agency.edit.initialMeeting.modal_new_consultation_type.location"
-                    options={[
-                        {
-                            label: 'Videoberatung',
-                            value: 'Videoberatung',
-                        },
-                    ]}
+                    options={Locations}
                 />
             </Form>
         </Modal>

@@ -3,10 +3,10 @@ import { BasicTenantData } from './tenant';
 export interface TenantAdminData extends BasicTenantData {
     adminEmails: string[];
     theming: {
-        logo: string;
-        favicon: string;
-        primaryColor: string;
-        secondaryColor: string | null;
+        logo?: string;
+        favicon?: string;
+        primaryColor?: string;
+        secondaryColor?: string | null;
     };
     content: {
         impressum: Record<string, string>;

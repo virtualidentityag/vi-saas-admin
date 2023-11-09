@@ -15,24 +15,27 @@ import { Resource } from '../../../enums/Resource';
 import { TypeOfUser } from '../../../enums/TypeOfUser';
 import { useAddOrUpdateConsultantOrAdmin } from '../../../hooks/useAddOrUpdateConsultantOrAgencyAdmin';
 import { useAgenciesData } from '../../../hooks/useAgencysData';
-import { useConsultantOrAgencyAdminsData } from '../../../hooks/useConsultantOrAdminsData';
+import { useConsultantsOrAdminsData } from '../../../hooks/useConsultantsOrAdminsData';
 import { useUserPermissions } from '../../../hooks/useUserPermission';
 import { convertToOptions } from '../../../utils/convertToOptions';
 import { decodeUsername } from '../../../utils/encryptionHelpers';
 import { FormSwitchField } from '../../../components/FormSwitchField';
+import { useFeatureContext } from '../../../context/FeatureContext';
+import { FeatureFlag } from '../../../enums/FeatureFlag';
 
 export const UserEditOrAdd = () => {
     const navigate = useNavigate();
     const [form] = useForm();
     const { can } = useUserPermissions();
     const { t } = useTranslation();
+    const { isEnabled } = useFeatureContext();
     const { typeOfUsers, id } = useParams<{ id: string; typeOfUsers: TypeOfUser }>();
-    // Todo: Temporary solution(VIC-2135)
-    const { data: consultantsResponse, isLoading: isLoadingConsultants } = useConsultantOrAgencyAdminsData({
-        pageSize: 10000,
+    const { data: consultantsResponse, isLoading: isLoadingConsultants } = useConsultantsOrAdminsData({
+        search: id,
         typeOfUser: typeOfUsers,
+        enabled: !!id,
     });
-    const { data: agenciesData, isLoading } = useAgenciesData({ pageSize: 10_000 });
+    const { data: agenciesData, isLoading } = useAgenciesData({ pageSize: 10000 });
     const isEditing = id !== 'add';
     const singleData = consultantsResponse?.data.find((c) => c.id === id);
 
@@ -90,9 +93,12 @@ export const UserEditOrAdd = () => {
             <CardEditable
                 isLoading={isLoading}
                 initialValues={{
-                    ...(singleData || {}),
+                    ...(singleData || {
+                        formalLanguage: true,
+                        isGroupchatConsultant: isEnabled(FeatureFlag.GroupChatV2),
+                    }),
                     username: decodeUsername(singleData?.username || ''),
-                    agencies: convertToOptions(singleData?.agencies || [], 'name', 'id'),
+                    agencies: convertToOptions(singleData?.agencies || [], ['postcode', 'name', 'city'], 'id'),
                 }}
                 titleKey="agency.edit.general.general_information"
                 onSave={onSave}
@@ -122,7 +128,7 @@ export const UserEditOrAdd = () => {
                     placeholder="plsSelect"
                     options={convertToOptions(
                         agenciesData?.data?.filter((agency) => agency.deleteDate === 'null') || [],
-                        'name',
+                        ['postcode', 'name', 'city'],
                         'id',
                     )}
                 />
@@ -140,6 +146,12 @@ export const UserEditOrAdd = () => {
                         <Space align="center">
                             <FormSwitchField labelKey="counselor.formalLanguage" name="formalLanguage" />
                             {isEditing && <FormSwitchField labelKey="counselor.absent" name="absent" />}
+                            {isEnabled(FeatureFlag.GroupChatV2) && (
+                                <FormSwitchField
+                                    labelKey="counselor.isGroupChatConsultant"
+                                    name="isGroupchatConsultant"
+                                />
+                            )}
                         </Space>
                         {isAbsentEnabled && (
                             <FormTextAreaField labelKey="counselor.absenceMessage" name="absenceMessage" />

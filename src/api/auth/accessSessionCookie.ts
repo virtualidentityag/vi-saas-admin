@@ -26,6 +26,11 @@ export const getValueFromCookie = (targetValue: string) => {
 
 export const removeAllCookies = () => {
     document.cookie.split(';').forEach((c) => {
-        document.cookie = `${c.trim().split('=')[0]}=;path=/; expires=Thu, 27 May 1992 08:32:00 MET;`;
+        const name = c.trim().split('=')[0];
+        if ((import.meta.env.VITE_COOKIES_ALLOWEDLIST ?? '').split(',').includes(name)) {
+            return;
+        }
+
+        document.cookie = `${name}=;path=/; expires=Thu, 27 May 1992 08:32:00 MET;`;
     });
 };

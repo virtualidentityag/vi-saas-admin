@@ -6,3 +6,6 @@ stories
 .storybook
 *.config.js
 .eslintrc.js
+vite.config.ts
+src/vite-env.d.ts
+build

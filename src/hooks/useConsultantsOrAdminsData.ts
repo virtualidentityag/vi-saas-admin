@@ -18,7 +18,7 @@ interface ConsultantsDataProps extends UseQueryOptions<ResponseList<CounselorDat
 const DEFAULT_SORT = 'FIRSTNAME';
 const DEFAULT_ORDER = 'ASC';
 
-export const useConsultantOrAgencyAdminsData = (
+export const useConsultantsOrAdminsData = (
     { search, current, sortBy, order, pageSize, typeOfUser, ...options }: ConsultantsDataProps = {
         typeOfUser: TypeOfUser.Consultants,
     },

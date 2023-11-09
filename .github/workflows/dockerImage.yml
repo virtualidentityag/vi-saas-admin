@@ -173,7 +173,7 @@ jobs:
               with:
                   image-ref: '${{ env.DOCKER_REGISTRY }}/${{ env.REPO_NAME_WITHOUT_PREFIX }}:${{ env.DOCKER_IMAGE_TAG }}'
                   format: 'table'
-                  exit-code: '0'
+                  exit-code: '1'
                   vuln-type: 'os,library'
                   severity: 'CRITICAL'
             - name: Publish to T-sys if T-sys release

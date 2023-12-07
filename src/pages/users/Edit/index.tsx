@@ -102,7 +102,9 @@ export const UserEditOrAdd = () => {
                 }}
                 titleKey="agency.edit.general.general_information"
                 onSave={onSave}
-                onAddMode={!isEditing}
+                editMode={!isEditing}
+                hideCancelButton={!isEditing}
+                hideSaveButton={!isEditing}
                 formProp={form}
             >
                 <FormInputField name="firstname" labelKey="firstname" placeholderKey="placeholder.firstname" required />

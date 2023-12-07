@@ -24,7 +24,9 @@ interface CardEditableProps {
         | ((data: { form: FormInstance<any>; editing: boolean }) => React.ReactElement | React.ReactElement[]);
     onSave: <T>(formData: T, options?: { onError?: () => void }) => void;
     formProp?: FormInstance;
-    onAddMode?: boolean;
+    editMode?: boolean;
+    hideSaveButton?: boolean;
+    hideCancelButton?: boolean;
     tooltip?: string;
     allowUnsavedChanges?: boolean;
     editButton?: React.ReactChild;
@@ -41,7 +43,9 @@ export const CardEditable = ({
     cancelKey = 'card.edit.cancel',
     saveKey = 'card.edit.save',
     children,
-    onAddMode,
+    editMode,
+    hideSaveButton,
+    hideCancelButton,
     onSave,
     formProp,
     tooltip,
@@ -50,7 +54,7 @@ export const CardEditable = ({
 }: CardEditableProps) => {
     const [form] = Form.useForm(formProp);
     const { t } = useTranslation();
-    const [editing, setEditing] = useState(onAddMode);
+    const [editing, setEditing] = useState(editMode);
     const [hasChanges, setHasChanges] = useState(false);
     const [showUnsavedChangesModal, setShowUnsavedChangesModal] = useState(false);
 
@@ -66,8 +70,8 @@ export const CardEditable = ({
 
     const onFormSubmit = useCallback(
         (formData) => {
-            onSave(formData, { onError: () => setEditing(true) });
-            setEditing(false);
+            onSave(formData, { onError: () => setEditing(editMode) });
+            setEditing(editMode);
             setHasChanges(false);
         },
         [onSave],
@@ -83,7 +87,7 @@ export const CardEditable = ({
             isLoading={isLoading}
             cardTitleClassName={styles.cardTitleClassName}
             cardTitleChildren={
-                !onAddMode &&
+                !editMode &&
                 !editing && (
                     <button className={styles.editCard} type="button" onClick={() => setEditing(true)}>
                         {editButton}
@@ -106,20 +110,22 @@ export const CardEditable = ({
                 {typeof children === 'function' ? children({ form, editing }) : children}
             </Form>
 
-            {editing && !onAddMode && (
+            {editing && (!hideSaveButton || !hideCancelButton) && (
                 <div className={styles.footerActions}>
-                    <Button
-                        item={cancelEditButton}
-                        buttonHandle={() => {
-                            if (allowUnsavedChanges && hasChanges) {
-                                setShowUnsavedChangesModal(true);
-                            } else {
-                                form.resetFields();
-                                setEditing(false);
-                            }
-                        }}
-                    />
-                    <Button item={saveEditButton} buttonHandle={() => form.submit()} />
+                    {!hideCancelButton && (
+                        <Button
+                            item={cancelEditButton}
+                            buttonHandle={() => {
+                                if (allowUnsavedChanges && hasChanges) {
+                                    setShowUnsavedChangesModal(true);
+                                } else {
+                                    form.resetFields();
+                                    setEditing(false);
+                                }
+                            }}
+                        />
+                    )}
+                    {!hideSaveButton && <Button item={saveEditButton} buttonHandle={() => form.submit()} />}
                 </div>
             )}
             {allowUnsavedChanges && showUnsavedChangesModal && (

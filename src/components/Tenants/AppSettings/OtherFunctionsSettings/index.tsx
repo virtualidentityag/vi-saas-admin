@@ -10,9 +10,15 @@ interface OtherFunctionsSettingsArgs {
     tenantId: string;
     hideTopics?: boolean;
     hideStatistics?: boolean;
+    hideGroupChatToggle?: boolean;
 }
 
-export const OtherFunctionsSettings = ({ tenantId, hideTopics, hideStatistics }: OtherFunctionsSettingsArgs) => {
+export const OtherFunctionsSettings = ({
+    tenantId,
+    hideTopics,
+    hideStatistics,
+    hideGroupChatToggle,
+}: OtherFunctionsSettingsArgs) => {
     const { t } = useTranslation();
     const { settings } = useAppConfigContext();
     const { data, isLoading } = useSingleTenantData({ id: tenantId });
@@ -50,6 +56,17 @@ export const OtherFunctionsSettings = ({ tenantId, hideTopics, hideStatistics }:
                         disableLabels
                     />
                     <p className={styles.checkInfo}>{t('tenants.appSettings.otherFunctions.statistics.description')}</p>
+                </div>
+            )}
+            {!hideGroupChatToggle && (
+                <div className={styles.checkGroup}>
+                    <FormSwitchField
+                        labelKey="tenants.appSettings.otherFunctions.groupChat.title"
+                        name={['settings', 'featureGroupChatV2Enabled']}
+                        inline
+                        disableLabels
+                    />
+                    <p className={styles.checkInfo}>{t('tenants.appSettings.otherFunctions.groupChat.description')}</p>
                 </div>
             )}
         </CardEditable>

@@ -76,7 +76,7 @@ export const AgencyPageEdit = () => {
                 genders: formData.demographics.genders.map(({ value }) => value),
             },
             topicIds: formData.topicIds?.map(({ value }) => value),
-            offline: !formData.online,
+            online: formData.online,
             counsellingRelations: formData.counsellingRelations?.map(({ value }) => value),
         };
         mutate(newFormData, {

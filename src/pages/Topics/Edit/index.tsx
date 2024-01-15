@@ -59,7 +59,9 @@ export const TopicEditOrAdd = () => {
                         }}
                         titleKey="topics.nameAndDescription"
                         onSave={onSave}
-                        onAddMode={!isEditing}
+                        editMode={!isEditing}
+                        hideCancelButton={!isEditing}
+                        hideSaveButton={!isEditing}
                         formProp={form}
                     >
                         <TranslatableFormField name="name">
@@ -97,7 +99,9 @@ export const TopicEditOrAdd = () => {
                         }}
                         titleKey="topics.settings"
                         onSave={onSave}
-                        onAddMode={!isEditing}
+                        editMode={!isEditing}
+                        hideCancelButton={!isEditing}
+                        hideSaveButton={!isEditing}
                         formProp={formSettings}
                     >
                         <FormInputField

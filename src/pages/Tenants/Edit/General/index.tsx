@@ -17,6 +17,7 @@ import styles from './styles.module.scss';
 import { TenantAdminData } from '../../../../types/TenantAdminData';
 import { ModalSuccess } from '../../../../components/ModalSuccess';
 import { Card } from '../../../../components/Card';
+import { X_REASON } from '../../../../api/fetchData';
 
 export const GeneralTenantSettings = () => {
     const { search } = useLocation();
@@ -45,7 +46,7 @@ export const GeneralTenantSettings = () => {
             navigate(routePathNames.tenants);
         },
         onError: (error: Response | Error) => {
-            if (error instanceof Response && true) {
+            if (error instanceof Response && error.headers?.get('X-Reason') === X_REASON.SUBDOMAIN_NOT_UNIQUE) {
                 form.setFields([
                     {
                         name: 'subdomain',
@@ -80,8 +81,11 @@ export const GeneralTenantSettings = () => {
                 <Col span={12} md={6}>
                     <CardEditable
                         isLoading={isLoading}
+                        editMode={!isEditing}
+                        hideCancelButton={!isEditing}
                         titleKey="tenants.add.mainTenantTitle"
                         initialValues={{ ...data }}
+                        formProp={form}
                         onSave={(formData) => update(formData as unknown as TenantAdminData)}
                     >
                         <div className={styles.fieldGroup}>

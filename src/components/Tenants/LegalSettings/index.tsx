@@ -10,6 +10,8 @@ import { LegalText } from './components/LegalText';
 import { useUserRoles } from '../../../hooks/useUserRoles.hook';
 import { UserRole } from '../../../enums/UserRole';
 import styles from './styles.module.scss';
+import { FeatureFlag } from '../../../enums/FeatureFlag';
+import { useFeatureContext } from '../../../context/FeatureContext';
 
 interface LegalSettingsProps {
     tenantId?: string | number;
@@ -22,6 +24,7 @@ export const LegalSettings = ({ tenantId, disableManageToggle }: LegalSettingsPr
     const { hasRole } = useUserRoles();
     const finalTenantId = tenantId || `${data.id}`;
     const { settings } = useAppConfigContext();
+    const { isEnabled } = useFeatureContext();
     const { mutate } = useSettingsAdminMutation();
     const canShowExtraTexts =
         (settings?.multitenancyWithSingleDomainEnabled && hasRole(UserRole.TenantAdmin) && !disableManageToggle) ||
@@ -43,6 +46,12 @@ export const LegalSettings = ({ tenantId, disableManageToggle }: LegalSettingsPr
                 okLabelKey: 'privacy.confirmation.cancel',
                 field: ['content', 'confirmPrivacy'],
             }}
+            placeholders={
+                isEnabled(FeatureFlag.CentralDataProtectionTemplate) && {
+                    responsible: 'editor.plugin.placeholder.option.responsible.label',
+                    dataProtectionOfficer: 'editor.plugin.placeholder.option.dataProtectionOfficer.label',
+                }
+            }
         />
     );
 

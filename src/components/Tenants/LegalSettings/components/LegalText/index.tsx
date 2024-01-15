@@ -15,6 +15,7 @@ interface LegalTextProps {
     subTitle: string | React.ReactChild;
     placeHolderKey: string;
     showConfirmationModal?: Omit<ModalProps, 'onClose' | 'onConfirm'> & { field: string[] };
+    placeholders?: { [key: string]: string };
 }
 
 export const LegalText = ({
@@ -24,6 +25,7 @@ export const LegalText = ({
     subTitle,
     placeHolderKey,
     showConfirmationModal,
+    placeholders,
 }: LegalTextProps) => {
     const { data, isLoading } = useSingleTenantData({ id: tenantId });
     const { mutate: updateTenant } = useTenantAdminDataMutation({ id: tenantId });
@@ -59,7 +61,7 @@ export const LegalText = ({
                 }}
             >
                 <TranslatableFormField name={fieldName}>
-                    <FormRichTextEditorField placeholderKey={placeHolderKey} required />
+                    <FormRichTextEditorField placeholderKey={placeHolderKey} required placeholders={placeholders} />
                 </TranslatableFormField>
             </CardEditable>
             {showConfirmationModal && modalVisible && (

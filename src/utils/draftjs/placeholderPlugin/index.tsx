@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { EditorState, Modifier, SelectionState } from 'draft-js';
 import { EditorPlugin } from '@draft-js-plugins/editor';
+import { useTranslation } from 'react-i18next';
 import Placeholder, { PlaceholderProps } from './Placeholder/Placeholder';
 import placeholderStrategy from './placeholderStrategy';
 import { PlaceholderPluginConfig, PlaceholderPluginStore } from './types';
@@ -26,11 +27,12 @@ const findWithRegex = (regex, contentBlock, placeholders, callback) => {
 
 const DecoratedPlaceholder = (store, placeholders) =>
     function PlaceholderComponent(props: PlaceholderProps): ReactElement {
+        const { t } = useTranslation();
         const editorState = store.getEditorState();
         const contentState = editorState.getCurrentContent();
 
         const { key } = contentState.getEntity(props.entityKey).getData();
-        return <Placeholder {...props}>{placeholders[key]}</Placeholder>;
+        return <Placeholder {...props}>{t(placeholders[key])}</Placeholder>;
     };
 
 export default (config: PlaceholderPluginConfig = {}): EditorPlugin => {

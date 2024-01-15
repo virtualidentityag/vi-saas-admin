@@ -6,4 +6,5 @@ export enum FeatureFlag {
     TopicsInRegistration = 'topicsInRegistration',
     ConsultingTypesForAgencies = 'consultingTypesForAgencies',
     GroupChatV2 = 'featureGroupChatV2Enabled',
+    CentralDataProtectionTemplate = 'featureCentralDataProtectionTemplateEnabled',
 }

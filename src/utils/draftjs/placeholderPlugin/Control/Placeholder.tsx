@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { EditorState, Modifier, SelectionState } from 'draft-js';
 import { Select, Tooltip } from 'antd';
 import { InfoCircleFilled } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
 
 export const PlaceholderControl = ({
     placeholders,
@@ -10,6 +11,7 @@ export const PlaceholderControl = ({
     getEditorState,
     editorState,
 }: ToolbarChildrenProps & { placeholders: any; editorState: EditorState }) => {
+    const { t } = useTranslation();
     const [selectionState, setSelectionState] = useState(() => editorState.getSelection());
     const [disabled, setDisabled] = useState(!editorState.getSelection().isCollapsed());
 
@@ -47,11 +49,11 @@ export const PlaceholderControl = ({
 
     return (
         <div className="RichEditor-toolbar-placeholder">
-            <div>Kontakt-Platzhalter:</div>
+            <div>{t('editor.plugin.placeholder.label')}:</div>
             <div>
                 <Tooltip
                     overlayClassName="RichEditor-toolbar-placeholder-tooltip"
-                    title="Sie können in Ihrer Datenschutzerklärung Kontaktplatzhalter für die verantwortliche Stelle und den Datenschutzbeauftragten verwenden. Diese Kontaktdaten werden von der jeweiligen Beratungsstelle übernommen und den Ratsuchenden angezeigt, die sich bei dieser Beratungsstelle registriert haben."
+                    title={t('editor.plugin.placeholder.tooltip.title')}
                     trigger="hover"
                     color="white"
                 >
@@ -61,13 +63,13 @@ export const PlaceholderControl = ({
             <div>
                 <Select
                     size="small"
-                    placeholder="Platzhalter wählen"
+                    placeholder={t('editor.plugin.placeholder.select.placeholder')}
                     dropdownMatchSelectWidth={false}
                     value={null}
                     disabled={disabled}
                     onChange={insertPlaceholder}
                     options={Object.keys(placeholders).map((p) => ({
-                        label: placeholders[p],
+                        label: t(placeholders[p]),
                         value: p,
                     }))}
                 />

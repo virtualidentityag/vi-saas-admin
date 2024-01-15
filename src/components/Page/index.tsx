@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import React, { cloneElement, forwardRef, LegacyRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import SvgIcon from '@mui/material/SvgIcon/SvgIcon';
 import styles from './styles.module.scss';
 
 interface PageProps {

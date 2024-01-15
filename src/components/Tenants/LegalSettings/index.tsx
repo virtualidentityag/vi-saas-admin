@@ -48,8 +48,8 @@ export const LegalSettings = ({ tenantId, disableManageToggle }: LegalSettingsPr
             }}
             placeholders={
                 isEnabled(FeatureFlag.CentralDataProtectionTemplate) && {
-                    responsible: 'Kontaktdaten Verantwortlicher',
-                    dataProtectionOfficer: 'Kontaktdaten Datenschutzbeauftragter',
+                    responsible: 'editor.plugin.placeholder.option.responsible.label',
+                    dataProtectionOfficer: 'editor.plugin.placeholder.option.dataProtectionOfficer.label',
                 }
             }
         />

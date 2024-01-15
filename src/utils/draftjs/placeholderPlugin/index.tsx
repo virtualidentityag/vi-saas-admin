@@ -25,7 +25,7 @@ const findWithRegex = (regex, contentBlock, placeholders, callback) => {
 };
 
 const DecoratedPlaceholder = (store, placeholders) =>
-    function (props: PlaceholderProps): ReactElement {
+    function PlaceholderComponent(props: PlaceholderProps): ReactElement {
         const editorState = store.getEditorState();
         const contentState = editorState.getCurrentContent();
 
@@ -120,7 +120,7 @@ export default (config: PlaceholderPluginConfig = {}): EditorPlugin => {
                 (v) =>
                     (startEntityKey && v.getEntity() === startEntityKey) ||
                     (endEntityKey && v.getEntity() === endEntityKey),
-                (start, end) => {
+                (start) => {
                     if (startOffset > start || endOffset > start) {
                         canEdit = false;
                     }
@@ -130,7 +130,7 @@ export default (config: PlaceholderPluginConfig = {}): EditorPlugin => {
                 (v) =>
                     (startEntityKey && v.getEntity() === startEntityKey) ||
                     (endEntityKey && v.getEntity() === endEntityKey),
-                (start, end) => {
+                (start) => {
                     if (startOffset > start || endOffset > start) {
                         canEdit = false;
                     }

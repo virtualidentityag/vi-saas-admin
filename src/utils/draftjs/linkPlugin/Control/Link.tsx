@@ -4,7 +4,7 @@ import { InsertLink, LinkOff, Check, Clear } from '@mui/icons-material';
 import { Button, Checkbox, Input, Tooltip } from 'antd';
 import { EditorState, Modifier, SelectionState } from 'draft-js';
 import './link.styles.scss';
-import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 const LinkAttributes = ({
     setEditorState,
@@ -17,6 +17,8 @@ const LinkAttributes = ({
     selectionState: SelectionState;
     onClose: (open: boolean) => void;
 }) => {
+    const { t } = useTranslation();
+
     const [link, setLink] = useState('');
     const [targetBlank, setTargetBlank] = useState(false);
     const [noFollow, setNoFollow] = useState(false);
@@ -59,12 +61,12 @@ const LinkAttributes = ({
             </div>
             <div>
                 <Checkbox onChange={(e) => setTargetBlank(e.target.checked)} checked={targetBlank}>
-                    Open link in new tab
+                    {t('editor.plugin.link.option.target.label')}
                 </Checkbox>
             </div>
             <div>
                 <Checkbox onChange={(e) => setNoFollow(e.target.checked)} checked={noFollow}>
-                    No follow
+                    {t('editor.plugin.link.option.rel.label')}
                 </Checkbox>
             </div>
             <div className="RichEditor-toolbar-link-tooltip-actions">

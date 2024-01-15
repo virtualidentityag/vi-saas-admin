@@ -5,6 +5,7 @@
   "homepage": "http://tenant1.onlineberatung.local/admin",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@draft-js-plugins/buttons": "^4.3.3",
     "@draft-js-plugins/editor": "^4.1.4",
     "@draft-js-plugins/static-toolbar": "^4.1.4",
     "@emotion/react": "^11.10.5",

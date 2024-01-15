@@ -1,5 +1,4 @@
-import React, { ComponentType, ReactElement, ReactNode, useEffect } from 'react';
-import clsx from 'clsx';
+import React, { ComponentType, ReactNode, useEffect } from 'react';
 import { ContentState, Entity } from 'draft-js';
 
 export interface ComponentProps {

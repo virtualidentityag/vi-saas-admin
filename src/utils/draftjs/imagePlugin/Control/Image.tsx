@@ -1,10 +1,9 @@
 import { ToolbarChildrenProps } from '@draft-js-plugins/static-toolbar/lib/components/Toolbar';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ImageOutlined, Check, Clear } from '@mui/icons-material';
 import { Button, Input, Tooltip } from 'antd';
 import { EditorState, Modifier, SelectionState } from 'draft-js';
 import './image.styles.scss';
-import clsx from 'clsx';
 
 const ImageAttributes = ({
     setEditorState,

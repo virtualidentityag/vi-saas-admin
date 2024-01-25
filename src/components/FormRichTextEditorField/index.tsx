@@ -1,7 +1,7 @@
 import { Form } from 'antd';
 import DisabledContext from 'antd/es/config-provider/DisabledContext';
 import classNames from 'classnames';
-import { useCallback, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RichTextEditor from '../RichText/RichTextEditor';
 import styles from './styles.module.scss';
@@ -12,15 +12,17 @@ interface FormRichTextEditorFieldProps {
     required?: boolean;
     placeholderKey?: string;
     name?: string | string[];
+    placeholders?: { [key: string]: string };
 }
 
 interface FormRichTextEditorProps {
     onFocus?: () => void;
     onBlur?: () => void;
-    onChange?: (value: boolean) => void;
+    onChange?: (value: string) => void;
     value?: boolean;
     placeholderKey: string;
     className?: string;
+    placeholders?: { [key: string]: string };
 }
 
 const FormRichTextEditor = ({
@@ -30,26 +32,21 @@ const FormRichTextEditor = ({
     value,
     className,
     placeholderKey,
+    placeholders,
 }: FormRichTextEditorProps) => {
     const { t } = useTranslation();
     const contextDisabled = useContext(DisabledContext);
 
-    const onChangeLocal = useCallback((ev) => {
-        const html = ev.toString('html');
-        // Rich editor when we click even if it's empty it creates the content
-        //  '<p><br></p>' so when that happens we still want to validate as empty
-        onChange(html === '<p><br></p>' ? '' : html);
-    }, []);
-
     return (
         <RichTextEditor
             className={classNames(className)}
-            onChange={onChangeLocal}
+            onChange={onChange}
             onBlur={onBlur}
             onFocus={onFocus}
             value={value || ''}
             disabled={contextDisabled}
             placeholder={placeholderKey ? t(placeholderKey) : undefined}
+            placeholders={placeholders}
         />
     );
 };
@@ -59,6 +56,7 @@ export const FormRichTextEditorField = ({
     labelKey,
     required,
     placeholderKey,
+    placeholders,
 }: FormRichTextEditorFieldProps) => {
     const { t } = useTranslation();
     const [focused, setFocused] = useState(false);
@@ -79,6 +77,7 @@ export const FormRichTextEditorField = ({
                 onBlur={() => setFocused(false)}
                 placeholderKey={placeholderKey}
                 className={styles.input}
+                placeholders={placeholders}
             />
         </Form.Item>
     );

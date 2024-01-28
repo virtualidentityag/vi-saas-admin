@@ -72,16 +72,13 @@ export const ImageControl = ({
     setEditorState,
     getEditorState,
     editorState,
-}: ToolbarChildrenProps & { editorState: EditorState }) => {
+    selectionState,
+}: ToolbarChildrenProps & { editorState: EditorState; selectionState: SelectionState }) => {
     const [showTooltip, setShowTooltip] = useState(false);
-    const [selectionState, setSelectionState] = useState(() => editorState.getSelection());
     const [disabled, setDisabled] = useState(!editorState.getSelection().isCollapsed());
 
     useEffect(() => {
         const selection = editorState.getSelection();
-        setSelectionState((state) => {
-            return selection.getHasFocus() ? selection : state;
-        });
         setDisabled((state) => {
             return selection.getHasFocus() ? !selection.isCollapsed() : state;
         });

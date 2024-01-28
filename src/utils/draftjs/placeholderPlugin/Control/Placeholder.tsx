@@ -10,16 +10,13 @@ export const PlaceholderControl = ({
     setEditorState,
     getEditorState,
     editorState,
-}: ToolbarChildrenProps & { placeholders: any; editorState: EditorState }) => {
+    selectionState,
+}: ToolbarChildrenProps & { placeholders: any; editorState: EditorState; selectionState: SelectionState }) => {
     const { t } = useTranslation();
-    const [selectionState, setSelectionState] = useState(() => editorState.getSelection());
     const [disabled, setDisabled] = useState(!editorState.getSelection().isCollapsed());
 
     useEffect(() => {
         const selection = editorState.getSelection();
-        setSelectionState((state) => {
-            return selection.getHasFocus() ? selection : state;
-        });
         setDisabled((state) => {
             return selection.getHasFocus() ? !selection.isCollapsed() : state;
         });

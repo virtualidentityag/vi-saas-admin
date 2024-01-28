@@ -92,29 +92,28 @@ const LinkAttributes = ({
 export const LinkControl = ({
     setEditorState,
     getEditorState,
-    editorState,
     selectionState,
-}: ToolbarChildrenProps & { editorState: EditorState; selectionState: SelectionState }) => {
+}: ToolbarChildrenProps & { selectionState: SelectionState }) => {
     const [showTooltip, setShowTooltip] = useState(false);
-    const [disabled, setDisabled] = useState(editorState.getSelection().isCollapsed());
+    const [disabled, setDisabled] = useState(!selectionState || selectionState.isCollapsed());
 
     useEffect(() => {
-        const selection = editorState.getSelection();
         setDisabled((state) => {
-            return selection.getHasFocus() ? selection.isCollapsed() : state;
+            return selectionState && selectionState.getHasFocus() ? selectionState.isCollapsed() : state;
         });
-    }, [editorState]);
+    }, [selectionState]);
 
     const linkEntity = useMemo(() => {
-        const contentState = editorState.getCurrentContent();
-        const block = editorState.getCurrentContent().getBlockForKey(selectionState.getStartKey());
+        if (!selectionState) return null;
+        const contentState = getEditorState().getCurrentContent();
+        const block = contentState.getBlockForKey(selectionState.getStartKey());
         const entityKey = block.getEntityAt(selectionState.getStartOffset());
         return entityKey && contentState.getEntity(entityKey).getType() === 'LINK' ? entityKey : null;
-    }, [editorState, selectionState]);
+    }, [selectionState, getEditorState]);
 
     const handleDelete = useCallback(
         (entityKey: string) => {
-            const contentState = editorState.getCurrentContent();
+            const contentState = getEditorState().getCurrentContent();
             const block = contentState.getBlockForKey(selectionState.getStartKey());
             block.findEntityRanges(
                 (character) => entityKey === character.getEntity(),
@@ -126,7 +125,7 @@ export const LinkControl = ({
 
                     setEditorState(
                         EditorState.push(
-                            editorState,
+                            getEditorState(),
                             Modifier.applyEntity(contentState, selection, null),
                             'apply-entity',
                         ),
@@ -134,7 +133,7 @@ export const LinkControl = ({
                 },
             );
         },
-        [editorState],
+        [selectionState, getEditorState, setEditorState],
     );
 
     return (

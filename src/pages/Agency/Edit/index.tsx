@@ -176,7 +176,7 @@ export const AgencyPageEdit = () => {
                         <AgencySettings />
                     </Col>
                 </Row>
-                {isEditing && isEnabled(FeatureFlag.CentralDataProtectionTemplate) && (
+                {isEnabled(FeatureFlag.CentralDataProtectionTemplate) && (
                     <Row gutter={[20, 10]}>
                         <Col xs={12}>
                             <h3 className={styles.backHeadline}>

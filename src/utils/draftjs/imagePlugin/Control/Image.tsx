@@ -71,18 +71,16 @@ const ImageAttributes = ({
 export const ImageControl = ({
     setEditorState,
     getEditorState,
-    editorState,
     selectionState,
-}: ToolbarChildrenProps & { editorState: EditorState; selectionState: SelectionState }) => {
+}: ToolbarChildrenProps & { selectionState: SelectionState }) => {
     const [showTooltip, setShowTooltip] = useState(false);
-    const [disabled, setDisabled] = useState(!editorState.getSelection().isCollapsed());
+    const [disabled, setDisabled] = useState(!selectionState || !selectionState.isCollapsed());
 
     useEffect(() => {
-        const selection = editorState.getSelection();
         setDisabled((state) => {
-            return selection.getHasFocus() ? !selection.isCollapsed() : state;
+            return selectionState && selectionState.getHasFocus() ? !selectionState.isCollapsed() : state;
         });
-    }, [editorState]);
+    }, [selectionState]);
 
     return (
         <div className="RichEditor-toolbar-image">

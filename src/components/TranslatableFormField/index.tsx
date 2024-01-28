@@ -4,6 +4,7 @@ import { cloneElement, useContext, useMemo } from 'react';
 import { CheckCircleTwoTone, WarningTwoTone } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import DisabledContext from 'antd/es/config-provider/DisabledContext';
+import classNames from 'classnames';
 import { SelectFormField } from '../SelectFormField';
 import { useTenantAdminData } from '../../hooks/useTenantAdminData.hook';
 import styles from './styles.module.scss';
@@ -62,10 +63,16 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
                 </SelectFormField>
             )}
 
-            {cloneElement(children, {
-                name: [...namePath, fieldData?.translate || languages[0]],
-                key: fieldData?.translate || languages[0],
-            })}
+            {languages.map((language) =>
+                cloneElement(children, {
+                    name: [...namePath, language],
+                    key: language,
+                    className: classNames({
+                        [styles.activeLanguage]: fieldData?.translate === language || languages.length === 1,
+                        [styles.notActive]: fieldData?.translate !== language && languages.length !== 1,
+                    }),
+                }),
+            )}
         </>
     );
 };

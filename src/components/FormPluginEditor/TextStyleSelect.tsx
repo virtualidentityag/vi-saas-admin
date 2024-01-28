@@ -1,5 +1,5 @@
 import { ToolbarChildrenProps } from '@draft-js-plugins/static-toolbar/lib/components/Toolbar';
-import { convertToRaw, EditorState, Modifier, SelectionState } from 'draft-js';
+import { EditorState, Modifier, SelectionState } from 'draft-js';
 import { useTranslation } from 'react-i18next';
 import { useCallback, useMemo } from 'react';
 import { Select } from 'antd';

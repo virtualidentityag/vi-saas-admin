@@ -40,28 +40,24 @@ const Placeholder = (props: PlaceholderProps): ReactElement => {
     const handleDelete = useCallback(() => {
         let newContentState = contentState;
 
-        let block = newContentState.getBlockForKey(blockKey);
+        const block = newContentState.getBlockForKey(blockKey);
         const selectionState = SelectionState.createEmpty(block.getKey()).merge({
             anchorOffset: start,
             focusOffset: end,
         });
         newContentState = Modifier.replaceText(newContentState, selectionState, '', OrderedSet(['INSERT']), null);
 
-        block = newContentState.getBlockForKey(blockKey);
-        // if block is empty after remove, remove the block too
-        if (block.getText().trim() === '') {
-            const nextBlock = newContentState.getBlockAfter(block.getKey());
-            const removeSelection = new SelectionState({
-                anchorKey: block.getKey(),
-                anchorOffset: 0,
-                focusKey: nextBlock.getKey(),
-                focusOffset: 0,
-            });
-            newContentState = Modifier.removeRange(newContentState, removeSelection, 'backward');
-        }
-
-        setEditorState(EditorState.push(getEditorState(), newContentState, 'remove-range'));
-    }, []);
+        // Remove placeholder from state and force selection at the beginning of the deleted placeholder
+        setEditorState(
+            EditorState.forceSelection(
+                EditorState.push(getEditorState(), newContentState, 'remove-range'),
+                SelectionState.createEmpty(selectionState.getStartKey()).merge({
+                    anchorOffset: start,
+                    focusOffset: start,
+                }),
+            ),
+        );
+    }, [contentState, blockKey, start, end]);
 
     return (
         <span className={styles.placeholder} contentEditable={false} data-offset-key={offsetKey} {...otherProps}>

@@ -46,6 +46,7 @@ const Editor = ({
 
     useEffect(() => {
         const resetState = () => {
+            if (editorState.getSelection().getHasFocus()) return;
             onSelectionChange(undefined);
             onInlineStyleChange(undefined);
         };
@@ -102,7 +103,6 @@ const Editor = ({
     );
 
     const editorRef = useRef<any>();
-
     const focus = useCallback(() => {
         editorRef.current.focus();
     }, []);

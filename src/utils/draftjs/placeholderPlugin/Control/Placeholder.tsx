@@ -38,9 +38,18 @@ export const PlaceholderControl = ({
             const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
             const modifiedContent = Modifier.insertText(contentState, selection, `\${${key}}`, null, entityKey);
 
-            setEditorState(EditorState.push(state, modifiedContent, 'apply-entity'));
+            // Add placeholder to state and force selection after the placeholder
+            setEditorState(
+                EditorState.forceSelection(
+                    EditorState.push(state, modifiedContent, 'apply-entity'),
+                    SelectionState.createEmpty(selectionState.getStartKey()).merge({
+                        anchorOffset: selection.getAnchorOffset() + `\${${key}}`.length,
+                        focusOffset: selection.getFocusOffset() + `\${${key}}`.length,
+                    }),
+                ),
+            );
         },
-        [disabled],
+        [disabled, selectionState, getEditorState],
     );
 
     return (

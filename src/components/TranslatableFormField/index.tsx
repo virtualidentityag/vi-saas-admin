@@ -1,6 +1,5 @@
 import { Form, Select } from 'antd';
 import { FieldContext } from 'rc-field-form';
-import classNames from 'classnames';
 import { cloneElement, useContext, useMemo } from 'react';
 import { CheckCircleTwoTone, WarningTwoTone } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
@@ -26,17 +25,15 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
         [tenantData?.settings?.activeLanguages],
     );
 
-    const errors = formContext
-        .getFieldsError(languages.map((language) => [...namePath, language]))
-        .reduce((c, data) => {
-            const lng = data.name[data.name.length - 1];
-            return {
-                ...c,
-                [lng]: !fieldData?.[lng] || data.errors.length > 0,
-            };
-        }, {});
+    const errors = languages
+        .map((lng) => {
+            const fieldErrors = formContext.getFieldError([...namePath, lng]);
+            const fieldValue = formContext.getFieldValue([...namePath, lng]);
+            return !fieldValue || fieldErrors.length > 0 ? lng : null;
+        })
+        .filter(Boolean);
 
-    const hasErrors = useMemo(() => Object.values(errors).some((e) => e), [errors]);
+    const hasErrors = useMemo(() => errors.length > 0, [errors]);
 
     return (
         <>
@@ -54,7 +51,7 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
                         <Select.Option value={language} key={language}>
                             <div className={styles.containerLabel}>
                                 {t(`language.${language}`)}
-                                {errors[language] ? (
+                                {errors.includes(language) ? (
                                     <WarningTwoTone twoToneColor="#FF9F00" />
                                 ) : (
                                     <CheckCircleTwoTone twoToneColor="#4FCC5C" />
@@ -65,16 +62,10 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
                 </SelectFormField>
             )}
 
-            {languages.map((language) =>
-                cloneElement(children, {
-                    name: [...namePath, language],
-                    key: language,
-                    className: classNames({
-                        [styles.activeLanguage]: fieldData?.translate === language || languages.length === 1,
-                        [styles.notActive]: fieldData?.translate !== language && languages.length !== 1,
-                    }),
-                }),
-            )}
+            {cloneElement(children, {
+                name: [...namePath, fieldData?.translate || languages[0]],
+                key: fieldData?.translate || languages[0],
+            })}
         </>
     );
 };

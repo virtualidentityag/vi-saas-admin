@@ -19,6 +19,7 @@ import {
     DraftEditorCommand,
     convertFromHTML,
     Modifier,
+    SelectionState,
 } from 'draft-js';
 import { useTranslation } from 'react-i18next';
 import { Select } from 'antd';
@@ -56,21 +57,16 @@ const TEXT_STYLES = [
     { label: 'rte.h6', value: 'header-six' },
 ];
 
-const TextStyleSelect = ({ setEditorState, editorState }: ToolbarChildrenProps & { editorState: EditorState }) => {
+const TextStyleSelect = ({
+    setEditorState,
+    editorState,
+    selectionState,
+}: ToolbarChildrenProps & { editorState: EditorState; selectionState: SelectionState }) => {
     const { t } = useTranslation();
-    const [selectionState, setSelectionState] = useState(() => editorState.getSelection());
 
-    useEffect(() => {
-        const selection = editorState.getSelection();
-        setSelectionState((state) => {
-            return selection.getHasFocus() ? selection : state;
-        });
-    }, [editorState]);
-
-    const blockType = useMemo(
-        () => editorState.getCurrentContent().getBlockForKey(selectionState.getStartKey()).getType(),
-        [editorState, selectionState],
-    );
+    const blockType = useMemo(() => {
+        return editorState.getCurrentContent().getBlockForKey(selectionState.getStartKey()).getType();
+    }, [editorState, selectionState]);
 
     const handleToggle = useCallback(
         (type: string) => {
@@ -126,6 +122,7 @@ const RTE = ({
         const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
         return EditorState.createWithContent(contentState);
     });
+    const [selectionState, setSelectionState] = useState<SelectionState>(() => editorState.getSelection());
 
     useEffect(() => {
         setEditorState((state) => {
@@ -136,6 +133,13 @@ const RTE = ({
             return EditorState.createWithContent(contentState, state.getDecorator());
         });
     }, [disabled]);
+
+    useEffect(() => {
+        const selection = editorState.getSelection();
+        setSelectionState((state) => {
+            return selection.getHasFocus() ? selection : state;
+        });
+    }, [editorState]);
 
     const handleChange = useCallback(
         (edited: EditorState) => {
@@ -197,7 +201,11 @@ const RTE = ({
                                 <>
                                     <div className="RichEditor-controls">
                                         <div className="RichEditor-control-group">
-                                            <TextStyleSelect {...externalProps} editorState={editorState} />
+                                            <TextStyleSelect
+                                                {...externalProps}
+                                                editorState={editorState}
+                                                selectionState={selectionState}
+                                            />
                                         </div>
                                         <div className="RichEditor-control-group">
                                             <InlineStyleButton
@@ -239,16 +247,25 @@ const RTE = ({
                                             </BlockStyleButton>
                                         </div>
                                         <div className="RichEditor-control-group">
-                                            <LinkControl {...externalProps} editorState={editorState} />
+                                            <LinkControl
+                                                {...externalProps}
+                                                editorState={editorState}
+                                                selectionState={selectionState}
+                                            />
                                         </div>
                                         <div className="RichEditor-control-group">
-                                            <ImageControl {...externalProps} editorState={editorState} />
+                                            <ImageControl
+                                                {...externalProps}
+                                                editorState={editorState}
+                                                selectionState={selectionState}
+                                            />
                                         </div>
                                     </div>
                                     {Object.keys(placeholders || {}).length > 0 && (
                                         <PlaceholderControl
                                             placeholders={placeholders}
                                             editorState={editorState}
+                                            selectionState={selectionState}
                                             {...externalProps}
                                         />
                                     )}

@@ -11,6 +11,7 @@ import {
 } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import PluginsEditor from '@draft-js-plugins/editor';
+import classNames from 'classnames';
 import createPlaceholderPlugin from '../../utils/draftjs/placeholderPlugin';
 
 const Editor = ({
@@ -71,11 +72,13 @@ const Editor = ({
     // Just because the library isn't properly typed
     const extraProps = { onBlur, onFocus };
 
-    let classN = `RichEditor-editor`;
+    const className = [`RichEditor-editor`];
     const contentState = editorState.getCurrentContent();
-    if (!contentState.hasText()) {
+    if (disabled) {
+        className.push('RichEditor-disabled');
+    } else if (!contentState.hasText()) {
         if (contentState.getBlockMap().first().getType() !== 'unstyled') {
-            classN += ' RichEditor-hidePlaceholder';
+            className.push('RichEditor-hidePlaceholder');
         }
     }
 
@@ -110,13 +113,14 @@ const Editor = ({
     return (
         <>
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-            <div className={classN} onClick={focus}>
+            <div className={classNames(className)} onClick={focus}>
                 <PluginsEditor
                     ref={editorRef}
                     editorState={editorState}
                     onChange={handleChange}
                     placeholder={placeholder}
                     plugins={plugins}
+                    readOnly={disabled}
                     {...extraProps}
                     handleKeyCommand={handleKeyCommand}
                     keyBindingFn={mapKeyToEditorCommand}

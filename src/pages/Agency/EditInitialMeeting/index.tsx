@@ -200,7 +200,7 @@ export const AgencyEditInitialMeeting = () => {
                 titleKey="agency.edit.initialMeeting.title"
                 tabs={[
                     {
-                        titleKey: 'agency.edit.tab.general',
+                        titleKey: 'agency.edit.tab.settings',
                         to: `${routePathNames.agency}/${agencyId}/general`,
                     },
                     {

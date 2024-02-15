@@ -19,14 +19,10 @@ const ImageAttributes = ({
     const [src, setSrc] = useState('');
 
     const handleAdd = useCallback(() => {
-        let imageSrc = src;
-        if (!imageSrc.match(/^http(s)?:\/\//)) {
-            imageSrc = `https://${imageSrc}`;
-        }
         const editorState = getEditorState();
         const contentState = editorState.getCurrentContent();
         contentState.createEntity('IMAGE', 'IMMUTABLE', {
-            src: imageSrc,
+            src,
         });
         const entityKey = contentState.getLastCreatedEntityKey();
         setEditorState(

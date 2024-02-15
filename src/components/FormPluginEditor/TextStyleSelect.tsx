@@ -38,7 +38,7 @@ const TextStyleSelect = ({
                 ),
             );
         },
-        [setEditorState, getEditorState],
+        [setEditorState, getEditorState, selectionState],
     );
 
     return (

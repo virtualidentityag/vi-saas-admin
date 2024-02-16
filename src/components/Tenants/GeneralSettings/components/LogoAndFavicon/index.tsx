@@ -4,11 +4,13 @@ import { CardEditable } from '../../../../CardEditable';
 import { FormFileUploaderField } from '../../../../FormFileUploaderField';
 import { useSingleTenantData } from '../../../../../hooks/useSingleTenantData';
 import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
+import { useAppConfigContext } from '../../../../../context/useAppConfig';
 
 export const LogoAndFavicon = ({ tenantId }: { tenantId: string }) => {
     const { t } = useTranslation();
     const { data, isLoading } = useSingleTenantData({ id: tenantId });
     const { mutate } = useTenantAdminDataMutation({ id: tenantId });
+    const { settings } = useAppConfigContext();
 
     return (
         <CardEditable
@@ -26,6 +28,14 @@ export const LogoAndFavicon = ({ tenantId }: { tenantId: string }) => {
                 <Col xs={6} md={5} lg={4}>
                     <FormFileUploaderField labelKey="organisation.favicon" name={['theming', 'favicon']} />
                 </Col>
+                {!settings.multitenancyWithSingleDomainEnabled && (
+                    <Col xs={6} md={5} lg={4}>
+                        <FormFileUploaderField
+                            labelKey="organisation.associationLogo"
+                            name={['theming', 'associationLogo']}
+                        />
+                    </Col>
+                )}
             </Row>
         </CardEditable>
     );

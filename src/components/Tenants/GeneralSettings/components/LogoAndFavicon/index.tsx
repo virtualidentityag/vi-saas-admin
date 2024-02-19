@@ -16,23 +16,32 @@ export const LogoAndFavicon = ({ tenantId }: { tenantId: string }) => {
         <CardEditable
             isLoading={isLoading}
             initialValues={{ ...data }}
-            titleKey="settings.logoAndFavicon"
+            titleKey="settings.images.title"
             subTitle={t<string>('settings.images.howto')}
             onSave={mutate}
-            tooltip={t('settings.images.help')}
         >
             <Row gutter={15}>
                 <Col xs={6} md={5} lg={4}>
-                    <FormFileUploaderField labelKey="organisation.logo" name={['theming', 'logo']} />
+                    <FormFileUploaderField
+                        labelKey="organisation.logo"
+                        name={['theming', 'logo']}
+                        tooltip={t('settings.images.tooltip.logo')}
+                    />
                 </Col>
                 <Col xs={6} md={5} lg={4}>
-                    <FormFileUploaderField labelKey="organisation.favicon" name={['theming', 'favicon']} />
+                    <FormFileUploaderField
+                        allowIcon
+                        labelKey="organisation.favicon"
+                        name={['theming', 'favicon']}
+                        tooltip={t('settings.images.tooltip.favicon')}
+                    />
                 </Col>
                 {!settings.multitenancyWithSingleDomainEnabled && (
                     <Col xs={6} md={5} lg={4}>
                         <FormFileUploaderField
                             labelKey="organisation.associationLogo"
                             name={['theming', 'associationLogo']}
+                            tooltip={t('settings.images.tooltip.associationLogo')}
                         />
                     </Col>
                 )}

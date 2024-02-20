@@ -1,10 +1,10 @@
 import { Form, Select } from 'antd';
 import { FieldContext } from 'rc-field-form';
-import classNames from 'classnames';
 import { cloneElement, useContext, useMemo } from 'react';
 import { CheckCircleTwoTone, WarningTwoTone } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import DisabledContext from 'antd/es/config-provider/DisabledContext';
+import classNames from 'classnames';
 import { SelectFormField } from '../SelectFormField';
 import { useTenantAdminData } from '../../hooks/useTenantAdminData.hook';
 import styles from './styles.module.scss';
@@ -26,17 +26,15 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
         [tenantData?.settings?.activeLanguages],
     );
 
-    const errors = formContext
-        .getFieldsError(languages.map((language) => [...namePath, language]))
-        .reduce((c, data) => {
-            const lng = data.name[data.name.length - 1];
-            return {
-                ...c,
-                [lng]: !fieldData?.[lng] || data.errors.length > 0,
-            };
-        }, {});
+    const errors = languages
+        .map((lng) => {
+            const fieldErrors = formContext.getFieldError([...namePath, lng]);
+            const fieldValue = formContext.getFieldValue([...namePath, lng]);
+            return !fieldValue || fieldErrors.length > 0 ? lng : null;
+        })
+        .filter(Boolean);
 
-    const hasErrors = useMemo(() => Object.values(errors).some((e) => e), [errors]);
+    const hasErrors = useMemo(() => errors.length > 0, [errors]);
 
     return (
         <>
@@ -54,7 +52,7 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
                         <Select.Option value={language} key={language}>
                             <div className={styles.containerLabel}>
                                 {t(`language.${language}`)}
-                                {errors[language] ? (
+                                {errors.includes(language) ? (
                                     <WarningTwoTone twoToneColor="#FF9F00" />
                                 ) : (
                                     <CheckCircleTwoTone twoToneColor="#4FCC5C" />

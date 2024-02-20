@@ -23,6 +23,7 @@ export const ContactSettings = ({ type }: { type: any }) => {
             <Paragraph className="text desc">{t('agency.edit.settings.legal.contact.text')}</Paragraph>
 
             <FormRadioGroupField
+                required
                 className={styles.radioGroup}
                 vertical
                 name={['dataProtection', 'dataProtectionResponsibleEntity']}

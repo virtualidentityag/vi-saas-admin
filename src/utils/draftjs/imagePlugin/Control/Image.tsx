@@ -19,14 +19,10 @@ const ImageAttributes = ({
     const [src, setSrc] = useState('');
 
     const handleAdd = useCallback(() => {
-        let imageSrc = src;
-        if (!imageSrc.match(/^http(s)?:\/\//)) {
-            imageSrc = `https://${imageSrc}`;
-        }
         const editorState = getEditorState();
         const contentState = editorState.getCurrentContent();
         contentState.createEntity('IMAGE', 'IMMUTABLE', {
-            src: imageSrc,
+            src,
         });
         const entityKey = contentState.getLastCreatedEntityKey();
         setEditorState(
@@ -71,21 +67,16 @@ const ImageAttributes = ({
 export const ImageControl = ({
     setEditorState,
     getEditorState,
-    editorState,
-}: ToolbarChildrenProps & { editorState: EditorState }) => {
+    selectionState,
+}: ToolbarChildrenProps & { selectionState: SelectionState }) => {
     const [showTooltip, setShowTooltip] = useState(false);
-    const [selectionState, setSelectionState] = useState(() => editorState.getSelection());
-    const [disabled, setDisabled] = useState(!editorState.getSelection().isCollapsed());
+    const [disabled, setDisabled] = useState(!selectionState || !selectionState.isCollapsed());
 
     useEffect(() => {
-        const selection = editorState.getSelection();
-        setSelectionState((state) => {
-            return selection.getHasFocus() ? selection : state;
-        });
         setDisabled((state) => {
-            return selection.getHasFocus() ? !selection.isCollapsed() : state;
+            return selectionState && selectionState.getHasFocus() ? !selectionState.isCollapsed() : state;
         });
-    }, [editorState]);
+    }, [selectionState]);
 
     return (
         <div className="RichEditor-toolbar-image">

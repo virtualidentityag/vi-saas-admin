@@ -1,6 +1,5 @@
-/* eslint-disable react/no-children-prop */
 import clsx from 'clsx';
-import { EditorState, RichUtils } from 'draft-js';
+import { RichUtils, SelectionState } from 'draft-js';
 import React, { MouseEvent, ReactNode, useCallback, useMemo } from 'react';
 import { DraftJsStyleButtonProps } from '@draft-js-plugins/buttons';
 import { Button } from 'antd';
@@ -13,7 +12,7 @@ interface ButtonProps extends DraftJsStyleButtonProps {
 interface CreateBlockStyleButtonProps extends Omit<DraftJsStyleButtonProps, 'buttonProps'> {
     blockType: string;
     children: ReactNode;
-    editorState: EditorState;
+    selectionState: SelectionState;
     buttonProps?: ButtonProps;
 }
 
@@ -23,14 +22,15 @@ const BlockStyleButton = ({
     theme,
     buttonProps,
     setEditorState,
-    editorState,
+    getEditorState,
+    selectionState,
 }: CreateBlockStyleButtonProps) => {
     const toggleStyle = useCallback(
         (event: MouseEvent): void => {
             event.preventDefault();
-            setEditorState(RichUtils.toggleBlockType(editorState, blockType));
+            setEditorState(RichUtils.toggleBlockType(getEditorState(), blockType));
         },
-        [editorState, setEditorState],
+        [setEditorState, getEditorState],
     );
 
     const preventBubblingUp = useCallback((event: MouseEvent): void => {
@@ -39,19 +39,20 @@ const BlockStyleButton = ({
 
     const blockTypeIsActive = useMemo((): boolean => {
         // if the button is rendered before the editor
+        const editorState = getEditorState();
         if (!editorState) {
             return false;
         }
 
-        const type = editorState.getCurrentContent().getBlockForKey(editorState.getSelection().getStartKey()).getType();
+        const type =
+            selectionState && editorState.getCurrentContent().getBlockForKey(selectionState.getStartKey()).getType();
         return type === blockType;
-    }, [editorState]);
+    }, [selectionState, getEditorState]);
 
     const className = blockTypeIsActive ? clsx(theme.button, theme.active) : theme.button;
 
     return (
         <Button
-            children={children}
             className={className}
             onMouseDown={preventBubblingUp}
             onClick={toggleStyle}
@@ -59,7 +60,9 @@ const BlockStyleButton = ({
             role="button"
             aria-label={`create ${blockType}`}
             {...buttonProps}
-        />
+        >
+            {children}
+        </Button>
     );
 };
 export default BlockStyleButton;

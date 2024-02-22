@@ -30,7 +30,7 @@ const Editor = ({
     const plugins = useMemo(() => [...editorPlugins, createPlaceholderPlugin({ placeholders })], [placeholders]);
 
     const [editorState, setEditorState] = useState<EditorState>(() => {
-        const { contentBlocks, entityMap } = convertFromHTML(value);
+        const { contentBlocks, entityMap } = convertFromHTML(value || '');
         const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
         return EditorState.createWithContent(contentState);
     });

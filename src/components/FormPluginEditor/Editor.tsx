@@ -16,7 +16,7 @@ import createPlaceholderPlugin from '../../utils/draftjs/placeholderPlugin';
 
 const Editor = ({
     onChange,
-    value,
+    value = '',
     onSelectionChange,
     onInlineStyleChange,
     placeholders,

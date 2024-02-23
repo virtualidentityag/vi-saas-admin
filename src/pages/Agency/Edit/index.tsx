@@ -23,6 +23,7 @@ import { useAgencyLegalDataMissing } from '../../../hooks/useAgencyLegalDataMiss
 import { ResponsibleSettings } from './components/ResponsibleSettings';
 import { ContactSettings } from './components/ContactSettings';
 import styles from '../../../components/Page/styles.module.scss';
+import { AgencyLogo } from './components/AgencyLogo';
 
 function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
     return data?.length === 0 || (data?.length === 1 && data[0].from === '00000' && data[0].until === '99999');
@@ -86,6 +87,7 @@ export const AgencyPageEdit = () => {
             offline: !formData.online,
             counsellingRelations: formData.counsellingRelations?.map(({ value }) => value),
         };
+
         mutate(newFormData, {
             onError: () => {
                 setSubmitted(false);
@@ -174,6 +176,7 @@ export const AgencyPageEdit = () => {
                     </Col>
                     <Col xs={12} lg={6}>
                         <AgencySettings />
+                        <AgencyLogo />
                     </Col>
                 </Row>
                 {isEnabled(FeatureFlag.CentralDataProtectionTemplate) && (

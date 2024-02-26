@@ -16,7 +16,7 @@ export const AppSettingsPage = () => {
         return (
             <Row gutter={[24, 24]}>
                 <Col span={12} sm={6}>
-                    <OtherFunctionsSettings tenantId={`${data.id}`} hideStatistics />
+                    <OtherFunctionsSettings tenantId={`${data.id}`} hideStatistics hideGroupChatToggle />
                 </Col>
             </Row>
         );
@@ -31,7 +31,7 @@ export const AppSettingsPage = () => {
             {hasRole(UserRole.TenantAdmin) && (
                 <Col span={12} sm={6}>
                     {!settings.multitenancyWithSingleDomainEnabled && <CommunicationSettings tenantId={`${data.id}`} />}
-                    <OtherFunctionsSettings tenantId={`${data.id}`} />
+                    <OtherFunctionsSettings tenantId={`${data.id}`} hideGroupChatToggle />
                 </Col>
             )}
         </Row>

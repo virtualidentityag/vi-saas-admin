@@ -1,7 +1,8 @@
 import { Button, Col, Form, notification, Row } from 'antd';
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
+import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 import { PostCodeRange } from '../../../api/agency/getAgencyPostCodeRange';
 import routePathNames from '../../../appConfig';
 import { Page } from '../../../components/Page';
@@ -18,6 +19,11 @@ import { RegistrationSettings } from './components/RegistrationSettings';
 import { CounsellingRelation } from '../../../enums/CounsellingRelation';
 import { ReleaseToggle } from '../../../enums/ReleaseToggle';
 import { useReleasesToggle } from '../../../hooks/useReleasesToggle.hook';
+import { useAgencyLegalDataMissing } from '../../../hooks/useAgencyLegalDataMissing';
+import { ResponsibleSettings } from './components/ResponsibleSettings';
+import { ContactSettings } from './components/ContactSettings';
+import styles from '../../../components/Page/styles.module.scss';
+import { AgencyLogo } from './components/AgencyLogo';
 
 function hasOnlyDefaultRangeDefined(data: PostCodeRange[]) {
     return data?.length === 0 || (data?.length === 1 && data[0].from === '00000' && data[0].until === '99999');
@@ -39,6 +45,8 @@ export const AgencyPageEdit = () => {
     const { isEnabled: isReleaseToggleEnabled } = useReleasesToggle();
     const [form] = Form.useForm();
     const { mutate } = useAgencyUpdate(id);
+    const legalDataMissing = useAgencyLegalDataMissing(agencyData);
+    const responsibleEntity = Form.useWatch(['dataProtection', 'dataProtectionResponsibleEntity'], form);
 
     const demographicsInitialValues = isEnabled(FeatureFlag.Demographics)
         ? {
@@ -79,6 +87,7 @@ export const AgencyPageEdit = () => {
             offline: !formData.online,
             counsellingRelations: formData.counsellingRelations?.map(({ value }) => value),
         };
+
         mutate(newFormData, {
             onError: () => {
                 setSubmitted(false);
@@ -112,8 +121,9 @@ export const AgencyPageEdit = () => {
                 titleKey="agency.edit.general.headline"
                 tabs={[
                     {
-                        titleKey: 'agency.edit.tab.general',
+                        titleKey: 'agency.edit.tab.settings',
                         to: `${routePathNames.agency}/${id}`,
+                        icon: legalDataMissing ? <ErrorOutlinedIcon color="error" /> : null,
                     },
                     isEditing &&
                         isEnabled(FeatureFlag.Appointments) && {
@@ -157,14 +167,34 @@ export const AgencyPageEdit = () => {
                 onFinish={onSubmit}
             >
                 <Row gutter={[20, 10]}>
+                    <Col xs={12}>
+                        <h3 className={styles.backHeadline}>{t(`agency.edit.settings.general.title`)}</h3>
+                    </Col>
                     <Col xs={12} lg={6}>
                         <AgencyGeneralInformation />
                         <RegistrationSettings />
                     </Col>
                     <Col xs={12} lg={6}>
                         <AgencySettings />
+                        <AgencyLogo />
                     </Col>
                 </Row>
+                {isEnabled(FeatureFlag.CentralDataProtectionTemplate) && (
+                    <Row gutter={[20, 10]}>
+                        <Col xs={12}>
+                            <h3 className={styles.backHeadline}>
+                                {t(`agency.edit.settings.legal.title`)}{' '}
+                                {legalDataMissing && <ErrorOutlinedIcon fontSize="small" color="error" />}
+                            </h3>
+                        </Col>
+                        <Col xs={12} lg={6}>
+                            <ResponsibleSettings />
+                        </Col>
+                        <Col xs={12} lg={6}>
+                            <ContactSettings type={responsibleEntity} />
+                        </Col>
+                    </Row>
+                )}
             </Form>
         </Page>
     );

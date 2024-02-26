@@ -38,6 +38,14 @@ const FeatureProvider = ({ children, tenantData, publicTenantData }: FeatureProv
             name: FeatureFlag.ConsultingTypesForAgencies,
             active: !!featureFlags.useConsultingTypesForAgencies,
         },
+        {
+            name: FeatureFlag.GroupChatV2,
+            active: !!publicTenantData?.settings.featureGroupChatV2Enabled,
+        },
+        {
+            name: FeatureFlag.CentralDataProtectionTemplate,
+            active: !!publicTenantData?.settings.featureCentralDataProtectionTemplateEnabled,
+        },
     ]);
 
     return <FeatureContext.Provider value={state}>{children}</FeatureContext.Provider>;

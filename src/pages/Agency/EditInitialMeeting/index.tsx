@@ -1,9 +1,10 @@
 import { Button, Table, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { PlusOutlined } from '@ant-design/icons';
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ColumnsType } from 'antd/lib/table';
 import { useParams } from 'react-router';
+import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 import EditButtons from '../../../components/EditableTable/EditButtons';
 import { ConsultantInterface, AgencyEditData, AgencyEventTypes } from '../../../types/agencyEdit';
 import ResizableTitle from '../../../components/Resizable/Resizable';
@@ -17,12 +18,16 @@ import routePathNames from '../../../appConfig';
 import { Resource } from '../../../enums/Resource';
 import { Page } from '../../../components/Page';
 import { useBookingLocations } from './useBookingLocations';
+import { useAgencyData } from '../../../hooks/useAgencyData';
+import { useAgencyLegalDataMissing } from '../../../hooks/useAgencyLegalDataMissing';
 
 const { Paragraph } = Typography;
 
 export const AgencyEditInitialMeeting = () => {
     const { t } = useTranslation();
     const { id: agencyId } = useParams();
+    const { data: agencyData, isLoading: isLoadingAgency } = useAgencyData({ id: agencyId });
+    const legalDataMissing = useAgencyLegalDataMissing(agencyData);
     const [topics, setTopics] = useState([]);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -200,8 +205,9 @@ export const AgencyEditInitialMeeting = () => {
                 titleKey="agency.edit.initialMeeting.title"
                 tabs={[
                     {
-                        titleKey: 'agency.edit.tab.general',
+                        titleKey: 'agency.edit.tab.settings',
                         to: `${routePathNames.agency}/${agencyId}/general`,
+                        icon: !isLoadingAgency && legalDataMissing ? <ErrorOutlinedIcon color="error" /> : null,
                     },
                     {
                         titleKey: 'agency.edit.tab.initialEnquiry',

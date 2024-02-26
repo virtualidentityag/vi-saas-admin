@@ -22,6 +22,8 @@ export interface BasicTenantData {
         featureTopicsEnabled?: boolean | null;
         topicsInRegistrationEnabled?: boolean | null;
         featureStatisticsEnabled?: boolean;
+        featureGroupChatV2Enabled?: boolean;
+        featureCentralDataProtectionTemplateEnabled?: boolean;
     };
 }
 

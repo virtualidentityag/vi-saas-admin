@@ -2,7 +2,7 @@ import { ChevronLeft } from '@mui/icons-material';
 import { Spin } from 'antd';
 import Title from 'antd/es/typography/Title';
 import classNames from 'classnames';
-import React, { forwardRef, LegacyRef, useMemo } from 'react';
+import React, { cloneElement, forwardRef, LegacyRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import styles from './styles.module.scss';
@@ -26,7 +26,7 @@ interface PageBackProps {
     titleKey?: string;
     path: string;
     children?: React.ReactChild | React.ReactChild[];
-    tabs?: Array<{ to: string; titleKey: string }>;
+    tabs?: Array<{ to: string; titleKey: string; icon?: JSX.Element }>;
 }
 
 export const Page = ({ children, stickyHeader, isLoading }: PageProps) => {
@@ -42,16 +42,17 @@ export const Page = ({ children, stickyHeader, isLoading }: PageProps) => {
     );
 };
 
-const PageTabs = ({ tabs }: { tabs: Array<{ to: string; titleKey }> }) => {
+const PageTabs = ({ tabs }: { tabs: Array<{ to: string; titleKey; icon?: JSX.Element }> }) => {
     const { t } = useTranslation();
 
     return (
         <div className={styles.tabsContainer}>
             {tabs
                 ?.filter((tab) => tab && tab.to)
-                .map((tab) => (
+                .map(({ icon, ...tab }) => (
                     <NavLink className={styles.tab} to={tab.to} key={tab.titleKey}>
                         {t(tab.titleKey)}
+                        {icon && cloneElement(icon, { className: styles.tabIcon })}
                     </NavLink>
                 ))}
         </div>

@@ -9,6 +9,15 @@ export interface AgencyDemographicsData {
     genders?: string[];
 }
 
+export interface AgencyContact {
+    nameAndLegalForm: string;
+    street: string;
+    postcode: string;
+    city: string;
+    phoneNumber: string;
+    email: string;
+}
+
 export interface AgencyData {
     id: string | null;
     name: string;
@@ -27,4 +36,14 @@ export interface AgencyData {
     deleteDate: string | undefined;
     dioceseId?: string;
     postCodes?: PostCodeRange[];
+    dataProtection: {
+        dataProtectionResponsibleEntity:
+            | 'AGENCY_RESPONSIBLE'
+            | 'ALTERNATIVE_REPRESENTATIVE'
+            | 'DATA_PROTECTION_OFFICER';
+        agencyDataProtectionResponsibleContact: AgencyContact | null;
+        alternativeDataProtectionRepresentativeContact: AgencyContact | null;
+        dataProtectionOfficerContact: AgencyContact | null;
+    };
+    agencyLogo: string | null;
 }

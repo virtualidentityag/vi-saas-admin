@@ -1,12 +1,13 @@
 import set from 'lodash.set';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CardEditable } from '../../../../CardEditable';
-import { FormRichTextEditorField } from '../../../../FormRichTextEditorField';
 import { Modal, ModalProps } from '../../../../Modal';
 import { TranslatableFormField } from '../../../../TranslatableFormField';
 import { useSingleTenantData } from '../../../../../hooks/useSingleTenantData';
 import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
 import styles from './styles.module.scss';
+import FormPluginEditor from '../../../../FormPluginEditor/FormPluginEditor';
 
 interface LegalTextProps {
     tenantId: string | number;
@@ -15,6 +16,7 @@ interface LegalTextProps {
     subTitle: string | React.ReactChild;
     placeHolderKey: string;
     showConfirmationModal?: Omit<ModalProps, 'onClose' | 'onConfirm'> & { field: string[] };
+    placeholders?: { [key: string]: string };
 }
 
 export const LegalText = ({
@@ -24,7 +26,9 @@ export const LegalText = ({
     subTitle,
     placeHolderKey,
     showConfirmationModal,
+    placeholders,
 }: LegalTextProps) => {
+    const { t } = useTranslation();
     const { data, isLoading } = useSingleTenantData({ id: tenantId });
     const { mutate: updateTenant } = useTenantAdminDataMutation({ id: tenantId });
     const [formDataContent, setFormData] = useState<Record<string, unknown>>();
@@ -59,7 +63,13 @@ export const LegalText = ({
                 }}
             >
                 <TranslatableFormField name={fieldName}>
-                    <FormRichTextEditorField placeholderKey={placeHolderKey} required />
+                    <FormPluginEditor
+                        placeholder={t(placeHolderKey)}
+                        placeholders={placeholders}
+                        itemProps={{
+                            rules: [{ required: true }],
+                        }}
+                    />
                 </TranslatableFormField>
             </CardEditable>
             {showConfirmationModal && modalVisible && (

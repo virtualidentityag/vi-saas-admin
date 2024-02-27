@@ -11,6 +11,7 @@ interface OtherFunctionsSettingsArgs {
     hideTopics?: boolean;
     hideStatistics?: boolean;
     hideGroupChatToggle?: boolean;
+    hideCounsellingRelationToggle?: boolean;
 }
 
 export const OtherFunctionsSettings = ({
@@ -18,6 +19,7 @@ export const OtherFunctionsSettings = ({
     hideTopics,
     hideStatistics,
     hideGroupChatToggle,
+    hideCounsellingRelationToggle,
 }: OtherFunctionsSettingsArgs) => {
     const { t } = useTranslation();
     const { settings } = useAppConfigContext();
@@ -67,6 +69,19 @@ export const OtherFunctionsSettings = ({
                         disableLabels
                     />
                     <p className={styles.checkInfo}>{t('tenants.appSettings.otherFunctions.groupChat.description')}</p>
+                </div>
+            )}
+            {!hideCounsellingRelationToggle && (
+                <div className={styles.checkGroup}>
+                    <FormSwitchField
+                        labelKey="tenants.appSettings.otherFunctions.counsellingRelations.title"
+                        name={['settings', 'featureCounsellingRelationsEnabled']}
+                        inline
+                        disableLabels
+                    />
+                    <p className={styles.checkInfo}>
+                        {t('tenants.appSettings.otherFunctions.counsellingRelations.description')}
+                    </p>
                 </div>
             )}
         </CardEditable>

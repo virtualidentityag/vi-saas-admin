@@ -149,6 +149,7 @@
     "agency.form.registrationSettings.toPostCode": "Postleitzahl bis",
     "agency.form.registrationSettings.newPostCodeLabel": "PLZ- Gebiete:",
     "agency.form.registrationSettings.addNewPostCode": "WEITERE HINZUFÜGEN",
+    "agency.form.registrationSettings.autoSelectPostcodeWarning": "Die Funktion zur Auswahl von Postleitzahlenbereichen wird aufgrund der Systemkonfiguration in der Registrierung derzeit nicht unterstützt.",
     "agency.add.general.headline": "Zur Übersicht",
     "agency.add.general": "Allgemeine Informationen",
     "agency.add.general.name": "Name",

@@ -45,5 +45,4 @@ export interface AgencyData {
         alternativeDataProtectionRepresentativeContact: AgencyContact | null;
         dataProtectionOfficerContact: AgencyContact | null;
     };
-    agencyLogo: string | null;
 }

@@ -1,3 +1,7 @@
+.switch {
+    margin-top: 1.5rem;
+}
+
 .radioGroup {
     :global(label) {
         font-family: 'Nunito';
@@ -16,8 +20,4 @@
 
 .warning:global(.ant-alert.ant-alert-warning) {
     padding: 14px 16px;
-
-    & + div {
-        margin-top: 24px;
-    }
 }

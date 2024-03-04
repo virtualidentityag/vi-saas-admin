@@ -114,8 +114,6 @@ export const AgencyPageEdit = () => {
         }
     }, [isEditing]);
 
-    if (!agencyData) return null;
-
     return (
         <Page isLoading={isLoading || isLoadingPostCodes} stickyHeader>
             <Page.BackWithActions
@@ -174,7 +172,7 @@ export const AgencyPageEdit = () => {
                     </Col>
                     <Col xs={12} lg={6}>
                         <AgencyGeneralInformation />
-                        <RegistrationSettings consultingTypeId={agencyData.consultingType} />
+                        <RegistrationSettings consultingTypeId={agencyData?.consultingType} />
                     </Col>
                     <Col xs={12} lg={6}>
                         <AgencySettings />

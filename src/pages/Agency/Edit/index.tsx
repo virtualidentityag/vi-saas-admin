@@ -172,7 +172,7 @@ export const AgencyPageEdit = () => {
                     </Col>
                     <Col xs={12} lg={6}>
                         <AgencyGeneralInformation />
-                        <RegistrationSettings />
+                        <RegistrationSettings consultingTypeId={agencyData?.consultingType} />
                     </Col>
                     <Col xs={12} lg={6}>
                         <AgencySettings />

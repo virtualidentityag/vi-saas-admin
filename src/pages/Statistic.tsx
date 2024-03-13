@@ -57,7 +57,7 @@ export const Statistic = () => {
                     csvLine.push(entry.agencyName);
                     csvLine.push(entry.userId);
                     csvLine.push(entry.registrationDate);
-                    csvLine.push(entry.age !== null ? entry.age.toString() : '');
+                    csvLine.push(entry.age ? entry.age.toString() : '');
                     csvLine.push(entry.gender || '');
                     csvLine.push(entry.counsellingRelation || '');
                     csvLine.push(formattedTopics);
@@ -65,15 +65,9 @@ export const Statistic = () => {
                     csvLine.push(entry.postalCode);
                     csvLine.push(entry.endDate);
                     csvLine.push(entry.referer ? decodeURI(entry.referer) : '');
-                    csvLine.push(
-                        entry.appointmentsBookedCount !== null ? entry.appointmentsBookedCount.toString() : '',
-                    );
-                    csvLine.push(
-                        entry.attendedVideoCallsCount !== null ? entry.attendedVideoCallsCount.toString() : '',
-                    );
-                    csvLine.push(
-                        entry.consultantMessagesCount !== null ? entry.consultantMessagesCount.toString() : '',
-                    );
+                    csvLine.push(entry.appointmentsBookedCount ? entry.appointmentsBookedCount.toString() : '');
+                    csvLine.push(entry.attendedVideoCallsCount ? entry.attendedVideoCallsCount.toString() : '');
+                    csvLine.push(entry.consultantMessagesCount ? entry.consultantMessagesCount.toString() : '');
 
                     data.push(csvLine);
                 });

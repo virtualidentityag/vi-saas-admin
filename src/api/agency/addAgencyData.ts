@@ -57,8 +57,6 @@ async function addAgencyData(agencyData: Record<string, any>) {
     const agencyResponseData = agencyCreationResponse._embedded;
     await updateAgencyPostCodeRange(agencyResponseData.id, agencyData.postCodes || [], 'POST');
 
-    console.log({ agencyResponseData });
-
     return agencyResponseData;
 }
 

@@ -24,6 +24,7 @@ function buildAgencyDataRequestBody(consultingTypeResponseId: string | number, f
         demographics: formData.demographics,
         counsellingRelations: formData.counsellingRelations,
         dataProtection: formData.dataProtection,
+        tenantId: formData.tenantId,
     });
 }
 
@@ -55,6 +56,8 @@ async function addAgencyData(agencyData: Record<string, any>) {
     // eslint-disable-next-line no-underscore-dangle
     const agencyResponseData = agencyCreationResponse._embedded;
     await updateAgencyPostCodeRange(agencyResponseData.id, agencyData.postCodes || [], 'POST');
+
+    console.log({ agencyResponseData });
 
     return agencyResponseData;
 }

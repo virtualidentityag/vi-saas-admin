@@ -46,4 +46,5 @@ export interface AgencyData {
         dataProtectionOfficerContact: AgencyContact | null;
     };
     agencyLogo: string | null;
+    tenantId: number;
 }

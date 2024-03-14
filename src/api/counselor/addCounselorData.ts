@@ -10,8 +10,17 @@ import { putAgenciesForCounselor } from '../agency/putAgenciesForCounselor';
  * @return data
  */
 export const addCounselorData = (counselorData: Record<string, any>): Promise<CounselorData> => {
-    const { firstname, lastname, formalLanguage, email, absent, username, twoFactorAuth, isGroupchatConsultant } =
-        counselorData;
+    const {
+        firstname,
+        lastname,
+        formalLanguage,
+        email,
+        absent,
+        username,
+        twoFactorAuth,
+        isGroupchatConsultant,
+        tenantId,
+    } = counselorData;
 
     // just use needed data from whole form data
     const strippedCounselor = {
@@ -23,6 +32,7 @@ export const addCounselorData = (counselorData: Record<string, any>): Promise<Co
         username: encodeUsername(username),
         twoFactorAuth,
         isGroupchatConsultant,
+        tenantId: parseInt(tenantId, 10),
     };
 
     return (

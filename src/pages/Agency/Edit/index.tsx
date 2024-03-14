@@ -1,5 +1,5 @@
 import { Button, Col, Form, notification, Row } from 'antd';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
@@ -158,7 +158,7 @@ export const AgencyPageEdit = () => {
                     postCodeRangesActive: !hasOnlyDefaultRangeDefined(postCodes || []),
                     online: agencyData?.id ? !agencyData?.offline : false,
                     topicIds: convertToOptions(agencyData?.topics, 'name', 'id', true),
-                    tenantId: agencyData?.tenantId?.toString(),
+                    tenantId: agencyData?.tenantId?.toString() || '',
                 }}
                 labelAlign="left"
                 labelWrap

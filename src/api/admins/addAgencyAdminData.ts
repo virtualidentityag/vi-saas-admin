@@ -10,7 +10,7 @@ import { putAgenciesForAgencyAdmin } from '../agency/putAgenciesForAdmin';
  * @return data
  */
 export const addAgencyAdminData = (adminData: Record<string, any>): Promise<AdminData> => {
-    const { firstname, lastname, email, username, twoFactorAuth } = adminData;
+    const { firstname, lastname, email, username, twoFactorAuth, tenantId } = adminData;
 
     return (
         fetchData({
@@ -24,6 +24,7 @@ export const addAgencyAdminData = (adminData: Record<string, any>): Promise<Admi
                 email,
                 username: encodeUsername(username),
                 twoFactorAuth,
+                tenantId: parseInt(tenantId, 10),
             }),
         })
             .then((response) => {

@@ -2,7 +2,11 @@ import { getValueFromCookie } from '../api/auth/accessSessionCookie';
 import { UserRole } from '../enums/UserRole';
 import parseJwt from '../utils/parseJWT';
 
-export const useUserRoles = (): { roles: UserRole[]; hasRole: (role: UserRole | UserRole[]) => boolean } => {
+export const useUserRoles = (): {
+    roles: UserRole[];
+    hasRole: (role: UserRole | UserRole[]) => boolean;
+    isSuperAdmin: boolean;
+} => {
     const accessToken = getValueFromCookie('keycloak');
     let roles: UserRole[] = [];
     if (accessToken) {
@@ -15,5 +19,8 @@ export const useUserRoles = (): { roles: UserRole[]; hasRole: (role: UserRole | 
         return roles.some((role: UserRole) => userRoles.includes(role));
     };
 
-    return { roles, hasRole };
+    // TODO: confirm if user is superadmin only if tenantId is not set or 0
+    const isSuperAdmin = hasRole(UserRole.AgencyAdmin);
+
+    return { roles, hasRole, isSuperAdmin };
 };

@@ -7,9 +7,15 @@ export const useUserRoles = (): {
     hasRole: (role: UserRole | UserRole[]) => boolean;
     isSuperAdmin: boolean;
 } => {
+    let payload;
+    let roles: UserRole[] = [];
+
     const accessToken = getValueFromCookie('keycloak');
-    const payload = parseJwt(accessToken);
-    const roles: UserRole[] = payload?.realm_access.roles || [];
+
+    if (accessToken) {
+        payload = parseJwt(accessToken);
+        roles = payload?.realm_access.roles || [];
+    }
 
     const hasRole = (userRole: UserRole | UserRole[]) => {
         const userRoles = Array.isArray(userRole) ? userRole : [userRole];

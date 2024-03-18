@@ -1,5 +1,5 @@
 import { Button, Col, Form, notification, Row } from 'antd';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
@@ -86,6 +86,7 @@ export const AgencyPageEdit = () => {
             topicIds: formData.topicIds?.map(({ value }) => value),
             offline: !formData.online,
             counsellingRelations: formData.counsellingRelations?.map(({ value }) => value),
+            tenantId: parseInt(formData.tenantId, 10),
         };
 
         mutate(newFormData, {
@@ -157,6 +158,7 @@ export const AgencyPageEdit = () => {
                     postCodeRangesActive: !hasOnlyDefaultRangeDefined(postCodes || []),
                     online: agencyData?.id ? !agencyData?.offline : false,
                     topicIds: convertToOptions(agencyData?.topics, 'name', 'id', true),
+                    tenantId: agencyData?.tenantId?.toString() || '',
                 }}
                 labelAlign="left"
                 labelWrap
@@ -175,7 +177,7 @@ export const AgencyPageEdit = () => {
                         <RegistrationSettings consultingTypeId={agencyData?.consultingType} />
                     </Col>
                     <Col xs={12} lg={6}>
-                        <AgencySettings />
+                        <AgencySettings isEditMode={isEditing} />
                         <AgencyLogo />
                     </Col>
                 </Row>

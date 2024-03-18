@@ -22,6 +22,7 @@ export const editCounselorData = async (id: string, formData: CounselorData): Pr
         absenceMessage,
         twoFactorAuth,
         isGroupchatConsultant,
+        tenantId,
     } = formData;
 
     // just use needed data from whole form data
@@ -35,6 +36,7 @@ export const editCounselorData = async (id: string, formData: CounselorData): Pr
         ...(absent ? { absenceMessage } : {}),
         twoFactorAuth,
         isGroupchatConsultant,
+        tenantId: parseInt(tenantId, 10),
     };
 
     const ids = ((formData.agencies as LabeledValue[])?.map(({ value }) => value) || []) as string[];

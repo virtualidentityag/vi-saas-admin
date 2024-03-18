@@ -16,8 +16,14 @@ import styles from './styles.module.scss';
 import { CounsellingRelation } from '../../../../../enums/CounsellingRelation';
 import { ReleaseToggle } from '../../../../../enums/ReleaseToggle';
 import { useReleasesToggle } from '../../../../../hooks/useReleasesToggle.hook';
+import { useTenantsData } from '../../../../../hooks/useTenantsData';
+import { useUserRoles } from '../../../../../hooks/useUserRoles.hook';
 
-export const AgencySettings = () => {
+interface AgencySettingsProps {
+    isEditMode: boolean;
+}
+
+export const AgencySettings = ({ isEditMode }: AgencySettingsProps) => {
     const [t] = useTranslation();
 
     const topicIds = Form.useWatch<Option[]>('topicIds') || [];
@@ -28,8 +34,10 @@ export const AgencySettings = () => {
     const [consultingTypes, setConsultingTypes] = useState([]);
 
     const { isEnabled } = useFeatureContext();
+    const { isSuperAdmin } = useUserRoles();
     const { isEnabled: isReleaseToggleEnabled } = useReleasesToggle();
     const { data: topics, isLoading: isLoadingTopics } = useTenantTopics(true);
+    const { data: tenantsData, isLoading: isLoadingTenants } = useTenantsData({ perPage: 1000 });
     const topicsForList = topics?.filter(({ id }) => !topicIds.find(({ value }) => value === `${id}`));
     const gendersForList = Object.values(Gender).filter((name) => !genders.find(({ value }) => value === `${name}`));
     const counsellingRelationsForList = Object.values(CounsellingRelation).filter(
@@ -44,7 +52,17 @@ export const AgencySettings = () => {
     }, []);
 
     return (
-        <Card isLoading={isLoadingTopics} titleKey="agency.edit.settings.title">
+        <Card isLoading={isLoadingTopics || isLoadingTenants} titleKey="agency.edit.settings.title">
+            {isSuperAdmin && tenantsData?.data?.length > 0 && (
+                <SelectFormField
+                    label="agency.edit.general.more_settings.tenant.title"
+                    name="tenantId"
+                    placeholder="plsSelect"
+                    options={convertToOptions(tenantsData.data, 'name', 'id')}
+                    disabled={isEditMode}
+                />
+            )}
+
             {isEnabled(FeatureFlag.Topics) && topics?.length > 0 && (
                 <SelectFormField
                     label="topics.title"

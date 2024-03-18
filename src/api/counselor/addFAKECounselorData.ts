@@ -16,6 +16,8 @@ export const fakeCounselors = (counselorResponse: CounselorData[]) => {
         formalLanguage: false,
         absent: false,
         status: 'null',
+        tenantId: '1',
+        tenantName: 'Tenant 1',
     };
 
     const female: CounselorData = {
@@ -33,6 +35,8 @@ export const fakeCounselors = (counselorResponse: CounselorData[]) => {
         formalLanguage: true,
         absent: true,
         status: 'null',
+        tenantId: '1',
+        tenantName: 'Tenant 1',
     };
 
     for (let i = 0; i < 10; i += 1) {

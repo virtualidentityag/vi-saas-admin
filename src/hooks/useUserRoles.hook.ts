@@ -8,19 +8,15 @@ export const useUserRoles = (): {
     isSuperAdmin: boolean;
 } => {
     const accessToken = getValueFromCookie('keycloak');
-    let roles: UserRole[] = [];
-    if (accessToken) {
-        const access = parseJwt(accessToken || '');
-        roles = access?.realm_access.roles || [];
-    }
+    const payload = parseJwt(accessToken);
+    const roles: UserRole[] = payload?.realm_access.roles || [];
 
     const hasRole = (userRole: UserRole | UserRole[]) => {
-        const userRoles = userRole instanceof Array ? userRole : [userRole];
+        const userRoles = Array.isArray(userRole) ? userRole : [userRole];
         return roles.some((role: UserRole) => userRoles.includes(role));
     };
 
-    // TODO: confirm if user is superadmin only if tenantId is not set or 0
-    const isSuperAdmin = hasRole(UserRole.AgencyAdmin);
+    const isSuperAdmin = hasRole(UserRole.AgencyAdmin) && hasRole(UserRole.TenantAdmin) && payload?.tenantId === 0;
 
     return { roles, hasRole, isSuperAdmin };
 };

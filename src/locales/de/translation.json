@@ -349,7 +349,7 @@
     "counselor.new.help": "Sie können nur so viele Berater hinzufügen, wie in Ihrem Vertrag vereinbart sind! In Ihrem Vertrag sind derzeit {{number}} Berater möglich.",
     "counselor.username": "Benutzername",
     "counselor.title": "Berater",
-    "counselor.formalLanguage": "Formale System Ansprache",
+    "counselor.formalLanguage.title": "Formale System Ansprache",
     "counselor.formalLanguage.description": "Die Berater können wählen, ob sie sich von dem System auf formelle oder informelle Weise ansprechen lassen.",
     "counselor.absent": "Abwesend",
     "counselor.absenceMessage": "Abwesenheitsnotiz",

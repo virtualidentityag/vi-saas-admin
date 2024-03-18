@@ -213,7 +213,10 @@ export const UserEditOrAdd = () => {
                             {typeOfUsers === 'consultants' && (
                                 <>
                                     <Space align="center">
-                                        <FormSwitchField labelKey="counselor.formalLanguage" name="formalLanguage" />
+                                        <FormSwitchField
+                                            labelKey="counselor.formalLanguage.title"
+                                            name="formalLanguage"
+                                        />
                                         {isEditing && <FormSwitchField labelKey="counselor.absent" name="absent" />}
                                         {isEnabled(FeatureFlag.GroupChatV2) && (
                                             <FormSwitchField

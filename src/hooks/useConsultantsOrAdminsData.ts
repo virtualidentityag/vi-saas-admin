@@ -18,11 +18,15 @@ interface ConsultantsDataProps extends UseQueryOptions<ResponseList<CounselorDat
 const DEFAULT_SORT = 'FIRSTNAME';
 const DEFAULT_ORDER = 'ASC';
 
-export const useConsultantsOrAdminsData = (
-    { search, current, sortBy, order, pageSize, typeOfUser, ...options }: ConsultantsDataProps = {
-        typeOfUser: TypeOfUser.Consultants,
-    },
-) => {
+export const useConsultantsOrAdminsData = ({
+    search,
+    current,
+    sortBy,
+    order,
+    pageSize,
+    typeOfUser = TypeOfUser.Consultants,
+    ...options
+}: ConsultantsDataProps) => {
     const baseUrl = typeOfUser === TypeOfUser.Consultants ? usersConsultantsSearchEndpoint : agencyAdminsSearchEndpoint;
     return useQuery(
         [typeOfUser.toUpperCase(), search, current, sortBy, order, pageSize],

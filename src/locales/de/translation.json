@@ -83,6 +83,7 @@
     "gender.male": "Herr",
     "firstname": "Vorname",
     "lastname": "Nachname",
+    "tenantName": "Mandant",
     "yes": "Ja",
     "no": "Nein",
     "new": "Neu",

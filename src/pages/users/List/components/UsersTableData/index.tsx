@@ -23,6 +23,7 @@ import { Resource } from '../../../../../enums/Resource';
 import { PermissionAction } from '../../../../../enums/PermissionAction';
 import { TypeOfUser } from '../../../../../enums/TypeOfUser';
 import styles from './styles.module.scss';
+import { useUserRoles } from '../../../../../hooks/useUserRoles.hook';
 
 export const UsersTableData = () => {
     const { can } = useUserPermissions();
@@ -33,6 +34,8 @@ export const UsersTableData = () => {
     const [deleteUserId, setDeleteUserId] = useState<string>(null);
     const [openRows, setOpenedRows] = useState([]);
     const [search, setSearch] = useState('');
+    const { isSuperAdmin } = useUserRoles();
+    const showTenantColumn = isSuperAdmin && isConsultantTab;
 
     const [tableState, setTableState] = useState<TableState>({
         current: 1,
@@ -124,7 +127,6 @@ export const UsersTableData = () => {
             fixed: 'left',
             className: 'counselorList__column',
         },
-
         {
             width: 150,
             title: t('email'),
@@ -132,6 +134,7 @@ export const UsersTableData = () => {
             key: 'email',
             ellipsis: true,
             sorter: (a: CounselorData, b: CounselorData) => a.email.localeCompare(b.email),
+            fixed: 'left',
             className: 'counselorList__column',
         },
         {
@@ -141,6 +144,16 @@ export const UsersTableData = () => {
             key: 'username',
             ellipsis: true,
             render: (username: string) => decodeUsername(username),
+            fixed: 'left',
+            className: 'counselorList__column',
+        },
+        showTenantColumn && {
+            title: t('tenantName'),
+            dataIndex: 'tenantName',
+            key: 'tenantName',
+            width: 100,
+            ellipsis: true,
+            fixed: 'left',
             className: 'counselorList__column',
         },
         {

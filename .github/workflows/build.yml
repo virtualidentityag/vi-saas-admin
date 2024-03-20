@@ -39,7 +39,7 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.github_token }}
             - name: Bump version
-              if: startsWith(env.BRANCH,'release') == true
+              if: env.BRANCH == 'release'
               run: |
                   git config --local user.email "action@github.com"
                   git config --local user.name "GitHub Action"
@@ -47,7 +47,7 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.github_token }}
             - name: Push changes
-              if: startsWith(env.BRANCH,'release') == true
+              if: env.BRANCH == 'release'
               uses: ad-m/github-push-action@master
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -11,6 +11,7 @@ interface FormFileUploaderFieldProps {
     labelKey?: string;
     name?: string | string[];
     allowIcon?: boolean;
+    tooltip?: string;
 }
 
 interface FormRichTextEditorProps {
@@ -59,10 +60,21 @@ const FormFileUploaderLocal = ({ onChange, value, allowIcon }: FormRichTextEdito
     );
 };
 
-export const FormFileUploaderField = ({ name, labelKey, className, allowIcon }: FormFileUploaderFieldProps) => {
+export const FormFileUploaderField = ({
+    name,
+    labelKey,
+    className,
+    allowIcon,
+    tooltip,
+}: FormFileUploaderFieldProps) => {
     const { t } = useTranslation();
     return (
-        <Form.Item name={name} label={t(labelKey)} className={classNames(className, styles.richEditor)}>
+        <Form.Item
+            name={name}
+            label={t(labelKey)}
+            className={classNames(className, styles.richEditor)}
+            tooltip={tooltip}
+        >
             <FormFileUploaderLocal allowIcon={allowIcon} />
         </Form.Item>
     );

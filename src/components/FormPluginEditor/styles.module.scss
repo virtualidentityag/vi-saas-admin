@@ -1,7 +1,7 @@
 .disabled {
     cursor: not-allowed;
 
-    .input {
+    &.input {
         border-color: var(--input-disabled-border-color);
         background: var(--input-disabled-bg);
         color: var(--input-disabled-color);
@@ -14,7 +14,7 @@
 }
 
 .focused {
-    .input {
+    &.input {
         border-width: 2px;
         border-color: var(--input-active-border-color);
         box-shadow: none;

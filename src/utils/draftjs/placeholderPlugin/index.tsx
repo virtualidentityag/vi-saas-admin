@@ -81,13 +81,7 @@ export default (config: PlaceholderPluginConfig = {}): EditorPlugin => {
             });
 
             const newEditorState = EditorState.push(editorState, contentState, 'apply-entity');
-            return selection.getHasFocus()
-                ? EditorState.forceSelection(
-                      newEditorState,
-                      // EditorState.createWithContent(contentState, editorState.getDecorator()),
-                      selection,
-                  )
-                : newEditorState;
+            return selection.getHasFocus() ? EditorState.forceSelection(newEditorState, selection) : newEditorState;
         },
         handleBeforeInput: (chars, state: EditorState) => {
             const selection = state.getSelection();

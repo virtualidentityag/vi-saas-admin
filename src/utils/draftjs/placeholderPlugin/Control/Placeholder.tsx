@@ -9,24 +9,20 @@ export const PlaceholderControl = ({
     placeholders,
     setEditorState,
     getEditorState,
-    editorState,
-}: ToolbarChildrenProps & { placeholders: any; editorState: EditorState }) => {
+    selectionState,
+}: ToolbarChildrenProps & { placeholders: any; selectionState: SelectionState }) => {
     const { t } = useTranslation();
-    const [selectionState, setSelectionState] = useState(() => editorState.getSelection());
-    const [disabled, setDisabled] = useState(!editorState.getSelection().isCollapsed());
+    const [disabled, setDisabled] = useState(!selectionState || !selectionState.isCollapsed());
 
     useEffect(() => {
-        const selection = editorState.getSelection();
-        setSelectionState((state) => {
-            return selection.getHasFocus() ? selection : state;
-        });
         setDisabled((state) => {
-            return selection.getHasFocus() ? !selection.isCollapsed() : state;
+            return selectionState && selectionState.getHasFocus() ? !selectionState.isCollapsed() : state;
         });
-    }, [editorState]);
+    }, [selectionState]);
 
     const insertPlaceholder = useCallback(
         (key: string) => {
+            if (!selectionState) return;
             const state = getEditorState();
             const selection = SelectionState.createEmpty(selectionState.getStartKey()).merge({
                 anchorOffset: selectionState.getAnchorOffset(),
@@ -42,9 +38,18 @@ export const PlaceholderControl = ({
             const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
             const modifiedContent = Modifier.insertText(contentState, selection, `\${${key}}`, null, entityKey);
 
-            setEditorState(EditorState.push(state, modifiedContent, 'apply-entity'));
+            // Add placeholder to state and force selection after the placeholder
+            setEditorState(
+                EditorState.forceSelection(
+                    EditorState.push(state, modifiedContent, 'apply-entity'),
+                    SelectionState.createEmpty(selectionState.getStartKey()).merge({
+                        anchorOffset: selection.getAnchorOffset() + `\${${key}}`.length,
+                        focusOffset: selection.getFocusOffset() + `\${${key}}`.length,
+                    }),
+                ),
+            );
         },
-        [disabled],
+        [disabled, selectionState, getEditorState],
     );
 
     return (

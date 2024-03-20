@@ -23,6 +23,8 @@ function buildAgencyDataRequestBody(consultingTypeResponseId: string | number, f
         offline: formData.offline,
         demographics: formData.demographics,
         counsellingRelations: formData.counsellingRelations,
+        dataProtection: formData.dataProtection,
+        agencyLogo: formData.agencyLogo,
     });
 }
 

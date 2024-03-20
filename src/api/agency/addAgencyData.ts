@@ -10,7 +10,7 @@ function buildAgencyDataRequestBody(consultingTypeResponseId: string | number, f
         .filter((id) => !Number.isNaN(Number(id)));
     return JSON.stringify({
         // diocese in case of SAAS is not relevant object but enforced by API
-        dioceseId: formData.dioceseId ? parseInt(formData.dioceseId, 10) : 0,
+        // dioceseId: formData.dioceseId ? parseInt(formData.dioceseId, 10) : 0,
         name: formData.name,
         description: formData.description ? formData.description : '',
         topicIds,

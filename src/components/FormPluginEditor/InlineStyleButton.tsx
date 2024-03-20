@@ -1,7 +1,6 @@
-/* eslint-disable react/no-children-prop */
 import clsx from 'clsx';
-import { EditorState, RichUtils } from 'draft-js';
-import React, { MouseEvent, ReactNode, useCallback, useMemo } from 'react';
+import { RichUtils } from 'draft-js';
+import React, { MouseEvent, ReactNode, useCallback } from 'react';
 import { DraftJsStyleButtonProps } from '@draft-js-plugins/buttons';
 import { Button } from 'antd';
 import { ButtonType } from 'antd/lib/button/button';
@@ -13,7 +12,7 @@ interface ButtonProps extends DraftJsStyleButtonProps {
 interface CreateInlineStyleButtonProps extends Omit<DraftJsStyleButtonProps, 'buttonProps'> {
     inlineStyle: string;
     children: ReactNode;
-    editorState: EditorState;
+    active: boolean;
     buttonProps?: ButtonProps;
 }
 
@@ -23,29 +22,25 @@ const InlineStyleButton = ({
     theme,
     buttonProps,
     setEditorState,
-    editorState,
+    getEditorState,
+    active,
 }: CreateInlineStyleButtonProps) => {
     const toggleStyle = useCallback(
         (event: MouseEvent): void => {
             event.preventDefault();
-            setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle));
+            setEditorState(RichUtils.toggleInlineStyle(getEditorState(), inlineStyle));
         },
-        [editorState, setEditorState],
+        [getEditorState, setEditorState],
     );
 
     const preventBubblingUp = useCallback((event: MouseEvent): void => {
         event.preventDefault();
     }, []);
 
-    const styleIsActive = useMemo((): boolean => {
-        return editorState && editorState.getCurrentInlineStyle().has(inlineStyle);
-    }, [editorState]);
-
-    const className = styleIsActive ? clsx(theme.button, theme.active) : theme.button;
+    const className = active ? clsx(theme.button, theme.active) : theme.button;
 
     return (
         <Button
-            children={children}
             className={className}
             onMouseDown={preventBubblingUp}
             onClick={toggleStyle}
@@ -53,7 +48,9 @@ const InlineStyleButton = ({
             role="button"
             aria-label={`${inlineStyle} text`}
             {...buttonProps}
-        />
+        >
+            {children}
+        </Button>
     );
 };
 export default InlineStyleButton;

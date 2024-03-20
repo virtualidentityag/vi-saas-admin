@@ -16,8 +16,8 @@ import styles from './styles.module.scss';
 import { CounsellingRelation } from '../../../../../enums/CounsellingRelation';
 import { ReleaseToggle } from '../../../../../enums/ReleaseToggle';
 import { useReleasesToggle } from '../../../../../hooks/useReleasesToggle.hook';
-import { useTenantsData } from '../../../../../hooks/useTenantsData';
 import { useUserRoles } from '../../../../../hooks/useUserRoles.hook';
+import { searchTenantData } from '../../../../../api/tenant/searchTenantData';
 
 interface AgencySettingsProps {
     isEditMode: boolean;
@@ -36,8 +36,8 @@ export const AgencySettings = ({ isEditMode }: AgencySettingsProps) => {
     const { isEnabled } = useFeatureContext();
     const { isSuperAdmin } = useUserRoles();
     const { isEnabled: isReleaseToggleEnabled } = useReleasesToggle();
+    const [tenantsData, setTenantsData] = useState([]);
     const { data: topics, isLoading: isLoadingTopics } = useTenantTopics(true);
-    const { data: tenantsData, isLoading: isLoadingTenants } = useTenantsData({ perPage: 1000 });
     const topicsForList = topics?.filter(({ id }) => !topicIds.find(({ value }) => value === `${id}`));
     const gendersForList = Object.values(Gender).filter((name) => !genders.find(({ value }) => value === `${name}`));
     const counsellingRelationsForList = Object.values(CounsellingRelation).filter(
@@ -49,16 +49,20 @@ export const AgencySettings = ({ isEditMode }: AgencySettingsProps) => {
             getConsultingTypes().then((cTypes) => setConsultingTypes(cTypes));
             getDiocesesData().then((dioceses) => setDiocesesData(dioceses));
         }
+
+        if (isSuperAdmin) {
+            searchTenantData({ perPage: 1000 }).then(({ data }) => setTenantsData(data));
+        }
     }, []);
 
     return (
-        <Card isLoading={isLoadingTopics || isLoadingTenants} titleKey="agency.edit.settings.title">
-            {isSuperAdmin && tenantsData?.data?.length > 0 && (
+        <Card isLoading={isLoadingTopics} titleKey="agency.edit.settings.title">
+            {isSuperAdmin && (
                 <SelectFormField
                     label="agency.edit.general.more_settings.tenant.title"
                     name="tenantId"
                     placeholder="plsSelect"
-                    options={convertToOptions(tenantsData.data, 'name', 'id')}
+                    options={convertToOptions(tenantsData, 'name', 'id')}
                     disabled={isEditMode}
                 />
             )}

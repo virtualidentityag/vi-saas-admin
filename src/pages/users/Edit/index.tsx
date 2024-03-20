@@ -14,7 +14,6 @@ import { Resource } from '../../../enums/Resource';
 import { TypeOfUser } from '../../../enums/TypeOfUser';
 import { useAddOrUpdateConsultantOrAdmin } from '../../../hooks/useAddOrUpdateConsultantOrAgencyAdmin';
 import { useAgenciesData } from '../../../hooks/useAgencysData';
-import { useTenantsData } from '../../../hooks/useTenantsData';
 import { useConsultantsOrAdminsData } from '../../../hooks/useConsultantsOrAdminsData';
 import { useUserPermissions } from '../../../hooks/useUserPermission';
 import { convertToOptions } from '../../../utils/convertToOptions';
@@ -25,6 +24,8 @@ import { FeatureFlag } from '../../../enums/FeatureFlag';
 import styles from './styles.module.scss';
 import { useUserRoles } from '../../../hooks/useUserRoles.hook';
 import { parseUserAuthInfo } from '../../../utils/parseUserAuthInfo';
+import { searchTenantData } from '../../../api/tenant/searchTenantData';
+import { getSingleTenantData } from '../../../api/tenant/getSingleTenantData';
 
 export const UserEditOrAdd = () => {
     const navigate = useNavigate();
@@ -41,20 +42,25 @@ export const UserEditOrAdd = () => {
         enabled: !!id,
     });
     const { data: agenciesData, isLoading } = useAgenciesData({ pageSize: 10000 });
-    const { data: tenantsData, isLoading: isLoadingTenants } = useTenantsData({ perPage: 1000 });
 
     const isEditing = id !== 'add';
     const singleData = consultantsResponse?.data.find((c) => c.id === id);
     const [isReadOnly, setReadOnly] = useState(isEditing);
     const [submitted] = useState(false);
+    const [tenantsData, setTenantsData] = useState([]);
     const [userTenantId, setUserTenantId] = useState<number>(0);
     const [filteredAgencies, setFilteredAgencies] = useState([]);
-
     const selectedTenant = Form.useWatch('tenantId', form);
 
     useEffect(() => {
         const { tenantId = 0 } = parseUserAuthInfo();
         setUserTenantId(tenantId);
+
+        if (isSuperAdmin) {
+            searchTenantData({ perPage: 1000 }).then(({ data }) => setTenantsData(data));
+        } else if (tenantId > 0) {
+            getSingleTenantData(tenantId).then((data) => setTenantsData([data]));
+        }
     }, []);
 
     useEffect(() => {
@@ -115,7 +121,7 @@ export const UserEditOrAdd = () => {
     const isAbsentEnabled = useWatch('absent', form);
 
     return (
-        <Page isLoading={isLoadingConsultants || isLoadingTenants || isLoading} stickyHeader>
+        <Page isLoading={isLoadingConsultants || isLoading} stickyHeader>
             <Page.BackWithActions path={`/admin/users/${typeOfUsers}`} titleKey="agency.add.general.headline">
                 {isReadOnly && (
                     <Button type="primary" onClick={() => setReadOnly(false)}>
@@ -198,7 +204,7 @@ export const UserEditOrAdd = () => {
                                 disabled={isReadOnly || isEditing || !isSuperAdmin}
                                 className={styles.select}
                                 label="tenantAdmins.form.tenantAssignment"
-                                options={convertToOptions(tenantsData?.data || [], 'name', 'id')}
+                                options={convertToOptions(tenantsData || [], 'name', 'id')}
                             />
 
                             <SelectFormField

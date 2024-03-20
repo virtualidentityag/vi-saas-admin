@@ -59,7 +59,10 @@ export const UserEditOrAdd = () => {
         if (isSuperAdmin) {
             searchTenantData({ perPage: 1000 }).then(({ data }) => setTenantsData(data));
         } else if (tenantId > 0) {
-            getSingleTenantData(tenantId).then((data) => setTenantsData([data]));
+            getSingleTenantData(tenantId).then((data) => {
+                setTenantsData([data]);
+                form.setFieldsValue({ tenantId: tenantId.toString() });
+            });
         }
     }, []);
 
@@ -119,6 +122,8 @@ export const UserEditOrAdd = () => {
     const onSave = useCallback((data) => mutate(data), []);
     const onCancel = useCallback(() => navigate(`/admin/users/${typeOfUsers}`), []);
     const isAbsentEnabled = useWatch('absent', form);
+
+    console.log({ tenantsData, isSuperAdmin, selectedTenant });
 
     return (
         <Page isLoading={isLoadingConsultants || isLoading} stickyHeader>

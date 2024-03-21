@@ -336,7 +336,7 @@
     "tenantAdmins.title": "Mandanten Admins",
     "tenantAdmins.title.text": "{{userCount}} Mandanten-Admins",
     "tenantAdmins.form.subdomain": "Mandanten Subdomain",
-    "tenantAdmins.form.domainId": "Mandanten ID",
+    "tenantAdmins.form.tenantName": "Mandant",
     "tenantAdmins.form.tenant": "Mandant auswählen",
     "tenantAdmins.form.tenantAssignment": "Mandantenzuordung",
     "tenantAdmins.card.personalDataTitle": "Persönliche Daten des Mandanten Admins",

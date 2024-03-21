@@ -110,8 +110,8 @@ export const TenantsTableData = () => {
         },
         {
             width: 100,
-            title: t('tenantAdmins.form.domainId'),
-            dataIndex: 'tenantId',
+            title: t('tenantAdmins.form.tenantName'),
+            dataIndex: 'tenantName',
             ellipsis: true,
         },
         can([PermissionAction.Update, PermissionAction.Delete], Resource.TenantAdminUser) && {

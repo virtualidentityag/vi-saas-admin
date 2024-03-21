@@ -67,14 +67,21 @@ export const UserEditOrAdd = () => {
     }, []);
 
     useEffect(() => {
-        const agencies =
-            agenciesData?.data?.filter(
-                ({ deleteDate, tenantId }) =>
-                    deleteDate === 'null' && (!selectedTenant || tenantId === parseInt(selectedTenant, 10)),
-            ) || [];
-        setFilteredAgencies(agencies);
-        form.setFieldValue('agencies', []);
+        const filterAgenciesByTenantId = ({ data = [], tenantId }) => {
+            if (!tenantId) return [];
+            return data?.filter(
+                ({ deleteDate, tenantId: agencyTenantId }) =>
+                    deleteDate === 'null' && agencyTenantId === parseInt(tenantId, 10),
+            );
+        };
+
+        setFilteredAgencies(filterAgenciesByTenantId({ data: agenciesData?.data, tenantId: selectedTenant }));
     }, [agenciesData, selectedTenant]);
+
+    useEffect(() => {
+        if (isEditing) return;
+        form.setFieldValue('agencies', []);
+    }, [selectedTenant, isEditing]);
 
     const { mutate } = useAddOrUpdateConsultantOrAdmin({
         id: isEditing ? id : null,
@@ -122,8 +129,6 @@ export const UserEditOrAdd = () => {
     const onSave = useCallback((data) => mutate(data), []);
     const onCancel = useCallback(() => navigate(`/admin/users/${typeOfUsers}`), []);
     const isAbsentEnabled = useWatch('absent', form);
-
-    console.log({ tenantsData, isSuperAdmin, selectedTenant });
 
     return (
         <Page isLoading={isLoadingConsultants || isLoading} stickyHeader>

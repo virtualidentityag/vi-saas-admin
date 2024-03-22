@@ -35,7 +35,6 @@ export const UsersTableData = () => {
     const [openRows, setOpenedRows] = useState([]);
     const [search, setSearch] = useState('');
     const { isSuperAdmin } = useUserRoles();
-    const showTenantColumn = isSuperAdmin && isConsultantTab;
 
     const [tableState, setTableState] = useState<TableState>({
         current: 1,
@@ -147,7 +146,7 @@ export const UsersTableData = () => {
             fixed: 'left',
             className: 'counselorList__column',
         },
-        showTenantColumn && {
+        isSuperAdmin && {
             title: t('tenantName'),
             dataIndex: 'tenantName',
             key: 'tenantName',

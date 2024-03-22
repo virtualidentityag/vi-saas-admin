@@ -64,6 +64,7 @@ export const AgencySettings = ({ isEditMode }: AgencySettingsProps) => {
                     placeholder="plsSelect"
                     options={convertToOptions(tenantsData, 'name', 'id')}
                     disabled={isEditMode}
+                    required
                 />
             )}
 

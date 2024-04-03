@@ -126,7 +126,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                 </li>
                             )}
 
-                            {can(PermissionAction.Read, Resource.Topic) && isEnabled(FeatureFlag.Topics) && (
+                            {/* {can(PermissionAction.Read, Resource.Topic) && isEnabled(FeatureFlag.Topics) && (
                                 <li key="topics" className="menuItem">
                                     <NavLink
                                         to={routePathNames.topics}
@@ -136,7 +136,7 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
                                         <span>{t('topics.title')}</span>
                                     </NavLink>
                                 </li>
-                            )}
+                            )} */}
 
                             {can(PermissionAction.Read, Resource.Statistic) && (
                                 <li key="statistics" className="menuItem">

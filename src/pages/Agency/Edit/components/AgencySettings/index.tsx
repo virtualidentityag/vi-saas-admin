@@ -1,4 +1,4 @@
-import { Form, Typography } from 'antd';
+import { Form } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { useFeatureContext } from '../../../../../context/FeatureContext';
@@ -8,7 +8,6 @@ import { convertToOptions } from '../../../../../utils/convertToOptions';
 import { Option, SelectFormField } from '../../../../../components/SelectFormField';
 import { Card } from '../../../../../components/Card';
 import { SliderFormField } from '../../../../../components/SliderFormField';
-import { FormSwitchField } from '../../../../../components/FormSwitchField';
 import { useTenantTopics } from '../../../../../hooks/useTenantTopics';
 import { getDiocesesData } from '../../../../../api/agency/getDiocesesData';
 import getConsultingTypes from '../../../../../api/consultingtype/getConsultingTypes';
@@ -133,15 +132,6 @@ export const AgencySettings = ({ isEditMode }: AgencySettingsProps) => {
                     }))}
                 />
             )}
-
-            <FormSwitchField
-                inline
-                disableLabels
-                labelKey="agency.form.settings.teamAdviceCenter.title"
-                name="teamAgency"
-            />
-
-            <Typography.Paragraph>{t('agency.form.settings.teamAdviceCenter.description')}</Typography.Paragraph>
         </Card>
     );
 };

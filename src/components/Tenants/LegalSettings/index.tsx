@@ -96,7 +96,7 @@ export const LegalSettings = ({ tenantId, disableManageToggle }: LegalSettingsPr
                     subTitle={t<string>('imprint.subTitle')}
                     placeHolderKey="settings.imprint.placeholder"
                 />
-                <LegalText
+                {/* <LegalText
                     tenantId={finalTenantId}
                     fieldName={['content', 'termsAndConditions']}
                     titleKey="termsAndConditions.title"
@@ -109,7 +109,7 @@ export const LegalSettings = ({ tenantId, disableManageToggle }: LegalSettingsPr
                         okLabelKey: 'termsAndConditions.confirmation.cancel',
                         field: ['content', 'confirmTermsAndConditions'],
                     }}
-                />
+                /> */}
             </Col>
             <Col span={12} sm={6}>
                 {LegalTextElement}

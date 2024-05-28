@@ -34,5 +34,5 @@ export const useAgencyLegalDataMissing = (agencyData: AgencyData) => {
                 hasMissingDataProtectionOfficerContact ||
                 hasMissingAlternativeDataProtectionRepresentativeContact)
         );
-    }, [agencyData, isEnabled]);
+    }, [agencyData]);
 };

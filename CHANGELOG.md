@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/virtualidentityag/vi-saas-admin/compare/v0.2.1...v0.2.2) (2024-07-01)
+
+
+### Bug Fixes
+
+* remove label until xs and reset fix label width ([6ae9cea](https://github.com/virtualidentityag/vi-saas-admin/commit/6ae9ceab5c692d4d65245560ba7a3b25ee42706d))
+
 ### 0.2.1 (2024-03-20)
 
 

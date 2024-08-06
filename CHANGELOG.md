@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.3](https://github.com/virtualidentityag/vi-saas-admin/compare/v0.2.2...v0.2.3) (2024-08-06)
+
+
+### Features
+
+* **supported-languages:** add missing lang ([5192340](https://github.com/virtualidentityag/vi-saas-admin/commit/5192340bfe39f693bdd1e33dc83e9eac88471c96))
+* **translation:** added missing language keys ([0f8e67e](https://github.com/virtualidentityag/vi-saas-admin/commit/0f8e67e23c0501703b0b87440eca102c19d5eed4))
+
+
+### Bug Fixes
+
+* **translations:** remove misleading text for secondary color ([872d10d](https://github.com/virtualidentityag/vi-saas-admin/commit/872d10dd1a810f7c7e508d9a3c25c709b5f1c2fc))
+
 ### [0.2.2](https://github.com/virtualidentityag/vi-saas-admin/compare/v0.2.1...v0.2.2) (2024-07-01)
 
 

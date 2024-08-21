@@ -323,6 +323,8 @@
     "tenants.appSettings.otherFunctions.statistics.description": "So können Administratoren und Berater die anonymisierten Registrierungsdaten aller Ratsuchenden exportieren",
     "tenants.appSettings.otherFunctions.groupChat.title": "Gruppen Chat erlauben",
     "tenants.appSettings.otherFunctions.groupChat.description": "Administratoren können Beratern erlauben, Gruppenchats zu erstellen.",
+    "tenants.appSettings.otherFunctions.counsellingRelations.title": "Beratungsgrund nutzen",
+    "tenants.appSettings.otherFunctions.counsellingRelations.description": "Aktivieren Sie diese Funktionalität, um den Beratungsgrund wie z.B. Beratung für eine/n Angehörige/n bei der Registrierung zur Auswahl anzubieten.",
     "tenants.typeOfLanguage.title": "Ansprache",
     "tenants.typeOfLanguage.radio.description": "Sollen die Nutzer eine formelle oder informelle Ansprache vom System bekommen?",
     "tenants.typeOfLanguage.radio.formal": "formelle",

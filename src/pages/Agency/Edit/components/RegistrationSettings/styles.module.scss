@@ -1,12 +1,12 @@
 .radioGroup {
     :global(label) {
-        font-family: 'Nunito';
+        height: auto !important;
+        color: rgb(0 0 0 / 90%);
+        font-family: Nunito;
+        font-size: 16px;
         font-style: normal;
         font-weight: 400;
-        font-size: 16px;
         line-height: 24px;
-        color: rgba(0, 0, 0, 0.9);
-        height: auto !important;
     }
 
     :global(.ant-form-item-control) {

@@ -1,9 +1,9 @@
 .statistic {
     max-width: 635px;
     padding: 16px;
+    border-radius: 8px;
     margin-bottom: 8px;
     background: hsl(0deg 0% 100% / 70%);
-    border-radius: 8px;
 
     &__headline {
         margin-bottom: 20px;
@@ -26,7 +26,7 @@
     }
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (width >= 600px) {
     .box {
         padding: 24px;
         margin-bottom: 16px;

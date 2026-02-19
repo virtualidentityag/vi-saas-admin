@@ -64,7 +64,7 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
             )}
 
             {languages.map((language) =>
-                cloneElement(children, {
+                cloneElement(children as React.ReactElement<any>, {
                     name: [...namePath, language],
                     key: language,
                     className: classNames({

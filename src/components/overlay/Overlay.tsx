@@ -32,7 +32,7 @@ export const OVERLAY_FUNCTIONS = {
 
 export interface OverlayItem {
     buttonSet?: ButtonItem[];
-    copy?: string | JSX.Element;
+    copy?: string | React.JSX.Element;
     headline?: string;
     headlineStyleLevel?: HeadlineLevel;
     illustrationBackground?: 'error' | 'neutral' | 'info';

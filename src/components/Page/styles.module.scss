@@ -6,8 +6,8 @@
 .stickyHeaderPage {
     .content {
         padding-top: 0;
-        padding-left: 0;
         padding-right: 0;
+        padding-left: 0;
     }
 
     .back + *,
@@ -18,16 +18,16 @@
     .back,
     .pageTitleContainer {
         position: sticky;
-        background: #f2efea;
         z-index: 900;
-        padding: 25px;
         top: 0;
+        padding: 25px;
+        background: #f2efea;
     }
 }
 
 .content {
-    padding: 25px;
     width: 100%;
+    padding: 25px;
 }
 
 .tabsContainer {
@@ -47,16 +47,16 @@
         }
     }
 
-    @media screen and (max-width: 800px) {
+    @media screen and (width <= 800px) {
         padding: 20px 0;
     }
 }
 
 .tab {
+    display: inline-flex;
     border-bottom: 4px solid transparent;
     font-size: 16px;
     line-height: 24px;
-    display: inline-flex;
 }
 
 .tabIcon {
@@ -67,11 +67,11 @@
     display: flex;
     flex-direction: column;
 
-    @media screen and (max-width: 770px) {
+    @media screen and (width <= 770px) {
         width: 100%;
     }
 
-    @media screen and (max-width: 800px) {
+    @media screen and (width <= 800px) {
         padding-right: 0;
     }
 
@@ -86,11 +86,11 @@
 .backWithTabs {
     width: 25%;
 
-    @media screen and (max-width: 770px) {
+    @media screen and (width <= 770px) {
         width: 100%;
     }
 
-    @media screen and (max-width: 800px) {
+    @media screen and (width <= 800px) {
         padding-right: 0;
     }
 }
@@ -111,7 +111,7 @@
     justify-content: space-between;
     padding-bottom: 32px;
 
-    @media (max-width: 650px) {
+    @media (width <= 650px) {
         flex-direction: column;
     }
 }

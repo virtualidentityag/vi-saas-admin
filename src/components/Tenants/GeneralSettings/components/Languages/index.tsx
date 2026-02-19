@@ -26,7 +26,7 @@ export const Languages = ({ tenantId }: { tenantId: string }) => {
                 isLoading={isLoading}
                 initialValues={{ ...data }}
                 titleKey="organisations.language"
-                subTitle={t<string>('organisations.languageSubtitle')}
+                subTitle={t('organisations.languageSubtitle')}
                 onSave={mutate}
                 formProp={form}
             >

@@ -12,7 +12,7 @@ interface AppConfigContextInterface {
 const UseAppConfigContext =
     React.createContext<[AppConfigInterface, React.Dispatch<React.SetStateAction<AppConfigInterface>>]>(null);
 
-const UseAppConfigProvider = ({ children }: { children?: React.ReactChild | React.ReactChild[] }) => {
+const UseAppConfigProvider = ({ children }: { children?: React.ReactNode | React.ReactNode[] }) => {
     const state = React.useState<AppConfigInterface>({
         useApiClusterSettings: clusterFeatureFlags.useApiClusterSettings,
         useConsultingTypesForAgencies: featureFlags.useConsultingTypesForAgencies,

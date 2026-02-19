@@ -28,8 +28,11 @@ const mergeData = (currentTenantData: TenantAdminData, formData) => {
     return finalData;
 };
 
-interface TenantAdminDataOptions
-    extends UseMutationOptions<Partial<TenantAdminData>, unknown, Partial<TenantAdminData>> {
+interface TenantAdminDataOptions extends UseMutationOptions<
+    Partial<TenantAdminData>,
+    unknown,
+    Partial<TenantAdminData>
+> {
     id: string | number;
     successMessageKey?: string;
 }

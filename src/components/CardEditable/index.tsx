@@ -14,7 +14,7 @@ interface CardEditableProps {
     fullHeight?: boolean;
     initialValues?: Record<string, unknown>;
     titleKey: string;
-    subTitle?: React.ReactChild;
+    subTitle?: React.ReactNode;
     subTitleKey?: string;
     saveKey?: string;
     cancelKey?: string;
@@ -29,7 +29,7 @@ interface CardEditableProps {
     hideCancelButton?: boolean;
     tooltip?: string;
     allowUnsavedChanges?: boolean;
-    editButton?: React.ReactChild;
+    editButton?: React.ReactNode;
 }
 
 export const CardEditable = ({

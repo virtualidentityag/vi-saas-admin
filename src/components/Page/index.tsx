@@ -10,23 +10,23 @@ import styles from './styles.module.scss';
 interface PageProps {
     isLoading?: boolean;
     stickyHeader?: boolean;
-    children?: React.ReactChild | React.ReactChild[];
+    children?: React.ReactNode | React.ReactNode[];
 }
 
 interface PageTitleProps {
     titleKey: string;
     subTitleKey?: string;
-    subTitle?: React.ReactChild;
-    children?: React.ReactChild | React.ReactChild[];
+    subTitle?: React.ReactNode;
+    children?: React.ReactNode | React.ReactNode[];
     tabs?: Array<{ to: string; titleKey }>;
 }
 
 interface PageBackProps {
-    title?: React.ReactChild;
+    title?: React.ReactNode;
     titleKey?: string;
     path: string;
-    children?: React.ReactChild | React.ReactChild[];
-    tabs?: Array<{ to: string; titleKey: string; icon?: JSX.Element }>;
+    children?: React.ReactNode | React.ReactNode[];
+    tabs?: Array<{ to: string; titleKey: string; icon?: React.JSX.Element }>;
 }
 
 export const Page = ({ children, stickyHeader, isLoading }: PageProps) => {
@@ -42,7 +42,7 @@ export const Page = ({ children, stickyHeader, isLoading }: PageProps) => {
     );
 };
 
-const PageTabs = ({ tabs }: { tabs: Array<{ to: string; titleKey; icon?: JSX.Element }> }) => {
+const PageTabs = ({ tabs }: { tabs: Array<{ to: string; titleKey; icon?: React.JSX.Element }> }) => {
     const { t } = useTranslation();
 
     return (

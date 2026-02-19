@@ -4,8 +4,12 @@ import { tenantAdminEndpoint } from '../appConfig';
 import { TenantAdminData } from '../types/TenantAdminData';
 import { useSingleTenantData } from './useSingleTenantData';
 
-interface UseAddOrUpdateTenantOptions
-    extends UseMutationOptions<TenantAdminData, Error, TenantAdminData, Error | Response> {
+interface UseAddOrUpdateTenantOptions extends UseMutationOptions<
+    TenantAdminData,
+    Error,
+    TenantAdminData,
+    Error | Response
+> {
     id?: string;
 }
 

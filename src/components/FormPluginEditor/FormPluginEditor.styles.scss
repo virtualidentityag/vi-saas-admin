@@ -14,22 +14,22 @@
 
 .RichEditor {
     &-root {
-        background: #fff;
-        border-color: #0009 !important;
+        border-color: #00000099 !important;
+        background: #ffffff;
         font-size: 14px;
     }
 
     &-editor {
+        overflow: auto;
+        height: 400px;
+        padding: 30px;
         cursor: text;
         font-size: 16px;
-        padding: 30px;
-        height: 400px;
-        overflow: auto;
 
         .public-DraftEditorPlaceholder-root,
         .public-DraftEditor-content {
-            margin: 0 -15px -15px;
             padding: 0 15px;
+            margin: 0 -15px -15px;
         }
 
         .public-DraftEditor-content {
@@ -37,19 +37,19 @@
         }
 
         .RichEditor-blockquote {
-            border-left: 5px solid #eee;
-            color: #666;
-            font-family: 'Hoefler Text', 'Georgia', serif;
-            font-style: italic;
-            margin: 16px 0;
             padding: 10px 20px;
+            border-left: 5px solid #eeeeee;
+            margin: 16px 0;
+            color: #666666;
+            font-family: 'Hoefler Text', Georgia, serif;
+            font-style: italic;
         }
 
         .public-DraftStyleDefault-pre {
-            background-color: rgba(0, 0, 0, 0.05);
-            font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;
-            font-size: 16px;
             padding: 20px;
+            background-color: rgb(0 0 0 / 5%);
+            font-family: Inconsolata, Menlo, Consolas, monospace;
+            font-size: 16px;
         }
     }
 
@@ -68,7 +68,7 @@
 
         &-placeholder {
             &-tooltip .ant-tooltip-inner {
-                color: #000;
+                color: #000000;
             }
         }
 
@@ -83,7 +83,7 @@
     &-controls {
         width: 100%;
         padding: 15px 20px;
-        border-bottom: 1px solid #0009;
+        border-bottom: 1px solid #00000099;
     }
 
     &-control-group,
@@ -97,13 +97,13 @@
 
     &-controls,
     &-control-group {
-        font-family: 'Helvetica', sans-serif;
-        font-size: 14px;
-        user-select: none;
         display: flex;
         flex-direction: row;
-        justify-content: stretch;
         align-items: center;
+        justify-content: stretch;
+        font-family: Helvetica, sans-serif;
+        font-size: 14px;
+        user-select: none;
     }
 
     &-controls {
@@ -119,18 +119,18 @@
     }
 
     &-styleButton {
-        color: #999;
-        cursor: pointer;
-        margin-right: 16px;
-        padding: 2px 0;
         display: inline-block;
         width: 100%;
+        padding: 2px 0;
         border-radius: 5px;
+        margin-right: 16px;
+        color: #999999;
+        cursor: pointer;
         font-weight: bold;
         text-align: center;
     }
 
     &-activeButton {
-        background: rgba(0, 0, 0, 0.1);
+        background: rgb(0 0 0 / 10%);
     }
 }

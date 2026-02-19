@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 
 interface FormSwitchFieldProps {
     labelKey?: string;
-    label?: React.ReactChild;
+    label?: React.ReactNode;
     name: string | string[];
     help?: string;
     disabled?: boolean;

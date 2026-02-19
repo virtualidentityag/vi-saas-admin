@@ -1,7 +1,6 @@
 // FONTS
-$font-family-sans-serif: Nunito;
-$font-family-divider: RobotoSlab, serif;
-
+$font-family-sans-serif: nunito;
+$font-family-divider: robotoslab, serif;
 $font-weight-light: 300;
 $font-weight-regular: 400;
 $font-weight-medium: 500;
@@ -13,23 +12,20 @@ $font-weight-bold: 700;
 $z-index-component-xyz: 1;
 
 // COLORS
-$white: #fff;
-$white-50-opacity: rgba(255, 255, 255, 0.5);
-$black: #000;
-$black-25-opacity: rgba(0, 0, 0, 0.25);
-$black-10-opacity: rgba(0, 0, 0, 0.1);
+$white: #ffffff;
+$white-50-opacity: rgb(255 255 255 / 50%);
+$black: #000000;
+$black-25-opacity: rgb(0 0 0 / 25%);
+$black-10-opacity: rgb(0 0 0 / 10%);
 $primary: #273270;
 $secondary: #3f373f;
 $tertiary: rgba($black, 0.6);
 $background-accent: #f8dedd;
-
 $hover-primary: #525b8d;
 $hover-select: #f4d2d1;
-
 $background-light: #f4f0ee;
 $background-lighter: #faf6f3;
 $background-grey: #677391;
-
 $form-primary: #8c878c;
 $form-secondary: #3f373f;
 $form-success: #0dcd21;
@@ -37,7 +33,6 @@ $form-medium: #ff9f00;
 $form-error: #cc0000;
 $form-disabled: #c4bfc4;
 $form-active: #3f373f;
-
 $light-grey: #787378;
 $light-grey-hover: #655f65;
 $light-red: #e07876;
@@ -54,7 +49,6 @@ $yellow-3: #ffdca3;
 $yellow-4: #febd50;
 $yellow-5: #ff9f00;
 $yellow-6: #de8a00;
-
 $message-name-self: $form-primary;
 $message-name-system: var(--skin-color-default, $primary);
 $message-name-consultant: var(--skin-color-default, $primary);
@@ -68,21 +62,16 @@ $font-size-h2: 30px;
 $font-size-h3: 24px;
 $font-size-h4: 20px;
 $font-size-h5: 16px;
-
 $font-size-super-large: 60px;
-
 $font-size-super-mobile: 40px;
 $font-size-h1-mobile: 32px;
-
 $font-size-primary: 16px;
 $font-size-secondary: 12px;
 $font-size-tertiary: 14px;
-
 $line-height-primary: 21px;
 $line-height-secondary: 16px;
 $line-height-tertiary: 32px;
 $line-height-quaternary: 26px;
-
 $font-size-subheadline: 20px;
 
 // BODY STYLES
@@ -106,7 +95,7 @@ $fromXXLarge: 1600px;
 
 // $breakpoints map removed (was Less-specific syntax)
 
-//biotope breakpoints
+// biotope breakpoints
 $xsmall: 320px;
 $large: 1280px;
 $xlarge: 1350px;
@@ -146,8 +135,8 @@ $section_margin_top_xlarge: 80px;
 // Components
 $button-auto-close-color: $light-red;
 $button-border-radius: $grid-base-three;
-$button-box-shadow-default: 0 6px 0 0 rgba(0, 0, 0, 0.1);
-$button-box-shadow-grey: 0 3px 0 0 rgba(0, 0, 0, 0.1);
+$button-box-shadow-default: 0 6px 0 0 rgb(0 0 0 / 10%);
+$button-box-shadow-grey: 0 3px 0 0 rgb(0 0 0 / 10%);
 $button-small-icon-background-color-default: $light-grey;
 $button-small-icon-border-radius: none;
 $button-small-icon-alternate-background-color: $light-grey;
@@ -167,11 +156,11 @@ $form-input-border: #dcd9dc;
 $further-steps-step-info-text-align: center;
 $headline-1-font-weight: $font-weight-medium;
 $headline-2-font-weight: $font-weight-medium;
-$illustration-background-error: rgba(255, 0, 0, 0.08);
-$illustration-background-info: rgba(79, 204, 92, 0.12);
-$illustration-background-neutral: rgba(53, 58, 74, 0.1);
+$illustration-background-error: rgb(255 0 0 / 8%);
+$illustration-background-info: rgb(79 204 92 / 12%);
+$illustration-background-neutral: rgb(53 58 74 / 10%);
 $input-field-border-radius: 25px;
-$input-field-box-shadow: inset 0 2px 0 0 rgba(0, 0, 0, 0.1);
+$input-field-box-shadow: inset 0 2px 0 0 rgb(0 0 0 / 10%);
 $input-field-height: 50px;
 $legal-information-links-left-medium: auto;
 $legal-information-links-left-large: auto;
@@ -226,16 +215,16 @@ $text-divider-text-transform: none;
 $upload-progress: #80dd92;
 $welcome-screen-icon-background: $background-accent;
 $notice-background: transparent;
-$notice-border: 1px solid rgba(0, 0, 0, 0.2);
+$notice-border: 1px solid rgb(0 0 0 / 20%);
 $notice-padding: $grid-base-two;
 $tab-border-radius: 25px;
-$tab-background-color: rgba(0, 0, 0, 0.05);
-$tab-background-color-hover: rgba(0, 0, 0, 0.2);
+$tab-background-color: rgb(0 0 0 / 5%);
+$tab-background-color-hover: rgb(0 0 0 / 20%);
 $tab-background-color-selected: rgba($primary, 0.2);
 $tab-background-color-selected-hover: rgba($hover-primary, 0.2);
 $tab-background-border-color-selected: $primary;
 $tab-color: $tertiary;
-$tab-color-hover: rgba(0, 0, 0, 0.8);
+$tab-color-hover: rgb(0 0 0 / 80%);
 $tab-color-selected: $primary;
 $overlay-radio-outline: 1px solid #8c878c;
 $overlay-radio-radius: 25px;
@@ -245,7 +234,7 @@ $message-wrapper-height: 109px;
 // Mixins
 @mixin rounded-drop-shadow {
     border-radius: 4px;
-    box-shadow: 0 3px 0 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 0 1px rgb(0 0 0 / 10%);
 }
 
 @mixin no-sticky-cell-left {

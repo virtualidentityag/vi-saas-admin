@@ -1,6 +1,6 @@
 import { Col, Row } from 'antd';
 import { useTranslation } from 'react-i18next';
-import Paragraph from 'antd/lib/typography/Paragraph';
+import Paragraph from 'antd/es/typography/Paragraph';
 import { Card } from '../../../../../components/Card';
 import { FormInputField } from '../../../../../components/FormInputField';
 

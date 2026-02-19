@@ -1,6 +1,6 @@
 import { message, Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
-import Title from 'antd/lib/typography/Title';
+import Title from 'antd/es/typography/Title';
 import deleteAgencyData from '../../../../api/agency/deleteAgencyData';
 import { AgencyData } from '../../../../types/agency';
 

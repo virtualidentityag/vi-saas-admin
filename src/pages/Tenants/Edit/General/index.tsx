@@ -2,7 +2,7 @@ import { Button, Col, Form, notification, Row } from 'antd';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { useForm } from 'antd/lib/form/Form';
+import { useForm } from 'antd/es/form/Form';
 import { useState } from 'react';
 import { FormInputField } from '../../../../components/FormInputField';
 import { FormInputNumberField } from '../../../../components/FormInputNumberField';

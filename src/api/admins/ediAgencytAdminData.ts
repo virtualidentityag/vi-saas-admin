@@ -1,4 +1,4 @@
-import { LabeledValue } from 'antd/lib/select';
+import { LabeledValue } from 'antd/es/select';
 import { CounselorData } from '../../types/counselor';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
 import { agencyAdminEndpoint } from '../../appConfig';

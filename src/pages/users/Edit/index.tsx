@@ -1,5 +1,5 @@
 import { message, Space } from 'antd';
-import { useForm, useWatch } from 'antd/lib/form/Form';
+import { useForm, useWatch } from 'antd/es/form/Form';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';

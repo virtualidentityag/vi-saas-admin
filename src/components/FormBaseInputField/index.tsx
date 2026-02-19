@@ -1,5 +1,5 @@
 import { Form, InputProps } from 'antd';
-import { Rule } from 'antd/lib/form';
+import { Rule } from 'antd/es/form';
 import DisabledContext from 'antd/es/config-provider/DisabledContext';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';

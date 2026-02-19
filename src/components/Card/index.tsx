@@ -1,5 +1,5 @@
 import { Spin } from 'antd';
-import Title from 'antd/lib/typography/Title';
+import Title from 'antd/es/typography/Title';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Box } from '../Box';

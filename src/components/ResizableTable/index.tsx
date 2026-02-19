@@ -1,5 +1,5 @@
 import { Table as AntTable } from 'antd';
-import { ColumnProps, TableProps } from 'antd/lib/table';
+import { ColumnProps, TableProps } from 'antd/es/table';
 import classNames from 'classnames';
 import { useCallback, useState } from 'react';
 import ResizableTitle from './Resizable/Resizable';

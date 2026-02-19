@@ -12,6 +12,6 @@ export const translationService = {
      * @returns The translated string
      */
     translate: (key: string, params?: Record<string, any>): string => {
-        return i18n.t(key, params);
+        return i18n.t(key, params) as string;
     },
 };

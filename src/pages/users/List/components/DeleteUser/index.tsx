@@ -1,5 +1,5 @@
 import { message, Modal, notification, Checkbox } from 'antd';
-import Title from 'antd/lib/typography/Title';
+import Title from 'antd/es/typography/Title';
 import { useTranslation } from 'react-i18next';
 import { useCallback, useState } from 'react';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';

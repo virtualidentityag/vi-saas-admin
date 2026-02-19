@@ -13,7 +13,7 @@ export const getDiocesesData = () => {
         skipAuth: false,
         responseHandling: [],
     }).then((result) => {
-        // eslint-disable-next-line no-underscore-dangle
+         
         return result?._embedded;
     });
 };

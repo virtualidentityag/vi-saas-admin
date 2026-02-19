@@ -37,7 +37,7 @@ export const editAgencyAdminData = async (id: string, formData: AdminData): Prom
                 }
                 return response.json();
             })
-            // eslint-disable-next-line no-underscore-dangle
+             
             .then((data: { _embedded: CounselorData }) => data?._embedded)
     );
 };

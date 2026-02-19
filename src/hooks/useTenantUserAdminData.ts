@@ -18,7 +18,7 @@ export const useTenantUserAdminData = ({ id, ...options }: ConsultantsDataProps)
                 method: FETCH_METHODS.GET,
                 skipAuth: false,
                 responseHandling: [],
-                // eslint-disable-next-line no-underscore-dangle
+                 
             }).then((result: HalResponse<CounselorData>) => result?._embedded as CounselorData);
         },
         options as QueryOptions<CounselorData>,

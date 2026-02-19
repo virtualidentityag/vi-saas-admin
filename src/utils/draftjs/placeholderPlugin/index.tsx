@@ -14,7 +14,7 @@ const findWithRegex = (regex, contentBlock, placeholders, callback) => {
     const text = contentBlock.getText();
     let matchArr;
     let start;
-    // eslint-disable-next-line no-cond-assign
+     
     while ((matchArr = regex.exec(text)) !== null) {
         const placeholderKey = text.substring(matchArr.index + 2, matchArr.index + matchArr[0].length - 1);
         if (!placeholders?.[placeholderKey]) {

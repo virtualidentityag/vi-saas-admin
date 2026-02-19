@@ -1,4 +1,3 @@
-/* eslint-disable  @typescript-eslint/ban-types */
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import * as ReactDOM from 'react-dom';
@@ -66,7 +65,7 @@ export const Overlay = (props: {
 
     useEffect(() => {
         setActiveOverlay(props.item ? { ...props.item, ...props.handleOverlay } : props.items?.[activeStep]);
-    }, [props.item, props.items]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [props.item, props.items]);  
 
     useEffect(() => {
         document.querySelector('.app')?.classList.add('app--blur');
@@ -140,7 +139,7 @@ export const Overlay = (props: {
                                             'overlay__step--active': i === activeStep,
                                             'overlay__step--disabled': i > activeStep,
                                         })}
-                                        key={i} // eslint-disable-line react/no-array-index-key
+                                        key={i}  
                                     >
                                         <div className="overlay__stepContent">
                                             <div className="overlay__stepIcon">
@@ -185,7 +184,7 @@ export const Overlay = (props: {
                             <Button
                                 disabled={item.disabled}
                                 item={item}
-                                key={`${i}-${item.type}`} // eslint-disable-line react/no-array-index-key
+                                key={`${i}-${item.type}`}  
                                 buttonHandle={handleButtonClick}
                             />
                         ))}

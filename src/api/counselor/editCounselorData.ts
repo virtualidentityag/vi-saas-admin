@@ -54,7 +54,7 @@ export const editCounselorData = async (id: string, formData: CounselorData): Pr
                 }
                 return response.json();
             })
-            // eslint-disable-next-line no-underscore-dangle
+             
             .then((data: { _embedded: CounselorData }) => data?._embedded)
     );
 };

@@ -14,7 +14,7 @@ const getAgencyByCounselorData = (counselorId: string) => {
         skipAuth: false,
         responseHandling: [FETCH_ERRORS.CATCH_ALL],
     }).then((rawAgencies) => {
-        // eslint-disable-next-line no-underscore-dangle
+         
         return [...removeEmbedded(rawAgencies).data];
     });
 };

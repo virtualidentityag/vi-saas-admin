@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/interactive-supports-focus */
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 
 import { Resizable } from 'react-resizable';
 

@@ -19,7 +19,7 @@ function getComplentaryColor(color: string) {
     const b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
 
     // pad each with zeros and return
-    // eslint-disable-next-line consistent-return
+     
     return `#${padZero(r)}${padZero(g)}${padZero(b)}`;
 }
 

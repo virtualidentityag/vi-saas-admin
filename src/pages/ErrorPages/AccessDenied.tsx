@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import PublicPageLayoutWrapper from '../../components/Layout/PublicPageLayoutWrapper';
 import { UserRole } from '../../enums/UserRole';
 import { useUserRoles } from '../../hooks/useUserRoles.hook';
-import { ReactComponent as UnauthorizedIcon } from '../../resources/img/illustrations/unauthorized.svg';
+import UnauthorizedIcon from '../../resources/img/illustrations/unauthorized.svg?react';
 import styles from './styles.module.scss';
 
 export const AccessDenied = () => {

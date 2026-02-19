@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { ButtonItem, Button } from '../button/Button';
 import { Text } from '../text/Text';
 import { Headline, HeadlineLevel } from '../headline/Headline';
-import { ReactComponent as XIcon } from '../../resources/img/svg/x.svg';
+import XIcon from '../../resources/img/svg/x.svg?react';
 
 export const OVERLAY_FUNCTIONS = {
     CLOSE: 'CLOSE',
@@ -114,6 +114,7 @@ export const Overlay = (props: {
     };
 
     const illustration = activeOverlay.svg;
+    const Illustration = illustration;
     return (
         <div
             className={clsx(
@@ -163,7 +164,7 @@ export const Overlay = (props: {
                                 'overlay__illustration--neutral': activeOverlay.illustrationBackground === 'neutral',
                             })}
                         >
-                            {illustration}
+                            {Illustration && <Illustration />}
                         </span>
                     </div>
                 )}

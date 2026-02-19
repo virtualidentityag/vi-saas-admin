@@ -129,19 +129,6 @@ $two-factor-auth-overlay-buttons-margin-right: auto;
                 display: none;
             }
         }
-
-        display: flex;
-        margin-top: $grid-base-three;
-
-        .twoFactorAuth__qrCode,
-        .twoFactorAuth__key {
-            width: 50%;
-            flex-shrink: 0;
-        }
-
-        .text__divider {
-            display: none;
-        }
     }
 
     &__qrCode {

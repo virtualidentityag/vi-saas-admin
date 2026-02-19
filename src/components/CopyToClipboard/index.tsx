@@ -2,7 +2,7 @@ import { notification } from 'antd';
 import classNames from 'classnames';
 import { CopyToClipboard as LibCopyToClipboard } from 'react-copy-to-clipboard';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as CopyIcon } from '../../resources/img/svg/copy.svg';
+import CopyIcon from '../../resources/img/svg/copy.svg?react';
 import styles from './styles.module.scss';
 
 interface CopyToClipboardProps {

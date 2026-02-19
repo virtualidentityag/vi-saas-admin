@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from '@ant-design/icons';
-import { ReactComponent as ChevronUp } from '../../resources/img/svg/chevron-up.svg';
+import ChevronUp from '../../resources/img/svg/chevron-up.svg?react';
 
 const CustomChevronUpIcon = (props: any) => {
     // eslint-disable-next-line react/jsx-props-no-spreading

@@ -22,13 +22,6 @@ export default ({ mode }) => {
                 fix: process.env.NODE_ENV === 'development',
             }),
         ],
-        css: {
-            preprocessorOptions: {
-                less: {
-                    javascriptEnabled: true,
-                },
-            },
-        },
         build: {
             outDir: 'build',
         },

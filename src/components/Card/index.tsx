@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Box } from '../Box';
 import { Tooltip } from '../tooltip/Tooltip';
-import { ReactComponent as InfoIcon } from '../../resources/img/svg/i.svg';
+import InfoIcon from '../../resources/img/svg/i.svg?react';
 import styles from './styles.module.scss';
 
 interface CardProps {

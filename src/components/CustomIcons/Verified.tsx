@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from '@ant-design/icons';
-import { ReactComponent as Verified } from '../../resources/img/svg/verified.svg';
+import Verified from '../../resources/img/svg/verified.svg?react';
 
 const CustomVerifiedIcon = (props: any) => {
     // eslint-disable-next-line react/jsx-props-no-spreading

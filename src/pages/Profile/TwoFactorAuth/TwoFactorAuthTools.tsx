@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Text } from '../../../components/text/Text';
-import { ReactComponent as DownloadIcon } from '../../../resources/img/svg/download.svg';
+import DownloadIcon from '../../../resources/img/svg/download.svg?react';
 
 export const AuthenticatorTools = () => {
     const { t } = useTranslation();

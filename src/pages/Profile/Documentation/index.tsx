@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Card } from '../../../components/Card';
-import { ReactComponent as NewWindowIcon } from '../../../resources/img/svg/new-window.svg';
+import NewWindowIcon from '../../../resources/img/svg/new-window.svg?react';
 import styles from './styles.module.scss';
 
 export const Documentation = () => {

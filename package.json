@@ -49,13 +49,13 @@
     "serve": "vite preview",
     "release": "standard-version",
     "test": "vitest",
-    "lint": "yarn run lint:css && yarn run lint:js && yarn run lint:formatting",
-    "lint:css": "stylelint --fix \"src/**/*.(s(c|a)ss|css|less)\"",
+    "lint": "npm run lint:css && npm run lint:js && npm run lint:formatting",
+    "lint:css": "stylelint --fix \"src/**/*.(s(c|a)ss|css)\"",
     "lint:js": "eslint",
     "lint:formatting": "prettier . --write --ignore-unknown --check",
     "prettier:css": "prettier **/*.scss --write ",
     "test:integration": "cypress open",
-    "test:integration:cli": "concurrently --kill-others --success first \"cross-env BROWSER=none API_URL_FOR_LOCAL_DEVELOPMENT=test VITE_PORT=3000 yarn run start\" \"wait-on http://localhost:3000 && cypress run\""
+    "test:integration:cli": "concurrently --kill-others --success first \"cross-env BROWSER=none API_URL_FOR_LOCAL_DEVELOPMENT=test VITE_PORT=3000 npm run start\" \"wait-on http://localhost:3000 && cypress run\""
   },
   "browserslist": {
     "production": [
@@ -97,9 +97,6 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "less": "^4.2.0",
-    "postcss": "^8.4.6",
-    "postcss-less": "^6.0.0",
     "prettier": "^2.5.1",
     "sass": "^1.56.1",
     "standard-version": "^9.5.0",
@@ -118,7 +115,7 @@
     "vitest": "^2.1.9",
     "wait-on": "^5.2.0"
   },
-  "resolutions": {
+  "overrides": {
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0"
   }

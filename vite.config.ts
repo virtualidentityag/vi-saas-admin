@@ -30,8 +30,8 @@ export default ({ mode }) => {
         ],
         css: {
             preprocessorOptions: {
-                less: {
-                    javascriptEnabled: true,
+                scss: {
+                    quietDeps: true,
                 },
             },
         },

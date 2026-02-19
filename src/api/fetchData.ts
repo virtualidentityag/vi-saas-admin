@@ -155,10 +155,12 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
                         logout(true, routePathNames.login);
                     } else if (props.responseHandling.includes(FETCH_ERRORS.CATCH_ALL)) {
                         message.error({
-                            content: i18next.t([
-                                `message.error.${response.headers.get(FETCH_ERRORS.X_REASON)}`,
-                                'message.error.default',
-                            ]),
+                            content: String(
+                                i18next.t([
+                                    `message.error.${response.headers.get(FETCH_ERRORS.X_REASON)}`,
+                                    'message.error.default',
+                                ]),
+                            ),
                             duration: 3,
                         });
 

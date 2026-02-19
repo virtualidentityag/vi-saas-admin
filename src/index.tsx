@@ -1,7 +1,6 @@
-import 'react-app-polyfill/stable';
 import { useEffect, useState } from 'react';
 import { QueryClientProvider } from 'react-query';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ConfigProvider, message } from 'antd';
 import { Locale } from 'antd/lib/locale-provider';
@@ -63,7 +62,7 @@ const AppSettingsWrapper = ({ children }: { children: JSX.Element }): JSX.Elemen
     return loaded ? children : <Initialization />;
 };
 
-render(
+createRoot(document.getElementById('root') as HTMLElement).render(
     <QueryClientProvider client={queryClient}>
         <UseAppConfigProvider>
             <AppSettingsWrapper>
@@ -91,6 +90,5 @@ render(
                 </ConfigProvider>
             </AppSettingsWrapper>
         </UseAppConfigProvider>
-    </QueryClientProvider>, // Contextprovider does not work at the moment as they have an error there
-    document.getElementById('root'),
+    </QueryClientProvider>,
 );

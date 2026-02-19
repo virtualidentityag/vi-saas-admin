@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
-import svgrPlugin from 'vite-plugin-svgr';
+import svgr from 'vite-plugin-svgr';
 import eslintPlugin from 'vite-plugin-eslint';
 
 // https://vitejs.dev/config/
@@ -13,7 +13,13 @@ export default ({ mode }) => {
         plugins: [
             react(),
             viteTsconfigPaths(),
-            svgrPlugin(),
+            svgr({
+                include: '**/*.svg',
+                svgrOptions: {
+                    exportType: 'named',
+                    namedExport: 'ReactComponent',
+                },
+            }),
             eslintPlugin({
                 emitWarning: true,
                 failOnWarning: false,

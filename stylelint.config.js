@@ -1,6 +1,7 @@
 module.exports = {
   "extends": [
     "stylelint-config-standard",
+    "stylelint-config-standard-scss",
     "stylelint-config-prettier",
     "stylelint-config-idiomatic-order",
   ],
@@ -20,6 +21,7 @@ module.exports = {
     "keyframes-name-pattern": null,
 
     "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": true,
     "color-hex-length": "long",
     "selector-pseudo-element-colon-notation": "single",
     "property-no-vendor-prefix": true,

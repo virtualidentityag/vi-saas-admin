@@ -54,7 +54,7 @@ $two-factor-auth-overlay-buttons-margin-right: auto;
         }
 
         .inputField__infoText {
-            color: @form-error;
+            color: $form-error;
             text-align: left;
         }
     }
@@ -128,19 +128,6 @@ $two-factor-auth-overlay-buttons-margin-right: auto;
             .text__divider {
                 display: none;
             }
-        }
-
-        display: flex;
-        margin-top: $grid-base-three;
-
-        .twoFactorAuth__qrCode,
-        .twoFactorAuth__key {
-            width: 50%;
-            flex-shrink: 0;
-        }
-
-        .text__divider {
-            display: none;
         }
     }
 

@@ -1,5 +1,3 @@
-@import './Fonts';
-
 // FONTS
 $font-family-sans-serif: Nunito;
 $font-family-divider: RobotoSlab, serif;
@@ -8,6 +6,8 @@ $font-weight-light: 300;
 $font-weight-regular: 400;
 $font-weight-medium: 500;
 $font-weight-bold: 700;
+
+@import './Fonts';
 
 // Z-INDEXES
 $z-index-component-xyz: 1;
@@ -55,7 +55,7 @@ $yellow-4: #febd50;
 $yellow-5: #ff9f00;
 $yellow-6: #de8a00;
 
-$message-name-self: @form-primary;
+$message-name-self: $form-primary;
 $message-name-system: var(--skin-color-default, $primary);
 $message-name-consultant: var(--skin-color-default, $primary);
 $message-name-user: #1b998b;
@@ -217,7 +217,7 @@ $sessions-list-background-color-secondary: $background-light;
 $session-menu-legal-links-color: $primary;
 $statistics-highlight-color: $primary;
 $text-color-standard: $secondary;
-$text-color-error: @form-error;
+$text-color-error: $form-error;
 $text-color-info-large-standard: $secondary;
 $text-divider-color: $light-grey;
 $text-divider-letter-spacing: 0;
@@ -246,12 +246,6 @@ $message-wrapper-height: 109px;
 @mixin rounded-drop-shadow {
     border-radius: 4px;
     box-shadow: 0 3px 0 1px rgba(0, 0, 0, 0.1);
-}
-
-.bp-min($min) {
-    @media only screen and (min-width: $min) {
-        .bp-min($min, set);
-    }
 }
 
 @mixin no-sticky-cell-left {

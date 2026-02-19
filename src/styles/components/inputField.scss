@@ -9,20 +9,20 @@
         height: $input-field-height;
         flex: 1;
         padding: 12px $grid-base-three 0;
-        border: 1px solid @form-primary;
+        border: 1px solid $form-primary;
         appearance: textfield;
         appearance: none;
         border-radius: $input-field-border-radius;
         box-shadow: $input-field-box-shadow;
-        color: @form-secondary;
+        color: $form-secondary;
         outline: 0;
 
         &:hover {
-            border: 1px solid @form-active;
+            border: 1px solid $form-active;
         }
 
         &:focus {
-            border: 2px solid @form-active;
+            border: 2px solid $form-active;
         }
 
         &::-webkit-inner-spin-button {
@@ -49,60 +49,60 @@
         }
 
         &[disabled] {
-            border: 1px solid @form-input-border;
+            border: 1px solid $form-input-border;
             background-color: $white;
 
             + label {
-                color: @form-input-border;
+                color: $form-input-border;
                 cursor: not-allowed;
             }
         }
 
         &[readonly] {
-            border: 1px solid @form-disabled;
-            color: @form-disabled;
+            border: 1px solid $form-disabled;
+            color: $form-disabled;
 
             & + label {
-                color: @form-disabled;
+                color: $form-disabled;
             }
 
             &:hover,
             &:focus {
-                border: 1px solid @form-disabled !important;
+                border: 1px solid $form-disabled !important;
                 cursor: not-allowed;
             }
         }
 
         &--invalid {
-            border: 2px solid @form-error !important;
-            color: @form-error;
+            border: 2px solid $form-error !important;
+            color: $form-error;
 
             & + label {
-                color: @form-error;
+                color: $form-error;
             }
         }
 
         &--valid {
-            border: 2px solid @form-success !important;
-            color: @form-success;
+            border: 2px solid $form-success !important;
+            color: $form-success;
 
             & + label {
-                color: @form-success;
+                color: $form-success;
             }
         }
 
         /* TODO: check if --error state still needed (class added in warningLabels.ts) */
         &--error {
             border-width: 2px;
-            border-color: @form-error !important;
-            color: @form-error;
+            border-color: $form-error !important;
+            color: $form-error;
 
             &.inputField__input--valid {
-                border-color: @form-error !important;
-                color: @form-error !important;
+                border-color: $form-error !important;
+                color: $form-error !important;
 
                 & + label {
-                    color: @form-primary;
+                    color: $form-primary;
                 }
             }
         }

@@ -39,7 +39,7 @@ $sidebar-plus-paddings-gap: 186px;
             height: 100%;
             align-items: center;
             border-bottom: 4px solid transparent;
-            color: @form-active;
+            color: $form-active;
             font-weight: $font-weight-medium;
 
             &.active {

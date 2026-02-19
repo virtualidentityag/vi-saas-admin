@@ -21,7 +21,7 @@ $tooltipWidth: 266px;
         box-sizing: border-box;
         background: $white;
         padding: $grid-base-two 20px;
-        border: 1px solid @form-disabled;
+        border: 1px solid $form-disabled;
         opacity: 0;
         @include rounded-drop-shadow;
 
@@ -92,7 +92,7 @@ $tooltipWidth: 266px;
         }
 
         &:after {
-            border-top: 10px solid @form-disabled;
+            border-top: 10px solid $form-disabled;
         }
 
         &--position-center {
@@ -130,7 +130,7 @@ $tooltipWidth: 266px;
         }
 
         &:after {
-            border-right: 10px solid @form-disabled;
+            border-right: 10px solid $form-disabled;
         }
 
         &--position-center {

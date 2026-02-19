@@ -188,10 +188,10 @@ $buttonHeight: 50px;
 
         &--green {
             border: none;
-            background-color: @form-success;
+            background-color: $form-success;
 
             &:hover {
-                background-color: darken(@form-success, 5%);
+                background-color: darken($form-success, 5%);
 
                 svg {
                     fill: $white;
@@ -201,10 +201,10 @@ $buttonHeight: 50px;
 
         &--red {
             border: none;
-            background-color: @form-error;
+            background-color: $form-error;
 
             &:hover {
-                background-color: darken(@form-error, 8%);
+                background-color: darken($form-error, 8%);
 
                 svg {
                     fill: $white;
@@ -249,13 +249,13 @@ $buttonHeight: 50px;
     }
 
     &__item--disabled {
-        background-color: @form-input-border;
+        background-color: $form-input-border;
         box-shadow: none;
         color: $tertiary;
         cursor: unset;
 
         &:hover {
-            background-color: @form-input-border;
+            background-color: $form-input-border;
             color: $tertiary;
         }
     }

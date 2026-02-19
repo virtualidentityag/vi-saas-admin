@@ -10,9 +10,9 @@
         flex: 1;
         padding: 12px $grid-base-three 0;
         border: 1px solid $form-primary;
+        border-radius: $input-field-border-radius;
         appearance: textfield;
         appearance: none;
-        border-radius: $input-field-border-radius;
         box-shadow: $input-field-box-shadow;
         color: $form-secondary;
         outline: 0;

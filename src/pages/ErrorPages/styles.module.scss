@@ -1,12 +1,12 @@
 .wrapper {
     display: flex;
-    align-items: center;
     height: 100vh;
-    gap: 128px;
-    padding: 0 10%;
+    align-items: center;
     justify-content: center;
+    padding: 0 10%;
+    gap: 128px;
 
-    @media screen and (max-width: 770px) {
+    @media screen and (width <= 770px) {
         flex-direction: column;
     }
 }
@@ -15,25 +15,25 @@
     width: 100%;
     max-width: 500px;
 
-    @media screen and (max-width: 770px) {
+    @media screen and (width <= 770px) {
         max-width: 300px;
     }
 }
 
 .title {
-    font-weight: 500;
-    font-size: 40px;
-    line-height: 50px;
-    color: var(--black-90);
     margin-bottom: 12px;
+    color: var(--black-90);
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 50px;
 }
 
 .description {
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 28px;
-    color: var(--black-90);
     margin-bottom: 25px;
+    color: var(--black-90);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 28px;
 }
 
 .illustrationContainer {

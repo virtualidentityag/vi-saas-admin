@@ -5,8 +5,8 @@ $tooltipWidth: 266px;
     display: flex;
 
     &__trigger {
-        display: inline-block;
         z-index: 3;
+        display: inline-block;
 
         svg {
             display: block;
@@ -15,14 +15,15 @@ $tooltipWidth: 266px;
 
     &__content {
         position: absolute;
-        width: $tooltipWidth;
-        text-align: left;
         z-index: 20;
+        width: $tooltipWidth;
         box-sizing: border-box;
-        background: $white;
         padding: $grid-base-two 20px;
         border: 1px solid $form-disabled;
+        background: $white;
         opacity: 0;
+        text-align: left;
+
         @include rounded-drop-shadow;
 
         &--visible {
@@ -31,11 +32,11 @@ $tooltipWidth: 266px;
 
         &:after,
         &:before {
-            content: '';
             position: absolute;
             width: 20px;
             height: 20px;
             margin: 0 auto;
+            content: '';
             transform: rotate(180deg);
         }
 
@@ -51,8 +52,8 @@ $tooltipWidth: 266px;
     &--top &__content {
         &:after,
         &:before {
-            transform: rotate(0deg);
             bottom: -24px;
+            transform: rotate(0deg);
         }
 
         &:before {
@@ -83,8 +84,8 @@ $tooltipWidth: 266px;
     &--bottom &__content {
         &:after,
         &:before {
-            border-left: 10px solid transparent;
             border-right: 10px solid transparent;
+            border-left: 10px solid transparent;
         }
 
         &:before {

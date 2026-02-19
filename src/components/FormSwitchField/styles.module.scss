@@ -23,8 +23,8 @@
         .ant-form-item-label label {
             padding-bottom: 4px;
             color: var(--black-87);
-            font-weight: 400;
             font-size: 16px;
+            font-weight: 400;
             line-height: 24px;
         }
     }
@@ -39,17 +39,21 @@
         align-items: center;
         justify-content: space-between;
     }
+
     :global(.ant-form-item-label) {
         flex-grow: 1;
     }
+
     :global(.ant-col.ant-form-item-control) {
-        width: auto;
         display: flex;
+        width: auto;
         align-items: flex-end;
     }
+
     :global(.ant-form-item-control-input) {
         min-height: 22px;
     }
+
     :global(.ant-form-item-label) {
         &,
         label {

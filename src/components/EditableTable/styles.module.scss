@@ -7,17 +7,17 @@
 }
 
 .iconButton {
-    background: transparent;
-    border: none;
-    cursor: pointer;
     display: flex;
-    align-items: center;
-    border-radius: 50%;
-    height: 36px;
     width: 36px;
+    height: 36px;
+    align-items: center;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
 
     &:hover {
-        background: rgba(39, 50, 112, 0.1);
+        background: rgb(39 50 112 / 10%);
     }
 }
 

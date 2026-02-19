@@ -52,8 +52,8 @@
         .tableActionWrapper {
             display: flex;
             flex-direction: row;
-            gap: var(--spacing-sm);
             justify-content: flex-end;
+            gap: var(--spacing-sm);
         }
 
         .editBtnWrapper,

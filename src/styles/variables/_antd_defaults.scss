@@ -4,7 +4,7 @@ $border-width-base: 1px;
 $border-color-base: #d9d9d9;
 $font-family: $font-family-sans-serif;
 $layout-footer-background: $skin-footer-background;
-$input-border-color: rgba(0, 0, 0, 0.6);
+$input-border-color: rgb(0 0 0 / 60%);
 $info-color: #1890ff;
 $success-color: #52c41a;
 
@@ -44,7 +44,7 @@ $screen-xl-max: ($screen-xxl - 1);
     padding: $spacing-m $spacing-ml;
     font-size: $fontSize-sm;
     line-height: $lineHeight-sm;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .ant-modal-footer {

@@ -1,9 +1,10 @@
 .searchWithButton {
     display: flex;
-    gap: 24px;
     width: 50%;
     max-width: 529px;
-    @media (max-width: 767px) {
+    gap: 24px;
+
+    @media (width <= 767px) {
         width: 100%;
     }
 }

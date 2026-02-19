@@ -17,9 +17,9 @@ $two-factor-auth-overlay-buttons-margin-right: auto;
         }
 
         .overlay__buttons {
+            width: 100%;
             align-self: flex-end;
             margin-top: auto;
-            width: 100%;
 
             @media only screen and (min-width: $fromSmall) {
                 width: auto;
@@ -27,8 +27,8 @@ $two-factor-auth-overlay-buttons-margin-right: auto;
 
             @media only screen and (min-width: $fromMedium) {
                 display: flex;
-                justify-content: space-between;
                 width: 100%;
+                justify-content: space-between;
             }
 
             .button__wrapper {
@@ -44,9 +44,10 @@ $two-factor-auth-overlay-buttons-margin-right: auto;
 
         .button__wrapper {
             margin-top: $grid-base-three;
-            margin-left: auto;
             margin-right: $two-factor-auth-overlay-buttons-margin-right;
+            margin-left: auto;
         }
+
         .button__wrapper + .button__wrapper {
             @media only screen and (min-width: $fromSmall) {
                 margin-left: $grid-base-two;
@@ -83,14 +84,14 @@ $two-factor-auth-overlay-buttons-margin-right: auto;
 
         a {
             display: flex;
-            justify-items: start;
-            cursor: pointer;
             margin-top: $grid-base-two;
             color: var(--skin-color-primary-contrast-safe, $primary);
+            cursor: pointer;
+            justify-items: start;
 
             .text {
-                color: var(--skin-color-primary-contrast-safe, $primary);
                 margin: auto 0 auto $grid-base;
+                color: var(--skin-color-primary-contrast-safe, $primary);
 
                 &:hover {
                     color: var(--skin-color-primary-contrast-safe, $hover-primary);
@@ -101,17 +102,17 @@ $two-factor-auth-overlay-buttons-margin-right: auto;
 
     &__connect {
         .text__divider {
-            text-transform: uppercase;
             display: flex;
             color: var(--skin-color-secondary-contrast-safe, $primary);
+            text-transform: uppercase;
 
-            &::before,
-            &::after {
-                content: '';
-                border-top: 1px solid var(--skin-color-secondary-contrast-safe, $primary);
+            &:before,
+            &:after {
                 width: max-content;
-                margin: auto $grid-base;
                 flex-grow: 1;
+                border-top: 1px solid var(--skin-color-secondary-contrast-safe, $primary);
+                margin: auto $grid-base;
+                content: '';
             }
         }
 
@@ -153,8 +154,8 @@ $two-factor-auth-overlay-buttons-margin-right: auto;
 
     &__key {
         @media only screen and (min-width: $fromMedium) {
-            border-left: 2px solid var(--skin-color-primary, $primary);
             padding-left: $grid-base-two;
+            border-left: 2px solid var(--skin-color-primary, $primary);
         }
 
         .text + .text {
@@ -163,8 +164,8 @@ $two-factor-auth-overlay-buttons-margin-right: auto;
     }
 
     &__selectType {
-        margin-top: $grid-base-three;
         width: 100%;
+        margin-top: $grid-base-three;
 
         @media only screen and (min-width: $fromSmall) {
             display: flex;
@@ -172,17 +173,14 @@ $two-factor-auth-overlay-buttons-margin-right: auto;
     }
 
     &__radioWrapper {
-        margin-top: $grid-base-two;
         display: flex;
+        width: 100%;
         align-items: center;
-
+        padding: 0 10px;
         border: $overlay-radio-outline;
         border-radius: $overlay-radio-radius;
-        padding: 0 10px;
-
-        width: 100%;
-
         margin: 0 $grid-base 0 0;
+        margin-top: $grid-base-two;
 
         .radioButton {
             min-height: auto;
@@ -211,6 +209,7 @@ $two-factor-auth-overlay-buttons-margin-right: auto;
         svg {
             max-width: 240px;
         }
+
         .headline {
             text-align: center !important;
         }

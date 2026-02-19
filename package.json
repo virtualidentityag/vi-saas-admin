@@ -48,7 +48,7 @@
     "build": "tsc && vite build",
     "serve": "vite preview",
     "release": "standard-version",
-    "test": "vite test",
+    "test": "vitest run --passWithNoTests",
     "lint": "npm run lint:css && npm run lint:js && npm run lint:formatting",
     "lint:css": "stylelint --fix \"src/**/*.(s(c|a)ss|css)\"",
     "lint:js": "eslint",
@@ -79,6 +79,8 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
     "@cypress/react": "^5.12.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/lodash.set": "^4.3.7",
     "@types/node": "^17.0.16",
     "@types/react": "^18.3.1",
@@ -102,6 +104,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "jsdom": "^28.1.0",
     "postcss": "^8.4.6",
     "prettier": "^2.5.1",
     "react-error-overlay": "6.0.10",
@@ -119,6 +122,7 @@
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-svgr": "^4.5.0",
     "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^2.1.9",
     "wait-on": "^5.2.0"
   }
 }

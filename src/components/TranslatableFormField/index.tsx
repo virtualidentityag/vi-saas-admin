@@ -1,5 +1,5 @@
 import { Form, Select } from 'antd';
-import { FieldContext } from 'rc-field-form';
+import { FieldContext } from '@rc-component/form';
 import { cloneElement, useContext, useMemo } from 'react';
 import { CheckCircleTwoTone, WarningTwoTone } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';

@@ -1,64 +1,34 @@
+/* Variables still referenced by project Less files */
+@border-radius-base: 4px;
+@border-width-base: 1px;
+@border-color-base: #d9d9d9;
+@font-family: @font-family-sans-serif;
+@layout-footer-background: @skin-footer-background;
+@input-border-color: rgba(0, 0, 0, 0.6);
+@info-color: #1890ff;
+@success-color: #52c41a;
+
 /* grid */
 @grid-columns: 12;
 
-/* layout */
-@layout-body-background: @skin-main-background;
-@layout-header-background: @white;
-@layout-header-height: 60px;
-@layout-header-padding: 0;
-@layout-footer-padding: 0;
-
-/* buttons */
-@btn-border-style: solid;
-@btn-border-width: 2px;
-@btn-shadow: none;
-@btn-default-border: @primary-color;
-@btn-default-color: @primary-color;
-
-/* height for inputs, buttons, etc. */
-@height-base: 40px;
-@height-sm: 35px;
-@height-lg: 48px;
-
-@border-radius-base: 4px;
-
-@link-color: @primary-color;
-
-@font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-
-/*  form */
-@input-border-color: rgba(0, 0, 0, 0.6);
-@input-bg: transparent;
-@label-color: rgba(0, 0, 0, 0.6);
-@form-item-label-font-size: @fontSize-s;
-@form-item-label-height: auto;
-@form-item-margin-bottom: @spacing-sm;
-
-/*  menu */
-@menu-item-padding-horizontal: 10px;
-
-/* footer */
-
-@layout-footer-background: @skin-footer-background;
-
-/* upload */
-@upload-picture-card-size: 100%;
-
-/*  table */
-@table-bg: @skin-main-background;
-@table-header-bg: @skin-main-background;
-@table-header-cell-split-color: @text-color;
-
-/* modal */
-
-@modal-header-border-style: none;
-@modal-footer-border-style: none;
-
-@modal-header-padding-vertical: @padding-sm;
-@modal-header-padding-horizontal: @spacing-ml;
-@modal-footer-padding-vertical: @spacing-s;
-@modal-footer-padding-horizontal: @spacing-ml;
+/* breakpoints (previously provided by antd/dist/antd.less) */
+@screen-xs: 480px;
+@screen-sm: 576px;
+@screen-md: 768px;
+@screen-lg: 992px;
+@screen-xl: 1200px;
+@screen-xxl: 1600px;
+@screen-xs-min: @screen-xs;
+@screen-sm-min: @screen-sm;
+@screen-md-min: @screen-md;
+@screen-lg-min: @screen-lg;
+@screen-xl-min: @screen-xl;
+@screen-xxl-min: @screen-xxl;
+@screen-xs-max: (@screen-sm - 1);
+@screen-sm-max: (@screen-md - 1);
+@screen-md-max: (@screen-lg - 1);
+@screen-lg-max: (@screen-xl - 1);
+@screen-xl-max: (@screen-xxl - 1);
 
 .ant-modal-title {
     h2 {

@@ -3,9 +3,9 @@ import { QueryClientProvider } from 'react-query';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ConfigProvider, message } from 'antd';
-import { Locale } from 'antd/lib/locale-provider';
-import de_DE from 'antd/es/locale/de_DE';
-import en_GB from 'antd/es/locale/en_GB';
+import type { Locale } from 'antd/lib/locale';
+import de_DE from 'antd/locale/de_DE';
+import en_GB from 'antd/locale/en_GB';
 import { App } from './App';
 import routePathNames from './appConfig';
 import { queryClient } from './constants/client';
@@ -70,7 +70,39 @@ createRoot(rootElement).render(
     <QueryClientProvider client={queryClient}>
         <UseAppConfigProvider>
             <AppSettingsWrapper>
-                <ConfigProvider locale={myLanguages[languageToUse]}>
+                <ConfigProvider
+                    locale={myLanguages[languageToUse]}
+                    theme={{
+                        token: {
+                            colorPrimary: '#273270',
+                            colorLink: '#273270',
+                            borderRadius: 4,
+                            controlHeight: 40,
+                            fontFamily:
+                                "'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif",
+                        },
+                        components: {
+                            Layout: {
+                                bodyBg: '#f2efea',
+                                headerBg: '#ffffff',
+                                headerHeight: 60,
+                                footerBg: '#ece7df',
+                            },
+                            Input: {
+                                colorBorder: 'rgba(0, 0, 0, 0.6)',
+                                colorBgContainer: 'transparent',
+                            },
+                            Form: {
+                                labelColor: 'rgba(0, 0, 0, 0.6)',
+                                labelFontSize: 12,
+                            },
+                            Table: {
+                                colorBgContainer: '#f2efea',
+                                headerBg: '#f2efea',
+                            },
+                        },
+                    }}
+                >
                     <Router>
                         <Routes>
                             <Route path={routePathNames.login} element={<Login />} />

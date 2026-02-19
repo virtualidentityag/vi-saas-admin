@@ -6,8 +6,12 @@ import { encodeUsername } from '../utils/encryptionHelpers';
 import { TENANT_QUERY_KEY } from './useSingleTenantData';
 import { TENANT_ADMIN_QUERY_KEY, useTenantUserAdminData } from './useTenantUserAdminData';
 
-interface UseAddOrUpdateTenantAdminOptions
-    extends UseMutationOptions<CounselorData, Error, CounselorData, Error | Response> {
+interface UseAddOrUpdateTenantAdminOptions extends UseMutationOptions<
+    CounselorData,
+    Error,
+    CounselorData,
+    Error | Response
+> {
     id?: string;
 }
 

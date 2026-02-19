@@ -5,8 +5,12 @@ import { topicAdminEndpoint } from '../appConfig';
 import { TopicAdminData } from '../types/TopicAdmin';
 import { TOPIC_ADMIN_KEY, useTopicAdmin } from './useTopicAdmin';
 
-interface UseAddOrUpdateTopicOptions
-    extends UseMutationOptions<TopicAdminData, Error, TopicAdminData, Error | Response> {
+interface UseAddOrUpdateTopicOptions extends UseMutationOptions<
+    TopicAdminData,
+    Error,
+    TopicAdminData,
+    Error | Response
+> {
     id?: number | string;
 }
 

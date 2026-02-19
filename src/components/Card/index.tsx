@@ -12,12 +12,12 @@ interface CardProps {
     isLoading?: boolean;
     fullHeight?: boolean;
     titleKey: string;
-    subTitle?: React.ReactChild;
+    subTitle?: React.ReactNode;
     subTitleKey?: string;
     cardTitleClassName?: string;
     tooltip?: string;
-    children: React.ReactChild | React.ReactChild[];
-    cardTitleChildren?: React.ReactChild | React.ReactChild[];
+    children: React.ReactNode | React.ReactNode[];
+    cardTitleChildren?: React.ReactNode | React.ReactNode[];
 }
 
 export const Card = ({

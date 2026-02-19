@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-prop-types */
 import React, { ComponentType, ReactNode, useEffect } from 'react';
 import { ContentState, Entity } from 'draft-js';
 

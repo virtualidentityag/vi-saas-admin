@@ -45,7 +45,9 @@
         &:not(:placeholder-shown) + label {
             top: 3px;
             font-size: 12px;
-            transition: font-size 0.5s, top 0.5s;
+            transition:
+                font-size 0.5s,
+                top 0.5s;
         }
 
         &[disabled] {
@@ -113,7 +115,9 @@
         top: 15px;
         left: $grid-base-three;
         color: $tertiary;
-        transition: font-size 0.5s, top 0.5s;
+        transition:
+            font-size 0.5s,
+            top 0.5s;
     }
 
     &__infoText {

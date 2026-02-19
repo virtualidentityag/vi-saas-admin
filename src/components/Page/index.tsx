@@ -51,7 +51,7 @@ const PageTabs = ({ tabs }: { tabs: Array<{ to: string; titleKey; icon?: JSX.Ele
                 ?.filter((tab) => tab && tab.to)
                 .map(({ icon, ...tab }) => (
                     <NavLink className={styles.tab} to={tab.to} key={tab.titleKey}>
-                        {t(tab.titleKey)}
+                        {t(tab.titleKey) as string}
                         {icon && cloneElement(icon, { className: styles.tabIcon })}
                     </NavLink>
                 ))}

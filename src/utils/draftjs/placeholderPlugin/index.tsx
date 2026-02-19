@@ -32,7 +32,7 @@ const DecoratedPlaceholder = (store, placeholders) =>
         const contentState = editorState.getCurrentContent();
 
         const { key } = contentState.getEntity(props.entityKey).getData();
-        return <Placeholder {...props}>{t(placeholders[key])}</Placeholder>;
+        return <Placeholder {...props}>{t(placeholders[key]) as string}</Placeholder>;
     };
 
 export default (config: PlaceholderPluginConfig = {}): EditorPlugin => {

@@ -1,12 +1,11 @@
-import 'react-app-polyfill/stable';
 import { useEffect, useState } from 'react';
 import { QueryClientProvider } from 'react-query';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ConfigProvider, message } from 'antd';
-import { Locale } from 'antd/lib/locale-provider';
-import de_DE from 'antd/es/locale/de_DE';
-import en_GB from 'antd/es/locale/en_GB';
+import type { Locale } from 'antd/lib/locale';
+import de_DE from 'antd/locale/de_DE';
+import en_GB from 'antd/locale/en_GB';
 import { App } from './App';
 import routePathNames from './appConfig';
 import { queryClient } from './constants/client';
@@ -63,11 +62,47 @@ const AppSettingsWrapper = ({ children }: { children: JSX.Element }): JSX.Elemen
     return loaded ? children : <Initialization />;
 };
 
-render(
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+    throw new Error('Root element not found');
+}
+createRoot(rootElement).render(
     <QueryClientProvider client={queryClient}>
         <UseAppConfigProvider>
             <AppSettingsWrapper>
-                <ConfigProvider locale={myLanguages[languageToUse]}>
+                <ConfigProvider
+                    locale={myLanguages[languageToUse]}
+                    theme={{
+                        token: {
+                            colorPrimary: '#273270',
+                            colorLink: '#273270',
+                            borderRadius: 4,
+                            controlHeight: 40,
+                            fontFamily:
+                                "'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif",
+                        },
+                        components: {
+                            Layout: {
+                                bodyBg: '#f2efea',
+                                headerBg: '#ffffff',
+                                headerHeight: 60,
+                                footerBg: '#ece7df',
+                            },
+                            Input: {
+                                colorBorder: 'rgba(0, 0, 0, 0.6)',
+                                colorBgContainer: 'transparent',
+                            },
+                            Form: {
+                                labelColor: 'rgba(0, 0, 0, 0.6)',
+                                labelFontSize: 12,
+                            },
+                            Table: {
+                                colorBgContainer: '#f2efea',
+                                headerBg: '#f2efea',
+                            },
+                        },
+                    }}
+                >
                     <Router>
                         <Routes>
                             <Route path={routePathNames.login} element={<Login />} />
@@ -91,6 +126,5 @@ render(
                 </ConfigProvider>
             </AppSettingsWrapper>
         </UseAppConfigProvider>
-    </QueryClientProvider>, // Contextprovider does not work at the moment as they have an error there
-    document.getElementById('root'),
+    </QueryClientProvider>,
 );

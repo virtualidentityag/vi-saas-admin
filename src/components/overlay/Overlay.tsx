@@ -163,7 +163,7 @@ export const Overlay = (props: {
                                 'overlay__illustration--neutral': activeOverlay.illustrationBackground === 'neutral',
                             })}
                         >
-                            {illustration}
+                            {illustration && React.createElement(illustration)}
                         </span>
                     </div>
                 )}

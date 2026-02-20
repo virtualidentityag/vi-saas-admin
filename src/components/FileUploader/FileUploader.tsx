@@ -16,9 +16,9 @@ const FileUploader = ({
 }: {
     name: string;
     label: string;
-    getValueFromEvent: (e: any) => void;
-    imageUrl: string | '';
-    setImageUrl: (fileBase64: any) => void;
+    getValueFromEvent: (e: React.ChangeEvent) => void;
+    imageUrl: string;
+    setImageUrl: (fileBase64: string) => void;
 }) => {
     const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
@@ -39,11 +39,8 @@ const FileUploader = ({
             return false;
         }
 
-        getBase64(file, (imgUrl1: string | ArrayBuffer | null) => {
+        getBase64(file as unknown as Blob, (imgUrl1: string) => {
             setLoading(false);
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-
             setImageUrl(imgUrl1);
         });
         // NOT really upload a file since we use the base64 as string :O)

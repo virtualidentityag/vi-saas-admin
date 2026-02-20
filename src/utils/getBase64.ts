@@ -1,7 +1,15 @@
-const getBase64 = (img: Record<string, any>, callback: (result: string) => void) => {
+const getBase64 = (img: Blob, callback: (result: string) => void) => {
     const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result?.toString()));
-    reader.readAsDataURL(img as Blob);
+    reader.addEventListener('load', () => {
+        const result = reader.result;
+        if (typeof result === 'string') {
+            callback(result);
+        }
+    });
+    reader.addEventListener('error', () => {
+        console.error('FileReader failed to read file');
+    });
+    reader.readAsDataURL(img);
 };
 
 export default getBase64;

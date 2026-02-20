@@ -15,7 +15,7 @@ export const SearchInput = ({ handleOnSearch, handleOnSearchClear, placeholder }
 
     const { Search } = Input;
 
-    const onSearchChange = (e: any) => {
+    const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (handleOnSearch) {
             clearTimeout(timer);
             timer = setTimeout(() => {

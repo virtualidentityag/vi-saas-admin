@@ -7,7 +7,7 @@ import { FormInputField } from '../../../../../components/FormInputField';
 import styles from '../RegistrationSettings/styles.module.scss';
 import { FormRadioGroupField } from '../../../../../components/FormRadioGroupField';
 
-export const ContactSettings = ({ type }: { type: any }) => {
+export const ContactSettings = ({ type }: { type: string | null }) => {
     const { t } = useTranslation();
     const contactKey = useMemo(() => {
         if (!type || type === 'AGENCY_RESPONSIBLE') {

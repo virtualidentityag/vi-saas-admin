@@ -1,9 +1,7 @@
 import getLocationVariables from './utils/getLocationVariables';
 
-const VITE_CSRF_WHITELIST_HEADER_PROPERTY = import.meta.env.VITE_CSRF_WHITELIST_HEADER_FOR_LOCAL_DEVELOPMENT;
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-export const CSRF_WHITELIST_HEADER: string = VITE_CSRF_WHITELIST_HEADER_PROPERTY;
+export const CSRF_WHITELIST_HEADER: string =
+    (import.meta.env.VITE_CSRF_WHITELIST_HEADER_FOR_LOCAL_DEVELOPMENT as string) || '';
 const { subdomain, origin } = getLocationVariables();
 
 let url = origin;

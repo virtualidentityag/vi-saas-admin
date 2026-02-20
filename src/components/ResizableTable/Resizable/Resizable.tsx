@@ -1,6 +1,12 @@
-import { Resizable } from 'react-resizable';
+import React from 'react';
+import { Resizable, ResizeCallbackData } from 'react-resizable';
 
-const ResizableTitle = (props: any) => {
+interface ResizableTitleProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
+    onResize?: (e: React.SyntheticEvent, data: ResizeCallbackData) => void;
+    width?: number;
+}
+
+const ResizableTitle = (props: ResizableTitleProps) => {
     const { onResize, width, ...restProps } = props;
 
     if (!width) {

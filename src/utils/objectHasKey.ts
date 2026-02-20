@@ -3,7 +3,7 @@
  * @param object {Object}
  * @param key {string}
  */
-const objectHasKey = (object: any, key: string) => {
+const objectHasKey = (object: Record<string, unknown> | null | undefined, key: string) => {
     if (!object) {
         return false;
     }

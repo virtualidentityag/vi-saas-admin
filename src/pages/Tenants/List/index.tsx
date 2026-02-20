@@ -1,6 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, notification, Tag } from 'antd';
 import { ColumnProps, TablePaginationConfig } from 'antd/es/table';
+import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -61,22 +62,20 @@ export const TenantsList = () => {
         deleteTenant(id);
     }, []);
 
-    const handleTableAction = useCallback((pagination: TablePaginationConfig, _: any, sorter: any) => {
-        const { current, pageSize } = pagination;
-        if (sorter.field) {
-            const sortBy = sorter.field.toUpperCase();
-            const order = sorter.order === 'descend' ? 'DESC' : 'ASC';
-            setTableState({
-                ...tableState,
-                current,
-                pageSize,
-                sortBy,
-                order,
-            });
-        } else {
-            setTableState({ ...tableState, current, pageSize });
-        }
-    }, []);
+    const handleTableAction = useCallback(
+        (pagination: TablePaginationConfig, _filters: Record<string, FilterValue>, sorter: SorterResult<TenantData> | SorterResult<TenantData>[]) => {
+            const { current, pageSize } = pagination;
+            const singleSorter = Array.isArray(sorter) ? sorter[0] : sorter;
+            if (singleSorter?.field) {
+                const sortBy = String(singleSorter.field).toUpperCase();
+                const order = singleSorter.order === 'descend' ? 'DESC' : 'ASC';
+                setTableState((prev) => ({ ...prev, current, pageSize, sortBy, order }));
+            } else {
+                setTableState((prev) => ({ ...prev, current, pageSize }));
+            }
+        },
+        [],
+    );
 
     const pagination = {
         total: data?.total,

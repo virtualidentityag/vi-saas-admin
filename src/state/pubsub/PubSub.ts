@@ -15,21 +15,21 @@ export const enum PubSubEvents {
  * Publish/Subscribe pattern implementation class.
  */
 class PubSub {
-    observers = new Map<PubSubEvents, (value: object) => void>();
+    observers = new Map<PubSubEvents, (value: unknown) => void>();
 
     /**
      * Provides the possibility to define a handler function for given event. When event is fired than the handler will be invoked.
      * @param key
      * @param handler
      */
-    subscribe(key: PubSubEvents, handler: (value: any) => void) {
+    subscribe(key: PubSubEvents, handler: (value: unknown) => void) {
         this.observers.set(key, handler);
     }
 
     /**
      * Triggers handler with given value for given event.
      */
-    publishEvent(key: PubSubEvents, value: any) {
+    publishEvent(key: PubSubEvents, value: unknown) {
         const handler = this.observers.get(key);
         if (handler) {
             handler(value);

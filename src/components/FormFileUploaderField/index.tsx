@@ -39,7 +39,7 @@ const FormFileUploaderLocal = ({ onChange, value, allowIcon }: FormRichTextEdito
             return false;
         }
 
-        getBase64(file, onChange);
+        getBase64(file as unknown as Blob, onChange);
         return false;
     };
 

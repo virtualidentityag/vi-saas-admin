@@ -20,7 +20,7 @@ const getPublicTenantData = (settings: AppConfigInterface) => {
             responseHandling: [FETCH_ERRORS.NO_MATCH],
         });
     }
-    return new Promise<any>(() => {});
+    return new Promise<never>(() => {});
 };
 
 export default getPublicTenantData;

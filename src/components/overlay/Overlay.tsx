@@ -45,7 +45,7 @@ export interface OverlayItem {
     };
 }
 
-export const OverlayWrapper = (props: any) => {
+export const OverlayWrapper = (props: { children: React.ReactNode }) => {
     const overlay = document.getElementById('overlay');
     return overlay && ReactDOM.createPortal(props.children, overlay);
 };

@@ -82,14 +82,14 @@ const TwoFactorAuth = () => {
 
     const [overlayItems, setOverlayItems] = useState<OverlayItem[]>([...twoFactorAuthStepsOverlayStart]);
 
-    const validateOtp = (totp: any): { validity: InputFieldLabelState; label: string } => {
+    const validateOtp = (totp: string): { validity: InputFieldLabelState; label: string } => {
         if (totp.length === OTP_LENGTH) {
             return {
                 validity: 'valid',
                 label: t('twoFactorAuth.activate.otp.input.label'),
             };
         }
-        if (totp.lenght === 0) {
+        if (totp.length === 0) {
             return {
                 validity: 'invalid',
                 label: t('twoFactorAuth.activate.otp.input.label'),
@@ -408,7 +408,7 @@ const TwoFactorAuth = () => {
         setHasDuplicateError(false);
         setOtpLabel(defaultOtpLabel);
         setOtpLabelState('invalid');
-        setTwoFactorType(userData.twoFactorAuth.type || TwoFactorType.App);
+        setTwoFactorType((userData.twoFactorAuth.type as TwoFactorType) || TwoFactorType.App);
     }, [defaultOtpLabel, userData]);
 
     return (

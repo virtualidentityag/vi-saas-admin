@@ -1,7 +1,7 @@
 import { getValueFromCookie } from './accessSessionCookie';
 import { logoutEndpoint } from '../../appConfig';
 
-const apiKeycloakLogout = (): Promise<any> =>
+const apiKeycloakLogout = (): Promise<Response> =>
     new Promise((resolve, reject) => {
         const url = logoutEndpoint;
         const refreshToken = getValueFromCookie('refreshToken');

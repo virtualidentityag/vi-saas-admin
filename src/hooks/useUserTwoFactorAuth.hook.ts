@@ -6,6 +6,8 @@ import {
     apiPutTwoFactorAuthEmail,
 } from '../api/user/apiTwoFactorAuth';
 import { TwoFactorType } from '../enums/TwoFactorType';
+import { UserData } from '../types/user';
+import { USER_DATA_KEY } from './useUserData.hook';
 
 interface UserMutationData {
     twoFactorType: TwoFactorType;
@@ -29,12 +31,13 @@ export const useUserTwoFactorAuth = () => {
         },
         {
             onSuccess: (_, { twoFactorType }) => {
-                const cache = queryClient.getQueryData('user-data') as any;
-                if (cache) {
-                    cache.twoFactorAuth.isActive = true;
-                    cache.twoFactorAuth.type = twoFactorType;
-                    queryClient.getQueryData('user-data', cache);
-                }
+                queryClient.setQueryData<UserData>(USER_DATA_KEY, (prev) => {
+                    if (!prev) return prev;
+                    return {
+                        ...prev,
+                        twoFactorAuth: { ...prev.twoFactorAuth, isActive: true, type: twoFactorType },
+                    };
+                });
             },
         },
     );
@@ -45,11 +48,13 @@ export const useUserTwoFactorDelete = () => {
 
     return useMutation(() => apiDeleteTwoFactorAuth(), {
         onSuccess: () => {
-            const cache = queryClient.getQueryData('user-data') as any;
-            if (cache) {
-                cache.twoFactorAuth.isActive = false;
-                queryClient.getQueryData('user-data', cache);
-            }
+            queryClient.setQueryData<UserData>(USER_DATA_KEY, (prev) => {
+                if (!prev) return prev;
+                return {
+                    ...prev,
+                    twoFactorAuth: { ...prev.twoFactorAuth, isActive: false },
+                };
+            });
         },
     });
 };
@@ -59,11 +64,10 @@ export const useUserTwoFactorSendEmailCode = () => {
 
     return useMutation<unknown, Error, string>((email: string) => apiPutTwoFactorAuthEmail(email), {
         onSuccess: (_, email) => {
-            const cache = queryClient.getQueryData('user-data') as any;
-            if (cache) {
-                cache.email = email;
-                queryClient.getQueryData('user-data', cache);
-            }
+            queryClient.setQueryData<UserData>(USER_DATA_KEY, (prev) => {
+                if (!prev) return prev;
+                return { ...prev, email };
+            });
         },
     });
 };

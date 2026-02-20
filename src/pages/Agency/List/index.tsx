@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, Tag } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { ColumnProps, TablePaginationConfig } from 'antd/es/table';
+import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import { useNavigate } from 'react-router-dom';
 import { useDebouncedCallback } from 'use-debounce';
 import EditButtons from '../../../components/EditableTable/EditButtons';
@@ -173,11 +174,12 @@ export const AgencyList = () => {
         },
     ] as Array<ColumnProps<AgencyData>>;
 
-    const tableChangeHandler = useCallback((pagination: TablePaginationConfig, _filters: unknown, sorter: { field?: string; order?: string }) => {
+    const tableChangeHandler = useCallback((pagination: TablePaginationConfig, _filters: Record<string, FilterValue>, sorter: SorterResult<AgencyData> | SorterResult<AgencyData>[]) => {
         const { current, pageSize } = pagination;
-        if (sorter.field) {
-            const sortBy = sorter.field.toUpperCase();
-            const order = sorter.order === 'descend' ? 'DESC' : 'ASC';
+        const singleSorter = Array.isArray(sorter) ? sorter[0] : sorter;
+        if (singleSorter?.field) {
+            const sortBy = String(singleSorter.field).toUpperCase();
+            const order = singleSorter.order === 'descend' ? 'DESC' : 'ASC';
             setTableState((prev) => ({
                 ...prev,
                 current,

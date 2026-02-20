@@ -22,7 +22,7 @@ const LoginForm = () => {
     const [twoFactorType, setTwoFactorType] = useState(TwoFactorType.None);
 
     // Function gets fired on Form Submit
-    const onFinish = async (values: any) => {
+    const onFinish = async (values: { username: string; password: string; otp: string }) => {
         setPostLoading(true);
 
         login(values, {

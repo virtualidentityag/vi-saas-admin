@@ -42,7 +42,7 @@ export const InputField = (props: InputFieldProps) => {
     const inputItem = props.item;
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleInputValidation = (e: any) => {
+    const handleInputValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
         const postcode = e.target.value;
         let postcodeValid = true;
         if (inputItem.maxLength) {
@@ -56,7 +56,7 @@ export const InputField = (props: InputFieldProps) => {
         }
     };
 
-    const handleKeyUp = (e: any) => {
+    const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (props.keyUpHandle) {
             props.keyUpHandle(e);
         }

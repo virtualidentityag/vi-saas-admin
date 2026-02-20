@@ -15,6 +15,7 @@ import { getDomain } from '../../../utils/getDomain';
 import { useUserPermissions } from '../../../hooks/useUserPermission';
 import { PermissionAction } from '../../../enums/PermissionAction';
 import { Resource } from '../../../enums/Resource';
+import { CounselorData } from '../../../types/counselor';
 
 export const TenantAdminEditOrAdd = () => {
     const { search } = useLocation();
@@ -39,7 +40,7 @@ export const TenantAdminEditOrAdd = () => {
         },
     });
 
-    const onSave = useCallback((tmp: any) => mutate(tmp), []);
+    const onSave = useCallback((tmp: CounselorData) => mutate(tmp), []);
     const onCancel = useCallback(() => {
         if (isEditing) {
             setReadOnly(true);

@@ -18,7 +18,7 @@ export const PrivateData = () => {
         <CardEditable
             isLoading={isLoading}
             titleKey="profile.privateData.title"
-            initialValues={{ ...data, firstname: data?.firstName, lastname: data?.lastName }}
+            initialValues={data && { ...data }}
             onSave={updateData}
         >
             <FormInputField name="firstname" labelKey="firstname" placeholderKey="placeholder.firstname" required />

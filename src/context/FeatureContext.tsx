@@ -63,13 +63,14 @@ function useFeatureContext() {
         [features],
     );
 
-    const toggleFeature = (key: FeatureFlag) => {
-        const feature = features.find((f) => f.name === key);
-
-        feature.active = !feature.active;
-
-        setFeatures([...features]);
-    };
+    const toggleFeature = useCallback(
+        (key: FeatureFlag) => {
+            setFeatures((prev) =>
+                prev.map((f) => (f.name === key ? { ...f, active: !f.active } : f)),
+            );
+        },
+        [setFeatures],
+    );
 
     return {
         isEnabled,

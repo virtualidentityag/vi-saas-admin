@@ -61,20 +61,20 @@ export const UsersTableData = () => {
         refetch();
     }, []);
 
-    const handleTableAction = useCallback((pagination: TablePaginationConfig, _: any, sorter: any) => {
+    const handleTableAction = useCallback((pagination: TablePaginationConfig, _filters: unknown, sorter: { field?: string; order?: string }) => {
         const { current, pageSize } = pagination;
         if (sorter.field) {
             const sortBy = sorter.field.toUpperCase();
             const order = sorter.order === 'descend' ? 'DESC' : 'ASC';
-            setTableState({
-                ...tableState,
+            setTableState((prev) => ({
+                ...prev,
                 current,
                 pageSize,
                 sortBy,
                 order,
-            });
+            }));
         } else {
-            setTableState({ ...tableState, current, pageSize });
+            setTableState((prev) => ({ ...prev, current, pageSize }));
         }
     }, []);
 

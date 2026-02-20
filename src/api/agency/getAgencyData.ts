@@ -21,8 +21,8 @@ const getAgencyData = (params: TableState & { search?: string }) => {
     sortBy = sortBy.toUpperCase();
     order = order.toUpperCase();
 
-    const resolveAgencyStatus = (el: any) => {
-        if (el.deleteDate !== 'null') {
+    const resolveAgencyStatus = (el: { deleteDate?: string | null }) => {
+        if (el.deleteDate != null) {
             return 'IN_DELETION';
         }
         return 'CREATED';

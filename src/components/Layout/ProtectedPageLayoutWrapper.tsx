@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Layout } from 'antd';
 import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
@@ -24,7 +24,7 @@ import styles from './styles.module.scss';
 
 const { Content, Sider } = Layout;
 
-const ProtectedPageLayoutWrapper = ({ children }: any) => {
+const ProtectedPageLayoutWrapper = ({ children }: { children: React.ReactNode }) => {
     const { settings } = useAppConfigContext();
     const { can } = useUserPermissions();
     const { subdomain } = getLocationVariables();
@@ -47,6 +47,8 @@ const ProtectedPageLayoutWrapper = ({ children }: any) => {
         if (!isEnabled(FeatureFlag.Developer) && developer === 'true') {
             toggleFeature(FeatureFlag.Developer);
         }
+        // Intentionally run only on mount for initial auth token refresh and developer mode check
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {

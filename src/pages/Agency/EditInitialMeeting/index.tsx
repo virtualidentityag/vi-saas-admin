@@ -2,7 +2,7 @@ import { Button, Table, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { PlusOutlined } from '@ant-design/icons';
 import React, { useCallback, useEffect, useState } from 'react';
-import { ColumnsType } from 'antd/lib/table';
+import { ColumnsType } from 'antd/es/table';
 import { useParams } from 'react-router';
 import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 import EditButtons from '../../../components/EditableTable/EditButtons';

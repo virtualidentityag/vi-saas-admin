@@ -1,4 +1,4 @@
-import { LabeledValue } from 'antd/lib/select';
+import { LabeledValue } from 'antd/es/select';
 import { CounselorData } from '../../types/counselor';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
 import { agencyAdminEndpoint } from '../../appConfig';
@@ -37,7 +37,7 @@ export const editAgencyAdminData = async (id: string, formData: AdminData): Prom
                 }
                 return response.json();
             })
-            // eslint-disable-next-line no-underscore-dangle
+             
             .then((data: { _embedded: CounselorData }) => data?._embedded)
     );
 };

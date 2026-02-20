@@ -14,7 +14,7 @@ import { Form } from 'antd';
 import './FormPluginEditor.styles.scss';
 import DisabledContext from 'antd/es/config-provider/DisabledContext';
 import classNames from 'classnames';
-import { FormItemProps } from 'antd/lib/form/FormItem';
+import { FormItemProps } from 'antd/es/form/FormItem';
 import styles from './styles.module.scss';
 import createLinkPlugin, { LinkControl } from '../../utils/draftjs/linkPlugin';
 import createImagePlugin, { ImageControl } from '../../utils/draftjs/imagePlugin';

@@ -5,11 +5,11 @@ import { FETCH_ERRORS } from '../../../api/fetchData';
 import { OVERLAY_FUNCTIONS, OverlayItem, OverlayWrapper, Overlay } from '../../../components/overlay/Overlay';
 import { BUTTON_TYPES } from '../../../components/button/Button';
 import { InputField, InputFieldItem, InputFieldLabelState } from '../../../components/inputField/InputField';
-import { ReactComponent as LockIcon } from '../../../resources/img/svg/lock.svg';
-import { ReactComponent as AddIcon } from '../../../resources/img/svg/add.svg';
-import { ReactComponent as UrlIcon } from '../../../resources/img/svg/url.svg';
-import { ReactComponent as CheckIcon } from '../../../resources/img/svg/checkmark.svg';
-import { ReactComponent as PenIcon } from '../../../resources/img/svg/pen.svg';
+import LockIcon from '../../../resources/img/svg/lock.svg?react';
+import AddIcon from '../../../resources/img/svg/add.svg?react';
+import UrlIcon from '../../../resources/img/svg/url.svg?react';
+import CheckIcon from '../../../resources/img/svg/checkmark.svg?react';
+import PenIcon from '../../../resources/img/svg/pen.svg?react';
 import { useUserData } from '../../../hooks/useUserData.hook';
 import { TwoFactorType } from '../../../enums/TwoFactorType';
 import {

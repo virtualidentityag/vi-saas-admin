@@ -1,4 +1,3 @@
-/* eslint-disable  @typescript-eslint/ban-types */
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import * as ReactDOM from 'react-dom';
@@ -7,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { ButtonItem, Button } from '../button/Button';
 import { Text } from '../text/Text';
 import { Headline, HeadlineLevel } from '../headline/Headline';
-import { ReactComponent as XIcon } from '../../resources/img/svg/x.svg';
+import XIcon from '../../resources/img/svg/x.svg?react';
 
 export const OVERLAY_FUNCTIONS = {
     CLOSE: 'CLOSE',
@@ -66,7 +65,7 @@ export const Overlay = (props: {
 
     useEffect(() => {
         setActiveOverlay(props.item ? { ...props.item, ...props.handleOverlay } : props.items?.[activeStep]);
-    }, [props.item, props.items]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [props.item, props.items]);  
 
     useEffect(() => {
         document.querySelector('.app')?.classList.add('app--blur');
@@ -114,6 +113,7 @@ export const Overlay = (props: {
     };
 
     const illustration = activeOverlay.svg;
+    const Illustration = illustration;
     return (
         <div
             className={clsx(
@@ -139,7 +139,7 @@ export const Overlay = (props: {
                                             'overlay__step--active': i === activeStep,
                                             'overlay__step--disabled': i > activeStep,
                                         })}
-                                        key={i} // eslint-disable-line react/no-array-index-key
+                                        key={i}  
                                     >
                                         <div className="overlay__stepContent">
                                             <div className="overlay__stepIcon">
@@ -163,7 +163,7 @@ export const Overlay = (props: {
                                 'overlay__illustration--neutral': activeOverlay.illustrationBackground === 'neutral',
                             })}
                         >
-                            {illustration}
+                            {Illustration && <Illustration />}
                         </span>
                     </div>
                 )}
@@ -184,7 +184,7 @@ export const Overlay = (props: {
                             <Button
                                 disabled={item.disabled}
                                 item={item}
-                                key={`${i}-${item.type}`} // eslint-disable-line react/no-array-index-key
+                                key={`${i}-${item.type}`}  
                                 buttonHandle={handleButtonClick}
                             />
                         ))}

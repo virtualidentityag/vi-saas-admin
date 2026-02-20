@@ -1,7 +1,7 @@
 import { Form, Input, message, Modal, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 import Title from 'antd/es/typography/Title';
-import TextArea from 'antd/lib/input/TextArea';
+import TextArea from 'antd/es/input/TextArea';
 import { useLocation } from 'react-router';
 import { useEffect } from 'react';
 import { SelectFormField } from '../../../../components/SelectFormField';

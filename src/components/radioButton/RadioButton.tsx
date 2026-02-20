@@ -1,4 +1,3 @@
-/* eslint-disable  @typescript-eslint/ban-types */
 export interface RadioButtonItem {
     checked: boolean;
     handleRadioButton: Function;

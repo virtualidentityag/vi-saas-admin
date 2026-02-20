@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as CheckmarkIcon } from '../../../resources/img/svg/checkmark.svg';
+import CheckmarkIcon from '../../../resources/img/svg/checkmark.svg?react';
 import { Text } from '../../../components/text/Text';
 
 interface TwoFactorAuthResendMailProps {

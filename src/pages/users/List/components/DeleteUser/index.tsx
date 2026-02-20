@@ -1,5 +1,5 @@
 import { message, Modal, notification, Checkbox } from 'antd';
-import Title from 'antd/lib/typography/Title';
+import Title from 'antd/es/typography/Title';
 import { useTranslation } from 'react-i18next';
 import { useCallback, useState } from 'react';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
@@ -48,7 +48,7 @@ export const DeleteUserModal = ({ typeOfUser, deleteUserId, onClose }: DeleteUse
                             content: i18next.t([
                                 `message.error.${error.headers.get(FETCH_ERRORS.X_REASON)}`,
                                 'message.error.default',
-                            ]),
+                            ]) as string,
                             duration: 3,
                         });
                 }

@@ -30,6 +30,6 @@ export const ProtectedRoute = ({ children }: ProtectedRouteTypes) => {
         return <Navigate to={routePathNames.login} state={{ from: location }} />;
     }
     // we must return a proper element here :(
-    // eslint-disable-next-line react/jsx-no-useless-fragment
+     
     return <>{children}</>;
 };

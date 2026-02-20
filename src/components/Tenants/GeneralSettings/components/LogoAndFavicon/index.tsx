@@ -17,7 +17,7 @@ export const LogoAndFavicon = ({ tenantId }: { tenantId: string }) => {
             isLoading={isLoading}
             initialValues={{ ...data }}
             titleKey="settings.images.title"
-            subTitle={t<string>('settings.images.howto')}
+            subTitle={t('settings.images.howto')}
             onSave={mutate}
         >
             <Row gutter={15}>

@@ -1,5 +1,5 @@
 import { Modal, message, Alert, Space } from 'antd';
-import Title from 'antd/lib/typography/Title';
+import Title from 'antd/es/typography/Title';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { useConsultantTwoFactorDeactivate } from '../../hooks/useConsultantTwoFactorDeactivate';

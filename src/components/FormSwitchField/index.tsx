@@ -1,5 +1,5 @@
 import { Form, Switch } from 'antd';
-import Paragraph from 'antd/lib/typography/Paragraph';
+import Paragraph from 'antd/es/typography/Paragraph';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -75,7 +75,7 @@ export const FormSwitchField = ({
     checkedKey = 'yes',
     unCheckedKey = 'no',
 }: FormSwitchFieldProps) => {
-    const [t] = useTranslation();
+    const { t } = useTranslation();
     const message = errorMessage || t('form.errors.required');
 
     return (

@@ -32,7 +32,7 @@ export const addAgencyAdminData = (adminData: Record<string, any>): Promise<Admi
                 }
                 return response.json();
             })
-            // eslint-disable-next-line no-underscore-dangle
+             
             .then((data: { _embedded: AdminData }) => data?._embedded)
             .then((data) => {
                 return putAgenciesForAgencyAdmin(data?.id, adminData.agencies?.map(({ value }) => value) || []).then(

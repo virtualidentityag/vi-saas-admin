@@ -1,7 +1,7 @@
 import { Modal as AntModal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
-import { ReactComponent as CheckV2 } from '../../resources/img/illustrations/CheckV2.svg';
+import CheckV2 from '../../resources/img/illustrations/CheckV2.svg?react';
 
 export interface ModalProps {
     titleKey?: string;

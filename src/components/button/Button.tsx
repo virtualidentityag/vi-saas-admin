@@ -1,4 +1,3 @@
-/* eslint-disable  @typescript-eslint/ban-types */
 import { useEffect } from 'react';
 
 export const BUTTON_TYPES = {
@@ -50,7 +49,7 @@ export const Button = (props: ButtonProps) => {
         return (): void => {
             if (timeoutID) window.clearTimeout(timeoutID);
         };
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    }, []);  
 
     const getButtonClassName = (type: string) => {
         let className;

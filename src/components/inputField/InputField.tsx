@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Text } from '../text/Text';
-import { ReactComponent as ShowPasswordIcon } from '../../resources/img/svg/eye.svg';
-import { ReactComponent as HidePasswordIcon } from '../../resources/img/svg/eye-closed.svg';
+import ShowPasswordIcon from '../../resources/img/svg/eye.svg?react';
+import HidePasswordIcon from '../../resources/img/svg/eye-closed.svg?react';
 
 export type InputFieldLabelState = 'valid' | 'invalid';
 

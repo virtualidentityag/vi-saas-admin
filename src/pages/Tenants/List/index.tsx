@@ -1,6 +1,6 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, notification, Tag } from 'antd';
-import { ColumnProps, TablePaginationConfig } from 'antd/lib/table';
+import { ColumnProps, TablePaginationConfig } from 'antd/es/table';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -166,7 +166,7 @@ export const TenantsList = () => {
 
     return (
         <Page>
-            <Page.Title titleKey="tenants.title" subTitle={t<string>('tenants.subTitle', { count: data?.total || 0 })}>
+            <Page.Title titleKey="tenants.title" subTitle={t('tenants.subTitle', { count: data?.total || 0 })}>
                 <div className={styles.searchContainer}>
                     <SearchInput
                         placeholder={t('tenants.searchPlaceholder')}

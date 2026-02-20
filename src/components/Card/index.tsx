@@ -1,10 +1,10 @@
 import { Spin } from 'antd';
-import Title from 'antd/lib/typography/Title';
+import Title from 'antd/es/typography/Title';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Box } from '../Box';
 import { Tooltip } from '../tooltip/Tooltip';
-import { ReactComponent as InfoIcon } from '../../resources/img/svg/i.svg';
+import InfoIcon from '../../resources/img/svg/i.svg?react';
 import styles from './styles.module.scss';
 
 interface CardProps {

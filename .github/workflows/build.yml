@@ -14,27 +14,23 @@ jobs:
         steps:
             - name: set env
               run: echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
-            - uses: actions/checkout@v1
-            - uses: actions/setup-node@v2
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v4
               with:
-                  node-version: 14.18.3
-            - run: yarn install --frozen-lockfile
+                  node-version: 20
+                  cache: 'npm'
+            - run: npm ci --legacy-peer-deps
               env:
+                  CYPRESS_INSTALL_BINARY: 0
                   GITHUB_TOKEN: ${{ secrets.github_token }}
             - name: Run linters
-              uses: wearerequired/lint-action@v1
-              with:
-                  github_token: ${{ secrets.github_token }}
-                  eslint: true
-                  eslint_dir: ./
-                  eslint_extensions: js,ts,tsx
-                  prettier: true
+              run: npm run lint:js
+              env:
+                  GITHUB_TOKEN: ${{ secrets.github_token }}
             - name: test and build
               run: |
-                  echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
-                  echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
-                  # need to change tests to mocked data: yarn run test:integration:cli
-                  yarn run build
+                  npm run test
+                  npm run build
               env:
                   GITHUB_TOKEN: ${{ secrets.github_token }}
             - name: Bump version
@@ -42,7 +38,7 @@ jobs:
               run: |
                   git config --local user.email "action@github.com"
                   git config --local user.name "GitHub Action"
-                  yarn run release
+                  npm run release
               env:
                   GITHUB_TOKEN: ${{ secrets.github_token }}
             - name: Push changes

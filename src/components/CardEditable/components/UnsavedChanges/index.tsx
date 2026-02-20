@@ -1,6 +1,6 @@
 import { Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
-import Title from 'antd/lib/typography/Title';
+import Title from 'antd/es/typography/Title';
 
 export interface UnsavedChangesProps {
     onConfirm: () => void;

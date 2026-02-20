@@ -1,5 +1,5 @@
 import { Col, message, Row } from 'antd';
-import { useForm } from 'antd/lib/form/Form';
+import { useForm } from 'antd/es/form/Form';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';

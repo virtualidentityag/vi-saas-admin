@@ -1,4 +1,4 @@
-import { ColumnProps, TablePaginationConfig } from 'antd/lib/table';
+import { ColumnProps, TablePaginationConfig } from 'antd/es/table';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';

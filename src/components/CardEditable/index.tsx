@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import { ReactComponent as PenIcon } from '../../resources/img/svg/pen.svg';
+import PenIcon from '../../resources/img/svg/pen.svg?react';
 import { UnsavedChangesModal } from './components/UnsavedChanges';
 import styles from './styles.module.scss';
 import { Card } from '../Card';

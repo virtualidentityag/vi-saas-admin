@@ -1,22 +1,22 @@
 import { useLocation } from 'react-router';
 import { useState } from 'react';
 import routePathNames from '../../appConfig';
-import { ReactComponent as SettingsActiveIcon } from '../../resources/img/svg/navbar/settings_active.svg';
-import { ReactComponent as SettingsInactiveIcon } from '../../resources/img/svg/navbar/settings_inactive.svg';
-import { ReactComponent as TenantsActiveIcon } from '../../resources/img/svg/navbar/tenants_active.svg';
-import { ReactComponent as TenantsInactiveIcon } from '../../resources/img/svg/navbar/tenants_inactive.svg';
-import { ReactComponent as CounselingActiveIcon } from '../../resources/img/svg/navbar/counseling_active.svg';
-import { ReactComponent as CounselingInactiveIcon } from '../../resources/img/svg/navbar/counseling_inactive.svg';
-import { ReactComponent as UsersActiveIcon } from '../../resources/img/svg/navbar/users_active.svg';
-import { ReactComponent as UsersInactiveIcon } from '../../resources/img/svg/navbar/users_inactive.svg';
-import { ReactComponent as ProfileActiveIcon } from '../../resources/img/svg/navbar/profile_active.svg';
-import { ReactComponent as ProfileInactiveIcon } from '../../resources/img/svg/navbar/profile_inactive.svg';
-import { ReactComponent as TopicsActiveIcon } from '../../resources/img/svg/navbar/topics_active.svg';
-import { ReactComponent as TopicsInactiveIcon } from '../../resources/img/svg/navbar/topics_inactive.svg';
-import { ReactComponent as StatisticsActiveIcon } from '../../resources/img/svg/navbar/statistics_active.svg';
-import { ReactComponent as StatisticsInactiveIcon } from '../../resources/img/svg/navbar/statistics_inactive.svg';
-import { ReactComponent as LogoutActiveIcon } from '../../resources/img/svg/navbar/logout_active.svg';
-import { ReactComponent as LogoutInactiveIcon } from '../../resources/img/svg/navbar/logout_inactive.svg';
+import SettingsActiveIcon from '../../resources/img/svg/navbar/settings_active.svg?react';
+import SettingsInactiveIcon from '../../resources/img/svg/navbar/settings_inactive.svg?react';
+import TenantsActiveIcon from '../../resources/img/svg/navbar/tenants_active.svg?react';
+import TenantsInactiveIcon from '../../resources/img/svg/navbar/tenants_inactive.svg?react';
+import CounselingActiveIcon from '../../resources/img/svg/navbar/counseling_active.svg?react';
+import CounselingInactiveIcon from '../../resources/img/svg/navbar/counseling_inactive.svg?react';
+import UsersActiveIcon from '../../resources/img/svg/navbar/users_active.svg?react';
+import UsersInactiveIcon from '../../resources/img/svg/navbar/users_inactive.svg?react';
+import ProfileActiveIcon from '../../resources/img/svg/navbar/profile_active.svg?react';
+import ProfileInactiveIcon from '../../resources/img/svg/navbar/profile_inactive.svg?react';
+import TopicsActiveIcon from '../../resources/img/svg/navbar/topics_active.svg?react';
+import TopicsInactiveIcon from '../../resources/img/svg/navbar/topics_inactive.svg?react';
+import StatisticsActiveIcon from '../../resources/img/svg/navbar/statistics_active.svg?react';
+import StatisticsInactiveIcon from '../../resources/img/svg/navbar/statistics_inactive.svg?react';
+import LogoutActiveIcon from '../../resources/img/svg/navbar/logout_active.svg?react';
+import LogoutInactiveIcon from '../../resources/img/svg/navbar/logout_inactive.svg?react';
 
 interface Props {
     path: string;

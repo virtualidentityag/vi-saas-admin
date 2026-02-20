@@ -39,7 +39,7 @@ const getAgencyData = (params: TableState & { search?: string }) => {
         responseHandling: [],
     })
         .then((result) => {
-            // eslint-disable-next-line no-underscore-dangle
+             
             return removeEmbedded(result);
         })
         .then((result) => {

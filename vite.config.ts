@@ -1,8 +1,9 @@
+/// <reference types="vitest" />
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 import svgrPlugin from 'vite-plugin-svgr';
-import eslintPlugin from 'vite-plugin-eslint';
+import eslintPlugin from 'vite-plugin-eslint2';
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -22,19 +23,18 @@ export default ({ mode }) => {
                 fix: process.env.NODE_ENV === 'development',
             }),
         ],
-        css: {
-            preprocessorOptions: {
-                less: {
-                    javascriptEnabled: true,
-                },
-            },
-        },
         build: {
             outDir: 'build',
         },
         server: {
             host: '0.0.0.0',
             port: (process.env.VITE_PORT as unknown as number) || 9000,
+        },
+        test: {
+            globals: true,
+            environment: 'jsdom',
+            include: ['src/**/*.{test,spec}.{ts,tsx}'],
+            setupFiles: ['./src/setupTests.ts'],
         },
     });
 };

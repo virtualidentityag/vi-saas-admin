@@ -86,7 +86,7 @@ export const GeneralTenantSettings = () => {
                         titleKey="tenants.add.mainTenantTitle"
                         initialValues={{ ...data }}
                         formProp={form}
-                        onSave={(formData) => update(formData as unknown as TenantAdminData)}
+                        onSave={(formData) => update(formData as TenantAdminData)}
                     >
                         <div className={styles.fieldGroup}>
                             <div className={styles.description}>{t('tenants.add.form.name.label')}</div>

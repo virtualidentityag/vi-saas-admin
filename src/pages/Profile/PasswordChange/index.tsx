@@ -41,7 +41,7 @@ export const PasswordChange = () => {
             titleKey="profile.passwordChange.title"
             subTitleKey="profile.passwordChange.info"
             saveKey="profile.passwordChange.save"
-            onSave={(data, opts) => updateData(data as any, opts)}
+            onSave={(data, opts) => updateData(data as { oldPassword: string; newPassword: string }, opts)}
             editButton={<span className={styles.editButton}>{t('profile.passwordChange.editButton')}</span>}
         >
             {({ editing }) =>

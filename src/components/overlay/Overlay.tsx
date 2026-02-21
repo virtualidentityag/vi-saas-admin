@@ -40,7 +40,7 @@ export interface OverlayItem {
     handleNextStep?: (callback: Function) => void;
     handleOverlay?: Function;
     step?: {
-        icon: React.FunctionComponent<React.SVGProps<SVGSVGElement> & { title?: string }>;
+        icon: React.ComponentType<Record<string, never>>;
         label: string;
     };
 }

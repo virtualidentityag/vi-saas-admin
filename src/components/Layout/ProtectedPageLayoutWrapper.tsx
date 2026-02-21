@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, MenuProps } from 'antd';
 import {
     SettingOutlined,
     TeamOutlined,
@@ -71,7 +71,7 @@ const ProtectedPageLayoutWrapper = ({ children }: { children: React.ReactNode })
     };
 
     const menuItems = useMemo(() => {
-        const items: any[] = [];
+        const items: MenuProps['items'] = [];
 
         if (can(PermissionAction.Read, Resource.Tenant) || can(PermissionAction.Read, Resource.LegalText)) {
             items.push({
@@ -136,8 +136,8 @@ const ProtectedPageLayoutWrapper = ({ children }: { children: React.ReactNode })
 
     const selectedKeys = useMemo(() => {
         const path = location.pathname;
-        const match = menuItems.find((item) => path.startsWith(item.key));
-        return match ? [match.key] : [];
+        const match = menuItems.find((item) => path.startsWith(String(item.key)));
+        return match ? [String(match.key)] : [];
     }, [location.pathname, menuItems]);
 
     const handleMenuClick = ({ key }: { key: string }) => {

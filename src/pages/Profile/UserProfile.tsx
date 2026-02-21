@@ -5,7 +5,7 @@ import { useAppConfigContext } from '../../context/useAppConfig';
 import { UserRole } from '../../enums/UserRole';
 import { useUserRoles } from '../../hooks/useUserRoles.hook';
 import { Documentation } from './Documentation';
-import { PasswordChange } from './PassswordChange';
+import { PasswordChange } from './PasswordChange';
 import { PrivateData } from './PrivateData';
 import TwoFactorAuth from './TwoFactorAuth/TwoFactorAuth';
 

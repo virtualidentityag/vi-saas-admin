@@ -11,10 +11,10 @@ export interface RenderFormProps {
 
 interface ModalFormProps {
     isModalCreateVisible: boolean;
-    handleOnAddElement: (arg0: any) => void;
+    handleOnAddElement: (arg0: EditableData) => void;
     handleCreateModalCancel: () => void;
     title: string;
-    renderFormFields: any;
+    renderFormFields: (props: RenderFormProps) => React.ReactNode;
     isInAddMode: boolean;
     formData: EditableData;
 }

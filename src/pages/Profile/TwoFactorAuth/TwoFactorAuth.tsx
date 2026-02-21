@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { Typography, Switch } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { FETCH_ERRORS } from '../../../api/fetchData';
@@ -7,11 +7,11 @@ import { BUTTON_TYPES } from '../../../components/button/Button';
 import { InputField, InputFieldItem, InputFieldLabelState } from '../../../components/inputField/InputField';
 import { LockOutlined, PlusOutlined, LinkOutlined, CheckCircleOutlined, EditOutlined } from '@ant-design/icons';
 
-const LockIcon = (props: any) => <LockOutlined {...props} />;
-const AddIcon = (props: any) => <PlusOutlined {...props} />;
-const UrlIcon = (props: any) => <LinkOutlined {...props} />;
-const CheckIcon = (props: any) => <CheckCircleOutlined {...props} />;
-const PenIcon = (props: any) => <EditOutlined {...props} />;
+const LockIcon = (props: React.ComponentProps<typeof LockOutlined>) => <LockOutlined {...props} />;
+const AddIcon = (props: React.ComponentProps<typeof PlusOutlined>) => <PlusOutlined {...props} />;
+const UrlIcon = (props: React.ComponentProps<typeof LinkOutlined>) => <LinkOutlined {...props} />;
+const CheckIcon = (props: React.ComponentProps<typeof CheckCircleOutlined>) => <CheckCircleOutlined {...props} />;
+const PenIcon = (props: React.ComponentProps<typeof EditOutlined>) => <EditOutlined {...props} />;
 import { useUserData } from '../../../hooks/useUserData.hook';
 import { TwoFactorType } from '../../../enums/TwoFactorType';
 import {

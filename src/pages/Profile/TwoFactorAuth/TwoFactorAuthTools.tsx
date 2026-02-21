@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { Text } from '../../../components/text/Text';
 import { DownloadOutlined } from '@ant-design/icons';
+import React from 'react';
 
-const DownloadIcon = (props: any) => <DownloadOutlined {...props} />;
+const DownloadIcon = (props: React.ComponentProps<typeof DownloadOutlined>) => <DownloadOutlined {...props} />;
 
 export const AuthenticatorTools = () => {
     const { t } = useTranslation();

@@ -130,7 +130,7 @@ export const AgencyList = () => {
             sorter: (a, b) => (a.offline > b.offline ? 1 : -1),
             width: 100,
             ellipsis: true,
-            render: (offline: Boolean) => {
+            render: (offline: boolean) => {
                 return offline ? (
                     <Tag className={styles.tagOffline}>{t('agency.status.offline')}</Tag>
                 ) : (
@@ -154,7 +154,7 @@ export const AgencyList = () => {
             width: 80,
             title: '',
             key: 'edit',
-            render: (_: any, record: AgencyData) => {
+            render: (_: unknown, record: AgencyData) => {
                 return (
                     <div className="tableActionWrapper">
                         <EditButtons

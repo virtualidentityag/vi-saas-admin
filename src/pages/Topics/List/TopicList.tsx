@@ -117,7 +117,7 @@ export const TopicList = () => {
                     width: 88,
                     title: '',
                     key: 'edit',
-                    render: (_: any, record: TopicData) => {
+                    render: (_: unknown, record: TopicData) => {
                         return (
                             <div className="tableActionWrapper">
                                 <EditButtons

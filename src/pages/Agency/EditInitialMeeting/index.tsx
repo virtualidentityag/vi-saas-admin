@@ -155,7 +155,7 @@ export const AgencyEditInitialMeeting = () => {
                 width: 88,
                 title: '',
                 key: 'edit',
-                render: (_: any, record: AgencyEventTypes) => {
+                render: (_: unknown, record: AgencyEventTypes) => {
                     return (
                         <div className="tableActionWrapper">
                             <EditButtons

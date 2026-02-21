@@ -74,9 +74,11 @@ export const InitialMeetingEditModal = (props: {
                             });
                             props.handleSave(() => {});
                         })
-                        .catch((error) => {
-                            // eslint-disable-next-line no-console
-                            console.error(error);
+                        .catch(() => {
+                            message.error({
+                                content: t('message.error.default'),
+                                duration: 3,
+                            });
                             props.handleSave(() => {});
                         });
                 });

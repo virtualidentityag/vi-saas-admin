@@ -9,7 +9,7 @@ export interface PlaceholderProps {
     entityKey?: string;
     offsetKey?: unknown;
     contentState?: ContentState;
-    onDelete?: any;
+    onDelete?: () => void;
     getEditorState?: () => EditorState;
     setEditorState?: (editorState: EditorState) => void;
     start?: number;

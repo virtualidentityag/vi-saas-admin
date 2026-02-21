@@ -3,7 +3,6 @@ import { ResponseList } from '../../types/ResponseList';
 import { TopicData } from '../../types/topic';
 
 import { FETCH_METHODS, fetchData, FETCH_SUCCESS } from '../fetchData';
-// import removeEmbedded from "../../utils/removeEmbedded";
 
 export const DEFAULT_SORT = 'NAME';
 export const DEFAULT_ORDER = 'ASC';

@@ -167,6 +167,8 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
                         });
 
                         reject(new Error(FETCH_ERRORS.CATCH_ALL));
+                    } else {
+                        reject(new Error(`api call error: ${response.status}`));
                     }
                 } else {
                     // logout(true, routePathNames.login);

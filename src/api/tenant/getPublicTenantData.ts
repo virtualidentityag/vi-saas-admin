@@ -20,7 +20,7 @@ const getPublicTenantData = (settings: AppConfigInterface) => {
             responseHandling: [FETCH_ERRORS.NO_MATCH],
         });
     }
-    return new Promise<never>(() => {});
+    return Promise.reject(new Error('No tenant slug available'));
 };
 
 export default getPublicTenantData;

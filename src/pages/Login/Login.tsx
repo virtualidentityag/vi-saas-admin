@@ -55,7 +55,7 @@ export const Login = () => {
         <PublicPageLayoutWrapper className="login flex-col flex">
             <Stage />
             <Row align="middle" style={{ flex: '1 0 auto' }}>
-                <Col xs={{ span: 10, offset: 1 }} md={{ span: 6, offset: 3 }} xl={{ span: 4, offset: 6 }}>
+                <Col xs={{ span: 10, offset: 1 }} md={{ span: 6, offset: 3 }} xl={{ span: 6, offset: 11 }}>
                     <LoginForm />
                 </Col>
             </Row>

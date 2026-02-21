@@ -17,10 +17,7 @@ export default ({ mode }) => {
             svgrPlugin(),
             eslintPlugin({
                 emitWarning: true,
-                failOnWarning: false,
                 emitError: true,
-                failOnError: true,
-                fix: process.env.NODE_ENV === 'development',
             }),
         ],
         build: {

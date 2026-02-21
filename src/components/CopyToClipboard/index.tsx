@@ -2,7 +2,7 @@ import { notification } from 'antd';
 import classNames from 'classnames';
 import { CopyToClipboard as LibCopyToClipboard } from 'react-copy-to-clipboard';
 import { useTranslation } from 'react-i18next';
-import CopyIcon from '../../resources/img/svg/copy.svg?react';
+import { CopyOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
 
 interface CopyToClipboardProps {
@@ -21,7 +21,7 @@ export const CopyToClipboard = ({ className, children, copiedKey }: CopyToClipbo
                 text={children}
                 onCopy={() => notification.success({ message: t(copiedKey || 'notification.copy.success') })}
             >
-                <CopyIcon className={styles.icon} />
+                <CopyOutlined className={styles.icon} />
             </LibCopyToClipboard>
         </div>
     );

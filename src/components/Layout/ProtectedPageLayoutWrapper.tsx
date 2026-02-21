@@ -1,11 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { Layout } from 'antd';
-import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
+import { Layout, Menu } from 'antd';
+import {
+    SettingOutlined,
+    TeamOutlined,
+    UserOutlined,
+    BankOutlined,
+    TagsOutlined,
+    BarChartOutlined,
+    ProfileOutlined,
+    LogoutOutlined,
+} from '@ant-design/icons';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import classNames from 'classnames';
 import routePathNames from '../../appConfig';
-import SiteFooter from './SiteFooter';
 import SiteHeader from './SiteHeader';
 import { handleTokenRefresh } from '../../api/auth/auth';
 import logout from '../../api/auth/logout';
@@ -14,12 +22,12 @@ import { useUserRoles } from '../../hooks/useUserRoles.hook';
 import { useTenantData } from '../../hooks/useTenantData.hook';
 import { UserRole } from '../../enums/UserRole';
 import { useFeatureContext } from '../../context/FeatureContext';
-import { NavIcon } from './NavIcon';
 import { FeatureFlag } from '../../enums/FeatureFlag';
 import { useAppConfigContext } from '../../context/useAppConfig';
 import { PermissionAction } from '../../enums/PermissionAction';
 import { Resource } from '../../enums/Resource';
 import { useUserPermissions } from '../../hooks/useUserPermission';
+import LogoSvg from '../../resources/img/logo-connecta.svg?react';
 import styles from './styles.module.scss';
 
 const { Content, Sider } = Layout;
@@ -32,22 +40,16 @@ const ProtectedPageLayoutWrapper = ({ children }: { children: React.ReactNode })
     const { data: tenantData } = useTenantData();
     const { t } = useTranslation();
     const location = useLocation();
-    const handleLogout = () => {
-        logout(true);
-    };
+    const navigate = useNavigate();
     const { isEnabled, toggleFeature } = useFeatureContext();
     const [searchParams] = useSearchParams();
-    // add this to url to enable developer mode -> ?developer=true
     const developer = searchParams.get('developer');
 
     useEffect(() => {
-        // handle a refresh as registered user and not initialize a new user
         handleTokenRefresh();
-
         if (!isEnabled(FeatureFlag.Developer) && developer === 'true') {
             toggleFeature(FeatureFlag.Developer);
         }
-        // Intentionally run only on mount for initial auth token refresh and developer mode check
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -58,127 +60,159 @@ const ProtectedPageLayoutWrapper = ({ children }: { children: React.ReactNode })
         }
     }, [subdomain, tenantData.subdomain]);
 
-    const checkActive = (path: string) => {
-        return location.pathname.includes(path);
+    const handleLogout = () => {
+        logout(true);
     };
 
     const usersPage = () => {
-        if (can(PermissionAction.Read, Resource.Consultant)) {
-            return routePathNames.consultants;
-        }
-        if (can(PermissionAction.Read, Resource.AgencyAdminUser)) {
-            return routePathNames.agencyAdmins;
-        }
+        if (can(PermissionAction.Read, Resource.Consultant)) return routePathNames.consultants;
+        if (can(PermissionAction.Read, Resource.AgencyAdminUser)) return routePathNames.agencyAdmins;
         return routePathNames.tenantAdmins;
+    };
+
+    const menuItems = useMemo(() => {
+        const items: any[] = [];
+
+        if (can(PermissionAction.Read, Resource.Tenant) || can(PermissionAction.Read, Resource.LegalText)) {
+            items.push({
+                key: routePathNames.themeSettings,
+                icon: <SettingOutlined />,
+                label: t('settings.title'),
+            });
+        }
+
+        if (can(PermissionAction.Create, Resource.Tenant)) {
+            items.push({
+                key: routePathNames.tenants,
+                icon: <BankOutlined />,
+                label: t('tenants.navTitle'),
+            });
+        }
+
+        if (
+            can(PermissionAction.Read, Resource.Consultant) ||
+            can(PermissionAction.Read, Resource.AgencyAdminUser) ||
+            can(PermissionAction.Read, Resource.TenantAdminUser)
+        ) {
+            items.push({
+                key: '/admin/users',
+                icon: <TeamOutlined />,
+                label: t('users.title'),
+            });
+        }
+
+        if (can(PermissionAction.Read, Resource.Agency)) {
+            items.push({
+                key: routePathNames.agency,
+                icon: <ProfileOutlined />,
+                label: t('agency'),
+            });
+        }
+
+        if (can(PermissionAction.Read, Resource.Topic) && isEnabled(FeatureFlag.Topics)) {
+            items.push({
+                key: routePathNames.topics,
+                icon: <TagsOutlined />,
+                label: t('topics.title'),
+            });
+        }
+
+        if (can(PermissionAction.Read, Resource.Statistic)) {
+            items.push({
+                key: routePathNames.statistic,
+                icon: <BarChartOutlined />,
+                label: t('statistic.title'),
+            });
+        }
+
+        items.push({
+            key: routePathNames.userProfile,
+            icon: <UserOutlined />,
+            label: t('profile.title'),
+        });
+
+        return items;
+    }, [can, isEnabled, t]);
+
+    const selectedKeys = useMemo(() => {
+        const path = location.pathname;
+        const match = menuItems.find((item) => path.startsWith(item.key));
+        return match ? [match.key] : [];
+    }, [location.pathname, menuItems]);
+
+    const handleMenuClick = ({ key }: { key: string }) => {
+        if (key === '/admin/users') {
+            navigate(usersPage());
+        } else {
+            navigate(key);
+        }
     };
 
     return (
         <>
-            <Layout className="protectedLayout">
-                <Sider width={96}>
-                    <div className="logo" />
-                    <nav className="mainMenu">
-                        <ul>
-                            {(can(PermissionAction.Read, Resource.Tenant) ||
-                                can(PermissionAction.Read, Resource.LegalText)) && (
-                                <li key="theme" className="menuItem">
-                                    <NavLink
-                                        to={routePathNames.themeSettings}
-                                        className={({ isActive }) => (isActive ? 'active' : '')}
-                                    >
-                                        <NavIcon path={routePathNames.themeSettings} />
-                                        <span>{t('settings.title')}</span>
-                                    </NavLink>
-                                </li>
-                            )}
-
-                            {can(PermissionAction.Create, Resource.Tenant) && (
-                                <li key="tenants" className="menuItem">
-                                    <NavLink
-                                        to={routePathNames.tenants}
-                                        className={classNames({ active: checkActive(routePathNames.tenants) })}
-                                    >
-                                        <NavIcon path={routePathNames.tenants} />
-                                        <span>{t('tenants.navTitle')}</span>
-                                    </NavLink>
-                                </li>
-                            )}
-                            {(can(PermissionAction.Read, Resource.Consultant) ||
-                                can(PermissionAction.Read, Resource.AgencyAdminUser) ||
-                                can(PermissionAction.Read, Resource.TenantAdminUser)) && (
-                                <li key="counselors" className="menuItem">
-                                    <NavLink
-                                        to={usersPage()}
-                                        className={classNames({ active: checkActive('/admin/users') })}
-                                    >
-                                        <NavIcon path="/admin/users" />
-                                        <span>{t('users.title')}</span>
-                                    </NavLink>
-                                </li>
-                            )}
-
-                            {can(PermissionAction.Read, Resource.Agency) && (
-                                <li className="menuItem">
-                                    <NavLink
-                                        to={routePathNames.agency}
-                                        className={classNames({ active: checkActive(routePathNames.agency) })}
-                                    >
-                                        <NavIcon path={routePathNames.agency} />
-                                        <span>{t('agency')}</span>
-                                    </NavLink>
-                                </li>
-                            )}
-
-                            {can(PermissionAction.Read, Resource.Topic) && isEnabled(FeatureFlag.Topics) && (
-                                <li key="topics" className="menuItem">
-                                    <NavLink
-                                        to={routePathNames.topics}
-                                        className={({ isActive }) => (isActive ? 'active' : '')}
-                                    >
-                                        <NavIcon path={routePathNames.topics} />
-                                        <span>{t('topics.title')}</span>
-                                    </NavLink>
-                                </li>
-                            )}
-
-                            {can(PermissionAction.Read, Resource.Statistic) && (
-                                <li key="statistics" className="menuItem">
-                                    <NavLink
-                                        to={routePathNames.statistic}
-                                        className={({ isActive }) => (isActive ? 'active' : '')}
-                                    >
-                                        <NavIcon path={routePathNames.statistic} />
-                                        <span>{t('statistic.title')}</span>
-                                    </NavLink>
-                                </li>
-                            )}
-
-                            <li className="menuItem">
-                                <NavLink
-                                    to={routePathNames.userProfile}
-                                    className={({ isActive }) => (isActive ? 'active' : '')}
-                                >
-                                    <NavIcon path={routePathNames.userProfile} />
-                                    <span>{t('profile.title')}</span>
-                                </NavLink>
-                            </li>
-
-                            <li className="menuItem">
-                                <button onClick={handleLogout} type="button">
-                                    <NavIcon path="logout" />
-                                    <span className="logout">{t('logout')}</span>
-                                </button>
-                            </li>
-                        </ul>
-                    </nav>
+            <Layout style={{ minHeight: '100vh' }}>
+                <Sider
+                    width={200}
+                    theme="dark"
+                    breakpoint="md"
+                    collapsedWidth={60}
+                    style={{
+                        overflow: 'auto',
+                        height: '100vh',
+                        position: 'sticky',
+                        top: 0,
+                        left: 0,
+                    }}
+                >
+                    <div
+                        style={{
+                            height: 48,
+                            margin: 16,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <LogoSvg style={{ width: 140, height: 'auto', filter: 'brightness(0) invert(1)' }} />
+                    </div>
+                    <Menu
+                        theme="dark"
+                        mode="inline"
+                        selectedKeys={selectedKeys}
+                        items={menuItems}
+                        onClick={handleMenuClick}
+                    />
+                    <div style={{ position: 'absolute', bottom: 0, width: '100%' }}>
+                        <Menu
+                            theme="dark"
+                            mode="inline"
+                            selectable={false}
+                            items={[
+                                {
+                                    key: 'logout',
+                                    icon: <LogoutOutlined />,
+                                    label: t('logout'),
+                                    onClick: handleLogout,
+                                },
+                            ]}
+                        />
+                    </div>
                 </Sider>
 
-                <Layout className={classNames(styles.mainContent)}>
+                <Layout>
                     <SiteHeader />
-                    <Content className={styles.content}>
-                        {children}
-                        {!hasRole(UserRole.TenantAdmin) && <SiteFooter />}
-                    </Content>
+                    <Content className={styles.content}>{children}</Content>
+                    {!hasRole(UserRole.TenantAdmin) && (
+                        <Layout.Footer style={{ textAlign: 'center', padding: '12px 24px' }}>
+                            <a href={routePathNames.imprint} target="_blank" rel="noopener noreferrer">
+                                {t('footer.label.imprint')}
+                            </a>
+                            {' | '}
+                            <a href={routePathNames.privacy} target="_blank" rel="noopener noreferrer">
+                                {t('footer.label.privacy')}
+                            </a>
+                        </Layout.Footer>
+                    )}
                 </Layout>
             </Layout>
             {isEnabled(FeatureFlag.Developer) && <ReactQueryDevtools />}

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Box } from '../Box';
 import { Tooltip } from '../tooltip/Tooltip';
-import InfoIcon from '../../resources/img/svg/i.svg?react';
+import { InfoCircleOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
 
 interface CardProps {
@@ -50,7 +50,7 @@ export const Card = ({
                     </Title>
 
                     {tooltip && (
-                        <Tooltip className={styles.tooltip} trigger={<InfoIcon fill="var(--primary)" />}>
+                        <Tooltip className={styles.tooltip} trigger={<InfoCircleOutlined style={{ color: 'var(--primary)' }} />}>
                             {tooltip}
                         </Tooltip>
                     )}

@@ -5,8 +5,7 @@ import { CounselorData } from '../../types/counselor';
 import { EditableData } from '../../types/editabletable';
 import { TopicData } from '../../types/topic';
 import { BasicTenantData } from '../../types/tenant';
-import EditIcon from '../../resources/img/svg/pen.svg?react';
-import DeleteIcon from '../../resources/img/svg/delete.svg?react';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Resource } from '../../enums/Resource';
 import { useUserPermissions } from '../../hooks/useUserPermission';
 import { PermissionAction } from '../../enums/PermissionAction';
@@ -56,7 +55,7 @@ export const EditButtons = ({
                     disabled={disabledButtons?.edit}
                     onClick={() => handleEditAction(record)}
                 >
-                    <EditIcon />
+                    <EditOutlined />
                 </button>
             )}
             {!hiddenElements.includes('delete') && (
@@ -68,7 +67,7 @@ export const EditButtons = ({
                         handleDeleteAction(record);
                     }}
                 >
-                    <DeleteIcon />
+                    <DeleteOutlined />
                 </button>
             )}
         </div>

@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import PenIcon from '../../resources/img/svg/pen.svg?react';
+import { EditOutlined } from '@ant-design/icons';
 import { UnsavedChangesModal } from './components/UnsavedChanges';
 import styles from './styles.module.scss';
 import { Card } from '../Card';
@@ -50,7 +50,7 @@ export const CardEditable = ({
     formProp,
     tooltip,
     fullHeight,
-    editButton = <PenIcon className={styles.pencil} />,
+    editButton = <EditOutlined className={styles.pencil} />,
 }: CardEditableProps) => {
     const [form] = Form.useForm(formProp);
     const { t } = useTranslation();

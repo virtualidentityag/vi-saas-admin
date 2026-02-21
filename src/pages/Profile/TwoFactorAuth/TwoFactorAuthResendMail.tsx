@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CheckmarkIcon from '../../../resources/img/svg/checkmark.svg?react';
+import { CheckCircleOutlined } from '@ant-design/icons';
+
+const CheckmarkIcon = (props: any) => <CheckCircleOutlined {...props} />;
 import { Text } from '../../../components/text/Text';
 
 interface TwoFactorAuthResendMailProps {

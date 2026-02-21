@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Card } from '../../../components/Card';
-import NewWindowIcon from '../../../resources/img/svg/new-window.svg?react';
+import { ExportOutlined } from '@ant-design/icons';
 import styles from './styles.module.scss';
 
 export const Documentation = () => {
@@ -10,7 +10,7 @@ export const Documentation = () => {
     return (
         <Card titleKey="profile.documentation.title" subTitleKey="profile.documentation.description">
             <Link to="/docs" target="_blank" className={styles.button}>
-                <NewWindowIcon />
+                <ExportOutlined />
                 {t('profile.documentation.button')}
             </Link>
         </Card>

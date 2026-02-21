@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-
-import { Col, Row } from 'antd';
-import { useTranslation } from 'react-i18next';
+import { Card, Flex } from 'antd';
 import Stage from './Stage';
 import PublicPageLayoutWrapper from '../../components/Layout/PublicPageLayoutWrapper';
 import LoginForm from './LoginForm';
@@ -14,11 +12,6 @@ import { usePublicTenantData } from '../../hooks/usePublicTenantData.hook';
 import { UserRole } from '../../enums/UserRole';
 import { useAppConfigContext } from '../../context/useAppConfig';
 
-/**
- * login component
- * checks if the users token is still valid
- * @constructor
- */
 export const Login = () => {
     const { settings } = useAppConfigContext();
     const accessToken = getValueFromCookie('keycloak');
@@ -27,15 +20,10 @@ export const Login = () => {
     const { data: tenantData } = usePublicTenantData();
     const { hasRole } = useUserRoles();
     const accessTokenValidInMs = tokenExpiry.accessTokenValidUntilTime - currentTime;
-
     const refreshTokenValidInMs = tokenExpiry.refreshTokenValidUntilTime - currentTime;
 
     const [redirectUrl, setRedirectUrl] = useState('');
-    const { t } = useTranslation();
-    /**
-     * redirect user if authed
-     * using different route if isSuperAdmin
-     */
+
     useEffect(() => {
         if (hasRole(UserRole.TenantAdmin) && accessToken && refreshTokenValidInMs > 0 && accessTokenValidInMs > 0) {
             setRedirectUrl(routePathNames.tenants);
@@ -47,18 +35,27 @@ export const Login = () => {
                     : routePathNames.consultants;
             setRedirectUrl(redirectPath);
         }
-    }, [accessToken, accessTokenValidInMs, refreshTokenValidInMs, tenantData, t, hasRole(UserRole.TenantAdmin)]);
+    }, [accessToken, accessTokenValidInMs, refreshTokenValidInMs, tenantData, hasRole(UserRole.TenantAdmin)]);
 
-    return redirectUrl ? (
-        <Navigate to={redirectUrl} />
-    ) : (
-        <PublicPageLayoutWrapper className="login flex-col flex">
-            <Stage />
-            <Row align="middle" style={{ flex: '1 0 auto' }}>
-                <Col xs={{ span: 10, offset: 1 }} md={{ span: 6, offset: 3 }} xl={{ span: 6, offset: 11 }}>
-                    <LoginForm />
-                </Col>
-            </Row>
+    if (redirectUrl) {
+        return <Navigate to={redirectUrl} />;
+    }
+
+    return (
+        <PublicPageLayoutWrapper hideFooter>
+            <Flex
+                vertical
+                align="center"
+                justify="center"
+                style={{ minHeight: '100vh', background: '#f5f5f5', padding: 24 }}
+            >
+                <Card style={{ width: '100%', maxWidth: 420 }} variant="borderless">
+                    <Stage />
+                    <div style={{ padding: '0 24px 24px' }}>
+                        <LoginForm />
+                    </div>
+                </Card>
+            </Flex>
         </PublicPageLayoutWrapper>
     );
 };

@@ -87,7 +87,7 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
               }
             : null;
 
-        const localDevelopmentHeader = isLocalDevelopment ? { [CSRF_WHITELIST_HEADER]: csrfToken } : null;
+        const localDevelopmentHeader = isLocalDevelopment && CSRF_WHITELIST_HEADER ? { [CSRF_WHITELIST_HEADER]: csrfToken } : null;
 
         const controller = new AbortController();
         if (props.timeout) {

@@ -8,10 +8,13 @@ import { AppConfigInterface } from '../../types/AppConfigInterface';
  * @return data
  */
 const getPublicTenantData = (settings: AppConfigInterface) => {
-    const { subdomain } = getLocationVariables();
+    const { subdomain, origin } = getLocationVariables();
+    const fallbackSlug = origin.includes('localhost')
+        ? (import.meta.env.VITE_TENANT_SLUG as string) || 'happylife'
+        : undefined;
     const slug = settings.multitenancyWithSingleDomainEnabled
         ? settings.mainTenantSubdomainForSingleDomainMultitenancy
-        : subdomain;
+        : subdomain || fallbackSlug;
     if (slug) {
         return fetchData({
             url: `${baseTenantPublicEndpoint}/${slug}`,

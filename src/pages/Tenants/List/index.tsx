@@ -164,29 +164,29 @@ export const TenantsList = () => {
 
     return (
         <Page>
-            <Page.Title titleKey="tenants.title" subTitle={t('tenants.subTitle', { count: data?.total || 0 })}>
-                <div className={styles.searchContainer}>
-                    <SearchInput
-                        placeholder={t('tenants.searchPlaceholder')}
-                        handleOnSearch={(a) => handleSearch(a)}
-                        handleOnSearchClear={() => handleSearch('')}
-                    />
+            <Page.Title titleKey="tenants.title" subTitle={t('tenants.subTitle', { count: data?.total || 0 })} />
 
-                    <FeatureEnabled feature={ReleaseToggle.TENANT_ADMIN_CREATING}>
-                        <Button
-                            type="primary"
-                            icon={<PlusOutlined />}
-                            onClick={() =>
-                                navigate(
-                                    `${routePathNames.tenants}/add/general${data?.total === 0 ? '?main=true' : ''}`,
-                                )
-                            }
-                        >
-                            {t('tenants.list.new')}
-                        </Button>
-                    </FeatureEnabled>
-                </div>
-            </Page.Title>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 16, marginBottom: 16 }}>
+                <SearchInput
+                    placeholder={t('tenants.searchPlaceholder')}
+                    handleOnSearch={(a) => handleSearch(a)}
+                    handleOnSearchClear={() => handleSearch('')}
+                />
+
+                <FeatureEnabled feature={ReleaseToggle.TENANT_ADMIN_CREATING}>
+                    <Button
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        onClick={() =>
+                            navigate(
+                                `${routePathNames.tenants}/add/general${data?.total === 0 ? '?main=true' : ''}`,
+                            )
+                        }
+                    >
+                        {t('tenants.list.new')}
+                    </Button>
+                </FeatureEnabled>
+            </div>
             <Table
                 loading={isLoading}
                 columns={columnsData}

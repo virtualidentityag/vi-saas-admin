@@ -58,7 +58,7 @@ export const LegalSettings = ({ tenantId, disableManageToggle }: LegalSettingsPr
     if (!canShowExtraTexts) {
         return (
             <Row gutter={[24, 24]}>
-                <Col span={12} sm={6}>
+                <Col span={12}>
                     {LegalTextElement}
                 </Col>
             </Row>
@@ -67,7 +67,7 @@ export const LegalSettings = ({ tenantId, disableManageToggle }: LegalSettingsPr
 
     return (
         <Row gutter={[24, 24]}>
-            <Col span={12} sm={6}>
+            <Col span={12}>
                 {!disableManageToggle &&
                     settings?.multitenancyWithSingleDomainEnabled &&
                     hasRole(UserRole.TenantAdmin) && (
@@ -111,7 +111,7 @@ export const LegalSettings = ({ tenantId, disableManageToggle }: LegalSettingsPr
                     }}
                 />
             </Col>
-            <Col span={12} sm={6}>
+            <Col span={12}>
                 {LegalTextElement}
             </Col>
         </Row>

@@ -10,11 +10,12 @@
     background: transparent;
     border: none;
     cursor: pointer;
-    display: flex;
-    align-items: center;
     border-radius: 50%;
     height: 36px;
     width: 36px;
+    padding: 0;
+    line-height: 36px;
+    text-align: center;
 
     &:hover {
         background: rgba(39, 50, 112, 0.1);

@@ -28,19 +28,6 @@
         }
     }
 
-    .tableActionWrapper {
-        display: flex;
-        flex-direction: row;
-        gap: $spacing-sm;
-        justify-content: flex-end;
-    }
-
-    .editBtnWrapper {
-        display: inline-flex;
-        flex-direction: row;
-        gap: $spacing-sm;
-    }
-
     .editIcon {
         border: none;
         background: transparent;
@@ -57,4 +44,17 @@
             }
         }
     }
+}
+
+.tableActionWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: $spacing-sm;
+    justify-content: flex-end;
+}
+
+.editBtnWrapper {
+    display: inline-flex;
+    flex-direction: row;
+    gap: $spacing-sm;
 }

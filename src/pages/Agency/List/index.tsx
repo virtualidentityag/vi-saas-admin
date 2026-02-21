@@ -203,25 +203,24 @@ export const AgencyList = () => {
             <Page.Title
                 titleKey="agency"
                 subTitleKey={`agency.title.text${can(PermissionAction.Create, Resource.Agency) ? '' : '.self'}`}
-            >
-                <div className={styles.searchNewContainer}>
-                    <SearchInput
-                        placeholder={t('agency.list.searchPlaceholder')}
-                        handleOnSearch={setSearchDebounced}
-                        handleOnSearchClear={() => setSearchDebounced('')}
-                    />
-                    {can(PermissionAction.Create, Resource.Agency) && (
-                        <Button
-                            className="mb-m mr-sm"
-                            type="primary"
-                            icon={<PlusOutlined />}
-                            onClick={() => navigate(`${routePathNames.agencyAdd}`)}
-                        >
-                            {t('new')}
-                        </Button>
-                    )}
-                </div>
-            </Page.Title>
+            />
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 16, marginBottom: 16 }}>
+                <SearchInput
+                    placeholder={t('agency.list.searchPlaceholder')}
+                    handleOnSearch={setSearchDebounced}
+                    handleOnSearchClear={() => setSearchDebounced('')}
+                />
+                {can(PermissionAction.Create, Resource.Agency) && (
+                    <Button
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        onClick={() => navigate(`${routePathNames.agencyAdd}`)}
+                    >
+                        {t('new')}
+                    </Button>
+                )}
+            </div>
 
             <Table
                 loading={isLoading}

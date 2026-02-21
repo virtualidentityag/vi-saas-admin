@@ -20,7 +20,7 @@ import { useUserPermissions } from '../../../../../hooks/useUserPermission';
 import { Resource } from '../../../../../enums/Resource';
 import { PermissionAction } from '../../../../../enums/PermissionAction';
 import { TypeOfUser } from '../../../../../enums/TypeOfUser';
-import styles from './styles.module.scss';
+
 
 export const UsersTableData = () => {
     const { can } = useUserPermissions();
@@ -211,25 +211,23 @@ export const UsersTableData = () => {
 
     return (
         <div>
-            <div className={styles.searchContainer}>
-                <div className={styles.searchWithButton}>
-                    <SearchInput
-                        placeholder={t('consultant-search-placeholder')}
-                        handleOnSearch={setSearchDebounced}
-                        handleOnSearchClear={() => setSearch('')}
-                    />
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 16, marginBottom: 16 }}>
+                <SearchInput
+                    placeholder={t('consultant-search-placeholder')}
+                    handleOnSearch={setSearchDebounced}
+                    handleOnSearchClear={() => setSearch('')}
+                />
 
-                    {((can(PermissionAction.Create, Resource.Consultant) && isConsultantTab) ||
-                        (can(PermissionAction.Create, Resource.AgencyAdminUser) && !isConsultantTab)) && (
-                        <Button
-                            type="primary"
-                            icon={<PlusOutlined />}
-                            onClick={() => navigate(`/admin/users/${typeOfUsers}/add`)}
-                        >
-                            {t('tenants.list.new')}
-                        </Button>
-                    )}
-                </div>
+                {((can(PermissionAction.Create, Resource.Consultant) && isConsultantTab) ||
+                    (can(PermissionAction.Create, Resource.AgencyAdminUser) && !isConsultantTab)) && (
+                    <Button
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        onClick={() => navigate(`/admin/users/${typeOfUsers}/add`)}
+                    >
+                        {t('tenants.list.new')}
+                    </Button>
+                )}
             </div>
             <Table
                 rowKey="id"

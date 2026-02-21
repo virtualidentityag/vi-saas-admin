@@ -4,13 +4,12 @@ import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { useDebouncedCallback } from 'use-debounce';
-// antd Col, Row removed - using flex layout
+import { PlusOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import AddButton from '../../../../../components/EditableTable/AddButton';
+import { Button, Table } from 'antd';
 import EditButtons from '../../../../../components/EditableTable/EditButtons';
 import SearchInput from '../../../../../components/SearchInput/SearchInput';
 import { CounselorData } from '../../../../../types/counselor';
-import { Table } from 'antd';
 import { DEFAULT_ORDER, DEFAULT_SORT } from '../../../../../api/counselor/getCounselorSearchData';
 import { useUserPermissions } from '../../../../../hooks/useUserPermission';
 import { Resource } from '../../../../../enums/Resource';
@@ -151,11 +150,13 @@ export const TenantsTableData = () => {
                     handleOnSearchClear={() => setSearch('')}
                 />
                 {can(PermissionAction.Create, Resource.TenantAdminUser) && (
-                    <AddButton
-                        allowedNumberOfUsers={false}
-                        sourceLength={responseList?.total}
-                        handleBtnAdd={() => navigate(`/admin/users/tenant-admins/add`)}
-                    />
+                    <Button
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        onClick={() => navigate(`/admin/users/tenant-admins/add`)}
+                    >
+                        {t('new')}
+                    </Button>
                 )}
             </div>
             <Table

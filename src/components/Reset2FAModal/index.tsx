@@ -69,7 +69,7 @@ export const Reset2FAModal = ({ consultantId, consultantName, onClose }: Reset2F
             closable={!isLoading}
             maskClosable={!isLoading}
         >
-            <Space direction="vertical" style={{ width: '100%' }}>
+            <Space orientation="vertical" style={{ width: '100%' }}>
                 {error && <Alert message={t('error.title')} description={error} type="error" showIcon />}
                 {success ? (
                     <Alert

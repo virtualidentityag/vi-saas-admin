@@ -10,18 +10,18 @@ const SiteHeader = () => {
     return (
         <Header
             style={{
-                background: '#fff',
+                background: '#ffffff',
                 padding: '0 24px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 12,
-                borderBottom: '1px solid #f0f0f0',
+                borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
             }}
         >
-            <Title level={4} style={{ margin: 0 }}>
+            <Title level={4} style={{ margin: 0, color: '#273270' }}>
                 {t('slogan')}
             </Title>
-            <Text type="secondary">{t('subSlogan')}</Text>
+            <Text style={{ color: '#f55d3e' }}>{t('subSlogan')}</Text>
         </Header>
     );
 };

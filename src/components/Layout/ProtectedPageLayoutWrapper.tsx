@@ -152,7 +152,7 @@ const ProtectedPageLayoutWrapper = ({ children }: { children: React.ReactNode })
         <>
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider
-                    width={200}
+                    width={220}
                     theme="dark"
                     breakpoint="md"
                     collapsedWidth={60}
@@ -162,18 +162,19 @@ const ProtectedPageLayoutWrapper = ({ children }: { children: React.ReactNode })
                         position: 'sticky',
                         top: 0,
                         left: 0,
+                        background: '#273270',
                     }}
                 >
                     <div
                         style={{
-                            height: 48,
-                            margin: 16,
+                            height: 56,
+                            margin: '16px 16px 8px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                         }}
                     >
-                        <LogoSvg style={{ width: 140, height: 'auto', filter: 'brightness(0) invert(1)' }} />
+                        <LogoSvg style={{ width: 150, height: 'auto', filter: 'brightness(0) invert(1)' }} />
                     </div>
                     <Menu
                         theme="dark"
@@ -181,12 +182,14 @@ const ProtectedPageLayoutWrapper = ({ children }: { children: React.ReactNode })
                         selectedKeys={selectedKeys}
                         items={menuItems}
                         onClick={handleMenuClick}
+                        style={{ borderRight: 'none' }}
                     />
                     <div style={{ position: 'absolute', bottom: 0, width: '100%' }}>
                         <Menu
                             theme="dark"
                             mode="inline"
                             selectable={false}
+                            style={{ borderRight: 'none' }}
                             items={[
                                 {
                                     key: 'logout',
@@ -199,16 +202,33 @@ const ProtectedPageLayoutWrapper = ({ children }: { children: React.ReactNode })
                     </div>
                 </Sider>
 
-                <Layout>
+                <Layout style={{ background: '#f8ede3' }}>
                     <SiteHeader />
                     <Content className={styles.content}>{children}</Content>
                     {!hasRole(UserRole.TenantAdmin) && (
-                        <Layout.Footer style={{ textAlign: 'center', padding: '12px 24px' }}>
-                            <a href={routePathNames.imprint} target="_blank" rel="noopener noreferrer">
+                        <Layout.Footer
+                            style={{
+                                textAlign: 'center',
+                                padding: '12px 24px',
+                                background: '#f8ede3',
+                                borderTop: '1px solid rgba(0, 0, 0, 0.06)',
+                            }}
+                        >
+                            <a
+                                href={routePathNames.imprint}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ color: '#273270' }}
+                            >
                                 {t('footer.label.imprint')}
                             </a>
                             {' | '}
-                            <a href={routePathNames.privacy} target="_blank" rel="noopener noreferrer">
+                            <a
+                                href={routePathNames.privacy}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ color: '#273270' }}
+                            >
                                 {t('footer.label.privacy')}
                             </a>
                         </Layout.Footer>

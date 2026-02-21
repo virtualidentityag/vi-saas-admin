@@ -45,7 +45,7 @@ const LoginForm = () => {
             autoComplete="off"
             layout="vertical"
             size="large"
-            style={{ maxWidth: 360 }}
+            style={{ maxWidth: 360, margin: '0 auto' }}
         >
             <Form.Item
                 name="username"

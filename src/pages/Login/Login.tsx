@@ -47,9 +47,16 @@ export const Login = () => {
                 vertical
                 align="center"
                 justify="center"
-                style={{ minHeight: '100vh', background: '#f5f5f5', padding: 24 }}
+                style={{ minHeight: '100vh', background: '#f8ede3', padding: 24 }}
             >
-                <Card style={{ width: '100%', maxWidth: 420 }} variant="borderless">
+                <Card
+                    style={{
+                        width: '100%',
+                        maxWidth: 420,
+                        boxShadow: '0 2px 8px rgba(39, 50, 112, 0.08)',
+                    }}
+                    variant="borderless"
+                >
                     <Stage />
                     <div style={{ padding: '0 24px 24px' }}>
                         <LoginForm />

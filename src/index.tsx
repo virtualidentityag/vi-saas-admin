@@ -67,7 +67,37 @@ root.render(
     <QueryClientProvider client={queryClient}>
         <UseAppConfigProvider>
             <AppSettingsWrapper>
-                <ConfigProvider locale={myLanguages[languageToUse]}>
+                <ConfigProvider
+                    locale={myLanguages[languageToUse]}
+                    theme={{
+                        token: {
+                            colorPrimary: '#273270',
+                            colorLink: '#273270',
+                            colorLinkHover: '#525b8d',
+                            fontFamily: "'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                            borderRadius: 4,
+                        },
+                        components: {
+                            Layout: {
+                                siderBg: '#273270',
+                                headerBg: '#ffffff',
+                                bodyBg: '#f8ede3',
+                                footerBg: '#f8ede3',
+                            },
+                            Menu: {
+                                darkItemBg: '#273270',
+                                darkSubMenuItemBg: '#1f285a',
+                                darkItemSelectedBg: '#1f285a',
+                                darkItemColor: 'rgba(255, 255, 255, 0.85)',
+                                darkItemHoverColor: '#ffffff',
+                                darkItemSelectedColor: '#ffffff',
+                            },
+                            Button: {
+                                borderColorDisabled: '#d9d9d9',
+                            },
+                        },
+                    }}
+                >
                     <Router>
                         <Routes>
                             <Route path={routePathNames.login} element={<Login />} />

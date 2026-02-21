@@ -104,7 +104,7 @@ export const GeneralTenantSettings = () => {
                                     name="subdomain"
                                     placeholderKey="tenants.add.form.subdomain.placeholder"
                                     required
-                                    addonAfter={getDomain()}
+                                    suffix={<span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>{getDomain()}</span>}
                                     disabled={isMainTenant && isEditing}
                                 />
                             </div>

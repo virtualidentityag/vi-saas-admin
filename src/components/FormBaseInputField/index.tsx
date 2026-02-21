@@ -39,7 +39,7 @@ export const FormBaseInputField = ({
         <Form.Item
             className={classNames(className, styles.item, {
                 [styles.disabled]: contextDisabled,
-                [styles.withAddon]: !!inputProps.addonAfter,
+                [styles.withAddon]: !!inputProps.suffix,
             })}
             label={t(labelKey)}
             name={name}

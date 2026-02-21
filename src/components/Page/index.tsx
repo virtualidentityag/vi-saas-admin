@@ -1,4 +1,4 @@
-import { ChevronLeft } from '@mui/icons-material';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
 import Title from 'antd/es/typography/Title';
 import classNames from 'classnames';
@@ -87,8 +87,8 @@ export const PageBack = forwardRef(({ path, title, titleKey, tabs, children }: P
     return (
         <div className={styles.back} ref={ref as LegacyRef<HTMLDivElement>}>
             <NavLink to={path} className={classNames(styles.backLink, { [styles.backWithTabs]: !!finalTabs?.length })}>
-                <ChevronLeft />
-                <h3 className={styles.backHeadline}>{title || t(titleKey)}</h3>
+                <ArrowLeftOutlined />
+                <span className={styles.backHeadline}>{title || t(titleKey)}</span>
             </NavLink>
             {!!finalTabs?.length && finalTabs.length > 1 && <PageTabs tabs={finalTabs} />}
             {children}

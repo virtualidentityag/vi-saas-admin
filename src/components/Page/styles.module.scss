@@ -119,11 +119,18 @@
 .backLink {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 8px;
+    color: inherit;
+    font-size: 16px;
+
+    &:hover {
+        color: var(--primary);
+    }
 }
 
 .backHeadline {
-    margin-bottom: 0;
+    font-size: 20px;
+    font-weight: 700;
 }
 
 .actions {

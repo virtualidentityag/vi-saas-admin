@@ -52,7 +52,8 @@ const ProtectedPageLayoutWrapper = ({ children }: { children: React.ReactNode })
     }, []);
 
     useEffect(() => {
-        if (subdomain !== tenantData.subdomain && !settings.multitenancyWithSingleDomainEnabled) {
+        const isLocalhost = window.location.origin.includes('localhost');
+        if (!isLocalhost && subdomain !== tenantData.subdomain && !settings.multitenancyWithSingleDomainEnabled) {
             logout(true);
         }
     }, [subdomain, tenantData.subdomain]);

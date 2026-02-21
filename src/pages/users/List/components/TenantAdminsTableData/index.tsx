@@ -144,7 +144,7 @@ export const TenantsTableData = () => {
 
     return (
         <div>
-            <div className={styles.searchNewContainer}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 16, marginBottom: 16 }}>
                 <SearchInput
                     placeholder={t('consultant-search-placeholder')}
                     handleOnSearch={setSearchDebounced}

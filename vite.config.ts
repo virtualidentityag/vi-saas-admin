@@ -39,12 +39,14 @@ export default ({ mode }) => {
                         process.env.VITE_DEV_PROXY_TARGET ||
                         'https://happylife.develop.onlineberatung.net',
                     changeOrigin: true,
+                    secure: false, // dev target has incomplete cert chain
                 },
                 '/auth': {
                     target:
                         process.env.VITE_DEV_PROXY_TARGET ||
                         'https://happylife.develop.onlineberatung.net',
                     changeOrigin: true,
+                    secure: false, // dev target has incomplete cert chain
                 },
             },
         },

@@ -1,8 +1,7 @@
 import { ToolbarChildrenProps } from '@draft-js-plugins/static-toolbar/lib/components/Toolbar';
 import { EditorState, Modifier, SelectionState } from 'draft-js';
 import { useTranslation } from 'react-i18next';
-import { useCallback, useMemo } from 'react';
-import { Select } from 'antd';
+import { ChangeEvent, useCallback, useMemo } from 'react';
 
 const TEXT_STYLES = [
     { label: 'rte.text', value: 'unstyled' },
@@ -29,7 +28,8 @@ const TextStyleSelect = ({
     );
 
     const handleToggle = useCallback(
-        (type: string) => {
+        (e: ChangeEvent<HTMLSelectElement>) => {
+            const type = e.target.value;
             setEditorState(
                 EditorState.push(
                     getEditorState(),
@@ -42,20 +42,18 @@ const TextStyleSelect = ({
     );
 
     return (
-        <Select
-            size="small"
+        <select
             className="RichEditor-styleSelect"
-            dropdownMatchSelectWidth={false}
             disabled={!blockType}
-            value={blockType}
-            placeholder="Formatierung wählen"
+            value={blockType || ''}
             onChange={handleToggle}
-            options={TEXT_STYLES.map(({ label, value }) => ({
-                value,
-                label: typeof label === 'string' ? t(label) : label,
-            }))}
-            getPopupContainer={(element: HTMLElement) => element.parentElement}
-        />
+        >
+            {TEXT_STYLES.map(({ label, value }) => (
+                <option key={value} value={value}>
+                    {t(label)}
+                </option>
+            ))}
+        </select>
     );
 };
 export default TextStyleSelect;

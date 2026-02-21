@@ -1,4 +1,4 @@
-import { Button, Modal, notification } from 'antd';
+import { App, Button, Modal } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { useTranslation } from 'react-i18next';
 import { useDeleteTenantAdmin } from '../../../../../hooks/useDeleteTenantAdmin';
@@ -10,6 +10,7 @@ interface DeleteTenantAdminModalProps {
 }
 
 export const DeleteTenantAdminModal = ({ user, onClose }: DeleteTenantAdminModalProps) => {
+    const { notification } = App.useApp();
     const { t } = useTranslation();
     const { mutate: deleteAdmin } = useDeleteTenantAdmin({
         onSuccess: () => {

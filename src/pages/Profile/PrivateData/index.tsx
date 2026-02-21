@@ -1,4 +1,4 @@
-import { notification } from 'antd';
+import { App } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { CardEditable } from '../../../components/CardEditable';
 import { FormInputField } from '../../../components/FormInputField';
@@ -6,6 +6,7 @@ import { useUpdateUserData } from '../../../hooks/useUpdateUserData.hook';
 import { useUserData } from '../../../hooks/useUserData.hook';
 
 export const PrivateData = () => {
+    const { notification } = App.useApp();
     const { t } = useTranslation();
     const { data, isLoading } = useUserData();
     const { mutate: updateData } = useUpdateUserData({

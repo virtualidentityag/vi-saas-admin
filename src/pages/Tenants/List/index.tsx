@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, notification, Table, Tag } from 'antd';
+import { App, Button, Table, Tag } from 'antd';
 import { ColumnProps, TablePaginationConfig } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import { useCallback, useState } from 'react';
@@ -26,6 +26,7 @@ import { getDomain } from '../../../utils/getDomain';
 import styles from './styles.module.scss';
 
 export const TenantsList = () => {
+    const { notification } = App.useApp();
     const navigate = useNavigate();
     const { t } = useTranslation();
     const [tableState, setTableState] = useState<TableState>({

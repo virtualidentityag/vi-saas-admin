@@ -1,4 +1,4 @@
-import { notification } from 'antd';
+import { App } from 'antd';
 import classNames from 'classnames';
 import { CopyToClipboard as LibCopyToClipboard } from 'react-copy-to-clipboard';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,7 @@ interface CopyToClipboardProps {
 }
 
 export const CopyToClipboard = ({ className, children, copiedKey }: CopyToClipboardProps) => {
+    const { notification } = App.useApp();
     const { t } = useTranslation();
 
     return (

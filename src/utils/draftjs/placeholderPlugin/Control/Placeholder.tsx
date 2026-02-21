@@ -1,7 +1,7 @@
 import { ToolbarChildrenProps } from '@draft-js-plugins/static-toolbar/lib/components/Toolbar';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { EditorState, Modifier, SelectionState } from 'draft-js';
-import { Select, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
 import { InfoCircleFilled } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 
@@ -21,8 +21,9 @@ export const PlaceholderControl = ({
     }, [selectionState]);
 
     const insertPlaceholder = useCallback(
-        (key: string) => {
-            if (!selectionState) return;
+        (e: ChangeEvent<HTMLSelectElement>) => {
+            const key = e.target.value;
+            if (!key || !selectionState) return;
             const state = getEditorState();
             const selection = SelectionState.createEmpty(selectionState.getStartKey()).merge({
                 anchorOffset: selectionState.getAnchorOffset(),
@@ -48,6 +49,9 @@ export const PlaceholderControl = ({
                     }),
                 ),
             );
+
+            // Reset to placeholder option after inserting
+            e.target.value = '';
         },
         [disabled, selectionState, getEditorState],
     );
@@ -57,7 +61,7 @@ export const PlaceholderControl = ({
             <div>{t('editor.plugin.placeholder.label')}:</div>
             <div>
                 <Tooltip
-                    overlayClassName="RichEditor-toolbar-placeholder-tooltip"
+                    className="RichEditor-toolbar-placeholder-tooltip"
                     title={t('editor.plugin.placeholder.tooltip.title')}
                     trigger="hover"
                     color="white"
@@ -66,18 +70,21 @@ export const PlaceholderControl = ({
                 </Tooltip>
             </div>
             <div>
-                <Select
-                    size="small"
-                    placeholder={t('editor.plugin.placeholder.select.placeholder')}
-                    dropdownMatchSelectWidth={false}
-                    value={null}
+                <select
+                    className="RichEditor-styleSelect"
                     disabled={disabled}
+                    defaultValue=""
                     onChange={insertPlaceholder}
-                    options={Object.keys(placeholders).map((p) => ({
-                        label: t(placeholders[p]),
-                        value: p,
-                    }))}
-                />
+                >
+                    <option value="" disabled>
+                        {t('editor.plugin.placeholder.select.placeholder')}
+                    </option>
+                    {Object.keys(placeholders).map((p) => (
+                        <option key={p} value={p}>
+                            {t(placeholders[p])}
+                        </option>
+                    ))}
+                </select>
             </div>
         </div>
     );

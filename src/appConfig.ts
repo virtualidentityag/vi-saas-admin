@@ -9,7 +9,9 @@ let url = origin;
 if (import.meta.env.VITE_USE_API_URL === 'true') {
     url = `https://${import.meta.env.VITE_API_URL}`;
 } else if (origin.includes('localhost')) {
-    url = `https://${subdomain && `${subdomain}.`}${import.meta.env.VITE_API_URL}`;
+    // On localhost the Vite dev-server proxy handles all /service/* and /auth/*
+    // requests, so we use relative paths (mainURL = '').
+    url = '';
 }
 
 export const mainURL = url;

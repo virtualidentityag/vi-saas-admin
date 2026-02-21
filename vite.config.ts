@@ -40,6 +40,12 @@ export default ({ mode }) => {
                         'https://happylife.develop.onlineberatung.net',
                     changeOrigin: true,
                 },
+                '/auth': {
+                    target:
+                        process.env.VITE_DEV_PROXY_TARGET ||
+                        'https://happylife.develop.onlineberatung.net',
+                    changeOrigin: true,
+                },
             },
         },
         test: {

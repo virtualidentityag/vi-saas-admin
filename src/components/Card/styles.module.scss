@@ -21,8 +21,10 @@
 .titleContainer {
     display: flex;
     gap: 8px;
+    align-items: center;
 
     .title {
+        margin-top: 0;
         margin-bottom: 0;
     }
 }
@@ -38,14 +40,6 @@
 
 .container {
     flex-grow: 1;
-}
-
-.tooltip {
-    :global {
-        svg {
-            width: 20px;
-        }
-    }
 }
 
 .isLoading {

@@ -1,10 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { RadioButton } from '../../../components/radioButton/RadioButton';
-import { Tooltip } from '../../../components/tooltip/Tooltip';
+import { Tooltip } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import React from 'react';
-
-const InfoIcon = (props: React.ComponentProps<typeof InfoCircleOutlined>) => <InfoCircleOutlined {...props} />;
 import { TwoFactorType } from '../../../enums/TwoFactorType';
 
 interface TwoFactorAuthTypeButtonsProps {
@@ -26,7 +24,9 @@ export const TwoFactorAuthTypeButtons = ({ twoFactorType, setTwoFactorType }: Tw
                     type="default"
                     value={TwoFactorType.App}
                 />
-                <Tooltip trigger={<InfoIcon />}>{t('twoFactorAuth.activate.radio.tooltip.app')}</Tooltip>
+                <Tooltip title={t('twoFactorAuth.activate.radio.tooltip.app')}>
+                    <InfoCircleOutlined />
+                </Tooltip>
             </div>
             <div className="twoFactorAuth__radioWrapper">
                 <RadioButton
@@ -38,7 +38,9 @@ export const TwoFactorAuthTypeButtons = ({ twoFactorType, setTwoFactorType }: Tw
                     type="default"
                     value={TwoFactorType.Email}
                 />
-                <Tooltip trigger={<InfoIcon />}>{t('twoFactorAuth.activate.radio.tooltip.email')}</Tooltip>
+                <Tooltip title={t('twoFactorAuth.activate.radio.tooltip.email')}>
+                    <InfoCircleOutlined />
+                </Tooltip>
             </div>
         </div>
     );

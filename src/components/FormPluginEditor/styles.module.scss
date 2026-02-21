@@ -1,33 +1,81 @@
-.disabled {
-    cursor: not-allowed;
-
-    &.input {
-        border-color: var(--input-disabled-border-color);
-        background: var(--input-disabled-bg);
-        color: var(--input-disabled-color);
-        cursor: not-allowed;
-
-        > div {
-            cursor: not-allowed;
-        }
-    }
-}
-
-.focused {
-    &.input {
-        border-width: 2px;
-        border-color: var(--input-active-border-color);
-        box-shadow: none;
-        outline: none;
-        transition: all 0.3s;
-    }
-}
-
-.input {
+.editor {
     width: 100%;
     border: 1px solid var(--input-border-color);
     background: var(--input-bg);
     border-radius: var(--input-border-radius);
     outline: none;
     transition: all 0.3s;
+
+    &:focus-within {
+        border-width: 2px;
+        border-color: var(--input-active-border-color);
+        box-shadow: none;
+    }
+}
+
+.disabled {
+    cursor: not-allowed;
+    border-color: var(--input-disabled-border-color);
+    background: var(--input-disabled-bg);
+    color: var(--input-disabled-color);
+}
+
+.editorContent {
+    cursor: text;
+    padding: 16px;
+    min-height: 300px;
+    max-height: 500px;
+    overflow: auto;
+
+    :global {
+        .tiptap {
+            outline: none;
+            min-height: 280px;
+
+            p.is-editor-empty:first-child::before {
+                color: #adb5bd;
+                content: attr(data-placeholder);
+                float: left;
+                height: 0;
+                pointer-events: none;
+            }
+        }
+    }
+}
+
+.toolbar {
+    border-bottom: 1px solid var(--input-border-color);
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.toolbarRow {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.toolbarGroup {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.headingSelect {
+    min-width: 140px;
+    height: 28px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    padding: 0 8px;
+    margin-right: 8px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.activeButton {
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
 }

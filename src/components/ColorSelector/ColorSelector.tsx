@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from 'react';
-
-import { SketchPicker, ColorResult } from 'react-color';
-import { Typography, Input } from 'antd';
-import useComponentVisible from '../../hooks/useComponentVisible';
+import { useEffect, useState } from 'react';
+import { ColorPicker, Typography } from 'antd';
 
 const { Title } = Typography;
 
@@ -16,7 +13,6 @@ interface ColorSelectorProps {
 
 const ColorSelector = ({ isLoading, label, tenantColor, setColorValue, field }: ColorSelectorProps) => {
     const [selectedColor, setSelectedColor] = useState(tenantColor);
-    const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible();
 
     const handleOnChange = (color: string) => {
         setSelectedColor(color);
@@ -28,28 +24,18 @@ const ColorSelector = ({ isLoading, label, tenantColor, setColorValue, field }: 
     }, [tenantColor]);
 
     return (
-        <div className="colorSelector" ref={ref}>
-            <Input hidden />
-            <button
-                type="button"
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: 8, background: '#fff', borderRadius: 8 }}>
+            <ColorPicker
+                value={selectedColor}
+                onChange={(_, hex) => handleOnChange(hex)}
+                disabledAlpha
                 disabled={isLoading}
-                className="colorIndicator"
-                style={{ backgroundColor: selectedColor }}
-                onClick={() => setIsComponentVisible(!isComponentVisible)}
+                size="large"
             />
             <div>
                 <span>{label}</span>
-                <Title level={4}>HEX {selectedColor}</Title>
+                <Title level={4} style={{ marginBottom: 0 }}>HEX {selectedColor}</Title>
             </div>
-            {isComponentVisible && (
-                <div className="pickerWrapper">
-                    <SketchPicker
-                        disableAlpha
-                        color={selectedColor || ''}
-                        onChange={(color: ColorResult) => handleOnChange(color.hex)}
-                    />
-                </div>
-            )}
         </div>
     );
 };

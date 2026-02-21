@@ -103,7 +103,7 @@ export const CardEditable = ({
                 <div className={styles.footerActions}>
                     {!hideCancelButton && (
                         <AntButton
-                            type="link"
+                            type="default"
                             onClick={() => {
                                 if (allowUnsavedChanges && hasChanges) {
                                     setShowUnsavedChangesModal(true);
@@ -117,7 +117,7 @@ export const CardEditable = ({
                         </AntButton>
                     )}
                     {!hideSaveButton && (
-                        <AntButton type="link" onClick={() => form.submit()}>
+                        <AntButton type="primary" onClick={() => form.submit()}>
                             {t(saveKey)}
                         </AntButton>
                     )}

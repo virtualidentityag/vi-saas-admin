@@ -81,7 +81,7 @@
     --light-brown: #b5906e;
     --dark-grey: #e7e3e1;
     --text-color: rgb(0 0 0 / 90%);
-    --skin-main-background: #f2efea;
+    --skin-main-background: #f8ede3;
     --success-color: #0dcd21;
     --info-color: #273270;
     --lightest-grey: #fafafa;
@@ -104,7 +104,9 @@
 }
 
 body {
-    background: #f2efea;
+    margin: 0;
+    padding: 0;
+    background: #f8ede3;
 }
 
 .ant-layout {

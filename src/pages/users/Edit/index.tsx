@@ -1,11 +1,10 @@
-import { message, Space } from 'antd';
+import { Button, message, Space } from 'antd';
 import { useForm, useWatch } from 'antd/es/form/Form';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import { FETCH_ERRORS, X_REASON } from '../../../api/fetchData';
 import { CardEditable } from '../../../components/CardEditable';
-import { Button, BUTTON_TYPES } from '../../../components/button/Button';
 import { FormInputField } from '../../../components/FormInputField';
 import { FormTextAreaField } from '../../../components/FormTextAreaField';
 import { Page } from '../../../components/Page';
@@ -93,14 +92,10 @@ export const UserEditOrAdd = () => {
             <Page.Back path={`/admin/users/${typeOfUsers}`} titleKey="agency.add.general.headline" />
 
             {isEditing && typeOfUsers === 'consultants' && can(PermissionAction.Update, Resource.Consultant) && (
-                <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button
-                        item={{
-                            label: t('counselor.reset2fa'),
-                            type: BUTTON_TYPES.SECONDARY,
-                        }}
-                        buttonHandle={() => setShowReset2FAModal(true)}
-                    />
+                <div style={{ marginBottom: 20, display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button onClick={() => setShowReset2FAModal(true)}>
+                        {t('counselor.reset2fa')}
+                    </Button>
                 </div>
             )}
 
@@ -177,15 +172,11 @@ export const UserEditOrAdd = () => {
             </CardEditable>
 
             {!isEditing && (
-                <div className="agencyAdd_actions agencyAdd_actions--sticky">
-                    <Button
-                        item={{ label: t('agency.add.general.cancel'), type: BUTTON_TYPES.SECONDARY }}
-                        buttonHandle={onCancel}
-                    />
-                    <Button
-                        item={{ label: t('agency.add.general.save'), type: BUTTON_TYPES.PRIMARY }}
-                        buttonHandle={() => form.submit()}
-                    />
+                <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginTop: 16 }}>
+                    <Button onClick={onCancel}>{t('agency.add.general.cancel')}</Button>
+                    <Button type="primary" onClick={() => form.submit()}>
+                        {t('agency.add.general.save')}
+                    </Button>
                 </div>
             )}
 

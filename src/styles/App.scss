@@ -15,6 +15,8 @@ html {
 }
 
 body {
+    margin: 0;
+    padding: 0;
     font-family: $body-font-family;
     font-size: $body-font-size;
     -moz-osx-font-smoothing: grayscale;
@@ -34,26 +36,6 @@ body {
     }
 }
 
-h1 {
-    font-size: $fontSize-xl;
-    line-height: $lineHeight-xl;
-}
-
-h2 {
-    font-size: $fontSize-l;
-    line-height: $lineHeight-l;
-}
-
-h3 {
-    font-size: $fontSize-ml;
-    line-height: $lineHeight-ml;
-}
-
-h4 {
-    font-size: $fontSize-m;
-    line-height: $lineHeight-m;
-}
-
 h1,
 h2,
 h3,
@@ -62,26 +44,5 @@ h5 {
     &.ant-typography {
         font-family: Nunito;
         font-weight: 700;
-    }
-}
-
-.ant-popover {
-    &.ant-popover-placement-bottomRight {
-        .ant-popover-arrow {
-            right: 7px;
-        }
-    }
-
-    max-width: 350px;
-
-    .ant-popover-title {
-        padding: $spacing-m $spacing-ml 0 $spacing-ml;
-        border: none;
-        font-size: $fontSize-m;
-        font-weight: 700;
-    }
-
-    .ant-popover-inner-content {
-        padding: $spacing-s $spacing-ml $spacing-m $spacing-ml;
     }
 }

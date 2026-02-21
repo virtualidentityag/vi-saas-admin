@@ -43,7 +43,7 @@ export const FormRadioGroupField = ({
             dependencies={dependencies}
         >
             <Radio.Group {...groupProps}>
-                {vertical ? <Space direction="vertical">{children}</Space> : children}
+                {vertical ? <Space orientation="vertical">{children}</Space> : children}
             </Radio.Group>
         </Form.Item>
     );

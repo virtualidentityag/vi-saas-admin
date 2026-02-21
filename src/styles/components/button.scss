@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 $buttonMinWidth: 200px;
 $buttonMaxWidth: 400px;
 $buttonHeight: 50px;
@@ -191,7 +193,7 @@ $buttonHeight: 50px;
             background-color: $form-success;
 
             &:hover {
-                background-color: darken($form-success, 5%);
+                background-color: color.adjust($form-success, $lightness: -5%);
 
                 svg {
                     fill: $white;
@@ -204,7 +206,7 @@ $buttonHeight: 50px;
             background-color: $form-error;
 
             &:hover {
-                background-color: darken($form-error, 8%);
+                background-color: color.adjust($form-error, $lightness: -8%);
 
                 svg {
                     fill: $white;
@@ -238,7 +240,7 @@ $buttonHeight: 50px;
             &:hover {
                 background-color: var(
                     --skin-color-secondary,
-                    #{darken($button-small-icon-alternate-background-color, 7%)}
+                    #{color.adjust($button-small-icon-alternate-background-color, $lightness: -7%)}
                 );
 
                 svg {

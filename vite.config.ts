@@ -20,6 +20,13 @@ export default ({ mode }) => {
                 emitError: true,
             }),
         ],
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    silenceDeprecations: ['import'],
+                },
+            },
+        },
         build: {
             outDir: 'build',
         },

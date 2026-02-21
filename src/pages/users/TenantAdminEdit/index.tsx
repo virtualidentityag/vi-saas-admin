@@ -35,7 +35,7 @@ export const TenantAdminEditOrAdd = () => {
         onSuccess: () => {
             navigate(routePathNames.tenantAdmins);
             notification.success({
-                message: t(`tenantAdmins.message.${isEditing ? 'update' : 'add'}`),
+                title: t(`tenantAdmins.message.${isEditing ? 'update' : 'add'}`),
             });
         },
     });

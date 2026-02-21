@@ -18,7 +18,7 @@ export const UserProfile = () => {
             <Page.Title titleKey="profile.title" subTitleKey="profile.title.text" />
 
             <Row gutter={[24, 24]}>
-                <Col span={12} md={6}>
+                <Col span={12}>
                     {!hasRole(UserRole.TenantAdmin) && <PrivateData />}
 
                     <Card titleKey="twoFactorAuth.title" subTitleKey="twoFactorAuth.subtitle">
@@ -26,7 +26,7 @@ export const UserProfile = () => {
                     </Card>
                 </Col>
 
-                <Col span={12} md={6}>
+                <Col span={12}>
                     <PasswordChange />
                     {settings.documentationEnabled && <Documentation />}
                 </Col>

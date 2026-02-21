@@ -7,7 +7,8 @@ export const useUserRoles = (): { roles: UserRole[]; hasRole: (role: UserRole | 
     let roles: UserRole[] = [];
     if (accessToken) {
         const access = parseJwt(accessToken || '');
-        roles = access?.realm_access.roles || [];
+        const realmAccess = access?.realm_access as { roles?: UserRole[] } | undefined;
+        roles = realmAccess?.roles || [];
     }
 
     const hasRole = (userRole: UserRole | UserRole[]) => {

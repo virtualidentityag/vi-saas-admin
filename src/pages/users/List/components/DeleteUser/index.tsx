@@ -33,13 +33,13 @@ export const DeleteUserModal = ({ typeOfUser, deleteUserId, onClose }: DeleteUse
                 switch (error.headers.get(FETCH_ERRORS.X_REASON)) {
                     case X_REASON.CONSULTANT_HAS_ACTIVE_OR_ARCHIVE_SESSIONS:
                         notification.error({
-                            message: t('message.counselor.delete.error.hasSessions'),
+                            title: t('message.counselor.delete.error.hasSessions'),
                         });
                         setHasSessions(true);
                         break;
                     case X_REASON.CONSULTANT_IS_THE_LAST_OF_AGENCY_AND_AGENCY_IS_STILL_ACTIVE:
                         notification.error({
-                            message: t('message.counselor.delete.error.lastConsultantOfAgency'),
+                            title: t('message.counselor.delete.error.lastConsultantOfAgency'),
                         });
                         setLastConsultantOfAgency(true);
                         break;

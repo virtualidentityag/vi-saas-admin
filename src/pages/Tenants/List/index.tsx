@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, notification, Tag } from 'antd';
+import { Button, notification, Table, Tag } from 'antd';
 import { ColumnProps, TablePaginationConfig } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import { useCallback, useState } from 'react';
@@ -12,7 +12,6 @@ import { EditButtons } from '../../../components/EditableTable/EditButtons';
 import { FeatureEnabled } from '../../../components/FeatureEnabled';
 import { Modal } from '../../../components/Modal';
 import { Page } from '../../../components/Page';
-import { ResizeTable } from '../../../components/ResizableTable';
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
 import { useAppConfigContext } from '../../../context/useAppConfig';
 import { PermissionAction } from '../../../enums/PermissionAction';
@@ -21,7 +20,7 @@ import { Resource } from '../../../enums/Resource';
 import { useDeleteTenant } from '../../../hooks/useDeleteTenant';
 import { useTenantsData } from '../../../hooks/useTenantsData';
 import { useUserPermissions } from '../../../hooks/useUserPermission';
-import { TenantData } from '../../../types/tenant';
+import { TenantAdminData } from '../../../types/TenantAdminData';
 import decodeHTML from '../../../utils/decodeHTML';
 import { getDomain } from '../../../utils/getDomain';
 import styles from './styles.module.scss';
@@ -45,14 +44,14 @@ export const TenantsList = () => {
     const { data, isLoading } = useTenantsData({ page: tableState.current, perPage: tableState.pageSize, search });
     const { mutate: deleteTenant } = useDeleteTenant({
         onSuccess: () => {
-            notification.success({ message: t('tenants.list.deleteMessage.success') });
+            notification.success({ title: t('tenants.list.deleteMessage.success') });
         },
         onError: () => {
             notification.error({
                 closeIcon: null,
                 duration: 10,
                 description: t('tenants.list.deleteMessage.error.description'),
-                message: t('tenants.list.deleteMessage.error.title'),
+                title: t('tenants.list.deleteMessage.error.title'),
             });
         },
     });
@@ -63,7 +62,7 @@ export const TenantsList = () => {
     }, []);
 
     const handleTableAction = useCallback(
-        (pagination: TablePaginationConfig, _filters: Record<string, FilterValue>, sorter: SorterResult<TenantData> | SorterResult<TenantData>[]) => {
+        (pagination: TablePaginationConfig, _filters: Record<string, FilterValue>, sorter: SorterResult<TenantAdminData> | SorterResult<TenantAdminData>[]) => {
             const { current, pageSize } = pagination;
             const singleSorter = Array.isArray(sorter) ? sorter[0] : sorter;
             if (singleSorter?.field) {
@@ -90,7 +89,7 @@ export const TenantsList = () => {
             dataIndex: 'name',
             width: 100,
             ellipsis: true,
-            render: (name: string, record: TenantData) => (
+            render: (name: string, record: TenantAdminData) => (
                 <>
                     {decodeHTML(name)}
                     {settings.mainTenantSubdomainForSingleDomainMultitenancy === record.subdomain && (
@@ -141,7 +140,7 @@ export const TenantsList = () => {
             width: 80,
             title: '',
             key: 'edit',
-            render: (_: unknown, record: TenantData) => {
+            render: (_: unknown, record: TenantAdminData) => {
                 return (
                     <div className="tableActionWrapper">
                         <EditButtons
@@ -161,7 +160,7 @@ export const TenantsList = () => {
             className: 'counselorList__column',
             fixed: 'right',
         },
-    ] as Array<ColumnProps<TenantData>>;
+    ] as Array<ColumnProps<TenantAdminData>>;
 
     return (
         <Page>
@@ -188,7 +187,7 @@ export const TenantsList = () => {
                     </FeatureEnabled>
                 </div>
             </Page.Title>
-            <ResizeTable
+            <Table
                 loading={isLoading}
                 columns={columnsData}
                 dataSource={data?.data || []}
@@ -196,6 +195,7 @@ export const TenantsList = () => {
                 onChange={handleTableAction}
                 rowKey="id"
                 locale={{ emptyText: t('tenants.list.empty') }}
+                scroll={{ x: 'max-content' }}
             />
 
             {showDeleteModal !== null && (

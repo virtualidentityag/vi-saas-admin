@@ -96,7 +96,7 @@ export const AgencyPageEdit = () => {
                 navigate(routePathNames.agency);
 
                 notification.success({
-                    message: t(`message.agency.${isEditing ? 'updated' : 'add'}`),
+                    title: t(`message.agency.${isEditing ? 'updated' : 'add'}`),
                     duration: 3,
                 });
                 setSubmitted(false);

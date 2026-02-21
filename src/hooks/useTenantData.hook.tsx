@@ -12,7 +12,7 @@ export const useTenantData = () => {
         async () =>
             getPublicTenantData(settings)
                 .then((tenant) => getTenantData(tenant, settings.multitenancyWithSingleDomainEnabled))
-                .catch(() => ({ settings: {}, licensing: {} })),
+                .catch(() => ({ settings: {}, licensing: {} }) as TenantData),
         { staleTime: 60_000 },
     );
 };

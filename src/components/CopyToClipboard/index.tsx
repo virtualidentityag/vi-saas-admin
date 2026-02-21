@@ -19,7 +19,7 @@ export const CopyToClipboard = ({ className, children, copiedKey }: CopyToClipbo
             {children}
             <LibCopyToClipboard
                 text={children}
-                onCopy={() => notification.success({ message: t(copiedKey || 'notification.copy.success') })}
+                onCopy={() => notification.success({ title: t(copiedKey || 'notification.copy.success') })}
             >
                 <CopyOutlined className={styles.icon} />
             </LibCopyToClipboard>

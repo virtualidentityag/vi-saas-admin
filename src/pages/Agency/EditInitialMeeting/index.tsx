@@ -1,13 +1,12 @@
 import { Button, Table, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { PlusOutlined } from '@ant-design/icons';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ColumnsType } from 'antd/es/table';
 import { useParams } from 'react-router';
 import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 import EditButtons from '../../../components/EditableTable/EditButtons';
 import { ConsultantInterface, AgencyEditData, AgencyEventTypes } from '../../../types/agencyEdit';
-import ResizableTitle from '../../../components/ResizableTable/Resizable/Resizable';
 import { InitialMeetingNewModal } from './InitialMeetingNewModal';
 import { InitialMeetingEditModal } from './InitialMeetingEditModal';
 import getAgencyEventTypes from '../../../api/agency/getAgencyEventTypes';
@@ -173,27 +172,6 @@ export const AgencyEditInitialMeeting = () => {
         ];
     }
 
-    const [columnsWidth, setColumnsWidth] = useState(defineTableColumns().map(({ width }) => width));
-
-    const handleResize = useCallback(
-        (index) =>
-            (_, { size }) => {
-                const newColumnsWidth = [...columnsWidth];
-                newColumnsWidth[index] = size.width;
-                setColumnsWidth(newColumnsWidth);
-            },
-        [columnsWidth],
-    );
-
-    const mergeColumns = defineTableColumns().map((col, index) => ({
-        ...col,
-        width: columnsWidth[index],
-        onHeaderCell: (column) => ({
-            width: column.width,
-            onResize: handleResize(index),
-        }),
-    }));
-
     useEffect(() => {
         getAgencyData();
     }, [tableState, agencyId]);
@@ -223,22 +201,10 @@ export const AgencyEditInitialMeeting = () => {
 
             <Table
                 loading={isLoading}
-                className="agencyList editableTable"
                 dataSource={topics}
-                columns={mergeColumns}
-                scroll={{
-                    x: 'max-content',
-                    y: 'auto',
-                }}
+                columns={defineTableColumns()}
+                scroll={{ x: 'max-content' }}
                 rowKey="id"
-                style={{
-                    width: '100%',
-                }}
-                components={{
-                    header: {
-                        cell: ResizableTitle,
-                    },
-                }}
             />
             <InitialMeetingNewModal
                 showEditModal={showNewModal}

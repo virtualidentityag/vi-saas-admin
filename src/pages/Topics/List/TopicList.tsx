@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Modal, Space, Switch } from 'antd';
+import { Button, Modal, Space, Switch, Table } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { ColumnProps, TablePaginationConfig } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
@@ -23,7 +23,6 @@ import StatusIcons from '../../../components/EditableTable/StatusIcons';
 import EditButtons from '../../../components/EditableTable/EditButtons';
 import { Page } from '../../../components/Page';
 import { useTenantData } from '../../../hooks/useTenantData.hook';
-import { ResizeTable } from '../../../components/ResizableTable';
 import { useTopicList } from '../../../hooks/useTopicList';
 
 export const TopicList = () => {
@@ -193,7 +192,7 @@ export const TopicList = () => {
                 )}
             </Space>
 
-            <ResizeTable
+            <Table
                 rowKey="id"
                 columns={columns}
                 dataSource={topicsData?.data || []}
@@ -201,6 +200,7 @@ export const TopicList = () => {
                 pagination={pagination}
                 locale={{ emptyText: t('topics.list.empty') }}
                 loading={isLoading}
+                scroll={{ x: 'max-content' }}
             />
 
             {topicIdForDelete && <TopicDeletionModal id={topicIdForDelete} onClose={onCloseDeleteModal} />}

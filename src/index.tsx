@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { QueryClientProvider } from 'react-query';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ConfigProvider, message } from 'antd';
+import { App as AntApp, ConfigProvider, message } from 'antd';
 import type { Locale } from 'antd/es/locale';
 import de_DE from 'antd/locale/de_DE';
 import en_GB from 'antd/locale/en_GB';
@@ -98,8 +98,9 @@ root.render(
                         },
                     }}
                 >
-                    <Router>
-                        <Routes>
+                    <AntApp>
+                        <Router>
+                            <Routes>
                             <Route path={routePathNames.login} element={<Login />} />
                             <Route path="/admin/404" element={<Error404 />} />
                             <Route path="/admin/access-denied" element={<AccessDenied />} />
@@ -116,8 +117,9 @@ root.render(
                                     </ProtectedRoute>
                                 }
                             />
-                        </Routes>
-                    </Router>
+                            </Routes>
+                        </Router>
+                    </AntApp>
                 </ConfigProvider>
             </AppSettingsWrapper>
         </UseAppConfigProvider>

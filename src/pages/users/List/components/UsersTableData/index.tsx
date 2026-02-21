@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, Table } from 'antd';
 import { ColumnProps, TablePaginationConfig } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import { useCallback, useState } from 'react';
@@ -14,7 +14,6 @@ import { AgencyData } from '../../../../../types/agency';
 import { CounselorData } from '../../../../../types/counselor';
 import { Status } from '../../../../../types/status';
 import { decodeUsername } from '../../../../../utils/encryptionHelpers';
-import { ResizeTable } from '../../../../../components/ResizableTable';
 import { DEFAULT_ORDER, DEFAULT_SORT } from '../../../../../api/counselor/getCounselorSearchData';
 import { DeleteUserModal } from '../DeleteUser';
 import { useUserPermissions } from '../../../../../hooks/useUserPermission';
@@ -232,13 +231,14 @@ export const UsersTableData = () => {
                     )}
                 </div>
             </div>
-            <ResizeTable
+            <Table
                 rowKey="id"
                 loading={isLoading}
                 columns={columnsData}
                 dataSource={responseList?.data || []}
                 pagination={pagination}
                 onChange={handleTableAction}
+                scroll={{ x: 'max-content' }}
             />
             {deleteUserId &&
                 ((can(PermissionAction.Create, Resource.Consultant) && isConsultantTab) ||

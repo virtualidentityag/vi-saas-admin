@@ -11,7 +11,7 @@ export interface PlaceholderPluginStore {
     getReadOnly?(): boolean;
     getEditorState?(): EditorState;
     setEditorState?(state: EditorState): void;
-    getProps?(): any;
+    getProps?(): unknown;
 }
 
 export interface BlockProps {

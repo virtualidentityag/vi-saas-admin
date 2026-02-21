@@ -4,6 +4,12 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 
+interface AddButtonProps {
+    allowedNumberOfUsers: number | false;
+    sourceLength: number;
+    handleBtnAdd: () => void;
+}
+
 const AddButton = ({ allowedNumberOfUsers, sourceLength, handleBtnAdd }: AddButtonProps) => {
     const { typeOfUsers } = useParams();
     const { t } = useTranslation();

@@ -10,7 +10,7 @@ export const PlaceholderControl = ({
     setEditorState,
     getEditorState,
     selectionState,
-}: ToolbarChildrenProps & { placeholders: any; selectionState: SelectionState }) => {
+}: ToolbarChildrenProps & { placeholders: Record<string, string>; selectionState: SelectionState }) => {
     const { t } = useTranslation();
     const [disabled, setDisabled] = useState(!selectionState || !selectionState.isCollapsed());
 

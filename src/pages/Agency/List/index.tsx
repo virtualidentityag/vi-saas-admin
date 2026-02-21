@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Tag } from 'antd';
+import { Button, Table, Tag } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { ColumnProps, TablePaginationConfig } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
@@ -20,7 +20,6 @@ import { PermissionAction } from '../../../enums/PermissionAction';
 import { Resource } from '../../../enums/Resource';
 import { Page } from '../../../components/Page';
 import { useAgenciesData } from '../../../hooks/useAgencysData';
-import { ResizeTable } from '../../../components/ResizableTable';
 import styles from './styles.module.scss';
 import SearchInput from '../../../components/SearchInput/SearchInput';
 
@@ -130,7 +129,7 @@ export const AgencyList = () => {
             sorter: (a, b) => (a.offline > b.offline ? 1 : -1),
             width: 100,
             ellipsis: true,
-            render: (offline: Boolean) => {
+            render: (offline: boolean) => {
                 return offline ? (
                     <Tag className={styles.tagOffline}>{t('agency.status.offline')}</Tag>
                 ) : (
@@ -154,7 +153,7 @@ export const AgencyList = () => {
             width: 80,
             title: '',
             key: 'edit',
-            render: (_: any, record: AgencyData) => {
+            render: (_: unknown, record: AgencyData) => {
                 return (
                     <div className="tableActionWrapper">
                         <EditButtons
@@ -224,7 +223,7 @@ export const AgencyList = () => {
                 </div>
             </Page.Title>
 
-            <ResizeTable
+            <Table
                 loading={isLoading}
                 columns={columnsData}
                 dataSource={data?.data || []}
@@ -232,6 +231,7 @@ export const AgencyList = () => {
                 onChange={tableChangeHandler}
                 rowKey="id"
                 locale={{ emptyText: t('tenants.list.empty') }}
+                scroll={{ x: 'max-content' }}
             />
             {agencyToDelete && <AgencyDeletionModal agencyModel={agencyToDelete} onClose={onClose} />}
         </Page>

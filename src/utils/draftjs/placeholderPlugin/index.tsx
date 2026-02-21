@@ -67,7 +67,7 @@ export default (config: PlaceholderPluginConfig = {}): EditorPlugin => {
 
                     const contentStateWithEntity = contentState.createEntity('PLACEHOLDER', 'IMMUTABLE', {
                         key,
-                        disabled: store.getProps && store.getProps().readOnly,
+                        disabled: store.getProps && (store.getProps() as { readOnly?: boolean })?.readOnly,
                     });
                     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
 

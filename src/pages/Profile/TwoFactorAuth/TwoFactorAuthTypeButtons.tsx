@@ -2,8 +2,9 @@ import { useTranslation } from 'react-i18next';
 import { RadioButton } from '../../../components/radioButton/RadioButton';
 import { Tooltip } from '../../../components/tooltip/Tooltip';
 import { InfoCircleOutlined } from '@ant-design/icons';
+import React from 'react';
 
-const InfoIcon = (props: any) => <InfoCircleOutlined {...props} />;
+const InfoIcon = (props: React.ComponentProps<typeof InfoCircleOutlined>) => <InfoCircleOutlined {...props} />;
 import { TwoFactorType } from '../../../enums/TwoFactorType';
 
 interface TwoFactorAuthTypeButtonsProps {

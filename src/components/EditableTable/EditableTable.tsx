@@ -24,7 +24,7 @@ const EditableTable = ({
 }: EditableTableProps) => {
     return (
         <>
-            <div className="lg-flex justify-between">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
                 <AddButton
                     allowedNumberOfUsers={allowedNumberOfUsers}
                     sourceLength={source.length}
@@ -32,9 +32,7 @@ const EditableTable = ({
                 />
 
                 {hasSearch && (
-                    <div className="tableSearch">
-                        <SearchInput handleOnSearch={handleOnSearch} handleOnSearchClear={handleOnSearchClear} />
-                    </div>
+                    <SearchInput handleOnSearch={handleOnSearch} handleOnSearchClear={handleOnSearchClear} />
                 )}
             </div>
 

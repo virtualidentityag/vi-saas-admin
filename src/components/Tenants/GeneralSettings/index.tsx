@@ -20,7 +20,7 @@ export const GeneralSettings = ({ tenantId }: GeneralSettingsProps) => {
 
     return (
         <Row gutter={[24, 24]}>
-            <Col span={12} sm={6}>
+            <Col span={12}>
                 <NameAndSlogan tenantId={finalTenantId} />
                 {can(PermissionAction.Update, Resource.Language) && (
                     <>
@@ -29,7 +29,7 @@ export const GeneralSettings = ({ tenantId }: GeneralSettingsProps) => {
                     </>
                 )}
             </Col>
-            <Col span={12} sm={6}>
+            <Col span={12}>
                 <LogoAndFavicon tenantId={finalTenantId} />
                 <TenantColor tenantId={finalTenantId} />
             </Col>

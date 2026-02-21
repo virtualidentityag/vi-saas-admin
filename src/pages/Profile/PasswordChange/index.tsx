@@ -11,10 +11,10 @@ export const PasswordChange = () => {
     const { t } = useTranslation();
     const { mutate: updateData } = useUpdateUserPassword({
         onSuccess: () => {
-            notification.success({ message: t('profile.passwordChange.success') });
+            notification.success({ title: t('profile.passwordChange.success') });
         },
         onError: () => {
-            notification.error({ message: t('profile.passwordChange.error') });
+            notification.error({ title: t('profile.passwordChange.error') });
         },
     });
 
@@ -41,14 +41,13 @@ export const PasswordChange = () => {
             titleKey="profile.passwordChange.title"
             subTitleKey="profile.passwordChange.info"
             saveKey="profile.passwordChange.save"
-            onSave={(data, opts) => updateData(data as any, opts)}
-            editButton={<span className={styles.editButton}>{t('profile.passwordChange.editButton')}</span>}
+            onSave={(data, opts) => updateData(data as { oldPassword: string; newPassword: string }, opts)}
         >
             {({ editing }) =>
                 editing && (
                     <>
                         <Row gutter={[16, 16]}>
-                            <Col span={12} sm={6}>
+                            <Col span={12}>
                                 <FormInputPasswordField
                                     name="oldPassword"
                                     placeholderKey="profile.passwordChange.form.currentPassword"
@@ -68,7 +67,7 @@ export const PasswordChange = () => {
                         </ul>
 
                         <Row gutter={[16, 16]}>
-                            <Col span={12} sm={6}>
+                            <Col span={12}>
                                 <FormInputPasswordField
                                     name="newPassword"
                                     placeholderKey="profile.passwordChange.form.newPassword"
@@ -76,7 +75,7 @@ export const PasswordChange = () => {
                                     rules={[requiredPasswordChars]}
                                 />
                             </Col>
-                            <Col span={12} sm={6}>
+                            <Col span={12}>
                                 <FormInputPasswordField
                                     name="passwordConfirmation"
                                     placeholderKey="profile.passwordChange.form.passwordConfirmation"

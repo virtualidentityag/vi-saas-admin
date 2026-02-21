@@ -7,13 +7,13 @@ import { AgencyData } from './agency';
 export type EditableData = CounselorData | BasicTenantData | BasicTopicData | AgencyData | undefined;
 
 export default interface EditableTableProps {
-    handleBtnAdd: (formData: any) => void;
+    handleBtnAdd: () => void;
     isLoading: boolean;
-    source: any[];
-    columns: any[];
+    source: EditableData[];
+    columns: Record<string, unknown>[];
     isDeleteModalVisible: boolean;
-    handleOnDelete: (formData: any) => void;
-    handleDeleteModalCancel: (formData: any) => void;
+    handleOnDelete: (formData: EditableData) => void;
+    handleDeleteModalCancel: (formData?: EditableData) => void;
     handleDeleteModalTitle: string;
     handleDeleteModalText: string;
     handlePagination: Dispatch<SetStateAction<number>>;

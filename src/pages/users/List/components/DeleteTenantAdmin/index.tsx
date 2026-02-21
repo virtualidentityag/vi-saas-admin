@@ -14,7 +14,7 @@ export const DeleteTenantAdminModal = ({ user, onClose }: DeleteTenantAdminModal
     const { mutate: deleteAdmin } = useDeleteTenantAdmin({
         onSuccess: () => {
             notification.success({
-                message: t('tenantAdmins.delete.success'),
+                title: t('tenantAdmins.delete.success'),
             });
             onClose();
         },

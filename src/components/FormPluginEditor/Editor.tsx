@@ -5,14 +5,28 @@ import {
     convertFromHTML,
     DraftEditorCommand,
     DraftHandleValue,
+    DraftInlineStyle,
     EditorState,
     getDefaultKeyBinding,
     RichUtils,
+    SelectionState,
 } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import PluginsEditor from '@draft-js-plugins/editor';
 import classNames from 'classnames';
 import createPlaceholderPlugin from '../../utils/draftjs/placeholderPlugin';
+
+interface EditorProps {
+    onChange?: (value: string) => void;
+    value?: string;
+    onSelectionChange: (selection?: SelectionState) => void;
+    onInlineStyleChange: (styles?: DraftInlineStyle) => void;
+    placeholders?: Record<string, string>;
+    onBlur?: () => void;
+    onFocus?: () => void;
+    placeholder?: string;
+    editorPlugins: unknown[];
+}
 
 const Editor = ({
     onChange,
@@ -24,7 +38,7 @@ const Editor = ({
     onFocus,
     placeholder,
     editorPlugins,
-}: any) => {
+}: EditorProps) => {
     const disabled = useContext(DisabledContext);
 
     const plugins = useMemo(() => [...editorPlugins, createPlaceholderPlugin({ placeholders })], [placeholders]);
@@ -105,7 +119,7 @@ const Editor = ({
         [editorState],
     );
 
-    const editorRef = useRef<any>();
+    const editorRef = useRef<PluginsEditor>();
     const focus = useCallback(() => {
         editorRef.current.focus();
     }, []);

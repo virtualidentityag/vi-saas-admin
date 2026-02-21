@@ -15,9 +15,7 @@ export const UsersList = () => {
     const { t } = useTranslation();
     const { can } = useUserPermissions();
     const { data: tenantData } = useTenantData();
-    const {
-        licensing: { allowedNumberOfUsers },
-    } = tenantData;
+    const allowedNumberOfUsers = tenantData?.licensing?.allowedNumberOfUsers;
     const { typeOfUsers } = useParams<{ typeOfUsers: TypeOfUser }>();
     const isTenantAdmins = typeOfUsers === TypeOfUser.TenantAdmins;
 

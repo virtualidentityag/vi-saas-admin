@@ -4,13 +4,13 @@ import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { useDebouncedCallback } from 'use-debounce';
-import { Col, Row } from 'antd';
+// antd Col, Row removed - using flex layout
 import { Link } from 'react-router-dom';
 import AddButton from '../../../../../components/EditableTable/AddButton';
 import EditButtons from '../../../../../components/EditableTable/EditButtons';
 import SearchInput from '../../../../../components/SearchInput/SearchInput';
 import { CounselorData } from '../../../../../types/counselor';
-import { ResizeTable } from '../../../../../components/ResizableTable';
+import { Table } from 'antd';
 import { DEFAULT_ORDER, DEFAULT_SORT } from '../../../../../api/counselor/getCounselorSearchData';
 import { useUserPermissions } from '../../../../../hooks/useUserPermission';
 import { Resource } from '../../../../../enums/Resource';
@@ -144,29 +144,28 @@ export const TenantsTableData = () => {
 
     return (
         <div>
-            <Row gutter={[20, 10]}>
-                <Col offset={6} span={6} className={styles.searchNewContainer}>
-                    <SearchInput
-                        placeholder={t('consultant-search-placeholder')}
-                        handleOnSearch={setSearchDebounced}
-                        handleOnSearchClear={() => setSearch('')}
+            <div className={styles.searchNewContainer}>
+                <SearchInput
+                    placeholder={t('consultant-search-placeholder')}
+                    handleOnSearch={setSearchDebounced}
+                    handleOnSearchClear={() => setSearch('')}
+                />
+                {can(PermissionAction.Create, Resource.TenantAdminUser) && (
+                    <AddButton
+                        allowedNumberOfUsers={false}
+                        sourceLength={responseList?.total}
+                        handleBtnAdd={() => navigate(`/admin/users/tenant-admins/add`)}
                     />
-                    {can(PermissionAction.Create, Resource.TenantAdminUser) && (
-                        <AddButton
-                            allowedNumberOfUsers={false}
-                            sourceLength={responseList?.total}
-                            handleBtnAdd={() => navigate(`/admin/users/tenant-admins/add`)}
-                        />
-                    )}
-                </Col>
-            </Row>
-            <ResizeTable
+                )}
+            </div>
+            <Table
                 rowKey="id"
                 loading={isLoading}
                 columns={columnsData}
                 dataSource={responseList?.data || []}
                 pagination={pagination}
                 onChange={handleTableAction}
+                scroll={{ x: 'max-content' }}
             />
             {deleteUser && can(PermissionAction.Delete, Resource.TenantAdminUser) && (
                 <DeleteTenantAdminModal user={deleteUser} onClose={onClose} />

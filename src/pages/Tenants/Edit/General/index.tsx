@@ -39,9 +39,9 @@ export const GeneralTenantSettings = () => {
             }
 
             if (data?.licensing?.allowedNumberOfUsers !== rData?.licensing?.allowedNumberOfUsers) {
-                notification.success({ message: t('tenants.message.consultantsChangedSuccess') });
+                notification.success({ title: t('tenants.message.consultantsChangedSuccess') });
             } else {
-                notification.success({ message: t('tenants.message.update') });
+                notification.success({ title: t('tenants.message.update') });
             }
             navigate(routePathNames.tenants);
         },
@@ -54,7 +54,7 @@ export const GeneralTenantSettings = () => {
                     },
                 ]);
             } else {
-                notification.error({ message: t('message.error.default') });
+                notification.error({ title: t('message.error.default') });
             }
         },
     });
@@ -86,7 +86,7 @@ export const GeneralTenantSettings = () => {
                         titleKey="tenants.add.mainTenantTitle"
                         initialValues={{ ...data }}
                         formProp={form}
-                        onSave={(formData) => update(formData as unknown as TenantAdminData)}
+                        onSave={(formData) => update(formData as TenantAdminData)}
                     >
                         <div className={styles.fieldGroup}>
                             <div className={styles.description}>{t('tenants.add.form.name.label')}</div>

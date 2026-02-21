@@ -30,11 +30,11 @@ const useAppConfigContext = (): AppConfigContextInterface => {
                     ...current,
                     [key]: serverSettings[key]?.value,
                 }),
-                {} as Record<string, boolean>,
+                {} as Partial<AppConfigInterface>,
             );
             setNewSettings((prev) => ({
                 ...prev,
-                ...(finalServerSettings as unknown as AppConfigInterface),
+                ...finalServerSettings,
                 releaseToggles: serverSettings.releaseToggles,
             }));
         },

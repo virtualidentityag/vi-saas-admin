@@ -33,6 +33,14 @@ export default ({ mode }) => {
         server: {
             host: '0.0.0.0',
             port: (process.env.VITE_PORT as unknown as number) || 9000,
+            proxy: {
+                '/service': {
+                    target:
+                        process.env.VITE_DEV_PROXY_TARGET ||
+                        'https://happylife.develop.onlineberatung.net',
+                    changeOrigin: true,
+                },
+            },
         },
         test: {
             globals: true,

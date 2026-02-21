@@ -3,6 +3,7 @@ interface ImportMetaEnv {
     readonly VITE_CSRF_WHITELIST_HEADER_FOR_LOCAL_DEVELOPMENT: string;
     readonly VITE_API_URL: string;
     readonly VITE_USE_API_URL: ?('true' | 'false');
+    readonly VITE_DEV_PROXY_TARGET: string;
 }
 
 interface ImportMeta {

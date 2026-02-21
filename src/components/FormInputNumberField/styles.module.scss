@@ -2,11 +2,4 @@
     :global(.ant-input-number-input) {
         padding-left: 0;
     }
-
-    &:global(.ant-input-number-focused) {
-        border-width: 2px;
-        border-color: var(--input-active-border-color);
-        box-shadow: none;
-        outline: none;
-    }
 }

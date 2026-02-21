@@ -1,8 +1,7 @@
-import { Form, FormInstance } from 'antd';
+import { Button as AntButton, Form, FormInstance } from 'antd';
 import classNames from 'classnames';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { EditOutlined } from '@ant-design/icons';
 import { UnsavedChangesModal } from './components/UnsavedChanges';
 import styles from './styles.module.scss';
@@ -58,16 +57,6 @@ export const CardEditable = ({
     const [hasChanges, setHasChanges] = useState(false);
     const [showUnsavedChangesModal, setShowUnsavedChangesModal] = useState(false);
 
-    const cancelEditButton: ButtonItem = {
-        label: t(cancelKey),
-        type: BUTTON_TYPES.LINK,
-    };
-
-    const saveEditButton: ButtonItem = {
-        label: t(saveKey),
-        type: BUTTON_TYPES.LINK,
-    };
-
     const onFormSubmit = useCallback(
         (formData) => {
             onSave(formData, { onError: () => setEditing(editMode) });
@@ -113,9 +102,9 @@ export const CardEditable = ({
             {editing && (!hideSaveButton || !hideCancelButton) && (
                 <div className={styles.footerActions}>
                     {!hideCancelButton && (
-                        <Button
-                            item={cancelEditButton}
-                            buttonHandle={() => {
+                        <AntButton
+                            type="link"
+                            onClick={() => {
                                 if (allowUnsavedChanges && hasChanges) {
                                     setShowUnsavedChangesModal(true);
                                 } else {
@@ -123,9 +112,15 @@ export const CardEditable = ({
                                     setEditing(false);
                                 }
                             }}
-                        />
+                        >
+                            {t(cancelKey)}
+                        </AntButton>
                     )}
-                    {!hideSaveButton && <Button item={saveEditButton} buttonHandle={() => form.submit()} />}
+                    {!hideSaveButton && (
+                        <AntButton type="link" onClick={() => form.submit()}>
+                            {t(saveKey)}
+                        </AntButton>
+                    )}
                 </div>
             )}
             {allowUnsavedChanges && showUnsavedChangesModal && (

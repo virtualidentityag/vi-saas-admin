@@ -1,5 +1,4 @@
-$sidebar-plus-paddings-gap: 186px;
-
+/* Agency edit page styling */
 .agencyEdit {
     &__header {
         display: grid;
@@ -39,47 +38,22 @@ $sidebar-plus-paddings-gap: 186px;
             height: 100%;
             align-items: center;
             border-bottom: 4px solid transparent;
-            color: $form-active;
-            font-weight: $font-weight-medium;
+            color: #273270;
+            font-weight: 500;
 
             &.active {
-                border-color: var(--skin-color-primary-contrast-safe, #{$primary});
-                color: var(--skin-color-primary-contrast-safe, #{$primary});
+                border-color: #273270;
+                color: #273270;
             }
 
             &:hover {
-                color: var(--skin-color-primary-contrast-safe, #{$hover-primary});
+                color: #525b8d;
             }
-        }
-    }
-
-    &__editableButtons {
-        display: flex;
-        justify-content: flex-end;
-
-        .button__item {
-            width: auto;
-            min-width: unset;
-            padding: 0;
-            margin: 0 0 0 24px;
         }
     }
 
     &__pointer {
         cursor: pointer;
-    }
-
-    &__selectFormField {
-        .ant-select-selector {
-            input {
-                padding-left: 10px !important;
-            }
-
-            .ant-select-selection-placeholder {
-                padding-left: 0 !important;
-                line-height: 23px !important;
-            }
-        }
     }
 }
 
@@ -120,13 +94,9 @@ $sidebar-plus-paddings-gap: 186px;
         &--sticky {
             position: fixed;
             bottom: 0;
-            width: calc(100% - #{$sidebar-plus-paddings-gap});
+            width: calc(100% - 186px);
             padding: 1rem 0;
             background-color: $skin-main-background;
-        }
-
-        button {
-            border-radius: 4px;
         }
     }
 }

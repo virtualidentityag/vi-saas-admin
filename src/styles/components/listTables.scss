@@ -1,22 +1,14 @@
+/* Editable table styling - minimal overrides on antd Table */
 .editableTable {
-    .ant-table-body > table {
-        margin-top: -$spacing-s;
-        border-spacing: 0 $spacing-s;
-    }
-
-    .ant-table-body {
-        overflow: auto !important;
+    .ant-table-column-title {
+        font-weight: 700;
     }
 
     tr {
-        background-color: $skin-main-background;
-
         .statusIconWrapper {
             display: flex;
             justify-content: center;
-        }
 
-        .statusIconWrapper {
             &.IN_PROGRESS {
                 color: $info-color;
             }
@@ -28,25 +20,12 @@
             &.CREATED {
                 color: $success-color;
             }
+
+            svg {
+                width: 24px;
+                height: 24px;
+            }
         }
-    }
-
-    td {
-        background-color: $lightest-grey !important;
-    }
-
-    td:first-child {
-        border-bottom-left-radius: $border-radius-base;
-        border-top-left-radius: $border-radius-base;
-    }
-
-    td:last-child {
-        border-bottom-right-radius: $border-radius-base;
-        border-top-right-radius: $border-radius-base;
-    }
-
-    .ant-table-column-title {
-        font-weight: 700;
     }
 
     .tableActionWrapper {
@@ -56,8 +35,7 @@
         justify-content: flex-end;
     }
 
-    .editBtnWrapper,
-    .statusIconWrapper {
+    .editBtnWrapper {
         display: inline-flex;
         flex-direction: row;
         gap: $spacing-sm;
@@ -72,32 +50,11 @@
             width: 24px;
             height: 24px;
         }
-    }
 
-    .editIcon.disabled {
-        border: none;
-        background: transparent;
-
-        svg {
-            width: 24px;
-            height: 24px;
+        &.disabled {
+            path {
+                fill: gray;
+            }
         }
-
-        path {
-            fill: gray;
-        }
-    }
-
-    .statusIconWrapper {
-        svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        // font-size: 21px;
-    }
-
-    .ant-table-sticky-scroll {
-        display: none;
     }
 }

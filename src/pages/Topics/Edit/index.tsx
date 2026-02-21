@@ -1,10 +1,9 @@
-import { Col, message, Row } from 'antd';
+import { Button, Col, message, Row } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import { CardEditable } from '../../../components/CardEditable';
-import { Button, BUTTON_TYPES } from '../../../components/button/Button';
 import { FormInputField } from '../../../components/FormInputField';
 import { FormTextAreaField } from '../../../components/FormTextAreaField';
 import { Page } from '../../../components/Page';
@@ -123,15 +122,11 @@ export const TopicEditOrAdd = () => {
                 </Col>
             </Row>
             {!isEditing && (
-                <div className="agencyAdd_actions agencyAdd_actions--sticky">
-                    <Button
-                        item={{ label: t('agency.add.general.cancel'), type: BUTTON_TYPES.SECONDARY }}
-                        buttonHandle={onCancel}
-                    />
-                    <Button
-                        item={{ label: t('agency.add.general.save'), type: BUTTON_TYPES.PRIMARY }}
-                        buttonHandle={() => form.submit()}
-                    />
+                <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginTop: 16 }}>
+                    <Button onClick={onCancel}>{t('agency.add.general.cancel')}</Button>
+                    <Button type="primary" onClick={() => form.submit()}>
+                        {t('agency.add.general.save')}
+                    </Button>
                 </div>
             )}
         </Page>

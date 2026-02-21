@@ -1,3 +1,4 @@
+/* Counselor list table styling */
 .counselorList {
     td {
         vertical-align: baseline;
@@ -6,10 +7,6 @@
             position: relative;
             top: 3px;
         }
-    }
-
-    .ant-spin-container {
-        min-height: 444px;
     }
 
     &__toggle {
@@ -32,7 +29,6 @@
 
     &__column {
         max-width: 200px;
-        left: 0px;
     }
 }
 
@@ -44,16 +40,5 @@
 
     h2 {
         margin: 0;
-    }
-}
-
-@media screen and (max-width: 767px) {
-    .counselorList {
-        .ant-table-cell-fix-right {
-            @include no-sticky-cell-right();
-        }
-        .ant-table-cell-fix-left {
-            @include no-sticky-cell-left();
-        }
     }
 }

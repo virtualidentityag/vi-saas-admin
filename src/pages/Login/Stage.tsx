@@ -1,38 +1,27 @@
 import React from 'react';
-import clsx from 'clsx';
+import { Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
-import Title from 'antd/es/typography/Title';
-import Logo from '../../resources/img/Logo-Connecta.png';
-import Spinner from '../../components/Spinner/Spinner';
+import LogoSvg from '../../resources/img/logo-connecta.svg?react';
 
-export interface StageProps {
-    className?: string;
-    hasAnimation?: boolean;
-    isReady?: boolean;
-}
+const { Title, Text } = Typography;
 
-/**
- * login component
- * checks if the users token is still valid
- * @constructor
- */
-const Stage = ({ className, hasAnimation, isReady = true }: StageProps) => {
+const Stage = () => {
     const { t } = useTranslation();
     return (
         <div
-            id="loginLogoWrapper"
-            className={clsx(className, 'stage stage--animated', {
-                'stage--ready': isReady,
-            })}
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '48px 24px 24px',
+            }}
         >
-            <div className="logo">
-                <img src={Logo} alt="Logo Connecta" />
-            </div>
-            <div className="stage__headline">
-                <Title level={1}>{t('slogan')}</Title>
-                <Title level={3}>{t('subSlogan')}</Title>
-            </div>
-            <Spinner className={clsx('stage__spinner', !hasAnimation && 'hidden')} />
+            <LogoSvg style={{ width: 220, height: 'auto', marginBottom: 16 }} />
+            <Title level={3} style={{ margin: 0, color: '#273270' }}>
+                {t('slogan')}
+            </Title>
+            <Text type="secondary">{t('subSlogan')}</Text>
         </div>
     );
 };

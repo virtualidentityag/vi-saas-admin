@@ -5,9 +5,7 @@ import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import { useDebouncedCallback } from 'use-debounce';
-import { PlusOutlined } from '@ant-design/icons';
-import CustomChevronDownIcon from '../../../../../components/CustomIcons/ChevronDown';
-import CustomChevronUpIcon from '../../../../../components/CustomIcons/ChevronUp';
+import { PlusOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
 import EditButtons from '../../../../../components/EditableTable/EditButtons';
 import StatusIcons from '../../../../../components/EditableTable/StatusIcons';
 import SearchInput from '../../../../../components/SearchInput/SearchInput';
@@ -100,7 +98,7 @@ export const UsersTableData = () => {
                             )
                         }
                     >
-                        {openRows.includes(record.id) ? <CustomChevronUpIcon /> : <CustomChevronDownIcon />}
+                        {openRows.includes(record.id) ? <UpOutlined /> : <DownOutlined />}
                     </button>
                 );
             },

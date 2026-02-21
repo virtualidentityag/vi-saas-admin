@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Text } from '../text/Text';
-import ShowPasswordIcon from '../../resources/img/svg/eye.svg?react';
-import HidePasswordIcon from '../../resources/img/svg/eye-closed.svg?react';
+import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
 export type InputFieldLabelState = 'valid' | 'invalid';
 
@@ -90,7 +89,7 @@ export const InputField = (props: InputFieldProps) => {
                     onClick={() => setShowPassword(!showPassword)}
                     className="inputField__passwordToggle"
                 >
-                    {showPassword ? <HidePasswordIcon /> : <ShowPasswordIcon />}
+                    {showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
                 </span>
             )}
             {inputItem.infoText && <Text className="inputField__infoText" text={inputItem.infoText} type="infoSmall" />}

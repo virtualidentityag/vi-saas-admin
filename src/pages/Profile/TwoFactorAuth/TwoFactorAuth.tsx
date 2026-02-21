@@ -5,11 +5,13 @@ import { FETCH_ERRORS } from '../../../api/fetchData';
 import { OVERLAY_FUNCTIONS, OverlayItem, OverlayWrapper, Overlay } from '../../../components/overlay/Overlay';
 import { BUTTON_TYPES } from '../../../components/button/Button';
 import { InputField, InputFieldItem, InputFieldLabelState } from '../../../components/inputField/InputField';
-import LockIcon from '../../../resources/img/svg/lock.svg?react';
-import AddIcon from '../../../resources/img/svg/add.svg?react';
-import UrlIcon from '../../../resources/img/svg/url.svg?react';
-import CheckIcon from '../../../resources/img/svg/checkmark.svg?react';
-import PenIcon from '../../../resources/img/svg/pen.svg?react';
+import { LockOutlined, PlusOutlined, LinkOutlined, CheckCircleOutlined, EditOutlined } from '@ant-design/icons';
+
+const LockIcon = (props: any) => <LockOutlined {...props} />;
+const AddIcon = (props: any) => <PlusOutlined {...props} />;
+const UrlIcon = (props: any) => <LinkOutlined {...props} />;
+const CheckIcon = (props: any) => <CheckCircleOutlined {...props} />;
+const PenIcon = (props: any) => <EditOutlined {...props} />;
 import { useUserData } from '../../../hooks/useUserData.hook';
 import { TwoFactorType } from '../../../enums/TwoFactorType';
 import {

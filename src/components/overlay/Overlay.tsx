@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { ButtonItem, Button } from '../button/Button';
 import { Text } from '../text/Text';
 import { Headline, HeadlineLevel } from '../headline/Headline';
-import XIcon from '../../resources/img/svg/x.svg?react';
+import { CloseOutlined } from '@ant-design/icons';
 
 export const OVERLAY_FUNCTIONS = {
     CLOSE: 'CLOSE',
@@ -126,7 +126,7 @@ export const Overlay = (props: {
             <div className="overlay__background" />
             <div className="overlay__content">
                 {props.handleOverlayClose && (
-                    <XIcon className="overlay__closeIcon" onClick={(e) => props.handleOverlayClose(e)} />
+                    <CloseOutlined className="overlay__closeIcon" onClick={(e) => props.handleOverlayClose(e)} />
                 )}
                 {props.items?.some((item) => item.step) && (
                     <div className="overlay__steps">

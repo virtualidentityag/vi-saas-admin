@@ -1,14 +1,8 @@
-.input {
-    composes: input from '../FormFields/styles.module.scss';
-}
+.input {}
 
-.item {
-    composes: item from '../FormFields/styles.module.scss';
-}
+.item {}
 
-.disabled {
-    composes: disabled from '../FormFields/styles.module.scss';
-}
+.disabled {}
 
 .withAddon {
     &.disabled {

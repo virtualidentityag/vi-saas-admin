@@ -1,14 +1,8 @@
-.select {
-    composes: item from '../FormFields/styles.module.scss';
-}
+.select {}
 
-.disabled {
-    composes: disabled from '../FormFields/styles.module.scss';
-}
+.disabled {}
 
-.item {
-    composes: item from '../FormFields/styles.module.scss';
-}
+.item {}
 
 :global(.ant-form-vertical) :local(.item) {
     :global(.ant-form-item-label) {

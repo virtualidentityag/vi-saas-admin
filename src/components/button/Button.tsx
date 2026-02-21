@@ -78,7 +78,7 @@ export const Button = (props: ButtonProps) => {
         return className;
     };
 
-    const handleButtonClick = (event: any) => {
+    const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         if (props.disabled || !props.isLink) {
             event.preventDefault();
         }

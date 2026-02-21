@@ -94,7 +94,11 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
             setTimeout(() => controller.abort(), props.timeout);
         }
         if (props.signal) {
-            props.signal.addEventListener('abort', () => controller.abort());
+            if (props.signal.aborted) {
+                controller.abort();
+            } else {
+                props.signal.addEventListener('abort', () => controller.abort(), { once: true });
+            }
         }
 
         const req = new Request(props.url, {

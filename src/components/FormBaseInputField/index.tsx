@@ -15,7 +15,8 @@ export interface FormBaseInputFieldProps extends Omit<InputProps, 'name'> {
      */
     name?: string | Array<string | number>;
     rules?: Rule[];
-    component: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    component: React.ComponentType<any>;
     dependencies?: string[];
 }
 

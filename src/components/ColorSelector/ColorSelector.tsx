@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { SketchPicker } from 'react-color';
+import { SketchPicker, ColorResult } from 'react-color';
 import { Typography, Input } from 'antd';
 import useComponentVisible from '../../hooks/useComponentVisible';
 
@@ -46,7 +46,7 @@ const ColorSelector = ({ isLoading, label, tenantColor, setColorValue, field }: 
                     <SketchPicker
                         disableAlpha
                         color={selectedColor || ''}
-                        onChange={(color: any) => handleOnChange(color.hex)}
+                        onChange={(color: ColorResult) => handleOnChange(color.hex)}
                     />
                 </div>
             )}

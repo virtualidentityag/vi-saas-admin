@@ -10,7 +10,7 @@ export const PostCodeRanges = () => {
     const { t } = useTranslation();
     const contextDisabled = useContext(DisabledContext);
 
-    const validatePostcodes = async (_: any, value: string) => {
+    const validatePostcodes = async (_: unknown, value: string) => {
         try {
             validatePostcodeRanges(value);
             return await Promise.resolve();

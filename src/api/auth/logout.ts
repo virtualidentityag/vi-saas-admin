@@ -20,9 +20,9 @@ const invalidateCookies = (withRedirect = true, redirectUrl?: string) => {
     }
 };
 
-const logout = (withRedirect = true, redirectUrl?: string): any => {
+const logout = (withRedirect = true, redirectUrl?: string): void => {
     if (isRequestInProgress) {
-        return null;
+        return;
     }
     isRequestInProgress = true;
     const clearUserData = () => {
@@ -39,8 +39,10 @@ const logout = (withRedirect = true, redirectUrl?: string): any => {
         .catch(() => {
             clearUserData();
             invalidateCookies(withRedirect, redirectUrl);
+        })
+        .finally(() => {
+            isRequestInProgress = false;
         });
-    return null;
 };
 
 export default logout;

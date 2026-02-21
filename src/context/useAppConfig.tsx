@@ -32,20 +32,20 @@ const useAppConfigContext = (): AppConfigContextInterface => {
                 }),
                 {} as Record<string, boolean>,
             );
-            setNewSettings({
-                ...settings,
+            setNewSettings((prev) => ({
+                ...prev,
                 ...(finalServerSettings as unknown as AppConfigInterface),
                 releaseToggles: serverSettings.releaseToggles,
-            });
+            }));
         },
-        [setNewSettings, settings],
+        [setNewSettings],
     );
 
     const setManualSettings = useCallback(
         (newSettings: Partial<AppConfigInterface>) => {
-            setNewSettings({ ...settings, ...newSettings });
+            setNewSettings((prev) => ({ ...prev, ...newSettings }));
         },
-        [settings, setNewSettings],
+        [setNewSettings],
     );
 
     return {

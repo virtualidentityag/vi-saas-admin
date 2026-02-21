@@ -1,10 +1,10 @@
-import { createContext, ReactNode, useState, useContext, useCallback } from 'react';
+import React, { createContext, ReactNode, useState, useContext, useCallback } from 'react';
 import { featureFlags } from '../appConfig';
 import { FeatureFlag } from '../enums/FeatureFlag';
 import { IFeature } from '../types/feature';
 import { TenantData } from '../types/tenant';
 
-const FeatureContext = createContext<[IFeature[], (features: IFeature[]) => void]>(null);
+const FeatureContext = createContext<[IFeature[], React.Dispatch<React.SetStateAction<IFeature[]>>]>(null);
 
 interface FeatureProviderProps {
     children: ReactNode;
@@ -63,13 +63,14 @@ function useFeatureContext() {
         [features],
     );
 
-    const toggleFeature = (key: FeatureFlag) => {
-        const feature = features.find((f) => f.name === key);
-
-        feature.active = !feature.active;
-
-        setFeatures([...features]);
-    };
+    const toggleFeature = useCallback(
+        (key: FeatureFlag) => {
+            setFeatures((prev) =>
+                prev.map((f) => (f.name === key ? { ...f, active: !f.active } : f)),
+            );
+        },
+        [setFeatures],
+    );
 
     return {
         isEnabled,

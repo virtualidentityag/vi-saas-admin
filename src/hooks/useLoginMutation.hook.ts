@@ -22,7 +22,7 @@ interface ErrorLogin {
 export const useLoginMutation = (tenantId: string) => {
     return useMutation<LoginData, ErrorLogin, LoginParams>(
         ['login', 'user-data', tenantId],
-        async ({ username, password, otp }: any) => {
+        async ({ username, password, otp }: LoginParams) => {
             return getAccessToken({ username, password, otp }).then((data) => {
                 // We'll check in the server if we're allowed to access the app
                 return fetchData({

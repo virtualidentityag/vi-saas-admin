@@ -36,6 +36,20 @@ const refreshTokens = (): Promise<void> => {
     });
 };
 
+let activeRefreshInterval: number | undefined;
+let activeLogoutTimeout: number | undefined;
+
+const clearActiveTimers = () => {
+    if (activeRefreshInterval) {
+        window.clearInterval(activeRefreshInterval);
+        activeRefreshInterval = undefined;
+    }
+    if (activeLogoutTimeout) {
+        window.clearTimeout(activeLogoutTimeout);
+        activeLogoutTimeout = undefined;
+    }
+};
+
 const startTimers = ({
     accessTokenValidInMs,
     refreshTokenValidInMs,
@@ -43,12 +57,14 @@ const startTimers = ({
     accessTokenValidInMs: number;
     refreshTokenValidInMs: number;
 }) => {
+    // Clear any existing timers before setting new ones
+    clearActiveTimers();
+
     const accessTokenRefreshIntervalInMs = accessTokenValidInMs - RENEW_BEFORE_EXPIRY_IN_MS;
 
-    let refreshInterval: number | undefined;
     // just a sanity check so that we don't accidentally register an endless loop
     if (accessTokenRefreshIntervalInMs > 0) {
-        refreshInterval = window.setInterval(() => {
+        activeRefreshInterval = window.setInterval(() => {
             refreshTokens();
         }, accessTokenRefreshIntervalInMs);
     }
@@ -56,11 +72,8 @@ const startTimers = ({
     if (refreshTokenValidInMs > accessTokenValidInMs) {
         // when refresh token is longer valid than access token we need to
         // logout if the refresh token expires
-        window.setTimeout(() => {
-            if (refreshInterval) {
-                window.clearInterval(refreshInterval);
-            }
-
+        activeLogoutTimeout = window.setTimeout(() => {
+            clearActiveTimers();
             logout(true, routePathNames.login);
         }, refreshTokenValidInMs);
     }

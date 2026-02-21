@@ -2,7 +2,8 @@ import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Modal, Space, Switch } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { ColumnProps } from 'antd/es/table';
+import { ColumnProps, TablePaginationConfig } from 'antd/es/table';
+import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import { InterestsOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router';
 import { TopicData } from '../../../types/topic';
@@ -136,18 +137,20 @@ export const TopicList = () => {
         [],
     );
 
-    const tableChangeHandler = useCallback((pagination: any, filters: any, sorter: any) => {
-        if (sorter.field) {
-            const sortBy = sorter.field.toUpperCase();
-            const order = sorter.order === 'descend' ? 'DESC' : 'ASC';
-            setTableState({
-                ...tableState,
+    const tableChangeHandler = useCallback((pagination: TablePaginationConfig, _filters: Record<string, FilterValue>, sorter: SorterResult<TopicData> | SorterResult<TopicData>[]) => {
+        const singleSorter = Array.isArray(sorter) ? sorter[0] : sorter;
+        if (singleSorter?.field) {
+            const sortBy = String(singleSorter.field).toUpperCase();
+            const order = singleSorter.order === 'descend' ? 'DESC' : 'ASC';
+            setTableState((prev) => ({
+                ...prev,
                 current: pagination.current,
+                pageSize: pagination.pageSize,
                 sortBy,
                 order,
-            });
+            }));
         } else {
-            setTableState({ ...tableState, current: pagination.current, pageSize: pagination.pageSize });
+            setTableState((prev) => ({ ...prev, current: pagination.current, pageSize: pagination.pageSize }));
         }
     }, []);
 

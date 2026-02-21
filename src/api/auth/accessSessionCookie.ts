@@ -1,9 +1,12 @@
+const isSecureContext = window.location.protocol === 'https:';
+const cookieFlags = isSecureContext ? ';Secure;SameSite=Strict' : ';SameSite=Strict';
+
 export const setValueInCookie = (name: string, value: string) => {
-    document.cookie = `${name}=${value};path=/;`;
+    document.cookie = `${name}=${value};path=/${cookieFlags}`;
 };
 
 export const deleteCookieByName = (name: string) => {
-    document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `${name}=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT${cookieFlags}`;
 };
 
 export const getValueFromCookie = (targetValue: string) => {
@@ -31,6 +34,6 @@ export const removeAllCookies = () => {
             return;
         }
 
-        document.cookie = `${name}=;path=/; expires=Thu, 27 May 1992 08:32:00 MET;`;
+        document.cookie = `${name}=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT${cookieFlags}`;
     });
 };

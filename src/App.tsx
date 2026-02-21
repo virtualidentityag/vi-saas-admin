@@ -61,6 +61,8 @@ export const App = () => {
                     : routePathNames.userProfile;
             navigate(redirectPath);
         }
+        // Intentionally run only on mount for initial redirect
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return isLoading ? (

@@ -13,14 +13,14 @@ const getTenantData = (tenantData: TenantData, useMultiTenancyWithSingleDomain: 
     let tenantId = tenantData.id;
     if (useMultiTenancyWithSingleDomain && accessToken) {
         const access = parseJwt(accessToken || '');
-        tenantId = access?.tenantId || tenantId;
+        tenantId = (access?.tenantId as number) || tenantId;
     }
     return fetchData({
         url: `${tenantEndpoint}${tenantId}`,
         method: FETCH_METHODS.GET,
         skipAuth: false,
         responseHandling: [],
-    }).then((response: any) => {
+    }).then((response: TenantData & { impressum?: string | null; privacy?: string | null; termsAndConditions?: string | null; secondaryColor?: string | null }) => {
         const checkNull = (value: string | null) => (!value ? '' : value);
         return {
             ...response,

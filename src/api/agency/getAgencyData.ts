@@ -21,8 +21,8 @@ const getAgencyData = (params: TableState & { search?: string }) => {
     sortBy = sortBy.toUpperCase();
     order = order.toUpperCase();
 
-    const resolveAgencyStatus = (el: any) => {
-        if (el.deleteDate !== 'null') {
+    const resolveAgencyStatus = (el: { deleteDate?: string | null }) => {
+        if (el.deleteDate != null) {
             return 'IN_DELETION';
         }
         return 'CREATED';
@@ -45,7 +45,7 @@ const getAgencyData = (params: TableState & { search?: string }) => {
         .then((result) => {
             return {
                 total: result.total,
-                data: result.data.map((el: any) => {
+                data: result.data.map((el: Omit<AgencyData, 'teamAgency' | 'online' | 'status'> & { teamAgency: boolean; offline: boolean; deleteDate?: string | null }) => {
                     return {
                         ...el,
                         teamAgency: el.teamAgency ? 'true' : 'false',

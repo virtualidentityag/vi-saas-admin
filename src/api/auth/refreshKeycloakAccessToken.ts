@@ -17,15 +17,16 @@ const refreshKeycloakAccessToken = (): Promise<LoginData> =>
         });
 
         fetch(req)
-            .then((response) => {
+            .then(async (response) => {
                 if (response.status === 200) {
-                    const dataResponse = response.json();
+                    const dataResponse = await response.json();
                     resolve(dataResponse);
                 } else if (response.status === 401) {
                     reject(new Error('keycloakLogin'));
                 }
             })
-            .catch(() => {
+            .catch((error) => {
+                console.error('Token refresh failed:', error);
                 reject(new Error('keycloakLogin'));
             });
     });

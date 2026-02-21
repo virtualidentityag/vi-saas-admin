@@ -11,17 +11,15 @@ export const DEFAULT_ORDER = 'ASC';
  * @return {Promise}
  */
 const getCounselorSearchData = (state: TableState, query: string) => {
-    const { sortBy }: any = state || DEFAULT_SORT;
-    const { order }: any = state || DEFAULT_ORDER;
+    const sortBy = state?.sortBy || DEFAULT_SORT;
+    const order = state?.order || DEFAULT_ORDER;
 
-    let searchQuery = query;
-
-    if (query.length <= 0) searchQuery = '*';
+    const searchQuery = query.length <= 0 ? '*' : query;
 
     return fetchData({
         url: `${usersConsultantsSearchEndpoint}?query=${encodeURIComponent(searchQuery)}&page=${
-            state.current
-        }&perPage=${state?.pageSize}&order=${order}&field=${sortBy}`,
+            state?.current || 1
+        }&perPage=${state?.pageSize || 10}&order=${order}&field=${sortBy}`,
         method: FETCH_METHODS.GET,
         skipAuth: false,
         responseHandling: [],

@@ -35,15 +35,16 @@ export const Tooltip = ({ direction, children, trigger, className }: TooltipProp
     const [tooltipPosition, setTooltipPosition] = useState('center');
 
     useEffect(() => {
-        const handleClickOutside = (event: any) => {
+        if (!visible) return;
+
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
             if (
-                !infoRef.current?.contains(event.target) &&
-                !event.target.getAttribute('data-agency-info-id') &&
-                !event.target.closest('[data-agency-info-id]')
+                !infoRef.current?.contains(target) &&
+                !target.getAttribute('data-agency-info-id') &&
+                !target.closest('[data-agency-info-id]')
             ) {
-                if (visible) {
-                    setVisible(false);
-                }
+                setVisible(false);
             }
         };
         document.addEventListener('click', handleClickOutside);

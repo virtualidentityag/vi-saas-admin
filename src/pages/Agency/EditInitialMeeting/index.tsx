@@ -7,7 +7,7 @@ import { useParams } from 'react-router';
 import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 import EditButtons from '../../../components/EditableTable/EditButtons';
 import { ConsultantInterface, AgencyEditData, AgencyEventTypes } from '../../../types/agencyEdit';
-import ResizableTitle from '../../../components/Resizable/Resizable';
+import ResizableTitle from '../../../components/ResizableTable/Resizable/Resizable';
 import { InitialMeetingNewModal } from './InitialMeetingNewModal';
 import { InitialMeetingEditModal } from './InitialMeetingEditModal';
 import getAgencyEventTypes from '../../../api/agency/getAgencyEventTypes';

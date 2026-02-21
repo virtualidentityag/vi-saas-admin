@@ -7,7 +7,7 @@ import {
 } from '../../appConfig';
 import { fetchData, FETCH_ERRORS, FETCH_METHODS } from '../fetchData';
 
-export const apiPutTwoFactorAuthApp = async (body: { secret: string; otp: string }): Promise<any> => {
+export const apiPutTwoFactorAuthApp = async (body: { secret: string; otp: string }): Promise<Response> => {
     const url = twoFactorAuthApp;
 
     return fetchData({
@@ -18,7 +18,7 @@ export const apiPutTwoFactorAuthApp = async (body: { secret: string; otp: string
     });
 };
 
-export const apiPutTwoFactorAuthEmail = async (email: string): Promise<any> => {
+export const apiPutTwoFactorAuthEmail = async (email: string): Promise<Response> => {
     const url = twoFactorAuthAppEmail;
 
     return fetchData({
@@ -29,7 +29,7 @@ export const apiPutTwoFactorAuthEmail = async (email: string): Promise<any> => {
     });
 };
 
-export const apiPatchTwoFactorAuthEncourage = async (isToEncourage: boolean): Promise<any> => {
+export const apiPatchTwoFactorAuthEncourage = async (isToEncourage: boolean): Promise<Response> => {
     const url = userDataEndpoint;
 
     return fetchData({
@@ -40,7 +40,7 @@ export const apiPatchTwoFactorAuthEncourage = async (isToEncourage: boolean): Pr
     });
 };
 
-export const apiPostTwoFactorAuthEmailWithCode = async (code: string): Promise<any> => {
+export const apiPostTwoFactorAuthEmailWithCode = async (code: string): Promise<Response> => {
     const url = `${twoFactorAuthAppEmail}/validate/${code}`;
 
     return fetchData({
@@ -50,7 +50,7 @@ export const apiPostTwoFactorAuthEmailWithCode = async (code: string): Promise<a
     });
 };
 
-export const apiDeleteTwoFactorAuth = async (): Promise<any> => {
+export const apiDeleteTwoFactorAuth = async (): Promise<Response> => {
     const url = twoFactorAuth;
 
     return fetchData({
@@ -59,7 +59,7 @@ export const apiDeleteTwoFactorAuth = async (): Promise<any> => {
     });
 };
 
-export const apiDeactivateConsultantTwoFactorAuth = async (consultantId: string): Promise<any> => {
+export const apiDeactivateConsultantTwoFactorAuth = async (consultantId: string): Promise<Response> => {
     const url = consultantTwoFactorAuth(consultantId);
 
     return fetchData({

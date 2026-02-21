@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router';
-import { Button, Col, Row, Form, notification } from 'antd';
+import { App, Button, Col, Row, Form } from 'antd';
 import { FormInputField } from '../../../components/FormInputField';
 import { Page } from '../../../components/Page';
 import { SelectFormField } from '../../../components/SelectFormField';
@@ -18,6 +18,7 @@ import { Resource } from '../../../enums/Resource';
 import { CounselorData } from '../../../types/counselor';
 
 export const TenantAdminEditOrAdd = () => {
+    const { notification } = App.useApp();
     const { search } = useLocation();
     const tenantId = new URLSearchParams(search).get('tenantId');
     const { can } = useUserPermissions();

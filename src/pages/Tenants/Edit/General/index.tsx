@@ -1,4 +1,4 @@
-import { Button, Col, Form, notification, Row } from 'antd';
+import { App, Button, Col, Form, Row } from 'antd';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
@@ -20,6 +20,7 @@ import { Card } from '../../../../components/Card';
 import { X_REASON } from '../../../../api/fetchData';
 
 export const GeneralTenantSettings = () => {
+    const { notification } = App.useApp();
     const { search } = useLocation();
     const main = new URLSearchParams(search).get('main');
     const { id } = useParams<{ id: string }>();

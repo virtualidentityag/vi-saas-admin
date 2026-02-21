@@ -1,4 +1,4 @@
-import { Col, notification, Row } from 'antd';
+import { App, Col, Row } from 'antd';
 import { RuleRender } from 'antd/es/form';
 import { useTranslation } from 'react-i18next';
 import { CardEditable } from '../../../components/CardEditable';
@@ -8,6 +8,7 @@ import { validatePasswordCriteria } from '../../../utils/validateInputValue';
 import styles from './styles.module.scss';
 
 export const PasswordChange = () => {
+    const { notification } = App.useApp();
     const { t } = useTranslation();
     const { mutate: updateData } = useUpdateUserPassword({
         onSuccess: () => {

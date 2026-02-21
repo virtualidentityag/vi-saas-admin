@@ -1,4 +1,4 @@
-import { Button, Col, Form, notification, Row } from 'antd';
+import { App, Button, Col, Form, Row } from 'antd';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
@@ -32,6 +32,7 @@ const DEFAULT_MIN_AGE = 18;
 const DEFAULT_MAX_AGE = 100;
 
 export const AgencyPageEdit = () => {
+    const { notification } = App.useApp();
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { id } = useParams();

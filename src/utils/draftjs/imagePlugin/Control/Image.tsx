@@ -82,7 +82,7 @@ export const ImageControl = ({
         <div className="RichEditor-toolbar-image">
             <div>
                 <Tooltip
-                    overlayClassName="RichEditor-toolbar-image-tooltip"
+                    className="RichEditor-toolbar-image-tooltip"
                     title={
                         !disabled && (
                             <ImageAttributes

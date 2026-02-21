@@ -1,4 +1,4 @@
-import { message, Modal, notification, Checkbox } from 'antd';
+import { App, Modal, Checkbox } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { useTranslation } from 'react-i18next';
 import { useCallback, useState } from 'react';
@@ -15,6 +15,7 @@ interface DeleteUserModalProps {
 }
 
 export const DeleteUserModal = ({ typeOfUser, deleteUserId, onClose }: DeleteUserModalProps) => {
+    const { notification, message } = App.useApp();
     const { t } = useTranslation();
     const [hasSessions, setHasSessions] = useState(false);
     const [lastConsultantOfAgency, setLastConsultantOfAgency] = useState(false);

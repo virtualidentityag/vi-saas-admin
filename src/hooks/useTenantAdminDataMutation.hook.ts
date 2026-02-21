@@ -1,4 +1,4 @@
-import { notification } from 'antd';
+import { App } from 'antd';
 import mergeWith from 'lodash.mergewith';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient, UseMutationOptions } from 'react-query';
@@ -39,6 +39,7 @@ export const useTenantAdminDataMutation = ({
     successMessageKey = 'message.success.setting.update',
     ...options
 }: TenantAdminDataOptions) => {
+    const { notification } = App.useApp();
     const { t } = useTranslation();
     const queryClient = useQueryClient();
     const { data: tenantAdminData } = useSingleTenantData({ id, enabled: !!id && id !== 'add' });

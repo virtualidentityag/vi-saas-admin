@@ -140,7 +140,7 @@ export const LinkControl = ({
         <div className="RichEditor-toolbar-link">
             <div>
                 <Tooltip
-                    overlayClassName="RichEditor-toolbar-link-tooltip"
+                    className="RichEditor-toolbar-link-tooltip"
                     title={
                         !disabled && (
                             <LinkAttributes

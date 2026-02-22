@@ -28,25 +28,26 @@ const CSV_HEADERS = [
 
 const RANK_COLORS = ['#ffd700', '#c0c0c0', '#cd7f32'];
 
-const escapeCsvField = (field: string): string => {
-    if (field.includes(';') || field.includes('"') || field.includes('\n')) {
-        return `"${field.replace(/"/g, '""')}"`;
+const escapeCsvField = (field: string | null | undefined): string => {
+    const value = field ?? '';
+    if (value.includes(';') || value.includes('"') || value.includes('\n')) {
+        return `"${value.replace(/"/g, '""')}"`;
     }
-    return field;
+    return value;
 };
 
 const toCsvRow = (entry: RegistrationStatistics): string[] => [
-    entry.tenantName,
-    entry.agencyName,
-    entry.userId,
-    entry.registrationDate,
-    entry.dateLastActivity || '',
+    entry.tenantName ?? '',
+    entry.agencyName ?? '',
+    entry.userId ?? '',
+    entry.registrationDate ?? '',
+    entry.dateLastActivity ?? '',
     entry.age != null ? entry.age.toString() : '',
-    entry.gender || '',
-    entry.counsellingRelation || '',
-    entry.mainTopicInternalAttribute || '',
-    entry.postalCode,
-    entry.endDate,
+    entry.gender ?? '',
+    entry.counsellingRelation ?? '',
+    entry.mainTopicInternalAttribute ?? '',
+    entry.postalCode ?? '',
+    entry.endDate ?? '',
     entry.referer ? decodeURI(entry.referer) : '',
     entry.appointmentsBookedCount != null ? entry.appointmentsBookedCount.toString() : '',
     entry.attendedVideoCallsCount != null ? entry.attendedVideoCallsCount.toString() : '',
@@ -385,8 +386,10 @@ export const Statistic = () => {
                                 <AntStatistic
                                     value={stats.changePercent}
                                     precision={1}
-                                    valueStyle={{
-                                        color: stats.changePercent >= 0 ? '#3f8600' : '#cf1322',
+                                    styles={{
+                                        content: {
+                                            color: stats.changePercent >= 0 ? '#3f8600' : '#cf1322',
+                                        },
                                     }}
                                     prefix={
                                         stats.changePercent >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />

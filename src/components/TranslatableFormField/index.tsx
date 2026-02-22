@@ -17,7 +17,11 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
     const { data: tenantData } = useTenantAdminData();
     const namePath = useMemo(() => (name instanceof Array ? name : [name]), [name]);
     const isDisabled = useContext(DisabledContext);
-    const fieldData = Form.useWatch(namePath);
+    const form = Form.useFormInstance();
+    // useWatch is undefined on the first render before the store is hydrated with initialValues.
+    // Fall back to form.getFieldValue which is synchronous and includes initialValues immediately.
+    const watchedData = Form.useWatch(namePath);
+    const fieldData = watchedData ?? form.getFieldValue(namePath);
 
     const languages = useMemo(
         () => tenantData?.settings?.activeLanguages || ['de'],

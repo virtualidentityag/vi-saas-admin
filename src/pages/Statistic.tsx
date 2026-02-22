@@ -62,7 +62,17 @@ const formatTimestamp = (date: Date): string => {
     return `${y}-${m}-${d}_${h}-${min}`;
 };
 
-const downloadCsv = (data: RegistrationStatistics[]): void => {
+type DownloadFilter = 'all' | 'currentMonth' | 'lastMonth' | 'currentYear' | 'lastYear';
+
+const FILTER_SUFFIX: Record<DownloadFilter, string> = {
+    all: '_alle',
+    currentMonth: '_laufender_Monat',
+    lastMonth: '_letzter_Monat',
+    currentYear: '_laufendes_Jahr',
+    lastYear: '_letztes_Jahr',
+};
+
+const downloadCsv = (data: RegistrationStatistics[], filter: DownloadFilter): void => {
     const rows = [CSV_HEADERS.join(';')];
     data.forEach((entry) => {
         rows.push(toCsvRow(entry).map(escapeCsvField).join(';'));
@@ -72,11 +82,13 @@ const downloadCsv = (data: RegistrationStatistics[]): void => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `Connecta_Statistics_${formatTimestamp(new Date())}.csv`;
+    link.download = `Connecta_Statistics${FILTER_SUFFIX[filter]}_${formatTimestamp(new Date())}.csv`;
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }, 200);
 };
 
 const parseDate = (dateStr: string): Date | null => {
@@ -103,8 +115,6 @@ const getYearRange = (year: number): [Date, Date] => {
     const end = new Date(year, 11, 31, 23, 59, 59, 999);
     return [start, end];
 };
-
-type DownloadFilter = 'all' | 'currentMonth' | 'lastMonth' | 'currentYear' | 'lastYear';
 
 export const Statistic = () => {
     const { t } = useTranslation();
@@ -242,7 +252,7 @@ export const Statistic = () => {
                 filtered = data;
         }
 
-        downloadCsv(filtered);
+        downloadCsv(filtered, filter);
     };
 
     const rankItemStyle = (isLast: boolean): React.CSSProperties => ({
@@ -351,7 +361,7 @@ export const Statistic = () => {
                                     suffix="%"
                                 />
                                 <Text type="secondary" style={{ display: 'block', marginTop: 8 }}>
-                                    {stats.currentCount} vs. {stats.prevCount} ({t('statistic.dashboard.prevMonth')})
+                                    {stats.currentCount} vs. {stats.prevCount} ({t('statistic.dashboard.newConsultations')})
                                 </Text>
                             </Card>
                         </Col>

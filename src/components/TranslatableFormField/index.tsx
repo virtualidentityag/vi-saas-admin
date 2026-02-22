@@ -18,10 +18,20 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
     const namePath = useMemo(() => (name instanceof Array ? name : [name]), [name]);
     const isDisabled = useContext(DisabledContext);
     const form = Form.useFormInstance();
-    // useWatch is undefined on the first render before the store is hydrated with initialValues.
-    // Fall back to form.getFieldValue which is synchronous and includes initialValues immediately.
-    const watchedData = Form.useWatch(namePath);
-    const fieldData = watchedData ?? form.getFieldValue(namePath);
+
+    // Watch ALL form values so we react to every language field change.
+    // Watching only `namePath` misses updates because no Form.Item is registered
+    // at that exact path – only at the deeper [...namePath, language] paths.
+    const allValues = Form.useWatch([]);
+
+    // Extract the language sub-object from the watched values.
+    // Fall back to getFieldsValue(true) which reads the full store (including
+    // initialValues) even before Form.Items have registered (first render).
+    const fieldData = useMemo(() => {
+        const values = allValues ?? form.getFieldsValue(true);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return namePath.reduce((acc: any, key) => acc?.[key], values ?? {});
+    }, [allValues, namePath, form]);
 
     const languages = useMemo(
         () => tenantData?.settings?.activeLanguages || ['de'],
@@ -37,7 +47,6 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
         }
     }, [languages, activeTab]);
 
-    // Reactively detect empty languages via Form.useWatch
     const emptyLanguages = useMemo(
         () => languages.filter((lng) => !fieldData?.[lng]),
         [languages, fieldData],
@@ -71,6 +80,9 @@ export const TranslatableFormField = ({ name, children }: TranslatableFormFieldP
 
     const tabItems = languages.map((language) => ({
         key: language,
+        // forceRender ensures all editors mount on first render so their
+        // Form.Items register values immediately – no lazy-loading surprise.
+        forceRender: true,
         label: (
             <span className={styles.tabLabel}>
                 {t(`language.${language}`)}

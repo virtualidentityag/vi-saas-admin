@@ -1,6 +1,6 @@
 import { ArrowDownOutlined, ArrowUpOutlined, DownloadOutlined } from '@ant-design/icons';
-import { Button, Card, Col, Row, Spin, Statistic as AntStatistic, Typography } from 'antd';
-import { useEffect, useMemo, useState } from 'react';
+import { Button, Card, Col, notification, Row, Spin, Statistic as AntStatistic, Typography } from 'antd';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import getRegistrationData from '../api/statistic/getRegistrationData';
 import { Page } from '../components/Page';
@@ -81,14 +81,27 @@ const downloadCsv = (data: RegistrationStatistics[], filter: DownloadFilter): vo
     const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.href = url;
-    link.download = `Connecta_Statistics${FILTER_SUFFIX[filter]}_${formatTimestamp(new Date())}.csv`;
+    link.setAttribute('href', url);
+    link.setAttribute(
+        'download',
+        `Connecta_Statistics${FILTER_SUFFIX[filter]}_${formatTimestamp(new Date())}.csv`,
+    );
+    link.style.position = 'fixed';
+    link.style.left = '-9999px';
+    link.style.top = '-9999px';
+    link.style.opacity = '0';
     document.body.appendChild(link);
-    link.click();
-    setTimeout(() => {
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-    }, 200);
+    // Use requestAnimationFrame to ensure the link is rendered before clicking
+    requestAnimationFrame(() => {
+        link.click();
+        // Delay cleanup to give the browser time to process the download
+        setTimeout(() => {
+            if (link.parentNode) {
+                link.parentNode.removeChild(link);
+            }
+            URL.revokeObjectURL(url);
+        }, 3000);
+    });
 };
 
 const parseDate = (dateStr: string): Date | null => {
@@ -119,15 +132,27 @@ const getYearRange = (year: number): [Date, Date] => {
 export const Statistic = () => {
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
+    const [isDownloading, setIsDownloading] = useState(false);
     const [data, setData] = useState<RegistrationStatistics[]>([]);
+    const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
         setIsLoading(true);
+        setHasError(false);
         getRegistrationData()
-            .then((response: RegistrationData) => setData(response?.registrationStatistics || []))
-            .catch(() => setData([]))
+            .then((response: RegistrationData) => {
+                setData(response?.registrationStatistics || []);
+            })
+            .catch(() => {
+                setData([]);
+                setHasError(true);
+                notification.error({
+                    message: t('statistic.error.loadFailed'),
+                    duration: 5,
+                });
+            })
             .finally(() => setIsLoading(false));
-    }, []);
+    }, [t]);
 
     const stats = useMemo(() => {
         const now = new Date();
@@ -221,39 +246,47 @@ export const Statistic = () => {
         };
     }, [data]);
 
-    const handleDownload = (filter: DownloadFilter) => {
-        const now = new Date();
-        let filtered: RegistrationStatistics[];
+    const handleDownload = useCallback(
+        (filter: DownloadFilter) => {
+            if (isDownloading || data.length === 0) return;
+            setIsDownloading(true);
 
-        switch (filter) {
-            case 'currentMonth': {
-                const [start, end] = getMonthRange(now.getFullYear(), now.getMonth());
-                filtered = filterByDateRange(data, start, end);
-                break;
-            }
-            case 'lastMonth': {
-                const month = now.getMonth() === 0 ? 11 : now.getMonth() - 1;
-                const year = now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear();
-                const [start, end] = getMonthRange(year, month);
-                filtered = filterByDateRange(data, start, end);
-                break;
-            }
-            case 'currentYear': {
-                const [start, end] = getYearRange(now.getFullYear());
-                filtered = filterByDateRange(data, start, end);
-                break;
-            }
-            case 'lastYear': {
-                const [start, end] = getYearRange(now.getFullYear() - 1);
-                filtered = filterByDateRange(data, start, end);
-                break;
-            }
-            default:
-                filtered = data;
-        }
+            const now = new Date();
+            let filtered: RegistrationStatistics[];
 
-        downloadCsv(filtered, filter);
-    };
+            switch (filter) {
+                case 'currentMonth': {
+                    const [start, end] = getMonthRange(now.getFullYear(), now.getMonth());
+                    filtered = filterByDateRange(data, start, end);
+                    break;
+                }
+                case 'lastMonth': {
+                    const month = now.getMonth() === 0 ? 11 : now.getMonth() - 1;
+                    const year = now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear();
+                    const [start, end] = getMonthRange(year, month);
+                    filtered = filterByDateRange(data, start, end);
+                    break;
+                }
+                case 'currentYear': {
+                    const [start, end] = getYearRange(now.getFullYear());
+                    filtered = filterByDateRange(data, start, end);
+                    break;
+                }
+                case 'lastYear': {
+                    const [start, end] = getYearRange(now.getFullYear() - 1);
+                    filtered = filterByDateRange(data, start, end);
+                    break;
+                }
+                default:
+                    filtered = data;
+            }
+
+            downloadCsv(filtered, filter);
+            // Re-enable after a short delay to prevent rapid double-clicks
+            setTimeout(() => setIsDownloading(false), 1500);
+        },
+        [data, isDownloading],
+    );
 
     const rankItemStyle = (isLast: boolean): React.CSSProperties => ({
         display: 'flex',
@@ -415,27 +448,45 @@ export const Statistic = () => {
                                     type="primary"
                                     icon={<DownloadOutlined />}
                                     onClick={() => handleDownload('all')}
+                                    disabled={data.length === 0 || hasError}
+                                    loading={isDownloading}
                                 >
                                     {t('statistic.download.all')}
                                 </Button>
                             </Col>
                             <Col>
-                                <Button icon={<DownloadOutlined />} onClick={() => handleDownload('currentMonth')}>
+                                <Button
+                                    icon={<DownloadOutlined />}
+                                    onClick={() => handleDownload('currentMonth')}
+                                    disabled={data.length === 0 || hasError || isDownloading}
+                                >
                                     {t('statistic.download.currentMonth')}
                                 </Button>
                             </Col>
                             <Col>
-                                <Button icon={<DownloadOutlined />} onClick={() => handleDownload('lastMonth')}>
+                                <Button
+                                    icon={<DownloadOutlined />}
+                                    onClick={() => handleDownload('lastMonth')}
+                                    disabled={data.length === 0 || hasError || isDownloading}
+                                >
                                     {t('statistic.download.lastMonth')}
                                 </Button>
                             </Col>
                             <Col>
-                                <Button icon={<DownloadOutlined />} onClick={() => handleDownload('currentYear')}>
+                                <Button
+                                    icon={<DownloadOutlined />}
+                                    onClick={() => handleDownload('currentYear')}
+                                    disabled={data.length === 0 || hasError || isDownloading}
+                                >
                                     {t('statistic.download.currentYear')}
                                 </Button>
                             </Col>
                             <Col>
-                                <Button icon={<DownloadOutlined />} onClick={() => handleDownload('lastYear')}>
+                                <Button
+                                    icon={<DownloadOutlined />}
+                                    onClick={() => handleDownload('lastYear')}
+                                    disabled={data.length === 0 || hasError || isDownloading}
+                                >
                                     {t('statistic.download.lastYear')}
                                 </Button>
                             </Col>

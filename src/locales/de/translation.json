@@ -502,6 +502,7 @@
     "statistic.download.lastMonth": "Letzter Monat",
     "statistic.download.currentYear": "Laufendes Jahr",
     "statistic.download.lastYear": "Letztes Jahr",
+    "statistic.error.loadFailed": "Statistikdaten konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
     "twoFactorAuth.title": "2-Faktor-Authentifizierung",
     "twoFactorAuth.subtitle": "Nutzen Sie eine weitere App für die Anmeldung mit Ihrem Connecta Konto. Dadurch ist Ihr Konto sicherer vor einem möglichen unbefugtem Zugriff.",
     "twoFactorAuth.switch.active.label": "2-Faktor-Authentifizierung aktiviert",

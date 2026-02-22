@@ -59,7 +59,7 @@ export const useTenantAdminDataMutation = ({
             onSuccess: (responseData, updatedData) => {
                 queryClient.setQueryData(TENANT_ADMIN_DATA_KEY, mergeData(tenantAdminData, updatedData));
                 notification.success({
-                    title: t(successMessageKey),
+                    message: t(successMessageKey),
                     duration: 3,
                 });
                 options?.onSuccess?.(responseData, updatedData, null);

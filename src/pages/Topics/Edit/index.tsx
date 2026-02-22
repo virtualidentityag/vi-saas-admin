@@ -1,4 +1,4 @@
-import { Button, Col, message, Row } from 'antd';
+import { App, Button, Col, Row } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +13,7 @@ import { TranslatableFormField } from '../../../components/TranslatableFormField
 import { useTopicAdmin } from '../../../hooks/useTopicAdmin';
 
 export const TopicEditOrAdd = () => {
+    const { notification } = App.useApp();
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
     const isEditing = id !== 'add';
@@ -24,8 +25,8 @@ export const TopicEditOrAdd = () => {
     const { mutate } = useAddOrUpdateTopicAdmin({
         id: isEditing ? id : null,
         onSuccess: (response) => {
-            message.success({
-                content: t(`message.topic.${isEditing ? 'update' : 'add'}`),
+            notification.success({
+                message: t(`message.topic.${isEditing ? 'update' : 'add'}`),
                 duration: 3,
             });
             navigate(`/admin/topics/${response?.id || id}`);

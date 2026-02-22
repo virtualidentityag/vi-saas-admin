@@ -1,4 +1,4 @@
-import { Form, Input, message, Modal, Typography } from 'antd';
+import { App, Form, Input, Modal, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 import Title from 'antd/es/typography/Title';
 import TextArea from 'antd/es/input/TextArea';
@@ -19,6 +19,7 @@ export const InitialMeetingEditModal = (props: {
     editableData: AgencyEditData;
     allAgencyConsultants: ConsultantInterface[];
 }) => {
+    const { notification } = App.useApp();
     const { t } = useTranslation();
     const [formInstance] = Form.useForm();
     const currentPath = useLocation().pathname;
@@ -68,15 +69,15 @@ export const InitialMeetingEditModal = (props: {
                     };
                     putConsultantForAgencyEventTypes(agencyId, props.editableData.id, updateData)
                         .then(() => {
-                            message.success({
-                                content: t('message.eventType.update'),
+                            notification.success({
+                                message: t('message.eventType.update'),
                                 duration: 3,
                             });
                             props.handleSave(() => {});
                         })
                         .catch(() => {
-                            message.error({
-                                content: t('message.error.default'),
+                            notification.error({
+                                message: t('message.error.default'),
                                 duration: 3,
                             });
                             props.handleSave(() => {});

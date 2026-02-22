@@ -1,4 +1,4 @@
-import { message } from 'antd';
+import { App } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useMutation, UseMutationOptions } from 'react-query';
 import { fetchData, FETCH_METHODS } from '../api/fetchData';
@@ -6,6 +6,7 @@ import { serverSettingsAdminEndpoint } from '../appConfig';
 import { useAppConfigContext } from '../context/useAppConfig';
 
 export const useSettingsAdminMutation = (options?: UseMutationOptions<Partial<unknown>, unknown, Partial<unknown>>) => {
+    const { notification } = App.useApp();
     const { t } = useTranslation();
     const { settings, setManualSettings } = useAppConfigContext();
 
@@ -35,8 +36,8 @@ export const useSettingsAdminMutation = (options?: UseMutationOptions<Partial<un
                         settings.mainTenantSubdomainForSingleDomainMultitenancy,
                     ...updatedData,
                 });
-                message.success({
-                    content: t('message.success.setting.update'),
+                notification.success({
+                    message: t('message.success.setting.update'),
                     duration: 3,
                 });
                 options?.onSuccess?.(responseData, updatedData, null);

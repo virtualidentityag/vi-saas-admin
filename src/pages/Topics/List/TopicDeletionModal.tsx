@@ -1,15 +1,16 @@
 import { useCallback } from 'react';
-import { message, Modal } from 'antd';
+import { App, Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import Title from 'antd/es/typography/Title';
 import { deleteTopicData } from '../../../api/topic/deleteTopicData';
 
 export const TopicDeletionModal = ({ id, onClose }: { id: number; onClose: () => void }) => {
+    const { notification } = App.useApp();
     const { t } = useTranslation();
     const handleOnDelete = useCallback(() => {
         deleteTopicData(id).then(() => {
-            message.success({
-                content: t('message.topic.delete'),
+            notification.success({
+                message: t('message.topic.delete'),
                 duration: 3,
             });
             onClose();

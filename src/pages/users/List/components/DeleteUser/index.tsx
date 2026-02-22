@@ -15,7 +15,7 @@ interface DeleteUserModalProps {
 }
 
 export const DeleteUserModal = ({ typeOfUser, deleteUserId, onClose }: DeleteUserModalProps) => {
-    const { notification, message } = App.useApp();
+    const { notification } = App.useApp();
     const { t } = useTranslation();
     const [hasSessions, setHasSessions] = useState(false);
     const [lastConsultantOfAgency, setLastConsultantOfAgency] = useState(false);
@@ -23,8 +23,8 @@ export const DeleteUserModal = ({ typeOfUser, deleteUserId, onClose }: DeleteUse
     const { mutate: deleteConsultant } = useDeleteConsultantOrAgencyAdmin({
         typeOfUser,
         onSuccess: () => {
-            message.success({
-                content: t('message.counselor.delete.success'),
+            notification.success({
+                message: t('message.counselor.delete.success'),
                 duration: 3,
             });
             onClose();
@@ -34,19 +34,21 @@ export const DeleteUserModal = ({ typeOfUser, deleteUserId, onClose }: DeleteUse
                 switch (error.headers.get(FETCH_ERRORS.X_REASON)) {
                     case X_REASON.CONSULTANT_HAS_ACTIVE_OR_ARCHIVE_SESSIONS:
                         notification.error({
-                            title: t('message.counselor.delete.error.hasSessions'),
+                            message: t('message.counselor.delete.error.hasSessions'),
+                            duration: 3,
                         });
                         setHasSessions(true);
                         break;
                     case X_REASON.CONSULTANT_IS_THE_LAST_OF_AGENCY_AND_AGENCY_IS_STILL_ACTIVE:
                         notification.error({
-                            title: t('message.counselor.delete.error.lastConsultantOfAgency'),
+                            message: t('message.counselor.delete.error.lastConsultantOfAgency'),
+                            duration: 3,
                         });
                         setLastConsultantOfAgency(true);
                         break;
                     default:
-                        message.error({
-                            content: i18next.t([
+                        notification.error({
+                            message: i18next.t([
                                 `message.error.${error.headers.get(FETCH_ERRORS.X_REASON)}`,
                                 'message.error.default',
                             ]) as string,

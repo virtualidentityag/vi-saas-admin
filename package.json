@@ -16,6 +16,7 @@
     "@tiptap/react": "^3.20.0",
     "@tiptap/starter-kit": "^3.20.0",
     "antd": "^6.3.0",
+    "antd-img-crop": "^4.29.0",
     "axios": "^1.13.5",
     "classnames": "^2.3.2",
     "clsx": "^2.1.1",
@@ -40,7 +41,7 @@
     "web-vitals": "^5.1.0"
   },
   "scripts": {
-    "start": "vite",
+    "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
     "release": "standard-version",
@@ -51,7 +52,7 @@
     "lint:formatting": "prettier . --write --ignore-unknown --check",
     "prettier:css": "prettier **/*.scss --write ",
     "test:integration": "cypress open",
-    "test:integration:cli": "concurrently --kill-others --success first \"cross-env BROWSER=none API_URL_FOR_LOCAL_DEVELOPMENT=test VITE_PORT=3000 npm run start\" \"wait-on http://localhost:3000 && cypress run\""
+    "test:integration:cli": "concurrently --kill-others --success first \"cross-env BROWSER=none API_URL_FOR_LOCAL_DEVELOPMENT=test VITE_PORT=3000 npm run dev\" \"wait-on http://localhost:3000 && cypress run\""
   },
   "eslintConfig": {
     "extends": [

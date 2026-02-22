@@ -45,14 +45,14 @@ export const TenantsList = () => {
     const { data, isLoading } = useTenantsData({ page: tableState.current, perPage: tableState.pageSize, search });
     const { mutate: deleteTenant } = useDeleteTenant({
         onSuccess: () => {
-            notification.success({ title: t('tenants.list.deleteMessage.success') });
+            notification.success({ message: t('tenants.list.deleteMessage.success'), duration: 3 });
         },
         onError: () => {
             notification.error({
                 closeIcon: null,
                 duration: 10,
                 description: t('tenants.list.deleteMessage.error.description'),
-                title: t('tenants.list.deleteMessage.error.title'),
+                message: t('tenants.list.deleteMessage.error.title'),
             });
         },
     });
@@ -139,7 +139,7 @@ export const TenantsList = () => {
         },
         can([PermissionAction.Update, PermissionAction.Delete], Resource.Tenant) && {
             width: 80,
-            title: '',
+            title: t('table.actions'),
             key: 'edit',
             render: (_: unknown, record: TenantAdminData) => {
                 return (

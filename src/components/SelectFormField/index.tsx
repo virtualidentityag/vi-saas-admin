@@ -73,14 +73,9 @@ export const SelectFormField = ({
                 labelInValue={labelInValue}
                 loading={loading}
                 allowClear={allowClear}
-                getPopupContainer={(element: HTMLElement) => element.parentElement}
                 mode={isMulti ? 'multiple' : undefined}
                 placeholder={placeholder ? t(placeholder) : undefined}
-                optionFilterProp="children"
-                filterOption={(input, option) => option.label?.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                filterSort={(optionA, optionB) =>
-                    optionA.label?.toLowerCase().localeCompare(optionB.label?.toLowerCase())
-                }
+                optionFilterProp="label"
                 options={options}
             >
                 {children}

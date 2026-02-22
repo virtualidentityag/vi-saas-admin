@@ -1,16 +1,17 @@
-import { message, Modal } from 'antd';
+import { App, Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import Title from 'antd/es/typography/Title';
 import deleteAgencyData from '../../../../api/agency/deleteAgencyData';
 import { AgencyData } from '../../../../types/agency';
 
 export const AgencyDeletionModal = ({ agencyModel, onClose }: { agencyModel: AgencyData; onClose: () => void }) => {
+    const { notification } = App.useApp();
     const { t } = useTranslation();
     const handleOnDelete = () => {
         deleteAgencyData(agencyModel)
             .then(() => {
-                message.success({
-                    content: t('message.agency.delete'),
+                notification.success({
+                    message: t('message.agency.delete'),
                     duration: 3,
                 });
             })

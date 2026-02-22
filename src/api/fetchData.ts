@@ -1,4 +1,4 @@
-import { message } from 'antd';
+import { notification } from 'antd';
 import i18next from 'i18next';
 import { getValueFromCookie } from './auth/accessSessionCookie';
 import generateCsrfToken from '../utils/generateCsrfToken';
@@ -158,12 +158,13 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
                     } else if (response.status === 401) {
                         logout(true, routePathNames.login);
                     } else if (props.responseHandling.includes(FETCH_ERRORS.CATCH_ALL)) {
-                        message.error({
-                            content: i18next.t([
+                        notification.error({
+                            message: i18next.t([
                                 `message.error.${response.headers.get(FETCH_ERRORS.X_REASON)}`,
                                 'message.error.default',
                             ]) as string,
                             duration: 3,
+                            placement: 'topRight',
                         });
 
                         reject(new Error(FETCH_ERRORS.CATCH_ALL));

@@ -117,7 +117,7 @@ export const TenantsTableData = () => {
         },
         can([PermissionAction.Update, PermissionAction.Delete], Resource.TenantAdminUser) && {
             width: 80,
-            title: '',
+            title: t('table.actions'),
             render: (_: unknown, record: CounselorData) => {
                 return (
                     <div className="tableActionWrapper">

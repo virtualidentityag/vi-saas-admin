@@ -93,7 +93,7 @@ export default tseslint.config(
             // Import rules
             'import/no-named-as-default': 'off',
             'import/prefer-default-export': 'off',
-            'import/no-unresolved': ['error', { ignore: ['\\?react$'] }],
+            'import/no-unresolved': ['error', { ignore: ['\\?react$', 'antd-img-crop'] }],
 
             // General rules
             'no-console': 'warn',

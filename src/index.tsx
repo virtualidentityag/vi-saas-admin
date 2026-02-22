@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { QueryClientProvider } from 'react-query';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { App as AntApp, ConfigProvider, message } from 'antd';
+import { App as AntApp, ConfigProvider } from 'antd';
 import type { Locale } from 'antd/es/locale';
 import de_DE from 'antd/locale/de_DE';
 import en_GB from 'antd/locale/en_GB';
@@ -35,15 +35,6 @@ const appConfig = {
 
 const languageToUse = (appConfig && appConfig.locales) || 'de-DE';
 
-/**
- * ant design message config
- * @see {@link https://ant.design/components/message/#API}
- */
-message.config({
-    duration: 3,
-    maxCount: 3,
-    top: 100,
-});
 
 const AppSettingsWrapper = ({ children }: { children: JSX.Element }): JSX.Element => {
     const [loaded, setLoaded] = useState(false);
@@ -98,7 +89,7 @@ root.render(
                         },
                     }}
                 >
-                    <AntApp>
+                    <AntApp notification={{ placement: 'topRight' }}>
                         <Router>
                             <Routes>
                             <Route path={routePathNames.login} element={<Login />} />

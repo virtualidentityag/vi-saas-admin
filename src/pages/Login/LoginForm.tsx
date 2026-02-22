@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Form, Input, Button, message } from 'antd';
+import { App, Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined, SafetyOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { TwoFactorType } from '../../enums/TwoFactorType';
 import { usePublicTenantData } from '../../hooks/usePublicTenantData.hook';
 
 const LoginForm = () => {
+    const { notification } = App.useApp();
     const { data: tenantData } = usePublicTenantData();
     const navigate = useNavigate();
     const { t } = useTranslation();
@@ -31,7 +32,7 @@ const LoginForm = () => {
                     setOtpDisabled(false);
                     setTwoFactorType(error.options.data.otpType);
                 } else {
-                    message.error(t('message.error.auth.login'));
+                    notification.error({ message: t('message.error.auth.login'), duration: 3 });
                 }
                 setPostLoading(false);
             },

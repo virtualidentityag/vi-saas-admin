@@ -12,10 +12,10 @@ export const PasswordChange = () => {
     const { t } = useTranslation();
     const { mutate: updateData } = useUpdateUserPassword({
         onSuccess: () => {
-            notification.success({ title: t('profile.passwordChange.success') });
+            notification.success({ message: t('profile.passwordChange.success'), duration: 3 });
         },
         onError: () => {
-            notification.error({ title: t('profile.passwordChange.error') });
+            notification.error({ message: t('profile.passwordChange.error'), duration: 3 });
         },
     });
 

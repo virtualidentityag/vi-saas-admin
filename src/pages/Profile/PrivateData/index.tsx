@@ -11,7 +11,7 @@ export const PrivateData = () => {
     const { data, isLoading } = useUserData();
     const { mutate: updateData } = useUpdateUserData({
         onSuccess: () => {
-            notification.success({ title: t('profile.privateData.success') });
+            notification.success({ message: t('profile.privateData.success'), duration: 3 });
         },
     });
 

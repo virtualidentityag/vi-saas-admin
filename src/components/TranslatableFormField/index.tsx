@@ -1,11 +1,9 @@
-import { Form, Select } from 'antd';
-import { FieldContext } from 'rc-field-form';
-import { cloneElement, useContext, useMemo } from 'react';
+import { Alert, Form, Tabs } from 'antd';
+import { Rule } from 'antd/es/form';
+import { cloneElement, useContext, useEffect, useMemo, useState } from 'react';
 import { CheckCircleTwoTone, WarningTwoTone } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import DisabledContext from 'antd/es/config-provider/DisabledContext';
-import classNames from 'classnames';
-import { SelectFormField } from '../SelectFormField';
 import { useTenantAdminData } from '../../hooks/useTenantAdminData.hook';
 import styles from './styles.module.scss';
 
@@ -17,62 +15,98 @@ export interface TranslatableFormFieldProps {
 export const TranslatableFormField = ({ name, children }: TranslatableFormFieldProps) => {
     const { t } = useTranslation();
     const { data: tenantData } = useTenantAdminData();
-    const namePath = name instanceof Array ? name : [name];
+    const namePath = useMemo(() => (name instanceof Array ? name : [name]), [name]);
     const isDisabled = useContext(DisabledContext);
-    const formContext = useContext(FieldContext);
-    const fieldData = Form.useWatch([...namePath]);
+    const form = Form.useFormInstance();
+
+    // Watch ALL form values so we react to every language field change.
+    // Watching only `namePath` misses updates because no Form.Item is registered
+    // at that exact path – only at the deeper [...namePath, language] paths.
+    const allValues = Form.useWatch([]);
+
+    // Extract the language sub-object from the watched values.
+    // Fall back to getFieldsValue(true) which reads the full store (including
+    // initialValues) even before Form.Items have registered (first render).
+    const fieldData = useMemo(() => {
+        const values = allValues ?? form.getFieldsValue(true);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return namePath.reduce((acc: any, key) => acc?.[key], values ?? {});
+    }, [allValues, namePath, form]);
+
     const languages = useMemo(
         () => tenantData?.settings?.activeLanguages || ['de'],
         [tenantData?.settings?.activeLanguages],
     );
 
-    const errors = languages
-        .map((lng) => {
-            const fieldErrors = formContext.getFieldError([...namePath, lng]);
-            const fieldValue = formContext.getFieldValue([...namePath, lng]);
-            return !fieldValue || fieldErrors.length > 0 ? lng : null;
-        })
-        .filter(Boolean);
+    const [activeTab, setActiveTab] = useState(() => languages[0] || 'de');
 
-    const hasErrors = useMemo(() => errors.length > 0, [errors]);
+    // Sync active tab if languages change (e.g. tenant settings updated)
+    useEffect(() => {
+        if (!languages.includes(activeTab)) {
+            setActiveTab(languages[0] || 'de');
+        }
+    }, [languages, activeTab]);
+
+    const emptyLanguages = useMemo(
+        () => languages.filter((lng) => !fieldData?.[lng]),
+        [languages, fieldData],
+    );
+
+    // Clone child with correct name and strip required-blocking rules
+    const cloneForLanguage = (language: string) => {
+        const overrides: Record<string, unknown> = {
+            name: [...namePath, language],
+            // Strip required prop for FormBaseInputField-based components
+            required: false,
+        };
+
+        // Strip required rules for FormPluginEditor (uses itemProps)
+        if (children.props.itemProps) {
+            overrides.itemProps = {
+                ...children.props.itemProps,
+                rules: (children.props.itemProps.rules || []).filter((r: Rule) =>
+                    typeof r === 'function' ? true : !r.required,
+                ),
+            };
+        }
+
+        return cloneElement(children, overrides);
+    };
+
+    // Single language: no tabs needed, just clone with correct name
+    if (languages.length === 1) {
+        return cloneForLanguage(languages[0]);
+    }
+
+    const tabItems = languages.map((language) => ({
+        key: language,
+        // forceRender ensures all editors mount on first render so their
+        // Form.Items register values immediately – no lazy-loading surprise.
+        forceRender: true,
+        label: (
+            <span className={styles.tabLabel}>
+                {t(`language.${language}`)}
+                {emptyLanguages.includes(language) ? (
+                    <WarningTwoTone twoToneColor="#FF9F00" />
+                ) : (
+                    <CheckCircleTwoTone twoToneColor="#4FCC5C" />
+                )}
+            </span>
+        ),
+        children: cloneForLanguage(language),
+    }));
 
     return (
-        <>
-            {languages.length > 1 && (
-                <SelectFormField
-                    initialValue="de"
-                    label="languages"
-                    name={[...namePath, 'translate']}
-                    required
-                    validateStatus={hasErrors && !isDisabled && 'error'}
-                    help={hasErrors && !isDisabled && t('form.errors.fillAllLanguages')}
-                    className={styles.translateField}
-                >
-                    {languages.map((language) => (
-                        <Select.Option value={language} key={language}>
-                            <div className={styles.containerLabel}>
-                                {t(`language.${language}`)}
-                                {errors.includes(language) ? (
-                                    <WarningTwoTone twoToneColor="#FF9F00" />
-                                ) : (
-                                    <CheckCircleTwoTone twoToneColor="#4FCC5C" />
-                                )}
-                            </div>
-                        </Select.Option>
-                    ))}
-                </SelectFormField>
+        <div className={styles.wrapper}>
+            <Tabs activeKey={activeTab} onChange={setActiveTab} items={tabItems} />
+            {!isDisabled && emptyLanguages.length > 0 && (
+                <Alert
+                    type="warning"
+                    showIcon
+                    message={`${t('form.errors.fillAllLanguages')}: ${emptyLanguages.map((lng) => t(`language.${lng}`)).join(', ')}`}
+                    className={styles.warningAlert}
+                />
             )}
-
-            {languages.map((language) =>
-                cloneElement(children, {
-                    name: [...namePath, language],
-                    key: language,
-                    className: classNames({
-                        [styles.activeLanguage]: fieldData?.translate === language || languages.length === 1,
-                        [styles.notActive]: fieldData?.translate !== language && languages.length !== 1,
-                    }),
-                }),
-            )}
-        </>
+        </div>
     );
 };

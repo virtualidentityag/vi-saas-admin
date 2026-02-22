@@ -40,9 +40,9 @@ export const GeneralTenantSettings = () => {
             }
 
             if (data?.licensing?.allowedNumberOfUsers !== rData?.licensing?.allowedNumberOfUsers) {
-                notification.success({ title: t('tenants.message.consultantsChangedSuccess') });
+                notification.success({ message: t('tenants.message.consultantsChangedSuccess'), duration: 3 });
             } else {
-                notification.success({ title: t('tenants.message.update') });
+                notification.success({ message: t('tenants.message.update'), duration: 3 });
             }
             navigate(routePathNames.tenants);
         },
@@ -55,7 +55,7 @@ export const GeneralTenantSettings = () => {
                     },
                 ]);
             } else {
-                notification.error({ title: t('message.error.default') });
+                notification.error({ message: t('message.error.default'), duration: 3 });
             }
         },
     });

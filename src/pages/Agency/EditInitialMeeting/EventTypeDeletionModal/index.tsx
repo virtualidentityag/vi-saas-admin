@@ -1,4 +1,4 @@
-import { message, Modal } from 'antd';
+import { App, Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import Title from 'antd/es/typography/Title';
 import { useLocation } from 'react-router';
@@ -11,14 +11,15 @@ export const EventTypeDeletionModal = (props: {
     handleSave?: (callback: Function) => void;
     eventType: AgencyEditData;
 }) => {
+    const { notification } = App.useApp();
     const { t } = useTranslation();
     const currentPath = useLocation().pathname;
     const [, agencyId] = currentPath.match(/.*\/([^/]+)\/[^/]+/);
     const handleOnDelete = () => {
         deleteAgencyEventType(agencyId, props.eventType.id)
             .then(() => {
-                message.success({
-                    content: t('message.eventType.delete'),
+                notification.success({
+                    message: t('message.eventType.delete'),
                     duration: 3,
                 });
                 props.handleSave(() => {});

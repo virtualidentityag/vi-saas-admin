@@ -1,4 +1,4 @@
-import { Button, Col, message, Row } from 'antd';
+import { App, Button, Col, Row } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +13,7 @@ import { TranslatableFormField } from '../../../components/TranslatableFormField
 import { useTopicAdmin } from '../../../hooks/useTopicAdmin';
 
 export const TopicEditOrAdd = () => {
+    const { notification } = App.useApp();
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
     const isEditing = id !== 'add';
@@ -24,8 +25,8 @@ export const TopicEditOrAdd = () => {
     const { mutate } = useAddOrUpdateTopicAdmin({
         id: isEditing ? id : null,
         onSuccess: (response) => {
-            message.success({
-                content: t(`message.topic.${isEditing ? 'update' : 'add'}`),
+            notification.success({
+                message: t(`message.topic.${isEditing ? 'update' : 'add'}`),
                 duration: 3,
             });
             navigate(`/admin/topics/${response?.id || id}`);
@@ -37,13 +38,24 @@ export const TopicEditOrAdd = () => {
 
     return (
         <Page isLoading={isLoading}>
-            <Page.Back
+            <Page.BackWithActions
                 path="/admin/topics"
                 titleKey={isEditing ? 'topic.modal.headline.edit' : 'topic.modal.headline.add'}
-            />
+            >
+                {!isEditing && (
+                    <>
+                        <Button type="default" onClick={onCancel}>
+                            {t('btn.cancel')}
+                        </Button>
+                        <Button type="primary" onClick={() => form.submit()}>
+                            {t('save')}
+                        </Button>
+                    </>
+                )}
+            </Page.BackWithActions>
 
             <Row gutter={[24, 24]}>
-                <Col span={12} sm={6}>
+                <Col span={12}>
                     <CardEditable
                         isLoading={isLoading}
                         initialValues={{
@@ -83,7 +95,7 @@ export const TopicEditOrAdd = () => {
                     </CardEditable>
                 </Col>
 
-                <Col span={12} sm={6}>
+                <Col span={12}>
                     <CardEditable
                         isLoading={isLoading}
                         initialValues={{
@@ -121,14 +133,6 @@ export const TopicEditOrAdd = () => {
                     </CardEditable>
                 </Col>
             </Row>
-            {!isEditing && (
-                <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginTop: 16 }}>
-                    <Button onClick={onCancel}>{t('agency.add.general.cancel')}</Button>
-                    <Button type="primary" onClick={() => form.submit()}>
-                        {t('agency.add.general.save')}
-                    </Button>
-                </div>
-            )}
         </Page>
     );
 };

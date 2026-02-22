@@ -1,4 +1,4 @@
-import { Button, message, Space } from 'antd';
+import { App, Button, Space } from 'antd';
 import { useForm, useWatch } from 'antd/es/form/Form';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +24,7 @@ import { FeatureFlag } from '../../../enums/FeatureFlag';
 import { Reset2FAModal } from '../../../components/Reset2FAModal';
 
 export const UserEditOrAdd = () => {
+    const { notification } = App.useApp();
     const navigate = useNavigate();
     const [form] = useForm();
     const { can } = useUserPermissions();
@@ -44,8 +45,8 @@ export const UserEditOrAdd = () => {
         id: isEditing ? id : null,
         typeOfUser: typeOfUsers,
         onSuccess: (response) => {
-            message.success({
-                content: t(`message.counselor.${isEditing ? 'update' : 'add'}`),
+            notification.success({
+                message: t(`message.counselor.${isEditing ? 'update' : 'add'}`),
                 duration: 3,
             });
             navigate(`/admin/users/${typeOfUsers}/${response.id}`);
@@ -56,8 +57,8 @@ export const UserEditOrAdd = () => {
                     case X_REASON.EMAIL_NOT_AVAILABLE: {
                         const isAllowed =
                             can(PermissionAction.Delete, Resource.Consultant) && typeOfUsers === TypeOfUser.Consultants;
-                        message.error({
-                            content: t(
+                        notification.error({
+                            message: t(
                                 `${isAllowed ? '' : 'notAllowed.'}message.error.${error.headers.get(
                                     FETCH_ERRORS.X_REASON,
                                 )}`,
@@ -67,14 +68,14 @@ export const UserEditOrAdd = () => {
                         break;
                     }
                     case X_REASON.NUMBER_OF_LICENSES_EXCEEDED:
-                        message.error({
-                            content: t('message.error.NUMBER_OF_LICENSES_EXCEEDED'),
+                        notification.error({
+                            message: t('message.error.NUMBER_OF_LICENSES_EXCEEDED'),
                             duration: 3,
                         });
                         break;
                     default:
-                        message.error({
-                            content: t('message.error.default'),
+                        notification.error({
+                            message: t('message.error.default'),
                             duration: 3,
                         });
                         break;
@@ -89,15 +90,23 @@ export const UserEditOrAdd = () => {
 
     return (
         <Page isLoading={isLoadingConsultants || isLoading}>
-            <Page.Back path={`/admin/users/${typeOfUsers}`} titleKey="agency.add.general.headline" />
-
-            {isEditing && typeOfUsers === 'consultants' && can(PermissionAction.Update, Resource.Consultant) && (
-                <div style={{ marginBottom: 20, display: 'flex', justifyContent: 'flex-end' }}>
+            <Page.BackWithActions path={`/admin/users/${typeOfUsers}`} titleKey="agency.add.general.headline">
+                {isEditing && typeOfUsers === 'consultants' && can(PermissionAction.Update, Resource.Consultant) && (
                     <Button onClick={() => setShowReset2FAModal(true)}>
                         {t('counselor.reset2fa')}
                     </Button>
-                </div>
-            )}
+                )}
+                {!isEditing && (
+                    <>
+                        <Button type="default" onClick={onCancel}>
+                            {t('btn.cancel')}
+                        </Button>
+                        <Button type="primary" onClick={() => form.submit()}>
+                            {t('save')}
+                        </Button>
+                    </>
+                )}
+            </Page.BackWithActions>
 
             <CardEditable
                 isLoading={isLoading}
@@ -170,15 +179,6 @@ export const UserEditOrAdd = () => {
                     </>
                 )}
             </CardEditable>
-
-            {!isEditing && (
-                <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginTop: 16 }}>
-                    <Button onClick={onCancel}>{t('agency.add.general.cancel')}</Button>
-                    <Button type="primary" onClick={() => form.submit()}>
-                        {t('agency.add.general.save')}
-                    </Button>
-                </div>
-            )}
 
             {showReset2FAModal && (
                 <Reset2FAModal

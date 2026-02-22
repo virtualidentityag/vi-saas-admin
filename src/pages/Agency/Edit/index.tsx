@@ -1,4 +1,6 @@
-import { App, Button, Col, Form, Row } from 'antd';
+import { App, Button, Col, Form, Row, Typography } from 'antd';
+
+const { Title } = Typography;
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
@@ -21,7 +23,7 @@ import { useReleasesToggle } from '../../../hooks/useReleasesToggle.hook';
 import { useAgencyLegalDataMissing } from '../../../hooks/useAgencyLegalDataMissing';
 import { ResponsibleSettings } from './components/ResponsibleSettings';
 import { ContactSettings } from './components/ContactSettings';
-import styles from '../../../components/Page/styles.module.scss';
+
 import { AgencyLogo } from './components/AgencyLogo';
 
 function hasOnlyDefaultRangeDefined(range: string) {
@@ -97,7 +99,7 @@ export const AgencyPageEdit = () => {
                 navigate(routePathNames.agency);
 
                 notification.success({
-                    title: t(`message.agency.${isEditing ? 'updated' : 'add'}`),
+                    message: t(`message.agency.${isEditing ? 'updated' : 'add'}`),
                     duration: 3,
                 });
                 setSubmitted(false);
@@ -167,31 +169,31 @@ export const AgencyPageEdit = () => {
                 disabled={isReadOnly}
                 onFinish={onSubmit}
             >
-                <Row gutter={[20, 10]}>
-                    <Col xs={12}>
-                        <h3 className={styles.backHeadline}>{t(`agency.edit.settings.general.title`)}</h3>
+                <Row gutter={[24, 24]}>
+                    <Col span={24}>
+                        <Title level={3}>{t(`agency.edit.settings.general.title`)}</Title>
                     </Col>
-                    <Col xs={12} lg={6}>
+                    <Col span={12}>
                         <AgencyGeneralInformation />
                         <RegistrationSettings />
                     </Col>
-                    <Col xs={12} lg={6}>
+                    <Col span={12}>
                         <AgencySettings />
                         <AgencyLogo />
                     </Col>
                 </Row>
                 {isEnabled(FeatureFlag.CentralDataProtectionTemplate) && (
-                    <Row gutter={[20, 10]}>
-                        <Col xs={12}>
-                            <h3 className={styles.backHeadline}>
+                    <Row gutter={[24, 24]}>
+                        <Col span={24}>
+                            <Title level={3}>
                                 {t(`agency.edit.settings.legal.title`)}{' '}
                                 {legalDataMissing && <ErrorOutlinedIcon fontSize="small" color="error" />}
-                            </h3>
+                            </Title>
                         </Col>
-                        <Col xs={12} lg={6}>
+                        <Col span={12}>
                             <ResponsibleSettings />
                         </Col>
-                        <Col xs={12} lg={6}>
+                        <Col span={12}>
                             <ContactSettings type={responsibleEntity} />
                         </Col>
                     </Row>

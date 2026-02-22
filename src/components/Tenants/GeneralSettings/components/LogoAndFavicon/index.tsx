@@ -1,7 +1,7 @@
 import { Col, Row } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { CardEditable } from '../../../../CardEditable';
-import { FormFileUploaderField } from '../../../../FormFileUploaderField';
+import { CropUploadField } from '../../../../CropUploadField';
 import { useSingleTenantData } from '../../../../../hooks/useSingleTenantData';
 import { useTenantAdminDataMutation } from '../../../../../hooks/useTenantAdminDataMutation.hook';
 import { useAppConfigContext } from '../../../../../context/useAppConfig';
@@ -20,28 +20,37 @@ export const LogoAndFavicon = ({ tenantId }: { tenantId: string }) => {
             subTitle={t('settings.images.howto')}
             onSave={mutate}
         >
-            <Row gutter={15}>
-                <Col xs={6} md={5} lg={4}>
-                    <FormFileUploaderField
+            <Row gutter={24}>
+                <Col span={8}>
+                    <CropUploadField
                         labelKey="organisation.logo"
                         name={['theming', 'logo']}
                         tooltip={t('settings.images.tooltip.logo')}
+                        aspect={512 / 256}
+                        cropWidth={512}
+                        cropHeight={256}
                     />
                 </Col>
-                <Col xs={6} md={5} lg={4}>
-                    <FormFileUploaderField
+                <Col span={8}>
+                    <CropUploadField
                         allowIcon
                         labelKey="organisation.favicon"
                         name={['theming', 'favicon']}
                         tooltip={t('settings.images.tooltip.favicon')}
+                        aspect={1}
+                        cropWidth={256}
+                        cropHeight={256}
                     />
                 </Col>
                 {!settings.multitenancyWithSingleDomainEnabled && (
-                    <Col xs={6} md={5} lg={4}>
-                        <FormFileUploaderField
+                    <Col span={8}>
+                        <CropUploadField
                             labelKey="organisation.associationLogo"
                             name={['theming', 'associationLogo']}
                             tooltip={t('settings.images.tooltip.associationLogo')}
+                            aspect={512 / 342}
+                            cropWidth={512}
+                            cropHeight={342}
                         />
                     </Col>
                 )}

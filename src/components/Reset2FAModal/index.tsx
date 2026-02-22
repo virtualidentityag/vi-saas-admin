@@ -1,4 +1,4 @@
-import { Modal, message, Alert, Space } from 'antd';
+import { App, Modal, Alert, Space } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
@@ -11,6 +11,7 @@ interface Reset2FAModalProps {
 }
 
 export const Reset2FAModal = ({ consultantId, consultantName, onClose }: Reset2FAModalProps) => {
+    const { notification } = App.useApp();
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -20,8 +21,8 @@ export const Reset2FAModal = ({ consultantId, consultantName, onClose }: Reset2F
         onSuccess: () => {
             setIsLoading(false);
             setSuccess(true);
-            message.success({
-                content: t('message.counselor.reset2fa.success'),
+            notification.success({
+                message: t('message.counselor.reset2fa.success'),
                 duration: 3,
             });
             // Delay closing the modal to allow the user to see the success state
@@ -32,8 +33,8 @@ export const Reset2FAModal = ({ consultantId, consultantName, onClose }: Reset2F
         onError: () => {
             setIsLoading(false);
             setError(t('message.counselor.reset2fa.error'));
-            message.error({
-                content: t('message.counselor.reset2fa.error'),
+            notification.error({
+                message: t('message.counselor.reset2fa.error'),
                 duration: 3,
             });
         },

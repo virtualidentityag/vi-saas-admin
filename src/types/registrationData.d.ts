@@ -7,6 +7,7 @@ export interface RegistrationStatistics {
     agencyName: string;
     userId: string;
     registrationDate: string;
+    dateLastActivity: string | null;
     age: number | null;
     appointmentsBookedCount: number | null;
     attendedVideoCallsCount: number | null;

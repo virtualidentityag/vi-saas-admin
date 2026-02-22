@@ -83,7 +83,7 @@ export const TenantAdminEditOrAdd = () => {
                 initialValues={{ tenantId, ...data }}
             >
                 <Row gutter={[24, 24]}>
-                    <Col span={12} md={6}>
+                    <Col span={12}>
                         <Card titleKey="tenantAdmins.card.personalDataTitle">
                             <FormInputField
                                 name="firstname"
@@ -111,7 +111,7 @@ export const TenantAdminEditOrAdd = () => {
                             />
                         </Card>
                     </Col>
-                    <Col span={12} md={6}>
+                    <Col span={12}>
                         <Card titleKey="tenantAdmins.card.tenantTitle">
                             <SelectFormField
                                 name="tenantId"

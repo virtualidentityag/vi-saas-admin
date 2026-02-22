@@ -25,7 +25,7 @@ export const TenantColor = ({ tenantId }: { tenantId: string }) => {
             subTitle={t('settings.colors.howto')}
             onSave={onSubmit}
         >
-            <FormColorSelectorField labelKey="organisation.primaryColor" name={['theming', 'primaryColor']} />
+            <FormColorSelectorField name={['theming', 'primaryColor']} />
         </CardEditable>
     );
 };

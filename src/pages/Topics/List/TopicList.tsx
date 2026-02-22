@@ -114,7 +114,7 @@ export const TopicList = () => {
                 },
                 {
                     width: 88,
-                    title: '',
+                    title: t('table.actions'),
                     key: 'edit',
                     render: (_: unknown, record: TopicData) => {
                         return (

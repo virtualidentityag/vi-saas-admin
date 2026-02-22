@@ -180,7 +180,7 @@ export const UsersTableData = () => {
             (can([PermissionAction.Update, PermissionAction.Delete], Resource.AgencyAdminUser) &&
                 !isConsultantTab)) && {
             width: 80,
-            title: '',
+            title: t('table.actions'),
             key: 'edit',
             render: (_: unknown, record: CounselorData) => {
                 return (

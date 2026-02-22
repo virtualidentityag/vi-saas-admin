@@ -152,7 +152,7 @@ export const AgencyEditInitialMeeting = () => {
             },
             {
                 width: 88,
-                title: '',
+                title: t('table.actions'),
                 key: 'edit',
                 render: (_: unknown, record: AgencyEventTypes) => {
                     return (

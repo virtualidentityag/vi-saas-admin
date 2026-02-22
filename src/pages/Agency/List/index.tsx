@@ -151,7 +151,7 @@ export const AgencyList = () => {
         },
         {
             width: 80,
-            title: '',
+            title: t('table.actions'),
             key: 'edit',
             render: (_: unknown, record: AgencyData) => {
                 return (

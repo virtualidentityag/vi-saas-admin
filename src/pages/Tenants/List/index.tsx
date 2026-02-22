@@ -139,7 +139,7 @@ export const TenantsList = () => {
         },
         can([PermissionAction.Update, PermissionAction.Delete], Resource.Tenant) && {
             width: 80,
-            title: '',
+            title: t('table.actions'),
             key: 'edit',
             render: (_: unknown, record: TenantAdminData) => {
                 return (

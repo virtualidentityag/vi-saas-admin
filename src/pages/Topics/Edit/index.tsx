@@ -43,7 +43,7 @@ export const TopicEditOrAdd = () => {
             />
 
             <Row gutter={[24, 24]}>
-                <Col span={12} sm={6}>
+                <Col span={12}>
                     <CardEditable
                         isLoading={isLoading}
                         initialValues={{
@@ -83,7 +83,7 @@ export const TopicEditOrAdd = () => {
                     </CardEditable>
                 </Col>
 
-                <Col span={12} sm={6}>
+                <Col span={12}>
                     <CardEditable
                         isLoading={isLoading}
                         initialValues={{

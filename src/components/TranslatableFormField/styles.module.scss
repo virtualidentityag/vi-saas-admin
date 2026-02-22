@@ -1,14 +1,14 @@
-.activeLanguage {
-    display: block;
+.wrapper {
+    // no extra styles needed; Tabs handles layout
 }
 
-.notActive {
-    display: none;
-}
-
-.containerLabel {
+.tabLabel {
     display: flex;
-    flex-grow: 1;
     align-items: center;
-    justify-content: space-between;
+    gap: 6px;
+}
+
+.warningAlert {
+    margin-top: -8px;
+    margin-bottom: 16px;
 }

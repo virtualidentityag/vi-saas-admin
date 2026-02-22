@@ -38,10 +38,21 @@ export const TopicEditOrAdd = () => {
 
     return (
         <Page isLoading={isLoading}>
-            <Page.Back
+            <Page.BackWithActions
                 path="/admin/topics"
                 titleKey={isEditing ? 'topic.modal.headline.edit' : 'topic.modal.headline.add'}
-            />
+            >
+                {!isEditing && (
+                    <>
+                        <Button type="default" onClick={onCancel}>
+                            {t('btn.cancel')}
+                        </Button>
+                        <Button type="primary" onClick={() => form.submit()}>
+                            {t('save')}
+                        </Button>
+                    </>
+                )}
+            </Page.BackWithActions>
 
             <Row gutter={[24, 24]}>
                 <Col span={12}>
@@ -122,14 +133,6 @@ export const TopicEditOrAdd = () => {
                     </CardEditable>
                 </Col>
             </Row>
-            {!isEditing && (
-                <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginTop: 16 }}>
-                    <Button onClick={onCancel}>{t('agency.add.general.cancel')}</Button>
-                    <Button type="primary" onClick={() => form.submit()}>
-                        {t('agency.add.general.save')}
-                    </Button>
-                </div>
-            )}
         </Page>
     );
 };

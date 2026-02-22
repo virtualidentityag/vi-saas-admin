@@ -90,15 +90,23 @@ export const UserEditOrAdd = () => {
 
     return (
         <Page isLoading={isLoadingConsultants || isLoading}>
-            <Page.Back path={`/admin/users/${typeOfUsers}`} titleKey="agency.add.general.headline" />
-
-            {isEditing && typeOfUsers === 'consultants' && can(PermissionAction.Update, Resource.Consultant) && (
-                <div style={{ marginBottom: 20, display: 'flex', justifyContent: 'flex-end' }}>
+            <Page.BackWithActions path={`/admin/users/${typeOfUsers}`} titleKey="agency.add.general.headline">
+                {isEditing && typeOfUsers === 'consultants' && can(PermissionAction.Update, Resource.Consultant) && (
                     <Button onClick={() => setShowReset2FAModal(true)}>
                         {t('counselor.reset2fa')}
                     </Button>
-                </div>
-            )}
+                )}
+                {!isEditing && (
+                    <>
+                        <Button type="default" onClick={onCancel}>
+                            {t('btn.cancel')}
+                        </Button>
+                        <Button type="primary" onClick={() => form.submit()}>
+                            {t('save')}
+                        </Button>
+                    </>
+                )}
+            </Page.BackWithActions>
 
             <CardEditable
                 isLoading={isLoading}
@@ -171,15 +179,6 @@ export const UserEditOrAdd = () => {
                     </>
                 )}
             </CardEditable>
-
-            {!isEditing && (
-                <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginTop: 16 }}>
-                    <Button onClick={onCancel}>{t('agency.add.general.cancel')}</Button>
-                    <Button type="primary" onClick={() => form.submit()}>
-                        {t('agency.add.general.save')}
-                    </Button>
-                </div>
-            )}
 
             {showReset2FAModal && (
                 <Reset2FAModal

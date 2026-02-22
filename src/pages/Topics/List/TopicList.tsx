@@ -6,6 +6,7 @@ import { ColumnProps, TablePaginationConfig } from 'antd/es/table';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import { InterestsOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router';
+import { useDebouncedCallback } from 'use-debounce';
 import { TopicData } from '../../../types/topic';
 import { Status } from '../../../types/status';
 import { TopicDeletionModal } from './TopicDeletionModal';
@@ -24,6 +25,7 @@ import EditButtons from '../../../components/EditableTable/EditButtons';
 import { Page } from '../../../components/Page';
 import { useTenantData } from '../../../hooks/useTenantData.hook';
 import { useTopicList } from '../../../hooks/useTopicList';
+import SearchInput from '../../../components/SearchInput/SearchInput';
 
 export const TopicList = () => {
     const navigate = useNavigate();
@@ -43,6 +45,10 @@ export const TopicList = () => {
     });
     const { data: topicsData, isLoading, refetch } = useTopicList({ ...tableState });
     const isTopicsFeatureActive = isEnabled(FeatureFlag.TopicsInRegistration);
+
+    const setSearchDebounced = useDebouncedCallback((search?: string) => {
+        setTableState((prev) => ({ ...prev, current: 1, search }));
+    }, 100);
 
     const onTopicsSwitch = useCallback(() => {
         Modal.confirm({
@@ -172,10 +178,20 @@ export const TopicList = () => {
         <Page isLoading={isLoading}>
             <Page.Title titleKey="topics.title" subTitleKey="topics.title.text" />
 
-            <Space align="baseline">
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 16, marginBottom: 16 }}>
+                {canShowTopicSwitch && (
+                    <Space align="center" style={{ marginRight: 'auto' }}>
+                        <Switch checked={isTopicsFeatureActive} onClick={onTopicsSwitch} />
+                        {t('topics.featureToggle')}
+                    </Space>
+                )}
+                <SearchInput
+                    placeholder={t('topics.list.searchPlaceholder')}
+                    handleOnSearch={setSearchDebounced}
+                    handleOnSearchClear={() => setSearchDebounced('')}
+                />
                 {can(PermissionAction.Create, Resource.Topic) && (
                     <Button
-                        className="mb-m mr-sm"
                         type="primary"
                         icon={<PlusOutlined />}
                         onClick={() => navigate(`${routePathNames.topics}/add`)}
@@ -183,14 +199,7 @@ export const TopicList = () => {
                         {t('new')}
                     </Button>
                 )}
-
-                {canShowTopicSwitch && (
-                    <>
-                        <Switch checked={isTopicsFeatureActive} onClick={onTopicsSwitch} />
-                        {t('topics.featureToggle')}
-                    </>
-                )}
-            </Space>
+            </div>
 
             <Table
                 rowKey="id"

@@ -12,3 +12,18 @@
 .formSwitchField__container {
     display: flex;
 }
+
+/* Multi-select tags: connecta blue with white text */
+.ant-select-multiple .ant-select-selection-item {
+    background-color: var(--primary);
+    color: #fff;
+    border: none;
+
+    .ant-select-selection-item-remove {
+        color: #fff;
+
+        &:hover {
+            color: rgba(255, 255, 255, 0.7);
+        }
+    }
+}

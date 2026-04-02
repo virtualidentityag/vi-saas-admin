@@ -21,7 +21,11 @@ export const TenantAppSettings = () => {
             {hasRole(UserRole.TenantAdmin) && (
                 <Col span={12} sm={6}>
                     <CommunicationSettings tenantId={id} />
-                    <OtherFunctionsSettings tenantId={id} hideTopics={settings.multitenancyWithSingleDomainEnabled} />
+                    <OtherFunctionsSettings
+                        tenantId={id}
+                        hideTopics={settings.multitenancyWithSingleDomainEnabled}
+                        hideCounsellingRelationToggle={settings.multitenancyWithSingleDomainEnabled}
+                    />
                 </Col>
             )}
         </Row>

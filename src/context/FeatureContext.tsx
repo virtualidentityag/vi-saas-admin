@@ -43,6 +43,10 @@ const FeatureProvider = ({ children, tenantData, publicTenantData }: FeatureProv
             active: !!publicTenantData?.settings.featureGroupChatV2Enabled,
         },
         {
+            name: FeatureFlag.CounsellingRelations,
+            active: !!publicTenantData?.settings.featureCounsellingRelationsEnabled,
+        },
+        {
             name: FeatureFlag.CentralDataProtectionTemplate,
             active: !!publicTenantData?.settings.featureCentralDataProtectionTemplateEnabled,
         },
